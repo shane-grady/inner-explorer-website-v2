@@ -1,0 +1,38 @@
+---
+import { tv, type VariantProps } from 'tailwind-variants';
+import { cn } from '../../lib/cn';
+
+// Semantic level (`as`) is decoupled from visual `size` — an h1 can look like `display`
+// or `md`. Sizes map to the fluid type ramp; never hand-pick a font size.
+const heading = tv({
+  base: 'font-semibold text-pretty',
+  variants: {
+    size: {
+      sm: 'text-xl',
+      md: 'text-2xl',
+      lg: 'text-3xl',
+      xl: 'text-4xl',
+      display: 'text-5xl',
+    },
+    font: { sans: 'font-sans', serif: 'font-serif' },
+    tone: {
+      default: 'text-foreground',
+      brand: 'text-brand',
+      onBrand: 'text-brand-foreground',
+      muted: 'text-muted-foreground',
+    },
+  },
+  defaultVariants: { size: 'lg', font: 'serif', tone: 'default' },
+});
+
+type Variants = VariantProps<typeof heading>;
+interface Props extends Variants {
+  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  id?: string;
+  class?: string;
+}
+
+const { as: Tag = 'h2', size, font, tone, id, class: className }: Props = Astro.props;
+---
+
+<Tag id={id} class={cn(heading({ size, font, tone }), className)}><slot /></Tag>

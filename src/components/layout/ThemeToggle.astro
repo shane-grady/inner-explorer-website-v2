@@ -1,0 +1,62 @@
+---
+// Vanilla theme toggle — no framework, ~0KB beyond a tiny script. Icon swaps via the
+// `dark:` CSS variant (no JS needed for that). Pairs with the no-flash init in BaseLayout.
+// (For genuinely interactive UI, use a React island instead — see /styleguide.)
+---
+
+<button
+  type="button"
+  class="theme-toggle inline-flex h-11 w-11 items-center justify-center rounded-md text-foreground transition-colors hover:bg-muted"
+  aria-label="Toggle color theme"
+  aria-pressed="false"
+>
+  <svg
+    class="size-5 dark:hidden"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+  </svg>
+  <svg
+    class="hidden size-5 dark:block"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <circle cx="12" cy="12" r="4"></circle>
+    <path
+      d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"
+    ></path>
+  </svg>
+</button>
+
+<script>
+  function syncPressed() {
+    const isDark = document.documentElement.classList.contains('dark');
+    document
+      .querySelectorAll('.theme-toggle')
+      .forEach((b) => b.setAttribute('aria-pressed', String(isDark)));
+  }
+  document.querySelectorAll('.theme-toggle').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const next = !document.documentElement.classList.contains('dark');
+      document.documentElement.classList.toggle('dark', next);
+      try {
+        localStorage.setItem('theme', next ? 'dark' : 'light');
+      } catch {
+        /* storage unavailable (private mode) */
+      }
+      syncPressed();
+    });
+  });
+  syncPressed();
+</script>

@@ -1,0 +1,32 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { tv, type VariantProps } from 'tailwind-variants';
+import { cn } from '../../lib/cn';
+
+// Vertical rhythm helper. Use named gaps (token scale steps), never arbitrary spacing.
+const stack = tv({
+  base: 'flex flex-col',
+  variants: {
+    gap: {
+      xs: 'gap-2',
+      sm: 'gap-3',
+      md: 'gap-4',
+      lg: 'gap-6',
+      xl: 'gap-8',
+      '2xl': 'gap-12',
+    },
+    align: {
+      start: 'items-start',
+      center: 'items-center',
+      end: 'items-end',
+      stretch: 'items-stretch',
+    },
+  },
+  defaultVariants: { gap: 'md', align: 'stretch' },
+});
+
+type Props = VariantProps<typeof stack> & HTMLAttributes<'div'>;
+const { gap, align, class: className, ...rest } = Astro.props;
+---
+
+<div class={cn(stack({ gap, align }), className)} {...rest}><slot /></div>

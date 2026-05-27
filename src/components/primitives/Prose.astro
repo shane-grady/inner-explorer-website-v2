@@ -1,0 +1,11 @@
+---
+// Long-form rich content (MDX bodies, article copy). Typography plugin styles are
+// remapped to our design tokens in global.css (.prose), so it inherits brand + dark mode.
+import { cn } from '../../lib/cn';
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<div class={cn('prose max-w-none', className)}><slot /></div>

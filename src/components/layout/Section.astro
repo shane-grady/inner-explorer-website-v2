@@ -1,0 +1,31 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { tv, type VariantProps } from 'tailwind-variants';
+import { cn } from '../../lib/cn';
+
+// Semantic <section> with consistent fluid vertical rhythm + surface treatments.
+const section = tv({
+  base: '',
+  variants: {
+    space: {
+      none: '',
+      sm: 'py-section-sm',
+      md: 'py-section-md',
+      lg: 'py-section-lg',
+    },
+    surface: {
+      none: '',
+      muted: 'bg-muted',
+      card: 'bg-card',
+      brand: 'bg-brand text-brand-foreground',
+      brandSubtle: 'bg-brand-subtle',
+    },
+  },
+  defaultVariants: { space: 'md', surface: 'none' },
+});
+
+type Props = VariantProps<typeof section> & HTMLAttributes<'section'>;
+const { space, surface, class: className, ...rest } = Astro.props;
+---
+
+<section class={cn(section({ space, surface }), className)} {...rest}><slot /></section>

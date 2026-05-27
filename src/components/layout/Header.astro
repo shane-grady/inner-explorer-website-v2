@@ -1,0 +1,97 @@
+---
+import Container from '../primitives/Container.astro';
+import Button from '../primitives/Button.astro';
+import ThemeToggle from './ThemeToggle.astro';
+
+const navLinks = [
+  { label: 'Program', href: '/program' },
+  { label: 'Research', href: '/research' },
+  { label: 'Pricing', href: '/pricing' },
+  { label: 'Resources', href: '/resources' },
+  { label: 'About', href: '/about' },
+];
+---
+
+<header class="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur">
+  <Container class="flex h-16 items-center justify-between gap-4">
+    <a href="/" class="font-serif text-lg font-semibold text-foreground">Inner Explorer</a>
+
+    <nav aria-label="Primary" class="hidden md:flex md:items-center md:gap-8">
+      {
+        navLinks.map((l) => (
+          <a
+            href={l.href}
+            class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          >
+            {l.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="hidden items-center gap-2 md:flex">
+      <ThemeToggle />
+      <Button href="/contact" size="sm">Get a demo</Button>
+    </div>
+
+    <div class="flex items-center gap-1 md:hidden">
+      <ThemeToggle />
+      <button
+        id="nav-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="nav-menu"
+        class="inline-flex h-11 w-11 items-center justify-center rounded-md text-foreground hover:bg-muted"
+      >
+        <span class="sr-only">Open main menu</span>
+        <svg
+          width="22"
+          height="22"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <path d="M3 6h18M3 12h18M3 18h18"></path>
+        </svg>
+      </button>
+    </div>
+  </Container>
+
+  <div id="nav-menu" hidden class="border-t border-border bg-background md:hidden">
+    <nav aria-label="Mobile" class="flex flex-col gap-1 px-6 py-4">
+      {
+        navLinks.map((l) => (
+          <a
+            href={l.href}
+            class="rounded-md px-3 py-2 text-base font-medium text-foreground hover:bg-muted"
+          >
+            {l.label}
+          </a>
+        ))
+      }
+      <Button href="/contact" size="md" class="mt-2" block>Get a demo</Button>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById('nav-toggle');
+  const menu = document.getElementById('nav-menu');
+  if (btn && menu) {
+    btn.addEventListener('click', () => {
+      const open = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!open));
+      menu.toggleAttribute('hidden', open);
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true') {
+        btn.setAttribute('aria-expanded', 'false');
+        menu.setAttribute('hidden', '');
+        btn.focus();
+      }
+    });
+  }
+</script>

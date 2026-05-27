@@ -1,0 +1,60 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import Hero from '../components/blocks/Hero.astro';
+import FeatureGrid from '../components/blocks/FeatureGrid.astro';
+import Testimonials from '../components/blocks/Testimonials.astro';
+import CTABanner from '../components/blocks/CTABanner.astro';
+
+// Page content as structured data at the top of the file (not buried in markup),
+// so it lifts into a collection/CMS later with minimal rework.
+const features = [
+  {
+    title: 'Daily guided practice',
+    description: 'Short, audio-guided sessions for every morning — no prep required from teachers.',
+  },
+  {
+    title: 'Built for K-12',
+    description: 'Age-appropriate practices from early elementary through high school.',
+  },
+  {
+    title: 'Evidence-informed',
+    description: 'Grounded in research on attention, self-regulation, and classroom climate.',
+  },
+  {
+    title: 'Whole-school ready',
+    description: 'Simple enough to roll out across an entire district with fidelity.',
+  },
+  {
+    title: 'Measurable impact',
+    description: 'Track focus, behavior, and well-being trends across the school year.',
+  },
+  {
+    title: 'Support included',
+    description: 'Onboarding and resources help staff make practice a daily habit.',
+  },
+];
+---
+
+<PageLayout
+  title="Inner Explorer — Daily mindfulness for K-12 schools"
+  description="Daily audio-guided mindfulness practices that help students focus, self-regulate, and feel ready to learn."
+>
+  <Hero
+    eyebrow="Mindfulness for schools"
+    title="A calmer, more focused school day"
+    subtitle="Daily audio-guided mindfulness practices that help K-12 students focus, self-regulate, and feel ready to learn."
+    primaryCta={{ label: 'Get a demo', href: '/contact' }}
+    secondaryCta={{ label: 'See the research', href: '/research' }}
+  />
+  <FeatureGrid
+    heading="Why schools choose Inner Explorer"
+    intro="Everything you need to make mindfulness a daily habit — for every student and teacher."
+    features={features}
+  />
+  <Testimonials />
+  <CTABanner
+    title="Bring mindfulness to your school"
+    subtitle="See how districts use daily practice to support student well-being and focus."
+    cta={{ label: 'Get a demo', href: '/contact' }}
+  />
+</PageLayout>

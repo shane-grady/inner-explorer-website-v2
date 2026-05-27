@@ -1,0 +1,49 @@
+---
+// Document shell. Imports the design tokens once; every page renders inside this.
+// Centralized SEO + Organization structured data; pages add their own via the `head` slot.
+import '../styles/global.css';
+import SEO from '../components/seo/SEO.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import { organizationSchema } from '../lib/schema';
+
+interface Props {
+  title: string;
+  description?: string;
+  lang?: string;
+  type?: 'website' | 'article';
+}
+
+const { title, description, lang = 'en', type = 'website' }: Props = Astro.props;
+const org = organizationSchema(Astro.site);
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {/* No-flash theme init: set .dark before first paint (system pref unless overridden). */}
+    <script is:inline>
+      (() => {
+        try {
+          const stored = localStorage.getItem('theme');
+          const dark = stored
+            ? stored === 'dark'
+            : matchMedia('(prefers-color-scheme: dark)').matches;
+          document.documentElement.classList.toggle('dark', dark);
+        } catch (_) {
+          /* no stored preference; fall back to system */
+        }
+      })();
+    </script>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+    <meta name="generator" content={Astro.generator} />
+    <SEO title={title} description={description} type={type} />
+    <JsonLd schema={org} />
+    <slot name="head" />
+  </head>
+  <body class="min-h-dvh bg-background text-foreground antialiased">
+    <slot />
+  </body>
+</html>

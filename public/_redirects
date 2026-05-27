@@ -1,0 +1,6 @@
+# Legacy URL redirects (Netlify). Populate during content migration to preserve SEO.
+# Format:  /old-path   /new-path   301
+#
+# Example:
+# /mindfulness-program   /program    301
+# /about-us              /about      301

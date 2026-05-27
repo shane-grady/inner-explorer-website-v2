@@ -1,0 +1,49 @@
+---
+import { getCollection, render } from 'astro:content';
+import PageLayout from '../../layouts/PageLayout.astro';
+import Container from '../../components/primitives/Container.astro';
+import Section from '../../components/layout/Section.astro';
+import Heading from '../../components/primitives/Heading.astro';
+import Text from '../../components/primitives/Text.astro';
+import Prose from '../../components/primitives/Prose.astro';
+import JsonLd from '../../components/seo/JsonLd.astro';
+import { articleSchema } from '../../lib/schema';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const dateFmt = new Intl.DateTimeFormat('en-US', { dateStyle: 'long' });
+const schema = articleSchema(Astro.site, {
+  title: post.data.title,
+  description: post.data.description,
+  author: post.data.author,
+  pubDate: post.data.pubDate,
+  updatedDate: post.data.updatedDate,
+  path: `/blog/${post.id}/`,
+});
+---
+
+<PageLayout
+  title={`${post.data.title} — Inner Explorer`}
+  description={post.data.description}
+  type="article"
+>
+  <JsonLd schema={schema} slot="head" />
+  <Section space="lg">
+    <Container width="prose">
+      <Text size="sm" tone="muted">
+        <time datetime={post.data.pubDate.toISOString()}>{dateFmt.format(post.data.pubDate)}</time>
+        &middot; {post.data.author}
+      </Text>
+      <Heading as="h1" size="xl" class="mt-2">{post.data.title}</Heading>
+      <Text size="lg" tone="muted" class="mt-3">{post.data.description}</Text>
+      <Prose class="mt-8">
+        <Content />
+      </Prose>
+    </Container>
+  </Section>
+</PageLayout>

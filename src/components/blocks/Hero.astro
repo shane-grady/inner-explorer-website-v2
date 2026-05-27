@@ -1,0 +1,55 @@
+---
+import Container from '../primitives/Container.astro';
+import Heading from '../primitives/Heading.astro';
+import Text from '../primitives/Text.astro';
+import Button from '../primitives/Button.astro';
+
+interface Cta {
+  label: string;
+  href: string;
+}
+interface Props {
+  eyebrow?: string;
+  title: string;
+  subtitle?: string;
+  primaryCta?: Cta;
+  secondaryCta?: Cta;
+}
+const { eyebrow, title, subtitle, primaryCta, secondaryCta }: Props = Astro.props;
+---
+
+<section class="py-section-lg">
+  <Container width="narrow" class="text-center">
+    {
+      eyebrow && (
+        <Text size="sm" tone="brand" weight="medium" class="tracking-wide uppercase">
+          {eyebrow}
+        </Text>
+      )
+    }
+    <Heading as="h1" size="display" class="mt-4">{title}</Heading>
+    {
+      subtitle && (
+        <Text size="xl" tone="muted" class="mx-auto mt-6 max-w-2xl">
+          {subtitle}
+        </Text>
+      )
+    }
+    {
+      (primaryCta || secondaryCta) && (
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+          {primaryCta && (
+            <Button href={primaryCta.href} size="lg">
+              {primaryCta.label}
+            </Button>
+          )}
+          {secondaryCta && (
+            <Button href={secondaryCta.href} size="lg" variant="outline" tone="neutral">
+              {secondaryCta.label}
+            </Button>
+          )}
+        </div>
+      )
+    }
+  </Container>
+</section>

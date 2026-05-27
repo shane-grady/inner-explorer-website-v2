@@ -1,0 +1,6 @@
+# pnpm settings (pnpm 11+). Native deps explicitly allowed to run install scripts.
+# Keep this list tight and intentional — only trusted native build deps.
+allowBuilds:
+  esbuild: true
+  sharp: true
+  '@tailwindcss/oxide': true

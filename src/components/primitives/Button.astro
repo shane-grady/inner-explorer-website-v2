@@ -1,0 +1,86 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { tv, type VariantProps } from 'tailwind-variants';
+import { cn } from '../../lib/cn';
+
+// Renders <button> by default, or <a> when `href` is set. Min height meets the
+// 44px touch-target guidance (WCAG 2.2 — target size) at md/lg.
+const button = tv({
+  base: 'inline-flex items-center justify-center gap-2 rounded-md font-medium transition-colors duration-200 ease-out focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50',
+  variants: {
+    variant: {
+      solid: '',
+      outline: 'border bg-transparent',
+      ghost: 'bg-transparent',
+      link: 'bg-transparent underline underline-offset-4',
+    },
+    tone: { brand: '', accent: '', neutral: '' },
+    size: {
+      sm: 'h-9 px-4 text-sm',
+      md: 'h-11 px-6 text-base',
+      lg: 'h-12 px-8 text-lg',
+    },
+    block: { true: 'w-full', false: '' },
+  },
+  compoundVariants: [
+    {
+      variant: 'solid',
+      tone: 'brand',
+      class: 'bg-brand text-brand-foreground hover:bg-brand-emphasis',
+    },
+    {
+      variant: 'solid',
+      tone: 'accent',
+      class: 'bg-accent text-accent-foreground hover:opacity-90',
+    },
+    { variant: 'solid', tone: 'neutral', class: 'bg-foreground text-background hover:opacity-90' },
+    { variant: 'outline', tone: 'brand', class: 'border-brand text-brand hover:bg-brand-subtle' },
+    {
+      variant: 'outline',
+      tone: 'accent',
+      class: 'border-accent text-accent hover:bg-accent-subtle',
+    },
+    { variant: 'outline', tone: 'neutral', class: 'border-border text-foreground hover:bg-muted' },
+    { variant: 'ghost', tone: 'brand', class: 'text-brand hover:bg-brand-subtle' },
+    { variant: 'ghost', tone: 'accent', class: 'text-accent hover:bg-accent-subtle' },
+    { variant: 'ghost', tone: 'neutral', class: 'text-foreground hover:bg-muted' },
+    { variant: 'link', tone: 'brand', class: 'h-auto px-0 text-brand hover:text-brand-emphasis' },
+    { variant: 'link', tone: 'accent', class: 'h-auto px-0 text-accent' },
+    { variant: 'link', tone: 'neutral', class: 'h-auto px-0 text-foreground' },
+  ],
+  defaultVariants: { variant: 'solid', tone: 'brand', size: 'md', block: false },
+});
+
+type Variants = VariantProps<typeof button>;
+type Props = Variants &
+  Omit<HTMLAttributes<'button'>, 'type'> & {
+    href?: string;
+    type?: 'button' | 'submit' | 'reset';
+    target?: string;
+    rel?: string;
+  };
+
+const {
+  variant,
+  tone,
+  size,
+  block,
+  href,
+  type = 'button',
+  class: className,
+  ...rest
+} = Astro.props;
+const classes = cn(button({ variant, tone, size, block }), className);
+---
+
+{
+  href ? (
+    <a href={href} class={classes} {...rest}>
+      <slot />
+    </a>
+  ) : (
+    <button type={type} class={classes} {...rest}>
+      <slot />
+    </button>
+  )
+}

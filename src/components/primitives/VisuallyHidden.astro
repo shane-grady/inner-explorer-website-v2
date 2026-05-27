@@ -1,0 +1,10 @@
+---
+// Accessible label that is hidden visually but available to screen readers.
+interface Props {
+  as?: 'span' | 'div';
+  class?: string;
+}
+const { as: Tag = 'span', class: className }: Props = Astro.props;
+---
+
+<Tag class:list={['sr-only', className]}><slot /></Tag>

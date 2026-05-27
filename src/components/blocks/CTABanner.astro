@@ -1,0 +1,30 @@
+---
+import Container from '../primitives/Container.astro';
+import Section from '../layout/Section.astro';
+import Heading from '../primitives/Heading.astro';
+import Text from '../primitives/Text.astro';
+import Button from '../primitives/Button.astro';
+
+interface Props {
+  title: string;
+  subtitle?: string;
+  cta: { label: string; href: string };
+}
+const { title, subtitle, cta }: Props = Astro.props;
+---
+
+<Section space="lg" surface="brand">
+  <Container class="text-center">
+    <Heading as="h2" size="lg" tone="onBrand">{title}</Heading>
+    {
+      subtitle && (
+        <Text size="lg" class="mx-auto mt-4 max-w-2xl text-brand-foreground/90">
+          {subtitle}
+        </Text>
+      )
+    }
+    <div class="mt-8">
+      <Button href={cta.href} size="lg" tone="accent">{cta.label}</Button>
+    </div>
+  </Container>
+</Section>

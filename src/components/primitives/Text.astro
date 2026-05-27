@@ -1,0 +1,41 @@
+---
+import { tv, type VariantProps } from 'tailwind-variants';
+import { cn } from '../../lib/cn';
+
+const text = tv({
+  base: '',
+  variants: {
+    size: { sm: 'text-sm', base: 'text-base', lg: 'text-lg', xl: 'text-xl' },
+    tone: {
+      default: 'text-foreground',
+      muted: 'text-muted-foreground',
+      brand: 'text-brand',
+      onBrand: 'text-brand-foreground',
+    },
+    weight: { normal: 'font-normal', medium: 'font-medium', semibold: 'font-semibold' },
+    leading: { tight: 'leading-snug', normal: '', relaxed: 'leading-relaxed' },
+    balance: { none: '', pretty: 'text-pretty', balance: 'text-balance' },
+  },
+  defaultVariants: { size: 'base', tone: 'default', weight: 'normal', leading: 'normal' },
+});
+
+type Variants = VariantProps<typeof text>;
+interface Props extends Variants {
+  as?: 'p' | 'span' | 'div' | 'li';
+  id?: string;
+  class?: string;
+}
+
+const {
+  as: Tag = 'p',
+  size,
+  tone,
+  weight,
+  leading,
+  balance,
+  id,
+  class: className,
+}: Props = Astro.props;
+---
+
+<Tag id={id} class={cn(text({ size, tone, weight, leading, balance }), className)}><slot /></Tag>
