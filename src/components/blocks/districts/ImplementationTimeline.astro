@@ -1,0 +1,168 @@
+---
+// Implementation & onboarding — 6-step vertical timeline with rail + dots.
+
+interface Step {
+  week: string;
+  title: string;
+  body: string;
+}
+interface Props {
+  eyebrow: string;
+  titleHtml: string;
+  intro: string;
+  steps: Step[];
+}
+const { eyebrow, titleHtml, intro, steps }: Props = Astro.props;
+---
+
+<section class="impl" id="implementation" aria-label="Implementation and onboarding">
+  <div class="impl-inner">
+    <div class="impl-head">
+      <div class="eyebrow">{eyebrow}</div>
+      <h2 class="head-h" set:html={titleHtml} />
+      <p class="head-p">{intro}</p>
+    </div>
+
+    <div class="impl-grid">
+      <div class="rail" aria-hidden="true"></div>
+      {
+        steps.map((s) => (
+          <div class="row">
+            <div class="when">{s.week}</div>
+            <div class="step">
+              <span class="dot" aria-hidden="true" />
+              <h4 class="step-h">{s.title}</h4>
+              <p class="step-p">{s.body}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .impl {
+    background: var(--color-background);
+    padding: 120px 0;
+  }
+  .impl-inner {
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+  .impl-head {
+    max-width: 720px;
+    margin-bottom: 56px;
+  }
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-muted-foreground);
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.55;
+  }
+  .head-h {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(40px, 5vw, 64px);
+    line-height: 1.02;
+    letter-spacing: -0.022em;
+    color: var(--color-foreground);
+    margin: 16px 0 0;
+    text-wrap: balance;
+  }
+  .head-h :global(em) {
+    color: var(--color-brand);
+  }
+  .head-p {
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--color-muted-foreground);
+    margin: 12px 0 0;
+    max-width: 640px;
+  }
+
+  .impl-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 0;
+  }
+  .rail {
+    position: absolute;
+    left: 120px;
+    top: 18px;
+    bottom: 18px;
+    width: 1px;
+    background: var(--color-border);
+  }
+  .row {
+    display: contents;
+  }
+  .when {
+    padding: 20px 28px 32px 0;
+    text-align: right;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-brand);
+  }
+  .step {
+    position: relative;
+    padding: 20px 0 32px 32px;
+  }
+  .step .dot {
+    position: absolute;
+    left: -7px;
+    top: 24px;
+    width: 14px;
+    height: 14px;
+    border-radius: 9999px;
+    background: var(--color-card);
+    border: 3px solid var(--color-brand);
+  }
+  .step-h {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+    color: var(--color-foreground);
+  }
+  .step-p {
+    margin: 8px 0 0;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--color-muted-foreground);
+    max-width: 580px;
+  }
+
+  @media (max-width: 720px) {
+    .impl-grid {
+      grid-template-columns: 80px 1fr;
+    }
+    .rail {
+      left: 80px;
+    }
+    .when {
+      padding-right: 18px;
+      font-size: 10px;
+    }
+  }
+</style>

@@ -1,0 +1,147 @@
+---
+// The opening "void" — a full-viewport dark editorial moment that sets the emotional
+// stakes BEFORE any data appears. Italic serif headline with one emphasis line in
+// brand-mint. Lives above the cinematic hero on the Research page.
+
+interface Props {
+  eyebrow: string;
+  lines: { text: string; emphasis?: boolean }[];
+}
+const { eyebrow, lines }: Props = Astro.props;
+---
+
+<section class="void" id="opening" aria-label="Opening">
+  <span class="void-eyebrow">{eyebrow}</span>
+  <h1 class="void-h">
+    {lines.map((l) => <span class:list={['stk', { em: l.emphasis }]}>{l.text}</span>)}
+  </h1>
+  <div class="void-scroll" aria-hidden="true">
+    <span>Scroll</span>
+    <span class="line"></span>
+  </div>
+</section>
+
+<style>
+  .void {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 120px 32px 60px;
+    text-align: center;
+    background: var(--neutral-950);
+    color: var(--color-white);
+    position: relative;
+    overflow: hidden;
+  }
+  .void::before {
+    content: '';
+    position: absolute;
+    inset: -20% -20% auto auto;
+    width: 70%;
+    height: 70%;
+    background: radial-gradient(
+      circle,
+      color-mix(in oklab, var(--brand-500) 30%, transparent),
+      transparent 60%
+    );
+    pointer-events: none;
+  }
+  .void::after {
+    content: '';
+    position: absolute;
+    inset: auto auto -20% -20%;
+    width: 70%;
+    height: 70%;
+    background: radial-gradient(
+      circle,
+      color-mix(in oklab, var(--brand-800) 30%, transparent),
+      transparent 60%
+    );
+    pointer-events: none;
+  }
+
+  .void-eyebrow {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--brand-300);
+    margin-bottom: 56px;
+  }
+  .void-eyebrow::before,
+  .void-eyebrow::after {
+    content: '';
+    width: 28px;
+    height: 1px;
+    background: color-mix(in oklab, var(--brand-300) 60%, transparent);
+  }
+
+  .void-h {
+    position: relative;
+    z-index: 1;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(40px, 6vw, 88px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--color-white);
+    max-width: 1000px;
+    margin: 0;
+    text-wrap: balance;
+  }
+  .void-h .stk {
+    display: block;
+  }
+  .void-h .em {
+    color: var(--brand-300);
+  }
+
+  .void-scroll {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10.5px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: color-mix(in oklab, var(--color-white) 45%, transparent);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    z-index: 1;
+  }
+  .void-scroll .line {
+    width: 1px;
+    height: 36px;
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      color-mix(in oklab, var(--color-white) 45%, transparent),
+      transparent
+    );
+    animation: void-pulse 2s ease-in-out infinite;
+  }
+  @keyframes void-pulse {
+    0%,
+    100% {
+      opacity: 0.4;
+      transform: scaleY(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scaleY(1.2);
+    }
+  }
+</style>
