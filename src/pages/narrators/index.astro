@@ -1,0 +1,38 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '../../layouts/PageLayout.astro';
+import EditorialMasthead from '../../components/blocks/EditorialMasthead.astro';
+import TeamGrid from '../../components/blocks/TeamGrid.astro';
+
+// Minimal listing — the full v4 "Meet the Studio" collection design is a future
+// task. This index exists so the detail-page breadcrumb's "Narrators" link resolves.
+const narrators = (await getCollection('narrators', ({ data }) => !data.draft)).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+---
+
+<PageLayout
+  title="Narrators — Inner Explorer"
+  description="The voices that guide Inner Explorer's daily mindfulness practices in K-12 classrooms."
+>
+  <div class="appearance-light">
+    <EditorialMasthead
+      eyebrow="The studio"
+      lead="Meet our"
+      display="narrators."
+      intro="Educators, researchers, and storytellers whose recorded practices reach almost two thousand schools every week."
+    />
+    <TeamGrid
+      eyebrow="In residence"
+      headingHtml='<span class="serif">Voices</span><span class="sans"> on the platform.</span>'
+      variant="voices"
+      maxWidth="1200px"
+      people={narrators.map((n) => ({
+        name: n.data.name,
+        role: n.data.role,
+        photo: n.data.photo,
+        href: `/narrators/${n.id}/`,
+      }))}
+    />
+  </div>
+</PageLayout>

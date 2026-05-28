@@ -1,0 +1,95 @@
+---
+// Centered editorial masthead — the brand "duet" headline: a quiet sans lead line
+// over an oversized serif-italic display line, flanked by an optional hairline eyebrow.
+// Carries the page's single <h1>.
+interface Props {
+  /** Optional centered eyebrow text between the two hairline rules. */
+  eyebrow?: string;
+  /** Sans lead line (e.g. "Meet"). */
+  lead: string;
+  /** Serif-italic display line (e.g. "Maya Castellanos."). */
+  display: string;
+  /** Supporting paragraph below the headline. */
+  intro?: string;
+  /** Inner content width (any CSS length). */
+  maxWidth?: string;
+}
+const { eyebrow, lead, display, intro, maxWidth = '1200px' }: Props = Astro.props;
+---
+
+<section class="masthead" style={`--mw: ${maxWidth}`}>
+  <div class="wrap">
+    <div class="eb">
+      <span class="rule" aria-hidden="true"></span>
+      {eyebrow && <span class="eb-text">{eyebrow}</span>}
+      <span class="rule" aria-hidden="true"></span>
+    </div>
+    <h1 class="display">
+      <span class="lead">{lead}</span>
+      <span class="serif">{display}</span>
+    </h1>
+    {intro && <p class="intro">{intro}</p>}
+  </div>
+</section>
+
+<style>
+  .masthead {
+    padding: 56px 0;
+    text-align: center;
+  }
+  .wrap {
+    max-width: var(--mw);
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  .eb {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-bottom: 28px;
+    color: var(--color-muted-foreground);
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+  }
+  .rule {
+    width: 60px;
+    height: 1px;
+    background: var(--color-border);
+  }
+  .display {
+    margin: 0 0 28px;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+  .lead {
+    display: block;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: clamp(36px, 6vw, 64px);
+    line-height: 1;
+    letter-spacing: -0.025em;
+    color: var(--color-muted-foreground);
+  }
+  .serif {
+    display: block;
+    margin-top: 4px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(56px, 11vw, 128px);
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    color: var(--color-foreground);
+  }
+  .intro {
+    margin: 0 auto;
+    max-width: 56ch;
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--color-muted-foreground);
+  }
+</style>

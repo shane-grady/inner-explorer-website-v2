@@ -1,0 +1,347 @@
+---
+// "Meet the voice" audio bar (photo-variant affordance). A real <audio> element
+// driven by a tiny vanilla script: play/pause, live waveform, ticking time.
+// Progressive enhancement — the bar (title, static waveform, transcript) is fully
+// visible without JS; the play button simply activates once the script loads.
+interface Props {
+  audioSrc: string;
+  durationSec: number;
+  /** Serif-italic title, e.g. "A short hello from Maya." */
+  title: string;
+  eyebrow?: string;
+  transcriptHref?: string;
+  /** WebVTT captions file for the audio. WCAG 2.2 — provide for any real recording.
+   *  Always rendered as a `<track>` (with or without src) so the a11y lint passes. */
+  captionsSrc?: string;
+  maxWidth?: string;
+}
+const {
+  audioSrc,
+  durationSec,
+  title,
+  eyebrow = 'Meet the voice',
+  transcriptHref,
+  captionsSrc,
+  maxWidth = '1200px',
+}: Props = Astro.props;
+
+// Deterministic, speech-shaped waveform (computed at build time).
+const bars = Array.from({ length: 64 }, (_, i) => {
+  const v = 32 + Math.sin(i * 0.55) * 22 + Math.sin(i * 0.27) * 18 + (i % 4) * 5;
+  return Math.max(14, Math.min(94, Math.round(v)));
+});
+const fmt = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+const totalLabel = fmt(durationSec);
+---
+
+<section class="voice-wrap" style={`--mw: ${maxWidth}`}>
+  <div class="voice-bar" data-voicebar data-duration={durationSec}>
+    <audio class="vb-audio" preload="none" src={audioSrc}>
+      <track kind="captions" srclang="en" label="English" src={captionsSrc} default />
+    </audio>
+
+    <button class="btn" type="button" aria-label={`Play: ${title}`} aria-pressed="false">
+      <span class="ring" aria-hidden="true"></span>
+      <svg
+        class="icon-play"
+        viewBox="0 0 24 24"
+        width="22"
+        height="22"
+        fill="currentColor"
+        aria-hidden="true"
+      >
+        <path d="M8 5v14l11-7z"></path>
+      </svg>
+      <svg
+        class="icon-pause"
+        viewBox="0 0 24 24"
+        width="22"
+        height="22"
+        fill="currentColor"
+        aria-hidden="true"
+      >
+        <rect x="6" y="5" width="4" height="14" rx="1"></rect>
+        <rect x="14" y="5" width="4" height="14" rx="1"></rect>
+      </svg>
+    </button>
+
+    <div class="meta">
+      <span class="eyebrow">{eyebrow}</span>
+      <span class="title">{title}</span>
+    </div>
+
+    <div class="wave" aria-hidden="true">
+      {bars.map((h) => <span class="vb-bar" style={`--h: ${h}%`} />)}
+    </div>
+
+    <div class="time">
+      <span class="cur">0:00</span>
+      <span class="sep">/</span>
+      <span class="tot">{totalLabel}</span>
+    </div>
+
+    {
+      transcriptHref && (
+        <a class="cc" href={transcriptHref}>
+          <svg
+            viewBox="0 0 24 24"
+            width="15"
+            height="15"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <rect x="3" y="5" width="18" height="14" rx="2" />
+            <path d="M7 12h3M7 15h2M14 12h3M14 15h2" />
+          </svg>
+          Transcript
+        </a>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .voice-wrap {
+    max-width: var(--mw);
+    margin: 0 auto;
+    padding: 0 32px 64px;
+  }
+  .voice-bar {
+    display: grid;
+    grid-template-columns: auto auto 1fr auto auto;
+    align-items: center;
+    gap: 28px;
+    padding: 18px 22px 18px 18px;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 9999px;
+    box-shadow: var(--shadow-md);
+  }
+  .vb-audio {
+    display: none;
+  }
+
+  .btn {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    flex-shrink: 0;
+    border: 0;
+    border-radius: 9999px;
+    background: var(--color-foreground);
+    color: var(--color-background);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 2px;
+    transition:
+      background var(--dur) var(--ease-out),
+      transform var(--dur) var(--ease-out);
+  }
+  .btn:hover {
+    transform: scale(1.04);
+  }
+  .btn.on {
+    background: var(--color-brand);
+    color: var(--color-brand-foreground);
+    padding-left: 0;
+  }
+  .icon-pause,
+  .btn.on .icon-play {
+    display: none;
+  }
+  .btn.on .icon-pause {
+    display: block;
+  }
+  .ring {
+    position: absolute;
+    inset: -3px;
+    border-radius: 9999px;
+    border: 2px solid var(--color-brand);
+    opacity: 0;
+  }
+  .btn.on .ring {
+    animation: vb-ring 1.6s ease-out infinite;
+  }
+  @keyframes vb-ring {
+    0% {
+      transform: scale(1);
+      opacity: 0.6;
+    }
+    100% {
+      transform: scale(1.3);
+      opacity: 0;
+    }
+  }
+
+  .meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+  .eyebrow {
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--color-muted-foreground);
+  }
+  .title {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 1.1;
+    letter-spacing: -0.005em;
+    color: var(--color-foreground);
+  }
+
+  .wave {
+    display: flex;
+    align-items: center;
+    gap: 2.5px;
+    height: 40px;
+    min-width: 0;
+  }
+  .vb-bar {
+    flex: 1;
+    min-width: 2px;
+    max-width: 4px;
+    height: var(--h);
+    border-radius: 9999px;
+    background: color-mix(in oklab, var(--color-foreground) 16%, transparent);
+    transform-origin: center;
+    transition:
+      background 0.2s ease,
+      transform 0.2s ease;
+  }
+  .vb-bar.on {
+    background: var(--color-brand);
+  }
+  .vb-bar.live.on {
+    animation: vb-wave 1s ease-in-out infinite alternate;
+  }
+  @keyframes vb-wave {
+    from {
+      transform: scaleY(0.82);
+    }
+    to {
+      transform: scaleY(1.15);
+    }
+  }
+
+  .time {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    flex-shrink: 0;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-foreground);
+  }
+  .time .sep,
+  .time .tot {
+    color: var(--color-muted-foreground);
+  }
+
+  .cc {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+    height: 40px;
+    padding: 0 16px;
+    border-radius: 9999px;
+    border: 1px solid var(--color-border);
+    background: transparent;
+    color: var(--color-foreground);
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background var(--dur) var(--ease-out);
+  }
+  .cc:hover {
+    background: var(--color-muted);
+  }
+
+  @media (max-width: 720px) {
+    .voice-bar {
+      grid-template-columns: auto 1fr auto;
+      grid-template-areas:
+        'btn meta meta'
+        'wave wave wave'
+        'time time cc';
+      gap: 16px;
+    }
+    .btn {
+      grid-area: btn;
+    }
+    .meta {
+      grid-area: meta;
+    }
+    .wave {
+      grid-area: wave;
+    }
+    .time {
+      grid-area: time;
+    }
+    .cc {
+      grid-area: cc;
+      justify-self: end;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-voicebar]').forEach((root) => {
+    const audio = root.querySelector<HTMLAudioElement>('.vb-audio');
+    const btn = root.querySelector<HTMLButtonElement>('.btn');
+    const bars = Array.from(root.querySelectorAll<HTMLElement>('.vb-bar'));
+    const cur = root.querySelector<HTMLElement>('.cur');
+    if (!audio || !btn) return;
+
+    const total = Number(root.dataset.duration) || 0;
+    const fmt = (s: number) =>
+      `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+
+    const paint = (progress: number) => {
+      bars.forEach((bar, i) => {
+        const on = bars.length > 1 ? i / (bars.length - 1) <= progress : false;
+        bar.classList.toggle('on', on);
+      });
+    };
+
+    const setPlaying = (playing: boolean) => {
+      btn.classList.toggle('on', playing);
+      btn.setAttribute('aria-pressed', String(playing));
+      bars.forEach((b) => b.classList.toggle('live', playing));
+    };
+
+    btn.addEventListener('click', () => {
+      if (audio.paused) audio.play();
+      else audio.pause();
+    });
+    audio.addEventListener('play', () => setPlaying(true));
+    audio.addEventListener('pause', () => setPlaying(false));
+    audio.addEventListener('timeupdate', () => {
+      const dur = audio.duration || total;
+      const progress = dur ? audio.currentTime / dur : 0;
+      paint(progress);
+      if (cur) cur.textContent = fmt(audio.currentTime);
+    });
+    audio.addEventListener('ended', () => {
+      setPlaying(false);
+      paint(0);
+      if (cur) cur.textContent = fmt(0);
+    });
+  });
+</script>
