@@ -1,0 +1,651 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import EditorialMasthead from '../components/blocks/EditorialMasthead.astro';
+import FAQSection from '../components/blocks/FAQSection.astro';
+import PricingCard from '../components/blocks/PricingCard.astro';
+import QuoteRow from '../components/blocks/QuoteRow.astro';
+import FAQSidebar from '../components/blocks/support/FAQSidebar.astro';
+import type { FAQItem } from '../components/blocks/FAQSection.astro';
+
+// ── Page content (structured data — CMS-ready seam) ─────────────────────────
+//
+// All copy lives here so it can later be lifted into a content collection. The
+// section ids match the sidebar's jump-to links. Some answers use `aHtml` for
+// inline links or <em>; plain answers use `a`.
+
+const hero = {
+  eyebrow: 'Help & Support',
+  display: 'FAQs.',
+  intro: 'Find answers to the questions teachers, leaders, and families ask us most.',
+};
+
+interface Section {
+  id: string;
+  label: string;
+  title: string;
+  items: FAQItem[];
+}
+
+const sections: Section[] = [
+  {
+    id: 'getting-started',
+    label: 'Getting started',
+    title: 'Getting started',
+    items: [
+      {
+        q: 'What is Inner Explorer?',
+        a: 'Inner Explorer is the leading provider of daily audio-guided mindfulness for K–12 schools. Educators press play; the class follows along with a short, research-backed practice. Over time, students build attention, emotional regulation, and resilience — and teachers reclaim calmer, more focused classrooms.',
+        open: true,
+      },
+      {
+        q: 'Who is Inner Explorer for?',
+        a: 'Teachers, counselors, principals, district leaders, and the students they serve — from pre-K through high school. Many families also use Inner Explorer at home to extend the practice beyond the school day.',
+      },
+      {
+        q: 'Where is Inner Explorer used?',
+        a: 'In more than 26,000 classrooms across all 50 U.S. states and in international schools across more than 30 countries. We are headquartered in Marlborough, MA.',
+      },
+      {
+        q: 'Why was Inner Explorer created?',
+        a: 'Our co-founder spent years watching the toll that stress, trauma, and constant distraction took on students and the adults who teach them. We built Inner Explorer so any teacher — with no special training — could lead a short, daily practice that gives the whole class a moment to settle, breathe, and come back to learning.',
+      },
+      {
+        q: 'How do I create an account?',
+        aHtml:
+          'Click <em>Start free</em> at the top of the page. You’ll be asked for your name, school email, school, and grade level. Most teachers are inside their first practice in under three minutes.',
+      },
+      {
+        q: 'Do I need any training to begin?',
+        a: 'No. The practices are fully audio-guided — you don’t lead the meditation; the recording does. We recommend a 20-minute orientation video before your first session, but it isn’t required.',
+      },
+      {
+        q: 'Is there a free trial?',
+        a: 'Yes. Individual educators can use a generous selection of practices free for 30 days. Schools and districts can request a 60-day pilot with full access for every classroom.',
+      },
+      {
+        q: 'How long until I see results?',
+        a: 'Many teachers report a calmer transition into the next activity within the first week. Independent research shows measurable shifts in attention and behavior within 6–8 weeks of daily practice.',
+      },
+      {
+        q: 'Do I need student rosters or accounts?',
+        aHtml:
+          'No. Inner Explorer is teacher-led — students never need to log in. You can create unnamed “classroom” entries in your dashboard to track progress across multiple sections.',
+      },
+      {
+        q: 'Does Inner Explorer replace SEL or counseling programs?',
+        a: 'No — it complements them. Inner Explorer is the daily Tier-1 practice that creates the conditions for any social-emotional curriculum or counseling intervention to work better. Many counselors use our content directly in small-group sessions, too.',
+      },
+    ],
+  },
+  {
+    id: 'daily-practice',
+    label: 'Daily practice',
+    title: 'Daily practice',
+    items: [
+      {
+        q: 'How long is each session?',
+        a: 'Sessions are 5 to 10 minutes, depending on grade band. Pre-K and early elementary practices are shorter; middle and high school practices run a few minutes longer.',
+      },
+      {
+        q: 'How often should we practice?',
+        a: 'Daily. The benefits of mindfulness — like any meaningful practice — come from consistency, not intensity. One short session every school day is far more effective than one long session a week.',
+      },
+      {
+        q: 'What time of day works best?',
+        a: 'Most classrooms anchor it to a transition — first thing in the morning, right after lunch or recess, or just before dismissal. Pick a moment when your students reliably need to settle, and keep it consistent.',
+      },
+      {
+        q: 'Can I choose the practice each day?',
+        a: 'You can. Our recommended sequence follows a research-aligned arc, but you can substitute any practice — by theme, length, or focus area — from the library at any time.',
+      },
+      {
+        q: 'What if students can’t sit still or close their eyes?',
+        a: 'That’s completely normal, especially in the first few weeks. Eyes closed is invited, never required. Students can rest their gaze on the desk, on the floor, or out a window. Stillness builds gradually — and surprisingly fast.',
+      },
+      {
+        q: 'Can we practice with the whole school at once?',
+        a: 'Yes — many of our partner schools play a practice over the PA system once or twice a week. We have practices specifically scripted for school-wide moments and morning announcements.',
+      },
+      {
+        q: 'What happens if we miss a day?',
+        a: 'Nothing breaks. Pick up the next day where you left off. The dashboard shows your streak and recent themes so you can stay oriented even after a disrupted week.',
+      },
+      {
+        q: 'Can I do a practice on my own as a teacher?',
+        aHtml:
+          'Absolutely — and we encourage it. Educators have access to a dedicated <em>For Educators</em> library of practices designed for adult use: morning grounding, end-of-day decompression, and short resets between classes.',
+      },
+    ],
+  },
+  {
+    id: 'lessons-content',
+    label: 'Lessons & content',
+    title: 'Lessons & content',
+    items: [
+      {
+        q: 'How is the library organized?',
+        aHtml:
+          'By grade band (Pre-K, K–2, 3–5, 6–8, 9–12), by length, and by theme. Themes group practices into multi-day series so a class can spend a week on, say, <em>Gratitude</em>, <em>Focus</em>, or <em>Breath</em>.',
+      },
+      {
+        q: 'How are practices structured?',
+        a: 'Each practice opens with a settle-in, moves through a short body-and-breath anchor, introduces one focus skill, and closes with a brief reflection. The same arc repeats so students build familiarity over time.',
+      },
+      {
+        q: 'Are practices available in Spanish?',
+        a: 'Yes. A growing portion of the library is available in Spanish, recorded by native speakers rather than translated voiceovers. We add new bilingual content every quarter.',
+      },
+      {
+        q: 'Is there a journaling component?',
+        a: 'Yes. Most practices end with an optional 1–2 minute journal prompt. Students can write in any notebook; we also provide printable journal pages and a digital journal for older grades.',
+      },
+      {
+        q: 'Can I build custom playlists?',
+        a: 'Yes. Save practices to a custom list — by topic, season, or unit — and play them in any order. Playlists are shareable with colleagues at the same school.',
+      },
+      {
+        q: 'Who creates the content?',
+        a: 'Our content team is led by certified mindfulness instructors with classroom teaching backgrounds, reviewed by a clinical advisory board, and tested with real teachers before release.',
+      },
+      {
+        q: 'Are there practices for hard days?',
+        aHtml:
+          'Yes. Look for the <em>Steady</em> collection: short, grounding practices for use after fire drills, community loss, difficult news, or any day a class needs extra care.',
+      },
+      {
+        q: 'Does Inner Explorer align with state SEL standards?',
+        aHtml:
+          'Yes — our library is mapped to CASEL’s five core competencies and to most state-specific SEL frameworks. Mapping documents are available in the resource library for download.',
+      },
+      {
+        q: 'Do you offer holiday or seasonal content?',
+        a: 'Yes — secular practices anchored to the school-year calendar: back-to-school, testing weeks, transitions, and end of year. Nothing is tied to any one religious tradition.',
+      },
+      {
+        q: 'Can I preview a practice before playing it for students?',
+        a: 'Always. Every practice page has a preview button, and you can read the full transcript before pressing play in front of a class.',
+      },
+    ],
+  },
+  {
+    id: 'students-classroom',
+    label: 'Students in the classroom',
+    title: 'Students in the classroom',
+    items: [
+      {
+        q: 'What ages does Inner Explorer support?',
+        a: 'Pre-K through grade 12. Practices are recorded specifically for each grade band — pacing, vocabulary, and metaphors all shift to fit the audience.',
+      },
+      {
+        q: 'Is Inner Explorer religious?',
+        a: 'No. Our practices are entirely secular and grounded in evidence-based mindfulness research. They are appropriate for any public, charter, parochial, or independent school.',
+      },
+      {
+        q: 'Is the program trauma-informed?',
+        a: 'Yes. Our content is developed with trauma-informed principles: choice, predictability, gentle invitation, and no body-scan techniques that could be activating for students who have experienced trauma. Eyes-closed and silence are always invitations, never instructions.',
+      },
+      {
+        q: 'Can students with IEPs or 504 plans participate?',
+        a: 'Yes — practices are designed to be inclusive of a wide range of learning differences. Many special-education teachers tell us their students respond especially well to the consistency of a daily practice.',
+      },
+      {
+        q: 'Is the content accessible for students with hearing differences?',
+        a: 'Yes. Every practice includes a full transcript and closed captions. We are actively expanding ASL-interpreted video versions of our core library.',
+      },
+      {
+        q: 'What if a student gets upset during a practice?',
+        aHtml:
+          'Sometimes quiet creates space for feelings to surface — that’s often a sign the practice is working. We provide a <em>When feelings come up</em> guide with simple, supportive scripts to help you respond well in the moment.',
+      },
+      {
+        q: 'Should I communicate with families?',
+        a: 'We recommend a short note home in the first two weeks. We provide editable family letters in English and Spanish that explain what mindfulness is, what it isn’t, and how the practice fits into the school day.',
+      },
+      {
+        q: 'Can families opt out?',
+        a: 'Yes. Schools handle opt-out policy locally. The practices are non-academic and pose no risk, but we always honor family choice. A student who is opting out can read or do quiet work in the same room.',
+      },
+    ],
+  },
+  {
+    id: 'school-admins',
+    label: 'For school admins',
+    title: 'For school admins',
+    items: [
+      {
+        q: 'How do I roll out Inner Explorer to my building?',
+        aHtml:
+          'Most schools start with a 30-minute staff orientation, then commit to a 30-day “first push” where every classroom practices daily. Our partner success team will build a customized rollout plan for you at no cost.',
+      },
+      {
+        q: 'How do I see which classrooms are practicing?',
+        a: 'Your school dashboard shows daily practice minutes, sessions completed, and the percent of classrooms active in the past 7 and 30 days. Drill into any classroom for detail.',
+      },
+      {
+        q: 'Can I assign a theme building-wide?',
+        aHtml:
+          'Yes. Pick a weekly or monthly theme — like <em>Kindness</em>, <em>Focus</em>, or <em>Gratitude</em> — and every classroom in your school will see that theme surfaced when they open Inner Explorer.',
+      },
+      {
+        q: 'Can counselors and behavior staff use it?',
+        a: 'Yes — counselors get specialized access to short, regulation-focused practices appropriate for small-group and one-on-one sessions, in addition to the full classroom library.',
+      },
+      {
+        q: 'Can I onboard new teachers mid-year?',
+        a: 'Yes. New staff can be added at any time at no additional cost. We send them a self-serve orientation and check in after their first two weeks of practice.',
+      },
+      {
+        q: 'What does success look like in year one?',
+        a: 'Most schools target 80% of classrooms practicing at least three days per week by month three. We help you set realistic milestones and track them in your dashboard.',
+      },
+      {
+        q: 'How do I encourage consistency across classrooms?',
+        a: 'The most consistent buildings share two habits: a school-wide anchor time (often right after morning announcements) and brief weekly check-ins at staff meetings. Our partner success team will share playbooks from comparable schools.',
+      },
+      {
+        q: 'Can I download a report for my school board?',
+        a: 'Yes. Generate a one-page PDF impact report — with practice minutes, classroom adoption, and benchmark research outcomes — directly from your dashboard.',
+      },
+    ],
+  },
+  {
+    id: 'district-dashboard',
+    label: 'District dashboard',
+    title: 'District dashboard',
+    items: [
+      {
+        q: 'What does the district dashboard show?',
+        a: 'Adoption funnels across every school, total Mindful Minutes practiced, classroom and educator counts, theme trends, and an impact view that ties practice consistency to research-backed outcomes.',
+      },
+      {
+        q: 'Can I compare schools?',
+        a: 'Yes — the school grid view ranks adoption and engagement across every site, with filters by level (elementary, middle, high) and Title I status.',
+      },
+      {
+        q: 'How often does data refresh?',
+        a: 'Engagement data refreshes nightly. Practice sessions appear in the dashboard within a few minutes of being completed.',
+      },
+      {
+        q: 'Can I export the data?',
+        a: 'Yes. Every report exports to CSV or a board-ready PDF. We can also push aggregated, de-identified metrics to your district’s data warehouse on request.',
+      },
+      {
+        q: 'Who in my district can access the dashboard?',
+        a: 'District administrators you designate. You control which roles see district-wide, school-level, or classroom-level data through our access controls.',
+      },
+      {
+        q: 'Can I bring my own SEL or climate data into the dashboard?',
+        a: 'Yes. We can ingest survey data (Panorama, BASE, custom climate surveys) and overlay it with Inner Explorer engagement so you can see the relationship between practice consistency and student well-being measures.',
+      },
+      {
+        q: 'Does the dashboard support multi-year reporting?',
+        a: 'Yes. Year-over-year views are available once your district has at least one full academic year of practice data.',
+      },
+      {
+        q: 'What about ESSER or grant reporting?',
+        a: 'We provide pre-built ESSER and Title IV reporting templates with all the engagement and outcome data your grants office needs. Many districts use Inner Explorer to satisfy mental-health and SEL grant requirements.',
+      },
+    ],
+  },
+  {
+    id: 'research-impact',
+    label: 'Research & impact',
+    title: 'Research & impact',
+    items: [
+      {
+        q: 'Is Inner Explorer evidence-based?',
+        a: 'Yes. Inner Explorer has been studied in more than a dozen peer-reviewed and IRB-approved studies across pre-K through high school, in partnership with researchers at Penn State, Harvard, and others.',
+      },
+      {
+        q: 'What outcomes have studies shown?',
+        a: 'Documented outcomes include improvements in attention and academic performance, reductions in behavioral referrals, lower teacher stress, and improvements in school climate. Effect sizes vary by population and dosage; we publish all study summaries openly.',
+      },
+      {
+        q: 'Is Inner Explorer ESSA-aligned?',
+        a: 'Inner Explorer meets ESSA Tier 2 (Moderate Evidence) and Tier 3 (Promising Evidence) criteria depending on the outcome measured. Citations and the underlying studies are available on request.',
+      },
+      {
+        q: 'Where can I read the research?',
+        aHtml:
+          'Visit our <a href="/research">Research page</a> for a full bibliography, study summaries, and PDFs of peer-reviewed publications.',
+      },
+      {
+        q: 'How is "Mindful Minutes" calculated?',
+        a: 'Each completed practice contributes its play duration multiplied by an estimated class size. Districts can supply exact class sizes for more precise reporting; otherwise we use grade-band averages.',
+      },
+      {
+        q: 'Can I run a custom study in my district?',
+        aHtml:
+          'Yes. Our research team partners with several districts each year on custom IRB-approved evaluations. Reach out through the <em>Partnering with us</em> section below.',
+      },
+    ],
+  },
+  {
+    id: 'privacy-data',
+    label: 'Privacy & student data',
+    title: 'Privacy & student data',
+    items: [
+      {
+        q: 'Is Inner Explorer COPPA, FERPA, and SOPPA compliant?',
+        a: 'Yes. We are compliant with COPPA, FERPA, SOPPA, and applicable state student-privacy laws. We are also a signatory of the Student Privacy Pledge.',
+      },
+      {
+        q: 'What student data does Inner Explorer collect?',
+        a: 'In the standard configuration, none. Students do not log in or create accounts. We only collect classroom-level practice metadata (which practices played, when, for how long) tied to an educator account.',
+      },
+      {
+        q: 'Do you sell or share data?',
+        aHtml:
+          'Never. We do not sell, rent, or share student or educator data with third parties for advertising or marketing. Full details are in our <a href="/privacy">privacy policy</a>.',
+      },
+      {
+        q: 'Where is data stored?',
+        a: 'On encrypted servers in the United States, hosted with SOC 2 Type II–certified cloud providers. All data is encrypted in transit (TLS 1.2+) and at rest (AES-256).',
+      },
+      {
+        q: 'Will you sign our Data Privacy Agreement?',
+        a: 'Yes. We routinely sign state, regional, and individual district DPAs. We are also listed on the National Data Privacy Agreement (NDPA) registry.',
+      },
+      {
+        q: 'Can I request data deletion?',
+        a: 'Yes. Educators, schools, and districts can request a full export and deletion of their data at any time. We process requests within 30 days and confirm in writing.',
+      },
+      {
+        q: 'Do you do any AI training on user data?',
+        a: 'No. We do not train models on student or educator data. Any analytical models we use are trained on aggregated, de-identified usage patterns only.',
+      },
+      {
+        q: 'Where can I report a security concern?',
+        aHtml:
+          'Email <a href="mailto:security@innerexplorer.org">security@innerexplorer.org</a> or submit a report through our public coordinated-disclosure form. We respond to all reports within one business day.',
+      },
+    ],
+  },
+  {
+    id: 'technical-access',
+    label: 'Technical & access',
+    title: 'Technical & access',
+    items: [
+      {
+        q: 'What devices does Inner Explorer work on?',
+        a: 'Any modern browser on Chromebook, Mac, Windows, iPad, or smartboard. We also have native iOS and Android apps for educators who prefer mobile.',
+      },
+      {
+        q: 'Does it work offline?',
+        a: 'Yes. The mobile app lets educators download their next 10 practices for offline play — useful for fieldtrips, spotty Wi-Fi, or classrooms without dedicated internet.',
+      },
+      {
+        q: 'Do you support single sign-on?',
+        a: 'Yes. We support Google Workspace, Microsoft 365, ClassLink, and Clever for educator SSO. Students do not sign in, so no roster sync is required.',
+      },
+      {
+        q: 'Is Inner Explorer in the ClassLink and Clever libraries?',
+        a: 'Yes. Search for "Inner Explorer" in the ClassLink LaunchPad or Clever Library to add us with one click. Your district admin can deploy us to a building, grade level, or the entire district.',
+      },
+      {
+        q: 'What URLs do I need to whitelist?',
+        aHtml:
+          '<code>*.innerexplorer.org</code> and <code>*.innerexplorer-cdn.com</code>. A full IT-deployment guide with ports, content sources, and CDN ranges is available in the resource library.',
+      },
+      {
+        q: 'Can I play audio through the smartboard or PA?',
+        a: 'Yes — any device that can play web audio works. Many schools route a single tablet or Chromebook into the PA system for school-wide practices.',
+      },
+      {
+        q: 'Can I cast a practice to a TV?',
+        a: 'Yes. AirPlay and Chromecast both work from the player. Many classrooms project a calming visual cue on the board while the audio guides the practice.',
+      },
+      {
+        q: 'What if a practice won’t load?',
+        aHtml:
+          'First, try a different browser tab or a hard refresh. If the problem persists, check our <a href="/status">status page</a>. If it’s not us, it’s likely a school-network content filter — your IT team can use our deployment guide to clear it.',
+      },
+      {
+        q: 'Are there accessibility features?',
+        a: 'Yes. The app is keyboard-navigable, screen-reader friendly, and meets WCAG 2.1 AA. All practices include transcripts and captions. Font sizes, contrast, and motion can be adjusted in Settings.',
+      },
+      {
+        q: 'Do you have an API or LMS integration?',
+        a: 'We support LTI 1.3 for Canvas, Schoology, and Google Classroom. A read-only data API for enterprise districts is available on request.',
+      },
+    ],
+  },
+  {
+    id: 'training-support',
+    label: 'Training & support',
+    title: 'Training & support',
+    items: [
+      {
+        q: 'Is training included?',
+        a: 'Yes. Every partner school receives an initial staff orientation, an admin walkthrough, and access to our on-demand professional learning library. School-wide and district partners receive additional live sessions throughout the year.',
+      },
+      {
+        q: 'Do you offer professional development credit?',
+        a: 'Yes — most of our live training sessions qualify for PD hours. We provide a completion certificate; final accreditation depends on your state and district policies.',
+      },
+      {
+        q: 'Is there a help center?',
+        a: 'Yes. Our help center has searchable articles, short walkthrough videos, and a built-in chat with our partner success team. Most questions are answered the same business day.',
+      },
+      {
+        q: 'How do I reach a real person?',
+        aHtml:
+          'Email <a href="mailto:hello@innerexplorer.org">hello@innerexplorer.org</a> or use the chat at the bottom of any page in the app. Partner districts also have a dedicated success manager and a direct line.',
+      },
+      {
+        q: 'Do you offer coaching for principals?',
+        a: 'Yes. Our leadership coaching cohorts run twice a year for school and district leaders interested in deepening their own practice and modeling it for staff.',
+      },
+      {
+        q: 'Can families practice at home?',
+        a: 'Yes. Partner districts can extend free at-home access to every family in their community. We provide bilingual launch kits to help schools spread the word.',
+      },
+    ],
+  },
+  {
+    id: 'pricing-licensing',
+    label: 'Pricing & licensing',
+    title: 'Pricing & licensing',
+    items: [
+      {
+        q: 'How much does Inner Explorer cost?',
+        aHtml:
+          'Individual educator subscriptions are $1 a day, billed annually at $365. School and district licenses are tiered by enrollment — most schools pay roughly the equivalent of one student’s annual SEL curriculum line item. <a href="/pricing">See pricing</a>.',
+      },
+      {
+        q: 'Are there discounts for Title I schools?',
+        a: 'Yes — we offer reduced pricing for Title I schools and grant-funded sites. We also partner with foundations and corporate sponsors to fund schools that cannot pay.',
+      },
+      {
+        q: 'Can we use ESSER, Title IV, or Title I funds?',
+        a: 'Yes — Inner Explorer is an allowable use of ESSER III, Title IV-A, Title I, and many state mental-health funds. We provide budget narrative language to support your application.',
+      },
+      {
+        q: 'Do you offer a free version?',
+        a: 'Yes. A free educator account includes a curated selection of practices and is perpetual — no expiration. Full library access is part of paid school and district plans.',
+      },
+      {
+        q: 'Can a parent purchase access for their child’s classroom?',
+        a: 'Yes — and a number of families do, especially in pilot situations. Reach out and we’ll help coordinate with the teacher and school.',
+      },
+      {
+        q: 'How are licenses renewed?',
+        a: 'Annually, in line with your fiscal year. Your partner success manager will share a renewal summary at the 60-day mark with adoption data and an impact narrative for your board.',
+      },
+    ],
+  },
+  {
+    id: 'partnering',
+    label: 'Partnering with us',
+    title: 'Partnering with us',
+    items: [
+      {
+        q: 'How can my district bring Inner Explorer to every school?',
+        aHtml:
+          'Reach out through our <a href="/districts">For Districts</a> form. A partner success manager will share case studies from comparable districts, propose a rollout plan, and walk through budgeting options.',
+      },
+      {
+        q: 'Do you work with foundations and funders?',
+        aHtml:
+          'Yes. We partner with national, regional, and family foundations who underwrite full or partial access for schools in their service area. Email <a href="mailto:partnerships@innerexplorer.org">partnerships@innerexplorer.org</a>.',
+      },
+      {
+        q: 'Can my company sponsor a school or district?',
+        a: 'Yes. Corporate partners regularly sponsor Inner Explorer access for the communities they care about. We will help match your gift to schools that need it most.',
+      },
+      {
+        q: 'I’m a researcher — how do I collaborate?',
+        aHtml:
+          'We love working with researchers. Email <a href="mailto:research@innerexplorer.org">research@innerexplorer.org</a> with a short description of your study and your IRB plan.',
+      },
+      {
+        q: 'I’m a teacher who wants to advocate for Inner Explorer at my school — how do you help?',
+        a: 'We send you a teacher-to-leader toolkit: a one-page case for principals, a 10-minute pitch deck for staff meetings, and the research summaries most relevant for school boards. Most schools say yes faster than teachers expect.',
+      },
+    ],
+  },
+];
+
+const sidebarSections = sections.map(({ id, label }) => ({ id, label }));
+
+const pricing = {
+  eyebrow: 'Pricing',
+  headlineHtml:
+    'The most effective tool in your classroom might cost <span class="hi">a dollar a day</span>.',
+  sub: 'Daily mindfulness shouldn’t depend on a grant cycle. One flat price, every educator, every classroom.',
+  plan: {
+    pill: 'For individual educators',
+    title: 'Inner Explorer membership',
+    price: '$1',
+    per: '/day',
+    charged: 'Billed annually at $365 · School & district pricing available',
+    ctaLabel: 'Start free',
+    ctaHref: '/contact',
+  },
+  features: [
+    'Daily audio-guided practices, Pre-K–12',
+    'Themed series & journaling prompts',
+    'Practices for educators, too',
+    'English & Spanish library',
+    'Trauma-informed & secular',
+    'Web, iOS, Android & offline',
+    'COPPA, FERPA & SOPPA compliant',
+    'Evidence-based, peer-reviewed research',
+    'ESSER & Title IV-eligible',
+  ],
+};
+
+const closer = {
+  lead: 'Days are',
+  leadDisplay: 'long.',
+  leadSub: 'A few minutes of stillness changes everything that follows.',
+  ctas: [
+    { label: 'Start free', href: '/contact', variant: 'primary' as const },
+    { label: 'For Districts', href: '/districts', variant: 'ghost' as const },
+  ],
+  quotes: [
+    {
+      stars: 5,
+      body: '"My third graders ask for it. We’ve gone from forty-minute meltdowns after recess to a two-minute reset and right back into reading."',
+      who: 'Mrs. Alvarez',
+      where: '3rd grade · Hialeah, FL',
+    },
+    {
+      stars: 5,
+      body: '"Behavior referrals dropped 38% in our first semester. Inner Explorer is the most cost-effective intervention we have ever funded."',
+      who: 'Dr. Robinson',
+      where: 'Superintendent · Broward County, FL',
+    },
+    {
+      stars: 5,
+      body: '"I started practicing alongside my students. I’m a better teacher because of it. I leave school with something left for my own kids."',
+      who: 'Mr. Chen',
+      where: 'High school English · Portland, OR',
+    },
+  ],
+};
+
+// ── SEO ─────────────────────────────────────────────────────────────────────
+
+const pageTitle = 'Help & Support — Inner Explorer';
+const pageDescription =
+  'Answers to the questions teachers, leaders, and families ask us most about Inner Explorer’s daily K–12 audio-guided mindfulness practice.';
+
+const base = new URL(Astro.site ?? 'https://www.innerexplorer.org').origin;
+
+const stripTags = (html: string): string => html.replace(/<[^>]*>/g, '');
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  url: `${base}/support`,
+  name: pageTitle,
+  description: pageDescription,
+  mainEntity: sections.flatMap((sec) =>
+    sec.items.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.aHtml ? stripTags(item.aHtml) : (item.a ?? ''),
+      },
+    })),
+  ),
+};
+---
+
+<PageLayout title={pageTitle} description={pageDescription}>
+  <JsonLd slot="head" schema={faqSchema} />
+
+  <EditorialMasthead
+    eyebrow={hero.eyebrow}
+    display={hero.display}
+    intro={hero.intro}
+    layout="display"
+    maxWidth="900px"
+  />
+
+  <div class="support-shell">
+    <FAQSidebar sections={sidebarSections} />
+    <main id="faq-main">
+      {sections.map((sec) => <FAQSection id={sec.id} title={sec.title} items={sec.items} />)}
+    </main>
+  </div>
+
+  <PricingCard
+    eyebrow={pricing.eyebrow}
+    headlineHtml={pricing.headlineHtml}
+    sub={pricing.sub}
+    plan={pricing.plan}
+    features={pricing.features}
+  />
+
+  <QuoteRow
+    lead={closer.lead}
+    leadDisplay={closer.leadDisplay}
+    leadSub={closer.leadSub}
+    ctas={closer.ctas}
+    quotes={closer.quotes}
+  />
+</PageLayout>
+
+<style>
+  .support-shell {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 24px 32px 80px;
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  @media (max-width: 880px) {
+    .support-shell {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      padding: 16px 20px 60px;
+    }
+  }
+</style>
