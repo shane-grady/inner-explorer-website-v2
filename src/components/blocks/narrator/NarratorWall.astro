@@ -1,0 +1,98 @@
+---
+import NarratorCard from './NarratorCard.astro';
+import type { ImageMetadata } from 'astro';
+
+// A uniform 5×n grid of narrator cards. Data-driven from the narrators content
+// collection. Click on a card's play button toggles a cosmetic data-playing
+// state (no real audio yet); only one card plays at a time.
+
+export interface Narrator {
+  name: string;
+  slug: string;
+  photo: ImageMetadata;
+  langs: string[];
+  since: number;
+  practices: number;
+  isNew?: boolean;
+}
+interface Props {
+  narrators: Narrator[];
+  hrefBase?: string; // default "/narrators/"
+}
+const { narrators, hrefBase = '/narrators/' }: Props = Astro.props;
+---
+
+<section class="wall" aria-label="All narrators in the Inner Explorer studio">
+  {
+    narrators.map((n) => (
+      <NarratorCard
+        name={n.name}
+        href={`${hrefBase}${n.slug}`}
+        slug={n.slug}
+        photo={n.photo}
+        langs={n.langs}
+        since={n.since}
+        practices={n.practices}
+        isNew={n.isNew}
+      />
+    ))
+  }
+</section>
+
+<style>
+  .wall {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px 60px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+  }
+
+  @media (max-width: 1120px) {
+    .wall {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  @media (max-width: 920px) {
+    .wall {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      padding: 0 24px 48px;
+    }
+  }
+  @media (max-width: 640px) {
+    .wall {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>
+
+<script>
+  // Mutually-exclusive play toggle. Cosmetic only — no audio yet. Real audio
+  // playback (wire <audio src> per narrator) is a phase-2 follow-up.
+  const wall = document.querySelector<HTMLElement>('.wall');
+  if (wall) {
+    wall.addEventListener('click', (event) => {
+      const target = event.target as HTMLElement;
+      const btn = target.closest<HTMLButtonElement>('button[data-play]');
+      if (!btn) return;
+      event.preventDefault();
+      event.stopPropagation();
+      const card = btn.closest<HTMLElement>('.card');
+      if (!card) return;
+      const wasPlaying = card.hasAttribute('data-playing');
+      // clear any other playing cards first
+      wall.querySelectorAll<HTMLElement>('.card[data-playing]').forEach((other) => {
+        other.removeAttribute('data-playing');
+        other
+          .querySelector<HTMLButtonElement>('button[data-play]')
+          ?.setAttribute('aria-pressed', 'false');
+      });
+      if (!wasPlaying) {
+        card.setAttribute('data-playing', '');
+        btn.setAttribute('aria-pressed', 'true');
+      }
+    });
+  }
+</script>

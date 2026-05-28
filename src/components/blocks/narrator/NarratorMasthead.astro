@@ -1,0 +1,95 @@
+---
+// Centered detail-page masthead — hairline-rule eyebrow + "Meet" sans (~64px)
+// + "[Name]." italic serif (~128px) + optional subtitle. Page-local because
+// the duet composition is specific to narrator profiles.
+
+interface Props {
+  name: string;
+  subtitle?: string;
+  /** Stable id for the cross-page name view-transition. */
+  slug?: string;
+}
+const { name, subtitle, slug }: Props = Astro.props;
+const tName = slug ? `narrator-name-${slug}` : undefined;
+---
+
+<section class="masthead">
+  <div class="eyebrow" aria-hidden="true">
+    <span class="line"></span>
+    <span class="line"></span>
+  </div>
+  <h1 class="h1" transition:name={tName}>
+    <span class="sans">Meet</span>
+    <br />
+    <span class="serif">{name}.</span>
+  </h1>
+  {subtitle && <p class="sub">{subtitle}</p>}
+</section>
+
+<style>
+  .masthead {
+    padding: 56px 32px 56px;
+    text-align: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+  .line {
+    width: 60px;
+    height: 1px;
+    background: var(--color-border);
+  }
+  .h1 {
+    margin: 0 0 28px;
+    font-size: 0; /* collapse whitespace between inline children */
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+  }
+  .sans {
+    display: inline-block;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 1;
+    letter-spacing: -0.025em;
+    color: var(--color-muted-foreground);
+  }
+  .serif {
+    display: inline-block;
+    margin-top: 4px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(56px, 11vw, 128px);
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    color: var(--color-foreground);
+    text-wrap: balance;
+  }
+  .sub {
+    margin: 0 auto;
+    max-width: 56ch;
+    font-size: clamp(16px, 1.4vw, 18px);
+    line-height: 1.55;
+    color: var(--color-muted-foreground);
+    text-wrap: pretty;
+  }
+
+  @media (max-width: 920px) {
+    .masthead {
+      padding: 32px 16px 40px;
+    }
+    .eyebrow {
+      margin-bottom: 20px;
+    }
+    .line {
+      width: 36px;
+    }
+  }
+</style>

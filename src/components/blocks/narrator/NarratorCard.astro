@@ -1,0 +1,306 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+// One narrator portrait card. The whole card is an accessible link to the
+// narrator's detail page; the play button is a separate <button> stacked
+// above the link via z-index. JS toggles a `data-playing` attribute on the
+// card root (cosmetic only — real audio is a phase-2 follow-up).
+
+interface Props {
+  name: string;
+  href: string;
+  /** Stable identifier — drives the view-transition name so the photo morphs into
+   *  the detail page hero. Derived from the narrator's filename slug. */
+  slug?: string;
+  photo: ImageMetadata;
+  langs: string[];
+  since: number;
+  practices: number;
+  isNew?: boolean;
+}
+const { name, href, slug, photo, langs, since, practices, isNew = false }: Props = Astro.props;
+const tName = slug ? `narrator-photo-${slug}` : undefined;
+---
+
+<article class="card" data-narrator={name}>
+  <a class="link" href={href} aria-label={`${name} — narrator profile`}></a>
+
+  <Image
+    class="img"
+    src={photo}
+    alt={`Portrait of ${name}`}
+    widths={[260, 400, 520]}
+    sizes="(max-width: 920px) 45vw, 18vw"
+    loading="lazy"
+    transition:name={tName}
+  />
+  <div class="grad" aria-hidden="true"></div>
+
+  {
+    isNew && (
+      <span class="new-pin" aria-label="New voice">
+        <span class="new-dot" aria-hidden="true" />
+        New
+      </span>
+    )
+  }
+
+  <button
+    class="play"
+    type="button"
+    aria-label={`Preview ${name}'s voice`}
+    aria-pressed="false"
+    data-play
+  >
+    <svg
+      class="ico-play"
+      width="12"
+      height="12"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg
+    >
+    <svg
+      class="ico-pause"
+      width="12"
+      height="12"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <rect x="6" y="5" width="4" height="14" rx="1"></rect>
+      <rect x="14" y="5" width="4" height="14" rx="1"></rect>
+    </svg>
+  </button>
+
+  <div class="info">
+    <h3 class="nm">{name}</h3>
+    <div class="langs">
+      {langs.map((l) => <span class="lang">{l}</span>)}
+    </div>
+    <div class="meta">Since {since} · {practices} practices recorded</div>
+  </div>
+</article>
+
+<style>
+  .card {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    background: var(--color-muted);
+    box-shadow: var(--shadow-sm);
+    transition:
+      transform 360ms var(--ease-out),
+      box-shadow 360ms var(--ease-out);
+    isolation: isolate;
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+  /* The link covers the whole card except where the play button sits on top. */
+  .link {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+  /* Visible content is below the link in the stacking order but rendered above
+     it visually because the link has no background. The play button (z:2) is
+     the only interactive surface above the link. */
+  .img,
+  .grad,
+  .info,
+  .new-pin {
+    pointer-events: none;
+  }
+  .img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.97) saturate(1.04) contrast(1.02);
+    transition:
+      transform 700ms var(--ease-out),
+      filter 360ms var(--ease-out);
+  }
+  .card:hover .img {
+    transform: scale(1.06);
+    filter: brightness(1) saturate(1.12) contrast(1.02);
+  }
+  .grad {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      transparent 40%,
+      color-mix(in oklab, var(--color-black) 10%, transparent) 60%,
+      color-mix(in oklab, var(--color-black) 62%, transparent) 100%
+    );
+  }
+
+  .new-pin {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 12px 6px 10px;
+    border-radius: 9999px;
+    background: color-mix(in oklab, var(--color-white) 96%, transparent);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: var(--color-brand);
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    box-shadow: var(--shadow-md);
+  }
+  .new-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 9999px;
+    background: var(--color-brand);
+  }
+
+  .play {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 2;
+    width: 42px;
+    height: 42px;
+    border-radius: 9999px;
+    border: 0;
+    background: color-mix(in oklab, var(--color-white) 96%, transparent);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: var(--color-foreground);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 2px;
+    opacity: 0;
+    transform: translateY(-4px) scale(0.9);
+    transition: all 280ms var(--ease-out);
+    box-shadow: var(--shadow-md);
+  }
+  .card:hover .play,
+  .card:focus-within .play {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  .play:hover {
+    background: var(--color-white);
+  }
+  .play .ico-pause {
+    display: none;
+  }
+  .card[data-playing] .play {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    background: var(--color-brand);
+    color: var(--color-brand-foreground);
+    padding-left: 0;
+  }
+  .card[data-playing] .play .ico-play {
+    display: none;
+  }
+  .card[data-playing] .play .ico-pause {
+    display: block;
+  }
+
+  .info {
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    bottom: 14px;
+    z-index: 0;
+    color: var(--color-white);
+  }
+  .nm {
+    margin: 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(18px, 1.8vw, 24px);
+    line-height: 1.05;
+    letter-spacing: -0.012em;
+    color: var(--color-white);
+    text-shadow: 0 1px 12px color-mix(in oklab, var(--color-black) 36%, transparent);
+    text-wrap: balance;
+  }
+  .langs {
+    display: flex;
+    gap: 5px;
+    margin-top: 8px;
+    opacity: 0.95;
+  }
+  .lang {
+    padding: 4px 7px;
+    border-radius: 6px;
+    background: color-mix(in oklab, var(--color-white) 18%, transparent);
+    border: 1px solid color-mix(in oklab, var(--color-white) 28%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: var(--color-white);
+    font-size: 9.5px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.12em;
+  }
+  .meta {
+    margin-top: 8px;
+    font-size: 11px;
+    line-height: 1.3;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: color-mix(in oklab, var(--color-white) 86%, transparent);
+    opacity: 0;
+    transform: translateY(6px);
+    transition:
+      opacity 280ms var(--ease-out),
+      transform 280ms var(--ease-out);
+  }
+  .card:hover .meta,
+  .card:focus-within .meta,
+  .card[data-playing] .meta {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Playing state — soft brand ring + outer glow. */
+  .card[data-playing]::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-xl);
+    pointer-events: none;
+    box-shadow:
+      inset 0 0 0 2px var(--color-brand),
+      0 0 0 4px color-mix(in oklab, var(--color-brand) 18%, transparent),
+      0 20px 48px color-mix(in oklab, var(--color-brand) 22%, transparent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card,
+    .img,
+    .play,
+    .meta {
+      transition: none;
+    }
+    .card:hover {
+      transform: none;
+    }
+    .card:hover .img {
+      transform: none;
+    }
+  }
+</style>

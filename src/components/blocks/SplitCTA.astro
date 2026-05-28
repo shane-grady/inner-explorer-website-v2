@@ -1,0 +1,257 @@
+---
+// Split "philosophy + action" section — left: eyebrow + huge italic-serif
+// pull-quote + attribution. Right: cream-tinted card with a small italic
+// heading, paragraph, and two CTAs. Generic enough for Careers, Research
+// recruitment, and similar pages.
+
+interface Cta {
+  label: string;
+  href: string;
+}
+interface Props {
+  eyebrow: string;
+  quoteHtml: string;
+  attribution: string;
+  attributionStrong?: string;
+  cardHeading: string;
+  cardBody: string;
+  primary: Cta;
+  secondary?: Cta;
+}
+const {
+  eyebrow,
+  quoteHtml,
+  attribution,
+  attributionStrong,
+  cardHeading,
+  cardBody,
+  primary,
+  secondary,
+}: Props = Astro.props;
+---
+
+<section class="split">
+  <div class="wrap">
+    <div class="left">
+      <div class="eyebrow">
+        <span class="rule" aria-hidden="true"></span>
+        <span>{eyebrow}</span>
+      </div>
+      <p class="quote">
+        <span class="mark" aria-hidden="true">&ldquo;</span>
+        <span set:html={quoteHtml} />
+      </p>
+      <div class="attrib">
+        <span>{attribution}</span>
+        {attributionStrong && <b>{attributionStrong}</b>}
+      </div>
+    </div>
+
+    <aside class="card">
+      <h3 class="hd">{cardHeading}</h3>
+      <p class="body">{cardBody}</p>
+      <div class="actions">
+        <a class="btn-primary" href={primary.href}>
+          {primary.label}
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M5 12h14"></path>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+        {
+          secondary && (
+            <a class="btn-ghost" href={secondary.href}>
+              {secondary.label}
+            </a>
+          )
+        }
+      </div>
+    </aside>
+  </div>
+</section>
+
+<style>
+  .split {
+    background: var(--color-background);
+  }
+  .wrap {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 80px 32px 80px;
+    border-top: 1px solid var(--color-border);
+    margin-top: 32px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: 80px;
+    align-items: center;
+  }
+
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--color-muted-foreground);
+  }
+  .eyebrow .rule {
+    width: 48px;
+    height: 1px;
+    background: var(--color-border);
+  }
+  .quote {
+    margin: 0 0 24px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(28px, 3.4vw, 44px);
+    line-height: 1.12;
+    letter-spacing: -0.012em;
+    color: var(--color-foreground);
+    text-wrap: pretty;
+  }
+  .quote .mark {
+    display: block;
+    margin-bottom: -10px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(64px, 7vw, 96px);
+    line-height: 0.55;
+    color: color-mix(in oklab, var(--color-brand) 36%, transparent);
+  }
+  .quote :global(em) {
+    font-style: italic;
+  }
+  .attrib {
+    font-size: 12px;
+    line-height: 1.5;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--color-muted-foreground);
+    font-weight: 500;
+  }
+  .attrib b {
+    display: block;
+    margin-top: 4px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.5;
+    letter-spacing: -0.005em;
+    text-transform: none;
+    color: var(--color-foreground);
+  }
+
+  .card {
+    position: relative;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-2xl);
+    padding: 40px 36px;
+    background: var(--studio-card-wash);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    overflow: hidden;
+  }
+  .hd {
+    margin: 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(24px, 2.6vw, 32px);
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    color: var(--color-foreground);
+  }
+  .body {
+    margin: 0;
+    max-width: 36ch;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--color-foreground);
+    text-wrap: pretty;
+  }
+  .actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    height: 50px;
+    padding: 0 24px;
+    border-radius: 9999px;
+    background: var(--color-foreground);
+    color: var(--color-background);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+    transition:
+      transform var(--dur-fast) var(--ease-out),
+      background var(--dur-fast) var(--ease-out);
+  }
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    background: var(--color-black);
+  }
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    height: 50px;
+    padding: 0 24px;
+    border-radius: 9999px;
+    background: color-mix(in oklab, var(--color-white) 65%, transparent);
+    border: 1px solid var(--color-border);
+    color: var(--color-foreground);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: background var(--dur-fast) var(--ease-out);
+  }
+  .btn-ghost:hover {
+    background: var(--color-white);
+  }
+
+  @media (max-width: 920px) {
+    .wrap {
+      padding: 56px 24px 56px;
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .card {
+      padding: 32px 28px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn-primary,
+    .btn-ghost {
+      transition: none;
+    }
+    .btn-primary:hover {
+      transform: none;
+    }
+  }
+</style>

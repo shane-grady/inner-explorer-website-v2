@@ -1,0 +1,10 @@
+{
+  "name": "Tenzin Norbu",
+  "langs": ["EN", "ES"],
+  "since": 2020,
+  "practices": 33,
+  "isNew": false,
+  "photo": "../../assets/images/narrators/tenzin-norbu.jpg",
+  "role": "Studio narrator",
+  "order": 9
+}

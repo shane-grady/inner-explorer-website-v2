@@ -1,0 +1,138 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import PageLayout from '../../layouts/PageLayout.astro';
+import JsonLd from '../../components/seo/JsonLd.astro';
+
+import Breadcrumb from '../../components/primitives/Breadcrumb.astro';
+import NarratorMasthead from '../../components/blocks/narrator/NarratorMasthead.astro';
+import EditorialPhotoHero from '../../components/blocks/EditorialPhotoHero.astro';
+import VoiceBar from '../../components/blocks/narrator/VoiceBar.astro';
+import MetaStrip from '../../components/blocks/MetaStrip.astro';
+import NarratorQA from '../../components/blocks/narrator/NarratorQA.astro';
+import PracticeRows from '../../components/blocks/PracticeRows.astro';
+import MoreNarrators from '../../components/blocks/narrator/MoreNarrators.astro';
+
+type NarratorEntry = CollectionEntry<'narrators'>;
+
+export async function getStaticPaths() {
+  const all = await getCollection('narrators');
+  return all.map((entry) => ({
+    params: { slug: entry.id.replace(/\.[^.]+$/, '') },
+    props: { entry, all },
+  }));
+}
+
+interface Props {
+  entry: NarratorEntry;
+  all: NarratorEntry[];
+}
+const { entry, all } = Astro.props as Props;
+const n = entry.data;
+const slug = entry.id.replace(/\.[^.]+$/, '');
+
+// "More narrators" — next 4 by `order`, wrapping past the end. Excludes self.
+const sorted = [...all].sort((a, b) => a.data.order - b.data.order);
+const selfIdx = sorted.findIndex((e) => e.id === entry.id);
+const more = Array.from({ length: 4 }, (_, i) => {
+  const idx = (selfIdx + 1 + i) % sorted.length;
+  return sorted[idx];
+}).map((e) => ({
+  name: e.data.name,
+  slug: e.id.replace(/\.[^.]+$/, ''),
+  role: e.data.role,
+  photo: e.data.photo,
+}));
+
+// SEO — Person JSON-LD per narrator.
+const pageTitle = `${n.name} — Inner Explorer Studio`;
+const pageDescription =
+  n.subtitle ?? `Meet ${n.name}, a narrator in residence at the Inner Explorer studio in Boston.`;
+const base = new URL(Astro.site ?? 'https://www.innerexplorer.org').origin;
+const personLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: n.name,
+  url: `${base}/narrators/${slug}`,
+  ...(n.role ? { jobTitle: n.role } : {}),
+  ...(n.bio || n.subtitle ? { description: n.bio ?? n.subtitle } : {}),
+  worksFor: {
+    '@type': 'Organization',
+    name: 'Inner Explorer',
+    url: base,
+  },
+};
+---
+
+<PageLayout title={pageTitle} description={pageDescription}>
+  <JsonLd slot="head" schema={personLd} />
+
+  <div class="appearance-light">
+    <div class="bc-wrap">
+      <Breadcrumb items={[{ label: 'Narrators', href: '/narrators' }, { label: n.name }]} />
+    </div>
+
+    <NarratorMasthead name={n.name} subtitle={n.subtitle} slug={slug} />
+
+    <EditorialPhotoHero
+      photo={n.photoWide ?? n.photo}
+      alt={`Editorial portrait of ${n.name}`}
+      cornerLeft="Portrait"
+      cornerRight={n.portraitLocation}
+      quote={n.pullQuote}
+      transitionName={`narrator-photo-${slug}`}
+    />
+
+    {n.voiceIntro && <VoiceBar title={n.voiceIntro.title} audio={n.voiceIntro.audio} />}
+
+    {
+      n.quickFacts && n.quickFacts.length > 0 && (
+        <MetaStrip
+          items={n.quickFacts}
+          cols={n.quickFacts.length}
+          size="feature"
+          ariaLabel={`${n.name} at a glance`}
+        />
+      )
+    }
+
+    {
+      n.qa && n.qa.length > 0 && (
+        <NarratorQA
+          eyebrow={`Get to know ${n.name.split(' ')[0]}`}
+          headingHtml='<span class="serif">Five questions,</span> <span class="sans">on the practice.</span>'
+          qa={n.qa}
+        />
+      )
+    }
+
+    {
+      n.practiceList && n.practiceList.length > 0 && (
+        <PracticeRows
+          eyebrow={`${n.name.split(' ')[0]}'s library`}
+          headingHtml={`<span class="serif">The practices</span> <span class="sans">${n.name.split(' ')[0]} guides in classrooms.</span>`}
+          practices={n.practiceList}
+        />
+      )
+    }
+
+    <MoreNarrators
+      eyebrow="From the studio"
+      headingHtml='<span class="serif">More voices</span> <span class="sans">on Inner Explorer.</span>'
+      narrators={more}
+    />
+  </div>
+</PageLayout>
+
+<style>
+  .bc-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 28px 32px 0;
+  }
+
+  @media (max-width: 920px) {
+    .bc-wrap {
+      padding: 20px 16px 0;
+    }
+  }
+</style>

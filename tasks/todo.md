@@ -58,6 +58,49 @@ Faithful to the v1 handoff. Verified in-browser (light): hero, scroll timeline (
   flagged by Claude Design to fact-check; photos are Unsplash stand-ins to swap for real IE
   imagery. Hero Inter weight-200 falls back to 300 (not shipped in the bundle).
 
+## Narrators collection page (D2 · "Meet the Studio — Full-width headline" — complete)
+
+- [x] **Page-local hero**: `MeetStudioHero.astro` reproduces D2's oversized duet
+      (~116px sans / ~184px italic serif) on a warm cream-peach-green wash, with the
+      "Vol. IX · Spring 2026" corner anchor pushed below the global fixed nav.
+- [x] **4 new shared blocks** (reuse-first calls confirmed with Shane): `MetaStrip`
+      (dense italic-serif stat row), `CollectionToolbar` (italic + sans inline
+      title with right slot), `MomentsRail` (1.3/1/1 captioned photo cards),
+      `SplitCTA` (huge serif pull-quote + brand-tinted CTA card).
+- [x] **2 narrator blocks** under `blocks/narrator/`: `NarratorWall` (5-col grid,
+      data-driven; vanilla mutually-exclusive play toggle) + `NarratorCard`
+      (overlaid-name, isNew pin, hover-reveal play button, accessible link +
+      separate button stacked via z-index).
+- [x] **`narrators` content collection** (`src/content.config.ts` +
+      `src/content/narrators/*.json` × 30) — the CMS seam.
+- [x] **Header nav** extended globally: `Narrators` inserted between Research and About.
+- [x] **Tokens**: `--cream-50/100`, `--peach-200`, composed `--studio-hero-wash` and
+      `--studio-card-wash` in the raw layer of `global.css`.
+- [x] **`.appearance-light` global fix**: wrapper now paints `background:
+var(--background)` so subtrees fill light under global dark mode (without the
+      fix, body's dark bg bled through gaps between non-background sections).
+- [x] **Verification**: `pnpm check` (typecheck + lint + drift + format) clean;
+      `pnpm build` produces `/narrators` shipping only the shared 2.3KB chrome JS
+      (no React). Verified at 1440/920/375 widths in light + dark. Card play toggle
+      is mutually exclusive (`aria-pressed` flips). About + home/blog/styleguide
+      regression-checked — no visual changes.
+
+### Follow-ups
+
+- [ ] **Narrator detail pages** (`/narrators/[slug]`). Cards currently link to
+      `/narrators/<slug>` but the routes don't exist. Build a `[slug].astro` template.
+- [ ] **Real audio preview** — wire `<audio>` per narrator (add `audio: file()` to
+      the schema) and have the play button drive `audio.play()/pause()` instead of
+      just toggling `data-playing`.
+- [ ] **Search + filter** behaviour on the wall toolbar (currently visual-only
+      pills). Likely: client-side text + language filter with a small vanilla script.
+- [ ] **30 Unsplash portraits + 3 studio-moment photos** are localized stand-ins —
+      swap for real Inner Explorer studio photography before publish.
+- [ ] **"Schools listening weekly" (1,840)** is a stub copy value — wire to a real
+      data source (or remove) when available.
+- [ ] **Languages narrated total** computes to 12 from seed data; D2 designer
+      copy said "11" — confirm which is canonical with the studio team.
+
 ## Next (post-foundation)
 
 - [ ] Confirm production `site` domain in `astro.config.mjs`.

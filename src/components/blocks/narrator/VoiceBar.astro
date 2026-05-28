@@ -1,0 +1,422 @@
+---
+// "Meet the voice" audio bar — large play button + serif title + animated
+// waveform + tabular-num time + transcript pill. Drives a real <audio> element
+// when `audio` is provided; otherwise stays cosmetic (visual toggle only,
+// consistent with the wall card play buttons).
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  audio?: string;
+  /** Total duration in seconds — used to format the time display when no
+   *  metadata is loaded yet; overwritten once <audio> reports `durationchange`. */
+  fallbackSeconds?: number;
+  hasTranscript?: boolean;
+}
+const {
+  eyebrow = 'Meet the voice',
+  title,
+  audio,
+  fallbackSeconds = 47,
+  hasTranscript = true,
+}: Props = Astro.props;
+
+// Pre-rendered procedural waveform so the bar looks alive on first paint.
+const BAR_COUNT = 64;
+const heights = Array.from({ length: BAR_COUNT }, (_, i) => {
+  const v = 32 + Math.sin(i * 0.55) * 22 + Math.sin(i * 0.27) * 18 + (i % 4) * 5;
+  return Math.max(14, Math.min(94, v));
+});
+---
+
+<section class="vb-wrap">
+  <div
+    class="vb"
+    data-audio-host
+    data-fallback-seconds={String(fallbackSeconds)}
+    data-has-audio={audio ? 'true' : 'false'}
+  >
+    <button class="btn" type="button" aria-label={`Play ${title}`} aria-pressed="false" data-play>
+      <svg
+        class="ico-play"
+        viewBox="0 0 24 24"
+        width="22"
+        height="22"
+        fill="currentColor"
+        aria-hidden="true"
+      >
+        <path d="M8 5v14l11-7z"></path>
+      </svg>
+      <svg
+        class="ico-pause"
+        viewBox="0 0 24 24"
+        width="22"
+        height="22"
+        fill="currentColor"
+        aria-hidden="true"
+      >
+        <rect x="6" y="5" width="4" height="14" rx="1"></rect>
+        <rect x="14" y="5" width="4" height="14" rx="1"></rect>
+      </svg>
+      <span class="ring" aria-hidden="true"></span>
+    </button>
+
+    <div class="meta">
+      <span class="eb">{eyebrow}</span>
+      <span class="title"><em>{title}</em></span>
+    </div>
+
+    <div class="wave" data-wave aria-hidden="true">
+      {heights.map((h, i) => <span class="bar" style={`height:${h}%;--i:${i}`} />)}
+    </div>
+
+    <div class="time">
+      <span class="cur" data-time-cur>0:00</span>
+      <span class="sep">/</span>
+      <span class="tot" data-time-tot>{`0:${String(fallbackSeconds).padStart(2, '0')}`}</span>
+    </div>
+
+    {
+      hasTranscript && (
+        <button class="cc" type="button" aria-label="View transcript">
+          <svg
+            viewBox="0 0 24 24"
+            width="15"
+            height="15"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <rect x="3" y="5" width="18" height="14" rx="2" />
+            <path d="M7 12h3M7 15h2M14 12h3M14 15h2" />
+          </svg>
+          Transcript
+        </button>
+      )
+    }
+
+    {
+      audio && (
+        // a11y: the `Transcript` button above is the accessible text equivalent
+        // for this intro; captions are not appropriate for spoken-word intros.
+        // eslint-disable-next-line astro/jsx-a11y/media-has-caption
+        <audio src={audio} preload="metadata" data-audio aria-label="Narrator voice intro" />
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .vb-wrap {
+    padding: 0 32px 64px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .vb {
+    display: grid;
+    grid-template-columns: auto auto 1fr auto auto;
+    align-items: center;
+    gap: 28px;
+    padding: 18px 22px 18px 18px;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 9999px;
+    box-shadow: var(--shadow-md);
+  }
+
+  .btn {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    border-radius: 9999px;
+    border: 0;
+    background: var(--color-foreground);
+    color: var(--color-background);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 2px;
+    flex-shrink: 0;
+    transition:
+      background var(--dur) var(--ease-out),
+      transform var(--dur) var(--ease-out);
+  }
+  .btn:hover {
+    transform: scale(1.04);
+  }
+  .vb[data-playing] .btn {
+    background: var(--color-brand);
+    color: var(--color-brand-foreground);
+    padding-left: 0;
+  }
+  .btn .ico-pause {
+    display: none;
+  }
+  .vb[data-playing] .btn .ico-play {
+    display: none;
+  }
+  .vb[data-playing] .btn .ico-pause {
+    display: block;
+  }
+  .ring {
+    position: absolute;
+    inset: -3px;
+    border-radius: 9999px;
+    border: 2px solid var(--color-brand);
+    opacity: 0;
+  }
+  .vb[data-playing] .ring {
+    opacity: 0.6;
+    animation: vb-ring 1600ms ease-out infinite;
+  }
+  @keyframes vb-ring {
+    0% {
+      transform: scale(1);
+      opacity: 0.6;
+    }
+    100% {
+      transform: scale(1.3);
+      opacity: 0;
+    }
+  }
+
+  .meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+  .eb {
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--color-muted-foreground);
+  }
+  .title em {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 1.1;
+    letter-spacing: -0.005em;
+    color: var(--color-foreground);
+  }
+
+  .wave {
+    display: flex;
+    align-items: center;
+    gap: 2.5px;
+    height: 40px;
+    min-width: 0;
+  }
+  .bar {
+    flex: 1;
+    min-width: 2px;
+    max-width: 4px;
+    border-radius: 9999px;
+    background: color-mix(in oklab, var(--color-foreground) 18%, transparent);
+    transition:
+      background 0.2s ease,
+      transform 0.2s ease;
+  }
+  .bar.on {
+    background: var(--color-brand);
+  }
+  .vb[data-playing] .bar.on {
+    animation: vb-wave 1s ease-in-out infinite alternate;
+    animation-delay: calc(var(--i) * 22ms);
+  }
+  @keyframes vb-wave {
+    from {
+      transform: scaleY(0.82);
+    }
+    to {
+      transform: scaleY(1.15);
+    }
+  }
+
+  .time {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-foreground);
+    flex-shrink: 0;
+  }
+  .time .sep,
+  .time .tot {
+    color: var(--color-muted-foreground);
+  }
+
+  .cc {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 40px;
+    padding: 0 16px;
+    border-radius: 9999px;
+    background: transparent;
+    border: 1px solid var(--color-border);
+    color: var(--color-foreground);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+    flex-shrink: 0;
+    transition: background var(--dur) var(--ease-out);
+  }
+  .cc:hover {
+    background: var(--color-background);
+  }
+
+  @media (max-width: 920px) {
+    .vb-wrap {
+      padding: 0 16px 48px;
+    }
+    .vb {
+      grid-template-columns: auto 1fr auto;
+      grid-template-areas:
+        'btn meta time'
+        'wave wave wave';
+      gap: 16px 14px;
+      padding: 14px 18px 16px 14px;
+      border-radius: var(--radius-xl);
+    }
+    .btn {
+      grid-area: btn;
+      width: 52px;
+      height: 52px;
+    }
+    .meta {
+      grid-area: meta;
+    }
+    .time {
+      grid-area: time;
+      font-size: 12px;
+    }
+    .wave {
+      grid-area: wave;
+      height: 36px;
+    }
+    .cc {
+      display: none;
+    }
+    .title em {
+      font-size: 18px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn,
+    .bar {
+      transition: none;
+    }
+    .vb[data-playing] .ring,
+    .vb[data-playing] .bar.on {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  // Drive the bar via a real <audio> when present; otherwise toggle a cosmetic
+  // playing state (visual progress simulated by a setInterval).
+  function fmt(s: number) {
+    const m = Math.floor(s / 60);
+    const r = Math.floor(s % 60);
+    return `${m}:${r.toString().padStart(2, '0')}`;
+  }
+  function setup(host: HTMLElement) {
+    const btn = host.querySelector<HTMLButtonElement>('[data-play]');
+    const audio = host.querySelector<HTMLAudioElement>('[data-audio]');
+    const cur = host.querySelector<HTMLElement>('[data-time-cur]');
+    const tot = host.querySelector<HTMLElement>('[data-time-tot]');
+    const wave = host.querySelector<HTMLElement>('[data-wave]');
+    const bars = wave ? Array.from(wave.querySelectorAll<HTMLElement>('.bar')) : [];
+    const fallback = Number(host.dataset.fallbackSeconds ?? 30);
+    if (!btn) return;
+
+    const setPressed = (on: boolean) => {
+      btn.setAttribute('aria-pressed', String(on));
+      host.toggleAttribute('data-playing', on);
+    };
+
+    const paint = (progress: number) => {
+      const n = bars.length;
+      bars.forEach((bar, i) => {
+        const pct = i / Math.max(1, n - 1);
+        bar.classList.toggle('on', pct <= progress);
+      });
+    };
+
+    if (audio) {
+      audio.addEventListener('loadedmetadata', () => {
+        if (tot && audio.duration) tot.textContent = fmt(audio.duration);
+      });
+      audio.addEventListener('timeupdate', () => {
+        if (!audio.duration) return;
+        const p = audio.currentTime / audio.duration;
+        if (cur) cur.textContent = fmt(audio.currentTime);
+        paint(p);
+      });
+      audio.addEventListener('ended', () => {
+        setPressed(false);
+        paint(0);
+      });
+      btn.addEventListener('click', () => {
+        if (audio.paused) {
+          audio
+            .play()
+            .then(() => setPressed(true))
+            .catch(() => {
+              // Autoplay denied or load failed; fall through to cosmetic mode.
+              cosmetic();
+            });
+        } else {
+          audio.pause();
+          setPressed(false);
+        }
+      });
+    } else {
+      cosmetic();
+    }
+
+    function cosmetic() {
+      if (!btn) return;
+      let progress = 0;
+      let timer: number | null = null;
+      btn.addEventListener('click', () => {
+        const playing = host.hasAttribute('data-playing');
+        if (playing) {
+          setPressed(false);
+          if (timer) {
+            clearInterval(timer);
+            timer = null;
+          }
+        } else {
+          setPressed(true);
+          if (cur) cur.textContent = fmt(progress * fallback);
+          timer = window.setInterval(() => {
+            progress = progress >= 1 ? 0 : progress + 0.004;
+            if (cur) cur.textContent = fmt(progress * fallback);
+            paint(progress);
+          }, 80);
+        }
+      });
+    }
+  }
+  document.querySelectorAll<HTMLElement>('[data-audio-host]').forEach(setup);
+  // Re-run after Astro view transitions swap the page DOM.
+  document.addEventListener('astro:page-load', () => {
+    document.querySelectorAll<HTMLElement>('[data-audio-host]').forEach(setup);
+  });
+</script>

@@ -1,0 +1,227 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '../layouts/PageLayout.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+
+import MeetStudioHero from '../components/blocks/narrator/MeetStudioHero.astro';
+import MetaStrip from '../components/blocks/MetaStrip.astro';
+import CollectionToolbar from '../components/blocks/CollectionToolbar.astro';
+import NarratorWall from '../components/blocks/narrator/NarratorWall.astro';
+import MomentsRail from '../components/blocks/MomentsRail.astro';
+import SplitCTA from '../components/blocks/SplitCTA.astro';
+
+// Studio Moments — kept as in-page structured data for now (small slice; promote
+// to a collection if it grows).
+import studioABoston from '../assets/images/narrators/moments/studio-a-boston.jpg';
+import youthPanel from '../assets/images/narrators/moments/youth-panel.jpg';
+import scriptRoom from '../assets/images/narrators/moments/script-room.jpg';
+
+// ── Page content (structured data; the CMS-ready seam) ──────────────────────
+
+const hero = {
+  eyebrow: 'Inner Explorer · the studio · 2026',
+  cornerLabel: 'Vol. IX · Spring 2026',
+  headlineSans: 'Meet the people',
+  headlineSerif: 'behind the voice.',
+  subtitleHtml:
+    'Thirty narrators in residence at our Boston studio — real teachers, counselors, and classroom-trained mindfulness instructors. <em>Every practice in the library is read by one of them.</em>',
+  primary: { label: 'Listen to the studio', href: '#wall' },
+  secondary: { label: 'Read our voice guide', href: '/voice-guide' },
+};
+
+const moments = [
+  {
+    img: studioABoston,
+    label: 'Studio A · Boston',
+    title: 'Recording day, every Tuesday morning.',
+    alt: 'A microphone in soft daylight inside the Inner Explorer recording studio',
+  },
+  {
+    img: youthPanel,
+    label: 'Youth Panel · Spring 2026',
+    title: 'Twenty students, one blind audition.',
+    alt: 'Students sitting around a table during a youth-panel listening session',
+  },
+  {
+    img: scriptRoom,
+    label: 'From the script room',
+    title: 'Each script is rehearsed for unhurried pace.',
+    alt: 'A pair of hands annotating a printed practice script with a pencil',
+  },
+];
+
+const coda = {
+  eyebrow: 'How we choose them',
+  quoteHtml:
+    "The ones we pick aren't trying to sound calm — they <em>are</em> calm. The microphone hears the difference.",
+  attribution: 'From the youth panel · Spring 2026',
+  attributionStrong: 'Eleven students, grades 4 to 11',
+  cardHeading: 'Apply to narrate.',
+  cardBody:
+    'We hold blind voice auditions every spring, and run an open application year-round for underrepresented languages and mindfulness traditions.',
+  primary: { label: 'Apply', href: '/apply' },
+  secondary: { label: 'Read the voice guide', href: '/voice-guide' },
+};
+
+const pageTitle = 'Narrators — Inner Explorer';
+const pageDescription =
+  'Meet the thirty narrators in residence at the Inner Explorer studio in Boston — teachers, counselors, and classroom-trained mindfulness instructors whose voices guide every practice in the library.';
+
+// ── Data layer — narrators collection (CMS seam) ────────────────────────────
+
+const entries = await getCollection('narrators');
+const narrators = entries
+  .sort((a, b) => a.data.order - b.data.order)
+  .map((entry) => ({
+    slug: entry.id.replace(/\.[^.]+$/, ''),
+    ...entry.data,
+  }));
+
+// ── Derived meta-strip values (kept in lockstep with the data) ──────────────
+
+const totalPractices = narrators.reduce((sum, n) => sum + n.practices, 0);
+const distinctLangs = new Set(narrators.flatMap((n) => n.langs));
+const meta = [
+  { value: String(narrators.length), label: 'Narrators in residence' },
+  { value: 'EN · ES', label: 'Universal languages' },
+  { value: String(distinctLangs.size), label: 'Languages narrated total' },
+  { value: totalPractices.toLocaleString('en-US'), label: 'Practices on file' },
+  // Schools listening — no data source yet, keep as stub copy (flagged in tasks/todo.md).
+  { value: '1,840', label: 'Schools listening weekly' },
+];
+
+// ── SEO ─────────────────────────────────────────────────────────────────────
+
+const base = new URL(Astro.site ?? 'https://www.innerexplorer.org').origin;
+const collectionLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: pageTitle,
+  url: `${base}/narrators`,
+  description: pageDescription,
+  mainEntity: {
+    '@type': 'ItemList',
+    numberOfItems: narrators.length,
+    itemListElement: narrators.map((n, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      item: {
+        '@type': 'Person',
+        name: n.name,
+        url: `${base}/narrators/${n.slug}`,
+        ...(n.role ? { jobTitle: n.role } : {}),
+        worksFor: {
+          '@type': 'Organization',
+          name: 'Inner Explorer',
+          url: base,
+        },
+      },
+    })),
+  },
+};
+---
+
+<PageLayout title={pageTitle} description={pageDescription} flushTop>
+  <JsonLd slot="head" schema={collectionLd} />
+
+  <div class="appearance-light">
+    <MeetStudioHero
+      eyebrow={hero.eyebrow}
+      cornerLabel={hero.cornerLabel}
+      headlineSans={hero.headlineSans}
+      headlineSerif={hero.headlineSerif}
+      subtitleHtml={hero.subtitleHtml}
+      primary={hero.primary}
+      secondary={hero.secondary}
+    />
+
+    <MetaStrip items={meta} cols={5} ariaLabel="Studio at a glance" />
+
+    <CollectionToolbar
+      headingHtml='Every voice in the studio. <span class="sans">No order. No hierarchy.</span>'
+    >
+      <div class="tb-search" aria-hidden="true">
+        <svg
+          width="13"
+          height="13"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="11" cy="11" r="7"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <span>Search by name or language</span>
+      </div>
+      <button class="tb-filter" type="button" aria-disabled="true">
+        Filter <b>·</b> all {narrators.length}
+        <svg
+          width="11"
+          height="11"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </button>
+    </CollectionToolbar>
+
+    <div id="wall"><NarratorWall narrators={narrators} /></div>
+
+    <MomentsRail
+      headingHtml='From the studio. <span class="sans">Behind the recordings.</span>'
+      lede="The room, the script, the youth panel. Glimpses of what goes into a single thirty-second practice."
+      moments={moments}
+    />
+
+    <SplitCTA
+      eyebrow={coda.eyebrow}
+      quoteHtml={coda.quoteHtml}
+      attribution={coda.attribution}
+      attributionStrong={coda.attributionStrong}
+      cardHeading={coda.cardHeading}
+      cardBody={coda.cardBody}
+      primary={coda.primary}
+      secondary={coda.secondary}
+    />
+  </div>
+</PageLayout>
+
+<style>
+  /* Toolbar pill controls — visual-only for phase 1 (search/filter behaviour
+     is a follow-up). Slotted into <CollectionToolbar />. */
+  .tb-search,
+  .tb-filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    height: 38px;
+    padding: 0 16px;
+    border: 1px solid var(--color-border);
+    border-radius: 9999px;
+    background: var(--color-card);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--color-muted-foreground);
+    cursor: default;
+  }
+  .tb-search {
+    min-width: 230px;
+  }
+  .tb-filter {
+    color: var(--color-foreground);
+    cursor: pointer;
+  }
+  .tb-filter b {
+    font-weight: 600;
+  }
+</style>
