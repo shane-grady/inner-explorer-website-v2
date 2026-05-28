@@ -1,0 +1,81 @@
+---
+// "Partnered with" — a thin band of district wordmarks paired with a short caption.
+
+interface Props {
+  caption: string;
+  districts: string[];
+}
+const { caption, districts }: Props = Astro.props;
+---
+
+<section class="trust">
+  <div class="trust-inner">
+    <div class="trust-meta">
+      <div class="eyebrow">Partnered with</div>
+      <p class="caption">{caption}</p>
+    </div>
+    <ul class="trust-row" aria-label="Partner districts">
+      {districts.map((d) => <li>{d}</li>)}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .trust {
+    background: var(--color-muted);
+    color: var(--color-foreground);
+    padding: 44px 0;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .trust-inner {
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+  .trust-meta .eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-muted-foreground);
+    margin-bottom: 8px;
+  }
+  .trust-meta .caption {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 13.5px;
+    line-height: 1.45;
+    color: var(--color-muted-foreground);
+    margin: 0;
+  }
+  .trust-row {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px 48px;
+    align-items: center;
+  }
+  .trust-row li {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 1;
+    color: color-mix(in oklab, var(--color-foreground) 75%, transparent);
+    letter-spacing: -0.01em;
+  }
+  @media (max-width: 720px) {
+    .trust-inner {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+  }
+</style>

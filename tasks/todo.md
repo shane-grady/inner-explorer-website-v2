@@ -94,6 +94,44 @@ photo hero + serif quote, **voice bar plays + waveform fills + time ticks (0:10 
 Light pin holds under global dark mode (chrome still adapts). Regress check: home,
 blog, styleguide, **About** all coherent in both themes. Stand-ins flagged below.
 
+## Research page (Claude Design handoff v2 — "The Quiet Revolution" — complete)
+
+- [x] **`/research`** built from a shared `CinematicHero` + `EditorialCTA` plus seven page-scoped
+      blocks in `src/components/blocks/research/`: `OpeningVoid`, `ChapterReceipts`, `ChapterBrain`,
+      `ChapterOutcomes` (+ `OutcomeChart` with 5 chart sub-renderers), `Endorsers`, `VoicesRotator`.
+      Roman-numeral chapter marks (I/II/III), full-bleed cinematic hero with the brand-mint emphasis
+      headline, six-trial stacked wall with the giant italic year + dark stat block, dark editorial
+      brain section with drop cap + animated SVG (stressed↔mindful toggle), five outcome spreads
+      with sticky in-page jump-nav and bespoke charts (bars, before/after, dials, line, dotted
+      competencies), rotating voices on dark, paper-CTA closing. Tiny vanilla "breath meter" rail
+      on the right edge tracks scroll progress and the current chapter.
+
+## For Districts page (Claude Design handoff — Documentary direction — complete)
+
+- [x] **`/districts`** built from the shared `CinematicHero` + `EditorialCTA` plus thirteen
+      page-scoped blocks in `src/components/blocks/districts/`: `EditorialLede`,
+      `DistrictTrustStrip`, `FieldReports`, `ByTheNumbers`, `DayInside`, `VoicesSelector`,
+      `StandardsAlignment` (CASEL radial), `CompareTable` (segmented filter), `FundingGuide`
+      (+ inline `ROICalculator`), `ImplementationTimeline`, `SecurityPrivacy`, `FAQAccordion`.
+      Three field-report case studies as alternating photo spreads, dark "By the Numbers"
+      centerfold, three-image day-in-the-life essay, portrait-driven voices selector, ROI
+      sliders + funding selector with live cost math, native `<details>` FAQ accordion, dark
+      editorial closing CTA with numbered side card. Decorative "Listen" affordance NOT shipped
+      with audio — labelled preview-only.
+
+### Review (Research + Districts)
+
+Both pages ship through `PageLayout flushTop`, wrapped in `.appearance-light` to stay light under
+global dark mode (verified — global chrome adapts, page subtree pins). `pnpm check` (typecheck +
+lint + drift + format) and `pnpm build` clean. Per-page JS is the same ~2.2KB vanilla bundle as
+About — no React on marketing pages. Interactions verified in Preview MCP: brain toggle, outcome
+jump-nav scroll, voices rotator + selector, FAQ details/summary accordion, ROI sliders with funding
+switch (Title IV-A → 85%, BSCA → 100% "Fully funded"), CASEL petal selector, compare table privacy
+filter (3 of 10 rows). Stayed on the cohesive cool-gray neutral palette per the user's call —
+no `--paper`/`--paper-deep` tokens added; warm-cream surfaces from the Documentary direction were
+mapped onto existing `--background`/`--muted`/`--card`. Regression: `/`, `/about`, `/blog`,
+`/styleguide` all 200 and visually coherent.
+
 ## Stand-ins to swap before publishing
 
 - [ ] Narrator portraits + 21:9 hero — replace generated initials placeholders with
@@ -105,12 +143,28 @@ blog, styleguide, **About** all coherent in both themes. Stand-ins flagged below
 - [ ] Confirm narrator metadata (`role`, `intro`, `quote`) against final brand copy.
 - [ ] Full v4 "Meet the Studio" narrator collection page is out of scope — the
       current `narrators/index.astro` is a minimal listing so the breadcrumb resolves.
+- [ ] Research + Districts reuse About's existing localized photography (e.g.
+      `voice-okafor.jpg`, `timeline-2013-focus.jpg`). Replace with real research/district
+      imagery — Field Reports needs three distinct district photographs (Broward / Newark /
+      Aurora), Day Inside needs three time-of-day classroom shots, By-the-Numbers needs a
+      single anchor portrait.
+- [ ] Districts placeholder data: ROI per-student pricing ($4.20), funding coverage
+      percentages, district names (Broward / Newark / Aurora), testimonials,
+      "Field Report № 09" serial, partner district list, awards/certifications.
+      Cross-check with the partnerships team.
+- [ ] Research study findings and percentages are drawn from the prior Wix concept —
+      verify exact figures with the research team before going live.
+- [ ] Districts hero "Listen" button is decorative only — wire to a real preview audio
+      file or remove if it can't be supported at launch.
+- [ ] Districts page omits the design's React multi-step demo modal — primary CTAs
+      deep-link to `/contact`. If a modal is desired later, build it as a small vanilla
+      island, not a React tree.
 
 ## Next (post-foundation)
 
 - [ ] Confirm production `site` domain in `astro.config.mjs`.
-- [ ] Build remaining pages: program, research/impact, pricing, educators/districts, contact (+ form).
-- [ ] Replace About placeholder copy + Unsplash stand-ins with verified content + real IE photos.
+- [ ] Build remaining pages: program, educators, pricing, contact (+ form).
+- [ ] Replace About + Research + Districts placeholder copy + Unsplash/About-stand-in photos with verified content and real IE imagery.
 - [ ] Legacy migration: audit old URLs → populate `public/_redirects` (301s); import content.
 - [ ] Add Vitest (Container API) + Playwright (+ `@axe-core/playwright`) and wire into CI.
 - [ ] (Deferred) Lightweight custom CMS admin over the content collections.

@@ -1,0 +1,253 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+// Part Three — A day inside. Three time-stamped photo cards (morning/midday/afternoon),
+// each with a practice tag, a sans heading, a body paragraph, and a single stat
+// under a hairline.
+
+interface DayPart {
+  time: string;
+  photo: ImageMetadata;
+  photoAlt: string;
+  title: string;
+  body: string;
+  practice: string;
+  statValue: string;
+  statLabel: string;
+}
+interface Props {
+  eyebrow: string;
+  titleLines: { text: string; kind: 'sans' | 'serif' }[];
+  intro: string;
+  parts: DayPart[];
+}
+const { eyebrow, titleLines, intro, parts }: Props = Astro.props;
+---
+
+<section class="di" id="day-inside" aria-label="A day inside">
+  <div class="di-inner">
+    <div class="di-head">
+      <div>
+        <div class="eyebrow">{eyebrow}</div>
+        <h2 class="head-h">
+          {titleLines.map((line) => <span class:list={['stk', line.kind]}>{line.text}</span>)}
+        </h2>
+      </div>
+      <p class="head-p">{intro}</p>
+    </div>
+
+    <div class="di-grid">
+      {
+        parts.map((p) => (
+          <article class="di-card">
+            <div class="frame">
+              <Image
+                src={p.photo}
+                alt={p.photoAlt}
+                widths={[480, 900, 1200]}
+                sizes="(max-width: 920px) 100vw, 30vw"
+                loading="lazy"
+              />
+              <div class="time">{p.time}</div>
+            </div>
+
+            <span class="practice">
+              <span class="dot" aria-hidden="true" />
+              {p.practice}
+            </span>
+
+            <h4 class="card-h">{p.title}</h4>
+            <p class="card-p">{p.body}</p>
+
+            <div class="card-stat">
+              <div class="val">{p.statValue}</div>
+              <div class="lbl">{p.statLabel}</div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .di {
+    background: var(--color-background);
+    color: var(--color-foreground);
+    padding: 120px 0;
+  }
+  .di-inner {
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+  .di-head {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: end;
+    margin-bottom: 80px;
+  }
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-muted-foreground);
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.55;
+  }
+  .head-h {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(48px, 6.5vw, 92px);
+    line-height: 0.98;
+    letter-spacing: -0.022em;
+    color: var(--color-foreground);
+    margin: 28px 0 0;
+    text-wrap: balance;
+  }
+  .head-h .stk {
+    display: block;
+  }
+  .head-h .sans {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-style: normal;
+    letter-spacing: -0.035em;
+    line-height: 0.98;
+  }
+  .head-p {
+    font-size: 18px;
+    line-height: 1.65;
+    color: var(--color-muted-foreground);
+    max-width: 460px;
+    justify-self: end;
+    margin: 0;
+  }
+
+  .di-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+  .di-card {
+    display: flex;
+    flex-direction: column;
+  }
+  .frame {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4 / 5;
+    border-radius: var(--radius-sm);
+    margin-bottom: 18px;
+    background: var(--color-muted);
+  }
+  .frame :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .time {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    padding: 5px 10px;
+    background: color-mix(in oklab, var(--neutral-950) 60%, transparent);
+    color: var(--color-white);
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.08em;
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+  }
+  .practice {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px 6px 10px;
+    border-radius: 9999px;
+    background: var(--color-muted);
+    color: var(--color-foreground);
+    font-size: 11.5px;
+    font-weight: 500;
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+  .practice .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-brand);
+  }
+  .card-h {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    color: var(--color-foreground);
+    margin: 0;
+  }
+  .card-p {
+    margin-top: 12px;
+    font-size: 15.5px;
+    line-height: 1.6;
+    color: var(--color-muted-foreground);
+  }
+  .card-stat {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    gap: 14px;
+    align-items: baseline;
+  }
+  .card-stat .val {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 44px;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    color: var(--color-brand);
+    font-variant-numeric: tabular-nums;
+  }
+  .card-stat .lbl {
+    flex: 1;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--color-muted-foreground);
+  }
+
+  @media (max-width: 920px) {
+    .di-head {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    .head-p {
+      justify-self: start;
+    }
+    .di-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+  }
+</style>

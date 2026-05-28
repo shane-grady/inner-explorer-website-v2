@@ -1,0 +1,439 @@
+---
+import OutcomeChart from './OutcomeChart.astro';
+
+// Chapter III — "The outcomes." Five spreads, each pairing copy + a bespoke chart.
+// Sticky sub-nav lets readers jump between spreads.
+
+type ChartKind = 'bars' | 'before-after' | 'dial' | 'line' | 'competencies';
+interface Outcome {
+  id: string;
+  label: string;
+  eyebrow: string;
+  headline: string;
+  statValue: string; // e.g. "+18", "−42", "5"
+  statUnit: string;
+  statCaption: string;
+  copy: string;
+  studies: string[]; // study ids to anchor to receipt rows
+  chart: ChartKind;
+  // The data shape depends on the chart kind; we pass it through to OutcomeChart.
+  data: unknown;
+}
+
+interface StudyMeta {
+  id: string;
+  year: number;
+  authors: string;
+}
+
+interface Props {
+  eyebrow: string;
+  label: string;
+  headlineLines: { text: string; kind: 'sans' | 'serif'; tone?: 'default' | 'accent' }[];
+  outcomes: Outcome[];
+  studies: StudyMeta[];
+}
+
+const { eyebrow, label, headlineLines, outcomes, studies }: Props = Astro.props;
+---
+
+<section class="outcomes" id="outcomes" aria-label={label}>
+  <div class="outcomes-head">
+    <div class="oh-inner">
+      <div class="chap-mark">
+        <span class="num">{eyebrow}</span>
+        <span class="rule"></span>
+        <span class="label">{label}</span>
+      </div>
+      <h2 class="chap-title">
+        {
+          headlineLines.map((line) => (
+            <span class:list={['stk', line.kind, { accent: line.tone === 'accent' }]}>
+              {line.text}
+            </span>
+          ))
+        }
+      </h2>
+    </div>
+  </div>
+
+  <div class="outcome-nav" id="outcome-nav">
+    <div class="on-inner">
+      <span class="on-label">Jump to</span>
+      {
+        outcomes.map((o, i) => (
+          <button
+            type="button"
+            data-target={`spread-${o.id}`}
+            class:list={['on-chip', { on: i === 0 }]}
+          >
+            {o.label}
+          </button>
+        ))
+      }
+    </div>
+  </div>
+
+  <div class="spreads-wrap">
+    {
+      outcomes.map((o, i) => {
+        const flip = i % 2 === 1;
+        const firstChar = String(o.statValue).charAt(0);
+        const isSigned = firstChar === '−' || firstChar === '+';
+        return (
+          <article class:list={['spread', { flip }]} id={`spread-${o.id}`}>
+            <div class="copy">
+              <span class="ey">{o.eyebrow}</span>
+              <div class="stat">
+                <span class="stat-val">
+                  {isSigned ? (
+                    <>
+                      <span class="glow">{firstChar}</span>
+                      {String(o.statValue).slice(1)}
+                    </>
+                  ) : (
+                    o.statValue
+                  )}
+                </span>
+                <span class="stat-unit">{o.statUnit}</span>
+              </div>
+              <p class="caption">{o.statCaption}</p>
+              <h3 class="sp-h">{o.headline}</h3>
+              <p class="body">{o.copy}</p>
+              {o.studies.length > 0 && (
+                <div class="cites">
+                  {o.studies.map((sid) => {
+                    const s = studies.find((x) => x.id === sid);
+                    return (
+                      <a class="cite" href={`#r-${sid}`}>
+                        {s ? `${s.authors.split(' ')[0].replace(',', '')} ${s.year}` : sid}
+                      </a>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+            <div class="viz">
+              <OutcomeChart kind={o.chart} data={o.data} />
+            </div>
+          </article>
+        );
+      })
+    }
+  </div>
+</section>
+
+<style>
+  .outcomes {
+    background: var(--color-background);
+    color: var(--color-foreground);
+    padding: 140px 0 120px;
+  }
+  .outcomes-head .oh-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  .chap-mark {
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+    margin-bottom: 28px;
+  }
+  .chap-mark .num {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 1;
+    color: var(--color-brand);
+  }
+  .chap-mark .rule {
+    flex: 1;
+    height: 1px;
+    background: var(--color-border);
+    align-self: center;
+  }
+  .chap-mark .label {
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--color-muted-foreground);
+  }
+  .chap-title {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(44px, 6vw, 88px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    margin: 0 0 56px;
+    text-wrap: balance;
+  }
+  .chap-title .stk {
+    display: block;
+  }
+  .chap-title .sans {
+    font-family: var(--font-sans);
+    font-weight: 300;
+    letter-spacing: -0.025em;
+    font-style: normal;
+  }
+  .chap-title .serif {
+    font-style: italic;
+  }
+  .chap-title .accent {
+    color: var(--color-brand);
+  }
+
+  .outcome-nav {
+    position: sticky;
+    top: 70px;
+    z-index: 30;
+    background: color-mix(in oklab, var(--color-background) 85%, transparent);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    padding: 16px 0;
+    margin-bottom: 40px;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .on-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    align-items: center;
+  }
+  .on-inner::-webkit-scrollbar {
+    display: none;
+  }
+  .on-label {
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-muted-foreground);
+    margin-right: 10px;
+    white-space: nowrap;
+  }
+  .on-chip {
+    padding: 10px 16px;
+    border-radius: 9999px;
+    border: 0;
+    background: transparent;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--color-muted-foreground);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all var(--dur-fast) var(--ease-out);
+  }
+  .on-chip:hover {
+    color: var(--color-foreground);
+  }
+  .on-chip.on {
+    background: var(--color-foreground);
+    color: var(--color-background);
+  }
+
+  .spreads-wrap {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  .spread {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    padding: 64px 0;
+    border-top: 1px solid var(--color-border);
+    min-height: 600px;
+    scroll-margin-top: 140px;
+  }
+  .spread:first-of-type {
+    border-top: 0;
+    padding-top: 32px;
+  }
+  .spread.flip .copy {
+    order: 2;
+  }
+  .spread.flip .viz {
+    order: 1;
+  }
+  .copy {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .ey {
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-brand);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .ey::before {
+    content: '';
+    width: 22px;
+    height: 1px;
+    background: var(--color-brand);
+  }
+  .stat {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin: 4px 0 0;
+  }
+  .stat-val {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(96px, 14vw, 200px);
+    line-height: 0.88;
+    letter-spacing: -0.035em;
+    color: var(--color-foreground);
+  }
+  .stat-val .glow {
+    color: var(--color-brand);
+  }
+  .stat-unit {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: clamp(32px, 4vw, 56px);
+    letter-spacing: -0.02em;
+    color: var(--color-brand);
+  }
+  .caption {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--color-muted-foreground);
+    max-width: 420px;
+    margin: 0;
+  }
+  .sp-h {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(28px, 3vw, 40px);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    margin: 12px 0 0;
+  }
+  .body {
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--color-foreground);
+    max-width: 480px;
+    margin: 4px 0 0;
+  }
+  .cites {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+  }
+  .cite {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    background: color-mix(in oklab, var(--color-brand) 12%, transparent);
+    color: var(--color-brand);
+    border-radius: 9999px;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1;
+    text-decoration: none;
+    transition:
+      background var(--dur-fast),
+      transform var(--dur-fast);
+  }
+  .cite:hover {
+    background: color-mix(in oklab, var(--color-brand) 20%, transparent);
+    transform: translateY(-1px);
+  }
+  .cite::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--color-brand);
+  }
+
+  .viz {
+    background: var(--color-card);
+    border-radius: var(--radius-xl);
+    padding: 40px;
+    min-height: 460px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media (max-width: 920px) {
+    .spread,
+    .spread.flip {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      padding: 48px 0;
+    }
+    .spread.flip .copy,
+    .spread.flip .viz {
+      order: 0;
+    }
+  }
+</style>
+
+<script>
+  // Sticky jump-nav: clicking a chip scrolls to the matching spread; scroll
+  // tracking updates which chip is active.
+  const nav = document.getElementById('outcome-nav');
+  if (nav) {
+    const chips = Array.from(nav.querySelectorAll<HTMLButtonElement>('.on-chip'));
+    const spreads = chips
+      .map((c) => document.getElementById(c.dataset.target ?? ''))
+      .filter((el): el is HTMLElement => el !== null);
+
+    const navH = 130;
+    chips.forEach((chip) => {
+      chip.addEventListener('click', () => {
+        const target = document.getElementById(chip.dataset.target ?? '');
+        if (!target) return;
+        const top = target.getBoundingClientRect().top + window.scrollY - navH;
+        window.scrollTo({ top, behavior: 'smooth' });
+      });
+    });
+
+    const onScroll = () => {
+      let bestIdx = 0;
+      let bestDist = Infinity;
+      spreads.forEach((el, i) => {
+        const r = el.getBoundingClientRect();
+        const center = r.top + r.height / 2;
+        const dist = Math.abs(center - window.innerHeight / 2);
+        if (dist < bestDist) {
+          bestDist = dist;
+          bestIdx = i;
+        }
+      });
+      chips.forEach((c, i) => c.classList.toggle('on', i === bestIdx));
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+</script>

@@ -1,0 +1,221 @@
+---
+// Security & student data privacy — 6 cards + a row of certification pills.
+
+interface PrivacyItem {
+  title: string;
+  body: string;
+}
+interface Award {
+  name: string;
+  year: string;
+}
+interface Props {
+  eyebrow: string;
+  titleHtml: string;
+  intro: string;
+  items: PrivacyItem[];
+  awards: Award[];
+}
+const { eyebrow, titleHtml, intro, items, awards }: Props = Astro.props;
+---
+
+<section class="sec" id="security" aria-label="Security and student data privacy">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <div class="eyebrow">{eyebrow}</div>
+      <h2 class="head-h" set:html={titleHtml} />
+      <p class="head-p">{intro}</p>
+    </div>
+
+    <div class="sec-grid">
+      {
+        items.map((it) => (
+          <div class="sec-card">
+            <span class="chip" aria-hidden="true">
+              <svg
+                viewBox="0 0 24 24"
+                width="18"
+                height="18"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+            </span>
+            <h4 class="card-h">{it.title}</h4>
+            <p class="card-p">{it.body}</p>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="sec-pills">
+      <span class="pills-label">Certifications &amp; seals</span>
+      {
+        awards.map((a) => (
+          <span class="pill">
+            <svg
+              viewBox="0 0 24 24"
+              width="12"
+              height="12"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="pill-icon"
+              aria-hidden="true"
+            >
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
+            <span>{a.name}</span>
+            <span class="year">{a.year}</span>
+          </span>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .sec {
+    background: var(--color-muted);
+    padding: 120px 0;
+  }
+  .sec-inner {
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+  .sec-head {
+    max-width: 720px;
+    margin-bottom: 56px;
+  }
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-muted-foreground);
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.55;
+  }
+  .head-h {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(40px, 5vw, 64px);
+    line-height: 1.02;
+    letter-spacing: -0.022em;
+    color: var(--color-foreground);
+    margin: 16px 0 0;
+    text-wrap: balance;
+  }
+  .head-h :global(em) {
+    color: var(--color-brand);
+  }
+  .head-p {
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--color-muted-foreground);
+    margin: 12px 0 0;
+    max-width: 640px;
+  }
+
+  .sec-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .sec-card {
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 28px;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 9999px;
+    background: color-mix(in oklab, var(--color-brand) 12%, transparent);
+    color: var(--color-brand);
+  }
+  .card-h {
+    margin: 16px 0 0;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    color: var(--color-foreground);
+  }
+  .card-p {
+    margin: 8px 0 0;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--color-muted-foreground);
+  }
+
+  .sec-pills {
+    margin-top: 40px;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .pills-label {
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-muted-foreground);
+    margin-right: 4px;
+  }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    border-radius: 9999px;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--color-foreground);
+  }
+  .pill-icon {
+    color: var(--color-brand);
+  }
+  .year {
+    color: var(--color-muted-foreground);
+    margin-left: 4px;
+  }
+
+  @media (max-width: 920px) {
+    .sec-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media (max-width: 560px) {
+    .sec-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

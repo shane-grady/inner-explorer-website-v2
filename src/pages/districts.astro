@@ -1,0 +1,760 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import CinematicHero from '../components/blocks/CinematicHero.astro';
+import EditorialCTA from '../components/blocks/EditorialCTA.astro';
+import EditorialLede from '../components/blocks/districts/EditorialLede.astro';
+import DistrictTrustStrip from '../components/blocks/districts/DistrictTrustStrip.astro';
+import FieldReports from '../components/blocks/districts/FieldReports.astro';
+import ByTheNumbers from '../components/blocks/districts/ByTheNumbers.astro';
+import DayInside from '../components/blocks/districts/DayInside.astro';
+import VoicesSelector from '../components/blocks/districts/VoicesSelector.astro';
+import StandardsAlignment from '../components/blocks/districts/StandardsAlignment.astro';
+import CompareTable from '../components/blocks/districts/CompareTable.astro';
+import FundingGuide from '../components/blocks/districts/FundingGuide.astro';
+import ImplementationTimeline from '../components/blocks/districts/ImplementationTimeline.astro';
+import SecurityPrivacy from '../components/blocks/districts/SecurityPrivacy.astro';
+import FAQAccordion from '../components/blocks/districts/FAQAccordion.astro';
+
+// Photography — stand-ins reused from the About page. See tasks/todo.md.
+import heroImg from '../assets/images/about/origin-classroom-practice.jpg';
+import broward from '../assets/images/about/timeline-2013-focus.jpg';
+import newark from '../assets/images/about/timeline-2017-school.jpg';
+import aurora from '../assets/images/about/timeline-2022-reading.jpg';
+import morning from '../assets/images/about/origin-students-learning.jpg';
+import midday from '../assets/images/about/hero-classroom-mindfulness.png';
+import afternoon from '../assets/images/about/impact-diverse-classroom.jpg';
+import voice1 from '../assets/images/about/voice-okafor.jpg';
+import voice2 from '../assets/images/about/voice-palmer.jpg';
+import voice3 from '../assets/images/about/voice-reyes.jpg';
+import centerfold from '../assets/images/about/voice-featured-bg.jpg';
+import closing from '../assets/images/about/impact-diverse-classroom.jpg';
+
+// ── Page content (structured data; CMS-ready) ────────────────────────────────
+
+const hero = {
+  eyebrow: 'Inner Explorer · For K-12 districts',
+  serialChips: [{ text: 'Field Report № 09' }, { text: 'Spring · 2026', dim: true }],
+  headlineLines: [
+    { text: 'What it feels like', kind: 'serif' as const },
+    { text: 'before the lesson', kind: 'sans' as const, tone: 'accent' as const },
+    { text: 'begins.', kind: 'serif' as const },
+  ],
+  lede: 'Inner Explorer is the daily audio-guided mindfulness practice now running in <strong>2,400 schools across 41 states</strong>. We followed three districts for one academic year. This is what the classrooms told us — and what the numbers confirmed.',
+  imageAlt: 'A classroom in the moment of settling for morning practice',
+  primaryCta: { label: 'Book a 30-minute demo', href: '/contact' },
+  stats: [
+    { value: '2,400', label: 'partner schools', sub: 'in 41 U.S. states' },
+    { value: '1.2M', label: 'students reached daily', sub: 'K through 12' },
+    { value: '38%', label: 'fewer behavior incidents', sub: 'after one semester · pilot data' },
+    { value: '5 min', label: 'per school day', sub: 'teacher-led · no devices for students' },
+  ],
+};
+
+const lede = {
+  eyebrow: 'From the editors',
+  bodyHtml:
+    'The room exhales. A teacher presses play. For five minutes, the classroom is not a place to <em>perform</em> — it is a place to <em>arrive</em>. The lesson begins from a different floor. That is the entire program. Everything in the pages that follow is in service of that single moment.',
+  attribution: 'Inner Explorer · Partnerships Team',
+};
+
+const trustStrip = {
+  caption: 'A selection of the 2,400 K-12 schools in 41 states using the program daily.',
+  districts: [
+    'Broward County',
+    'Newark Public',
+    'Albuquerque',
+    'Long Beach USD',
+    'Boston Public',
+    'Clark County',
+    'Wake County',
+    'Tulsa Public',
+  ],
+};
+
+const fieldReports = {
+  eyebrow: 'Part One · From the field',
+  title: 'Three districts. One academic year.',
+  intro:
+    'We followed three district partners across the 2024–25 year. Every metric on these pages comes from their district dashboards or independent program evaluation — not from marketing surveys.',
+  reports: [
+    {
+      n: '01',
+      district: 'Broward County, FL',
+      schools: 342,
+      students: '260K',
+      photo: broward,
+      photoAlt: 'Morning practice at Lauderhill Elementary',
+      photoCaption: "Morning practice, Lauderhill Elementary, Sept '25",
+      headline: "The only program that didn't take instructional minutes.",
+      quote:
+        'We compared three SEL options. Inner Explorer was the only one that worked without taking a single instructional minute from teachers. That is why it stuck.',
+      who: 'James Okafor',
+      role: 'Director of SEL & MTSS',
+      metrics: [
+        { value: '91%', label: 'educator weekly use', sub: 'year 1' },
+        { value: '31%', label: 'fewer office referrals', sub: 'across pilot schools' },
+        { value: '100%', label: 'Title IV-A funded', sub: 'no district outlay' },
+      ],
+      funding: 'Title IV-A · BSCA Mental Health',
+    },
+    {
+      n: '02',
+      district: 'Newark Public Schools, NJ',
+      schools: 65,
+      students: '38K',
+      photo: newark,
+      photoAlt: "Mrs. Hollis's third grade at Avon Avenue School",
+      photoCaption: "Mrs. Hollis's third grade, Avon Avenue School",
+      headline: 'School climate, visible by the end of the first semester.',
+      quote:
+        "The shift in our climate was visible by the end of the first semester. Teachers hadn't realized how much energy they were spending on dysregulation until it lifted.",
+      who: 'Dr. Maritza Cole',
+      role: 'Asst. Superintendent, Whole-Child Learning',
+      metrics: [
+        { value: '182K', label: 'mindful minutes', sub: 'first 30 days' },
+        { value: '+22%', label: 'MoM educator activity', sub: 'after onboarding' },
+        { value: '30', label: 'days to launch', sub: 'signed → live in classrooms' },
+      ],
+      funding: 'BSCA Mental Health · State SEL',
+    },
+    {
+      n: '03',
+      district: 'Aurora Public Schools, CO',
+      schools: 65,
+      students: '39K',
+      photo: aurora,
+      photoAlt: 'Lincoln Park Middle, after fourth period',
+      photoCaption: 'Lincoln Park Middle, after fourth period',
+      headline: 'Students learning to settle themselves.',
+      quote:
+        'By month two our school counselors reported a 31% drop in referrals to their offices. The students were learning to settle themselves.',
+      who: 'Sarah Lin',
+      role: 'Principal, Lincoln Park Middle',
+      metrics: [
+        { value: '31%', label: 'drop in counselor referrals', sub: 'month-2 vs baseline' },
+        { value: '94%', label: 'teachers report calmer rooms', sub: 'internal survey' },
+        { value: '8 min', label: 'average practice', sub: 'per classroom per day' },
+      ],
+      funding: 'Title IV-A · Title II-A (PD)',
+    },
+  ],
+};
+
+const byTheNumbers = {
+  eyebrow: 'Part Two · By the numbers',
+  title: 'The data is uncomplicated.',
+  intro:
+    'A summary of four years of district pilot data and three independently peer-reviewed studies on classroom mindfulness. Every figure here is footnoted and the source is linked.',
+  primary: {
+    label: 'Attention & focus',
+    value: '11',
+    unit: 'pts',
+    caption:
+      'average gain in standardized academic performance for classrooms practicing mindfulness daily',
+    source: 'Bassett et al., 2012 · peer-reviewed · n=2,116',
+  },
+  small: [
+    {
+      label: 'Behavior',
+      value: '38',
+      unit: '%',
+      caption: 'average drop in classroom behavior incidents after one semester',
+      source: 'IE pilot aggregate · 12 districts',
+    },
+    {
+      label: 'Educator experience',
+      value: '94',
+      unit: '%',
+      caption: 'of educators say the classroom is calmer to teach in',
+      source: 'IE annual educator survey, 2025',
+    },
+  ],
+  imageAlt: 'A student at the moment of stillness',
+  imageCaption: '"You can see them lift."',
+  citations: [
+    {
+      label: 'Stress & anxiety',
+      emphasis: 'small-to-moderate',
+      body: 'reduction in stress, anxiety, and disruptive behavior across school-based mindfulness programs.',
+      cite: 'Klingbeil et al., School Psychology Review (2017)',
+    },
+    {
+      label: 'Educator wellbeing',
+      emphasis: 'lower burnout',
+      body: 'and higher job satisfaction in teachers who lead daily mindfulness practice in their classrooms.',
+      cite: 'Roeser et al., J. Educational Psychology (2013)',
+    },
+    {
+      label: 'Attention',
+      emphasis: 'executive function',
+      body: 'and on-task behavior improvements measured across grade bands in mindfulness program meta-analyses.',
+      cite: 'Zenner et al., Frontiers in Psychology (2014)',
+    },
+  ],
+};
+
+const dayInside = {
+  eyebrow: 'Part Three · A day inside',
+  titleLines: [
+    { text: 'Three moments', kind: 'serif' as const },
+    { text: 'across a school day.', kind: 'sans' as const },
+  ],
+  intro:
+    'Inner Explorer is not a curriculum — it is a five-to-ten-minute audio practice the teacher leads three to five times a day. Here is what that looks like in classrooms across the country.',
+  parts: [
+    {
+      time: '8:14 AM',
+      photo: morning,
+      photoAlt: 'Morning arrival',
+      title: 'Morning arrival',
+      body: "Coats off. Backpacks down. A teacher presses play on the day's morning practice. The room settles in under a minute. Eyes close. Bodies still. The lesson begins.",
+      practice: 'Arrival Calm · 5 min',
+      statValue: '73%',
+      statLabel: 'of districts use a morning practice as their default',
+    },
+    {
+      time: '11:47 AM',
+      photo: midday,
+      photoAlt: 'After the transition',
+      title: 'After the transition',
+      body: 'Post-recess re-entry. Energy is high. The reset practice is shorter and faster — two minutes of paced breath. Voices come down two registers without anyone being asked.',
+      practice: 'Re-Center · 2 min',
+      statValue: '5x/wk',
+      statLabel: 'median classroom practice frequency at scale',
+    },
+    {
+      time: '2:32 PM',
+      photo: afternoon,
+      photoAlt: 'Before dismissal',
+      title: 'Before dismissal',
+      body: 'Last block of the day. A reflective journaling prompt closes the practice. Students leave the building from a different place than they entered it.',
+      practice: 'Reflection · 7 min',
+      statValue: '8 min',
+      statLabel: 'median daily practice across all classrooms',
+    },
+  ],
+};
+
+const voices = {
+  eyebrow: 'Part Four · District voices',
+  title: 'The people doing the work.',
+  intro:
+    'Three of the district leaders we partnered with for this report. Each shared their dashboards and their unedited assessment of the program.',
+  voices: [
+    {
+      quote:
+        "We compared three SEL options. Inner Explorer was the only one that worked without taking a single instructional minute from teachers — that's why it stuck.",
+      who: 'James Okafor',
+      role: 'Director of SEL & MTSS, Broward County Schools',
+      photo: voice1,
+      photoAlt: 'Portrait of James Okafor',
+    },
+    {
+      quote:
+        "The shift in our climate was visible by the end of the first semester. Teachers hadn't realized how much energy they were spending on dysregulation until it lifted.",
+      who: 'Dr. Maritza Cole',
+      role: 'Asst. Superintendent, Whole-Child Learning, Newark Public Schools',
+      photo: voice2,
+      photoAlt: 'Portrait of Dr. Maritza Cole',
+    },
+    {
+      quote:
+        'By month two our school counselors reported a 31% drop in referrals to their offices. The students were learning to settle themselves.',
+      who: 'Sarah Lin',
+      role: 'Principal, Lincoln Park Middle, Aurora Public Schools',
+      photo: voice3,
+      photoAlt: 'Portrait of Sarah Lin',
+    },
+  ],
+};
+
+const standards = {
+  eyebrow: 'Standards alignment',
+  titleHtml: 'Aligned to the frameworks <em>your board already approved.</em>',
+  intro:
+    'Every practice in the Inner Explorer library is mapped — explicitly — to the CASEL 5 framework, MTSS Tier 1 supports, and state SEL standards. Pick a competency to see what that looks like in practice.',
+  competencies: [
+    {
+      id: 'self-awareness',
+      name: 'Self-Awareness',
+      blurb: "Recognizing one's emotions, thoughts, and values, and how they influence behavior.",
+      mapped: [
+        'Daily check-in: "How am I right now?"',
+        'Emotion-naming practices (5–10 min)',
+        'Body-scan series for grades 3–5',
+        'Reflective journaling prompts after each session',
+      ],
+      sessions: 87,
+    },
+    {
+      id: 'self-management',
+      name: 'Self-Management',
+      blurb: 'Managing emotions, regulating impulses, and setting personal goals.',
+      mapped: [
+        'Belly-breath & 4-7-8 practices',
+        'Pause-before-reacting scripts',
+        'Test-anxiety series (grades 6–12)',
+        'Morning calm transitions',
+      ],
+      sessions: 124,
+    },
+    {
+      id: 'social-awareness',
+      name: 'Social Awareness',
+      blurb:
+        'Showing empathy and understanding for others, including those from diverse backgrounds.',
+      mapped: [
+        'Loving-kindness for self & others',
+        'Perspective-taking guided imagery',
+        'Cultural awareness series',
+        'Community connection practices',
+      ],
+      sessions: 64,
+    },
+    {
+      id: 'relationship-skills',
+      name: 'Relationship Skills',
+      blurb: 'Establishing and maintaining healthy, supportive relationships.',
+      mapped: [
+        'Mindful listening pairs activity',
+        'Conflict resolution scripts (grades 4+)',
+        'Compassion-in-action practices',
+        'Team-building circle guides',
+      ],
+      sessions: 51,
+    },
+    {
+      id: 'responsible-decision-making',
+      name: 'Responsible Decision-Making',
+      blurb: 'Making caring, constructive choices about personal and social behavior.',
+      mapped: [
+        'Pause-and-choose practices',
+        'Values clarification (grades 6+)',
+        'Ethical decision-making journals',
+        'Reflection-after-action prompts',
+      ],
+      sessions: 42,
+    },
+  ],
+  pills: [
+    'CASEL SELect',
+    'MTSS Tier 1',
+    'CA SEL Standards',
+    'IL SEL Standards',
+    'NY SEL Benchmarks',
+    'FL Social-Emotional Standards',
+    'TX SEL Competencies',
+    '+29 more states',
+  ],
+};
+
+const compare = {
+  eyebrow: 'Compare programs',
+  titleHtml: 'How Inner Explorer differs <em>from everything else on your shortlist.</em>',
+  intro:
+    'A side-by-side against the three categories districts typically evaluate alongside us: consumer mindfulness apps, boxed SEL curricula, and free or DIY resources.',
+  shortVersion:
+    "consumer apps weren't built for classrooms. SEL curricula take instructional minutes. DIY resources don't scale or report. Inner Explorer is the only option built daily-classroom-first, with district-grade reporting and a per-student cost designed for K-12 procurement.",
+  columns: [
+    { id: 'ie' as const, label: 'Inner Explorer', highlight: true },
+    {
+      id: 'apps' as const,
+      label: 'Consumer mindfulness apps',
+      note: '(Headspace, Calm, etc.)',
+    },
+    { id: 'sel' as const, label: 'Boxed SEL curricula', note: '(20–45 min lessons)' },
+    { id: 'free' as const, label: 'Free / DIY resources' },
+  ],
+  rows: [
+    {
+      feat: 'Designed for the classroom, not consumers',
+      ie: 'yes',
+      apps: 'no',
+      sel: 'yes',
+      free: 'varies',
+      cats: ['classroom'] as const,
+    },
+    {
+      feat: 'Daily 5–10 min audio (no prep)',
+      ie: 'yes',
+      apps: 'no',
+      sel: 'no',
+      free: 'varies',
+      cats: ['classroom'] as const,
+    },
+    {
+      feat: 'Teacher leads, not student device',
+      ie: 'yes',
+      apps: 'no',
+      sel: 'yes',
+      free: 'varies',
+      cats: ['classroom'] as const,
+    },
+    {
+      feat: 'CASEL SELect-aligned practices',
+      ie: 'yes',
+      apps: 'no',
+      sel: 'yes',
+      free: 'no',
+      cats: ['impact'] as const,
+    },
+    {
+      feat: 'District dashboard & adoption analytics',
+      ie: 'yes',
+      apps: 'no',
+      sel: 'partial',
+      free: 'no',
+      cats: ['impact'] as const,
+    },
+    {
+      feat: 'FERPA / COPPA / state privacy compliant',
+      ie: 'yes',
+      apps: 'partial',
+      sel: 'yes',
+      free: 'varies',
+      cats: ['privacy'] as const,
+    },
+    {
+      feat: 'Title IV-A / BSCA funding eligible',
+      ie: 'yes',
+      apps: 'no',
+      sel: 'yes',
+      free: 'n/a',
+      cats: ['privacy'] as const,
+    },
+    {
+      feat: 'Multi-year peer-reviewed outcome studies',
+      ie: 'yes',
+      apps: 'limited',
+      sel: 'varies',
+      free: 'no',
+      cats: ['impact'] as const,
+    },
+    {
+      feat: 'Spanish + multilingual practices',
+      ie: 'yes',
+      apps: 'partial',
+      sel: 'varies',
+      free: 'varies',
+      cats: ['classroom'] as const,
+    },
+    {
+      feat: 'Per-student cost at district scale',
+      ie: 'Low',
+      apps: 'High',
+      sel: 'Med-High',
+      free: '$0 (no support)',
+      cats: ['privacy'] as const,
+    },
+  ],
+};
+
+const funding = {
+  eyebrow: 'Funding guide',
+  titleHtml: 'Four federal & state pathways. <em>One short conversation.</em>',
+  intro:
+    'District partners typically fund Inner Explorer through one or more of these sources. Our partnerships team will help your finance office identify the most efficient mix — most districts cover 75–100% with existing earmarked funding.',
+  funding: [
+    {
+      id: 'title4a',
+      name: 'Title IV-A',
+      fullName: 'Student Support and Academic Enrichment Grants (ESSA)',
+      blurb:
+        'Flexible federal funding under ESSA. Districts may use Title IV-A dollars to support well-rounded education, safe & healthy students, and effective tech — Inner Explorer fits all three categories.',
+      coverage: 0.85,
+    },
+    {
+      id: 'bsca',
+      name: 'BSCA Mental Health',
+      fullName: 'Bipartisan Safer Communities Act (2022)',
+      blurb:
+        'Multi-billion-dollar federal investment in school mental health, available through state Mental Health Service Professional Demonstration and Stronger Connections grants.',
+      coverage: 1.0,
+    },
+    {
+      id: 'title2',
+      name: 'Title II-A',
+      fullName: 'Supporting Effective Instruction',
+      blurb:
+        "Eligible when used for educator professional development around SEL and classroom climate, including Inner Explorer's PD pathway.",
+      coverage: 0.6,
+    },
+    {
+      id: 'state',
+      name: 'State SEL & MH grants',
+      fullName: 'State-level SEL, mental health & school climate funds',
+      blurb:
+        '37 states now have dedicated SEL or student-mental-health line items. Inner Explorer is approved on multiple state-vetted vendor lists.',
+      coverage: 0.75,
+    },
+  ],
+};
+
+const implementation = {
+  eyebrow: 'Implementation & onboarding',
+  titleHtml: 'Live in <em>thirty days,</em> measurable in ninety.',
+  intro:
+    'From signed agreement to classroom daily practice. Every district gets a dedicated Customer Success lead, virtual + asynchronous onboarding for every educator, and quarterly impact reviews for your board.',
+  steps: [
+    {
+      week: 'Week 0',
+      title: 'Discovery & kickoff',
+      body: 'Meet with our partnerships team. We confirm scope, scheduling, and procurement path (PO, BAA, data agreement).',
+    },
+    {
+      week: 'Week 1–2',
+      title: 'District provisioning',
+      body: 'We provision the District Dashboard, configure rostering (Clever, ClassLink, OneRoster, or CSV), and align with your IT team on SSO.',
+    },
+    {
+      week: 'Week 3',
+      title: 'Educator launch',
+      body: 'Live virtual onboarding for every educator (40 min) plus an asynchronous self-serve pathway. PD certificates included.',
+    },
+    {
+      week: 'Week 4–6',
+      title: 'Classroom adoption',
+      body: 'Daily practice begins. Coaches check in weekly with school leads. Real-time dashboard tracks first-practice and weekly active rates.',
+    },
+    {
+      week: 'Month 3',
+      title: 'First impact review',
+      body: 'Joint review of adoption funnel, mindful minutes, and educator engagement, with a written progress brief for your board.',
+    },
+    {
+      week: 'Year 1+',
+      title: 'Ongoing partnership',
+      body: 'Quarterly impact reports, new theme releases, refresher PD, and a dedicated Customer Success lead for every district.',
+    },
+  ],
+};
+
+const security = {
+  eyebrow: 'Security & student data privacy',
+  titleHtml: 'The privacy posture <em>your IT team is hoping for.</em>',
+  intro:
+    'We collect the minimum data required to make the program work, encrypt everything, audit ourselves annually, and ship a pre-signed data privacy agreement to every district.',
+  items: [
+    {
+      title: 'FERPA compliant',
+      body: "Education records handled under FERPA's permitted-disclosure framework; full Data Privacy Agreement available.",
+    },
+    {
+      title: 'COPPA-aware design',
+      body: 'Student-facing flows are designed for under-13 users; no behavioral advertising, ever.',
+    },
+    {
+      title: 'State privacy law coverage',
+      body: 'Pre-signed agreements for California SOPIPA, Colorado SB-117, Connecticut PSA, NY Ed Law §2-d, and 30+ more.',
+    },
+    {
+      title: 'SOC 2 Type II',
+      body: 'Independently audited security controls across availability, confidentiality, and processing integrity.',
+    },
+    {
+      title: 'Minimum-necessary data',
+      body: 'We collect district, school, classroom, and aggregate engagement — no PII on minors required for the core experience.',
+    },
+    {
+      title: 'Hosted on AWS',
+      body: 'Encrypted at rest (AES-256) and in transit (TLS 1.3). Annual penetration testing. Subprocessors transparently listed.',
+    },
+  ],
+  awards: [
+    { name: 'CASEL SELect Program', year: '2024' },
+    { name: 'ISTE Seal of Alignment', year: '2023' },
+    { name: 'Common Sense Privacy Seal', year: '2024' },
+    { name: 'SETDA Approved Vendor', year: '2024' },
+    { name: 'EdSurge Top SEL Tool', year: '2023' },
+  ],
+};
+
+const faq = {
+  eyebrow: 'FAQ',
+  titleHtml: 'The questions <em>district teams ask first.</em>',
+  intro:
+    'Have more? Our partnerships team is responsive, plain-spoken, and used to talking to procurement.',
+  items: [
+    {
+      q: 'How much time does it take from the school day?',
+      a: 'Five to ten minutes, once a day. The teacher presses play; the audio runs. No prep, no curriculum to follow, no slides. Practices are designed to slot into morning circle, post-recess transitions, or the start of any block.',
+    },
+    {
+      q: 'Is Inner Explorer evidence-based?',
+      a: 'Yes. Independent peer-reviewed studies have measured improvements in attention, behavior referrals, and standardized academic performance in classrooms using Inner Explorer. The program is also on the CASEL SELect list — the gold standard for evidence-based SEL programs.',
+    },
+    {
+      q: 'Can we afford it at scale?',
+      a: 'Inner Explorer is priced per school per year at district scale. Most districts fund it through Title IV-A, BSCA mental health funds, or state SEL line items — see the funding section above. Our team will help your finance office identify the most efficient funding source.',
+    },
+    {
+      q: 'What about student data privacy?',
+      a: 'Inner Explorer is FERPA and COPPA compliant, with pre-signed data privacy agreements for major state student-privacy laws (SOPIPA, NY 2-d, and others). We are SOC 2 Type II audited and a Common Sense Privacy Seal recipient.',
+    },
+    {
+      q: 'How is this different from Headspace or Calm?',
+      a: 'Consumer apps are designed for an individual user on a personal device. Inner Explorer is built around a teacher leading a whole classroom. The content, the dosing, the rostering, and the analytics are all classroom-native — and the district dashboard shows you where adoption is strong and where it needs support.',
+    },
+    {
+      q: 'How fast can a district go live?',
+      a: 'Most districts launch within 30 days of signed agreement. Rostering through Clever, ClassLink, OneRoster, or CSV is typically a single afternoon for your IT team.',
+    },
+  ],
+};
+
+const cta = {
+  eyebrow: 'End of report · Begin a conversation',
+  headlineLines: [
+    { text: 'Press play', kind: 'serif' as const },
+    { text: 'on a quieter', kind: 'serif' as const },
+    { text: 'school day.', kind: 'serif' as const, tone: 'accent' as const },
+  ],
+  lede: "A 30-minute working session with our partnerships team. We'll walk through the educator app, the district dashboard, the funding path, and what a 90-day pilot looks like in a district your size.",
+  primaryCta: { label: 'Book a 30-minute demo', href: '/contact' },
+  secondaryCta: { label: 'Download the field report (PDF)', href: '/contact' },
+  assurances: [
+    { text: 'One business day response' },
+    { text: 'Pre-signed DPA on request' },
+    { text: 'References from comparable districts' },
+  ],
+  sideCard: {
+    eyebrow: "What you'll leave with",
+    serial: '№ 10',
+    items: [
+      'A live walkthrough of the educator app and district dashboard',
+      "Funding pathway tailored to your district's profile",
+      "Standards alignment for your state's SEL framework",
+      'References from comparable districts on request',
+      'A written pilot proposal within five business days',
+    ],
+  },
+};
+
+const pageTitle = 'For Districts — Inner Explorer';
+const pageDescription =
+  'A 30-minute working session for K-12 district leaders. Daily, audio-guided mindfulness now in 2,400 schools across 41 states. Funding pathways, outcomes data, and what a 90-day pilot looks like in a district your size.';
+
+const base = new URL(Astro.site ?? 'https://www.innerexplorer.org').origin;
+const districtsLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: pageTitle,
+  url: `${base}/districts`,
+  description: pageDescription,
+  audience: {
+    '@type': 'EducationalAudience',
+    audienceType: 'K-12 school district leaders',
+  },
+  about: {
+    '@type': 'Service',
+    name: 'Inner Explorer for Districts',
+    provider: {
+      '@type': 'Organization',
+      name: 'Inner Explorer',
+      url: base,
+      logo: `${base}/logo.png`,
+    },
+  },
+};
+---
+
+<PageLayout title={pageTitle} description={pageDescription} flushTop>
+  <JsonLd slot="head" schema={districtsLd} />
+
+  <div class="appearance-light">
+    <CinematicHero
+      eyebrow={hero.eyebrow}
+      serialChips={hero.serialChips}
+      headlineLines={hero.headlineLines}
+      lede={hero.lede}
+      primaryCta={hero.primaryCta}
+      stats={hero.stats}
+      image={heroImg}
+      imageAlt={hero.imageAlt}
+      height="tall"
+    />
+    <EditorialLede eyebrow={lede.eyebrow} bodyHtml={lede.bodyHtml} attribution={lede.attribution} />
+    <DistrictTrustStrip caption={trustStrip.caption} districts={trustStrip.districts} />
+    <FieldReports
+      eyebrow={fieldReports.eyebrow}
+      title={fieldReports.title}
+      intro={fieldReports.intro}
+      reports={fieldReports.reports}
+    />
+    <ByTheNumbers
+      eyebrow={byTheNumbers.eyebrow}
+      title={byTheNumbers.title}
+      intro={byTheNumbers.intro}
+      primary={byTheNumbers.primary}
+      small={byTheNumbers.small}
+      image={centerfold}
+      imageAlt="A student in a moment of stillness"
+      imageCaption={byTheNumbers.imageCaption}
+      citations={byTheNumbers.citations}
+    />
+    <DayInside
+      eyebrow={dayInside.eyebrow}
+      titleLines={dayInside.titleLines}
+      intro={dayInside.intro}
+      parts={dayInside.parts}
+    />
+    <VoicesSelector
+      eyebrow={voices.eyebrow}
+      title={voices.title}
+      intro={voices.intro}
+      voices={voices.voices}
+    />
+    <StandardsAlignment
+      eyebrow={standards.eyebrow}
+      titleHtml={standards.titleHtml}
+      intro={standards.intro}
+      competencies={standards.competencies}
+      pills={standards.pills}
+    />
+    <CompareTable
+      eyebrow={compare.eyebrow}
+      titleHtml={compare.titleHtml}
+      intro={compare.intro}
+      shortVersion={compare.shortVersion}
+      columns={compare.columns}
+      rows={compare.rows}
+    />
+    <FundingGuide
+      eyebrow={funding.eyebrow}
+      titleHtml={funding.titleHtml}
+      intro={funding.intro}
+      funding={funding.funding}
+    />
+    <ImplementationTimeline
+      eyebrow={implementation.eyebrow}
+      titleHtml={implementation.titleHtml}
+      intro={implementation.intro}
+      steps={implementation.steps}
+    />
+    <SecurityPrivacy
+      eyebrow={security.eyebrow}
+      titleHtml={security.titleHtml}
+      intro={security.intro}
+      items={security.items}
+      awards={security.awards}
+    />
+    <FAQAccordion
+      eyebrow={faq.eyebrow}
+      titleHtml={faq.titleHtml}
+      intro={faq.intro}
+      items={faq.items}
+    />
+    <EditorialCTA
+      eyebrow={cta.eyebrow}
+      headlineLines={cta.headlineLines}
+      lede={cta.lede}
+      primaryCta={cta.primaryCta}
+      secondaryCta={cta.secondaryCta}
+      assurances={cta.assurances}
+      sideCard={cta.sideCard}
+      image={closing}
+      imageAlt="A diverse classroom in calm shared practice"
+    />
+  </div>
+</PageLayout>

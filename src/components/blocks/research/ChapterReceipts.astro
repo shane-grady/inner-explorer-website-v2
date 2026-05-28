@@ -1,0 +1,309 @@
+---
+// Chapter I — "The receipts." Six controlled trials as a stacked vertical wall.
+// Each row: giant italic year + tag/title/meta + dark stat block on the right.
+// Reads like a list of evidence carved into the page.
+
+interface Finding {
+  stat: string;
+  label: string;
+}
+interface Study {
+  id: string;
+  year: number;
+  tag: string;
+  title: string;
+  authors: string;
+  institution: string;
+  journal: string;
+  findings: Finding[];
+}
+
+interface Props {
+  eyebrow: string;
+  label: string;
+  // Headline lines (mix of sans + italic serif). Same contract as CinematicHero.
+  headlineLines: { text: string; kind: 'sans' | 'serif'; tone?: 'default' | 'accent' }[];
+  lede: string;
+  studies: Study[];
+}
+const { eyebrow, label, headlineLines, lede, studies }: Props = Astro.props;
+const sorted = [...studies].sort((a, b) => a.year - b.year);
+---
+
+<section class="receipts" id="receipts" aria-label={label}>
+  <div class="rec-inner">
+    <div class="chap-mark">
+      <span class="num">{eyebrow}</span>
+      <span class="rule"></span>
+      <span class="label">{label}</span>
+    </div>
+
+    <div class="rec-intro">
+      <h2 class="chap-title">
+        {
+          headlineLines.map((line) => (
+            <span class:list={['stk', line.kind, { accent: line.tone === 'accent' }]}>
+              {line.text}
+            </span>
+          ))
+        }
+      </h2>
+      <p class="rec-lede">{lede}</p>
+    </div>
+
+    <div class="rec-list">
+      {
+        sorted.map((s) => {
+          const lead = s.findings[0];
+          const isDoctoral = /doctoral/i.test(s.tag);
+          return (
+            <article class="rec-row" id={`r-${s.id}`}>
+              <div class="rec-year">{s.year}</div>
+              <div class="rec-mid">
+                <span class:list={['rec-tag', { doctoral: isDoctoral }]}>{s.tag}</span>
+                <h3 class="rec-title">{s.title}</h3>
+                <p class="rec-meta">
+                  <strong>{s.authors}</strong> · {s.institution} · <em>{s.journal}</em>
+                </p>
+              </div>
+              <div class="rec-finding">
+                <div class="stat">{lead.stat}</div>
+                <div class="lbl">{lead.label}</div>
+              </div>
+            </article>
+          );
+        })
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .receipts {
+    background: var(--color-background);
+    color: var(--color-foreground);
+    padding: 140px 0 120px;
+  }
+  .rec-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  .chap-mark {
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+    margin-bottom: 28px;
+  }
+  .chap-mark .num {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 1;
+    color: var(--color-brand);
+  }
+  .chap-mark .rule {
+    flex: 1;
+    height: 1px;
+    background: var(--color-border);
+    align-self: center;
+  }
+  .chap-mark .label {
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--color-muted-foreground);
+  }
+
+  .rec-intro {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 64px;
+    align-items: end;
+    margin-bottom: 80px;
+  }
+  .chap-title {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(44px, 6vw, 88px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    margin: 0;
+    text-wrap: balance;
+    color: var(--color-foreground);
+  }
+  .chap-title .stk {
+    display: block;
+  }
+  .chap-title .sans {
+    font-family: var(--font-sans);
+    font-weight: 300;
+    letter-spacing: -0.025em;
+    font-style: normal;
+  }
+  .chap-title .serif {
+    font-style: italic;
+  }
+  .chap-title .accent {
+    color: var(--color-brand);
+  }
+  .rec-lede {
+    font-size: 19px;
+    line-height: 1.6;
+    color: var(--color-muted-foreground);
+    max-width: 480px;
+    padding-bottom: 8px;
+    margin: 0;
+  }
+
+  .rec-list {
+    display: flex;
+    flex-direction: column;
+  }
+  .rec-row {
+    display: grid;
+    grid-template-columns: 200px 1fr 320px;
+    gap: 40px;
+    align-items: center;
+    padding: 40px 0;
+    border-top: 1px solid var(--color-border);
+    transition: background var(--dur) var(--ease-out);
+  }
+  .rec-row:last-child {
+    border-bottom: 1px solid var(--color-border);
+  }
+  .rec-row:hover {
+    background: color-mix(in oklab, var(--color-foreground) 3%, transparent);
+  }
+  .rec-row:hover .rec-year {
+    color: var(--color-brand);
+    transform: translateX(-6px);
+  }
+
+  .rec-year {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(72px, 9vw, 140px);
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    color: var(--color-foreground);
+    transition:
+      color var(--dur) var(--ease-out),
+      transform var(--dur) var(--ease-out);
+  }
+  .rec-mid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .rec-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-brand);
+    align-self: flex-start;
+  }
+  .rec-tag::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-brand);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-brand) 25%, transparent);
+  }
+  .rec-tag.doctoral {
+    color: var(--color-muted-foreground);
+  }
+  .rec-tag.doctoral::before {
+    background: var(--color-muted-foreground);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-muted-foreground) 25%, transparent);
+  }
+  .rec-title {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(22px, 2.4vw, 32px);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    color: var(--color-foreground);
+    margin: 0;
+  }
+  .rec-meta {
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--color-muted-foreground);
+    margin: 0;
+  }
+  .rec-meta strong {
+    color: var(--color-foreground);
+    font-weight: 500;
+  }
+  .rec-meta em {
+    font-style: italic;
+  }
+
+  .rec-finding {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 18px 22px;
+    background: var(--neutral-900);
+    color: var(--color-white);
+    border-radius: var(--radius-md);
+    position: relative;
+    overflow: hidden;
+  }
+  .rec-finding::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      circle at 90% 100%,
+      color-mix(in oklab, var(--brand-300) 30%, transparent),
+      transparent 60%
+    );
+    pointer-events: none;
+  }
+  .rec-finding .stat {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 44px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--brand-300);
+    position: relative;
+  }
+  .rec-finding .lbl {
+    font-size: 13px;
+    line-height: 1.4;
+    font-weight: 500;
+    color: color-mix(in oklab, var(--color-white) 85%, transparent);
+    position: relative;
+  }
+
+  @media (max-width: 920px) {
+    .rec-intro {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    .rec-row {
+      grid-template-columns: 1fr;
+      gap: 18px;
+      padding: 28px 0;
+    }
+    .rec-year {
+      font-size: 64px;
+    }
+  }
+</style>
