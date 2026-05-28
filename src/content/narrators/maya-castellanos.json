@@ -1,0 +1,65 @@
+{
+  "name": "Maya Castellanos",
+  "role": "Calm Breathing series",
+  "order": 0,
+  "photo": "../../assets/images/narrators/maya-castellanos.jpg",
+  "photoWide": "../../assets/images/narrators/maya-castellanos-wide.jpg",
+  "photoAlt": "Maya Castellanos, photographed at home in Oakland, California",
+  "location": "Photographed at home · Oakland, CA",
+  "intro": "Twelve years guiding educators. Four hundred recorded practices. One unhurried voice — heard by almost two thousand schools every week.",
+  "quote": {
+    "text": "A practice doesn't have to fix anything. It just has to give us somewhere honest to be, for five minutes.",
+    "attrib": "Maya · narrating Forest Walk"
+  },
+  "voiceIntro": {
+    "audioSrc": "/audio/narrators/maya-hello.mp3",
+    "durationSec": 30,
+    "title": "A short hello from Maya.",
+    "transcriptHref": "#transcript",
+    "captionsSrc": "/audio/narrators/maya-hello.vtt"
+  },
+  "facts": [
+    { "value": "412", "label": "Practices recorded" },
+    { "value": "12 yrs", "label": "Guiding educators" },
+    { "value": "1,840", "label": "Schools listen weekly" },
+    { "value": "3", "label": "Languages: EN · ES · FR" }
+  ],
+  "qa": [
+    {
+      "n": "01",
+      "question": "How did you come to mindfulness?",
+      "answer": "Twenty-six third-graders, no air conditioning, and a colleague who slipped me a paperback. I lasted about a year before I started leading the practices myself.",
+      "tag": "Origin"
+    },
+    {
+      "n": "02",
+      "question": "What does a recording morning look like?",
+      "answer": "I'm up by four. Coffee, longhand script, no music. The mic is in our daughter's bedroom — best acoustics in the house. By 5:30 the freeway wakes up, so I have to be done.",
+      "tag": "Process"
+    },
+    {
+      "n": "03",
+      "question": "Hardest part of recording for kids?",
+      "answer": "Not over-explaining. Kids don't need the why before they try something. They need a confident voice and a clear instruction. Trust comes faster than adults give them credit for.",
+      "tag": "Craft"
+    },
+    {
+      "n": "04",
+      "question": "A practice you reach for on hard days?",
+      "answer": "Three breaths, eyes closed, feet on the floor. That's it. It's almost embarrassing how often that's enough.",
+      "tag": "Practice"
+    },
+    {
+      "n": "05",
+      "question": "What do you want kids to feel?",
+      "answer": "Like there's nothing they have to do. The practice doesn't have to fix anything. It just has to give us somewhere honest to be, for five minutes.",
+      "tag": "Intention"
+    }
+  ],
+  "practices": [
+    { "title": "Calm Breathing", "meta": "21-day series · Grades 3–5" },
+    { "title": "Forest Walk", "meta": "5 min · All grades" },
+    { "title": "Settling In", "meta": "First week · K–2" },
+    { "title": "Test Day Breath", "meta": "3 min · Grades 3–8" }
+  ]
+}

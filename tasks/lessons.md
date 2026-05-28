@@ -68,6 +68,26 @@ any correction or surprise.
   the root's value. Dark mode works site-wide only because `.dark` lives on the same
   element (`html`) where `--color-*` is declared. Fix: re-declare the `--color-*` set on
   the overriding selector so they re-substitute in that scope. See `.appearance-light`.
+- **`.appearance-light` must paint its own `background-color` too.** Re-declaring the
+  `--color-*` tokens for the subtree only retunes utilities used by descendants — but the
+  `body { background-color: var(--color-background) }` rule lives on `<body>`, which is
+  outside the `.appearance-light` wrapper. So under global dark mode, the body bg
+  resolves to dark and bleeds through any gap between contained blocks on the light page.
+  About hides this because its hero is `100vh` and subsequent sections fill their bg
+  (`var(--color-card)` / `var(--color-background)` — which inside the wrapper resolves to
+  light). Detail pages with contained, in-column blocks reveal the gap. Fix:
+  `.appearance-light` itself sets `background-color: var(--color-background); color:
+var(--color-foreground)` so the wrapper paints its surface in the pinned tones.
+- **`<audio>` needs a `<track kind="captions">`** for `astro/jsx-a11y/media-has-caption`,
+  even for placeholder/silent audio. Always render the track inside the audio element;
+  the rule accepts an empty `src` (or omitted attribute). Author components with a
+  `captionsSrc?` prop so real captions can drop in unchanged later. Pair audio with a
+  minimal WebVTT (`WEBVTT\n`) until real captions exist.
+- **Dynamic Astro element via `const Tag = ...`** needs a capitalized variable name
+  (Astro treats lowercase as native elements via string literal — capitalized lets you
+  switch between `<a>` and `<div>` cleanly). Render with `<Tag href={...}>`; passing
+  `href={undefined}` simply omits the attribute. Avoids nested-interactive HTML when
+  some rows are links and others are static.
 
 ## Skills (skill-creator)
 

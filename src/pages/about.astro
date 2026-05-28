@@ -2,13 +2,13 @@
 import PageLayout from '../layouts/PageLayout.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import AboutHero from '../components/blocks/about/AboutHero.astro';
-import StatsStrip from '../components/blocks/about/StatsStrip.astro';
+import StatStrip from '../components/blocks/StatStrip.astro';
 import MissionQuote from '../components/blocks/about/MissionQuote.astro';
 import OriginStory from '../components/blocks/about/OriginStory.astro';
 import Timeline from '../components/blocks/about/Timeline.astro';
 import ResearchPioneer from '../components/blocks/about/ResearchPioneer.astro';
 import Voices from '../components/blocks/about/Voices.astro';
-import TeamGrid from '../components/blocks/about/TeamGrid.astro';
+import TeamGrid from '../components/blocks/TeamGrid.astro';
 import Partners from '../components/blocks/about/Partners.astro';
 import Principles from '../components/blocks/about/Principles.astro';
 import AboutCTA from '../components/blocks/about/AboutCTA.astro';
@@ -443,7 +443,7 @@ const aboutLd = {
       image={heroImg}
       imageAlt={hero.imageAlt}
     />
-    <StatsStrip stats={stats} />
+    <StatStrip stats={stats} />
     <MissionQuote mark={mark} quoteHtml={mission.quoteHtml} attribution={mission.attribution} />
     <OriginStory
       eyebrow={origin.eyebrow}

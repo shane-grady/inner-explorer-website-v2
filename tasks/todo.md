@@ -58,6 +58,42 @@ Faithful to the v1 handoff. Verified in-browser (light): hero, scroll timeline (
   flagged by Claude Design to fact-check; photos are Unsplash stand-ins to swap for real IE
   imagery. Hero Inter weight-200 falls back to 300 (not shipped in the bundle).
 
+## Narrator detail page (Claude Design handoff — complete)
+
+- [x] **Promoted** `blocks/about/StatsStrip` → `blocks/StatStrip` (+ `labelCase`,
+      `contained`, `maxWidth`, `ariaLabel` props; About refactor mechanical, no visual
+      change) and `blocks/about/TeamGrid` → `blocks/TeamGrid` (+ `variant: 'voices'`
+      serif-italic linked cards; duet `.sans` head support; optional photo + branded
+      fallback; `maxWidth` prop). Single source per the `implement-design-handoff` skill.
+- [x] **New shared blocks/primitives**: `primitives/Breadcrumb`, `blocks/EditorialMasthead`
+      (eyebrow rule + Inter/Caslon duet), `blocks/PhotoQuote` (21:9 hero, `--hero-tint`
+      overlay, glass corner pills, serif quote), `blocks/VoiceBar` (real `<audio>` +
+      vanilla `<script>` toggle, 64-bar build-time waveform, captions `<track>`,
+      progressive enhancement), `blocks/Interview` (numbered Q&A w/ tag pills),
+      `blocks/MediaRows` (photo-led practice rows).
+- [x] **Narrators content collection** (`content.config.ts` + `src/content/narrators/*.json`):
+      Maya Castellanos (full handoff copy, voice intro, 4 facts, 5 Q&A, 4 practices) +
+      Jordan/Aisha/Priya for the "more voices" grid. Person + BreadcrumbList JSON-LD.
+- [x] **Routes**: `src/pages/narrators/[slug].astro` (collection-driven, pinned light,
+      compose blocks in C2 order) + `src/pages/narrators/index.astro` (minimal listing).
+- [x] **Placeholder seed media**: brand-tinted JPG portraits + 21:9 hero via
+      `scripts/gen-narrator-placeholders.mjs` (sharp + SVG initials); 30-sec gentle
+      placeholder MP3 + empty WebVTT captions track in `public/audio/narrators/`.
+- [x] **Light-pin fix in `global.css`**: `.appearance-light` now paints its own
+      `background-color` so the global dark body bg doesn't bleed through gaps between
+      contained blocks on a light-pinned detail page (see lessons).
+
+### Review (narrator page)
+
+Built reuse-first per the `implement-design-handoff` skill: 2 promoted shared blocks,
+6 new shared blocks/primitives, 0 page-scoped components. `pnpm check` 0/0/0; build
+clean (11 pages); narrator page ships the same shared 2.2KB inline-script bundle —
+**no React runtime**. Browser-verified at 1440 desktop + 375 mobile: masthead duet,
+photo hero + serif quote, **voice bar plays + waveform fills + time ticks (0:10 ↔
+23/64 `.on` bars)**, quick facts, 5× Q&A, photo-led practices, "more voices" grid.
+Light pin holds under global dark mode (chrome still adapts). Regress check: home,
+blog, styleguide, **About** all coherent in both themes. Stand-ins flagged below.
+
 ## Research page (Claude Design handoff v2 — "The Quiet Revolution" — complete)
 
 - [x] **`/research`** built from a shared `CinematicHero` + `EditorialCTA` plus seven page-scoped
@@ -96,21 +132,33 @@ no `--paper`/`--paper-deep` tokens added; warm-cream surfaces from the Documenta
 mapped onto existing `--background`/`--muted`/`--card`. Regression: `/`, `/about`, `/blog`,
 `/styleguide` all 200 and visually coherent.
 
-**Stand-ins to swap before publishing:**
+## Stand-ins to swap before publishing
 
-- Both pages reuse About's existing localized photography (e.g. `voice-okafor.jpg`,
-  `timeline-2013-focus.jpg`). Replace with real research/district imagery — Field Reports needs
-  three distinct district photographs (Broward / Newark / Aurora), Day Inside needs three time-of-day
-  classroom shots, By-the-Numbers needs a single anchor portrait.
-- Placeholder content on Districts: ROI per-student pricing ($4.20), funding coverage percentages,
-  district names (Broward / Newark / Aurora), testimonials, "Field Report № 09" serial, partner
-  district list, awards/certifications. Cross-check with the partnerships team.
-- Placeholder content on Research: study findings and percentages are drawn from the prior Wix
-  concept — verify exact figures with the research team before going live.
-- The Districts hero "Listen" button is decorative only — wire to a real preview audio file or
-  remove if it can't be supported at launch.
-- The Districts page omits the design's React multi-step demo modal — primary CTAs deep-link to
-  `/contact`. If a modal is desired later, build it as a small vanilla island, not a React tree.
+- [ ] Narrator portraits + 21:9 hero — replace generated initials placeholders with
+      real photography (`src/assets/images/narrators/*.jpg`).
+- [ ] "Meet the voice" intro audio + captions — replace
+      `/audio/narrators/maya-hello.mp3` (30s placeholder tone) + `maya-hello.vtt`
+      with a real recording + caption file. (The other 3 narrators omit `voiceIntro`
+      until recordings exist — the VoiceBar hides automatically.)
+- [ ] Confirm narrator metadata (`role`, `intro`, `quote`) against final brand copy.
+- [ ] Full v4 "Meet the Studio" narrator collection page is out of scope — the
+      current `narrators/index.astro` is a minimal listing so the breadcrumb resolves.
+- [ ] Research + Districts reuse About's existing localized photography (e.g.
+      `voice-okafor.jpg`, `timeline-2013-focus.jpg`). Replace with real research/district
+      imagery — Field Reports needs three distinct district photographs (Broward / Newark /
+      Aurora), Day Inside needs three time-of-day classroom shots, By-the-Numbers needs a
+      single anchor portrait.
+- [ ] Districts placeholder data: ROI per-student pricing ($4.20), funding coverage
+      percentages, district names (Broward / Newark / Aurora), testimonials,
+      "Field Report № 09" serial, partner district list, awards/certifications.
+      Cross-check with the partnerships team.
+- [ ] Research study findings and percentages are drawn from the prior Wix concept —
+      verify exact figures with the research team before going live.
+- [ ] Districts hero "Listen" button is decorative only — wire to a real preview audio
+      file or remove if it can't be supported at launch.
+- [ ] Districts page omits the design's React multi-step demo modal — primary CTAs
+      deep-link to `/contact`. If a modal is desired later, build it as a small vanilla
+      island, not a React tree.
 
 ## Next (post-foundation)
 
