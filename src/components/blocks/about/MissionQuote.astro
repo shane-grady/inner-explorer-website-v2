@@ -1,0 +1,87 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  mark: ImageMetadata;
+  // Trusted, in-repo copy. `<span class="underline">…</span>` marks emphasized words.
+  quoteHtml: string;
+  attribution: string;
+}
+const { mark, quoteHtml, attribution }: Props = Astro.props;
+---
+
+<section class="mission">
+  <div class="mission-inner">
+    <Image src={mark} alt="" width={64} height={64} class="mission-mark" />
+    <p class="mission-quote" set:html={quoteHtml} />
+    <p class="mission-attrib">{attribution}</p>
+  </div>
+</section>
+
+<style>
+  .mission {
+    position: relative;
+    padding: 140px 0 160px;
+    text-align: center;
+    background: var(--color-background);
+    overflow: hidden;
+  }
+  .mission::before,
+  .mission::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1px;
+    height: 80px;
+  }
+  .mission::before {
+    top: 0;
+    background: linear-gradient(to bottom, transparent, var(--color-brand));
+  }
+  .mission::after {
+    bottom: 0;
+    background: linear-gradient(to top, transparent, var(--color-brand));
+  }
+  .mission-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  .mission-mark {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 32px;
+    opacity: 0.92;
+  }
+  .mission-quote {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(34px, 4.4vw, 60px);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    color: var(--color-foreground);
+    max-width: 900px;
+    margin: 0 auto;
+    text-wrap: balance;
+  }
+  .mission-quote :global(.underline) {
+    background-image: linear-gradient(
+      transparent 70%,
+      color-mix(in oklab, var(--brand-400) 40%, transparent) 70%,
+      color-mix(in oklab, var(--brand-400) 40%, transparent) 95%,
+      transparent 95%
+    );
+  }
+  .mission-attrib {
+    margin: 40px 0 0;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-muted-foreground);
+  }
+</style>

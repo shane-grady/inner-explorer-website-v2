@@ -1,0 +1,128 @@
+---
+interface Stat {
+  value: string; // e.g. "2.4M", "35,000", "487M", "94"
+  sup?: string; // e.g. "+", "%"
+  label: string;
+}
+interface Props {
+  stats: Stat[];
+}
+const { stats }: Props = Astro.props;
+---
+
+<section class="stats" aria-label="Inner Explorer by the numbers">
+  <div class="stats-row">
+    {
+      stats.map((s) => (
+        <div class="stat-cell">
+          <div class="num" data-value={s.value}>
+            {s.value}
+            {s.sup && <sup>{s.sup}</sup>}
+          </div>
+          <div class="lbl">{s.label}</div>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .stats {
+    background: var(--color-card);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .stats-row {
+    max-width: 1440px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    align-items: end;
+  }
+  .stat-cell {
+    padding: 56px 32px;
+    border-right: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .stat-cell:last-child {
+    border-right: 0;
+  }
+  .num {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(48px, 5.2vw, 76px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--color-foreground);
+  }
+  .num sup {
+    font-size: 0.4em;
+    font-style: normal;
+    font-weight: 500;
+    color: var(--color-brand);
+    margin-left: 4px;
+    vertical-align: top;
+    top: 0.6em;
+    position: relative;
+  }
+  .lbl {
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--color-muted-foreground);
+    max-width: 200px;
+  }
+
+  @media (max-width: 920px) {
+    .stats-row {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .stat-cell:nth-child(2) {
+      border-right: 0;
+    }
+  }
+</style>
+
+<script>
+  // Count-up on first scroll-in. Animates the numeric part, preserves suffix
+  // letters (M) and the <sup> symbol. Skipped entirely under reduced motion.
+  const root = document.querySelector<HTMLElement>('.stats');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (root && !reduce) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          root.querySelectorAll<HTMLElement>('.num').forEach((el) => {
+            const raw = el.dataset.value ?? '';
+            const m = raw.match(/([\d.,]+)(.*)$/);
+            if (!m) return;
+            const target = parseFloat(m[1].replace(/,/g, ''));
+            const tail = m[2]; // letters like "M"
+            const sup = el.querySelector('sup')?.outerHTML ?? '';
+            const decimals = (m[1].split('.')[1] || '').length;
+            const start = performance.now();
+            const dur = 1400;
+            const tick = (t: number) => {
+              const p = Math.min(1, (t - start) / dur);
+              const eased = 1 - Math.pow(1 - p, 3);
+              const v = target * eased;
+              const shown =
+                decimals > 0 ? v.toFixed(decimals) : Math.round(v).toLocaleString('en-US');
+              el.innerHTML = shown + tail + sup;
+              if (p < 1) requestAnimationFrame(tick);
+              else el.innerHTML = raw + sup; // restore exact label
+            };
+            requestAnimationFrame(tick);
+          });
+          io.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.4 },
+    );
+    io.observe(root);
+  }
+</script>

@@ -1,0 +1,246 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface MetaItem {
+  label: string;
+  value: string;
+}
+interface Props {
+  eyebrow: string;
+  headlineTop: string;
+  headlineBottom: string;
+  subtitle: string;
+  meta: MetaItem[];
+  image: ImageMetadata;
+  imageAlt: string;
+}
+const { eyebrow, headlineTop, headlineBottom, subtitle, meta, image, imageAlt }: Props =
+  Astro.props;
+---
+
+<header class="hero" id="about-hero">
+  <div class="hero-bg">
+    <Image
+      src={image}
+      alt={imageAlt}
+      widths={[768, 1280, 1800]}
+      sizes="100vw"
+      loading="eager"
+      fetchpriority="high"
+    />
+  </div>
+  <div class="hero-tint"></div>
+  <div class="hero-grain" aria-hidden="true"></div>
+
+  <div class="hero-content">
+    <div>
+      <span class="hero-eyebrow"><span class="dot" aria-hidden="true"></span>{eyebrow}</span>
+    </div>
+
+    <div class="hero-main">
+      <h1 class="hero-headline">
+        <span class="sans">{headlineTop}</span>
+        <span class="serif">{headlineBottom}</span>
+      </h1>
+      <p class="hero-sub">{subtitle}</p>
+    </div>
+
+    <div class="hero-foot">
+      <dl class="hero-meta">
+        {
+          meta.map((m) => (
+            <div>
+              <dt class="lbl">{m.label}</dt>
+              <dd class="val">{m.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+      <div class="hero-scroll" aria-hidden="true">
+        <span>Scroll</span>
+        <span class="line"></span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  .hero {
+    position: relative;
+    height: 100vh;
+    min-height: 720px;
+    max-height: 980px;
+    overflow: hidden;
+    color: var(--color-white);
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    transform: scale(1.04);
+    transition: transform 1.8s var(--ease-out);
+  }
+  .hero-bg :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 35%;
+  }
+  .hero.loaded .hero-bg {
+    transform: scale(1);
+  }
+  .hero-tint {
+    position: absolute;
+    inset: 0;
+    background: var(--hero-tint);
+  }
+  .hero-grain {
+    position: absolute;
+    inset: 0;
+    opacity: 0.06;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='0.5'/></svg>");
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 120px 32px 64px;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+  }
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px 8px 10px;
+    border-radius: 9999px;
+    background: color-mix(in oklab, var(--color-white) 12%, transparent);
+    border: 1px solid color-mix(in oklab, var(--color-white) 22%, transparent);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .hero-eyebrow .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background: var(--brand-400);
+    box-shadow: 0 0 0 4px color-mix(in oklab, var(--brand-400) 25%, transparent);
+  }
+  .hero-main {
+    align-self: center;
+    max-width: 1100px;
+  }
+  .hero-headline {
+    font-size: clamp(56px, 9vw, 132px);
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    margin: 0;
+    text-wrap: balance;
+  }
+  .hero-headline .sans {
+    font-family: var(--font-sans);
+    font-weight: 300;
+    display: block;
+  }
+  .hero-headline .serif {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    display: block;
+    letter-spacing: -0.015em;
+  }
+  .hero-sub {
+    margin: 36px 0 0;
+    max-width: 540px;
+    font-size: 18px;
+    line-height: 1.55;
+    color: color-mix(in oklab, var(--color-white) 82%, transparent);
+  }
+  .hero-foot {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .hero-meta {
+    margin: 0;
+    display: grid;
+    grid-auto-flow: column;
+    gap: 56px;
+  }
+  .hero-meta .lbl {
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-bottom: 8px;
+  }
+  .hero-meta .val {
+    margin: 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+  .hero-scroll {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: color-mix(in oklab, var(--color-white) 70%, transparent);
+  }
+  .hero-scroll .line {
+    width: 60px;
+    height: 1px;
+    background: color-mix(in oklab, var(--color-white) 40%, transparent);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-scroll .line::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    width: 30%;
+    background: var(--color-white);
+    animation: scrollHint 2.4s var(--ease-out) infinite;
+  }
+  @keyframes scrollHint {
+    0% {
+      transform: translateX(-100%);
+    }
+    60%,
+    100% {
+      transform: translateX(330%);
+    }
+  }
+
+  @media (max-width: 920px) {
+    .hero-meta {
+      grid-auto-flow: row;
+      gap: 12px;
+    }
+  }
+</style>
+
+<script>
+  // Subtle zoom-in once mounted (transition is no-op under reduced motion).
+  const hero = document.getElementById('about-hero');
+  if (hero) requestAnimationFrame(() => hero.classList.add('loaded'));
+</script>

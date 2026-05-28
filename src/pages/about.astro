@@ -1,0 +1,501 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import AboutHero from '../components/blocks/about/AboutHero.astro';
+import StatsStrip from '../components/blocks/about/StatsStrip.astro';
+import MissionQuote from '../components/blocks/about/MissionQuote.astro';
+import OriginStory from '../components/blocks/about/OriginStory.astro';
+import Timeline from '../components/blocks/about/Timeline.astro';
+import ResearchPioneer from '../components/blocks/about/ResearchPioneer.astro';
+import Voices from '../components/blocks/about/Voices.astro';
+import TeamGrid from '../components/blocks/about/TeamGrid.astro';
+import Partners from '../components/blocks/about/Partners.astro';
+import Principles from '../components/blocks/about/Principles.astro';
+import AboutCTA from '../components/blocks/about/AboutCTA.astro';
+
+// Brand assets + photography (localized; Unsplash stand-ins flagged by Claude Design
+// to be swapped for real Inner Explorer photos before publishing).
+import mark from '../assets/brand/inner-explorer-mark.png';
+import heroImg from '../assets/images/about/hero-classroom-mindfulness.png';
+import originLarge from '../assets/images/about/origin-classroom-practice.jpg';
+import originSmall from '../assets/images/about/origin-students-learning.jpg';
+import tl2013 from '../assets/images/about/timeline-2013-focus.jpg';
+import tl2017 from '../assets/images/about/timeline-2017-school.jpg';
+import tl2022 from '../assets/images/about/timeline-2022-reading.jpg';
+import impact from '../assets/images/about/impact-diverse-classroom.jpg';
+import voicePalmer from '../assets/images/about/voice-palmer.jpg';
+import voiceFeaturedBg from '../assets/images/about/voice-featured-bg.jpg';
+import voiceOkafor from '../assets/images/about/voice-okafor.jpg';
+import voiceReyes from '../assets/images/about/voice-reyes.jpg';
+import teamLaura from '../assets/images/about/team-laura-bakosh.jpg';
+import teamJanice from '../assets/images/about/team-janice-houlihan.jpg';
+import teamMarcus from '../assets/images/about/team-marcus-ellison.jpg';
+import teamPriya from '../assets/images/about/team-priya-anand.jpg';
+import teamSofia from '../assets/images/about/team-sofia-reyes.jpg';
+import teamDavid from '../assets/images/about/team-david-chen.jpg';
+import teamJamal from '../assets/images/about/team-jamal-carter.jpg';
+import teamAisha from '../assets/images/about/team-aisha-mwangi.jpg';
+import teamRachel from '../assets/images/about/team-rachel-park.jpg';
+import teamTheo from '../assets/images/about/team-theo-lindqvist.jpg';
+
+// ── Page content (structured data; the CMS-ready seam) ──────────────────────
+
+const hero = {
+  eyebrow: 'About Inner Explorer · Est. 2011',
+  headlineTop: 'Fifteen years',
+  headlineBottom: 'of quiet practice.',
+  subtitle:
+    "We've spent a decade and a half bringing daily, audio-guided mindfulness into classrooms — one breath, one teacher, one child at a time. This is the story of how a small idea became a global practice.",
+  imageAlt: 'A classroom of students settling into a quiet morning mindfulness practice',
+  meta: [
+    { label: 'Founded', value: '2011' },
+    { label: 'Status', value: '501(c)(3)' },
+    { label: 'Headquartered', value: 'Boston · Chicago' },
+    { label: 'Reach', value: '14 countries' },
+  ],
+};
+
+const stats = [
+  { value: '2.4M', sup: '+', label: 'Students who have practiced with Inner Explorer' },
+  { value: '35,000', sup: '+', label: 'Educators currently leading daily practices' },
+  { value: '487M', label: 'Mindful minutes delivered in 2025 alone' },
+  { value: '94', sup: '%', label: 'Of educators report calmer classrooms within 4 weeks' },
+];
+
+const mission = {
+  quoteHtml:
+    'We believe every child deserves a moment of <span class="underline">stillness</span> in their school day — not as a luxury, but as a <span class="underline">foundation</span> for everything else they’re asked to do.',
+  attribution: 'Our founding belief · since 2011',
+};
+
+const origin = {
+  eyebrow: 'The origin',
+  headingHtml: 'Two friends, one <span class="accent">stubborn</span> question.',
+  paragraphs: [
+    'In 2011, Dr. Laura Bakosh and Janice Houlihan — lifelong friends, a researcher and an educator — kept circling the same observation. Children were arriving at school already overwhelmed: by hunger, by phones, by everything a young mind absorbs before 8 a.m. And teachers, asked to teach math and reading and life, were left with no time to help them land first.',
+    'They didn’t want another curriculum. They wanted something that could happen in the first five minutes of any day, in any classroom, without specialist training. So they wrote a script, recorded the audio themselves, and walked it into a third-grade room in suburban Chicago.',
+    'What they saw — kids breathing, shoulders dropping, the room growing quiet in a settled way rather than a held-breath way — became the seed of a fifteen-year research program. Inner Explorer was incorporated as a 501(c)(3) the same year. Everything since has been an answer to one question.',
+  ],
+  signed: {
+    initials: 'LB',
+    name: 'Dr. Laura Bakosh & Janice Houlihan',
+    role: 'Co-founders, Inner Explorer',
+  },
+  chip: {
+    quote: '“What if five minutes of stillness could change the next six hours of learning?”',
+    source: 'The founding question, 2011',
+  },
+};
+
+const timeline = {
+  eyebrow: 'A fifteen-year practice',
+  headingHtml: 'The path, <span class="accent">year by year.</span>',
+  lede: 'From a single classroom in 2011 to a daily practice in fourteen countries — every milestone below is anchored in published research, partner agreements, and the children who showed up to breathe.',
+  railYears: [2011, 2014, 2016, 2018, 2020, 2022, 2024, 2026],
+  entries: [
+    {
+      year: 2011,
+      node: { yr: '2011', sub: 'The Start' },
+      tag: { label: 'Founded', variant: 'milestone' as const },
+      title: 'A nonprofit is born on a kitchen table.',
+      body: 'Dr. Laura Bakosh and Janice Houlihan incorporate Inner Explorer as a 501(c)(3). The first practices — twelve audio tracks, five minutes each — are recorded at home and shared by hand with three classrooms outside Chicago.',
+      pullHtml: '<b>3</b> classrooms · <b>72</b> students',
+      image: {
+        src: originSmall,
+        alt: 'A classroom in the early days',
+        caption: 'Suburban Chicago · Year One',
+      },
+    },
+    {
+      year: 2013,
+      node: { yr: '2013', sub: 'Research' },
+      tag: { label: 'First Study', variant: 'research' as const },
+      title: 'The data starts to speak.',
+      body: 'The first eight-week study, conducted with third graders, finds measurable improvements in academic performance and a 50% reduction in disruptive classroom behavior. The pattern repeats across two follow-up studies. Mindfulness in K-12 is no longer anecdote — it is evidence.',
+      pullHtml: '<b>50%</b> fewer disruptions',
+      image: {
+        src: tl2013,
+        alt: 'Students focused at their desks',
+        caption: 'Bakosh et al. · 8-week study',
+      },
+    },
+    {
+      year: 2015,
+      node: { yr: '2015', sub: 'Peer Review' },
+      tag: { label: 'Published', variant: 'research' as const },
+      title: 'Peer review — and a Wisdom 2.0 Award.',
+      body: 'The research is published in the <em>Journal of Applied School Psychology</em>, becoming one of the earliest peer-reviewed studies of daily mindfulness in elementary classrooms. The 1440 Foundation funds expansion; Inner Explorer receives the Wisdom 2.0 Award for innovation in education.',
+      image: {
+        src: originLarge,
+        alt: 'Students gathered around a teacher',
+        caption: '6,600 students · 22 states',
+      },
+    },
+    {
+      year: 2017,
+      node: { yr: '2017', sub: 'Online' },
+      tag: { label: 'Platform', variant: 'milestone' as const },
+      title: 'From hardware to a website any teacher can open.',
+      body: 'Inner Explorer leaves the CD-player era. The full library — now spanning Early Learning through 12th grade — moves online, free for any teacher willing to press play. LG’s “Life’s Good: Experience Happiness” initiative funds the rollout into 400+ schools.',
+      pullHtml: '<b>400+</b> schools · partnered with <b>LG</b>',
+      image: {
+        src: tl2017,
+        alt: 'Children practicing mindfulness in a school setting',
+        caption: 'LG · “Life’s Good: Experience Happiness”',
+      },
+    },
+    {
+      year: 2019,
+      node: { yr: '2019', sub: 'CASEL' },
+      tag: { label: 'Recognition', variant: 'partner' as const },
+      title: 'CASEL approves. Aetna scales.',
+      body: 'The Collaborative for Academic, Social, and Emotional Learning (CASEL) lists Inner Explorer as an evidence-based SEL provider — a meaningful credential in a field crowded with promises. Aetna’s mindfulness initiative reaches 295,000 students across 300+ schools through the platform.',
+      image: {
+        src: originLarge,
+        alt: 'A teacher leading a quiet morning practice',
+        caption: 'Aetna initiative · 295,000 students',
+      },
+    },
+    {
+      year: 2021,
+      highlight: true,
+      node: { yr: '2021', sub: 'A decade' },
+      tag: { label: 'Ten years', variant: 'milestone' as const },
+      title: 'Ten years in. Five districts become thirty.',
+      body: 'The pandemic accelerated everything teachers had been quietly building. In 18 months, full-district adoption grew from five to thirty. The compass mark is refreshed for our tenth anniversary — kept green, kept whole, drawn by hand. We aren’t a startup anymore. We are a practice.',
+    },
+    {
+      year: 2022,
+      node: { yr: '2022', sub: '2M Mark' },
+      tag: { label: 'Scale', variant: 'milestone' as const },
+      title: 'Two million children, and counting.',
+      body: 'We cross the two-million-student mark — every one of them invited (never required) to breathe with us. The mobile app launches, bringing practice into the half-hour before school and the long ride home, where parents and children now press play together.',
+      pullHtml: '<b>2,000,000+</b> students reached',
+      image: {
+        src: tl2022,
+        alt: 'A young child reading peacefully',
+        caption: 'Two million students · cumulative reach',
+      },
+    },
+    {
+      year: 2024,
+      node: { yr: '2024', sub: 'Reach' },
+      tag: { label: 'Global', variant: 'global' as const },
+      title: 'Spanish-language libraries. Fourteen countries.',
+      body: 'The full library is published in Spanish, opening Inner Explorer to bilingual classrooms across the Americas. The GreenLight Fund partnership brings district-wide adoption to the Twin Cities. National Public Radio profiles us as one of the longest-running mindfulness programs in U.S. schools.',
+      image: {
+        src: impact,
+        alt: 'A diverse classroom in practice',
+        caption: '14 countries · Spanish library released',
+      },
+    },
+    {
+      year: 2026,
+      highlight: true,
+      node: { yr: 'Now', sub: '2026' },
+      tag: { label: 'Today', variant: 'milestone' as const },
+      title: 'The next million minds.',
+      body: 'Fifteen years on, the practice is the same: five minutes, eyes closed, breath in. The reach has grown — 35,000 educators leading daily, 2.4 million students who have practiced with us, and a research base of seven peer-reviewed studies. We are now turning toward the next million. We hope you will sit with us.',
+    },
+  ],
+};
+
+const pioneer = {
+  eyebrow: 'A pioneer position',
+  headingHtml: 'Research, <span class="accent">not rhetoric.</span>',
+  lede: 'Inner Explorer was the first daily-mindfulness program in K-12 to be studied at scale, and we have stayed in that lane on purpose. The mindfulness-in-schools field has grown crowded; the body of peer-reviewed evidence has not. We measure, we publish, we revise.',
+  stats: [
+    { n: '7', l: 'Peer-reviewed studies' },
+    { n: '12+', l: 'University research partners' },
+    { n: '50%', l: 'Reduction in disruptive classroom behavior (Bakosh et al., 2015)' },
+    { n: 'CASEL', l: 'Approved SEL provider since 2019' },
+  ],
+  studies: [
+    {
+      yr: '2015 · Bakosh et al.',
+      pub: 'J. Applied School Psychology',
+      title: 'Maximizing Mindful Learning: An Innovative Daily Approach',
+      findHtml:
+        'Eight weeks of daily audio-guided practice raised quarterly grades and produced a <b>50% reduction</b> in classroom behavior incidents among third graders.',
+    },
+    {
+      yr: '2018 · Bakosh, Tobias Mortlock, Querstret, Morison',
+      pub: "J. Children's Services",
+      title: 'Investigating mindful learning in elementary classrooms',
+      findHtml:
+        'A 90-day replication confirmed earlier findings across diverse demographics and grade levels; effects held strongest in classrooms with the highest baseline stress.',
+    },
+    {
+      yr: '2023 · Iowa State University',
+      pub: 'Working paper',
+      title: 'Daily practice and teacher retention in Title I schools',
+      findHtml:
+        'Schools using Inner Explorer four or more days per week saw <b>14% higher</b> teacher retention than matched controls. Independent replication pending.',
+    },
+  ],
+};
+
+const voices = {
+  eyebrow: 'From the classroom',
+  headingHtml: 'Voices we trust <span class="accent">most.</span>',
+  meta: 'Anonymized testimony from the educators, students, and administrators who have led Inner Explorer practices for three or more consecutive years.',
+  items: [
+    {
+      quote:
+        'I have a student who used to walk in slamming the door. After eight weeks of morning practice, she walked in and said, “Mrs. Palmer, I’m ready.” That was the whole sentence. That was everything.',
+      name: 'Mrs. Palmer',
+      role: '3rd grade · Broward County, FL · 6 years on platform',
+      avatar: voicePalmer,
+    },
+    {
+      featured: true,
+      bg: voiceFeaturedBg,
+      quote:
+        'We used to spend the first fifteen minutes of class redirecting. Now we spend five minutes practicing — and the next forty are actually ours.',
+      name: 'Mr. Okafor',
+      role: '7th grade · Newark, NJ · 4 years on platform',
+      avatar: voiceOkafor,
+    },
+    {
+      quote:
+        'The hardest skeptics in our building have become the strongest advocates. Inner Explorer didn’t ask anyone to believe — it just asked them to try it for two weeks.',
+      name: 'Dr. Elaine Reyes',
+      role: 'Principal · Saint Paul, MN · 5 years',
+      avatar: voiceReyes,
+    },
+  ],
+};
+
+const team = {
+  eyebrow: 'The team',
+  headingHtml: 'The people <span class="accent">behind the practice.</span>',
+  meta: 'A small, distributed team of researchers, educators, engineers, and storytellers — most of us came to Inner Explorer from a classroom of our own.',
+  note: 'Plus a quietly growing circle of advisors, contract narrators, and educator-fellows across fourteen countries.',
+  cta: { label: 'See open roles', href: '/careers' },
+  people: [
+    {
+      name: 'Dr. Laura Bakosh',
+      role: 'Co-founder & Chief Research Officer',
+      location: 'Chicago, IL',
+      pin: 'Co-founder',
+      founder: true,
+      photo: teamLaura,
+    },
+    {
+      name: 'Janice Houlihan',
+      role: 'Co-founder & Chief Program Officer',
+      location: 'Boston, MA',
+      pin: 'Co-founder',
+      founder: true,
+      photo: teamJanice,
+    },
+    {
+      name: 'Marcus Ellison',
+      role: 'Executive Director',
+      location: 'Boston, MA',
+      pin: 'Leadership',
+      photo: teamMarcus,
+    },
+    {
+      name: 'Dr. Priya Anand',
+      role: 'Director of Research & Impact',
+      location: 'Cambridge, MA',
+      pin: 'Research',
+      photo: teamPriya,
+    },
+    {
+      name: 'Sofía Reyes',
+      role: 'Head of School Partnerships',
+      location: 'Austin, TX',
+      pin: 'Programs',
+      photo: teamSofia,
+    },
+    {
+      name: 'David Chen',
+      role: 'Lead Curriculum Designer',
+      location: 'Seattle, WA',
+      pin: 'Curriculum',
+      photo: teamDavid,
+    },
+    {
+      name: 'Jamal Carter',
+      role: 'Director of Engineering',
+      location: 'Atlanta, GA',
+      pin: 'Engineering',
+      photo: teamJamal,
+    },
+    {
+      name: 'Aisha Mwangi',
+      role: 'Lead Practice Narrator',
+      location: 'Brooklyn, NY',
+      pin: 'Voice',
+      photo: teamAisha,
+    },
+    {
+      name: 'Rachel Park',
+      role: 'Director of District Success',
+      location: 'Twin Cities, MN',
+      pin: 'Districts',
+      photo: teamRachel,
+    },
+    {
+      name: 'Theo Lindqvist',
+      role: 'Head of Product Design',
+      location: 'Remote · Oslo',
+      pin: 'Design',
+      photo: teamTheo,
+    },
+  ],
+};
+
+const partners = {
+  eyebrow: 'Partners & recognition',
+  heading: 'The organizations that have walked with us.',
+  items: [
+    { name: 'LG', sub: "Life's Good 2017–" },
+    { name: 'Aetna', sub: 'SEL initiative' },
+    { name: 'CASEL', sub: 'Approved SEL' },
+    { name: '1440 Foundation', sub: 'Funder' },
+    { name: 'Wisdom 2.0', sub: '2015 Award' },
+    { name: 'GreenLight Fund', sub: 'Twin Cities' },
+    { name: 'Mindful Schools', sub: 'Alliance' },
+    { name: 'Iowa State', sub: 'Research' },
+    { name: 'UMass Lowell', sub: 'Research' },
+    { name: 'UNICEF', sub: 'Pilot, Mexico' },
+    { name: 'NPR', sub: 'Featured 2024' },
+    { name: 'EdSurge', sub: "Editor's Pick" },
+  ],
+};
+
+const principles = {
+  eyebrow: 'What we believe',
+  headingHtml: 'Four ideas we’ve held <span class="accent">since day one.</span>',
+  items: [
+    {
+      num: '01',
+      title: 'Practice over performance.',
+      body: 'We measure what matters — calm minutes, repeated days — not engagement metrics or completion badges. Mindfulness is not a level to clear.',
+    },
+    {
+      num: '02',
+      title: 'Research, not rhetoric.',
+      body: 'Every claim we make is anchored in peer-reviewed evidence or labeled as a hypothesis. We will tell you the gaps as readily as the wins.',
+    },
+    {
+      num: '03',
+      title: 'Teachers first.',
+      body: 'The practice is led by the people who are already in the room. We design for the teacher who has twenty-three other things to do today.',
+    },
+    {
+      num: '04',
+      title: 'Every child, every day.',
+      body: 'Mindfulness is not enrichment. It is a foundational practice, available to every child without screening, fee, or specialist training.',
+    },
+  ],
+};
+
+const cta = {
+  eyebrow: 'Sit with us',
+  headingHtml: 'Bring fifteen years of practice <span class="accent">into your school.</span>',
+  lede: 'Whether you are a single teacher curious about a five-minute morning practice or a district administrator considering full adoption, we will meet you where you are.',
+  imageAlt: 'A diverse classroom of students in a calm, shared practice',
+  primary: { label: 'Book a district demo', href: '/contact' },
+  secondary: { label: 'Try free as a teacher', href: '/educators' },
+};
+
+const pageTitle = 'About — Inner Explorer';
+const pageDescription =
+  'Fifteen years of daily, audio-guided mindfulness in K-12 schools. The story of Inner Explorer — our founders, our research, our team, and the practice we share with 2.4 million students.';
+
+const base = new URL(Astro.site ?? 'https://www.innerexplorer.org').origin;
+const aboutLd = {
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  name: pageTitle,
+  url: `${base}/about`,
+  description: pageDescription,
+  mainEntity: {
+    '@type': 'Organization',
+    name: 'Inner Explorer',
+    url: base,
+    logo: `${base}/logo.png`,
+    foundingDate: '2011',
+    description:
+      'Daily audio-guided mindfulness practices for K-12 schools. A 501(c)(3) nonprofit.',
+    founder: [
+      { '@type': 'Person', name: 'Dr. Laura Bakosh' },
+      { '@type': 'Person', name: 'Janice Houlihan' },
+    ],
+  },
+};
+---
+
+<PageLayout title={pageTitle} description={pageDescription} flushTop>
+  <JsonLd slot="head" schema={aboutLd} />
+
+  <div class="appearance-light">
+    <AboutHero
+      eyebrow={hero.eyebrow}
+      headlineTop={hero.headlineTop}
+      headlineBottom={hero.headlineBottom}
+      subtitle={hero.subtitle}
+      meta={hero.meta}
+      image={heroImg}
+      imageAlt={hero.imageAlt}
+    />
+    <StatsStrip stats={stats} />
+    <MissionQuote mark={mark} quoteHtml={mission.quoteHtml} attribution={mission.attribution} />
+    <OriginStory
+      eyebrow={origin.eyebrow}
+      headingHtml={origin.headingHtml}
+      paragraphs={origin.paragraphs}
+      signed={origin.signed}
+      large={{ src: originLarge, alt: 'A classroom mid-practice' }}
+      small={{ src: originSmall, alt: 'Young students learning together' }}
+      chip={origin.chip}
+    />
+    <Timeline
+      eyebrow={timeline.eyebrow}
+      headingHtml={timeline.headingHtml}
+      lede={timeline.lede}
+      railYears={timeline.railYears}
+      entries={timeline.entries}
+    />
+    <ResearchPioneer
+      eyebrow={pioneer.eyebrow}
+      headingHtml={pioneer.headingHtml}
+      lede={pioneer.lede}
+      stats={pioneer.stats}
+      studies={pioneer.studies}
+    />
+    <Voices
+      eyebrow={voices.eyebrow}
+      headingHtml={voices.headingHtml}
+      meta={voices.meta}
+      voices={voices.items}
+    />
+    <TeamGrid
+      eyebrow={team.eyebrow}
+      headingHtml={team.headingHtml}
+      meta={team.meta}
+      people={team.people}
+      note={team.note}
+      cta={team.cta}
+    />
+    <Partners eyebrow={partners.eyebrow} heading={partners.heading} partners={partners.items} />
+    <Principles
+      eyebrow={principles.eyebrow}
+      headingHtml={principles.headingHtml}
+      principles={principles.items}
+    />
+    <AboutCTA
+      eyebrow={cta.eyebrow}
+      headingHtml={cta.headingHtml}
+      lede={cta.lede}
+      image={impact}
+      imageAlt={cta.imageAlt}
+      primary={cta.primary}
+      secondary={cta.secondary}
+    />
+  </div>
+</PageLayout>

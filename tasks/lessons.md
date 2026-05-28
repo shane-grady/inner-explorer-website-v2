@@ -5,10 +5,12 @@ any correction or surprise.
 
 ## Environment
 
-- **Subagents fail to spawn in this Cowork environment** — the inherited MCP tool
-  context overflows the prompt limit ("Prompt is too long"), even for a one-line
-  prompt. Do research/exploration in the main context until this changes, despite the
-  general "use subagents liberally" guidance.
+- **Subagents now spawn fine** (verified 2026-05 in Claude Code: a trivial
+  general-purpose agent returned in ~2s). An earlier note claimed they overflowed the
+  prompt limit ("Prompt is too long") from the large inherited MCP tool surface — that
+  is now stale. Use subagents normally for research/parallel work. If a spawn ever does
+  fail with "Prompt is too long," it's the MCP tool context; fall back to the main
+  context for that task.
 
 ## Toolchain (pnpm / Node)
 
@@ -52,3 +54,43 @@ any correction or surprise.
 - Clearing Tailwind defaults (`--color-*: initial; --text-*: initial`) is the strongest
   drift lever — off-system utilities simply don't exist. Pair with the drift guard
   (`pnpm lint:drift`) to also block arbitrary values + raw hex.
+- **The drift guard scans `<style>` blocks too** (it's a regex over whole `.astro/.tsx`
+  files), but it only flags raw hex, `rgb()/hsl()/hsla()/oklch()/oklab(`, and
+  `utility-[arbitrary]`. Plain CSS dimensions (px/vw/%/clamp/grid templates) and
+  `var(--token)` PASS. `.css` files aren't scanned. So bespoke editorial layout belongs
+  in component-scoped `<style>` that references colors via `var(--color-*)`/`var(--brand-*)`
+  and expresses geometry as plain CSS. `color-mix(in oklab, …)` is allowed (the regex
+  needs `oklab(` with a paren; the colorspace keyword has a comma after it).
+- **`@theme` token indirection + subtree theme override = footgun.** `@theme` emits
+  `--color-card: var(--card)` on `:root`, so the indirection is _computed at the root_
+  and inherited. Overriding only `--card` on a descendant (e.g. an `.appearance-light`
+  wrapper to pin a page light under `.dark`) does NOT re-resolve `--color-card` — you get
+  the root's value. Dark mode works site-wide only because `.dark` lives on the same
+  element (`html`) where `--color-*` is declared. Fix: re-declare the `--color-*` set on
+  the overriding selector so they re-substitute in that scope. See `.appearance-light`.
+
+## Skills (skill-creator)
+
+- **`implement-design-handoff` skill** lives at `.claude/skills/implement-design-handoff/`
+  (SKILL.md + `scripts/extract_handoff.sh` + `references/component-system.md`). It
+  encodes the reuse-first handoff workflow: map a Claude Design handoff onto SHARED
+  components/tokens and extend the system globally, rather than bespoke per-page blocks.
+- **Trigger-eval recall via `claude -p` under-measures.** Both the full description-
+  optimization loop (3 iters) and a hand-tuned pushier description scored 0/9 on
+  should-trigger queries while passing 9/9 should-NOT — even for an explicit "here's the
+  Claude Design handoff [api URL], build it." That's the documented under-trigger
+  tendency amplified in headless one-shots (Claude figures it can just do the task), not
+  a wording flaw. Optimize for **precision** (no false triggers) and write a pushy
+  description; don't chase the recall number in that harness. Package validation also
+  rejects `<`/`>` in the description and caps it at 1024 chars.
+
+## Fonts / images / build deps
+
+- **Sharp must be installed explicitly** for `<Image>` optimization, even though it's in
+  `pnpm-workspace.yaml` `allowBuilds`. Build fails `MissingSharp` until `pnpm add sharp`.
+- **`pnpm dev --port N` doesn't forward the flag to Astro** — it gets swallowed and the
+  server falls through to busy default ports. Use `pnpm dev -- --port N` (the `--`
+  separator) or set the port in `astro.config`.
+- `woff2_compress` (Homebrew) converts the brand `.otf` faces to small `.woff2`
+  (Inter ~100KB, Libre Caslon ~40KB each). Self-host from `public/fonts/` with
+  `font-display: swap`. The hero's Inter weight-200 isn't shipped → falls back to 300.

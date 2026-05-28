@@ -31,3 +31,6 @@ pnpm-debug.log*
 
 # local screenshots
 .screenshots/
+
+# skill-creator eval scaffolding (transient: review viewers, logs, run outputs)
+.claude/skills/*-workspace/
