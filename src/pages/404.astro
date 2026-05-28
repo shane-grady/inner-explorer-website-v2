@@ -1,0 +1,562 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import wordmark from '../assets/brand/inner-explorer-wordmark.png';
+
+// Editorial 404 — the "404" itself is the hero, set in italic Caslon at the
+// center of a full compass dial. A red north-tick rotates slowly ("lost") until
+// the cursor moves; then it tracks the cursor (you are true north). Hovering
+// the CTA snaps it to N; idle for ~7s and it returns to its lost spin. Page is
+// locked to the viewport — a single calm moment, no scroll.
+
+const page = {
+  title: 'Off the path · Inner Explorer',
+  description: "We can't find that page. Take a breath — your way back is right here.",
+  eyebrow: 'Page Not Found · Error 404',
+  caption: ['Even an inner compass needs a moment to find ', 'north', '.'] as const,
+  lede: 'This page slipped beyond our map. Take a breath — your way back is right here.',
+  cta: { label: 'Return home', href: '/' },
+  nav: [
+    { label: 'Help', href: '/help' },
+    { label: 'Contact', href: '/contact' },
+    { label: 'Status', href: '/status' },
+  ],
+};
+---
+
+<BaseLayout title={page.title} description={page.description}>
+  <div class="appearance-light page-404">
+    <div class="page">
+      <header class="top">
+        <a class="brand" href="/" aria-label="Inner Explorer — home">
+          <Image src={wordmark} alt="Inner Explorer" height={26} loading="eager" />
+        </a>
+        <nav class="top-nav" aria-label="Secondary">
+          {page.nav.map((l) => <a href={l.href}>{l.label}</a>)}
+        </nav>
+      </header>
+
+      <main>
+        <div class="stage">
+          <p class="eyebrow">
+            <span class="rule" aria-hidden="true"></span>
+            {page.eyebrow}
+            <span class="rule" aria-hidden="true"></span>
+          </p>
+
+          <div class="hero-frame">
+            <span class="dial-wrap lost" id="dial" aria-hidden="true">
+              <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <radialGradient id="dialFace" cx="50%" cy="50%" r="50%">
+                    <stop
+                      offset="0%"
+                      stop-color="color-mix(in oklab, var(--accent-50) 55%, transparent)"></stop>
+                    <stop
+                      offset="70%"
+                      stop-color="color-mix(in oklab, var(--accent-50) 10%, transparent)"></stop>
+                    <stop offset="100%" stop-color="transparent"></stop>
+                  </radialGradient>
+                </defs>
+
+                <circle cx="100" cy="100" r="96" fill="url(#dialFace)"></circle>
+
+                <circle
+                  cx="100"
+                  cy="100"
+                  r="96"
+                  fill="none"
+                  stroke="color-mix(in oklab, var(--color-foreground) 22%, transparent)"
+                  stroke-width="0.7"></circle>
+                <circle
+                  cx="100"
+                  cy="100"
+                  r="84"
+                  fill="none"
+                  stroke="color-mix(in oklab, var(--color-foreground) 12%, transparent)"
+                  stroke-width="0.5"></circle>
+
+                <g
+                  stroke="color-mix(in oklab, var(--color-foreground) 70%, transparent)"
+                  stroke-linecap="round"
+                >
+                  <g transform="translate(100 100)" id="ticks"></g>
+                </g>
+
+                <g
+                  font-family="var(--font-sans)"
+                  font-weight="600"
+                  font-size="8"
+                  letter-spacing="0.04em"
+                  fill="color-mix(in oklab, var(--color-foreground) 92%, transparent)"
+                  text-anchor="middle"
+                  dominant-baseline="central"
+                >
+                  <text x="100" y="10">N</text>
+                  <text x="190" y="100">E</text>
+                  <text x="100" y="190">S</text>
+                  <text x="10" y="100">W</text>
+                </g>
+
+                <g id="northTick">
+                  <polygon points="100,2 96,-7 104,-7" fill="var(--danger)"></polygon>
+                  <polygon points="100,2 96,-7 100,-7" fill="var(--danger)" opacity="0.55"
+                  ></polygon>
+                </g>
+              </svg>
+            </span>
+
+            <h1 class="hero" aria-label="Four oh four">
+              <span class="d">4</span><span class="d">0</span><span class="d">4</span>
+            </h1>
+          </div>
+
+          <p class="caption">
+            {page.caption[0]}<em>{page.caption[1]}</em>{page.caption[2]}
+          </p>
+
+          <p class="lede">{page.lede}</p>
+
+          <div class="ctas">
+            <a class="cta" href={page.cta.href} id="homeBtn">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M4 11.5 12 5l8 6.5"></path>
+                <path d="M6 10v10h12V10"></path>
+              </svg>
+              {page.cta.label}
+            </a>
+          </div>
+        </div>
+      </main>
+
+      <footer class="bot" aria-hidden="true"></footer>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  /* Pin the 404 to one screen — calm, no scroll. */
+  .page-404 {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    background-color: var(--editorial-paper);
+    background-image:
+      radial-gradient(
+        120% 80% at 80% -10%,
+        color-mix(in oklab, var(--accent-100) 55%, transparent) 0%,
+        transparent 55%
+      ),
+      radial-gradient(
+        90% 70% at 12% 110%,
+        color-mix(in oklab, var(--brand-100) 45%, transparent) 0%,
+        transparent 60%
+      );
+  }
+
+  /* Imperceptible paper grain */
+  .page-404::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.12;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='5'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.5 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.5'/></svg>");
+  }
+
+  .page {
+    position: relative;
+    z-index: 1;
+    height: 100dvh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: clamp(20px, 3vw, 40px);
+    gap: clamp(16px, 2.4vh, 32px);
+  }
+
+  /* Header — minimal editorial chrome */
+  header.top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 8px 16px 0;
+  }
+  .brand :global(img) {
+    height: 26px;
+    width: auto;
+    display: block;
+    user-select: none;
+  }
+  .top-nav {
+    display: inline-flex;
+    gap: 22px;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--color-muted-foreground);
+  }
+  .top-nav a {
+    color: inherit;
+    text-decoration: none;
+    transition: color var(--dur-fast) var(--ease-out);
+    position: relative;
+  }
+  .top-nav a:hover {
+    color: var(--color-foreground);
+  }
+  .top-nav a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -6px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0;
+    transform: translateY(2px);
+    transition:
+      opacity var(--dur-fast),
+      transform var(--dur-fast);
+  }
+  .top-nav a:hover::after {
+    opacity: 0.6;
+    transform: translateY(0);
+  }
+
+  /* Main */
+  main {
+    display: grid;
+    place-items: center;
+    padding: clamp(8px, 2vh, 24px) clamp(12px, 3vw, 40px);
+  }
+  .stage {
+    display: grid;
+    justify-items: center;
+    gap: clamp(20px, 3vh, 36px);
+    text-align: center;
+    max-width: 720px;
+  }
+
+  .eyebrow {
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    color: var(--color-muted-foreground);
+  }
+  .eyebrow .rule {
+    display: inline-block;
+    width: 38px;
+    height: 1px;
+    background: color-mix(in oklab, var(--color-foreground) 35%, transparent);
+  }
+
+  /* Hero: full compass containing the 404 */
+  .hero-frame {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: clamp(280px, 38vmin, 420px);
+    height: clamp(280px, 38vmin, 420px);
+  }
+  .dial-wrap {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .dial-wrap svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    overflow: visible;
+  }
+
+  .hero {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(80px, 13vmin, 144px);
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    color: var(--brand-900);
+    display: inline-flex;
+    align-items: center;
+    user-select: none;
+  }
+  .hero .d {
+    display: inline-block;
+    padding: 0 0.005em;
+  }
+
+  /* Rotating north-tick (the lost needle) */
+  #northTick {
+    transform-box: view-box;
+    transform-origin: 50% 50%;
+    transition: transform 1.2s var(--ease-out);
+    will-change: transform;
+  }
+  .dial-wrap.lost #northTick {
+    animation: tickSpin 9s linear infinite;
+    transition: none;
+  }
+  @keyframes tickSpin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Caption + lede */
+  .caption {
+    margin: 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(22px, 2.8vmin, 30px);
+    line-height: 1.25;
+    color: var(--color-foreground);
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+    max-width: 28ch;
+  }
+  .caption em {
+    font-style: italic;
+    color: var(--brand-700);
+    font-weight: 500;
+  }
+
+  .lede {
+    margin: 0;
+    font-size: clamp(14.5px, 1.55vmin, 16.5px);
+    line-height: 1.55;
+    color: var(--color-muted-foreground);
+    max-width: 46ch;
+    text-wrap: pretty;
+  }
+
+  /* CTA — deeper than bg-brand (the editorial direction calls for forest, not
+     primary green). One-off styling: if this depth + pill shape recurs, promote
+     to a Button variant. */
+  .ctas {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: clamp(4px, 1vh, 12px);
+  }
+  .cta {
+    appearance: none;
+    border: 0;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 22px;
+    border-radius: 9999px;
+    font-size: 14.5px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.005em;
+    text-decoration: none;
+    color: var(--color-white);
+    background: var(--brand-800);
+    box-shadow:
+      inset 0 1px 0 color-mix(in oklab, var(--color-white) 15%, transparent),
+      0 6px 18px color-mix(in oklab, var(--brand-900) 28%, transparent);
+    transition:
+      transform var(--dur-fast) var(--ease-out),
+      background var(--dur) var(--ease-out),
+      box-shadow var(--dur) var(--ease-out);
+  }
+  .cta svg {
+    width: 15px;
+    height: 15px;
+    stroke-width: 1.8;
+  }
+  .cta:hover {
+    background: var(--brand-900);
+    transform: translateY(-1px);
+    box-shadow:
+      inset 0 1px 0 color-mix(in oklab, var(--color-white) 18%, transparent),
+      0 10px 24px color-mix(in oklab, var(--brand-900) 36%, transparent);
+  }
+  .cta:active {
+    transform: translateY(0) scale(0.985);
+  }
+
+  /* Empty footer preserves the 3-row grid rhythm. */
+  footer.bot {
+    padding: 0 16px 8px;
+  }
+
+  /* Responsive: scale the hero down so the full compass always fits. */
+  @media (max-width: 720px) {
+    .top-nav {
+      gap: 14px;
+      font-size: 12px;
+    }
+    .caption {
+      max-width: 22ch;
+    }
+    .stage {
+      gap: 24px;
+    }
+  }
+  @media (max-height: 760px) {
+    .hero-frame {
+      width: clamp(240px, 32vmin, 340px);
+      height: clamp(240px, 32vmin, 340px);
+    }
+    .hero {
+      font-size: clamp(68px, 11vmin, 120px);
+    }
+    .stage {
+      gap: 20px;
+    }
+  }
+  @media (max-height: 600px) {
+    .hero-frame {
+      width: clamp(200px, 28vmin, 280px);
+      height: clamp(200px, 28vmin, 280px);
+    }
+    .hero {
+      font-size: clamp(58px, 9vmin, 100px);
+    }
+    .stage {
+      gap: 16px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dial-wrap,
+    #northTick {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+</style>
+
+<script>
+  // Build the 72-tick dial (skip cardinals — N/E/S/W letters sit there instead).
+  const ticksGroup = document.getElementById('ticks');
+  if (ticksGroup) {
+    const ns = 'http://www.w3.org/2000/svg';
+    for (let i = 0; i < 72; i++) {
+      if (i % 18 === 0) continue;
+      const isMajor = i % 6 === 0;
+      const tick = document.createElementNS(ns, 'line');
+      tick.setAttribute('x1', '0');
+      tick.setAttribute('x2', '0');
+      tick.setAttribute('y1', '-96');
+      tick.setAttribute('y2', isMajor ? '-89' : '-93.5');
+      tick.setAttribute('stroke-width', isMajor ? '1' : '0.55');
+      tick.setAttribute('stroke-opacity', isMajor ? '0.55' : '0.32');
+      tick.setAttribute('transform', `rotate(${i * 5})`);
+      ticksGroup.appendChild(tick);
+    }
+  }
+
+  // Needle behavior: the visitor's cursor is the compass's true north.
+  const dial = document.getElementById('dial');
+  const needle = document.getElementById('northTick');
+  const homeBtn = document.getElementById('homeBtn');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (dial && needle && homeBtn) {
+    let foundUserOnce = false;
+    let snappedNorth = false;
+    let lastMoveAt = 0;
+
+    const setAngle = (deg: number) => {
+      needle.style.transform = `rotate(${deg}deg)`;
+    };
+
+    const pointToward = (clientX: number, clientY: number) => {
+      const rect = dial.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      return (Math.atan2(clientX - cx, -(clientY - cy)) * 180) / Math.PI;
+    };
+
+    const onMove = (clientX: number, clientY: number) => {
+      if (reduceMotion) return;
+      lastMoveAt = performance.now();
+      if (!foundUserOnce) {
+        foundUserOnce = true;
+        dial.classList.remove('lost');
+      }
+      if (snappedNorth) return;
+      setAngle(pointToward(clientX, clientY));
+    };
+
+    const snapNorth = () => {
+      if (!foundUserOnce) {
+        foundUserOnce = true;
+        dial.classList.remove('lost');
+      }
+      snappedNorth = true;
+      setAngle(0);
+    };
+    const releaseNorth = () => {
+      snappedNorth = false;
+    };
+
+    window.addEventListener('mousemove', (e) => onMove(e.clientX, e.clientY), { passive: true });
+    window.addEventListener(
+      'touchmove',
+      (e) => {
+        if (e.touches[0]) onMove(e.touches[0].clientX, e.touches[0].clientY);
+      },
+      { passive: true },
+    );
+
+    homeBtn.addEventListener('mouseenter', snapNorth);
+    homeBtn.addEventListener('mouseleave', releaseNorth);
+    homeBtn.addEventListener('focus', snapNorth);
+    homeBtn.addEventListener('blur', releaseNorth);
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'n' || e.key === 'N') {
+        snapNorth();
+        setTimeout(releaseNorth, 1600);
+      }
+    });
+
+    // After ~7s idle, return to the lost spin.
+    setInterval(() => {
+      if (reduceMotion || snappedNorth || !foundUserOnce) return;
+      if (performance.now() - lastMoveAt > 7000) {
+        needle.style.transition = 'none';
+        needle.getBoundingClientRect();
+        dial.classList.add('lost');
+        foundUserOnce = false;
+        setTimeout(() => {
+          needle.style.transition = '';
+        }, 50);
+      }
+    }, 1000);
+  }
+</script>
