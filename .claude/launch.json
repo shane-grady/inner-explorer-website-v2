@@ -2,10 +2,10 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "ie-dev",
+      "name": "ie-dev-research",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["dev", "--port", "4399"],
-      "port": 4399
+      "runtimeArgs": ["exec", "astro", "dev", "--port", "4421"],
+      "port": 4421
     }
   ]
 }

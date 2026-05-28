@@ -1,0 +1,233 @@
+---
+interface Voice {
+  quote: string;
+  author: string;
+  where: string;
+}
+interface Props {
+  voices: Voice[];
+  intervalMs?: number;
+}
+const { voices, intervalMs = 7000 }: Props = Astro.props;
+---
+
+<section class="voices" id="voices" data-screen-label="Voices" aria-label="Testimonials">
+  <div class="wrap">
+    <div class="mark" aria-hidden="true">&ldquo;</div>
+    <div class="quotes" data-interval={intervalMs}>
+      {
+        voices.map((v, i) => (
+          <figure
+            class:list={['quote-card', { on: i === 0 }]}
+            data-index={i}
+            aria-hidden={i === 0 ? 'false' : 'true'}
+          >
+            <blockquote class="quote">{v.quote}</blockquote>
+            <figcaption>
+              <div class="author">{v.author}</div>
+              <div class="where">{v.where}</div>
+            </figcaption>
+          </figure>
+        ))
+      }
+    </div>
+    <div class="live-region" aria-live="polite" aria-atomic="true" data-live>
+      {voices[0]?.quote}
+    </div>
+    <div class="dots" role="group" aria-label="Choose a testimonial">
+      {
+        voices.map((_, i) => (
+          <button
+            type="button"
+            class:list={['dot', { on: i === 0 }]}
+            aria-label={`Show testimonial ${i + 1} of ${voices.length}`}
+            aria-pressed={i === 0 ? 'true' : 'false'}
+            data-target={i}
+          />
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .voices {
+    position: relative;
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    padding: 120px 0;
+    background: var(--editorial-night);
+    color: var(--editorial-paper);
+    overflow: hidden;
+  }
+  .voices::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(
+        circle at 20% 50%,
+        color-mix(in oklab, var(--editorial-glow) 18%, transparent),
+        transparent 50%
+      ),
+      radial-gradient(
+        circle at 80% 70%,
+        color-mix(in oklab, var(--brand-700) 22%, transparent),
+        transparent 50%
+      );
+    pointer-events: none;
+  }
+  .wrap {
+    position: relative;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0 32px;
+    text-align: center;
+    z-index: 1;
+  }
+  .mark {
+    margin-bottom: -20px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 140px;
+    line-height: 0.8;
+    color: var(--editorial-glow);
+    opacity: 0.6;
+  }
+  .quotes {
+    position: relative;
+    min-height: 320px;
+  }
+  .quote-card {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+      opacity 700ms var(--ease-out),
+      transform 700ms var(--ease-out);
+    pointer-events: none;
+  }
+  .quote-card.on {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+    position: relative;
+  }
+  .quote {
+    margin: 0 0 36px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(32px, 4vw, 56px);
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    color: var(--editorial-paper);
+    text-wrap: balance;
+  }
+  .author {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: 0.04em;
+    color: var(--editorial-paper);
+  }
+  .where {
+    margin-top: 4px;
+    font-size: 13px;
+    line-height: 1.4;
+    color: color-mix(in oklab, var(--editorial-paper) 60%, transparent);
+  }
+
+  .live-region {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    border: 0;
+  }
+
+  .dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 48px;
+  }
+  .dot {
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: color-mix(in oklab, var(--editorial-paper) 25%, transparent);
+    cursor: pointer;
+    transition: all 250ms;
+  }
+  .dot.on {
+    background: var(--editorial-glow);
+    transform: scale(1.4);
+  }
+  .dot:focus-visible {
+    outline: 2px solid var(--editorial-glow);
+    outline-offset: 4px;
+  }
+</style>
+
+<script>
+  const section = document.querySelector<HTMLElement>('.voices');
+  if (section) {
+    const cards = Array.from(section.querySelectorAll<HTMLElement>('.quote-card'));
+    const dots = Array.from(section.querySelectorAll<HTMLElement>('.dot'));
+    const live = section.querySelector<HTMLElement>('[data-live]');
+    const interval = Number(
+      section.querySelector<HTMLElement>('.quotes')?.dataset.interval ?? '7000',
+    );
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let current = 0;
+    let timer: number | undefined;
+
+    const show = (i: number) => {
+      cards.forEach((c, idx) => {
+        c.classList.toggle('on', idx === i);
+        c.setAttribute('aria-hidden', idx === i ? 'false' : 'true');
+      });
+      dots.forEach((d, idx) => {
+        d.classList.toggle('on', idx === i);
+        d.setAttribute('aria-pressed', idx === i ? 'true' : 'false');
+      });
+      const quote = cards[i]?.querySelector('.quote')?.textContent ?? '';
+      if (live) live.textContent = quote;
+      current = i;
+    };
+    const next = () => show((current + 1) % cards.length);
+    const start = () => {
+      if (reduced || cards.length < 2) return;
+      stop();
+      timer = window.setInterval(next, interval);
+    };
+    const stop = () => {
+      if (timer !== undefined) {
+        clearInterval(timer);
+        timer = undefined;
+      }
+    };
+
+    dots.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        const target = Number(dot.dataset.target ?? '0');
+        show(target);
+        start();
+      });
+    });
+    document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+    section.addEventListener('mouseenter', stop);
+    section.addEventListener('mouseleave', start);
+    start();
+  }
+</script>

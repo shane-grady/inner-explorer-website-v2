@@ -1,271 +1,265 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
-import CinematicHero from '../components/blocks/CinematicHero.astro';
-import EditorialCTA from '../components/blocks/EditorialCTA.astro';
-import OpeningVoid from '../components/blocks/research/OpeningVoid.astro';
-import ChapterReceipts from '../components/blocks/research/ChapterReceipts.astro';
-import ChapterBrain from '../components/blocks/research/ChapterBrain.astro';
-import ChapterOutcomes from '../components/blocks/research/ChapterOutcomes.astro';
-import Endorsers from '../components/blocks/research/Endorsers.astro';
-import VoicesRotator from '../components/blocks/research/VoicesRotator.astro';
+import ResearchOpeningVoid from '../components/blocks/research/ResearchOpeningVoid.astro';
+import ResearchHero from '../components/blocks/research/ResearchHero.astro';
+import ResearchReceipts from '../components/blocks/research/ResearchReceipts.astro';
+import ResearchBrain from '../components/blocks/research/ResearchBrain.astro';
+import ResearchOutcomes from '../components/blocks/research/ResearchOutcomes.astro';
+import ResearchEndorsers from '../components/blocks/research/ResearchEndorsers.astro';
+import ResearchVoices from '../components/blocks/research/ResearchVoices.astro';
+import ResearchCTA from '../components/blocks/research/ResearchCTA.astro';
+import BreathMeter from '../components/blocks/research/BreathMeter.astro';
+import heroImg from '../assets/images/research/hero-classroom.jpg';
+import type { Study } from '../components/blocks/research/ResearchReceipts.astro';
+import type { Outcome } from '../components/blocks/research/ResearchOutcomes.astro';
 
-// Photography — stand-ins reused from the About page until real research photos are
-// supplied. See tasks/todo.md.
-import heroImg from '../assets/images/about/hero-classroom-mindfulness.png';
-import ctaImg from '../assets/images/about/impact-diverse-classroom.jpg';
-
-// ── Page content (structured data; CMS-ready) ────────────────────────────────
+// ── Page content (structured data — CMS-ready seam) ─────────────────────────
 
 const opening = {
-  eyebrow: 'Inner Explorer · The research',
+  eyebrow: 'Inner Explorer · The Research',
   lines: [
-    { text: 'Two of every three children' },
-    { text: 'carry stress that quietly' },
-    { text: 'disables their ability to learn.', emphasis: true },
+    'Two of every three children',
+    'carry stress that quietly',
+    'disables their ability to learn.',
   ],
 };
 
 const hero = {
   eyebrow: 'A quiet revolution · Since 2011',
-  headlineLines: [
-    { text: "We've spent", kind: 'sans' as const },
-    { text: 'fifteen years', kind: 'serif' as const },
-    { text: 'changing that.', kind: 'serif' as const },
-    { text: "Here's the proof.", kind: 'serif' as const, tone: 'accent' as const },
+  lines: [
+    { text: "We've spent", face: 'sans' as const },
+    { text: 'fifteen years' },
+    { text: 'changing that.' },
+    { text: "Here's the proof.", em: true },
   ],
-  lede: 'Six independent controlled trials. Tens of thousands of classrooms. A daily five-minute practice, grounded in 40+ years of Mindfulness-Based Stress Reduction research.',
-  imageAlt: 'A classroom of students settling into a quiet practice',
+  subtitle:
+    'Six independent controlled trials. Tens of thousands of classrooms. A daily five-minute practice, grounded in 40+ years of Mindfulness-Based Stress Reduction research.',
+  counterValue: '15',
+  counterLabel: 'Years of evidence',
   primaryCta: { label: 'See the receipts', href: '#receipts' },
   secondaryCta: { label: 'Book a demo', href: '/contact' },
+  imageAlt: 'A classroom of students settling into a quiet morning practice in calm window light',
 };
 
-const studies = [
+const studies: Study[] = [
   {
     id: 'bakosh-2016',
-    tag: 'RCT',
     year: 2016,
-    authors: 'Bakosh, Snow, Houlihan, Tobias, Barbosa-Leiker',
-    journal: 'Journal of Mindfulness',
-    institution: 'Loyola Marymount University',
+    tag: 'RCT',
     title: 'Maximizing mindful learning',
-    findings: [
-      { stat: '+14%', label: 'Reading grades' },
-      { stat: '+11%', label: 'Science grades' },
-      { stat: '−42%', label: 'Behavior referrals' },
-    ],
+    authors: 'Bakosh, Snow, Houlihan, Tobias, Barbosa-Leiker',
+    institution: 'Loyola Marymount University et al.',
+    journal: 'Journal of Mindfulness',
+    leadStat: '+14%',
+    leadLabel: 'Reading grades vs. waitlist control',
   },
   {
     id: 'bakosh-2018',
-    tag: 'Controlled study',
     year: 2018,
-    authors: 'Bakosh, Houlihan, Tobias',
-    journal: 'Learning & Instruction',
-    institution: 'Loyola Marymount University',
+    tag: 'Controlled study',
     title: 'Audio-guided mindfulness training in schools',
-    findings: [
-      { stat: '+18%', label: 'Math grades' },
-      { stat: '+17%', label: 'Overall GPA' },
-      { stat: '−21%', label: 'Teacher stress' },
-    ],
-  },
-  {
-    id: 'dunlap-2023',
-    tag: 'Doctoral study',
-    year: 2023,
-    authors: 'Dunlap',
-    journal: 'Pending publication',
-    institution: 'UNC — Charlotte',
-    title: 'Inner Explorer and academic growth',
-    findings: [
-      { stat: '+GPA', label: 'General-ed students' },
-      { stat: '+Math', label: 'Standardized scores' },
-      { stat: '+Reading', label: 'Standardized scores' },
-    ],
+    authors: 'Bakosh, Houlihan, Tobias',
+    institution: 'Loyola Marymount University',
+    journal: 'Learning & Instruction',
+    leadStat: '+18%',
+    leadLabel: 'Math grades · sustained over the school year',
   },
   {
     id: 'lopez-2020',
-    tag: 'RCT',
     year: 2020,
-    authors: 'Lopez et al.',
-    journal: 'Pending publication',
-    institution: 'University of South Florida',
-    title: 'A randomized trial in 39 Head Start classrooms',
-    findings: [
-      { stat: '−34%', label: 'Teacher stress' },
-      { stat: '+27%', label: 'Classroom management' },
-      { stat: '+EF', label: 'Student executive function' },
-    ],
-  },
-  {
-    id: 'treves-2023',
     tag: 'RCT',
-    year: 2023,
-    authors: 'Treves et al.',
-    journal: 'Journal of Mindfulness',
-    institution: 'MIT — McGovern Institute',
-    title: 'At-home use of app-based mindfulness for children',
-    findings: [
-      { stat: '−28%', label: 'Student stress' },
-      { stat: '−24%', label: 'Negative affect' },
-      { stat: 'RCT', label: 'Active control' },
-    ],
+    title: 'A randomized controlled trial in 39 Head Start classrooms',
+    authors: 'Lopez et al.',
+    institution: 'University of South Florida',
+    journal: 'Pending publication',
+    leadStat: '−34%',
+    leadLabel: 'Teacher stress · end of school year',
   },
   {
     id: 'stager-2022',
-    tag: 'Doctoral study',
     year: 2022,
+    tag: 'Doctoral study',
+    title: 'Mindfulness with elementary students and state test scores',
     authors: 'Stager',
-    journal: 'Pending publication',
     institution: 'University of La Verne',
-    title: 'Mindfulness with elementary students and state tests',
-    findings: [
-      { stat: '+Math', label: 'State test scores' },
-      { stat: 'Active', label: 'Use vs. inactive' },
-      { stat: 'Annual', label: 'Year-over-year' },
-    ],
+    journal: 'Pending publication',
+    leadStat: '+Math',
+    leadLabel: 'State test scores · active vs. inactive use',
+  },
+  {
+    id: 'dunlap-2023',
+    year: 2023,
+    tag: 'Doctoral study',
+    title: 'An analysis of the impact of Inner Explorer on academic growth',
+    authors: 'Dunlap',
+    institution: 'UNC Charlotte',
+    journal: 'Pending publication',
+    leadStat: '+GPA',
+    leadLabel: 'General & special-education elementary students',
+  },
+  {
+    id: 'treves-2023',
+    year: 2023,
+    tag: 'RCT',
+    title: 'At-home use of app-based mindfulness for children',
+    authors: 'Treves et al.',
+    institution: 'MIT — McGovern Institute',
+    journal: 'Journal of Mindfulness',
+    leadStat: '−28%',
+    leadLabel: 'Student stress · 8 weeks vs. active control',
   },
 ];
 
 const receipts = {
-  eyebrow: 'I.',
-  label: 'The receipts',
-  headlineLines: [
-    { text: 'Six independent', kind: 'serif' as const },
-    { text: 'controlled trials.', kind: 'serif' as const, tone: 'accent' as const },
-  ],
+  chapterLabel: 'I — Receipts',
+  chapterNumber: 'I.',
+  headingHtml:
+    '<span class="stk">Six independent</span><span class="stk"><em>controlled trials.</em></span>',
   lede: "Every study below was conducted by independent researchers in real classrooms — four randomized and controlled, two doctoral dissertations. We didn't write them. We just made them possible.",
-  studies,
 };
 
 const brain = {
-  eyebrow: 'II.',
-  label: 'The brain',
-  headlineLines: [
-    { text: 'When stress goes,', kind: 'sans' as const },
-    { text: 'learning returns.', kind: 'serif' as const, tone: 'accent' as const },
-  ],
-  paragraphsBefore: [
+  chapterLabel: 'II — Brain',
+  chapterNumber: 'II.',
+  headingHtml:
+    '<span class="stk sans">When stress goes,</span><span class="stk"><em>learning returns.</em></span>',
+  paragraphs: [
     'Stress comes from many sources, both inside and outside of school. When it overwhelms the brain through the automatic fight-flight-freeze response, higher-order thinking takes a back seat. Working memory shrinks. Attention narrows. The capacity to absorb information collapses.',
     "Research suggests two of every three children experience Adverse Childhood Experiences that lead to lasting effects. Toxic stress doesn't just sit on top of learning — it physically rewires the developing brain, dampening executive function and amplifying the very stress response that began the cycle.",
-  ],
-  pullHtml:
-    'Daily mindful practice rewires those networks <em>quietly, measurably, day by day.</em>',
-  paragraphsAfterHtml: [
-    `Inner Explorer's daily practice is aligned with Mindfulness-Based Stress Reduction — the most widely studied mindfulness curriculum on Earth, with <span class="inline-stat">10,000+ studies</span> over four decades. We translate that science into five minutes a day, led by the teacher, in the classroom.`,
+    'Inner Explorer\'s daily practice is aligned with Mindfulness-Based Stress Reduction — the most widely studied mindfulness curriculum on Earth, with <span class="inline-stat">10,000+ studies</span> over four decades. We translate that science into five minutes a day, led by the teacher, in the classroom.',
     'The result, measured again and again in controlled trials: classrooms become calmer. Behavior referrals drop. Grades rise. Teachers report less stress. Students report less stress. And the cycle starts to reverse.',
   ],
+  pullQuoteHtml:
+    'Daily mindful practice rewires those networks <em>quietly, measurably, day by day.</em>',
 };
 
-const outcomes = {
-  eyebrow: 'III.',
-  label: 'The outcomes',
-  headlineLines: [
-    { text: 'Five outcomes,', kind: 'serif' as const },
-    { text: 'measured rigorously,', kind: 'sans' as const },
-    { text: 'across five spreads.', kind: 'serif' as const, tone: 'accent' as const },
-  ],
-  list: [
-    {
-      id: 'academics',
-      label: 'Academics',
-      eyebrow: 'Reading, math & GPA',
-      headline: 'Higher grades. Better test scores.',
-      statValue: '+18',
-      statUnit: '%',
-      statCaption: 'average GPA lift across treatment groups',
-      copy: 'Daily audio-guided practice rewires the brain for focus. Three independent studies — including a randomized controlled trial — found measurable gains in reading, math, science grades and standardized test scores for both general-ed and special-ed students.',
-      studies: ['bakosh-2016', 'bakosh-2018', 'dunlap-2023', 'stager-2022'],
-      chart: 'bars' as const,
-      data: [
-        { label: 'Reading', value: 14 },
-        { label: 'Math', value: 18 },
-        { label: 'Science', value: 11 },
-        { label: 'Overall GPA', value: 17 },
-      ],
-    },
-    {
-      id: 'behavior',
-      label: 'Behavior',
-      eyebrow: 'Climate & referrals',
-      headline: 'Fewer disruptions. Calmer classrooms.',
-      statValue: '−42',
-      statUnit: '%',
-      statCaption: 'drop in behavior referrals in 4th-grade study',
-      copy: 'When students learn to self-regulate through guided breathing, fight-flight-freeze reactions give way to focus. Schools using Inner Explorer daily report meaningful reductions in behavior referrals and a measurable shift in classroom climate.',
-      studies: ['bakosh-2016', 'lopez-2020'],
-      chart: 'before-after' as const,
-      data: [
-        { label: 'Behavior referrals', before: 100, after: 58 },
-        { label: 'Classroom disruptions', before: 100, after: 64 },
-      ],
-    },
-    {
-      id: 'teacher-stress',
-      label: 'Teacher stress',
-      eyebrow: 'Workforce wellbeing',
-      headline: 'Teachers stay. Teachers thrive.',
-      statValue: '−34',
-      statUnit: '%',
-      statCaption: 'reduction in teacher stress, RCT in 39 Head Start classrooms',
-      copy: 'Inner Explorer is the rare program that benefits the adult in the room as much as the children. Daily practice, led by the teacher, reduces stress and improves classroom management — and the teacher gets to do the practice too.',
-      studies: ['lopez-2020', 'bakosh-2018'],
-      chart: 'dial' as const,
-      data: [
-        { label: 'Stress', value: -34 },
-        { label: 'Classroom management', value: 27 },
-        { label: 'Job satisfaction', value: 19 },
-      ],
-    },
-    {
-      id: 'student-stress',
-      label: 'Student stress',
-      eyebrow: 'Mental health & wellbeing',
-      headline: 'Lower stress. Less anxiety.',
-      statValue: '−28',
-      statUnit: '%',
-      statCaption: 'reduction in student stress & negative affect',
-      copy: "A randomized, active-controlled trial at MIT's McGovern Institute found that children using Inner Explorer at home showed clinically meaningful reductions in stress and negative affect — a rigorous test of effect, not just engagement.",
-      studies: ['treves-2023'],
-      chart: 'line' as const,
-      data: [
-        { week: 0, stress: 100, control: 100 },
-        { week: 2, stress: 88, control: 98 },
-        { week: 4, stress: 78, control: 96 },
-        { week: 6, stress: 74, control: 95 },
-        { week: 8, stress: 72, control: 96 },
-      ],
-    },
-    {
-      id: 'sel',
-      label: 'SEL',
-      eyebrow: 'CASEL competencies',
-      headline: 'All five CASEL competencies.',
-      statValue: '5',
-      statUnit: '/5',
-      statCaption: 'CASEL competencies explicitly mapped',
-      copy: 'Inner Explorer is a CASEL-approved program. Practices explicitly map to all five core competencies — self-awareness, self-management, social awareness, relationship skills, and responsible decision-making — woven through daily lessons across the school year.',
-      studies: [],
-      chart: 'competencies' as const,
-      data: [
-        { label: 'Self-awareness', value: 95 },
-        { label: 'Self-management', value: 92 },
-        { label: 'Social awareness', value: 84 },
-        { label: 'Relationship skills', value: 80 },
-        { label: 'Responsible decision-making', value: 78 },
-      ],
-    },
-  ],
-};
-
-const endorsers = [
-  { name: 'CASEL', role: 'Approved SEL program' },
-  { name: 'MIT — McGovern Institute', role: 'Independent RCT' },
-  { name: 'University of South Florida', role: 'Head Start RCT' },
-  { name: 'UNC Charlotte', role: 'Academic-growth study' },
-  { name: 'University of La Verne', role: 'State-test study' },
-  { name: 'Loyola Marymount', role: 'Foundational study' },
+const outcomes: Outcome[] = [
+  {
+    id: 'academics',
+    label: 'Academics',
+    eyebrow: 'Reading, math & GPA',
+    statValue: '+18',
+    statUnit: '%',
+    statCaption: 'average GPA lift across treatment groups',
+    headline: 'Higher grades. Better test scores.',
+    copy: 'Daily audio-guided practice rewires the brain for focus. Three independent studies — including a randomized controlled trial — found measurable gains in reading, math, science grades and standardized test scores for both general-ed and special-ed students.',
+    studyIds: ['bakosh-2016', 'bakosh-2018', 'dunlap-2023', 'stager-2022'],
+    chart: 'bars',
+    chartTitle: 'Grade gains vs. control',
+    chartSubtitle: 'Treatment classes, quarterly grade points',
+    chartFoot: 'Bakosh 2016 · 2018 · Dunlap 2023',
+    data: [
+      { label: 'Reading', value: 14 },
+      { label: 'Math', value: 18 },
+      { label: 'Science', value: 11 },
+      { label: 'Overall GPA', value: 17 },
+    ],
+  },
+  {
+    id: 'behavior',
+    label: 'Behavior',
+    eyebrow: 'Climate & referrals',
+    statValue: '−42',
+    statUnit: '%',
+    statCaption: 'drop in behavior referrals in 4th-grade study',
+    headline: 'Fewer disruptions. Calmer classrooms.',
+    copy: 'When students learn to self-regulate through guided breathing, fight-flight-freeze reactions give way to focus. Schools using Inner Explorer daily report meaningful reductions in behavior referrals and a measurable shift in classroom climate.',
+    studyIds: ['bakosh-2016', 'lopez-2020'],
+    chart: 'before-after',
+    chartTitle: 'Before · After',
+    chartSubtitle: 'Indexed to pre-program baseline = 100',
+    chartFoot: 'Lopez 2020, RCT · 39 Head Start classrooms',
+    data: [
+      { label: 'Behavior referrals', before: 100, after: 58 },
+      { label: 'Classroom disruptions', before: 100, after: 64 },
+    ],
+  },
+  {
+    id: 'teacher-stress',
+    label: 'Teacher stress',
+    eyebrow: 'Workforce wellbeing',
+    statValue: '−34',
+    statUnit: '%',
+    statCaption: 'reduction in teacher stress, RCT in 39 Head Start classrooms',
+    headline: 'Teachers stay. Teachers thrive.',
+    copy: 'Inner Explorer is the rare program that benefits the adult in the room as much as the children. Daily practice, led by the teacher, reduces stress and improves classroom management — and the teacher gets to do the practice too.',
+    studyIds: ['lopez-2020', 'bakosh-2018'],
+    chart: 'dial',
+    chartTitle: 'Teacher outcomes',
+    chartSubtitle: 'Change vs. baseline, end of school year',
+    chartFoot: 'Lopez 2020, RCT · University of South Florida',
+    data: [
+      { label: 'Stress', value: -34 },
+      { label: 'Classroom management', value: 27 },
+      { label: 'Job satisfaction', value: 19 },
+    ],
+  },
+  {
+    id: 'student-stress',
+    label: 'Student stress',
+    eyebrow: 'Mental health & wellbeing',
+    statValue: '−28',
+    statUnit: '%',
+    statCaption: 'reduction in student stress & negative affect',
+    headline: 'Lower stress. Less anxiety.',
+    copy: "A randomized, active-controlled trial at MIT's McGovern Institute found that children using Inner Explorer at home showed clinically meaningful reductions in stress and negative affect — a rigorous test of effect, not just engagement.",
+    studyIds: ['treves-2023'],
+    chart: 'line',
+    chartTitle: 'Stress over eight weeks',
+    chartSubtitle: 'Active control vs. Inner Explorer at home',
+    chartFoot: 'Treves 2023, RCT · MIT McGovern Institute',
+    data: [
+      { week: 0, stress: 100, control: 100 },
+      { week: 2, stress: 88, control: 98 },
+      { week: 4, stress: 78, control: 96 },
+      { week: 6, stress: 74, control: 95 },
+      { week: 8, stress: 72, control: 96 },
+    ],
+  },
+  {
+    id: 'sel',
+    label: 'SEL',
+    eyebrow: 'CASEL competencies',
+    statValue: '5',
+    statUnit: '/5',
+    statCaption: 'CASEL competencies explicitly mapped',
+    headline: 'All five CASEL competencies.',
+    copy: 'Inner Explorer is a CASEL-approved program. Practices explicitly map to all five core competencies — self-awareness, self-management, social awareness, relationship skills, and responsible decision-making — woven through daily lessons across the school year.',
+    studyIds: [],
+    chart: 'competencies',
+    chartTitle: 'CASEL coverage',
+    chartSubtitle: 'Practices explicitly mapping to each competency',
+    chartFoot: 'CASEL Program Guide · pg.casel.org/inner-explorer',
+    data: [
+      { label: 'Self-awareness', value: 95 },
+      { label: 'Self-management', value: 92 },
+      { label: 'Social awareness', value: 84 },
+      { label: 'Relationship skills', value: 80 },
+      { label: 'Responsible decision-making', value: 78 },
+    ],
+  },
 ];
+
+const outcomesHead = {
+  chapterLabel: 'III — Outcomes',
+  chapterNumber: 'III.',
+  headingHtml:
+    '<span class="stk">Five outcomes,</span><span class="stk sans">measured rigorously,</span><span class="stk"><em>across five spreads.</em></span>',
+  jumpLabel: 'Jump to',
+};
+
+const endorsers = {
+  label: 'Research partners & endorsements',
+  items: [
+    { name: 'CASEL', role: 'Approved SEL program' },
+    { name: 'MIT — McGovern Institute', role: 'Independent RCT' },
+    { name: 'University of South Florida', role: 'Head Start RCT' },
+    { name: 'UNC Charlotte', role: 'Academic-growth study' },
+    { name: 'University of La Verne', role: 'State-test study' },
+    { name: 'Loyola Marymount', role: 'Foundational study' },
+  ],
+};
 
 const voices = [
   {
@@ -280,208 +274,105 @@ const voices = [
     author: 'Principal',
     where: 'Title I elementary, TX',
   },
-  {
-    quote:
-      "The hardest skeptics in our building have become the strongest advocates. Inner Explorer didn't ask anyone to believe — it just asked them to try it for two weeks.",
-    author: 'Dr. Elaine Reyes',
-    where: 'Principal · Saint Paul, MN',
-  },
 ];
 
 const cta = {
   eyebrow: 'Bring it to your district',
-  headlineLines: [
-    { text: 'Five minutes a day,', kind: 'sans' as const },
-    { text: 'changes the year.', kind: 'serif' as const, tone: 'accent' as const },
+  lines: [
+    { text: 'Five minutes a day,', face: 'sans' as const },
+    { text: 'changes the year.', em: true },
   ],
-  lede: 'Inner Explorer is in tens of thousands of classrooms across the country. Talk to our team about bringing a daily mindful practice to yours.',
-  primaryCta: { label: 'Book a demo', href: '/contact' },
-  secondaryCta: { label: 'Download research one-pager', href: '/contact' },
+  subtitle:
+    'Inner Explorer is in tens of thousands of classrooms across the country. Talk to our team about bringing a daily mindful practice to yours.',
+  primary: { label: 'Book a demo', href: '/contact' },
+  secondary: { label: 'Download research one-pager', href: '/contact' },
 };
 
 const pageTitle = 'Research — Inner Explorer';
 const pageDescription =
-  "Six independent controlled trials. Fifteen years in classrooms. The research behind Inner Explorer's daily, audio-guided mindfulness practice for K-12 schools.";
+  "Six independent controlled trials. Forty years of MBSR research. The evidence behind Inner Explorer's daily five-minute mindfulness practice for K-12 schools.";
 
 const base = new URL(Astro.site ?? 'https://www.innerexplorer.org').origin;
+const knownUrls: Record<string, string> = {
+  'bakosh-2016': 'https://link.springer.com/article/10.1007/s12671-015-0387-6',
+  'bakosh-2018': 'https://www.sciencedirect.com/science/article/abs/pii/S0959475217305820',
+  'treves-2023': 'https://link.springer.com/article/10.1007/s12671-023-02231-3',
+};
 const researchLd = {
   '@context': 'https://schema.org',
-  '@type': 'CollectionPage',
+  '@type': 'Article',
+  headline: 'The Research Behind Inner Explorer',
   name: pageTitle,
-  url: `${base}/research`,
   description: pageDescription,
-  about: {
-    '@type': 'Thing',
-    name: 'Evidence-based mindfulness in K-12 schools',
-  },
+  url: `${base}/research`,
+  inLanguage: 'en-US',
+  datePublished: '2026-05-28',
+  about: 'Mindfulness research in K-12 schools',
   publisher: {
     '@type': 'Organization',
     name: 'Inner Explorer',
     url: base,
     logo: `${base}/logo.png`,
   },
+  citation: studies.map((s) => ({
+    '@type': 'ScholarlyArticle',
+    name: s.title,
+    author: { '@type': 'Organization', name: s.authors },
+    datePublished: String(s.year),
+    publisher: { '@type': 'Organization', name: s.institution },
+    isPartOf: { '@type': 'Periodical', name: s.journal },
+    ...(knownUrls[s.id] ? { url: knownUrls[s.id] } : {}),
+  })),
 };
 ---
 
 <PageLayout title={pageTitle} description={pageDescription} flushTop>
   <JsonLd slot="head" schema={researchLd} />
 
-  <div class="appearance-light research-page">
-    <div class="breath" id="breath" aria-hidden="true">
-      <div class="breath-rail">
-        <div class="breath-dot" id="breath-dot"></div>
-      </div>
-      <div class="breath-label" id="breath-label">Opening</div>
-    </div>
-
-    <OpeningVoid eyebrow={opening.eyebrow} lines={opening.lines} />
-    <CinematicHero
+  <div class="appearance-light">
+    <ResearchOpeningVoid eyebrow={opening.eyebrow} lines={opening.lines} />
+    <ResearchHero
       eyebrow={hero.eyebrow}
-      headlineLines={hero.headlineLines}
-      lede={hero.lede}
+      lines={hero.lines}
+      subtitle={hero.subtitle}
+      counterValue={hero.counterValue}
+      counterLabel={hero.counterLabel}
       primaryCta={hero.primaryCta}
       secondaryCta={hero.secondaryCta}
       image={heroImg}
       imageAlt={hero.imageAlt}
-      height="full"
     />
-    <ChapterReceipts
-      eyebrow={receipts.eyebrow}
-      label={receipts.label}
-      headlineLines={receipts.headlineLines}
+    <ResearchReceipts
+      chapterLabel={receipts.chapterLabel}
+      chapterNumber={receipts.chapterNumber}
+      headingHtml={receipts.headingHtml}
       lede={receipts.lede}
-      studies={receipts.studies}
-    />
-    <ChapterBrain
-      eyebrow={brain.eyebrow}
-      label={brain.label}
-      headlineLines={brain.headlineLines}
-      paragraphsBefore={brain.paragraphsBefore}
-      pullHtml={brain.pullHtml}
-      paragraphsAfterHtml={brain.paragraphsAfterHtml}
-    />
-    <ChapterOutcomes
-      eyebrow={outcomes.eyebrow}
-      label={outcomes.label}
-      headlineLines={outcomes.headlineLines}
-      outcomes={outcomes.list}
       studies={studies}
     />
-    <Endorsers label="Research partners & endorsements" items={endorsers} />
-    <VoicesRotator voices={voices} />
-    <EditorialCTA
-      eyebrow={cta.eyebrow}
-      headlineLines={cta.headlineLines}
-      lede={cta.lede}
-      primaryCta={cta.primaryCta}
-      secondaryCta={cta.secondaryCta}
-      image={ctaImg}
-      imageAlt="A diverse classroom in calm shared practice"
+    <ResearchBrain
+      chapterLabel={brain.chapterLabel}
+      chapterNumber={brain.chapterNumber}
+      headingHtml={brain.headingHtml}
+      paragraphs={brain.paragraphs}
+      pullQuoteHtml={brain.pullQuoteHtml}
     />
+    <ResearchOutcomes
+      chapterLabel={outcomesHead.chapterLabel}
+      chapterNumber={outcomesHead.chapterNumber}
+      headingHtml={outcomesHead.headingHtml}
+      jumpLabel={outcomesHead.jumpLabel}
+      outcomes={outcomes}
+      studies={studies}
+    />
+    <ResearchEndorsers label={endorsers.label} items={endorsers.items} />
+    <ResearchVoices voices={voices} />
+    <ResearchCTA
+      eyebrow={cta.eyebrow}
+      lines={cta.lines}
+      subtitle={cta.subtitle}
+      primary={cta.primary}
+      secondary={cta.secondary}
+    />
+    <BreathMeter />
   </div>
 </PageLayout>
-
-<style>
-  /* Breath meter — sticky scroll indicator on the right edge. */
-  .breath {
-    position: fixed;
-    right: 28px;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 40;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-    pointer-events: none;
-  }
-  .breath-rail {
-    width: 2px;
-    height: 220px;
-    background: linear-gradient(
-      to bottom,
-      transparent,
-      color-mix(in oklab, var(--color-foreground) 18%, transparent) 20%,
-      color-mix(in oklab, var(--color-foreground) 18%, transparent) 80%,
-      transparent
-    );
-    position: relative;
-  }
-  .breath-dot {
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: var(--color-brand);
-    box-shadow:
-      0 0 0 4px color-mix(in oklab, var(--color-brand) 22%, transparent),
-      0 0 24px color-mix(in oklab, var(--color-brand) 45%, transparent);
-    top: 0;
-    transition: top 600ms var(--ease-out);
-  }
-  .breath-label {
-    font-family: var(--font-sans);
-    font-size: 10px;
-    font-weight: 500;
-    line-height: 1;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--color-muted-foreground);
-    writing-mode: vertical-rl;
-    transform: rotate(180deg);
-    margin-top: 8px;
-    transition: color var(--dur) var(--ease-out);
-  }
-
-  @media (max-width: 1024px) {
-    .breath {
-      display: none;
-    }
-  }
-</style>
-
-<script>
-  // Track scroll progress + which chapter is in view; drive the breath meter dot.
-  const dot = document.getElementById('breath-dot');
-  const label = document.getElementById('breath-label');
-  const chapters = [
-    { id: 'opening', label: 'Opening' },
-    { id: 'cinematic-hero', label: 'Intro' },
-    { id: 'receipts', label: 'I — Receipts' },
-    { id: 'brain', label: 'II — Brain' },
-    { id: 'outcomes', label: 'III — Outcomes' },
-  ];
-
-  if (dot) {
-    const onScroll = () => {
-      const doc = document.documentElement;
-      const max = doc.scrollHeight - window.innerHeight;
-      const p = max <= 0 ? 0 : Math.min(1, window.scrollY / max);
-      dot.style.top = `${p * 100}%`;
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-  }
-
-  if (label) {
-    const sections = chapters
-      .map((c) => ({ ...c, el: document.getElementById(c.id) }))
-      .filter((c): c is typeof c & { el: HTMLElement } => c.el !== null);
-    const io = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-        if (visible[0]) {
-          const id = visible[0].target.id;
-          const match = chapters.find((c) => c.id === id);
-          if (match) label.textContent = match.label;
-        }
-      },
-      { rootMargin: '-30% 0px -60% 0px', threshold: 0 },
-    );
-    sections.forEach((s) => io.observe(s.el));
-  }
-</script>

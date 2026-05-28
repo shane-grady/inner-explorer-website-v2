@@ -94,18 +94,6 @@ photo hero + serif quote, **voice bar plays + waveform fills + time ticks (0:10 
 Light pin holds under global dark mode (chrome still adapts). Regress check: home,
 blog, styleguide, **About** all coherent in both themes. Stand-ins flagged below.
 
-## Research page (Claude Design handoff v2 — "The Quiet Revolution" — complete)
-
-- [x] **`/research`** built from a shared `CinematicHero` + `EditorialCTA` plus seven page-scoped
-      blocks in `src/components/blocks/research/`: `OpeningVoid`, `ChapterReceipts`, `ChapterBrain`,
-      `ChapterOutcomes` (+ `OutcomeChart` with 5 chart sub-renderers), `Endorsers`, `VoicesRotator`.
-      Roman-numeral chapter marks (I/II/III), full-bleed cinematic hero with the brand-mint emphasis
-      headline, six-trial stacked wall with the giant italic year + dark stat block, dark editorial
-      brain section with drop cap + animated SVG (stressed↔mindful toggle), five outcome spreads
-      with sticky in-page jump-nav and bespoke charts (bars, before/after, dials, line, dotted
-      competencies), rotating voices on dark, paper-CTA closing. Tiny vanilla "breath meter" rail
-      on the right edge tracks scroll progress and the current chapter.
-
 ## For Districts page (Claude Design handoff — Documentary direction — complete)
 
 - [x] **`/districts`** built from the shared `CinematicHero` + `EditorialCTA` plus thirteen
@@ -119,18 +107,76 @@ blog, styleguide, **About** all coherent in both themes. Stand-ins flagged below
       editorial closing CTA with numbered side card. Decorative "Listen" affordance NOT shipped
       with audio — labelled preview-only.
 
-### Review (Research + Districts)
+### Review (Districts)
 
-Both pages ship through `PageLayout flushTop`, wrapped in `.appearance-light` to stay light under
-global dark mode (verified — global chrome adapts, page subtree pins). `pnpm check` (typecheck +
-lint + drift + format) and `pnpm build` clean. Per-page JS is the same ~2.2KB vanilla bundle as
-About — no React on marketing pages. Interactions verified in Preview MCP: brain toggle, outcome
-jump-nav scroll, voices rotator + selector, FAQ details/summary accordion, ROI sliders with funding
-switch (Title IV-A → 85%, BSCA → 100% "Fully funded"), CASEL petal selector, compare table privacy
-filter (3 of 10 rows). Stayed on the cohesive cool-gray neutral palette per the user's call —
-no `--paper`/`--paper-deep` tokens added; warm-cream surfaces from the Documentary direction were
-mapped onto existing `--background`/`--muted`/`--card`. Regression: `/`, `/about`, `/blog`,
-`/styleguide` all 200 and visually coherent.
+Ships through `PageLayout flushTop`, wrapped in `.appearance-light` to stay light under global
+dark mode. `pnpm check` and `pnpm build` clean. Per-page JS is the same ~2.2KB vanilla bundle
+— no React on marketing pages. Interactions verified: voices selector, FAQ details/summary
+accordion, ROI sliders with funding switch, CASEL petal selector, compare table privacy filter.
+Stayed on the cohesive cool-gray neutral palette per the user's call.
+
+## Research page (Claude Design handoff v2 — "The Quiet Revolution" — complete)
+
+- [x] **Editorial surface tokens** added to `global.css` raw layer:
+      `--editorial-night/-soft`, `--editorial-paper/-soft`, `--editorial-ink/-muted`,
+      `--editorial-glow/-soft`. Brand-level (not page-scoped) so any future longform
+      editorial page can reuse the dark/paper duality.
+- [x] **`src/lib/intersect.ts`** — shared one-shot intersection observer with
+      reduced-motion + missing-IO fallbacks. Sets `data-js-ready` on `<html>` so
+      reveal CSS can opt INTO hide-then-animate behavior only when JS is ready
+      (no-JS readers see content fully rendered).
+- [x] **`/research`** built from 10 `blocks/research/*` components (opening void,
+      hero with ken-burns, six-study receipts wall, animated brain SVG with
+      stressed/mindful toggle, 5-tab outcome spreads with custom charts —
+      bars/before-after/dial/line/competencies — endorsers grid, auto-rotating
+      voices on dark, italic-display CTA, sticky breath meter). Content as
+      structured data in the page; light-only via `.appearance-light` pin.
+- [x] **Vanilla JS only** — ~3.4KB total per-page JS; zero framework JS. Brain
+      toggle, voices rotation, outcome active-nav, breath meter scroll, and
+      reveal-on-intersect all hand-rolled. Reduced-motion respected.
+- [x] **JSON-LD** on `/research` — Article + Citation[] (ScholarlyArticle for
+      each of the 6 studies, with `url` for those with known journal links);
+      `datePublished`, `inLanguage`, `about`.
+- [x] **A11y**: single `<h1>` (hero); voices uses `role="group"` + `aria-pressed`;
+      brain toggle is `role="switch"` with `aria-checked` synced to data-state;
+      breath meter aria-hidden; reveals opt-in via `data-js-ready` so no-JS
+      readers see fully rendered content.
+- [x] `pnpm check` green · `pnpm build` clean.
+
+### Review (Research)
+
+Faithful to the v2 "Quiet Revolution" direction (the user explicitly rejected
+the flat v1 in the design chat). Dark/paper alternating chapters, Roman-numeral
+marks, giant italic year-and-stat typography, full-bleed ken-burns hero. The
+existing pill nav and Footer carry across — no chrome forking. The breath
+meter (right-edge fixed dot + chapter label) is present for ≥1024px viewports.
+
+### Research page — follow-ups before publish
+
+- [ ] **Verify all representative stats with the research team** — the Claude
+      Design author flagged these as drawn from study results but not
+      individually verified: hero counter "15", receipts leadStats (`+14%`,
+      `+18%`, `−34%`, `−28%`, `+Math`, `+GPA`), outcome statValues
+      (`+18%` GPA, `−42%` referrals, `−34%` teacher stress, `−28%` student
+      stress), all chart datapoints (Reading +14 / Math +18 / Science +11 /
+      Overall +17; behavior before-after; teacher dial values; 8-week line
+      points; CASEL %s).
+- [ ] **Swap the Unsplash hero photo** at `src/assets/images/research/hero-classroom.jpg`
+      for a verified Inner Explorer classroom photo (calm window light, focused
+      students, anonymized as needed).
+- [ ] **Confirm study citations + URLs.** Lopez 2020, Stager 2022, Dunlap 2023
+      are "Pending publication" in our data — verify the latest journal status
+      and add the canonical URLs to `knownUrls` in `src/pages/research.astro`
+      so JSON-LD links to them.
+- [ ] **(Reuse follow-up)** Consider refactoring `ResearchHero` / `ResearchCTA`
+      to consume the shared `CinematicHero` / `EditorialCTA` blocks (used by
+      `/districts`) for tighter single-source editorial primitives. Currently
+      page-scoped because the v2 handoff's typographic scale and ken-burns
+      treatment didn't fit the shared blocks' shape — but worth revisiting.
+- [ ] **(Reuse follow-up)** Promote `ResearchEndorsers` 6-cell layout into a
+      shared `LogoGrid` block (props: `items[]`, `columns`) if/when a similar
+      partner grid is needed on another page. Until then it lives as a
+      page-scoped block.
 
 ## Stand-ins to swap before publishing
 
@@ -143,17 +189,14 @@ mapped onto existing `--background`/`--muted`/`--card`. Regression: `/`, `/about
 - [ ] Confirm narrator metadata (`role`, `intro`, `quote`) against final brand copy.
 - [ ] Full v4 "Meet the Studio" narrator collection page is out of scope — the
       current `narrators/index.astro` is a minimal listing so the breadcrumb resolves.
-- [ ] Research + Districts reuse About's existing localized photography (e.g.
-      `voice-okafor.jpg`, `timeline-2013-focus.jpg`). Replace with real research/district
-      imagery — Field Reports needs three distinct district photographs (Broward / Newark /
-      Aurora), Day Inside needs three time-of-day classroom shots, By-the-Numbers needs a
-      single anchor portrait.
+- [ ] Districts reuses About's existing localized photography. Replace with real
+      district imagery — Field Reports needs three distinct district photographs
+      (Broward / Newark / Aurora), Day Inside needs three time-of-day classroom shots,
+      By-the-Numbers needs a single anchor portrait.
 - [ ] Districts placeholder data: ROI per-student pricing ($4.20), funding coverage
       percentages, district names (Broward / Newark / Aurora), testimonials,
       "Field Report № 09" serial, partner district list, awards/certifications.
       Cross-check with the partnerships team.
-- [ ] Research study findings and percentages are drawn from the prior Wix concept —
-      verify exact figures with the research team before going live.
 - [ ] Districts hero "Listen" button is decorative only — wire to a real preview audio
       file or remove if it can't be supported at launch.
 - [ ] Districts page omits the design's React multi-step demo modal — primary CTAs

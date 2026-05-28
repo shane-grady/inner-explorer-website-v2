@@ -1,0 +1,182 @@
+---
+interface Cta {
+  label: string;
+  href: string;
+}
+interface Props {
+  eyebrow: string;
+  /** Headline lines. `face: 'sans'` switches to the sans-300 face; default is italic display. `em` colors brand. */
+  lines: Array<{ text: string; face?: 'sans' | 'display'; em?: boolean }>;
+  subtitle: string;
+  primary: Cta;
+  secondary?: Cta;
+}
+const { eyebrow, lines, subtitle, primary, secondary }: Props = Astro.props;
+---
+
+<section class="cta" id="cta" data-screen-label="Begin" aria-labelledby="cta-heading">
+  <div class="wrap reveal">
+    <span class="eyebrow">
+      <span class="rule" aria-hidden="true"></span>
+      {eyebrow}
+      <span class="rule" aria-hidden="true"></span>
+    </span>
+    <h2 class="h" id="cta-heading">
+      {
+        lines.map((l) => (
+          <span class:list={['stk', l.face === 'sans' ? 'sans' : 'display', { em: l.em }]}>
+            {l.text}
+          </span>
+        ))
+      }
+    </h2>
+    <p class="sub">{subtitle}</p>
+    <div class="btns">
+      <a href={primary.href} class="btn btn-solid-ink btn-lg">
+        {primary.label}
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M5 12h14"></path>
+          <path d="M12 5l7 7-7 7"></path>
+        </svg>
+      </a>
+      {
+        secondary && (
+          <a href={secondary.href} class="btn btn-ghost-paper btn-lg">
+            {secondary.label}
+          </a>
+        )
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta {
+    padding: 120px 0 60px;
+    background: var(--editorial-paper);
+    color: var(--editorial-ink);
+  }
+  .wrap {
+    position: relative;
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 0 32px;
+    text-align: center;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 32px;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--color-brand);
+  }
+  .rule {
+    width: 28px;
+    height: 1px;
+    background: color-mix(in oklab, var(--color-brand) 50%, transparent);
+  }
+  .h {
+    margin: 0 0 28px;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(56px, 8vw, 132px);
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+  .stk {
+    display: block;
+  }
+  .display {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+  }
+  .sans {
+    font-family: var(--font-sans);
+    font-style: normal;
+    font-weight: 300;
+    letter-spacing: -0.025em;
+  }
+  .em {
+    color: var(--color-brand);
+  }
+  .sub {
+    margin: 0 auto 40px;
+    max-width: 580px;
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--editorial-ink-muted);
+  }
+  .btns {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 24px;
+    border-radius: 9999px;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    transition: all 250ms var(--ease-out);
+    white-space: nowrap;
+  }
+  .btn-lg {
+    padding: 18px 30px;
+    font-size: 15px;
+  }
+  .btn-solid-ink {
+    background: var(--editorial-ink);
+    color: var(--editorial-paper);
+  }
+  .btn-solid-ink:hover {
+    background: color-mix(in oklab, var(--editorial-ink) 80%, var(--color-black));
+    transform: translateY(-2px);
+  }
+  .btn-ghost-paper {
+    color: var(--editorial-ink);
+    border: 1px solid color-mix(in oklab, var(--editorial-ink) 18%, transparent);
+  }
+  .btn-ghost-paper:hover {
+    background: color-mix(in oklab, var(--editorial-ink) 6%, transparent);
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 900ms var(--ease-out),
+      transform 900ms var(--ease-out);
+  }
+  :global([data-js-ready]) .reveal:not(.in) {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+</style>
+
+<script>
+  import { observe } from '../../../lib/intersect';
+  observe('.cta .reveal');
+</script>

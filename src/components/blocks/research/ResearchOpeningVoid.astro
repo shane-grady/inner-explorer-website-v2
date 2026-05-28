@@ -1,139 +1,128 @@
 ---
-// The opening "void" — a full-viewport dark editorial moment that sets the emotional
-// stakes BEFORE any data appears. Italic serif headline with one emphasis line in
-// brand-mint. Lives above the cinematic hero on the Research page.
-
 interface Props {
   eyebrow: string;
-  lines: { text: string; emphasis?: boolean }[];
+  lines: string[];
+  emphasisIndex?: number;
 }
-const { eyebrow, lines }: Props = Astro.props;
+const { eyebrow, lines, emphasisIndex = lines.length - 1 }: Props = Astro.props;
 ---
 
-<section class="void" id="opening" aria-label="Opening">
+<section class="void" id="open" data-screen-label="Opening" aria-labelledby="void-statement">
   <span class="void-eyebrow">{eyebrow}</span>
-  <h1 class="void-h">
-    {lines.map((l) => <span class:list={['stk', { em: l.emphasis }]}>{l.text}</span>)}
-  </h1>
+  <p class="void-statement" id="void-statement">
+    {lines.map((line, i) => <span class:list={['stk', { em: i === emphasisIndex }]}>{line}</span>)}
+  </p>
   <div class="void-scroll" aria-hidden="true">
     <span>Scroll</span>
-    <span class="line"></span>
+    <span class="void-scroll-line"></span>
   </div>
 </section>
 
 <style>
   .void {
+    position: relative;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 120px 32px 60px;
+    padding: 140px 32px 80px;
     text-align: center;
-    background: var(--neutral-950);
-    color: var(--color-white);
-    position: relative;
+    background: var(--editorial-night);
+    color: var(--editorial-paper);
     overflow: hidden;
   }
-  .void::before {
-    content: '';
-    position: absolute;
-    inset: -20% -20% auto auto;
-    width: 70%;
-    height: 70%;
-    background: radial-gradient(
-      circle,
-      color-mix(in oklab, var(--brand-500) 30%, transparent),
-      transparent 60%
-    );
-    pointer-events: none;
-  }
+  .void::before,
   .void::after {
     content: '';
     position: absolute;
-    inset: auto auto -20% -20%;
     width: 70%;
     height: 70%;
-    background: radial-gradient(
-      circle,
-      color-mix(in oklab, var(--brand-800) 30%, transparent),
-      transparent 60%
-    );
     pointer-events: none;
   }
-
+  .void::before {
+    inset: -20% -20% auto auto;
+    background: radial-gradient(
+      circle,
+      color-mix(in oklab, var(--editorial-glow) 18%, transparent),
+      transparent 60%
+    );
+  }
+  .void::after {
+    inset: auto auto -20% -20%;
+    background: radial-gradient(
+      circle,
+      color-mix(in oklab, var(--brand-700) 30%, transparent),
+      transparent 60%
+    );
+  }
   .void-eyebrow {
     position: relative;
-    z-index: 1;
     display: inline-flex;
     align-items: center;
     gap: 16px;
+    margin-bottom: 56px;
     font-size: 11px;
     font-weight: 500;
     line-height: 1;
     letter-spacing: 0.32em;
     text-transform: uppercase;
-    color: var(--brand-300);
-    margin-bottom: 56px;
+    color: var(--editorial-glow);
   }
   .void-eyebrow::before,
   .void-eyebrow::after {
     content: '';
     width: 28px;
     height: 1px;
-    background: color-mix(in oklab, var(--brand-300) 60%, transparent);
+    background: color-mix(in oklab, var(--editorial-glow) 50%, transparent);
   }
-
-  .void-h {
+  .void-statement {
     position: relative;
-    z-index: 1;
+    margin: 0;
+    max-width: 1000px;
     font-family: var(--font-display);
     font-style: italic;
     font-weight: 400;
     font-size: clamp(40px, 6vw, 88px);
     line-height: 1.05;
     letter-spacing: -0.02em;
-    color: var(--color-white);
-    max-width: 1000px;
-    margin: 0;
+    color: var(--editorial-paper);
     text-wrap: balance;
   }
-  .void-h .stk {
+  .stk {
     display: block;
   }
-  .void-h .em {
-    color: var(--brand-300);
+  .em {
+    color: var(--editorial-glow);
   }
-
   .void-scroll {
     position: absolute;
     bottom: 32px;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 10.5px;
-    font-weight: 500;
-    line-height: 1;
-    letter-spacing: 0.32em;
-    text-transform: uppercase;
-    color: color-mix(in oklab, var(--color-white) 45%, transparent);
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 12px;
-    z-index: 1;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: color-mix(in oklab, var(--editorial-paper) 45%, transparent);
   }
-  .void-scroll .line {
+  .void-scroll-line {
     width: 1px;
     height: 36px;
     background: linear-gradient(
       to bottom,
       transparent,
-      color-mix(in oklab, var(--color-white) 45%, transparent),
+      color-mix(in oklab, var(--editorial-paper) 40%, transparent),
       transparent
     );
-    animation: void-pulse 2s ease-in-out infinite;
+    animation: voidPulse 2s ease-in-out infinite;
   }
-  @keyframes void-pulse {
+  @keyframes voidPulse {
     0%,
     100% {
       opacity: 0.4;
