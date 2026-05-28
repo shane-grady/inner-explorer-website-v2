@@ -1,0 +1,289 @@
+---
+// Phone-card body. Sits inside a subtle ContactCard.
+//
+// Shows a large tappable tel: link, the "Open now" live indicator, support hours
+// + average pickup time, and a copy-to-clipboard pill. Below: a mint-tinted
+// "humans panel" introducing the team trio who actually pick up the phone — the
+// concrete proof-point behind the "real person now" hero promise.
+//
+// Copy-to-clipboard dispatches a `contact:toast` CustomEvent that the page's
+// toast handler listens for. No framework JS — vanilla only.
+
+interface RealPerson {
+  initials: string;
+  variant: 'mint' | 'amber' | 'sky' | 'lilac';
+}
+interface Props {
+  /** Formatted phone number shown on screen (e.g. "+1 (508) 657-1755"). */
+  display: string;
+  /** Cleaned digits-only number for the `tel:` link and clipboard. */
+  e164: string;
+  /** "Open now" / "Closed" current state. */
+  openLabel: string;
+  /** Hours summary (e.g. "Mon–Fri, 8am – 6pm ET"). */
+  hours: string;
+  /** Average pickup time string. */
+  pickup: string;
+  /** Trio of teammates introduced in the humans panel. */
+  team: RealPerson[];
+  /** First sentence of the humans-panel intro (lead + names). */
+  teamLeadHtml: string;
+  /** Supporting line under the trio. */
+  teamNoteHtml: string;
+}
+const { display, e164, openLabel, hours, pickup, team, teamLeadHtml, teamNoteHtml }: Props =
+  Astro.props;
+---
+
+<div class="phone-grid">
+  <div>
+    <a class="phone-num" href={`tel:${e164}`} aria-label={`Call Inner Explorer at ${display}`}>
+      {display}
+    </a>
+    <div class="phone-meta">
+      <span class="live">
+        <span class="live-dot" aria-hidden="true"></span>
+        {openLabel}
+      </span>
+      <span class="sep" aria-hidden="true"></span>
+      <span>{hours}</span>
+      <span class="sep" aria-hidden="true"></span>
+      <span>Average pickup: {pickup}</span>
+    </div>
+  </div>
+
+  <button
+    type="button"
+    class="copy-btn"
+    data-copy={e164}
+    data-copy-label={`Phone number ${display}`}
+    aria-label={`Copy phone number ${display}`}
+  >
+    <span class="ico-default" aria-hidden="true">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <rect x="9" y="9" width="13" height="13" rx="2"></rect>
+        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+      </svg>
+    </span>
+    <span class="ico-copied" aria-hidden="true">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+    </span>
+    <span class="text-default">Copy number</span>
+    <span class="text-copied">Copied</span>
+  </button>
+</div>
+
+<div class="humans-panel">
+  <div class="avatars" aria-hidden="true">
+    {team.map((p) => <span class={`avatar ${p.variant}`}>{p.initials}</span>)}
+  </div>
+  <p class="humans-text">
+    <span set:html={teamLeadHtml} />
+    <span class="sub" set:html={teamNoteHtml} />
+  </p>
+</div>
+
+<style>
+  .phone-grid {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 36px;
+    align-items: center;
+    margin-top: 28px;
+  }
+
+  .phone-num {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+    font-family: var(--font-sans);
+    font-size: clamp(28px, 4vw, 38px);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    color: var(--color-foreground);
+    text-decoration: none;
+    transition: color var(--dur) var(--ease-out);
+  }
+  .phone-num:hover {
+    color: var(--color-brand-emphasis);
+  }
+
+  .phone-meta {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    line-height: 1;
+    color: var(--color-muted-foreground);
+  }
+  .sep {
+    width: 4px;
+    height: 4px;
+    border-radius: 9999px;
+    background: currentColor;
+    opacity: 0.5;
+  }
+  .live {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-brand-emphasis);
+    font-weight: 500;
+  }
+  .live-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 9999px;
+    background: var(--color-brand);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-brand) 22%, transparent);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,
+    100% {
+      box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-brand) 22%, transparent);
+    }
+    50% {
+      box-shadow: 0 0 0 8px color-mix(in oklab, var(--color-brand) 8%, transparent);
+    }
+  }
+
+  .copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 9999px;
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+    cursor: pointer;
+    transition:
+      border-color var(--dur-fast) var(--ease-out),
+      background var(--dur-fast) var(--ease-out),
+      color var(--dur-fast) var(--ease-out);
+  }
+  .copy-btn:hover {
+    border-color: var(--color-foreground);
+  }
+  .copy-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+  .copy-btn .ico-copied,
+  .copy-btn .text-copied {
+    display: none;
+  }
+  .copy-btn.is-copied {
+    background: var(--brand-100);
+    border-color: var(--brand-400);
+    color: var(--brand-800);
+  }
+  .copy-btn.is-copied .ico-default,
+  .copy-btn.is-copied .text-default {
+    display: none;
+  }
+  .copy-btn.is-copied .ico-copied,
+  .copy-btn.is-copied .text-copied {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .humans-panel {
+    margin-top: 32px;
+    padding: 22px 24px;
+    background: color-mix(in oklab, var(--color-brand) 7%, var(--color-card));
+    border: 1px solid color-mix(in oklab, var(--color-brand) 22%, transparent);
+    border-radius: 18px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 18px;
+    align-items: center;
+  }
+  .humans-panel .avatars {
+    display: flex;
+  }
+  .humans-panel .avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 9999px;
+    display: grid;
+    place-items: center;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+    border: 2px solid var(--color-card);
+    margin-left: -8px;
+    box-shadow: var(--shadow-sm);
+  }
+  .humans-panel .avatar:first-child {
+    margin-left: 0;
+  }
+  .humans-panel .avatar.mint {
+    background: linear-gradient(135deg, var(--brand-200), var(--brand-400));
+    color: var(--brand-900);
+  }
+  .humans-panel .avatar.amber {
+    background: linear-gradient(135deg, var(--accent-100), var(--accent-300));
+    color: var(--accent-900);
+  }
+  .humans-panel .avatar.sky {
+    background: linear-gradient(135deg, var(--brand-100), var(--brand-300));
+    color: var(--brand-800);
+  }
+  .humans-panel .avatar.lilac {
+    background: linear-gradient(135deg, var(--neutral-200), var(--neutral-400));
+    color: var(--neutral-800);
+  }
+
+  .humans-text {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--color-foreground);
+  }
+  .humans-text :global(strong) {
+    font-weight: 600;
+  }
+  .humans-text .sub {
+    display: block;
+    margin-top: 4px;
+    color: var(--color-muted-foreground);
+  }
+
+  @media (max-width: 720px) {
+    .phone-grid {
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+    .humans-panel {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

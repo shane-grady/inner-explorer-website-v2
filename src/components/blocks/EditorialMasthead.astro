@@ -1,29 +1,49 @@
 ---
-// Centered editorial masthead — the brand "duet" headline: a quiet sans lead line
-// over an oversized serif-italic display line, flanked by an optional hairline eyebrow.
+// Centered editorial masthead — the brand "duet" headline.
+//
+// Two layouts share the same component:
+//   stacked (default) — sans lead line above an oversized serif-italic display line
+//                       (used by /narrators/[slug] and similar long-form pages).
+//   inline            — a single-line sentence with the serif word painted brand-green,
+//                       sized to fit on one line (`white-space: nowrap`). Used by the
+//                       Contact page hero ("Reach a real person *now.*").
+//
 // Carries the page's single <h1>.
 interface Props {
   /** Optional centered eyebrow text between the two hairline rules. */
   eyebrow?: string;
-  /** Sans lead line (e.g. "Meet"). */
+  /** Sans lead text (e.g. "Meet"). In inline layout, this is the sentence opener. */
   lead: string;
-  /** Serif-italic display line (e.g. "Maya Castellanos."). */
+  /** Serif-italic display text (e.g. "Maya Castellanos." or "now."). */
   display: string;
   /** Supporting paragraph below the headline. */
   intro?: string;
   /** Inner content width (any CSS length). */
   maxWidth?: string;
+  /** Layout style. `stacked` is the original duet; `inline` is a single sentence. */
+  layout?: 'stacked' | 'inline';
 }
-const { eyebrow, lead, display, intro, maxWidth = '1200px' }: Props = Astro.props;
+const {
+  eyebrow,
+  lead,
+  display,
+  intro,
+  maxWidth = '1200px',
+  layout = 'stacked',
+}: Props = Astro.props;
 ---
 
-<section class="masthead" style={`--mw: ${maxWidth}`}>
+<section class="masthead" data-layout={layout} style={`--mw: ${maxWidth}`}>
   <div class="wrap">
-    <div class="eb">
-      <span class="rule" aria-hidden="true"></span>
-      {eyebrow && <span class="eb-text">{eyebrow}</span>}
-      <span class="rule" aria-hidden="true"></span>
-    </div>
+    {
+      eyebrow && (
+        <div class="eb">
+          <span class="rule" aria-hidden="true" />
+          <span class="eb-text">{eyebrow}</span>
+          <span class="rule" aria-hidden="true" />
+        </div>
+      )
+    }
     <h1 class="display">
       <span class="lead">{lead}</span>
       <span class="serif">{display}</span>
@@ -61,11 +81,13 @@ const { eyebrow, lead, display, intro, maxWidth = '1200px' }: Props = Astro.prop
     background: var(--color-border);
   }
   .display {
-    margin: 0 0 28px;
+    margin: 0;
     letter-spacing: -0.025em;
     text-wrap: balance;
   }
-  .lead {
+
+  /* Stacked (default): lead block sits above the oversized serif display block. */
+  [data-layout='stacked'] .lead {
     display: block;
     font-family: var(--font-sans);
     font-weight: 500;
@@ -74,7 +96,7 @@ const { eyebrow, lead, display, intro, maxWidth = '1200px' }: Props = Astro.prop
     letter-spacing: -0.025em;
     color: var(--color-muted-foreground);
   }
-  .serif {
+  [data-layout='stacked'] .serif {
     display: block;
     margin-top: 4px;
     font-family: var(--font-display);
@@ -85,11 +107,35 @@ const { eyebrow, lead, display, intro, maxWidth = '1200px' }: Props = Astro.prop
     letter-spacing: -0.025em;
     color: var(--color-foreground);
   }
+
+  /* Inline: one sentence on a single line, serif word painted brand-green. */
+  [data-layout='inline'] .display {
+    font-size: clamp(28px, 5.2vw, 56px);
+    line-height: 1.05;
+    white-space: nowrap;
+    letter-spacing: -0.02em;
+  }
+  [data-layout='inline'] .lead {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    color: var(--color-foreground);
+  }
+  [data-layout='inline'] .serif {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 700;
+    color: var(--color-brand);
+  }
+
   .intro {
-    margin: 0 auto;
+    margin: 28px auto 0;
     max-width: 56ch;
     font-size: 18px;
     line-height: 1.55;
     color: var(--color-muted-foreground);
+    text-wrap: pretty;
+  }
+  [data-layout='inline'] .intro {
+    margin-top: 22px;
   }
 </style>
