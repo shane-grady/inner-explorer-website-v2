@@ -1,0 +1,517 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+// Shared full-bleed cinematic dark hero used by editorial pages (Research, Districts).
+// A photograph carries the emotional load; tint overlays guarantee AA contrast for the
+// foreground type. Composition: top masthead row (eyebrow + optional serial chips),
+// large mixed-style headline (sans for setup, italic serif for the emphasis line),
+// optional lede + CTA row, optional stat band along the bottom border, and an optional
+// floating corner counter (passed in as the `counter` slot).
+//
+// Drift-safe: all colors come from semantic tokens or color-mix against them; geometry
+// is plain CSS dimensions. `--hero-tint` lives in global.css already.
+
+interface MetaItem {
+  label: string;
+  value: string;
+  sub?: string;
+}
+interface SerialChip {
+  text: string;
+  dim?: boolean;
+}
+interface Cta {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  eyebrow: string;
+  serialChips?: SerialChip[];
+  // Headline is rendered as a series of stacked lines. `kind: 'sans'` is the lighter
+  // setup line(s); `kind: 'serif'` is the italic serif emphasis. `tone: 'accent'`
+  // gives the brand-mint tint used for the secondary emphasis.
+  headlineLines: { text: string; kind: 'sans' | 'serif'; tone?: 'default' | 'accent' }[];
+  lede?: string;
+  primaryCta?: Cta;
+  secondaryCta?: Cta;
+  // Optional 4-up stat band along the bottom (Districts hero uses this).
+  stats?: MetaItem[];
+  // The hero photo + alt.
+  image: ImageMetadata;
+  imageAlt: string;
+  // Vertical sizing. `full` = 100vh, `tall` = 880px min for content-heavy heroes.
+  height?: 'full' | 'tall';
+  // Render an animated "scroll" hint at the bottom-left if true (Research opener).
+  scrollHint?: boolean;
+}
+
+const {
+  eyebrow,
+  serialChips = [],
+  headlineLines,
+  lede,
+  primaryCta,
+  secondaryCta,
+  stats,
+  image,
+  imageAlt,
+  height = 'full',
+  scrollHint = false,
+}: Props = Astro.props;
+---
+
+<section class:list={['cin-hero', `cin-hero--${height}`]} id="cinematic-hero">
+  <div class="cin-bg">
+    <Image
+      src={image}
+      alt={imageAlt}
+      widths={[768, 1280, 1800, 2200]}
+      sizes="100vw"
+      loading="eager"
+      fetchpriority="high"
+    />
+  </div>
+  <div class="cin-tint" aria-hidden="true"></div>
+  <div class="cin-side-tint" aria-hidden="true"></div>
+
+  <div class="cin-inner">
+    <div class="cin-mast">
+      <span class="cin-eyebrow">
+        <span class="dot" aria-hidden="true"></span>
+        {eyebrow}
+      </span>
+      {
+        serialChips.length > 0 && (
+          <div class="cin-serials">
+            {serialChips.map((c) => (
+              <span class:list={['serial', { dim: c.dim }]}>{c.text}</span>
+            ))}
+          </div>
+        )
+      }
+    </div>
+
+    <slot name="corner" />
+
+    <div class="cin-headline-wrap">
+      <h1 class="cin-headline">
+        {
+          headlineLines.map((line) => (
+            <span class:list={['stk', line.kind, { accent: line.tone === 'accent' }]}>
+              {line.text}
+            </span>
+          ))
+        }
+      </h1>
+
+      {
+        (lede || primaryCta || secondaryCta) && (
+          <div class="cin-row">
+            {lede && <p class="cin-lede" set:html={lede} />}
+            {(primaryCta || secondaryCta) && (
+              <div class="cin-ctas">
+                {primaryCta && (
+                  <a class="btn btn-primary" href={primaryCta.href}>
+                    {primaryCta.label}
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="M5 12h14" />
+                      <polyline points="12 5 19 12 12 19" />
+                    </svg>
+                  </a>
+                )}
+                {secondaryCta && (
+                  <a class="btn btn-ghost" href={secondaryCta.href}>
+                    {secondaryCta.label}
+                  </a>
+                )}
+                <slot name="extra-cta" />
+              </div>
+            )}
+          </div>
+        )
+      }
+    </div>
+
+    {
+      stats && stats.length > 0 && (
+        <dl class="cin-stats">
+          {stats.map((s) => (
+            <div class="cell">
+              <dt class="val" data-value={s.value}>
+                {s.value}
+              </dt>
+              <dd class="lbl">{s.label}</dd>
+              {s.sub && <dd class="sub">{s.sub}</dd>}
+            </div>
+          ))}
+        </dl>
+      )
+    }
+
+    {
+      scrollHint && (
+        <div class="cin-scroll" aria-hidden="true">
+          <span>Scroll</span>
+          <span class="line" />
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .cin-hero {
+    position: relative;
+    overflow: hidden;
+    color: var(--color-white);
+    background: var(--neutral-950);
+  }
+  .cin-hero--full {
+    min-height: 100vh;
+  }
+  .cin-hero--tall {
+    min-height: 880px;
+  }
+
+  .cin-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  .cin-bg :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 38%;
+    animation: cin-kenburns 24s ease-in-out infinite alternate;
+  }
+  @keyframes cin-kenburns {
+    0% {
+      transform: scale(1.05);
+    }
+    100% {
+      transform: scale(1.12) translate(-1%, -1.5%);
+    }
+  }
+
+  .cin-tint {
+    position: absolute;
+    inset: 0;
+    background: var(--hero-tint);
+    z-index: 1;
+  }
+  .cin-side-tint {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      color-mix(in oklab, var(--neutral-950) 62%, transparent) 0%,
+      color-mix(in oklab, var(--neutral-950) 15%, transparent) 50%,
+      transparent 80%
+    );
+    z-index: 1;
+  }
+
+  .cin-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 120px 40px 80px;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: 56px;
+    min-height: inherit;
+  }
+  .cin-hero--full .cin-inner {
+    min-height: 100vh;
+  }
+
+  .cin-mast {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .cin-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 14px 8px 10px;
+    border-radius: 9999px;
+    background: color-mix(in oklab, var(--color-white) 10%, transparent);
+    border: 1px solid color-mix(in oklab, var(--color-white) 20%, transparent);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    font-size: 11.5px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .cin-eyebrow .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background: var(--brand-300);
+    box-shadow: 0 0 0 4px color-mix(in oklab, var(--brand-300) 25%, transparent);
+  }
+  .cin-serials {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 22px;
+  }
+  .cin-serials .serial {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    color: color-mix(in oklab, var(--color-white) 70%, transparent);
+  }
+  .cin-serials .serial.dim {
+    color: color-mix(in oklab, var(--color-white) 45%, transparent);
+  }
+
+  .cin-headline-wrap {
+    align-self: end;
+    max-width: 1100px;
+  }
+  .cin-headline {
+    font-size: clamp(56px, 9vw, 132px);
+    line-height: 0.92;
+    letter-spacing: -0.025em;
+    margin: 0;
+    text-wrap: balance;
+  }
+  .cin-headline .stk {
+    display: block;
+  }
+  .cin-headline .sans {
+    font-family: var(--font-sans);
+    font-style: normal;
+    font-weight: 300;
+    letter-spacing: -0.03em;
+    color: var(--color-white);
+  }
+  .cin-headline .serif {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    color: var(--color-white);
+  }
+  .cin-headline .accent {
+    color: var(--brand-300);
+  }
+
+  .cin-row {
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 32px;
+  }
+  .cin-lede {
+    font-size: clamp(16px, 1.3vw, 19px);
+    line-height: 1.6;
+    margin: 0;
+    max-width: 540px;
+    color: color-mix(in oklab, var(--color-white) 82%, transparent);
+  }
+  .cin-lede :global(strong) {
+    color: var(--color-white);
+    font-weight: 600;
+  }
+  .cin-ctas {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 24px;
+    border-radius: 9999px;
+    font-family: var(--font-sans);
+    font-size: 14.5px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.01em;
+    transition:
+      transform var(--dur-fast) var(--ease-out),
+      background var(--dur-fast) var(--ease-out),
+      box-shadow var(--dur-fast) var(--ease-out);
+    white-space: nowrap;
+  }
+  .btn-primary {
+    background: var(--brand-500);
+    color: var(--color-white);
+    box-shadow:
+      inset 0 1px 0 color-mix(in oklab, var(--color-white) 18%, transparent),
+      0 8px 24px color-mix(in oklab, var(--brand-700) 35%, transparent);
+  }
+  .btn-primary:hover {
+    background: var(--brand-600);
+    transform: translateY(-2px);
+  }
+  .btn-ghost {
+    color: var(--color-white);
+    background: color-mix(in oklab, var(--color-white) 6%, transparent);
+    border: 1px solid color-mix(in oklab, var(--color-white) 28%, transparent);
+  }
+  .btn-ghost:hover {
+    background: color-mix(in oklab, var(--color-white) 12%, transparent);
+  }
+
+  .cin-stats {
+    margin: 0;
+    padding-top: 28px;
+    border-top: 1px solid color-mix(in oklab, var(--color-white) 18%, transparent);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+  }
+  .cin-stats .cell {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .cin-stats .val {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: clamp(40px, 4vw, 56px);
+    line-height: 0.9;
+    letter-spacing: -0.045em;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-white);
+    margin: 0;
+  }
+  .cin-stats .lbl {
+    font-size: 13.5px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: color-mix(in oklab, var(--color-white) 92%, transparent);
+    margin: 0;
+  }
+  .cin-stats .sub {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 12.5px;
+    line-height: 1.4;
+    color: color-mix(in oklab, var(--color-white) 55%, transparent);
+    margin: 0;
+  }
+
+  .cin-scroll {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    font-size: 10.5px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: color-mix(in oklab, var(--color-white) 50%, transparent);
+  }
+  .cin-scroll .line {
+    width: 1px;
+    height: 36px;
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      color-mix(in oklab, var(--color-white) 50%, transparent),
+      transparent
+    );
+    animation: cin-pulse 2.2s ease-in-out infinite;
+  }
+  @keyframes cin-pulse {
+    0%,
+    100% {
+      opacity: 0.4;
+      transform: scaleY(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scaleY(1.25);
+    }
+  }
+
+  @media (max-width: 920px) {
+    .cin-inner {
+      padding: 96px 24px 56px;
+      gap: 40px;
+    }
+    .cin-row {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .cin-stats {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+  }
+</style>
+
+<script>
+  // Count-up on first scroll-in for any stat cell with a numeric data-value.
+  // Skipped entirely under reduced motion. Shared logic mirrors about/StatsStrip.
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const cells = document.querySelectorAll<HTMLElement>('.cin-hero .cin-stats .val');
+  if (cells.length && !reduce) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target as HTMLElement;
+          const raw = el.dataset.value ?? '';
+          const m = raw.match(/([\d.,]+)(.*)$/);
+          if (!m) return;
+          const target = parseFloat(m[1].replace(/,/g, ''));
+          const tail = m[2];
+          const decimals = (m[1].split('.')[1] || '').length;
+          const start = performance.now();
+          const dur = 1400;
+          const tick = (t: number) => {
+            const p = Math.min(1, (t - start) / dur);
+            const eased = 1 - Math.pow(1 - p, 3);
+            const v = target * eased;
+            const shown =
+              decimals > 0 ? v.toFixed(decimals) : Math.round(v).toLocaleString('en-US');
+            el.textContent = shown + tail;
+            if (p < 1) requestAnimationFrame(tick);
+            else el.textContent = raw;
+          };
+          requestAnimationFrame(tick);
+          io.unobserve(el);
+        });
+      },
+      { threshold: 0.4 },
+    );
+    cells.forEach((c) => io.observe(c));
+  }
+</script>

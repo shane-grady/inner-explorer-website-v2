@@ -32,69 +32,64 @@ const testimonials = defineCollection({
   }),
 });
 
-// Studio narrators. One JSON per narrator — the CMS seam: a future admin reads
-// and writes the same schema-validated entries. Wall fields are required; detail-
-// page fields are optional so the per-narrator template renders gracefully when
-// detail content hasn't been authored yet (sections hide on absence).
+// Narrators — the voices who guide Inner Explorer's audio practices. Drives
+// BOTH the D2 "Meet the Studio" collection page (src/pages/narrators/index.astro)
+// AND the C2 photo detail pages (src/pages/narrators/[slug].astro).
+// The schema is the unified CMS seam: detail-page fields stay optional so a
+// narrator can exist on the wall before their full profile is authored.
 const narrators = defineCollection({
   loader: glob({ pattern: '**/*.{json,yaml,yml}', base: './src/content/narrators' }),
   schema: ({ image }) =>
     z.object({
-      // Wall (required)
+      // Required identity
       name: z.string(),
-      langs: z.array(z.string()).min(1), // e.g. ["EN", "ES", "UR"]
-      since: z.number().int(),
-      practices: z.number().int(),
-      isNew: z.boolean().default(false),
-      photo: image(),
-      role: z.string().optional(),
-      bio: z.string().optional(),
+      role: z.string(),
       order: z.number().default(0),
+      draft: z.boolean().default(false),
 
-      // Detail page (all optional — sections hide when absent)
-      subtitle: z.string().optional(), // masthead sub copy
-      photoWide: image().optional(), // 21:9 editorial; falls back to `photo`
-      portraitLocation: z.string().optional(), // top-right photo corner caption
-      pullQuote: z
-        .object({
-          text: z.string(),
-          attribution: z.string(),
-        })
+      // Photography (photo drives wall + detail-page card; photoWide is the
+      // 21:9 editorial hero used by PhotoQuote on the detail page).
+      photo: image().optional(),
+      photoWide: image().optional(),
+      photoAlt: z.string().optional(),
+      location: z.string().optional(),
+
+      // Detail-page editorial content (all optional — sections hide when absent
+      // so narrators with only wall data still render a coherent page).
+      intro: z.string().optional(),
+      quote: z
+        .object({ text: z.string(), attrib: z.string().optional() })
         .optional(),
       voiceIntro: z
         .object({
+          audioSrc: z.string(),
+          durationSec: z.number(),
           title: z.string(),
-          audio: z.string().optional(), // public/ path; cosmetic-only if absent
+          transcriptHref: z.string().optional(),
+          captionsSrc: z.string().optional(),
         })
         .optional(),
-      quickFacts: z
-        .array(
-          z.object({
-            value: z.string(),
-            label: z.string(),
-          }),
-        )
-        .optional(),
+      facts: z.array(z.object({ value: z.string(), label: z.string() })).default([]),
       qa: z
         .array(
           z.object({
-            n: z.string(), // "01"
-            q: z.string(),
-            a: z.string(),
-            tag: z.string(), // "Origin", "Process" …
+            n: z.string().optional(),
+            question: z.string(),
+            answer: z.string(),
+            tag: z.string().optional(),
           }),
         )
-        .optional(),
-      practiceList: z
-        .array(
-          z.object({
-            title: z.string(),
-            meta: z.string(), // "21-day series · Grades 3–5"
-            image: image(),
-            href: z.string().optional(),
-          }),
-        )
-        .optional(),
+        .default([]),
+      practices: z
+        .array(z.object({ title: z.string(), meta: z.string(), image: image().optional() }))
+        .default([]),
+
+      // Wall-only metadata for the D2 collection page (NarratorCard surfaces
+      // language chips, "Since X · N practices recorded", and a "New" pin).
+      langs: z.array(z.string()).default([]),
+      since: z.number().int().optional(),
+      practiceCount: z.number().int().default(0),
+      isNew: z.boolean().default(false),
     }),
 });
 

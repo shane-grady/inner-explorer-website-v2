@@ -285,6 +285,10 @@
   --color-danger-foreground: var(--danger-foreground);
   --color-info: var(--info);
   --color-info-foreground: var(--info-foreground);
+  /* Paint the subtree's own surface so the global dark `body` background
+     doesn't bleed through gaps between blocks on a light-pinned page. */
+  background-color: var(--color-background);
+  color: var(--color-foreground);
 }
 
 .dark {

@@ -1,10 +1,19 @@
 {
   "name": "Priya Sundaram",
-  "langs": ["EN", "ES"],
-  "since": 2025,
-  "practices": 14,
-  "isNew": true,
+  "role": "Sleep & Rest series",
+  "order": 27,
   "photo": "../../assets/images/narrators/priya-sundaram.jpg",
-  "role": "Studio narrator",
-  "order": 27
+  "photoAlt": "Portrait of Priya Sundaram",
+  "intro": "A pediatric sleep researcher turned narrator, guiding the wind-down practices families reach for at the end of the day.",
+  "quote": {
+    "text": "Rest isn't a reward for a hard day. For a lot of these kids, it's the part of the day where they finally get to be small.",
+    "attrib": "Priya · narrating Sleep & Rest"
+  },
+  "langs": [
+    "EN",
+    "ES"
+  ],
+  "since": 2025,
+  "practiceCount": 14,
+  "isNew": true
 }

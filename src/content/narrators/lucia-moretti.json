@@ -1,10 +1,14 @@
 {
   "name": "Lucia Moretti",
-  "langs": ["EN", "ES", "IT"],
+  "langs": [
+    "EN",
+    "ES",
+    "IT"
+  ],
   "since": 2022,
-  "practices": 27,
   "isNew": false,
   "photo": "../../assets/images/narrators/lucia-moretti.jpg",
   "role": "Studio narrator · Italian lead",
-  "order": 16
+  "order": 16,
+  "practiceCount": 27
 }

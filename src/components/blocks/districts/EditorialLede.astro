@@ -1,0 +1,106 @@
+---
+// "From the editors" — single large italic display paragraph framing the rest of
+// the page. Signed off with a hairline + serial line.
+
+interface Props {
+  eyebrow: string;
+  // Pre-rendered HTML so <em> in the paragraph can call out specific phrases.
+  bodyHtml: string;
+  attribution: string;
+}
+const { eyebrow, bodyHtml, attribution }: Props = Astro.props;
+---
+
+<section class="lede">
+  <div class="lede-inner">
+    <div class="lede-grid">
+      <span class="lede-eyebrow">{eyebrow}</span>
+      <div>
+        <p class="lede-body" set:html={bodyHtml} />
+        <div class="lede-sign">
+          <span class="rule"></span>
+          <span class="serial">{attribution}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .lede {
+    background: var(--color-background);
+    color: var(--color-foreground);
+    padding: 112px 0 56px;
+  }
+  .lede-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  .lede-grid {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 56px;
+    align-items: start;
+  }
+  .lede-eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-muted-foreground);
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .lede-eyebrow::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.55;
+  }
+  .lede-body {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(28px, 3.4vw, 38px);
+    line-height: 1.18;
+    letter-spacing: -0.01em;
+    color: var(--color-foreground);
+    margin: 0;
+    max-width: 880px;
+    text-wrap: balance;
+  }
+  .lede-body :global(em) {
+    font-style: italic;
+    color: var(--color-brand);
+  }
+  .lede-sign {
+    margin-top: 36px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .lede-sign .rule {
+    width: 32px;
+    height: 1px;
+    background: var(--color-muted-foreground);
+    opacity: 0.55;
+  }
+  .lede-sign .serial {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    color: var(--color-muted-foreground);
+  }
+  @media (max-width: 720px) {
+    .lede-grid {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+  }
+</style>

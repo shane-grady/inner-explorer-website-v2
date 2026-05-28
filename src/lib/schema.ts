@@ -39,3 +39,42 @@ export function articleSchema(site: URL | string | undefined, article: ArticleIn
     publisher: organizationSchema(site),
   };
 }
+
+interface PersonInput {
+  name: string;
+  jobTitle?: string;
+  description?: string;
+  image?: string;
+  path: string;
+}
+
+export function personSchema(site: URL | string | undefined, person: PersonInput) {
+  const base = origin(site);
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: person.name,
+    ...(person.jobTitle ? { jobTitle: person.jobTitle } : {}),
+    ...(person.description ? { description: person.description } : {}),
+    ...(person.image ? { image: `${base}${person.image}` } : {}),
+    url: `${base}${person.path}`,
+    worksFor: { '@type': 'Organization', name: 'Inner Explorer', url: base },
+  };
+}
+
+export function breadcrumbSchema(
+  site: URL | string | undefined,
+  items: { name: string; path: string }[],
+) {
+  const base = origin(site);
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: item.name,
+      item: `${base}${item.path}`,
+    })),
+  };
+}

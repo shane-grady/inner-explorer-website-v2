@@ -1,10 +1,13 @@
 {
   "name": "Jamal Foster",
-  "langs": ["EN", "ES"],
+  "langs": [
+    "EN",
+    "ES"
+  ],
   "since": 2024,
-  "practices": 21,
   "isNew": false,
   "photo": "../../assets/images/narrators/jamal-foster.jpg",
   "role": "Studio narrator",
-  "order": 23
+  "order": 23,
+  "practiceCount": 21
 }

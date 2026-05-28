@@ -1,10 +1,13 @@
 {
   "name": "Keira Anand",
-  "langs": ["EN", "ES"],
+  "langs": [
+    "EN",
+    "ES"
+  ],
   "since": 2024,
-  "practices": 19,
   "isNew": false,
   "photo": "../../assets/images/narrators/keira-anand.jpg",
   "role": "Studio narrator",
-  "order": 24
+  "order": 24,
+  "practiceCount": 19
 }

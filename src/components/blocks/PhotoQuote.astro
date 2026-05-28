@@ -2,92 +2,98 @@
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 
-// Wide editorial photo hero with corner labels and an italic-serif pull-quote
-// overlay. 21:9 capped at 520px tall to keep it cinematic without dominating.
-// Reusable for narrator profiles, staff pages, research vignettes, curriculum.
-
+// Wide editorial photo with a tint overlay, glass corner labels, and a
+// serif-italic pull-quote. Reusable for narrator heroes and featured voices.
 interface Props {
-  photo: ImageMetadata;
-  alt: string;
-  cornerLeft?: string;
-  cornerRight?: string;
-  quote?: {
-    text: string;
-    attribution: string;
-  };
-  /** Optional view-transition name shared with the wall card photo. */
-  transitionName?: string;
+  image?: ImageMetadata;
+  imageAlt: string;
+  /** Top-left glass label (e.g. "PORTRAIT"). Paired with a brand status dot. */
+  cornerStart?: string;
+  /** Top-right glass label (e.g. a location/credit). */
+  cornerEnd?: string;
+  quote: { text: string; attrib?: string };
+  /** Set for the LCP hero so the image loads eagerly. */
+  eager?: boolean;
+  maxWidth?: string;
 }
-const { photo, alt, cornerLeft, cornerRight, quote, transitionName }: Props = Astro.props;
+const {
+  image,
+  imageAlt,
+  cornerStart,
+  cornerEnd,
+  quote,
+  eager = false,
+  maxWidth = '1200px',
+}: Props = Astro.props;
 ---
 
-<section class="hero-wrap">
-  <figure class="hero">
-    <Image
-      class="img"
-      src={photo}
-      alt={alt}
-      widths={[760, 1100, 1600]}
-      sizes="(max-width: 920px) 100vw, 1100px"
-      loading="eager"
-      fetchpriority="high"
-      transition:name={transitionName}
-    />
+<section class="photo-wrap" style={`--mw: ${maxWidth}`}>
+  <figure class="photo">
+    {
+      image ? (
+        <Image
+          class="photo-img"
+          src={image}
+          alt={imageAlt}
+          widths={[800, 1200, 1800]}
+          sizes="(max-width: 1264px) 100vw, 1136px"
+          loading={eager ? 'eager' : 'lazy'}
+          fetchpriority={eager ? 'high' : 'auto'}
+        />
+      ) : (
+        <div class="photo-fallback" role="img" aria-label={imageAlt} />
+      )
+    }
     <div class="grad" aria-hidden="true"></div>
 
     {
-      cornerLeft && (
-        <div class="corner top-left" aria-hidden="true">
-          <span class="dot" />
-          {cornerLeft}
+      cornerStart && (
+        <div class="corner start">
+          <span class="dot" aria-hidden="true" />
+          {cornerStart}
         </div>
       )
     }
-    {
-      cornerRight && (
-        <div class="corner top-right" aria-hidden="true">
-          {cornerRight}
-        </div>
-      )
-    }
+    {cornerEnd && <div class="corner end">{cornerEnd}</div>}
 
-    {
-      quote && (
-        <figcaption class="quote">
-          <span class="mark" aria-hidden="true">
-            &ldquo;
-          </span>
-          <p>{quote.text}</p>
-          <span class="attrib">{quote.attribution}</span>
-        </figcaption>
-      )
-    }
+    <figcaption class="quote">
+      <span class="mark" aria-hidden="true">&ldquo;</span>
+      <p>{quote.text}</p>
+      {quote.attrib && <span class="attrib">{quote.attrib}</span>}
+    </figcaption>
   </figure>
 </section>
 
 <style>
-  .hero-wrap {
+  .photo-wrap {
+    max-width: var(--mw);
+    margin: 0 auto;
     padding: 16px 32px 28px;
   }
-  .hero {
+  .photo {
     position: relative;
-    margin: 0 auto;
-    max-width: 1280px;
+    margin: 0;
     aspect-ratio: 21 / 9;
     max-height: 520px;
     border-radius: var(--radius-2xl);
     overflow: hidden;
-    background: var(--color-muted);
     box-shadow: var(--shadow-lg);
   }
-  .img,
-  .hero :global(img) {
+  .photo-img,
+  .photo-fallback {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
+  }
+  .photo-img {
     object-fit: cover;
     filter: brightness(0.94) saturate(1.05);
+  }
+  .photo-fallback {
+    background:
+      radial-gradient(ellipse 90% 70% at 30% 30%, var(--brand-700), transparent 70%),
+      linear-gradient(150deg, var(--brand-900), var(--brand-950));
   }
   .grad {
     position: absolute;
@@ -106,19 +112,18 @@ const { photo, alt, cornerLeft, cornerRight, quote, transitionName }: Props = As
         transparent 50%
       );
   }
-
   .corner {
     position: absolute;
     top: 22px;
-    display: inline-flex;
+    display: flex;
     align-items: center;
     gap: 8px;
     padding: 8px 14px;
     border-radius: 9999px;
     background: color-mix(in oklab, var(--color-white) 8%, transparent);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
     border: 1px solid color-mix(in oklab, var(--color-white) 18%, transparent);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
     color: var(--color-white);
     font-size: 10px;
     font-weight: 500;
@@ -126,50 +131,48 @@ const { photo, alt, cornerLeft, cornerRight, quote, transitionName }: Props = As
     text-transform: uppercase;
     letter-spacing: 0.14em;
   }
-  .corner.top-left {
+  .corner.start {
     left: 22px;
   }
-  .corner.top-right {
+  .corner.end {
     right: 22px;
   }
-  .dot {
+  .corner .dot {
     width: 7px;
     height: 7px;
     border-radius: 9999px;
     background: var(--brand-300);
     box-shadow: 0 0 8px color-mix(in oklab, var(--brand-300) 70%, transparent);
   }
-
   .quote {
     position: absolute;
     left: 36px;
     right: 36px;
     bottom: 32px;
-    max-width: 540px;
+    max-width: 560px;
     color: var(--color-white);
   }
-  .mark {
+  .quote .mark {
     display: block;
-    margin-bottom: -22px;
     font-family: var(--font-display);
     font-style: italic;
     font-weight: 500;
-    font-size: clamp(64px, 7vw, 96px);
+    font-size: 96px;
     line-height: 0.6;
     color: color-mix(in oklab, var(--color-white) 55%, transparent);
+    margin-bottom: -22px;
   }
   .quote p {
     margin: 0 0 10px;
     font-family: var(--font-display);
     font-style: italic;
     font-weight: 500;
-    font-size: clamp(20px, 2.2vw, 24px);
+    font-size: clamp(20px, 2.4vw, 24px);
     line-height: 1.32;
     letter-spacing: -0.005em;
-    color: var(--color-white);
     text-wrap: pretty;
   }
-  .attrib {
+  .quote .attrib {
     font-size: 10px;
     font-weight: 500;
     line-height: 1;
@@ -178,29 +181,21 @@ const { photo, alt, cornerLeft, cornerRight, quote, transitionName }: Props = As
     color: color-mix(in oklab, var(--color-white) 85%, transparent);
   }
 
-  @media (max-width: 920px) {
-    .hero-wrap {
-      padding: 12px 16px 20px;
-    }
-    .hero {
+  @media (max-width: 720px) {
+    .photo {
       aspect-ratio: 4 / 5;
       max-height: none;
+    }
+    .corner {
+      display: none;
     }
     .quote {
       left: 22px;
       right: 22px;
-      bottom: 24px;
+      bottom: 22px;
     }
-    .corner {
-      top: 16px;
-      padding: 6px 12px;
-      font-size: 9.5px;
-    }
-    .corner.top-left {
-      left: 16px;
-    }
-    .corner.top-right {
-      right: 16px;
+    .quote p {
+      font-size: 20px;
     }
   }
 </style>

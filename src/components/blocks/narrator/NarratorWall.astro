@@ -10,9 +10,9 @@ export interface Narrator {
   name: string;
   slug: string;
   photo: ImageMetadata;
-  langs: string[];
-  since: number;
-  practices: number;
+  langs?: string[];
+  since?: number;
+  practiceCount?: number;
   isNew?: boolean;
 }
 interface Props {
@@ -32,7 +32,7 @@ const { narrators, hrefBase = '/narrators/' }: Props = Astro.props;
         photo={n.photo}
         langs={n.langs}
         since={n.since}
-        practices={n.practices}
+        practiceCount={n.practiceCount}
         isNew={n.isNew}
       />
     ))

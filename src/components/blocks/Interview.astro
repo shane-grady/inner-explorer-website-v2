@@ -1,56 +1,63 @@
 ---
-// "Five questions, on the practice." — numbered Q&A list with side-column
-// number + tag pill, italic-serif question, sans answer.
-
-export interface QAItem {
-  n: string;
-  q: string;
-  a: string;
-  tag: string;
+// Numbered Q&A / interview section. `headingHtml` carries the serif+sans "duet"
+// head (e.g. <span class="serif">Five questions,</span><span class="sans"> on the
+// practice.</span>). Reusable as an FAQ or interview block.
+interface Item {
+  question: string;
+  answer: string;
+  tag?: string;
+  /** Display number; auto-derived (01, 02, …) when omitted. */
+  n?: string;
 }
 interface Props {
   eyebrow: string;
   headingHtml: string;
-  qa: QAItem[];
+  items: Item[];
+  maxWidth?: string;
 }
-const { eyebrow, headingHtml, qa }: Props = Astro.props;
+const { eyebrow, headingHtml, items, maxWidth = '1200px' }: Props = Astro.props;
 ---
 
-<section class="qa">
-  <div class="head">
-    <span class="eb">{eyebrow}</span>
-    <h2 class="hd" set:html={headingHtml} />
-  </div>
+<section class="qa" style={`--mw: ${maxWidth}`}>
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">{eyebrow}</span>
+      <h2 set:html={headingHtml} />
+    </div>
 
-  <div class="list">
-    {
-      qa.map((item) => (
-        <article class="item">
-          <div class="side">
-            <span class="num">{item.n}</span>
-            <span class="tag">{item.tag}</span>
-          </div>
-          <div class="body">
-            <h3 class="q">{item.q}</h3>
-            <p class="a">{item.a}</p>
-          </div>
-        </article>
-      ))
-    }
+    <div class="list">
+      {
+        items.map((item, i) => (
+          <article class="item">
+            <div class="side">
+              <span class="num">{item.n ?? String(i + 1).padStart(2, '0')}</span>
+              {item.tag && <span class="tag">{item.tag}</span>}
+            </div>
+            <div class="body">
+              <h3 class="q">{item.question}</h3>
+              <p class="a">{item.answer}</p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
   </div>
 </section>
 
 <style>
   .qa {
-    max-width: 1200px;
+    padding: 40px 0 80px;
+  }
+  .wrap {
+    max-width: var(--mw);
     margin: 0 auto;
-    padding: 0 32px 80px;
+    padding: 0 32px;
   }
   .head {
-    margin-bottom: 48px;
     max-width: 800px;
+    margin-bottom: 48px;
   }
-  .eb {
+  .eyebrow {
     display: block;
     font-size: 11px;
     font-weight: 500;
@@ -59,33 +66,26 @@ const { eyebrow, headingHtml, qa }: Props = Astro.props;
     letter-spacing: 0.18em;
     color: var(--color-muted-foreground);
   }
-  .hd {
+  .head h2 {
     margin: 14px 0 0;
-    font-size: 0;
-    line-height: 1;
+    line-height: 1.05;
   }
-  .hd :global(.serif) {
+  .head h2 :global(.serif) {
     font-family: var(--font-display);
     font-style: italic;
     font-weight: 500;
-    font-size: clamp(36px, 4.4vw, 56px);
-    line-height: 1.05;
+    font-size: clamp(34px, 4.6vw, 56px);
     letter-spacing: -0.015em;
     color: var(--color-foreground);
   }
-  .hd :global(.sans) {
+  .head h2 :global(.sans) {
     font-family: var(--font-sans);
     font-weight: 500;
-    font-size: clamp(36px, 4.4vw, 56px);
-    line-height: 1.05;
+    font-size: clamp(34px, 4.6vw, 56px);
     letter-spacing: -0.025em;
     color: var(--color-muted-foreground);
   }
 
-  .list {
-    display: flex;
-    flex-direction: column;
-  }
   .item {
     display: grid;
     grid-template-columns: 160px 1fr;
@@ -115,41 +115,33 @@ const { eyebrow, headingHtml, qa }: Props = Astro.props;
     width: fit-content;
     padding: 4px 12px;
     border-radius: 9999px;
-    background: var(--brand-100);
-    color: var(--brand-700);
+    background: var(--color-brand-subtle);
+    color: var(--color-brand-emphasis);
     font-size: 11px;
     font-weight: 500;
     line-height: 1;
     text-transform: uppercase;
     letter-spacing: 0.1em;
   }
-
-  .body {
-    min-width: 0;
-  }
   .q {
     margin: 0 0 16px;
     font-family: var(--font-display);
     font-style: italic;
     font-weight: 500;
-    font-size: clamp(24px, 2.8vw, 36px);
+    font-size: clamp(26px, 3vw, 36px);
     line-height: 1.2;
     letter-spacing: -0.01em;
     color: var(--color-foreground);
-    text-wrap: balance;
   }
   .a {
     margin: 0;
-    max-width: 62ch;
-    font-size: clamp(15px, 1.4vw, 18px);
+    font-size: 18px;
     line-height: 1.7;
     color: var(--color-foreground);
+    max-width: 62ch;
   }
 
-  @media (max-width: 920px) {
-    .qa {
-      padding: 0 16px 56px;
-    }
+  @media (max-width: 720px) {
     .item {
       grid-template-columns: 1fr;
       gap: 16px;

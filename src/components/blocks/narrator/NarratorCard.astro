@@ -14,13 +14,31 @@ interface Props {
    *  the detail page hero. Derived from the narrator's filename slug. */
   slug?: string;
   photo: ImageMetadata;
-  langs: string[];
-  since: number;
-  practices: number;
+  /** All four are optional in the unified narrator schema so a narrator can
+   *  exist on the wall before their detail-page profile is authored. */
+  langs?: string[];
+  since?: number;
+  practiceCount?: number;
   isNew?: boolean;
 }
-const { name, href, slug, photo, langs, since, practices, isNew = false }: Props = Astro.props;
+const {
+  name,
+  href,
+  slug,
+  photo,
+  langs = [],
+  since,
+  practiceCount = 0,
+  isNew = false,
+}: Props = Astro.props;
 const tName = slug ? `narrator-photo-${slug}` : undefined;
+
+// Compose the bottom meta line conditionally — "Since YYYY · N practices recorded"
+// when both present, otherwise whichever half we have. Hidden when neither exists.
+const metaParts: string[] = [];
+if (since) metaParts.push(`Since ${since}`);
+if (practiceCount > 0) metaParts.push(`${practiceCount} practices recorded`);
+const metaLine = metaParts.join(' · ');
 ---
 
 <article class="card" data-narrator={name}>
@@ -76,10 +94,16 @@ const tName = slug ? `narrator-photo-${slug}` : undefined;
 
   <div class="info">
     <h3 class="nm">{name}</h3>
-    <div class="langs">
-      {langs.map((l) => <span class="lang">{l}</span>)}
-    </div>
-    <div class="meta">Since {since} · {practices} practices recorded</div>
+    {
+      langs.length > 0 && (
+        <div class="langs">
+          {langs.map((l) => (
+            <span class="lang">{l}</span>
+          ))}
+        </div>
+      )
+    }
+    {metaLine && <div class="meta">{metaLine}</div>}
   </div>
 </article>
 

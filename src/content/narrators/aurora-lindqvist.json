@@ -1,10 +1,13 @@
 {
   "name": "Aurora Lindqvist",
-  "langs": ["EN", "ES"],
+  "langs": [
+    "EN",
+    "ES"
+  ],
   "since": 2022,
-  "practices": 24,
   "isNew": false,
   "photo": "../../assets/images/narrators/aurora-lindqvist.jpg",
   "role": "Studio narrator",
-  "order": 17
+  "order": 17,
+  "practiceCount": 24
 }

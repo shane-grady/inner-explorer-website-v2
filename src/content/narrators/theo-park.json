@@ -1,10 +1,14 @@
 {
   "name": "Theo Park",
-  "langs": ["EN", "ES", "KO"],
+  "langs": [
+    "EN",
+    "ES",
+    "KO"
+  ],
   "since": 2024,
-  "practices": 20,
   "isNew": false,
   "photo": "../../assets/images/narrators/theo-park.jpg",
   "role": "Studio narrator · Korean second",
-  "order": 25
+  "order": 25,
+  "practiceCount": 20
 }

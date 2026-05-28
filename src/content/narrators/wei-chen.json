@@ -1,10 +1,14 @@
 {
   "name": "Wei Chen",
-  "langs": ["EN", "ES", "ZH"],
+  "langs": [
+    "EN",
+    "ES",
+    "ZH"
+  ],
   "since": 2021,
-  "practices": 31,
   "isNew": false,
   "photo": "../../assets/images/narrators/wei-chen.jpg",
   "role": "Studio narrator · Mandarin lead",
-  "order": 12
+  "order": 12,
+  "practiceCount": 31
 }

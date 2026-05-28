@@ -1,10 +1,13 @@
 {
   "name": "Joaquín Mendoza",
-  "langs": ["EN", "ES"],
+  "langs": [
+    "EN",
+    "ES"
+  ],
   "since": 2023,
-  "practices": 28,
   "isNew": false,
   "photo": "../../assets/images/narrators/joaquin-mendoza.jpg",
   "role": "Studio narrator",
-  "order": 18
+  "order": 18,
+  "practiceCount": 28
 }

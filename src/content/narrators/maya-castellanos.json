@@ -1,91 +1,96 @@
 {
   "name": "Maya Castellanos",
-  "langs": ["EN", "ES"],
-  "since": 2017,
-  "practices": 58,
-  "isNew": false,
-  "photo": "../../assets/images/narrators/maya-castellanos.jpg",
-  "role": "Lead studio narrator · Calm Breathing",
+  "role": "Calm Breathing series",
   "order": 1,
-
-  "subtitle": "Twelve years guiding educators. Four hundred recorded practices. One unhurried voice — heard by almost two thousand schools every week.",
-  "photoWide": "../../assets/images/narrators/maya-castellanos.jpg",
-  "portraitLocation": "Photographed at home · Oakland, CA",
-
-  "pullQuote": {
+  "photo": "../../assets/images/narrators/maya-castellanos.jpg",
+  "photoWide": "../../assets/images/narrators/maya-castellanos-wide.jpg",
+  "photoAlt": "Maya Castellanos, photographed at home in Oakland, California",
+  "location": "Photographed at home · Oakland, CA",
+  "intro": "Twelve years guiding educators. Four hundred recorded practices. One unhurried voice — heard by almost two thousand schools every week.",
+  "quote": {
     "text": "A practice doesn't have to fix anything. It just has to give us somewhere honest to be, for five minutes.",
-    "attribution": "Maya · narrating Forest Walk"
+    "attrib": "Maya · narrating Forest Walk"
   },
-
   "voiceIntro": {
+    "audioSrc": "/audio/narrators/maya-hello.mp3",
+    "durationSec": 30,
     "title": "A short hello from Maya.",
-    "audio": "/audio/narrators/maya-intro.mp3"
+    "transcriptHref": "#transcript",
+    "captionsSrc": "/audio/narrators/maya-hello.vtt"
   },
-
-  "quickFacts": [
-    { "value": "412", "label": "Practices recorded" },
-    { "value": "12 yrs", "label": "Guiding educators" },
-    { "value": "1,840", "label": "Schools listen weekly" },
-    { "value": "3", "label": "Languages: EN · ES · FR" }
+  "facts": [
+    {
+      "value": "412",
+      "label": "Practices recorded"
+    },
+    {
+      "value": "12 yrs",
+      "label": "Guiding educators"
+    },
+    {
+      "value": "1,840",
+      "label": "Schools listen weekly"
+    },
+    {
+      "value": "3",
+      "label": "Languages: EN · ES · FR"
+    }
   ],
-
   "qa": [
     {
       "n": "01",
-      "tag": "Origin",
-      "q": "How did you come to mindfulness?",
-      "a": "Twenty-six third-graders, no air conditioning, and a colleague who slipped me a paperback. I lasted about a year before I started leading the practices myself."
+      "question": "How did you come to mindfulness?",
+      "answer": "Twenty-six third-graders, no air conditioning, and a colleague who slipped me a paperback. I lasted about a year before I started leading the practices myself.",
+      "tag": "Origin"
     },
     {
       "n": "02",
-      "tag": "Process",
-      "q": "What does a recording morning look like?",
-      "a": "I'm up by four. Coffee, longhand script, no music. The mic is in our daughter's bedroom — best acoustics in the house. By 5:30 the freeway wakes up, so I have to be done."
+      "question": "What does a recording morning look like?",
+      "answer": "I'm up by four. Coffee, longhand script, no music. The mic is in our daughter's bedroom — best acoustics in the house. By 5:30 the freeway wakes up, so I have to be done.",
+      "tag": "Process"
     },
     {
       "n": "03",
-      "tag": "Craft",
-      "q": "Hardest part of recording for kids?",
-      "a": "Not over-explaining. Kids don't need the why before they try something. They need a confident voice and a clear instruction. Trust comes faster than adults give them credit for."
+      "question": "Hardest part of recording for kids?",
+      "answer": "Not over-explaining. Kids don't need the why before they try something. They need a confident voice and a clear instruction. Trust comes faster than adults give them credit for.",
+      "tag": "Craft"
     },
     {
       "n": "04",
-      "tag": "Practice",
-      "q": "A practice you reach for on hard days?",
-      "a": "Three breaths, eyes closed, feet on the floor. That's it. It's almost embarrassing how often that's enough."
+      "question": "A practice you reach for on hard days?",
+      "answer": "Three breaths, eyes closed, feet on the floor. That's it. It's almost embarrassing how often that's enough.",
+      "tag": "Practice"
     },
     {
       "n": "05",
-      "tag": "Intention",
-      "q": "What do you want kids to feel?",
-      "a": "Like there's nothing they have to do. The practice doesn't have to fix anything. It just has to give us somewhere honest to be, for five minutes."
+      "question": "What do you want kids to feel?",
+      "answer": "Like there's nothing they have to do. The practice doesn't have to fix anything. It just has to give us somewhere honest to be, for five minutes.",
+      "tag": "Intention"
     }
   ],
-
-  "practiceList": [
+  "practices": [
     {
       "title": "Calm Breathing",
-      "meta": "21-day series · Grades 3–5",
-      "image": "../../assets/images/narrators/practices/calm-breathing.jpg",
-      "href": "#"
+      "meta": "21-day series · Grades 3–5"
     },
     {
       "title": "Forest Walk",
-      "meta": "5 min · All grades",
-      "image": "../../assets/images/narrators/practices/forest-walk.jpg",
-      "href": "#"
+      "meta": "5 min · All grades"
     },
     {
       "title": "Settling In",
-      "meta": "First week · K–2",
-      "image": "../../assets/images/narrators/practices/settling-in.jpg",
-      "href": "#"
+      "meta": "First week · K–2"
     },
     {
       "title": "Test Day Breath",
-      "meta": "3 min · Grades 3–8",
-      "image": "../../assets/images/narrators/practices/test-day-breath.jpg",
-      "href": "#"
+      "meta": "3 min · Grades 3–8"
     }
-  ]
+  ],
+  "langs": [
+    "EN",
+    "ES"
+  ],
+  "since": 2017,
+  "practiceCount": 58,
+  "isNew": false
 }

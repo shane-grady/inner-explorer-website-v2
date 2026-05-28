@@ -58,54 +58,162 @@ Faithful to the v1 handoff. Verified in-browser (light): hero, scroll timeline (
   flagged by Claude Design to fact-check; photos are Unsplash stand-ins to swap for real IE
   imagery. Hero Inter weight-200 falls back to 300 (not shipped in the bundle).
 
-## Narrators collection page (D2 · "Meet the Studio — Full-width headline" — complete)
+## Narrator detail page (Claude Design handoff — complete)
 
-- [x] **Page-local hero**: `MeetStudioHero.astro` reproduces D2's oversized duet
-      (~116px sans / ~184px italic serif) on a warm cream-peach-green wash, with the
-      "Vol. IX · Spring 2026" corner anchor pushed below the global fixed nav.
-- [x] **4 new shared blocks** (reuse-first calls confirmed with Shane): `MetaStrip`
-      (dense italic-serif stat row), `CollectionToolbar` (italic + sans inline
-      title with right slot), `MomentsRail` (1.3/1/1 captioned photo cards),
-      `SplitCTA` (huge serif pull-quote + brand-tinted CTA card).
-- [x] **2 narrator blocks** under `blocks/narrator/`: `NarratorWall` (5-col grid,
-      data-driven; vanilla mutually-exclusive play toggle) + `NarratorCard`
-      (overlaid-name, isNew pin, hover-reveal play button, accessible link +
-      separate button stacked via z-index).
-- [x] **`narrators` content collection** (`src/content.config.ts` +
-      `src/content/narrators/*.json` × 30) — the CMS seam.
-- [x] **Header nav** extended globally: `Narrators` inserted between Research and About.
-- [x] **Tokens**: `--cream-50/100`, `--peach-200`, composed `--studio-hero-wash` and
-      `--studio-card-wash` in the raw layer of `global.css`.
-- [x] **`.appearance-light` global fix**: wrapper now paints `background:
-var(--background)` so subtrees fill light under global dark mode (without the
-      fix, body's dark bg bled through gaps between non-background sections).
-- [x] **Verification**: `pnpm check` (typecheck + lint + drift + format) clean;
-      `pnpm build` produces `/narrators` shipping only the shared 2.3KB chrome JS
-      (no React). Verified at 1440/920/375 widths in light + dark. Card play toggle
-      is mutually exclusive (`aria-pressed` flips). About + home/blog/styleguide
-      regression-checked — no visual changes.
+- [x] **Promoted** `blocks/about/StatsStrip` → `blocks/StatStrip` (+ `labelCase`,
+      `contained`, `maxWidth`, `ariaLabel` props; About refactor mechanical, no visual
+      change) and `blocks/about/TeamGrid` → `blocks/TeamGrid` (+ `variant: 'voices'`
+      serif-italic linked cards; duet `.sans` head support; optional photo + branded
+      fallback; `maxWidth` prop). Single source per the `implement-design-handoff` skill.
+- [x] **New shared blocks/primitives**: `primitives/Breadcrumb`, `blocks/EditorialMasthead`
+      (eyebrow rule + Inter/Caslon duet), `blocks/PhotoQuote` (21:9 hero, `--hero-tint`
+      overlay, glass corner pills, serif quote), `blocks/VoiceBar` (real `<audio>` +
+      vanilla `<script>` toggle, 64-bar build-time waveform, captions `<track>`,
+      progressive enhancement), `blocks/Interview` (numbered Q&A w/ tag pills),
+      `blocks/MediaRows` (photo-led practice rows).
+- [x] **Narrators content collection** (`content.config.ts` + `src/content/narrators/*.json`):
+      Maya Castellanos (full handoff copy, voice intro, 4 facts, 5 Q&A, 4 practices) +
+      Jordan/Aisha/Priya for the "more voices" grid. Person + BreadcrumbList JSON-LD.
+- [x] **Routes**: `src/pages/narrators/[slug].astro` (collection-driven, pinned light,
+      compose blocks in C2 order) + `src/pages/narrators/index.astro` (minimal listing).
+- [x] **Placeholder seed media**: brand-tinted JPG portraits + 21:9 hero via
+      `scripts/gen-narrator-placeholders.mjs` (sharp + SVG initials); 30-sec gentle
+      placeholder MP3 + empty WebVTT captions track in `public/audio/narrators/`.
+- [x] **Light-pin fix in `global.css`**: `.appearance-light` now paints its own
+      `background-color` so the global dark body bg doesn't bleed through gaps between
+      contained blocks on a light-pinned detail page (see lessons).
 
-### Follow-ups
+### Review (narrator page)
 
-- [ ] **Narrator detail pages** (`/narrators/[slug]`). Cards currently link to
-      `/narrators/<slug>` but the routes don't exist. Build a `[slug].astro` template.
-- [ ] **Real audio preview** — wire `<audio>` per narrator (add `audio: file()` to
-      the schema) and have the play button drive `audio.play()/pause()` instead of
-      just toggling `data-playing`.
-- [ ] **Search + filter** behaviour on the wall toolbar (currently visual-only
-      pills). Likely: client-side text + language filter with a small vanilla script.
-- [ ] **30 Unsplash portraits + 3 studio-moment photos** are localized stand-ins —
-      swap for real Inner Explorer studio photography before publish.
-- [ ] **"Schools listening weekly" (1,840)** is a stub copy value — wire to a real
-      data source (or remove) when available.
-- [ ] **Languages narrated total** computes to 12 from seed data; D2 designer
-      copy said "11" — confirm which is canonical with the studio team.
+Built reuse-first per the `implement-design-handoff` skill: 2 promoted shared blocks,
+6 new shared blocks/primitives, 0 page-scoped components. `pnpm check` 0/0/0; build
+clean (11 pages); narrator page ships the same shared 2.2KB inline-script bundle —
+**no React runtime**. Browser-verified at 1440 desktop + 375 mobile: masthead duet,
+photo hero + serif quote, **voice bar plays + waveform fills + time ticks (0:10 ↔
+23/64 `.on` bars)**, quick facts, 5× Q&A, photo-led practices, "more voices" grid.
+Light pin holds under global dark mode (chrome still adapts). Regress check: home,
+blog, styleguide, **About** all coherent in both themes. Stand-ins flagged below.
+
+## Research page (Claude Design handoff v2 — "The Quiet Revolution" — complete)
+
+- [x] **`/research`** built from a shared `CinematicHero` + `EditorialCTA` plus seven page-scoped
+      blocks in `src/components/blocks/research/`: `OpeningVoid`, `ChapterReceipts`, `ChapterBrain`,
+      `ChapterOutcomes` (+ `OutcomeChart` with 5 chart sub-renderers), `Endorsers`, `VoicesRotator`.
+      Roman-numeral chapter marks (I/II/III), full-bleed cinematic hero with the brand-mint emphasis
+      headline, six-trial stacked wall with the giant italic year + dark stat block, dark editorial
+      brain section with drop cap + animated SVG (stressed↔mindful toggle), five outcome spreads
+      with sticky in-page jump-nav and bespoke charts (bars, before/after, dials, line, dotted
+      competencies), rotating voices on dark, paper-CTA closing. Tiny vanilla "breath meter" rail
+      on the right edge tracks scroll progress and the current chapter.
+
+## For Districts page (Claude Design handoff — Documentary direction — complete)
+
+- [x] **`/districts`** built from the shared `CinematicHero` + `EditorialCTA` plus thirteen
+      page-scoped blocks in `src/components/blocks/districts/`: `EditorialLede`,
+      `DistrictTrustStrip`, `FieldReports`, `ByTheNumbers`, `DayInside`, `VoicesSelector`,
+      `StandardsAlignment` (CASEL radial), `CompareTable` (segmented filter), `FundingGuide`
+      (+ inline `ROICalculator`), `ImplementationTimeline`, `SecurityPrivacy`, `FAQAccordion`.
+      Three field-report case studies as alternating photo spreads, dark "By the Numbers"
+      centerfold, three-image day-in-the-life essay, portrait-driven voices selector, ROI
+      sliders + funding selector with live cost math, native `<details>` FAQ accordion, dark
+      editorial closing CTA with numbered side card. Decorative "Listen" affordance NOT shipped
+      with audio — labelled preview-only.
+
+### Review (Research + Districts)
+
+Both pages ship through `PageLayout flushTop`, wrapped in `.appearance-light` to stay light under
+global dark mode (verified — global chrome adapts, page subtree pins). `pnpm check` (typecheck +
+lint + drift + format) and `pnpm build` clean. Per-page JS is the same ~2.2KB vanilla bundle as
+About — no React on marketing pages. Interactions verified in Preview MCP: brain toggle, outcome
+jump-nav scroll, voices rotator + selector, FAQ details/summary accordion, ROI sliders with funding
+switch (Title IV-A → 85%, BSCA → 100% "Fully funded"), CASEL petal selector, compare table privacy
+filter (3 of 10 rows). Stayed on the cohesive cool-gray neutral palette per the user's call —
+no `--paper`/`--paper-deep` tokens added; warm-cream surfaces from the Documentary direction were
+mapped onto existing `--background`/`--muted`/`--card`. Regression: `/`, `/about`, `/blog`,
+`/styleguide` all 200 and visually coherent.
+
+## Stand-ins to swap before publishing
+
+- [ ] Narrator portraits + 21:9 hero — replace generated initials placeholders with
+      real photography (`src/assets/images/narrators/*.jpg`).
+- [ ] "Meet the voice" intro audio + captions — replace
+      `/audio/narrators/maya-hello.mp3` (30s placeholder tone) + `maya-hello.vtt`
+      with a real recording + caption file. (The other 3 narrators omit `voiceIntro`
+      until recordings exist — the VoiceBar hides automatically.)
+- [ ] Confirm narrator metadata (`role`, `intro`, `quote`) against final brand copy.
+- [ ] Full v4 "Meet the Studio" narrator collection page is out of scope — the
+      current `narrators/index.astro` is a minimal listing so the breadcrumb resolves.
+- [ ] Research + Districts reuse About's existing localized photography (e.g.
+      `voice-okafor.jpg`, `timeline-2013-focus.jpg`). Replace with real research/district
+      imagery — Field Reports needs three distinct district photographs (Broward / Newark /
+      Aurora), Day Inside needs three time-of-day classroom shots, By-the-Numbers needs a
+      single anchor portrait.
+- [ ] Districts placeholder data: ROI per-student pricing ($4.20), funding coverage
+      percentages, district names (Broward / Newark / Aurora), testimonials,
+      "Field Report № 09" serial, partner district list, awards/certifications.
+      Cross-check with the partnerships team.
+- [ ] Research study findings and percentages are drawn from the prior Wix concept —
+      verify exact figures with the research team before going live.
+- [ ] Districts hero "Listen" button is decorative only — wire to a real preview audio
+      file or remove if it can't be supported at launch.
+- [ ] Districts page omits the design's React multi-step demo modal — primary CTAs
+      deep-link to `/contact`. If a modal is desired later, build it as a small vanilla
+      island, not a React tree.
+
+## Narrator collection page — D2 "Meet the Studio · Full-width headline" (complete)
+
+Replaces the minimal `narrators/index.astro` placeholder shipped with the detail
+page. Same content collection drives both pages; new wall-only fields (`langs`,
+`since`, `practiceCount`, `isNew`) were added to the unified narrator schema as
+optional. Astro 6 `<ClientRouter />` is wired in `BaseLayout` so the wall card
+photo morphs into the detail-page hero on navigation (`transition:name` shared on
+the portrait `<Image>`).
+
+- [x] **D2 hero** (`blocks/narrator/MeetStudioHero.astro`, page-local): oversized
+      duet (~116px sans + ~184px italic serif) on a warm cream-peach-green wash;
+      "Vol. IX · Spring 2026" corner anchor positioned below the fixed glass nav.
+- [x] **4 new shared blocks** (reuse-first, confirmed up front): `MetaStrip`
+      (`dense | feature` variants — dense for the wall meta, feature reserved for
+      the detail page's quick facts), `CollectionToolbar` (title + right slot for
+      controls), `MomentsRail` (3-up captioned photos, 1.3/1/1), `SplitCTA`
+      (large serif pull-quote + brand-tinted action card).
+- [x] **2 narrator blocks** in `blocks/narrator/`: `NarratorWall` (5×6 grid +
+      vanilla mutually-exclusive play toggle) + `NarratorCard` (overlay name,
+      `isNew` pin, hover-reveal play button, accessible link + separate button
+      composed via z-index — no React).
+- [x] **30 narrator seed JSONs**: Maya + the 3 detail-page seeds shipped in the
+      prior PR, plus 26 wall-only narrators (slug, name, role, langs, since,
+      practiceCount, photo) so the wall fills out. Detail-page fields are absent
+      on those 26 — their detail routes still render via main's `[slug].astro`,
+      with optional sections hiding gracefully.
+- [x] **Warm tokens** in `global.css` raw layer: `--cream-50/100`, `--peach-200`,
+      composed `--studio-hero-wash` and `--studio-card-wash`.
+- [x] **Header nav** already exposes "Narrators"; no further nav changes needed.
+- [x] **Localized photography**: 26 additional Unsplash portraits + 3 studio
+      moment photos in `src/assets/images/narrators/` and `…/moments/` (flagged
+      below as stand-ins to swap before publishing).
+- [x] **View transitions** verified in Chromium — card photo morphs into the
+      detail hero on click; auto-skipped under `prefers-reduced-motion`. Routing
+      stays purely SSG (37 pages built; no SSR/edge).
+
+### Follow-ups (collection page)
+
+- [ ] **Search + filter** behaviour on the wall toolbar — currently the search /
+      filter pills are visual-only. Likely: a small vanilla `<script>` doing
+      client-side text + language filtering against `data-*` attrs on each card.
+- [ ] **"Schools listening weekly" (1,840)** in the meta strip is stub copy —
+      wire to a real source or remove when the metric is locked.
+- [ ] **Languages narrated total** computes to 12 distinct from seed data; D2
+      mockup copy said "11" — confirm canonical number with the studio team.
+- [ ] **Voice intro audio for the other 29 narrators** (only Maya's
+      `voiceIntro` is populated; everyone else's `VoiceBar` is hidden until
+      recordings exist).
 
 ## Next (post-foundation)
 
 - [ ] Confirm production `site` domain in `astro.config.mjs`.
-- [ ] Build remaining pages: program, research/impact, pricing, educators/districts, contact (+ form).
-- [ ] Replace About placeholder copy + Unsplash stand-ins with verified content + real IE photos.
+- [ ] Build remaining pages: program, educators, pricing, contact (+ form).
+- [ ] Replace About + Research + Districts placeholder copy + Unsplash/About-stand-in photos with verified content and real IE imagery.
 - [ ] Legacy migration: audit old URLs → populate `public/_redirects` (301s); import content.
 - [ ] Add Vitest (Container API) + Playwright (+ `@axe-core/playwright`) and wire into CI.
 - [ ] (Deferred) Lightweight custom CMS admin over the content collections.

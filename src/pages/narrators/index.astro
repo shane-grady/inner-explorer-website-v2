@@ -1,20 +1,20 @@
 ---
 import { getCollection } from 'astro:content';
-import PageLayout from '../layouts/PageLayout.astro';
-import JsonLd from '../components/seo/JsonLd.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import JsonLd from '../../components/seo/JsonLd.astro';
 
-import MeetStudioHero from '../components/blocks/narrator/MeetStudioHero.astro';
-import MetaStrip from '../components/blocks/MetaStrip.astro';
-import CollectionToolbar from '../components/blocks/CollectionToolbar.astro';
-import NarratorWall from '../components/blocks/narrator/NarratorWall.astro';
-import MomentsRail from '../components/blocks/MomentsRail.astro';
-import SplitCTA from '../components/blocks/SplitCTA.astro';
+import MeetStudioHero from '../../components/blocks/narrator/MeetStudioHero.astro';
+import MetaStrip from '../../components/blocks/MetaStrip.astro';
+import CollectionToolbar from '../../components/blocks/CollectionToolbar.astro';
+import NarratorWall from '../../components/blocks/narrator/NarratorWall.astro';
+import MomentsRail from '../../components/blocks/MomentsRail.astro';
+import SplitCTA from '../../components/blocks/SplitCTA.astro';
 
 // Studio Moments — kept as in-page structured data for now (small slice; promote
 // to a collection if it grows).
-import studioABoston from '../assets/images/narrators/moments/studio-a-boston.jpg';
-import youthPanel from '../assets/images/narrators/moments/youth-panel.jpg';
-import scriptRoom from '../assets/images/narrators/moments/script-room.jpg';
+import studioABoston from '../../assets/images/narrators/moments/studio-a-boston.jpg';
+import youthPanel from '../../assets/images/narrators/moments/youth-panel.jpg';
+import scriptRoom from '../../assets/images/narrators/moments/script-room.jpg';
 
 // ── Page content (structured data; the CMS-ready seam) ──────────────────────
 
@@ -69,18 +69,23 @@ const pageDescription =
 
 // ── Data layer — narrators collection (CMS seam) ────────────────────────────
 
-const entries = await getCollection('narrators');
+// Pull every published narrator that has a wall portrait — narrators without a
+// `photo` can't render on the wall (the card needs one); drafts are excluded.
+const entries = await getCollection('narrators', ({ data }) => !data.draft && !!data.photo);
 const narrators = entries
   .sort((a, b) => a.data.order - b.data.order)
   .map((entry) => ({
     slug: entry.id.replace(/\.[^.]+$/, ''),
     ...entry.data,
+    // Narrow `photo` from `ImageMetadata | undefined` to `ImageMetadata` for
+    // downstream components (the filter above guarantees presence).
+    photo: entry.data.photo!,
   }));
 
 // ── Derived meta-strip values (kept in lockstep with the data) ──────────────
 
-const totalPractices = narrators.reduce((sum, n) => sum + n.practices, 0);
-const distinctLangs = new Set(narrators.flatMap((n) => n.langs));
+const totalPractices = narrators.reduce((sum, n) => sum + (n.practiceCount ?? 0), 0);
+const distinctLangs = new Set(narrators.flatMap((n) => n.langs ?? []));
 const meta = [
   { value: String(narrators.length), label: 'Narrators in residence' },
   { value: 'EN · ES', label: 'Universal languages' },

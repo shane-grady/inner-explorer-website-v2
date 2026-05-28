@@ -1,10 +1,13 @@
 {
   "name": "Marco Russo",
-  "langs": ["EN", "ES"],
+  "langs": [
+    "EN",
+    "ES"
+  ],
   "since": 2020,
-  "practices": 36,
   "isNew": false,
   "photo": "../../assets/images/narrators/marco-russo.jpg",
   "role": "Studio narrator",
-  "order": 8
+  "order": 8,
+  "practiceCount": 36
 }

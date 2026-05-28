@@ -1,10 +1,20 @@
 {
   "name": "Aisha Rahman",
-  "langs": ["EN", "ES", "UR"],
-  "since": 2019,
-  "practices": 41,
-  "isNew": false,
+  "role": "Loving-Kindness series",
+  "order": 4,
   "photo": "../../assets/images/narrators/aisha-rahman.jpg",
-  "role": "Studio narrator · Urdu lead",
-  "order": 4
+  "photoAlt": "Portrait of Aisha Rahman",
+  "intro": "A poet and elementary teacher whose warm, unhurried voice carries Inner Explorer's loving-kindness practices.",
+  "quote": {
+    "text": "Kindness is a skill, not a mood. We practice it the same way we practice anything — a little, every day.",
+    "attrib": "Aisha · narrating Loving-Kindness"
+  },
+  "langs": [
+    "EN",
+    "ES",
+    "UR"
+  ],
+  "since": 2019,
+  "practiceCount": 41,
+  "isNew": false
 }
