@@ -5,79 +5,119 @@ import type { ImageMetadata } from 'astro';
 interface Person {
   name: string;
   role: string;
-  location: string;
-  pin: string;
+  location?: string;
+  pin?: string;
   founder?: boolean;
-  photo: ImageMetadata;
+  href?: string;
+  photo?: ImageMetadata;
 }
 interface Props {
   eyebrow: string;
   headingHtml: string;
-  meta: string;
   people: Person[];
-  note: string;
-  cta: { label: string; href: string };
+  /** `team` (default): pin + location + sans names. `voices`: serif-italic
+   *  linked cards (no pin/location) for a roster of narrators. */
+  variant?: 'team' | 'voices';
+  meta?: string;
+  note?: string;
+  cta?: { label: string; href: string };
+  /** Inner content width (any CSS length). About uses the wide 1440 column. */
+  maxWidth?: string;
 }
-const { eyebrow, headingHtml, meta, people, note, cta }: Props = Astro.props;
+const {
+  eyebrow,
+  headingHtml,
+  people,
+  variant = 'team',
+  meta,
+  note,
+  cta,
+  maxWidth = '1440px',
+}: Props = Astro.props;
 ---
 
-<section class="team" id="team">
+<section class:list={['team', variant]} style={`--mw: ${maxWidth}`}>
   <div class="team-wrap">
-    <div class="team-head">
+    <div class:list={['team-head', { solo: !meta }]}>
       <div>
         <span class="eyebrow">{eyebrow}</span>
         <h2 class="display-h" set:html={headingHtml} />
       </div>
-      <p class="meta">{meta}</p>
+      {meta && <p class="meta">{meta}</p>}
     </div>
 
     <ul class="team-grid">
       {
-        people.map((p) => (
-          <li class="person">
-            <div class="portrait">
-              <span class:list={['pin', { founder: p.founder }]}>{p.pin}</span>
-              <Image
-                src={p.photo}
-                alt={`Portrait of ${p.name}`}
-                widths={[240, 480, 800]}
-                sizes="(max-width: 920px) 45vw, 18vw"
-                loading="lazy"
-              />
-            </div>
-            <div class="info">
-              <span class="nm">{p.name}</span>
-              <span class="rl">{p.role}</span>
-              <span class="loc">
-                <span class="dot" aria-hidden="true" />
-                {p.location}
-              </span>
-            </div>
-          </li>
-        ))
+        people.map((p) => {
+          const card = (
+            <>
+              <div class="portrait">
+                {p.pin && <span class:list={['pin', { founder: p.founder }]}>{p.pin}</span>}
+                {p.photo ? (
+                  <Image
+                    src={p.photo}
+                    alt={`Portrait of ${p.name}`}
+                    widths={[240, 480, 800]}
+                    sizes="(max-width: 920px) 45vw, 18vw"
+                    loading="lazy"
+                  />
+                ) : (
+                  <span class="ph-fallback" aria-hidden="true" />
+                )}
+              </div>
+              <div class="info">
+                <span class="nm">{p.name}</span>
+                <span class="rl">{p.role}</span>
+                {p.location && (
+                  <span class="loc">
+                    <span class="dot" aria-hidden="true" />
+                    {p.location}
+                  </span>
+                )}
+              </div>
+            </>
+          );
+          return (
+            <li class="person">
+              {p.href ? (
+                <a class="person-link" href={p.href}>
+                  {card}
+                </a>
+              ) : (
+                card
+              )}
+            </li>
+          );
+        })
       }
     </ul>
 
-    <div class="team-foot">
-      <p class="note">{note}</p>
-      <a class="careers" href={cta.href}>
-        {cta.label}
-        <svg
-          width="14"
-          height="14"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
-        >
-          <path d="M5 12h14"></path>
-          <polyline points="12 5 19 12 12 19"></polyline>
-        </svg>
-      </a>
-    </div>
+    {
+      (note || cta) && (
+        <div class="team-foot">
+          {note && <p class="note">{note}</p>}
+          {cta && (
+            <a class="careers" href={cta.href}>
+              {cta.label}
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
+            </a>
+          )}
+        </div>
+      )
+    }
   </div>
 </section>
 
@@ -88,7 +128,7 @@ const { eyebrow, headingHtml, meta, people, note, cta }: Props = Astro.props;
     position: relative;
   }
   .team-wrap {
-    max-width: 1440px;
+    max-width: var(--mw);
     margin: 0 auto;
     padding: 0 32px;
   }
@@ -98,6 +138,9 @@ const { eyebrow, headingHtml, meta, people, note, cta }: Props = Astro.props;
     gap: 60px;
     margin-bottom: 72px;
     align-items: end;
+  }
+  .team-head.solo {
+    grid-template-columns: 1fr;
   }
   .eyebrow {
     display: inline-flex;
@@ -131,6 +174,12 @@ const { eyebrow, headingHtml, meta, people, note, cta }: Props = Astro.props;
   .display-h :global(.accent) {
     color: var(--color-brand);
   }
+  /* Optional serif+sans "duet" heading (e.g. the narrator roster). */
+  .display-h :global(.sans) {
+    font-family: var(--font-sans);
+    font-style: normal;
+    color: var(--color-muted-foreground);
+  }
   .team-head .meta {
     text-align: right;
     color: var(--color-muted-foreground);
@@ -152,6 +201,12 @@ const { eyebrow, headingHtml, meta, people, note, cta }: Props = Astro.props;
     display: flex;
     flex-direction: column;
   }
+  .person-link {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+  }
   .portrait {
     position: relative;
     aspect-ratio: 4 / 5;
@@ -171,6 +226,14 @@ const { eyebrow, headingHtml, meta, people, note, cta }: Props = Astro.props;
     transition:
       transform 1.2s var(--ease-out),
       filter var(--dur) var(--ease-out);
+  }
+  .ph-fallback {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background:
+      radial-gradient(ellipse 90% 80% at 30% 20%, var(--brand-700), transparent 70%),
+      linear-gradient(150deg, var(--brand-900), var(--brand-950));
   }
   .person:hover .portrait {
     transform: translateY(-4px);
@@ -250,6 +313,35 @@ const { eyebrow, headingHtml, meta, people, note, cta }: Props = Astro.props;
     background: var(--brand-400);
   }
 
+  /* Voices variant — narrator roster: 4-up, serif-italic linked names. */
+  .team.voices {
+    padding: 96px 0;
+  }
+  .team.voices .team-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .team.voices .portrait {
+    border-radius: var(--radius-lg);
+  }
+  .team.voices .info {
+    padding-top: 14px;
+    gap: 6px;
+  }
+  .team.voices .nm {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+  .team.voices .rl {
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
   .team-foot {
     margin-top: 72px;
     padding-top: 36px;
@@ -298,7 +390,8 @@ const { eyebrow, headingHtml, meta, people, note, cta }: Props = Astro.props;
       text-align: left;
       margin-left: 0;
     }
-    .team-grid {
+    .team-grid,
+    .team.voices .team-grid {
       grid-template-columns: repeat(2, 1fr);
       gap: 24px 16px;
     }

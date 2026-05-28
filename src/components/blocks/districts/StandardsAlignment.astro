@@ -1,0 +1,450 @@
+---
+// Standards alignment — CASEL radial explorer + states pills row.
+// SVG radial layout puts 5 competency petals around a center. Vanilla script swaps
+// the active competency; CSS shows the corresponding detail panel.
+
+interface Competency {
+  id: string;
+  name: string;
+  blurb: string;
+  sessions: number;
+  mapped: string[];
+}
+interface Props {
+  eyebrow: string;
+  titleHtml: string;
+  intro: string;
+  competencies: Competency[];
+  pills: string[];
+}
+const { eyebrow, titleHtml, intro, competencies, pills }: Props = Astro.props;
+
+// Pre-compute petal positions (CSS-friendly).
+const cx = 220;
+const cy = 220;
+const R = 158;
+const positioned = competencies.map((c, i) => {
+  const a = -Math.PI / 2 + (i / competencies.length) * Math.PI * 2;
+  return {
+    ...c,
+    x: cx + Math.cos(a) * R,
+    y: cy + Math.sin(a) * R,
+    angle: a,
+  };
+});
+---
+
+<section class="sa" id="standards" aria-label="Standards alignment">
+  <div class="sa-inner">
+    <div class="sa-head">
+      <div class="eyebrow">{eyebrow}</div>
+      <h2 class="head-h" set:html={titleHtml} />
+      <p class="head-p">{intro}</p>
+    </div>
+
+    <div class="sa-card" data-standards>
+      <div class="sa-radial">
+        <svg viewBox="0 0 440 440" width="100%" style="overflow: visible" aria-hidden="true">
+          <circle cx={cx} cy={cy} r={R + 20} fill="none" class="ring" stroke-width="40"></circle>
+          <circle cx={cx} cy={cy} r={R - 80} class="ring-inner"></circle>
+          <text x={cx} y={cy - 6} text-anchor="middle" class="ring-title">CASEL 5</text>
+          <text x={cx} y={cy + 18} text-anchor="middle" class="ring-sub">FRAMEWORK</text>
+
+          {
+            positioned.map((c, i) => (
+              <g class:list={['petal', { on: i === 0 }]} data-i={i} data-id={c.id}>
+                <line x1={cx} y1={cy} x2={c.x} y2={c.y} class="spoke" />
+                <circle cx={c.x} cy={c.y} r="32" class="node" />
+                <text x={c.x} y={c.y + 4} text-anchor="middle" class="node-label">
+                  {c.name.split(' ').map((w, j) => (
+                    <tspan x={c.x} dy={j === 0 ? 0 : 12}>
+                      {w}
+                    </tspan>
+                  ))}
+                </text>
+              </g>
+            ))
+          }
+        </svg>
+      </div>
+
+      <div class="sa-detail">
+        {
+          competencies.map((c, i) => (
+            <div class:list={['panel', { on: i === 0 }]} data-id={c.id}>
+              <div class="panel-eyebrow">{c.name.toUpperCase()}</div>
+              <h3 class="panel-h">{c.blurb}</h3>
+              <div class="panel-rule" />
+              <div class="panel-count">
+                <div class="num">{c.sessions}</div>
+                <div class="num-label">
+                  practices in the Inner Explorer library mapped to <strong>{c.name}</strong>.
+                </div>
+              </div>
+              <div class="panel-list-head">Example practices</div>
+              <div class="panel-list">
+                {c.mapped.map((m) => (
+                  <div class="list-row">
+                    <span class="list-icon" aria-hidden="true">
+                      <svg
+                        viewBox="0 0 24 24"
+                        width="14"
+                        height="14"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="M3 18v-6a9 9 0 0 1 18 0v6" />
+                        <path d="M21 19a2 2 0 0 1-2 2h-1v-7h3v5zM3 19a2 2 0 0 0 2 2h1v-7H3v5z" />
+                      </svg>
+                    </span>
+                    <span>{m}</span>
+                  </div>
+                ))}
+              </div>
+              <div class="panel-aside">
+                <span class="aside-icon" aria-hidden="true">
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="20"
+                    height="20"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z" />
+                  </svg>
+                </span>
+                <p>
+                  Full mapping also available for MTSS Tier 1 supports, state SEL standards (CA, IL,
+                  NY, FL, TX +29 more), and your district's local strategic plan.
+                </p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="sa-pills">
+      {
+        pills.map((p) => (
+          <span class="pill">
+            <span class="dot" aria-hidden="true" />
+            {p}
+          </span>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .sa {
+    background: var(--color-muted);
+    color: var(--color-foreground);
+    padding: 120px 0;
+  }
+  .sa-inner {
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+  .sa-head {
+    max-width: 720px;
+    margin-bottom: 56px;
+  }
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-muted-foreground);
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.55;
+  }
+  .head-h {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(40px, 5vw, 64px);
+    line-height: 1.02;
+    letter-spacing: -0.022em;
+    color: var(--color-foreground);
+    margin: 16px 0 0;
+    text-wrap: balance;
+  }
+  .head-h :global(em) {
+    color: var(--color-brand);
+  }
+  .head-p {
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--color-muted-foreground);
+    margin: 12px 0 0;
+    max-width: 640px;
+  }
+
+  .sa-card {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    background: var(--color-card);
+    display: grid;
+    grid-template-columns: 440px 1fr;
+    overflow: hidden;
+  }
+
+  .sa-radial {
+    padding: 32px;
+    background: color-mix(in oklab, var(--color-background) 60%, var(--color-card));
+    border-right: 1px solid var(--color-border);
+  }
+  .ring {
+    stroke: color-mix(in oklab, var(--color-brand) 8%, transparent);
+  }
+  .ring-inner {
+    fill: color-mix(in oklab, var(--color-brand) 6%, transparent);
+  }
+  .ring-title {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 22px;
+    fill: var(--color-foreground);
+  }
+  .ring-sub {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    fill: var(--color-muted-foreground);
+    letter-spacing: 0.08em;
+  }
+  .petal {
+    cursor: pointer;
+  }
+  .petal .spoke {
+    stroke: color-mix(in oklab, var(--color-brand) 25%, transparent);
+    stroke-width: 1;
+  }
+  .petal.on .spoke {
+    stroke: var(--color-brand);
+    stroke-width: 2;
+  }
+  .petal .node {
+    fill: var(--color-card);
+    stroke: var(--color-border);
+    stroke-width: 1.5;
+    transition:
+      r var(--dur) var(--ease-out),
+      fill var(--dur) var(--ease-out),
+      stroke var(--dur) var(--ease-out);
+  }
+  .petal.on .node {
+    fill: var(--color-brand);
+    stroke: var(--color-brand);
+    r: 38;
+  }
+  .petal .node-label {
+    font-family: var(--font-sans);
+    font-size: 10.5px;
+    font-weight: 600;
+    fill: var(--color-foreground);
+    pointer-events: none;
+  }
+  .petal.on .node-label {
+    fill: var(--color-white);
+  }
+
+  .sa-detail {
+    position: relative;
+    padding: 44px 48px;
+    min-height: 460px;
+  }
+  .panel {
+    position: absolute;
+    inset: 44px 48px;
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+      opacity 400ms var(--ease-out),
+      transform 400ms var(--ease-out);
+    pointer-events: none;
+  }
+  .panel.on {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .panel-eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-brand);
+  }
+  .panel-h {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(28px, 3vw, 38px);
+    line-height: 1.05;
+    margin: 12px 0 0;
+    color: var(--color-foreground);
+    max-width: 480px;
+  }
+  .panel-rule {
+    margin: 28px 0;
+    height: 1px;
+    background: var(--color-border);
+  }
+  .panel-count {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .panel-count .num {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 56px;
+    line-height: 1;
+    color: var(--color-brand);
+  }
+  .panel-count .num-label {
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--color-muted-foreground);
+  }
+  .panel-count .num-label strong {
+    color: var(--color-foreground);
+    font-weight: 600;
+  }
+  .panel-list-head {
+    margin-top: 28px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-foreground);
+  }
+  .panel-list {
+    margin-top: 14px;
+    display: grid;
+    gap: 10px;
+  }
+  .list-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: var(--color-muted);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-foreground);
+  }
+  .list-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: color-mix(in oklab, var(--color-brand) 14%, transparent);
+    color: var(--color-brand);
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+  }
+  .panel-aside {
+    margin-top: 28px;
+    padding: 16px 18px;
+    background: color-mix(in oklab, var(--color-brand) 8%, transparent);
+    border-radius: var(--radius-sm);
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  .panel-aside .aside-icon {
+    color: var(--color-brand);
+    flex-shrink: 0;
+  }
+  .panel-aside p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--color-foreground);
+  }
+
+  .sa-pills {
+    margin-top: 36px;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    border-radius: 9999px;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--color-foreground);
+  }
+  .pill .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-brand);
+  }
+
+  @media (max-width: 920px) {
+    .sa-card {
+      grid-template-columns: 1fr;
+    }
+    .sa-radial {
+      border-right: 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .panel {
+      position: static;
+      inset: auto;
+      transform: none;
+    }
+    .panel:not(.on) {
+      display: none;
+    }
+    .sa-detail {
+      min-height: 0;
+    }
+  }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-standards]');
+  if (root) {
+    const petals = Array.from(root.querySelectorAll<HTMLElement>('.petal'));
+    const panels = Array.from(root.querySelectorAll<HTMLElement>('.panel'));
+    const select = (id: string) => {
+      petals.forEach((p) => p.classList.toggle('on', p.dataset.id === id));
+      panels.forEach((p) => p.classList.toggle('on', p.dataset.id === id));
+    };
+    petals.forEach((p) => {
+      p.addEventListener('click', () => {
+        const id = p.dataset.id;
+        if (id) select(id);
+      });
+    });
+  }
+</script>

@@ -1,0 +1,475 @@
+---
+// ROI / Funding estimator. Sliders for students + schools, segmented funding source.
+// Annual cost = students × per-student rate (illustrative). Coverage = selected
+// funding source's coverage rate. Vanilla script keeps the math + UI in one place.
+
+interface Funding {
+  id: string;
+  name: string;
+  coverage: number;
+}
+interface Props {
+  funding: Funding[];
+  // Illustrative per-student-per-year district pricing. Flagged as placeholder.
+  perStudent?: number;
+}
+const { funding, perStudent = 4.2 }: Props = Astro.props;
+const fundingJson = JSON.stringify(funding);
+---
+
+<div class="roi" data-roi data-per-student={perStudent} data-funding={fundingJson}>
+  <div class="roi-controls">
+    <div class="eyebrow">Funding estimator</div>
+    <h3 class="roi-h">
+      What it costs.<br />
+      <em>What you'd actually pay.</em>
+    </h3>
+    <p class="roi-p">
+      Drag to match your district. We'll estimate the all-in annual cost and how much typical
+      funding sources would cover.
+    </p>
+
+    <div class="roi-fields">
+      <div class="field">
+        <div class="field-top">
+          <label for="roi-students">Students</label>
+          <output id="roi-students-out" class="output" for="roi-students">25,000</output>
+        </div>
+        <input
+          id="roi-students"
+          type="range"
+          min="500"
+          max="300000"
+          step="500"
+          value="25000"
+          aria-valuemin="500"
+          aria-valuemax="300000"
+        />
+        <div class="bounds">
+          <span>500</span>
+          <span>300K</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-top">
+          <label for="roi-schools">Schools</label>
+          <output id="roi-schools-out" class="output" for="roi-schools">45</output>
+        </div>
+        <input id="roi-schools" type="range" min="1" max="400" step="1" value="45" />
+        <div class="bounds">
+          <span>1</span>
+          <span>400</span>
+        </div>
+      </div>
+
+      <fieldset class="field funding-field">
+        <legend class="label">Likely funding source</legend>
+        <div class="funding-buttons">
+          {
+            funding.map((f, i) => (
+              <button type="button" data-funding={f.id} class:list={[{ on: i === 0 }]}>
+                <div class="fn-name">{f.name}</div>
+                <div class="fn-sub">Covers {Math.round(f.coverage * 100)}% typical</div>
+              </button>
+            ))
+          }
+        </div>
+      </fieldset>
+    </div>
+  </div>
+
+  <div class="roi-results">
+    <div class="eyebrow">Your estimate</div>
+    <div class="results">
+      <div class="res">
+        <div class="cap">Annual program cost</div>
+        <div class="big" id="roi-cost">$105,000</div>
+        <div class="cap">≈ ${perStudent.toFixed(2)} / student / year at district scale</div>
+      </div>
+
+      <div class="res">
+        <div class="cap">
+          Covered by <span id="roi-fname">Title IV-A</span>
+        </div>
+        <div class="bar">
+          <div class="fill" id="roi-bar-fill"></div>
+        </div>
+        <div class="bar-meta">
+          <span class="bar-cov" id="roi-cov">$89,250</span>
+          <span class="cap" id="roi-pct">85% of total</span>
+        </div>
+      </div>
+
+      <div class="res net">
+        <div class="cap">District out-of-pocket</div>
+        <div class="big serif" id="roi-net">$15,750</div>
+        <div class="cap" id="roi-net-sub">per year, after Title IV-A</div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="gain">
+        <div class="gain-eyebrow">What you'd gain</div>
+        <div class="gain-grid">
+          <div>
+            <div class="num" id="roi-minutes">34M</div>
+            <div class="cap">mindful minutes / year</div>
+          </div>
+          <div>
+            <div class="num" id="roi-referrals">~1,000</div>
+            <div class="cap">fewer counselor referrals*</div>
+          </div>
+          <div>
+            <div class="num" id="roi-teachers">~19,440h</div>
+            <div class="cap">teacher hours reclaimed*</div>
+          </div>
+          <div>
+            <div class="num">30 days</div>
+            <div class="cap">typical time to launch</div>
+          </div>
+        </div>
+        <div class="cap-italic">*Modeled from district pilot averages.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .roi {
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+  }
+  .roi-controls {
+    padding: 40px 44px;
+    border-right: 1px solid var(--color-border);
+  }
+  .roi-results {
+    padding: 40px 44px;
+    background: linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--color-brand) 6%, var(--color-card)) 0%,
+      var(--color-card) 100%
+    );
+  }
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-brand);
+  }
+  .roi-h {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 34px;
+    line-height: 1.1;
+    color: var(--color-foreground);
+    margin: 12px 0 0;
+  }
+  .roi-h em {
+    color: var(--color-brand);
+  }
+  .roi-p {
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--color-muted-foreground);
+    margin: 12px 0 0;
+    max-width: 360px;
+  }
+
+  .roi-fields {
+    margin-top: 32px;
+    display: grid;
+    gap: 24px;
+  }
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .funding-field {
+    border: 0;
+    padding: 0;
+    margin: 0;
+  }
+  .field-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 10px;
+  }
+  label,
+  .label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-foreground);
+  }
+  .output {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 24px;
+    color: var(--color-foreground);
+  }
+  input[type='range'] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 4px;
+    background: var(--color-border);
+    border-radius: 9999px;
+    outline: none;
+  }
+  input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 9999px;
+    background: var(--color-brand);
+    border: 3px solid var(--color-card);
+    box-shadow: 0 2px 8px color-mix(in oklab, var(--color-brand) 30%, transparent);
+    cursor: pointer;
+  }
+  input[type='range']::-moz-range-thumb {
+    width: 22px;
+    height: 22px;
+    border-radius: 9999px;
+    background: var(--color-brand);
+    border: 3px solid var(--color-card);
+    cursor: pointer;
+  }
+  input[type='range']:focus-visible::-webkit-slider-thumb {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+  }
+  .bounds {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 6px;
+    font-size: 11px;
+    color: var(--color-muted-foreground);
+  }
+
+  .funding-buttons {
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .funding-buttons button {
+    padding: 12px 14px;
+    border-radius: var(--radius-sm);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    text-align: left;
+    cursor: pointer;
+    transition: all var(--dur-fast) var(--ease-out);
+  }
+  .funding-buttons button:hover {
+    border-color: color-mix(in oklab, var(--color-brand) 40%, var(--color-border));
+  }
+  .funding-buttons button.on {
+    background: color-mix(in oklab, var(--color-brand) 8%, transparent);
+    border-color: var(--color-brand);
+  }
+  .fn-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-foreground);
+  }
+  .fn-sub {
+    margin-top: 2px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--color-muted-foreground);
+  }
+
+  .results {
+    margin-top: 24px;
+    display: grid;
+    gap: 28px;
+  }
+  .cap {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--color-muted-foreground);
+  }
+  .big {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--color-foreground);
+    margin: 4px 0;
+    font-variant-numeric: tabular-nums;
+  }
+  .big.serif {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--color-brand);
+    letter-spacing: -0.01em;
+    font-size: 44px;
+  }
+  .bar {
+    position: relative;
+    height: 10px;
+    background: var(--color-muted);
+    border-radius: 9999px;
+    overflow: hidden;
+    margin-top: 6px;
+  }
+  .fill {
+    position: absolute;
+    inset: 0;
+    background: var(--color-brand);
+    width: 85%;
+    transition: width var(--dur) var(--ease-out);
+  }
+  .bar-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+  }
+  .bar-cov {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-brand);
+  }
+  .res.net {
+    padding: 20px 22px;
+    background: var(--color-card);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+  }
+  .divider {
+    height: 1px;
+    background: var(--color-border);
+  }
+
+  .gain .gain-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-brand);
+    margin-bottom: 10px;
+  }
+  .gain-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .gain-grid .num {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 1;
+    color: var(--color-foreground);
+    font-variant-numeric: tabular-nums;
+  }
+  .gain-grid .cap {
+    margin-top: 4px;
+  }
+  .cap-italic {
+    margin-top: 14px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 12px;
+    color: var(--color-muted-foreground);
+  }
+
+  @media (max-width: 920px) {
+    .roi {
+      grid-template-columns: 1fr;
+    }
+    .roi-controls {
+      border-right: 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .gain-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-roi]');
+  if (root) {
+    const perStudent = parseFloat(root.dataset.perStudent ?? '4.2');
+    const funding: { id: string; name: string; coverage: number }[] = JSON.parse(
+      root.dataset.funding ?? '[]',
+    );
+
+    const studentsEl = root.querySelector<HTMLInputElement>('#roi-students');
+    const schoolsEl = root.querySelector<HTMLInputElement>('#roi-schools');
+    const studentsOut = root.querySelector<HTMLOutputElement>('#roi-students-out');
+    const schoolsOut = root.querySelector<HTMLOutputElement>('#roi-schools-out');
+    const buttons = Array.from(root.querySelectorAll<HTMLButtonElement>('.funding-buttons button'));
+
+    const costEl = root.querySelector<HTMLElement>('#roi-cost');
+    const covEl = root.querySelector<HTMLElement>('#roi-cov');
+    const pctEl = root.querySelector<HTMLElement>('#roi-pct');
+    const fnameEl = root.querySelector<HTMLElement>('#roi-fname');
+    const barFill = root.querySelector<HTMLElement>('#roi-bar-fill');
+    const netEl = root.querySelector<HTMLElement>('#roi-net');
+    const netSubEl = root.querySelector<HTMLElement>('#roi-net-sub');
+    const minutesEl = root.querySelector<HTMLElement>('#roi-minutes');
+    const referralsEl = root.querySelector<HTMLElement>('#roi-referrals');
+    const teachersEl = root.querySelector<HTMLElement>('#roi-teachers');
+
+    let fundingId = funding[0]?.id ?? '';
+
+    const fmtNum = (n: number) => n.toLocaleString('en-US');
+    const fmtMoney = (n: number) => '$' + Math.round(n).toLocaleString('en-US');
+    const fmtMinutes = (n: number) =>
+      n >= 1e6 ? (n / 1e6).toFixed(1) + 'M' : (n / 1e3).toFixed(0) + 'K';
+
+    const update = () => {
+      const students = parseInt(studentsEl?.value ?? '0', 10);
+      const schools = parseInt(schoolsEl?.value ?? '0', 10);
+      const fn = funding.find((f) => f.id === fundingId) ?? funding[0];
+
+      const cost = students * perStudent;
+      const covered = cost * fn.coverage;
+      const net = cost - covered;
+      const minutes = students * 8 * 170;
+      const referrals = Math.round(students * 0.04);
+      const teacherHours = Math.round(schools * 36 * 12);
+
+      if (studentsOut) studentsOut.textContent = fmtNum(students);
+      if (schoolsOut) schoolsOut.textContent = fmtNum(schools);
+      if (costEl) costEl.textContent = fmtMoney(cost);
+      if (covEl) covEl.textContent = fmtMoney(covered);
+      if (pctEl) pctEl.textContent = Math.round(fn.coverage * 100) + '% of total';
+      if (fnameEl) fnameEl.textContent = fn.name;
+      if (barFill) barFill.style.width = fn.coverage * 100 + '%';
+      if (netEl) netEl.textContent = net > 0 ? fmtMoney(net) : 'Fully funded';
+      if (netSubEl) netSubEl.textContent = 'per year, after ' + fn.name;
+      if (minutesEl) minutesEl.textContent = fmtMinutes(minutes);
+      if (referralsEl) referralsEl.textContent = '~' + fmtNum(referrals);
+      if (teachersEl) teachersEl.textContent = '~' + fmtNum(teacherHours) + 'h';
+    };
+
+    studentsEl?.addEventListener('input', update);
+    schoolsEl?.addEventListener('input', update);
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        fundingId = btn.dataset.funding ?? funding[0].id;
+        buttons.forEach((b) => b.classList.toggle('on', b === btn));
+        update();
+      });
+    });
+    update();
+  }
+</script>

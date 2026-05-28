@@ -1,0 +1,453 @@
+---
+// Compare programs — segmented filter + 4-column table. IE column highlighted.
+// Each row is tagged with the criterion's category, so the filter chips toggle
+// row visibility via [data-filter] attribute (no JS-driven re-render).
+
+type Cell = 'yes' | 'no' | 'partial' | 'limited' | 'varies' | 'n/a' | string;
+interface Column {
+  id: 'ie' | 'apps' | 'sel' | 'free';
+  label: string;
+  note?: string;
+  highlight?: boolean;
+}
+interface Row {
+  feat: string;
+  ie: Cell;
+  apps: Cell;
+  sel: Cell;
+  free: Cell;
+  // Categories used by the segmented filter. Readonly so call sites can pass
+  // `as const` arrays without a copy.
+  cats: readonly string[];
+}
+interface Props {
+  eyebrow: string;
+  titleHtml: string;
+  intro: string;
+  shortVersion: string;
+  columns: readonly Column[];
+  rows: readonly Row[];
+}
+const { eyebrow, titleHtml, intro, shortVersion, columns, rows }: Props = Astro.props;
+
+const filters: { id: 'all' | 'classroom' | 'privacy' | 'impact'; label: string }[] = [
+  { id: 'all', label: 'All criteria' },
+  { id: 'classroom', label: 'Classroom fit' },
+  { id: 'privacy', label: 'Privacy & funding' },
+  { id: 'impact', label: 'Impact evidence' },
+];
+
+// Cell renderer — returns a category tag for the JSX to switch on. Keeps the
+// JSX clean and the visual contracts in one place.
+function cellKind(
+  v: Cell,
+): 'yes' | 'no' | 'warn-partial' | 'warn-limited' | 'varies' | 'na' | 'text' {
+  if (v === 'yes') return 'yes';
+  if (v === 'no') return 'no';
+  if (v === 'partial') return 'warn-partial';
+  if (v === 'limited') return 'warn-limited';
+  if (v === 'varies') return 'varies';
+  if (v === 'n/a') return 'na';
+  return 'text';
+}
+---
+
+<section class="cmp" id="compare" aria-label="Compare programs">
+  <div class="cmp-inner">
+    <div class="cmp-head">
+      <div class="eyebrow">{eyebrow}</div>
+      <h2 class="head-h" set:html={titleHtml} />
+      <p class="head-p">{intro}</p>
+    </div>
+
+    <div class="cmp-card" data-compare data-filter="all">
+      <div class="cmp-toolbar">
+        <div class="cmp-eyebrow">Focus the comparison</div>
+        <div class="cmp-segment" role="tablist">
+          {
+            filters.map((f) => (
+              <button type="button" data-filter={f.id} class:list={[{ on: f.id === 'all' }]}>
+                {f.label}
+              </button>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="cmp-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th class="th-feat">Criterion</th>
+              {
+                columns.map((c) => (
+                  <th class:list={['th-col', { hl: c.highlight }]}>
+                    <div class="col-label">{c.label}</div>
+                    {c.note && <div class="col-note">{c.note}</div>}
+                  </th>
+                ))
+              }
+            </tr>
+          </thead>
+          <tbody>
+            {
+              rows.map((r) => (
+                <tr data-cats={r.cats.join(' ')}>
+                  <td class="td-feat">{r.feat}</td>
+                  {columns.map((c) => {
+                    const v = r[c.id];
+                    const k = cellKind(v);
+                    return (
+                      <td class:list={['td-cell', { hl: c.highlight }]}>
+                        {k === 'yes' && (
+                          <span class="glyph yes">
+                            <svg
+                              viewBox="0 0 24 24"
+                              width="14"
+                              height="14"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              aria-hidden="true"
+                            >
+                              <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                            <span>Yes</span>
+                          </span>
+                        )}
+                        {k === 'no' && (
+                          <span class="glyph no">
+                            <svg
+                              viewBox="0 0 24 24"
+                              width="14"
+                              height="14"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              aria-hidden="true"
+                            >
+                              <line x1="5" y1="12" x2="19" y2="12" />
+                            </svg>
+                            <span>No</span>
+                          </span>
+                        )}
+                        {k === 'warn-partial' && (
+                          <span class="glyph warn">
+                            <span class="dotw" />
+                            <span>Partial</span>
+                          </span>
+                        )}
+                        {k === 'warn-limited' && (
+                          <span class="glyph warn">
+                            <span class="dotw" />
+                            <span>Limited</span>
+                          </span>
+                        )}
+                        {k === 'varies' && <span class="text-italic">Varies</span>}
+                        {k === 'na' && <span class="text-muted">n/a</span>}
+                        {k === 'text' && <span class="text">{v}</span>}
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="cmp-summary">
+      <span class="sparkle" aria-hidden="true">
+        <svg
+          viewBox="0 0 24 24"
+          width="24"
+          height="24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z"></path>
+          <path d="M19 14l.8 2.2L22 17l-2.2.8L19 20l-.8-2.2L16 17l2.2-.8L19 14z"></path>
+        </svg>
+      </span>
+      <p><strong>The short version:</strong> {shortVersion}</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cmp {
+    background: var(--color-background);
+    padding: 120px 0;
+  }
+  .cmp-inner {
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+  .cmp-head {
+    max-width: 720px;
+    margin-bottom: 56px;
+  }
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-muted-foreground);
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.55;
+  }
+  .head-h {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(40px, 5vw, 64px);
+    line-height: 1.02;
+    letter-spacing: -0.022em;
+    color: var(--color-foreground);
+    margin: 16px 0 0;
+    text-wrap: balance;
+  }
+  .head-h :global(em) {
+    color: var(--color-brand);
+  }
+  .head-p {
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--color-muted-foreground);
+    margin: 12px 0 0;
+    max-width: 640px;
+  }
+
+  .cmp-card {
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+  }
+  .cmp-toolbar {
+    padding: 24px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--color-border);
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .cmp-eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-muted-foreground);
+  }
+  .cmp-segment {
+    display: inline-flex;
+    gap: 4px;
+    padding: 4px;
+    background: var(--color-muted);
+    border: 1px solid var(--color-border);
+    border-radius: 9999px;
+  }
+  .cmp-segment button {
+    padding: 8px 16px;
+    border: 0;
+    background: transparent;
+    border-radius: 9999px;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--color-muted-foreground);
+    cursor: pointer;
+    transition: all var(--dur-fast) var(--ease-out);
+  }
+  .cmp-segment button:hover {
+    color: var(--color-foreground);
+  }
+  .cmp-segment button.on {
+    background: var(--color-card);
+    color: var(--color-foreground);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .cmp-scroll {
+    overflow-x: auto;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 720px;
+  }
+  thead tr {
+    background: var(--color-muted);
+  }
+  .th-feat {
+    text-align: left;
+    padding: 16px 24px;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--color-muted-foreground);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    width: 40%;
+  }
+  .th-col {
+    padding: 16px 12px;
+    text-align: center;
+    vertical-align: top;
+    background: transparent;
+  }
+  .th-col.hl {
+    background: color-mix(in oklab, var(--color-brand) 10%, transparent);
+    border-left: 1px solid color-mix(in oklab, var(--color-brand) 24%, transparent);
+    border-right: 1px solid color-mix(in oklab, var(--color-brand) 24%, transparent);
+  }
+  .col-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-foreground);
+  }
+  .th-col.hl .col-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-brand);
+  }
+  .col-note {
+    margin-top: 4px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 12px;
+    color: var(--color-muted-foreground);
+  }
+  tbody tr {
+    border-top: 1px solid var(--color-border);
+  }
+  .td-feat {
+    padding: 16px 24px;
+    font-family: var(--font-sans);
+    font-size: 14.5px;
+    line-height: 1.4;
+    font-weight: 500;
+    color: var(--color-foreground);
+  }
+  .td-cell {
+    padding: 16px 12px;
+    text-align: center;
+  }
+  .td-cell.hl {
+    background: color-mix(in oklab, var(--color-brand) 6%, transparent);
+    border-left: 1px solid color-mix(in oklab, var(--color-brand) 14%, transparent);
+    border-right: 1px solid color-mix(in oklab, var(--color-brand) 14%, transparent);
+  }
+
+  /* Cell glyphs */
+  .glyph {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .glyph.yes {
+    color: var(--color-brand);
+  }
+  .glyph.no {
+    color: var(--color-muted-foreground);
+  }
+  .glyph.warn {
+    color: var(--color-warning);
+  }
+  .glyph .dotw {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.25;
+  }
+  .text {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-foreground);
+  }
+  .text-italic {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 12px;
+    color: var(--color-muted-foreground);
+  }
+  .text-muted {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    color: var(--color-muted-foreground);
+    opacity: 0.6;
+  }
+
+  .cmp-summary {
+    margin-top: 32px;
+    padding: 24px;
+    background: var(--color-muted);
+    border-radius: var(--radius-md);
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+  .sparkle {
+    color: var(--color-brand);
+    flex-shrink: 0;
+  }
+  .cmp-summary p {
+    margin: 0;
+    font-size: 15.5px;
+    line-height: 1.55;
+    color: var(--color-foreground);
+  }
+  .cmp-summary strong {
+    font-weight: 600;
+  }
+
+  /* Filter visibility */
+  [data-compare][data-filter='classroom'] tr[data-cats]:not([data-cats~='classroom']) {
+    display: none;
+  }
+  [data-compare][data-filter='privacy'] tr[data-cats]:not([data-cats~='privacy']) {
+    display: none;
+  }
+  [data-compare][data-filter='impact'] tr[data-cats]:not([data-cats~='impact']) {
+    display: none;
+  }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-compare]');
+  if (root) {
+    const buttons = Array.from(root.querySelectorAll<HTMLButtonElement>('.cmp-segment button'));
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const f = btn.dataset.filter ?? 'all';
+        root.dataset.filter = f;
+        buttons.forEach((b) => b.classList.toggle('on', b === btn));
+      });
+    });
+  }
+</script>

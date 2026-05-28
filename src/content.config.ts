@@ -32,4 +32,47 @@ const testimonials = defineCollection({
   }),
 });
 
-export const collections = { blog, testimonials };
+// Narrators — the voices who guide Inner Explorer's audio practices. Drives the
+// CMS-ready detail page (src/pages/narrators/[slug].astro). One narrator object
+// per file; images resolve via the `image()` helper, audio/transcript are optional.
+const narrators = defineCollection({
+  loader: glob({ pattern: '**/*.{json,yaml,yml}', base: './src/content/narrators' }),
+  schema: ({ image }) =>
+    z.object({
+      name: z.string(),
+      role: z.string(),
+      order: z.number().default(0),
+      draft: z.boolean().default(false),
+      photo: image().optional(), // 4:5 portrait (cards / index)
+      photoWide: image().optional(), // 21:9 editorial hero
+      photoAlt: z.string(),
+      location: z.string().optional(),
+      intro: z.string(),
+      quote: z.object({ text: z.string(), attrib: z.string().optional() }),
+      voiceIntro: z
+        .object({
+          audioSrc: z.string(),
+          durationSec: z.number(),
+          title: z.string(),
+          transcriptHref: z.string().optional(),
+          captionsSrc: z.string().optional(),
+        })
+        .optional(),
+      facts: z.array(z.object({ value: z.string(), label: z.string() })).default([]),
+      qa: z
+        .array(
+          z.object({
+            n: z.string().optional(),
+            question: z.string(),
+            answer: z.string(),
+            tag: z.string().optional(),
+          }),
+        )
+        .default([]),
+      practices: z
+        .array(z.object({ title: z.string(), meta: z.string(), image: image().optional() }))
+        .default([]),
+    }),
+});
+
+export const collections = { blog, testimonials, narrators };

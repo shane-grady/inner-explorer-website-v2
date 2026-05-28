@@ -1,0 +1,160 @@
+---
+// Numbered Q&A / interview section. `headingHtml` carries the serif+sans "duet"
+// head (e.g. <span class="serif">Five questions,</span><span class="sans"> on the
+// practice.</span>). Reusable as an FAQ or interview block.
+interface Item {
+  question: string;
+  answer: string;
+  tag?: string;
+  /** Display number; auto-derived (01, 02, …) when omitted. */
+  n?: string;
+}
+interface Props {
+  eyebrow: string;
+  headingHtml: string;
+  items: Item[];
+  maxWidth?: string;
+}
+const { eyebrow, headingHtml, items, maxWidth = '1200px' }: Props = Astro.props;
+---
+
+<section class="qa" style={`--mw: ${maxWidth}`}>
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">{eyebrow}</span>
+      <h2 set:html={headingHtml} />
+    </div>
+
+    <div class="list">
+      {
+        items.map((item, i) => (
+          <article class="item">
+            <div class="side">
+              <span class="num">{item.n ?? String(i + 1).padStart(2, '0')}</span>
+              {item.tag && <span class="tag">{item.tag}</span>}
+            </div>
+            <div class="body">
+              <h3 class="q">{item.question}</h3>
+              <p class="a">{item.answer}</p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .qa {
+    padding: 40px 0 80px;
+  }
+  .wrap {
+    max-width: var(--mw);
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  .head {
+    max-width: 800px;
+    margin-bottom: 48px;
+  }
+  .eyebrow {
+    display: block;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--color-muted-foreground);
+  }
+  .head h2 {
+    margin: 14px 0 0;
+    line-height: 1.05;
+  }
+  .head h2 :global(.serif) {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(34px, 4.6vw, 56px);
+    letter-spacing: -0.015em;
+    color: var(--color-foreground);
+  }
+  .head h2 :global(.sans) {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: clamp(34px, 4.6vw, 56px);
+    letter-spacing: -0.025em;
+    color: var(--color-muted-foreground);
+  }
+
+  .item {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 56px;
+    padding: 40px 0;
+    border-top: 1px solid var(--color-border);
+  }
+  .item:last-child {
+    border-bottom: 1px solid var(--color-border);
+  }
+  .side {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-top: 6px;
+  }
+  .num {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    color: var(--color-brand);
+  }
+  .tag {
+    width: fit-content;
+    padding: 4px 12px;
+    border-radius: 9999px;
+    background: var(--color-brand-subtle);
+    color: var(--color-brand-emphasis);
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .q {
+    margin: 0 0 16px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(26px, 3vw, 36px);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: var(--color-foreground);
+  }
+  .a {
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--color-foreground);
+    max-width: 62ch;
+  }
+
+  @media (max-width: 720px) {
+    .item {
+      grid-template-columns: 1fr;
+      gap: 16px;
+      padding: 28px 0;
+    }
+    .side {
+      flex-direction: row;
+      align-items: center;
+      gap: 16px;
+      padding-top: 0;
+    }
+    .num {
+      font-size: 36px;
+    }
+  }
+</style>

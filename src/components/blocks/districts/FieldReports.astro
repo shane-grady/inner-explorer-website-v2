@@ -1,0 +1,433 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+// Part One — Field Reports. Three district case studies as alternating photo-spread
+// articles. Each: 4:5 photo with overlay caption, story column with chips, headline,
+// pull quote with green rule, attribution, three-up metrics under hairline, footer.
+
+interface Metric {
+  value: string;
+  label: string;
+  sub: string;
+}
+interface Report {
+  n: string;
+  district: string;
+  schools: number;
+  students: string;
+  photo: ImageMetadata;
+  photoAlt: string;
+  photoCaption: string;
+  headline: string;
+  quote: string;
+  who: string;
+  role: string;
+  metrics: Metric[];
+  funding: string;
+}
+interface Props {
+  eyebrow: string;
+  title: string;
+  intro: string;
+  reports: Report[];
+}
+const { eyebrow, title, intro, reports }: Props = Astro.props;
+---
+
+<section class="fr" id="field-reports" aria-label="Field reports">
+  <div class="fr-inner">
+    <div class="fr-head">
+      <div>
+        <div class="eyebrow">{eyebrow}</div>
+        <h2 class="head-h">{title}</h2>
+      </div>
+      <p class="head-p">{intro}</p>
+    </div>
+
+    <div class="fr-list">
+      {
+        reports.map((r, i) => {
+          const photoLeft = i % 2 === 0;
+          return (
+            <article class:list={['fr-row', { 'photo-right': !photoLeft }]}>
+              <div class="fr-photo">
+                <div class="frame">
+                  <Image
+                    src={r.photo}
+                    alt={r.photoAlt}
+                    widths={[480, 900, 1400]}
+                    sizes="(max-width: 920px) 100vw, 45vw"
+                    loading="lazy"
+                  />
+                  <div class="cap">{r.photoCaption}</div>
+                </div>
+                <div class="frame-meta">
+                  <span class="margin-note">
+                    ↑ Photograph by Inner Explorer · used with permission
+                  </span>
+                  <span class="serial">№&nbsp;{r.n}</span>
+                </div>
+              </div>
+
+              <div class="fr-story">
+                <div class="tags">
+                  <span class="tag accent">
+                    <span class="dot" aria-hidden="true" />
+                    Field report №&nbsp;{r.n}
+                  </span>
+                  <span class="tag">{r.district}</span>
+                  <span class="tag">
+                    {r.schools} schools · {r.students} students
+                  </span>
+                </div>
+
+                <h3 class="fr-h">{r.headline}</h3>
+
+                <blockquote class="fr-quote">&ldquo;{r.quote}&rdquo;</blockquote>
+                <div class="fr-attribution">
+                  <span class="rule" />
+                  <div>
+                    <div class="who">{r.who}</div>
+                    <div class="role">
+                      {r.role}, {r.district.split(',')[0]}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="fr-metrics">
+                  {r.metrics.map((m) => (
+                    <div class="metric">
+                      <div class="val">{m.value}</div>
+                      <div class="lbl">{m.label}</div>
+                      <div class="sub">{m.sub}</div>
+                    </div>
+                  ))}
+                </div>
+
+                <div class="fr-foot">
+                  <span class="funding">Funded via {r.funding}</span>
+                  <a class="link" href="#contact">
+                    Read the full case study
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <line x1="7" y1="17" x2="17" y2="7" />
+                      <polyline points="7 7 17 7 17 17" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </article>
+          );
+        })
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .fr {
+    background: var(--color-background);
+    color: var(--color-foreground);
+    padding: 120px 0;
+  }
+  .fr-inner {
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+  .fr-head {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: end;
+    margin-bottom: 88px;
+  }
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-muted-foreground);
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.55;
+  }
+  .head-h {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(48px, 6vw, 88px);
+    line-height: 0.98;
+    letter-spacing: -0.022em;
+    color: var(--color-foreground);
+    margin: 28px 0 0;
+    text-wrap: balance;
+  }
+  .head-p {
+    font-size: 18px;
+    line-height: 1.65;
+    color: var(--color-muted-foreground);
+    max-width: 460px;
+    justify-self: end;
+    margin: 0;
+  }
+
+  .fr-list {
+    display: grid;
+    gap: 144px;
+  }
+  .fr-row {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .fr-row.photo-right {
+    grid-template-columns: 1fr 1.05fr;
+  }
+  .fr-row.photo-right .fr-photo {
+    order: 2;
+  }
+
+  .fr-photo .frame {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4 / 5;
+    border-radius: var(--radius-sm);
+    background: var(--color-muted);
+  }
+  .fr-photo .frame :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .fr-photo .cap {
+    position: absolute;
+    bottom: 14px;
+    left: 14px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 11.5px;
+    line-height: 1.3;
+    color: var(--color-white);
+    background: color-mix(in oklab, var(--neutral-950) 50%, transparent);
+    padding: 6px 10px;
+    border-radius: 4px;
+    max-width: 70%;
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+  }
+  .frame-meta {
+    margin-top: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .margin-note {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: color-mix(in oklab, var(--color-muted-foreground) 95%, transparent);
+  }
+  .serial {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    color: var(--color-muted-foreground);
+  }
+
+  .tags {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+  }
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px 6px 10px;
+    border-radius: 9999px;
+    background: var(--color-muted);
+    color: var(--color-foreground);
+    font-size: 11.5px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.02em;
+  }
+  .tag.accent {
+    background: color-mix(in oklab, var(--color-brand) 12%, transparent);
+    color: var(--color-brand);
+  }
+  .tag .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-brand);
+  }
+  .fr-h {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(32px, 3.6vw, 52px);
+    line-height: 1.02;
+    letter-spacing: -0.022em;
+    color: var(--color-foreground);
+    margin: 0;
+    max-width: 540px;
+    text-wrap: balance;
+  }
+  .fr-quote {
+    margin: 36px 0 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 1.4;
+    letter-spacing: -0.005em;
+    color: var(--color-foreground);
+    max-width: 540px;
+    padding-left: 24px;
+    border-left: 3px solid var(--color-brand);
+  }
+  .fr-attribution {
+    margin-top: 18px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  .fr-attribution .rule {
+    width: 32px;
+    height: 1px;
+    background: var(--color-muted-foreground);
+    opacity: 0.55;
+  }
+  .who {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-foreground);
+  }
+  .role {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--color-muted-foreground);
+    margin-top: 4px;
+  }
+  .fr-metrics {
+    margin-top: 44px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    padding-top: 28px;
+    border-top: 1px solid var(--color-border);
+  }
+  .metric .val {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(40px, 4vw, 52px);
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    color: var(--color-brand);
+    font-variant-numeric: tabular-nums;
+  }
+  .metric .lbl {
+    margin-top: 12px;
+    font-size: 13.5px;
+    font-weight: 500;
+    line-height: 1.35;
+    color: var(--color-foreground);
+  }
+  .metric .sub {
+    margin-top: 4px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 12.5px;
+    line-height: 1.45;
+    color: var(--color-muted-foreground);
+  }
+
+  .fr-foot {
+    margin-top: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .funding {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--color-muted-foreground);
+  }
+  .link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--color-brand);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 6px;
+    transition: gap var(--dur) var(--ease-out);
+  }
+  .link:hover {
+    gap: 16px;
+  }
+
+  @media (max-width: 920px) {
+    .fr-head {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    .head-p {
+      justify-self: start;
+    }
+    .fr-list {
+      gap: 96px;
+    }
+    .fr-row,
+    .fr-row.photo-right {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .fr-row.photo-right .fr-photo {
+      order: 0;
+    }
+    .fr-metrics {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
