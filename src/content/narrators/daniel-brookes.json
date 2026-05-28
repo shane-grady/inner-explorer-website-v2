@@ -1,0 +1,10 @@
+{
+  "name": "Daniel Brookes",
+  "langs": ["EN", "ES"],
+  "since": 2025,
+  "isNew": true,
+  "photo": "../../assets/images/narrators/daniel-brookes.jpg",
+  "role": "Studio narrator",
+  "order": 29,
+  "practiceCount": 18
+}

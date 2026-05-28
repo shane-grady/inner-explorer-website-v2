@@ -2,6 +2,7 @@
 // Document shell. Imports the design tokens once; every page renders inside this.
 // Centralized SEO + Organization structured data; pages add their own via the `head` slot.
 import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
 import SEO from '../components/seo/SEO.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import { organizationSchema } from '../lib/schema';
@@ -41,6 +42,11 @@ const org = organizationSchema(Astro.site);
     <meta name="generator" content={Astro.generator} />
     <SEO title={title} description={description} type={type} />
     <JsonLd schema={org} />
+    {
+      /* Astro 6 view transitions: enables cross-page FLIP morphs for elements
+        that share a `transition:name`. Auto-respects prefers-reduced-motion. */
+    }
+    <ClientRouter />
     <slot name="head" />
   </head>
   <body class="min-h-dvh bg-background text-foreground antialiased">

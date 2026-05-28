@@ -1,0 +1,10 @@
+{
+  "name": "Tomas Lindgren",
+  "langs": ["EN", "ES", "SV"],
+  "since": 2023,
+  "isNew": false,
+  "photo": "../../assets/images/narrators/tomas-lindgren.jpg",
+  "role": "Studio narrator · Swedish lead",
+  "order": 20,
+  "practiceCount": 23
+}

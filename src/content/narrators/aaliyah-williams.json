@@ -1,0 +1,10 @@
+{
+  "name": "Aaliyah Williams",
+  "langs": ["EN", "ES"],
+  "since": 2019,
+  "isNew": false,
+  "photo": "../../assets/images/narrators/aaliyah-williams.jpg",
+  "role": "Studio narrator",
+  "order": 2,
+  "practiceCount": 38
+}

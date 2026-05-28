@@ -1,12 +1,16 @@
 {
   "name": "Jordan Okafor",
   "role": "Body Scan series",
-  "order": 1,
+  "order": 3,
   "photo": "../../assets/images/narrators/jordan-okafor.jpg",
   "photoAlt": "Portrait of Jordan Okafor",
   "intro": "A former middle-school counselor whose steady, low cadence anchors Inner Explorer's body-scan practices.",
   "quote": {
     "text": "Stillness isn't the absence of noise. It's giving kids permission to notice it and stay anyway.",
     "attrib": "Jordan · narrating Body Scan"
-  }
+  },
+  "langs": ["EN", "ES"],
+  "since": 2018,
+  "practiceCount": 47,
+  "isNew": false
 }

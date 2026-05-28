@@ -1,0 +1,10 @@
+{
+  "name": "Samuel Mbeki",
+  "langs": ["EN", "ES"],
+  "since": 2025,
+  "isNew": true,
+  "photo": "../../assets/images/narrators/samuel-mbeki.jpg",
+  "role": "Studio narrator",
+  "order": 28,
+  "practiceCount": 12
+}

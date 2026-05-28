@@ -1,0 +1,185 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+// A three-up captioned-photo rail. Generic — usable for "studio moments,"
+// research vignettes, curriculum windows, etc. The first card gets a wider
+// (1.3fr) cell to feel editorial; the other two are equal.
+
+interface Moment {
+  img: ImageMetadata;
+  label: string;
+  title: string;
+  alt?: string;
+}
+interface Props {
+  headingHtml: string;
+  lede?: string;
+  moments: Moment[];
+}
+const { headingHtml, lede, moments }: Props = Astro.props;
+---
+
+<section class="rail">
+  <div class="rail-wrap">
+    <div class="rail-head">
+      <h3 class="title" set:html={headingHtml} />
+      {lede && <p class="lede">{lede}</p>}
+    </div>
+    <div class="grid">
+      {
+        moments.map((m, i) => (
+          <article class="card">
+            <Image
+              src={m.img}
+              alt={m.alt ?? ''}
+              widths={[600, 900, 1200]}
+              sizes={i === 0 ? '(max-width: 920px) 100vw, 38vw' : '(max-width: 920px) 100vw, 28vw'}
+              loading="lazy"
+            />
+            <div class="grad" aria-hidden="true" />
+            <div class="cap">
+              <span class="lab">{m.label}</span>
+              <h4 class="hd">{m.title}</h4>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .rail {
+    background: var(--color-background);
+  }
+  .rail-wrap {
+    max-width: 1280px;
+    margin: 32px auto 0;
+    padding: 64px 32px 32px;
+    border-top: 1px solid var(--color-border);
+  }
+  .rail-head {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(28px, 3vw, 36px);
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    color: var(--color-foreground);
+    text-wrap: balance;
+  }
+  .title :global(.sans) {
+    font-family: var(--font-sans);
+    font-style: normal;
+    font-weight: 500;
+    font-size: clamp(18px, 2vw, 24px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--color-muted-foreground);
+    display: inline;
+    margin-left: 8px;
+  }
+  .lede {
+    margin: 0;
+    max-width: 36ch;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--color-muted-foreground);
+    text-wrap: pretty;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 1fr;
+    gap: 20px;
+  }
+  .card {
+    position: relative;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    height: 300px;
+    background: var(--color-muted);
+  }
+  .card :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.95) saturate(1.05);
+    transition:
+      transform 800ms var(--ease-out),
+      filter var(--dur) var(--ease-out);
+  }
+  .card:hover :global(img) {
+    transform: scale(1.04);
+  }
+  .grad {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      transparent 50%,
+      color-mix(in oklab, var(--color-black) 50%, transparent) 100%
+    );
+  }
+  .cap {
+    position: absolute;
+    left: 22px;
+    right: 22px;
+    bottom: 20px;
+    color: var(--color-white);
+  }
+  .lab {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: color-mix(in oklab, var(--color-white) 88%, transparent);
+  }
+  .hd {
+    margin: 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 1.2;
+    letter-spacing: -0.012em;
+    color: var(--color-white);
+    text-shadow: 0 1px 12px color-mix(in oklab, var(--color-black) 36%, transparent);
+    text-wrap: balance;
+  }
+
+  @media (max-width: 920px) {
+    .rail-wrap {
+      padding: 48px 24px 24px;
+    }
+    .grid {
+      grid-template-columns: 1fr;
+    }
+    .card {
+      height: 260px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card :global(img),
+    .card:hover :global(img) {
+      transform: none;
+      transition: none;
+    }
+  }
+</style>

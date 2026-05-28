@@ -1,0 +1,10 @@
+{
+  "name": "Rosa Bianchi",
+  "langs": ["EN", "ES", "IT"],
+  "since": 2023,
+  "isNew": false,
+  "photo": "../../assets/images/narrators/rosa-bianchi.jpg",
+  "role": "Studio narrator · Italian second",
+  "order": 21,
+  "practiceCount": 24
+}

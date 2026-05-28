@@ -32,23 +32,32 @@ const testimonials = defineCollection({
   }),
 });
 
-// Narrators — the voices who guide Inner Explorer's audio practices. Drives the
-// CMS-ready detail page (src/pages/narrators/[slug].astro). One narrator object
-// per file; images resolve via the `image()` helper, audio/transcript are optional.
+// Narrators — the voices who guide Inner Explorer's audio practices. Drives
+// BOTH the D2 "Meet the Studio" collection page (src/pages/narrators/index.astro)
+// AND the C2 photo detail pages (src/pages/narrators/[slug].astro).
+// The schema is the unified CMS seam: detail-page fields stay optional so a
+// narrator can exist on the wall before their full profile is authored.
 const narrators = defineCollection({
   loader: glob({ pattern: '**/*.{json,yaml,yml}', base: './src/content/narrators' }),
   schema: ({ image }) =>
     z.object({
+      // Required identity
       name: z.string(),
       role: z.string(),
       order: z.number().default(0),
       draft: z.boolean().default(false),
-      photo: image().optional(), // 4:5 portrait (cards / index)
-      photoWide: image().optional(), // 21:9 editorial hero
-      photoAlt: z.string(),
+
+      // Photography (photo drives wall + detail-page card; photoWide is the
+      // 21:9 editorial hero used by PhotoQuote on the detail page).
+      photo: image().optional(),
+      photoWide: image().optional(),
+      photoAlt: z.string().optional(),
       location: z.string().optional(),
-      intro: z.string(),
-      quote: z.object({ text: z.string(), attrib: z.string().optional() }),
+
+      // Detail-page editorial content (all optional — sections hide when absent
+      // so narrators with only wall data still render a coherent page).
+      intro: z.string().optional(),
+      quote: z.object({ text: z.string(), attrib: z.string().optional() }).optional(),
       voiceIntro: z
         .object({
           audioSrc: z.string(),
@@ -72,6 +81,13 @@ const narrators = defineCollection({
       practices: z
         .array(z.object({ title: z.string(), meta: z.string(), image: image().optional() }))
         .default([]),
+
+      // Wall-only metadata for the D2 collection page (NarratorCard surfaces
+      // language chips, "Since X · N practices recorded", and a "New" pin).
+      langs: z.array(z.string()).default([]),
+      since: z.number().int().optional(),
+      practiceCount: z.number().int().default(0),
+      isNew: z.boolean().default(false),
     }),
 });
 

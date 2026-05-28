@@ -202,6 +202,30 @@
   --dur-fast: 200ms;
   --dur: 300ms;
   --dur-slow: 500ms;
+
+  /* Warm editorial surfaces — narrator collection hero + coda. Drift guard
+     skips .css, so raw hsl()/hsla() are fine here; components consume them
+     by var() in scoped <style>. */
+  --cream-50: hsl(38, 40%, 97%);
+  --cream-100: hsl(38, 35%, 96%);
+  --peach-200: hsl(28, 70%, 92%);
+
+  /* Composed gradients used by MeetStudioHero + SplitCTA. */
+  --studio-hero-wash:
+    radial-gradient(ellipse 60% 80% at 12% 20%, var(--brand-100) 0%, transparent 60%),
+    radial-gradient(
+      ellipse 50% 70% at 95% 100%,
+      color-mix(in oklab, var(--peach-200) 70%, transparent) 0%,
+      transparent 65%
+    ),
+    radial-gradient(
+      ellipse 80% 50% at 50% -10%,
+      color-mix(in oklab, var(--cream-50) 80%, transparent) 0%,
+      transparent 70%
+    ),
+    linear-gradient(180deg, var(--cream-50) 0%, var(--background) 100%);
+  --studio-card-wash:
+    radial-gradient(ellipse at 30% 20%, var(--brand-100) 0%, transparent 65%), var(--cream-100);
 }
 
 /* 2. Semantic tokens — LIGHT. `.appearance-light` re-asserts these so a subtree
@@ -241,8 +265,14 @@
 /* Pin the *resolved* theme utilities for the light subtree. `@theme` declares
    `--color-x: var(--x)` on :root, so that indirection is computed at the root and
    inherited — overriding only `--x` on a descendant (above) wouldn't re-resolve it.
-   Re-declaring the `--color-*` here forces re-substitution against the light values. */
+   Re-declaring the `--color-*` here forces re-substitution against the light values.
+
+   Also paint the wrapper's own background light + foreground default, so the body's
+   dark surface doesn't bleed through gaps between sections that don't set their own
+   background (e.g. the narrator wall grid). */
 .appearance-light {
+  background-color: var(--background);
+  color: var(--foreground);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
