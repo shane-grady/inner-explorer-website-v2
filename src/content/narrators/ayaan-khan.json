@@ -1,0 +1,10 @@
+{
+  "name": "Ayaan Khan",
+  "langs": ["EN", "ES", "UR"],
+  "since": 2021,
+  "isNew": false,
+  "photo": "../../assets/images/narrators/ayaan-khan.jpg",
+  "role": "Studio narrator · Urdu second",
+  "order": 10,
+  "practiceCount": 33
+}

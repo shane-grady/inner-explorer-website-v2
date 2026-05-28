@@ -203,6 +203,55 @@ meter (right-edge fixed dot + chapter label) is present for ≥1024px viewports.
       deep-link to `/contact`. If a modal is desired later, build it as a small vanilla
       island, not a React tree.
 
+## Narrator collection page — D2 "Meet the Studio · Full-width headline" (complete)
+
+Replaces the minimal `narrators/index.astro` placeholder shipped with the detail
+page. Same content collection drives both pages; new wall-only fields (`langs`,
+`since`, `practiceCount`, `isNew`) were added to the unified narrator schema as
+optional. Astro 6 `<ClientRouter />` is wired in `BaseLayout` so the wall card
+photo morphs into the detail-page hero on navigation (`transition:name` shared on
+the portrait `<Image>`).
+
+- [x] **D2 hero** (`blocks/narrator/MeetStudioHero.astro`, page-local): oversized
+      duet (~116px sans + ~184px italic serif) on a warm cream-peach-green wash;
+      "Vol. IX · Spring 2026" corner anchor positioned below the fixed glass nav.
+- [x] **4 new shared blocks** (reuse-first, confirmed up front): `MetaStrip`
+      (`dense | feature` variants — dense for the wall meta, feature reserved for
+      the detail page's quick facts), `CollectionToolbar` (title + right slot for
+      controls), `MomentsRail` (3-up captioned photos, 1.3/1/1), `SplitCTA`
+      (large serif pull-quote + brand-tinted action card).
+- [x] **2 narrator blocks** in `blocks/narrator/`: `NarratorWall` (5×6 grid +
+      vanilla mutually-exclusive play toggle) + `NarratorCard` (overlay name,
+      `isNew` pin, hover-reveal play button, accessible link + separate button
+      composed via z-index — no React).
+- [x] **30 narrator seed JSONs**: Maya + the 3 detail-page seeds shipped in the
+      prior PR, plus 26 wall-only narrators (slug, name, role, langs, since,
+      practiceCount, photo) so the wall fills out. Detail-page fields are absent
+      on those 26 — their detail routes still render via main's `[slug].astro`,
+      with optional sections hiding gracefully.
+- [x] **Warm tokens** in `global.css` raw layer: `--cream-50/100`, `--peach-200`,
+      composed `--studio-hero-wash` and `--studio-card-wash`.
+- [x] **Header nav** already exposes "Narrators"; no further nav changes needed.
+- [x] **Localized photography**: 26 additional Unsplash portraits + 3 studio
+      moment photos in `src/assets/images/narrators/` and `…/moments/` (flagged
+      below as stand-ins to swap before publishing).
+- [x] **View transitions** verified in Chromium — card photo morphs into the
+      detail hero on click; auto-skipped under `prefers-reduced-motion`. Routing
+      stays purely SSG (37 pages built; no SSR/edge).
+
+### Follow-ups (collection page)
+
+- [ ] **Search + filter** behaviour on the wall toolbar — currently the search /
+      filter pills are visual-only. Likely: a small vanilla `<script>` doing
+      client-side text + language filtering against `data-*` attrs on each card.
+- [ ] **"Schools listening weekly" (1,840)** in the meta strip is stub copy —
+      wire to a real source or remove when the metric is locked.
+- [ ] **Languages narrated total** computes to 12 distinct from seed data; D2
+      mockup copy said "11" — confirm canonical number with the studio team.
+- [ ] **Voice intro audio for the other 29 narrators** (only Maya's
+      `voiceIntro` is populated; everyone else's `VoiceBar` is hidden until
+      recordings exist).
+
 ## 404 page (Claude Design handoff — complete)
 
 - [x] **`src/pages/404.astro`** built from the `Hd2GC8AEElzoXPq4O2fG3g` handoff,

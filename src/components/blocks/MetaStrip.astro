@@ -1,0 +1,138 @@
+---
+// Stat row in two sizes:
+//   - `dense`   — small italic serif numerals (~28px) + uppercase labels, used as
+//                 studio metadata on the narrators collection page.
+//   - `feature` — large italic serif numerals (~56px), used as per-narrator quick
+//                 facts on the detail page.
+
+interface MetaItem {
+  value: string;
+  label: string;
+}
+interface Props {
+  items: MetaItem[];
+  cols?: number;
+  size?: 'dense' | 'feature';
+  ariaLabel?: string;
+}
+const { items, cols = 5, size = 'dense', ariaLabel }: Props = Astro.props;
+---
+
+<section class:list={['meta', `is-${size}`]} style={`--cols:${cols}`} aria-label={ariaLabel}>
+  <ul class="meta-row">
+    {
+      items.map((it) => (
+        <li class="meta-item">
+          <b class="num">{it.value}</b>
+          <span class="lbl">{it.label}</span>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .meta {
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-background);
+  }
+  .meta.is-dense {
+    border-top: 0;
+  }
+  .meta-row {
+    list-style: none;
+    margin: 0 auto;
+    max-width: 1440px;
+    display: grid;
+    grid-template-columns: repeat(var(--cols, 5), 1fr);
+    align-items: center;
+  }
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid var(--color-border);
+    min-width: 0;
+  }
+  .meta-item:first-child {
+    border-left: 0;
+  }
+  .num {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--color-foreground);
+  }
+  .lbl {
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--color-muted-foreground);
+    font-weight: 500;
+  }
+
+  /* dense — collection-page studio metadata */
+  .is-dense .meta-row {
+    padding: 22px 32px;
+    gap: 24px;
+  }
+  .is-dense .meta-item {
+    padding-left: 20px;
+    gap: 5px;
+  }
+  .is-dense .meta-item:first-child {
+    padding-left: 0;
+  }
+  .is-dense .num {
+    font-size: 28px;
+    letter-spacing: -0.01em;
+  }
+  .is-dense .lbl {
+    font-size: 10.5px;
+    line-height: 1.3;
+  }
+
+  /* feature — per-narrator quick-facts on detail pages */
+  .is-feature .meta-row {
+    padding: 36px 32px;
+    gap: 0;
+  }
+  .is-feature .meta-item {
+    padding: 0 32px;
+    gap: 6px;
+  }
+  .is-feature .meta-item:first-child {
+    padding-left: 0;
+  }
+  .is-feature .meta-item:last-child {
+    padding-right: 0;
+  }
+  .is-feature .num {
+    font-size: clamp(40px, 4vw, 56px);
+    line-height: 0.95;
+  }
+  .is-feature .lbl {
+    font-size: 12px;
+    line-height: 1.3;
+    letter-spacing: 0.1em;
+  }
+
+  @media (max-width: 920px) {
+    .meta-row {
+      grid-template-columns: repeat(2, 1fr) !important;
+      padding: 22px 24px !important;
+      gap: 18px 24px !important;
+    }
+    .meta-item:nth-child(odd) {
+      border-left: 0;
+      padding-left: 0 !important;
+    }
+    .is-feature .meta-item:nth-child(even) {
+      padding-right: 0;
+    }
+    .is-feature .num {
+      font-size: 40px;
+    }
+  }
+</style>

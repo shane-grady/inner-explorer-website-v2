@@ -1,7 +1,7 @@
 {
   "name": "Maya Castellanos",
   "role": "Calm Breathing series",
-  "order": 0,
+  "order": 1,
   "photo": "../../assets/images/narrators/maya-castellanos.jpg",
   "photoWide": "../../assets/images/narrators/maya-castellanos-wide.jpg",
   "photoAlt": "Maya Castellanos, photographed at home in Oakland, California",
@@ -19,10 +19,22 @@
     "captionsSrc": "/audio/narrators/maya-hello.vtt"
   },
   "facts": [
-    { "value": "412", "label": "Practices recorded" },
-    { "value": "12 yrs", "label": "Guiding educators" },
-    { "value": "1,840", "label": "Schools listen weekly" },
-    { "value": "3", "label": "Languages: EN · ES · FR" }
+    {
+      "value": "412",
+      "label": "Practices recorded"
+    },
+    {
+      "value": "12 yrs",
+      "label": "Guiding educators"
+    },
+    {
+      "value": "1,840",
+      "label": "Schools listen weekly"
+    },
+    {
+      "value": "3",
+      "label": "Languages: EN · ES · FR"
+    }
   ],
   "qa": [
     {
@@ -57,9 +69,25 @@
     }
   ],
   "practices": [
-    { "title": "Calm Breathing", "meta": "21-day series · Grades 3–5" },
-    { "title": "Forest Walk", "meta": "5 min · All grades" },
-    { "title": "Settling In", "meta": "First week · K–2" },
-    { "title": "Test Day Breath", "meta": "3 min · Grades 3–8" }
-  ]
+    {
+      "title": "Calm Breathing",
+      "meta": "21-day series · Grades 3–5"
+    },
+    {
+      "title": "Forest Walk",
+      "meta": "5 min · All grades"
+    },
+    {
+      "title": "Settling In",
+      "meta": "First week · K–2"
+    },
+    {
+      "title": "Test Day Breath",
+      "meta": "3 min · Grades 3–8"
+    }
+  ],
+  "langs": ["EN", "ES"],
+  "since": 2017,
+  "practiceCount": 58,
+  "isNew": false
 }

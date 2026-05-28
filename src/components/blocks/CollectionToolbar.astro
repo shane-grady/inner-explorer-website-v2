@@ -1,0 +1,62 @@
+---
+// Section header above a list/grid. Title mixes a primary italic-serif phrase
+// with an optional inline sans tail (via `<span class="sans">…</span>` in
+// `headingHtml`). Right slot accepts controls (search/filter pills, sort, etc.).
+
+interface Props {
+  headingHtml: string;
+}
+const { headingHtml }: Props = Astro.props;
+---
+
+<section class="toolbar">
+  <h2 class="title" set:html={headingHtml} />
+  <div class="right"><slot /></div>
+</section>
+
+<style>
+  .toolbar {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 80px 32px 32px;
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(36px, 4.4vw, 56px);
+    line-height: 1.02;
+    letter-spacing: -0.018em;
+    color: var(--color-foreground);
+    text-wrap: balance;
+  }
+  .title :global(.sans) {
+    font-family: var(--font-sans);
+    font-style: normal;
+    font-weight: 500;
+    font-size: clamp(20px, 2.6vw, 36px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--color-muted-foreground);
+    display: inline;
+    margin-left: 12px;
+  }
+  .right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 920px) {
+    .toolbar {
+      padding: 56px 24px 24px;
+    }
+  }
+</style>

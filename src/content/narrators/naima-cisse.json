@@ -1,0 +1,10 @@
+{
+  "name": "Naima Cissé",
+  "langs": ["EN", "ES", "FR"],
+  "since": 2020,
+  "isNew": false,
+  "photo": "../../assets/images/narrators/naima-cisse.jpg",
+  "role": "Studio narrator · French lead",
+  "order": 6,
+  "practiceCount": 35
+}

@@ -13,7 +13,10 @@ import TeamGrid from '../../components/blocks/TeamGrid.astro';
 import { personSchema, breadcrumbSchema } from '../../lib/schema';
 
 export async function getStaticPaths() {
-  const all = await getCollection('narrators', ({ data }) => !data.draft);
+  // Every non-draft narrator with a portrait gets a detail page — even those
+  // who only have wall-level data so far. Optional editorial sections (intro,
+  // quote, voiceIntro, facts, qa, practices) hide gracefully on absence.
+  const all = await getCollection('narrators', ({ data }) => !data.draft && !!data.photo);
   const sorted = all.sort((a, b) => a.data.order - b.data.order);
   return sorted.map((entry) => ({
     params: { slug: entry.id },
@@ -29,10 +32,15 @@ const d = narrator.data;
 const firstName = d.name.split(' ')[0];
 const path = `/narrators/${narrator.id}/`;
 
+// Editorial fallbacks for narrators still being authored.
+const intro = d.intro ?? `${d.role} in residence at the Inner Explorer studio in Boston.`;
+const heroImage = d.photoWide ?? d.photo!;
+const heroAlt = d.photoAlt ?? `Portrait of ${d.name}`;
+
 const personLd = personSchema(Astro.site, {
   name: d.name,
   jobTitle: d.role,
-  description: d.intro,
+  description: intro,
   path,
 });
 const crumbLd = breadcrumbSchema(Astro.site, [
@@ -43,7 +51,7 @@ const crumbLd = breadcrumbSchema(Astro.site, [
 const practicesHeading = `<span class="serif">The practices</span><span class="sans"> ${firstName} guides in classrooms.</span>`;
 ---
 
-<PageLayout title={`${d.name} — Inner Explorer`} description={d.intro}>
+<PageLayout title={`${d.name} — Inner Explorer`} description={intro}>
   <JsonLd slot="head" schema={personLd} />
   <JsonLd slot="head" schema={crumbLd} />
 
@@ -52,16 +60,20 @@ const practicesHeading = `<span class="serif">The practices</span><span class="s
       <Breadcrumb items={[{ label: 'Narrators', href: '/narrators/' }, { label: d.name }]} />
     </div>
 
-    <EditorialMasthead eyebrow={d.role} lead="Meet" display={`${d.name}.`} intro={d.intro} />
+    <EditorialMasthead eyebrow={d.role} lead="Meet" display={`${d.name}.`} intro={intro} />
 
-    <PhotoQuote
-      image={d.photoWide}
-      imageAlt={d.photoAlt}
-      cornerStart="PORTRAIT"
-      cornerEnd={d.location}
-      quote={d.quote}
-      eager
-    />
+    {
+      d.quote && (
+        <PhotoQuote
+          image={heroImage}
+          imageAlt={heroAlt}
+          cornerStart="PORTRAIT"
+          cornerEnd={d.location}
+          quote={d.quote}
+          eager
+        />
+      )
+    }
 
     {
       d.voiceIntro && (
