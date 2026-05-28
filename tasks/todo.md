@@ -203,6 +203,32 @@ meter (right-edge fixed dot + chapter label) is present for ≥1024px viewports.
       deep-link to `/contact`. If a modal is desired later, build it as a small vanilla
       island, not a React tree.
 
+## 404 page (Claude Design handoff — complete)
+
+- [x] **`src/pages/404.astro`** built from the `Hd2GC8AEElzoXPq4O2fG3g` handoff,
+      mapped onto existing tokens — no new tokens, no new shared blocks. Editorial
+      direction: italic "404" in `--brand-900` at the center of a full compass
+      dial (N/E/S/W cardinals at the rim, 72 hairline ticks, red north-tick that
+      rotates "lost" until the cursor moves, then tracks the cursor; hovering /
+      focusing "Return home" or pressing `N` snaps it true north; ~7s idle =
+      back to lost spin). Single CTA, empty footer, no scroll.
+- [x] **Page-local composition** (BaseLayout directly, not PageLayout): the
+      minimal editorial header/footer the user iterated to is intentional — the
+      glass-pill marketing chrome would fight the calm-moment direction.
+- [x] **Light-pinned** via `.appearance-light` wrapper. Verified the editorial
+      paper + deep-green type holds under both inline-set `.dark` and OS-level
+      `prefers-color-scheme: dark`.
+- [x] **Tokens-only styling**: `var(--brand-900/-800/-700)`, `var(--editorial-paper)`,
+      `var(--danger)` for the compass red; `color-mix(in oklab, var(--token), transparent)`
+      for every opacity tint (rim/ticks/dial-face glow/atmospheric peach + mint).
+      Drift guard green.
+- [x] **Verified**: `pnpm check` + `pnpm build` clean; `dist/404.html` emits a
+      2.3KB bundled vanilla `<script>`, **zero React framework JS**. Browser
+      checks via Claude Preview MCP at 1280×900, 375×812 (mobile), 1100×560
+      (short) — compass + 404 fit comfortably with no scroll at each size.
+      Cursor tracking, CTA-hover snap-to-N, keyboard-`N` snap all confirmed.
+      `/`, `/research`, `/about` regression-checked clean.
+
 ## Next (post-foundation)
 
 - [ ] Confirm production `site` domain in `astro.config.mjs`.
