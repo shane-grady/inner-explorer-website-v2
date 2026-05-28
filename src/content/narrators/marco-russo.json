@@ -1,9 +1,6 @@
 {
   "name": "Marco Russo",
-  "langs": [
-    "EN",
-    "ES"
-  ],
+  "langs": ["EN", "ES"],
   "since": 2020,
   "isNew": false,
   "photo": "../../assets/images/narrators/marco-russo.jpg",

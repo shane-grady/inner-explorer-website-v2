@@ -1,10 +1,6 @@
 {
   "name": "Ayaan Khan",
-  "langs": [
-    "EN",
-    "ES",
-    "UR"
-  ],
+  "langs": ["EN", "ES", "UR"],
   "since": 2021,
   "isNew": false,
   "photo": "../../assets/images/narrators/ayaan-khan.jpg",

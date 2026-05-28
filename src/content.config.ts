@@ -57,9 +57,7 @@ const narrators = defineCollection({
       // Detail-page editorial content (all optional — sections hide when absent
       // so narrators with only wall data still render a coherent page).
       intro: z.string().optional(),
-      quote: z
-        .object({ text: z.string(), attrib: z.string().optional() })
-        .optional(),
+      quote: z.object({ text: z.string(), attrib: z.string().optional() }).optional(),
       voiceIntro: z
         .object({
           audioSrc: z.string(),

@@ -16,10 +16,7 @@ export async function getStaticPaths() {
   // Every non-draft narrator with a portrait gets a detail page — even those
   // who only have wall-level data so far. Optional editorial sections (intro,
   // quote, voiceIntro, facts, qa, practices) hide gracefully on absence.
-  const all = await getCollection(
-    'narrators',
-    ({ data }) => !data.draft && !!data.photo,
-  );
+  const all = await getCollection('narrators', ({ data }) => !data.draft && !!data.photo);
   const sorted = all.sort((a, b) => a.data.order - b.data.order);
   return sorted.map((entry) => ({
     params: { slug: entry.id },
@@ -36,8 +33,7 @@ const firstName = d.name.split(' ')[0];
 const path = `/narrators/${narrator.id}/`;
 
 // Editorial fallbacks for narrators still being authored.
-const intro =
-  d.intro ?? `${d.role} in residence at the Inner Explorer studio in Boston.`;
+const intro = d.intro ?? `${d.role} in residence at the Inner Explorer studio in Boston.`;
 const heroImage = d.photoWide ?? d.photo!;
 const heroAlt = d.photoAlt ?? `Portrait of ${d.name}`;
 

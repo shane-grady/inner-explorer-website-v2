@@ -86,10 +86,7 @@
       "meta": "3 min · Grades 3–8"
     }
   ],
-  "langs": [
-    "EN",
-    "ES"
-  ],
+  "langs": ["EN", "ES"],
   "since": 2017,
   "practiceCount": 58,
   "isNew": false

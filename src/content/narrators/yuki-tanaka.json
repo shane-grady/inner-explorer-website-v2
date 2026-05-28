@@ -1,10 +1,6 @@
 {
   "name": "Yuki Tanaka",
-  "langs": [
-    "EN",
-    "ES",
-    "JA"
-  ],
+  "langs": ["EN", "ES", "JA"],
   "since": 2022,
   "isNew": false,
   "photo": "../../assets/images/narrators/yuki-tanaka.jpg",

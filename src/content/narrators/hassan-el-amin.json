@@ -1,10 +1,6 @@
 {
   "name": "Hassan El-Amin",
-  "langs": [
-    "EN",
-    "ES",
-    "AR"
-  ],
+  "langs": ["EN", "ES", "AR"],
   "since": 2020,
   "isNew": false,
   "photo": "../../assets/images/narrators/hassan-el-amin.jpg",

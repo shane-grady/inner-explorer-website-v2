@@ -1,10 +1,6 @@
 {
   "name": "Rosa Bianchi",
-  "langs": [
-    "EN",
-    "ES",
-    "IT"
-  ],
+  "langs": ["EN", "ES", "IT"],
   "since": 2023,
   "isNew": false,
   "photo": "../../assets/images/narrators/rosa-bianchi.jpg",

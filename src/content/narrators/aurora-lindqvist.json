@@ -1,9 +1,6 @@
 {
   "name": "Aurora Lindqvist",
-  "langs": [
-    "EN",
-    "ES"
-  ],
+  "langs": ["EN", "ES"],
   "since": 2022,
   "isNew": false,
   "photo": "../../assets/images/narrators/aurora-lindqvist.jpg",

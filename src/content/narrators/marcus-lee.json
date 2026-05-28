@@ -1,10 +1,6 @@
 {
   "name": "Marcus Lee",
-  "langs": [
-    "EN",
-    "ES",
-    "KO"
-  ],
+  "langs": ["EN", "ES", "KO"],
   "since": 2020,
   "isNew": false,
   "photo": "../../assets/images/narrators/marcus-lee.jpg",

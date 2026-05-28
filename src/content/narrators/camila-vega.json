@@ -1,9 +1,6 @@
 {
   "name": "Camila Vega",
-  "langs": [
-    "EN",
-    "ES"
-  ],
+  "langs": ["EN", "ES"],
   "since": 2023,
   "isNew": false,
   "photo": "../../assets/images/narrators/camila-vega.jpg",

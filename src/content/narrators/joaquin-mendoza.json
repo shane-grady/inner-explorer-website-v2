@@ -1,9 +1,6 @@
 {
   "name": "Joaquín Mendoza",
-  "langs": [
-    "EN",
-    "ES"
-  ],
+  "langs": ["EN", "ES"],
   "since": 2023,
   "isNew": false,
   "photo": "../../assets/images/narrators/joaquin-mendoza.jpg",

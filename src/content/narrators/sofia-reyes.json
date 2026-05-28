@@ -1,9 +1,6 @@
 {
   "name": "Sofia Reyes",
-  "langs": [
-    "EN",
-    "ES"
-  ],
+  "langs": ["EN", "ES"],
   "since": 2021,
   "isNew": false,
   "photo": "../../assets/images/narrators/sofia-reyes.jpg",

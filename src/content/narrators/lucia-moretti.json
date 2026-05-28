@@ -1,10 +1,6 @@
 {
   "name": "Lucia Moretti",
-  "langs": [
-    "EN",
-    "ES",
-    "IT"
-  ],
+  "langs": ["EN", "ES", "IT"],
   "since": 2022,
   "isNew": false,
   "photo": "../../assets/images/narrators/lucia-moretti.jpg",

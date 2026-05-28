@@ -1,9 +1,6 @@
 {
   "name": "Owen Brookhart",
-  "langs": [
-    "EN",
-    "ES"
-  ],
+  "langs": ["EN", "ES"],
   "since": 2024,
   "isNew": false,
   "photo": "../../assets/images/narrators/owen-brookhart.jpg",

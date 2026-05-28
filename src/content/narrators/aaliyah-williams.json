@@ -1,9 +1,6 @@
 {
   "name": "Aaliyah Williams",
-  "langs": [
-    "EN",
-    "ES"
-  ],
+  "langs": ["EN", "ES"],
   "since": 2019,
   "isNew": false,
   "photo": "../../assets/images/narrators/aaliyah-williams.jpg",

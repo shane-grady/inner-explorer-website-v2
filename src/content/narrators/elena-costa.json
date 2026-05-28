@@ -1,10 +1,6 @@
 {
   "name": "Elena Costa",
-  "langs": [
-    "EN",
-    "ES",
-    "PT"
-  ],
+  "langs": ["EN", "ES", "PT"],
   "since": 2026,
   "isNew": true,
   "photo": "../../assets/images/narrators/elena-costa.jpg",
