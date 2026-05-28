@@ -1,0 +1,491 @@
+---
+// Demo-booking form body. Sits inside a primary ContactCard.
+//
+// Submission target: Netlify Forms (the host platform). `data-netlify="true"`,
+// `name="demo"`, and a hidden `form-name` input let Netlify pick it up at build
+// time — no backend code. A honeypot `bot-field` blocks naive spam bots.
+//
+// Progressive enhancement: native HTML5 validation (`required`, `type="email"`)
+// is the floor. A small vanilla <script> intercepts submit on success, fetches
+// to "/" with the form data (Netlify's accepted endpoint for AJAX submissions),
+// and swaps the form for the in-page success card. If JS fails, the form
+// submits normally and Netlify shows its default thank-you page.
+
+interface Role {
+  value: string;
+  label: string;
+}
+interface SizeBucket {
+  value: string;
+  label: string;
+}
+interface AvatarSeed {
+  initials: string;
+  variant: 'mint' | 'amber' | 'sky' | 'lilac';
+}
+interface RepNote {
+  /** Name displayed in the success card body (e.g. "Sarah Chen"). */
+  name: string;
+  /** Short qualifier (e.g. "from our schools team"). */
+  qualifier: string;
+}
+
+interface Props {
+  roles: Role[];
+  sizes: SizeBucket[];
+  avatars: AvatarSeed[];
+  teamSizeLabel: string;
+  responseLabel: string;
+  /** Microcopy + rep used by the success card. */
+  rep: RepNote;
+}
+const { roles, sizes, avatars, teamSizeLabel, responseLabel, rep }: Props = Astro.props;
+---
+
+<form
+  class="demo-form"
+  name="demo"
+  method="POST"
+  action="/"
+  data-netlify="true"
+  data-netlify-honeypot="bot-field"
+  novalidate
+  aria-describedby="demo-form-help"
+>
+  <input type="hidden" name="form-name" value="demo" />
+  <p class="visually-hidden" aria-hidden="true">
+    <label>Leave this field empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label
+    >
+  </p>
+
+  <div class="grid">
+    <div class="field">
+      <label for="demo-first">First name<span class="req" aria-hidden="true">*</span></label>
+      <input
+        id="demo-first"
+        name="firstName"
+        class="input"
+        type="text"
+        autocomplete="given-name"
+        placeholder="Jordan"
+        required
+        aria-required="true"
+      />
+    </div>
+
+    <div class="field">
+      <label for="demo-last">Last name</label>
+      <input
+        id="demo-last"
+        name="lastName"
+        class="input"
+        type="text"
+        autocomplete="family-name"
+        placeholder="Rivera"
+      />
+    </div>
+
+    <div class="field">
+      <label for="demo-email">School email<span class="req" aria-hidden="true">*</span></label>
+      <input
+        id="demo-email"
+        name="email"
+        class="input"
+        type="email"
+        autocomplete="email"
+        placeholder="jordan@district.k12.us"
+        required
+        aria-required="true"
+      />
+    </div>
+
+    <div class="field">
+      <label for="demo-org">School or district<span class="req" aria-hidden="true">*</span></label>
+      <input
+        id="demo-org"
+        name="organization"
+        class="input"
+        type="text"
+        autocomplete="organization"
+        placeholder="Lincoln Elementary"
+        required
+        aria-required="true"
+      />
+    </div>
+
+    <div class="field">
+      <label for="demo-role">Your role<span class="req" aria-hidden="true">*</span></label>
+      <select id="demo-role" name="role" class="select" required aria-required="true">
+        <option value="">Select one…</option>
+        {roles.map((r) => <option value={r.value}>{r.label}</option>)}
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="demo-size">How many educators?</label>
+      <select id="demo-size" name="size" class="select">
+        <option value="">Optional</option>
+        {sizes.map((s) => <option value={s.value}>{s.label}</option>)}
+      </select>
+    </div>
+  </div>
+
+  <div class="footer-row">
+    <div class="team-row">
+      <div class="avatars" aria-hidden="true">
+        {avatars.map((a) => <span class={`avatar ${a.variant}`}>{a.initials}</span>)}
+      </div>
+      <p id="demo-form-help" class="team-caption">
+        You'll meet someone from a <strong>{teamSizeLabel}</strong>.<br />
+        Average response time: <strong>{responseLabel}</strong>.
+      </p>
+    </div>
+
+    <button type="submit" class="btn-submit">
+      <span class="label">Schedule walkthrough</span>
+      <svg
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+        <polyline points="12 5 19 12 12 19"></polyline>
+      </svg>
+    </button>
+  </div>
+</form>
+
+<template id="demo-success-template">
+  <div class="success" role="status" aria-live="polite">
+    <div class="success-check" aria-hidden="true">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.6"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+    </div>
+    <div>
+      <h3 class="success-title">Got it, <span data-name>friend</span>.</h3>
+      <p class="success-body">
+        <strong>{rep.name}</strong>{` ${rep.qualifier}`} will reach out within one business day to schedule
+        your 20-minute walkthrough. Keep an eye on <strong data-email>your inbox</strong> — and if you'd
+        rather pick a time right now, <a href="/schedule" class="cal-link">open her calendar</a>.
+      </p>
+    </div>
+  </div>
+</template>
+
+<style>
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
+
+  .demo-form {
+    margin-top: 28px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .field label {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--color-foreground);
+  }
+  .req {
+    margin-left: 2px;
+    color: var(--color-brand-emphasis);
+  }
+
+  .input,
+  .select {
+    width: 100%;
+    height: 48px;
+    padding: 0 16px;
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1;
+    color: var(--color-foreground);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    transition:
+      border-color var(--dur-fast) var(--ease-out),
+      box-shadow var(--dur-fast) var(--ease-out);
+  }
+  .select {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 40px;
+  }
+  .input::placeholder {
+    color: var(--color-muted-foreground);
+  }
+  .input:focus,
+  .select:focus {
+    border-color: var(--color-brand);
+    box-shadow: 0 0 0 4px color-mix(in oklab, var(--color-brand) 18%, transparent);
+  }
+  .input[aria-invalid='true'],
+  .select[aria-invalid='true'] {
+    border-color: var(--color-danger);
+  }
+
+  .footer-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+
+  .team-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .avatars {
+    display: flex;
+    align-items: center;
+  }
+  .avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 9999px;
+    display: grid;
+    place-items: center;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--color-foreground);
+    border: 2px solid var(--color-card);
+    margin-left: -8px;
+    box-shadow: var(--shadow-sm);
+  }
+  .avatar:first-child {
+    margin-left: 0;
+  }
+  .avatar.mint {
+    background: linear-gradient(135deg, var(--brand-200), var(--brand-400));
+    color: var(--brand-900);
+  }
+  .avatar.amber {
+    background: linear-gradient(135deg, var(--accent-100), var(--accent-300));
+    color: var(--accent-900);
+  }
+  .avatar.sky {
+    background: linear-gradient(135deg, var(--brand-100), var(--brand-300));
+    color: var(--brand-800);
+  }
+  .avatar.lilac {
+    background: linear-gradient(135deg, var(--neutral-200), var(--neutral-400));
+    color: var(--neutral-800);
+  }
+
+  .team-caption {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--color-muted-foreground);
+  }
+  .team-caption strong {
+    color: var(--color-foreground);
+    font-weight: 600;
+  }
+
+  .btn-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    height: 52px;
+    padding: 0 28px;
+    border: 0;
+    border-radius: 9999px;
+    background: var(--color-brand);
+    color: var(--color-brand-foreground);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: 0 10px 24px -10px color-mix(in oklab, var(--color-brand) 60%, transparent);
+    transition:
+      transform var(--dur-fast) var(--ease-out),
+      filter var(--dur-fast) var(--ease-out);
+  }
+  .btn-submit:hover {
+    filter: brightness(0.94);
+    transform: translateY(-1px);
+  }
+  .btn-submit:active {
+    transform: scale(0.98);
+  }
+  .btn-submit svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* Success state — swapped in by JS after a valid submit. */
+  :global(.success) {
+    padding: 24px 4px 4px;
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    animation: fadeUp var(--dur-slow) var(--ease-out) both;
+  }
+  :global(.success-check) {
+    width: 44px;
+    height: 44px;
+    border-radius: 9999px;
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    background: var(--brand-300);
+    color: var(--brand-900);
+    box-shadow: 0 4px 12px color-mix(in oklab, var(--color-brand) 32%, transparent);
+  }
+  :global(.success-check svg) {
+    width: 22px;
+    height: 22px;
+  }
+  :global(.success-title) {
+    margin: 0 0 6px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 28px;
+    line-height: 1.15;
+    color: var(--color-foreground);
+  }
+  :global(.success-body) {
+    margin: 0;
+    max-width: 520px;
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--color-muted-foreground);
+  }
+  :global(.success-body strong) {
+    color: var(--color-foreground);
+    font-weight: 600;
+  }
+  :global(.success-body .cal-link) {
+    color: var(--color-brand-emphasis);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 720px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+    .footer-row {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .btn-submit {
+      width: 100%;
+    }
+  }
+</style>
+
+<script>
+  // Vanilla progressive enhancement for the demo form. Without JS the form
+  // submits normally to Netlify; with JS we intercept, validate, ship the data
+  // in the background, and render a success card in place.
+  const form = document.querySelector<HTMLFormElement>('form.demo-form');
+  const template = document.getElementById('demo-success-template') as HTMLTemplateElement | null;
+  if (form && template) {
+    const validate = () => {
+      let firstInvalid: HTMLElement | null = null;
+      form
+        .querySelectorAll<HTMLInputElement | HTMLSelectElement>('[aria-required="true"]')
+        .forEach((el) => {
+          const ok =
+            el.value.trim().length > 0 &&
+            (el.type !== 'email' || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value));
+          el.setAttribute('aria-invalid', ok ? 'false' : 'true');
+          if (!ok && !firstInvalid) firstInvalid = el;
+        });
+      return firstInvalid;
+    };
+
+    form.addEventListener('submit', async (event) => {
+      const invalid = validate();
+      if (invalid) {
+        event.preventDefault();
+        (invalid as HTMLElement).focus();
+        return;
+      }
+      event.preventDefault();
+
+      const data = new FormData(form);
+      const first = String(data.get('firstName') ?? '').trim() || 'friend';
+      const email = String(data.get('email') ?? '').trim();
+
+      // Best-effort background submit; failure falls back to a real submit.
+      try {
+        await fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(data as unknown as Record<string, string>).toString(),
+        });
+      } catch {
+        form.submit();
+        return;
+      }
+
+      const node = template.content.cloneNode(true) as DocumentFragment;
+      const nameEl = node.querySelector('[data-name]');
+      const emailEl = node.querySelector('[data-email]');
+      if (nameEl) nameEl.textContent = first;
+      if (emailEl && email) emailEl.textContent = email;
+      form.replaceWith(node);
+    });
+  }
+</script>

@@ -1,0 +1,174 @@
+---
+// Generic "content card" block — title + blurb + icon chip in the head, body via
+// default slot. Used by the Contact page for its three cards (Book a demo, Call us,
+// Send an email) but data-driven and tone-variant so it can host other surfaces too
+// (pricing tiers, support panels, plan cards).
+//
+// Variants:
+//   tone="primary" — bordered in brand-green, gradient brand-tint, soft drop shadow.
+//                    Pair with `badge` to render the floating "Most popular" pill.
+//   tone="subtle"  — muted surface (bg-muted), used for secondary cards in a stack.
+//
+// Colors come from semantic tokens. Geometry is plain CSS (drift-safe).
+interface Props {
+  /** Card surface treatment. */
+  tone?: 'primary' | 'subtle';
+  /** Optional floating badge text (e.g. "Most popular"). Primary cards only. */
+  badge?: string;
+  /** Card title (renders as <h2>). Serif italic display face. */
+  title: string;
+  /** Supporting copy under the title. */
+  blurb: string;
+}
+const { tone = 'subtle', badge, title, blurb }: Props = Astro.props;
+---
+
+<article class="card" data-tone={tone}>
+  {
+    badge && (
+      <span class="badge" aria-hidden="true">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 2v6M12 16v6M2 12h6M16 12h6M5 5l4 4M15 15l4 4M5 19l4-4M15 9l4-4" />
+        </svg>
+        {badge}
+      </span>
+    )
+  }
+
+  <div class="head">
+    <div class="head-text">
+      <h2 class="title">{title}</h2>
+      <p class="blurb">{blurb}</p>
+    </div>
+    <div class="chip" aria-hidden="true">
+      <slot name="icon" />
+    </div>
+  </div>
+
+  <slot />
+</article>
+
+<style>
+  .card {
+    position: relative;
+    border-radius: var(--radius-2xl);
+    padding: 40px 44px;
+    transition:
+      box-shadow var(--dur) var(--ease-out),
+      transform var(--dur) var(--ease-out);
+  }
+
+  /* Subtle — muted surface, used for secondary cards in a stack. */
+  [data-tone='subtle'] {
+    background: var(--color-muted);
+    border: 1px solid transparent;
+  }
+
+  /* Primary — brand-tinted gradient, brand border, lifted shadow. */
+  [data-tone='primary'] {
+    padding: 48px 44px 44px;
+    background: linear-gradient(
+      165deg,
+      color-mix(in oklab, var(--color-brand) 6%, var(--color-card)),
+      var(--color-card)
+    );
+    border: 2px solid var(--color-brand);
+    box-shadow:
+      0 24px 60px -28px color-mix(in oklab, var(--color-brand) 38%, transparent),
+      0 8px 24px -10px color-mix(in oklab, var(--color-foreground) 8%, transparent);
+  }
+
+  .badge {
+    position: absolute;
+    top: -16px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: var(--color-brand);
+    color: var(--color-brand-foreground);
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px -6px color-mix(in oklab, var(--color-brand) 50%, transparent);
+  }
+  .badge svg {
+    width: 12px;
+    height: 12px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 8px;
+  }
+  .head-text {
+    flex: 1 1 auto;
+  }
+  .title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(32px, 4vw, 44px);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    color: var(--color-foreground);
+  }
+  .blurb {
+    margin: 14px 0 0;
+    max-width: 56ch;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--color-muted-foreground);
+  }
+
+  /* The icon chip — glass disc that floats in the head's top-right. */
+  .chip {
+    flex: 0 0 auto;
+    width: 44px;
+    height: 44px;
+    border-radius: 9999px;
+    display: grid;
+    place-items: center;
+    background: color-mix(in oklab, var(--color-card) 70%, transparent);
+    border: 1px solid color-mix(in oklab, var(--color-card) 60%, transparent);
+    box-shadow:
+      var(--shadow-sm),
+      inset 0 1px 0 color-mix(in oklab, var(--color-white) 40%, transparent);
+    color: var(--color-brand-emphasis);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+  .chip :global(svg) {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  @media (max-width: 720px) {
+    .card {
+      padding: 32px 24px;
+    }
+    [data-tone='primary'] {
+      padding: 40px 24px 32px;
+    }
+  }
+</style>

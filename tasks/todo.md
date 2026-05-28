@@ -178,6 +178,44 @@ meter (right-edge fixed dot + chapter label) is present for ≥1024px viewports.
       partner grid is needed on another page. Until then it lives as a
       page-scoped block.
 
+## Contact page (Claude Design handoff — complete)
+
+- [x] **Hero reuse**: extended `blocks/EditorialMasthead` with a `layout: 'stacked' | 'inline'`
+      variant (default `stacked` — preserves the existing narrator/index callers; `inline`
+      renders the duet as one sentence with the serif word painted brand-green and
+      `white-space: nowrap`, matching the user's "no orphan / single-line" call in chat).
+- [x] **New shared block** `blocks/ContactCard.astro` — `tone: 'primary' | 'subtle'`,
+      optional `badge` prop, title/blurb/icon-slot/body-slot. Drift-safe primary tint via
+      `color-mix(in oklab, var(--color-brand) 6%, var(--color-card))` — reusable for any
+      future "feature card with chip + body" surface (pricing tiers, plan cards, etc.).
+- [x] **Page-local bodies** in `blocks/contact/`: `DemoForm` (Netlify Forms wiring +
+      vanilla validation + success-state swap), `PhoneCard` (tel link + pulsing live
+      indicator + copy-to-clipboard + mint humans panel), `EmailCard` (3 triaged rows
+      with per-row copy). Page-wide toast `<output aria-live="polite">` listens for
+      `[data-copy]` clicks via one shared script.
+- [x] **`src/pages/contact.astro`** — structured content at the top (CMS seam),
+      `PageLayout` (no `flushTop`, hero is small + centered), `.appearance-light` pin,
+      `ContactPage` JSON-LD with `contactPoint[]` for support / technical / press. Ambient
+      radial gradients fixed behind everything via `color-mix` over tokens.
+- [x] **JS budget**: per-page bundle is 2.3KB of vanilla scripts (form intercept +
+      clipboard + nav scroll). Zero React on the page. Progressive enhancement: form
+      submits to Netlify natively without JS; JS upgrades to in-page success card.
+
+### Review (Contact)
+
+Faithful to the v1 handoff. `pnpm check` green (0/0/1 — the lone hint is the
+intentional `document.execCommand` clipboard fallback for older iOS, deprecated
+but kept on purpose). `pnpm build` clean. Browser-verified at 1280 desktop +
+mobile 375: hero stays one line at all viable widths, primary card border
+resolves to `rgb(26, 154, 89)` = #1A9A59 (brand green), form goes single-column
+on mobile, copy buttons + form fields wire correctly. Form validation flags
+the 4 required fields with `aria-invalid` on empty submit and blocks submission;
+filled submission renders the success card with the entered first-name and
+email interpolated. Dark mode regression check: `/contact` stays light (computed
+`bg` = light surface), header/footer chrome still flips, `/`, `/about`,
+`/narrators`, `/styleguide` unchanged. EditorialMasthead stacked callers
+preserve the original 28px gap between display and intro.
+
 ## Stand-ins to swap before publishing
 
 - [ ] Narrator portraits + 21:9 hero — replace generated initials placeholders with
@@ -202,11 +240,21 @@ meter (right-edge fixed dot + chapter label) is present for ≥1024px viewports.
 - [ ] Districts page omits the design's React multi-step demo modal — primary CTAs
       deep-link to `/contact`. If a modal is desired later, build it as a small vanilla
       island, not a React tree.
+- [ ] **Contact page placeholders** (designer's stand-ins): phone number
+      `+1 (508) 657-1755`, team initials `SC` / `MR` / `JP` / `AK` + names "Sarah Chen,
+      Marcus, Jenny" in the success card and humans panel, the email aliases
+      `hello@`/`support@`/`press@` `innerexplorer.org`, and the closing pull quote
+      (attributed to "The Inner Explorer team, Marlborough, MA"). Swap for verified
+      contact info before publish.
+- [ ] **Contact form delivery**: form is wired to Netlify Forms (`data-netlify="true"`,
+      `name="demo"`). Confirm the destination email + notification settings in the
+      Netlify dashboard before publish. Also wire a real scheduler URL for the success
+      card's "open her calendar" link (currently points to `/schedule`, which 404s).
 
 ## Next (post-foundation)
 
 - [ ] Confirm production `site` domain in `astro.config.mjs`.
-- [ ] Build remaining pages: program, educators, pricing, contact (+ form).
+- [ ] Build remaining pages: program, educators, pricing.
 - [ ] Replace About + Research + Districts placeholder copy + Unsplash/About-stand-in photos with verified content and real IE imagery.
 - [ ] Legacy migration: audit old URLs → populate `public/_redirects` (301s); import content.
 - [ ] Add Vitest (Container API) + Playwright (+ `@axe-core/playwright`) and wire into CI.
