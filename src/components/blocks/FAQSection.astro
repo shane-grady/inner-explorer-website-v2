@@ -1,0 +1,178 @@
+---
+// Single-column FAQ section: H2 + a list of native <details>/<summary> Q&As.
+// Hairline top/bottom borders, plus → × toggle, brand-green active state.
+// Works without JS (native <details>). Reusable on any page that needs a single
+// FAQ section; pair multiple instances under one sticky sidebar (see /support).
+
+export interface FAQItem {
+  q: string;
+  /** Plain text answer. Either `a` or `aHtml` must be provided. */
+  a?: string;
+  /** HTML answer — used when the answer needs links/em/etc. */
+  aHtml?: string;
+  /** If true, the item starts open. Defaults to false. */
+  open?: boolean;
+}
+
+interface Props {
+  /** Anchor id (matches the sidebar's jump-to href). */
+  id: string;
+  /** Section heading. */
+  title: string;
+  items: FAQItem[];
+}
+
+const { id, title, items }: Props = Astro.props;
+---
+
+<section class="faq-sec" id={id} aria-labelledby={`${id}-title`}>
+  <h2 id={`${id}-title`} class="sec-title">{title}</h2>
+  <div class="sec-list">
+    {
+      items.map((item) => (
+        <details class="qa" open={item.open}>
+          <summary>
+            <span class="q">{item.q}</span>
+            <span class="toggle" aria-hidden="true" />
+          </summary>
+          <div class="a">{item.aHtml ? <p set:html={item.aHtml} /> : <p>{item.a}</p>}</div>
+        </details>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .faq-sec {
+    margin-bottom: 56px;
+    scroll-margin-top: 96px;
+  }
+  .sec-title {
+    margin: 0 0 20px;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: clamp(24px, 2.4vw, 30px);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    color: var(--color-foreground);
+  }
+
+  .sec-list {
+    border-top: 1px solid var(--color-border);
+  }
+
+  .qa {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 22px 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    color: var(--color-foreground);
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  summary:hover {
+    color: var(--color-brand);
+  }
+  .qa[open] > summary {
+    color: var(--color-brand);
+  }
+
+  .q {
+    flex: 1;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 1.4;
+  }
+
+  /* Plus → × toggle. Two absolutely-positioned bars; rotate the box on open
+     and collapse the vertical bar so the horizontal becomes the close mark. */
+  .toggle {
+    position: relative;
+    flex: 0 0 22px;
+    width: 22px;
+    height: 22px;
+    transition: transform var(--dur) var(--ease-out);
+  }
+  .toggle::before,
+  .toggle::after {
+    content: '';
+    position: absolute;
+    background: currentColor;
+    transition:
+      transform var(--dur) var(--ease-out),
+      background var(--dur-fast) var(--ease-out);
+  }
+  .toggle::before {
+    left: 2px;
+    right: 2px;
+    top: 50%;
+    height: 1.5px;
+    transform: translateY(-50%);
+  }
+  .toggle::after {
+    top: 2px;
+    bottom: 2px;
+    left: 50%;
+    width: 1.5px;
+    transform: translateX(-50%);
+  }
+  .qa[open] > summary .toggle {
+    transform: rotate(180deg);
+  }
+  .qa[open] > summary .toggle::after {
+    transform: translateX(-50%) scaleY(0);
+  }
+
+  .a {
+    padding: 0 56px 24px 4px;
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--color-muted-foreground);
+  }
+  .a :global(p) {
+    margin: 0 0 12px;
+  }
+  .a :global(p:last-child) {
+    margin-bottom: 0;
+  }
+  .a :global(a) {
+    color: var(--color-brand);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+  }
+  .a :global(em) {
+    font-style: italic;
+  }
+  .a :global(code) {
+    font-family: var(--font-mono);
+    font-size: 0.92em;
+    padding: 2px 6px;
+    border-radius: var(--radius-sm);
+    background: var(--color-muted);
+    color: var(--color-foreground);
+  }
+  .a :global(ul) {
+    margin: 8px 0 12px;
+    padding-left: 18px;
+  }
+  .a :global(ul li) {
+    margin-bottom: 4px;
+  }
+
+  @media (max-width: 880px) {
+    .a {
+      padding-right: 24px;
+    }
+  }
+</style>

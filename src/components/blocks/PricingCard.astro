@@ -1,0 +1,289 @@
+---
+// Closing pricing CTA: a centered editorial headline + sub, with a horizontal
+// card below. Card splits price/CTA (left) from a feature checklist (right).
+// Reusable as a marketing closer wherever a single-plan callout is needed.
+//
+// The headline supports an inline brand-green "highlight" span (rendered with a
+// color-mix(in oklab) underline tint). Pass the headline as text + a slug for the
+// phrase to highlight, OR as raw HTML via `headlineHtml`.
+
+export interface PricingPlan {
+  /** Small uppercase pill above the plan title (e.g. "For individual educators"). */
+  pill?: string;
+  title: string;
+  /** Big editorial price (e.g. "$1"). */
+  price: string;
+  /** Small suffix after the price (e.g. "/day"). */
+  per?: string;
+  /** Single line under the price (e.g. "Billed annually at $365"). */
+  charged?: string;
+  ctaLabel: string;
+  ctaHref: string;
+}
+
+interface Props {
+  /** Section eyebrow above the headline (uppercase tracking). */
+  eyebrow?: string;
+  /** Headline text. If you pass `headlineHtml`, that wins and this is ignored. */
+  headline?: string;
+  /** Headline as HTML — use a <span class="hi">…</span> to paint a phrase. */
+  headlineHtml?: string;
+  /** Supporting paragraph. */
+  sub?: string;
+  plan: PricingPlan;
+  features: string[];
+}
+
+const { eyebrow, headline, headlineHtml, sub, plan, features }: Props = Astro.props;
+---
+
+<section class="pricing" aria-labelledby="pricing-headline">
+  <div class="pricing-inner">
+    {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+    <h2 id="pricing-headline" class="head">
+      {headlineHtml ? <Fragment set:html={headlineHtml} /> : headline}
+    </h2>
+    {sub && <p class="sub">{sub}</p>}
+
+    <div class="card">
+      <div class="card-left">
+        {plan.pill && <span class="pill">{plan.pill}</span>}
+        <div class="plan-title">{plan.title}</div>
+        <div class="price-row">
+          <span class="price">{plan.price}</span>
+          {plan.per && <span class="per">{plan.per}</span>}
+        </div>
+        {plan.charged && <p class="charged">{plan.charged}</p>}
+        <a class="cta" href={plan.ctaHref}>{plan.ctaLabel}</a>
+      </div>
+      <ul class="features">
+        {
+          features.map((feature) => (
+            <li>
+              <span class="check" aria-hidden="true">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </span>
+              <span>{feature}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .pricing {
+    padding: var(--spacing-section-lg) 32px;
+    border-top: 1px solid var(--color-border);
+    background: linear-gradient(
+      180deg,
+      var(--color-background) 0%,
+      color-mix(in oklab, var(--color-muted) 60%, var(--color-background)) 100%
+    );
+  }
+  .pricing-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    margin-bottom: 14px;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-muted-foreground);
+  }
+
+  .head {
+    margin: 0 0 12px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(36px, 5.2vw, 60px);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: var(--color-foreground);
+    text-wrap: balance;
+  }
+  /* Brand-green highlight tint behind a phrase — sits in the bottom 35% of
+     the line height so it reads as a marker highlight. Drift-safe via color-mix. */
+  .head :global(.hi) {
+    background-image: linear-gradient(
+      180deg,
+      transparent 65%,
+      color-mix(in oklab, var(--color-brand) 40%, transparent) 65%
+    );
+    background-repeat: no-repeat;
+    padding: 0 4px;
+  }
+
+  .sub {
+    margin: 0 auto 44px;
+    max-width: 560px;
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--color-muted-foreground);
+  }
+
+  .card {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: 48px;
+    align-items: stretch;
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 36px;
+    background: var(--color-card);
+    color: var(--color-card-foreground);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-md);
+    text-align: left;
+  }
+
+  .card-left {
+    padding-right: 36px;
+    border-right: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pill {
+    display: inline-flex;
+    align-self: flex-start;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 16px;
+    padding: 5px 10px;
+    border-radius: 9999px;
+    background: var(--color-brand-subtle);
+    color: var(--color-brand-emphasis);
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.04em;
+  }
+
+  .plan-title {
+    margin-bottom: 18px;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 1.2;
+    color: var(--color-foreground);
+  }
+
+  .price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+  .price {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 72px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--color-foreground);
+  }
+  .per {
+    font-size: 16px;
+    line-height: 1;
+    color: var(--color-muted-foreground);
+  }
+
+  .charged {
+    margin: 0 0 24px;
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--color-muted-foreground);
+  }
+
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 46px;
+    padding: 0 22px;
+    border-radius: 9999px;
+    background: var(--color-brand);
+    color: var(--color-brand-foreground);
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 1;
+    box-shadow:
+      inset 0 1px 0 color-mix(in oklab, var(--color-white) 18%, transparent),
+      0 8px 24px color-mix(in oklab, var(--color-brand) 25%, transparent);
+    transition:
+      transform var(--dur-fast) var(--ease-out),
+      background var(--dur-fast) var(--ease-out);
+  }
+  .cta:hover {
+    transform: translateY(-1px);
+    background: var(--color-brand-emphasis);
+  }
+
+  .features {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 12px;
+    align-content: center;
+  }
+  .features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 14.5px;
+    line-height: 1.45;
+    color: var(--color-foreground);
+  }
+  .check {
+    flex: 0 0 20px;
+    width: 20px;
+    height: 20px;
+    border-radius: 9999px;
+    background: var(--color-brand);
+    color: var(--color-brand-foreground);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1px;
+  }
+  .check :global(svg) {
+    width: 11px;
+    height: 11px;
+  }
+
+  @media (max-width: 760px) {
+    .card {
+      grid-template-columns: 1fr;
+      padding: 28px;
+      gap: 24px;
+    }
+    .card-left {
+      padding-right: 0;
+      padding-bottom: 24px;
+      border-right: none;
+      border-bottom: 1px solid var(--color-border);
+    }
+  }
+</style>

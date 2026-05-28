@@ -1,27 +1,29 @@
 ---
 // Centered editorial masthead — the brand "duet" headline.
 //
-// Two layouts share the same component:
+// Three layouts share the same component:
 //   stacked (default) — sans lead line above an oversized serif-italic display line
 //                       (used by /narrators/[slug] and similar long-form pages).
 //   inline            — a single-line sentence with the serif word painted brand-green,
 //                       sized to fit on one line (`white-space: nowrap`). Used by the
 //                       Contact page hero ("Reach a real person *now.*").
+//   display           — display-only: just the serif-italic line (no lead). Used by the
+//                       Support page hero ("FAQs.").
 //
 // Carries the page's single <h1>.
 interface Props {
   /** Optional centered eyebrow text between the two hairline rules. */
   eyebrow?: string;
-  /** Sans lead text (e.g. "Meet"). In inline layout, this is the sentence opener. */
-  lead: string;
-  /** Serif-italic display text (e.g. "Maya Castellanos." or "now."). */
+  /** Sans lead text. Optional in `display` layout; required for `stacked`/`inline`. */
+  lead?: string;
+  /** Serif-italic display text (e.g. "Maya Castellanos." or "FAQs."). */
   display: string;
   /** Supporting paragraph below the headline. */
   intro?: string;
   /** Inner content width (any CSS length). */
   maxWidth?: string;
-  /** Layout style. `stacked` is the original duet; `inline` is a single sentence. */
-  layout?: 'stacked' | 'inline';
+  /** Layout style. */
+  layout?: 'stacked' | 'inline' | 'display';
 }
 const {
   eyebrow,
@@ -45,7 +47,7 @@ const {
       )
     }
     <h1 class="display">
-      <span class="lead">{lead}</span>
+      {lead && <span class="lead">{lead}</span>}
       <span class="serif">{display}</span>
     </h1>
     {intro && <p class="intro">{intro}</p>}
@@ -125,6 +127,18 @@ const {
     font-style: italic;
     font-weight: 700;
     color: var(--color-brand);
+  }
+
+  /* Display: single oversized serif-italic line (no lead). */
+  [data-layout='display'] .serif {
+    display: block;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(56px, 9vw, 120px);
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    color: var(--color-foreground);
   }
 
   .intro {

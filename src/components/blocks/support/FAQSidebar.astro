@@ -1,0 +1,278 @@
+---
+// Sticky sidebar for /support: search input + "Jump to" TOC with scroll-spy.
+// Page-local because no other page has this layout shape.
+//
+// Progressive enhancement:
+//   - Anchor links work without JS (browser handles the jump).
+//   - <details>/<summary> accordions open without JS.
+//   - The small vanilla script below adds: smooth scroll with header offset,
+//     IntersectionObserver-based scroll-spy that adds `.active` to the matching
+//     link, and a debounced search filter that hides non-matching <details>
+//     items + section headers with no visible questions, plus a polite live
+//     results count.
+
+interface SidebarSection {
+  /** Anchor id matching the FAQSection's `id` prop. */
+  id: string;
+  /** Label shown in the jump-to list. */
+  label: string;
+}
+
+interface Props {
+  sections: SidebarSection[];
+  /** Optional input placeholder. */
+  placeholder?: string;
+}
+
+const { sections, placeholder = 'Search FAQs' }: Props = Astro.props;
+---
+
+<aside class="faq-side" aria-label="On this page">
+  <form class="search" role="search" id="faq-search-form">
+    <label for="faq-search" class="sr-only">Search FAQs</label>
+    <svg
+      class="search-ico"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="11" cy="11" r="7"></circle>
+      <path d="m20 20-3.5-3.5"></path>
+    </svg>
+    <input
+      id="faq-search"
+      type="search"
+      placeholder={placeholder}
+      autocomplete="off"
+      aria-controls="faq-main"
+    />
+  </form>
+  <p id="faq-results" class="sr-only" aria-live="polite"></p>
+
+  <p class="eyebrow">Jump to</p>
+  <ul class="jump">
+    {
+      sections.map((s, i) => (
+        <li>
+          <a href={`#${s.id}`} class:list={['jump-link', { active: i === 0 }]} data-jump={s.id}>
+            {s.label}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</aside>
+
+<style>
+  .faq-side {
+    position: sticky;
+    top: 96px;
+    align-self: start;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .search {
+    position: relative;
+    margin-bottom: 28px;
+  }
+  .search-ico {
+    position: absolute;
+    left: 13px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    color: var(--color-muted-foreground);
+    pointer-events: none;
+  }
+  .search input {
+    width: 100%;
+    height: 40px;
+    padding: 0 14px 0 36px;
+    border-radius: 9999px;
+    border: 1px solid var(--color-border);
+    background: var(--color-card);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1;
+    outline: none;
+    transition:
+      border-color var(--dur-fast) var(--ease-out),
+      box-shadow var(--dur-fast) var(--ease-out);
+  }
+  .search input::placeholder {
+    color: var(--color-muted-foreground);
+  }
+  .search input:focus {
+    border-color: var(--color-brand);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-brand) 18%, transparent);
+  }
+
+  .eyebrow {
+    margin: 0 0 14px;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-muted-foreground);
+  }
+
+  .jump {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--color-border);
+  }
+  .jump li {
+    border-bottom: 1px solid var(--color-border);
+  }
+  .jump-link {
+    display: block;
+    padding: 12px 0;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--color-foreground);
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+  .jump-link:hover {
+    color: var(--color-brand);
+  }
+  .jump-link.active {
+    color: var(--color-brand);
+    font-weight: 500;
+  }
+
+  @media (max-width: 880px) {
+    .faq-side {
+      position: static;
+    }
+  }
+</style>
+
+<script>
+  // Sidebar enhancement: smooth scroll with header offset + scroll-spy + search.
+  // Content is fully visible without this script (anchor links + <details> work
+  // natively). Failure paths return early; we never throw.
+
+  const HEADER_OFFSET = 88;
+
+  const sidebar = document.querySelector<HTMLElement>('.faq-side');
+  const form = document.getElementById('faq-search-form') as HTMLFormElement | null;
+  const input = document.getElementById('faq-search') as HTMLInputElement | null;
+  const results = document.getElementById('faq-results');
+  const main = document.getElementById('faq-main');
+
+  // The form only exists to give the input semantic submission affordance —
+  // never let it cause a page reload.
+  form?.addEventListener('submit', (event) => event.preventDefault());
+
+  if (sidebar && main) {
+    const links = Array.from(sidebar.querySelectorAll<HTMLAnchorElement>('.jump-link[data-jump]'));
+    const idToLink = new Map<string, HTMLAnchorElement>();
+    const sections: HTMLElement[] = [];
+    for (const link of links) {
+      const id = link.dataset.jump;
+      if (!id) continue;
+      const sec = document.getElementById(id);
+      if (!sec) continue;
+      idToLink.set(id, link);
+      sections.push(sec);
+    }
+
+    // Smooth scroll with header offset; honor reduced-motion.
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    for (const link of links) {
+      link.addEventListener('click', (event) => {
+        const id = link.dataset.jump;
+        if (!id) return;
+        const target = document.getElementById(id);
+        if (!target) return;
+        event.preventDefault();
+        const top = target.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET;
+        window.scrollTo({
+          top,
+          behavior: prefersReduced.matches ? 'auto' : 'smooth',
+        });
+        history.replaceState(null, '', `#${id}`);
+      });
+    }
+
+    // Scroll-spy: pick the section whose top is closest above the offset line.
+    const setActive = (activeId: string | null) => {
+      for (const link of links) {
+        link.classList.toggle('active', link.dataset.jump === activeId);
+      }
+    };
+
+    const updateActive = () => {
+      const probe = window.scrollY + HEADER_OFFSET + 24;
+      let current: string | null = sections[0]?.id ?? null;
+      for (const sec of sections) {
+        if (sec.offsetTop <= probe) current = sec.id;
+      }
+      setActive(current);
+    };
+    window.addEventListener('scroll', updateActive, { passive: true });
+    window.addEventListener('resize', updateActive);
+    updateActive();
+  }
+
+  // Search filter: hide non-matching <details>, hide sections whose questions
+  // are all hidden. Debounced to avoid layout thrash on each keystroke.
+  if (input && main) {
+    const items = Array.from(main.querySelectorAll<HTMLDetailsElement>('details'));
+    const allSections = Array.from(main.querySelectorAll<HTMLElement>('section[id]'));
+
+    let timer: ReturnType<typeof setTimeout> | null = null;
+    const apply = () => {
+      const q = input.value.trim().toLowerCase();
+      let visible = 0;
+      for (const it of items) {
+        const text = (it.textContent || '').toLowerCase();
+        const match = !q || text.includes(q);
+        it.hidden = !match;
+        if (match) visible++;
+      }
+      for (const sec of allSections) {
+        const anyVisible = sec.querySelector('details:not([hidden])') !== null;
+        sec.hidden = q.length > 0 && !anyVisible;
+      }
+      if (results) {
+        results.textContent = q
+          ? `${visible} question${visible === 1 ? '' : 's'} match "${input.value}"`
+          : '';
+      }
+    };
+
+    input.addEventListener('input', () => {
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(apply, 80);
+    });
+    // Escape clears.
+    input.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        input.value = '';
+        apply();
+      }
+    });
+  }
+</script>

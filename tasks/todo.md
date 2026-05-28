@@ -326,6 +326,50 @@ the portrait `<Image>`).
       Cursor tracking, CTA-hover snap-to-N, keyboard-`N` snap all confirmed.
       `/`, `/research`, `/about` regression-checked clean.
 
+## Help & Support page (Claude Design handoff — complete)
+
+- [x] **`src/pages/support.astro`** built from the `7k15qYlgQDx9IjYkH_jBWQ` handoff
+      (Function Health FAQ replication brief). Reuse-first: extended
+      `EditorialMasthead` with a new `display` layout (drops the lead row),
+      reused the global `Header`/`Footer`, and added three shared blocks and
+      one page-local block so future pages get the system upgrade.
+- [x] **System extension** — `EditorialMasthead.astro` now accepts
+      `layout="display"` and an optional `lead`. Backward-compatible: existing
+      `stacked` (/about, /narrators) and `inline` (/contact) consumers
+      verified unchanged.
+- [x] **New shared blocks** —
+      `FAQSection.astro` (H2 + native `<details>` accordion with plus → ×
+      toggle, hairline borders, brand-green active state),
+      `PricingCard.astro` (centered headline with optional `.hi` brand-green
+      `color-mix` highlight + horizontal price/feature card),
+      `QuoteRow.astro` (sans-serif duet headline + CTA pair + 3 quote cards
+      with optional star rating). Each is data-driven and reusable on any page.
+- [x] **Page-local block** — `blocks/support/FAQSidebar.astro`: sticky
+      sidebar (search input + jump-to TOC with scroll-spy). Vanilla `<script>`
+      handles smooth-scroll with header offset, scroll-spy, and debounced
+      search filter with polite live-region count. Anchor links + accordions
+      work without JS; only the search filter is JS-only.
+- [x] **Content** — all 12 sections (≈ 80 questions) live as structured data
+      at the top of `support.astro`; `FAQPage` JSON-LD is generated from the
+      same source (93 `Question` entities verified in `dist/support/index.html`).
+- [x] **Verified**: `pnpm check` (typecheck + lint + drift + format) all
+      green, `pnpm build` clean (42 pages); `dist/support/index.html` ships
+      ~13.6KB of shared chunks (ClientRouter + 40-byte page module), **zero
+      React framework JS**. Browser checks via Claude Preview MCP at
+      1280×800 desktop, 375×812 mobile, and dark mode — hero, sidebar with
+      scroll-spy (`privacy-data` active when scrolled to the privacy section),
+      search filter ("spanish" → 2 of 93 matches across 2 sections), accordion
+      toggle, brand-green underline highlight on "a dollar a day", pricing
+      card 2-col grid (360px + 1fr), 3-up quote row with 5-star rows, mobile
+      collapses sidebar above content. `/`, `/about`, `/contact`, `/research`,
+      `/districts`, `/styleguide` all regression 200.
+- [ ] **Placeholders to swap before publish** — testimonial attributions
+      (Mrs. Alvarez · Hialeah, Dr. Robinson · Broward, Mr. Chen · Portland)
+      are designer placeholders; pricing copy ("$1/day, $365 annual") + the
+      email aliases (security@, hello@, partnerships@, research@) should be
+      confirmed; the closer's "Days are _long_." duet is a brand line carried
+      from the handoff — confirm with marketing.
+
 ## Next (post-foundation)
 
 - [ ] Confirm production `site` domain in `astro.config.mjs`.
