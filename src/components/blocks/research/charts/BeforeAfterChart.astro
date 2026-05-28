@@ -1,0 +1,160 @@
+---
+export interface BADatum {
+  label: string;
+  before: number;
+  after: number;
+}
+interface Props {
+  title: string;
+  subtitle: string;
+  foot: string;
+  data: BADatum[];
+}
+const { title, subtitle, foot, data }: Props = Astro.props;
+---
+
+<figure class="chart" data-anim>
+  <figcaption class="head">
+    <div class="title">{title}</div>
+    <div class="sub">{subtitle}</div>
+  </figcaption>
+  <div class="ba">
+    {
+      data.map((d, i) => (
+        <div class="row" style={`--d:${i * 100}ms`}>
+          <div class="label">{d.label}</div>
+          <div class="pair">
+            <div class="box before">
+              <span class="tag">Before</span>
+              <span class="big">{d.before}</span>
+            </div>
+            <div class="arrow" aria-hidden="true">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M5 12h14" />
+                <path d="M12 5l7 7-7 7" />
+              </svg>
+            </div>
+            <div class="box after">
+              <span class="tag">After</span>
+              <span class="big">{d.after}</span>
+            </div>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+  <div class="foot">{foot}</div>
+</figure>
+
+<style>
+  .chart {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .head {
+    margin-bottom: 28px;
+  }
+  .title {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--editorial-ink);
+  }
+  .sub {
+    margin-top: 4px;
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--editorial-ink-muted);
+  }
+  .ba {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    flex: 1;
+  }
+  .row {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .label {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--editorial-ink);
+  }
+  .pair {
+    display: grid;
+    grid-template-columns: 1fr 36px 1fr;
+    gap: 6px;
+    align-items: stretch;
+  }
+  /* Boxes are visible by default; JS-ready state collapses opacity so .in can
+     animate them back. */
+  .box {
+    padding: 18px 20px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    opacity: 1;
+    transition: opacity 600ms;
+  }
+  .box.before {
+    background: color-mix(in oklab, var(--editorial-ink) 8%, transparent);
+    color: var(--editorial-ink-muted);
+    transition-delay: var(--d);
+  }
+  .box.after {
+    background: var(--editorial-ink);
+    color: var(--editorial-paper);
+    transition-delay: calc(var(--d) + 200ms);
+  }
+  :global([data-js-ready]) [data-anim]:not(.in) .box {
+    opacity: 0;
+  }
+  .tag {
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .big {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .box.after .big {
+    color: var(--editorial-glow);
+  }
+  .arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-brand);
+  }
+  .foot {
+    margin-top: auto;
+    padding-top: 18px;
+    font-size: 11px;
+    font-style: italic;
+    line-height: 1.4;
+    color: var(--editorial-ink-muted);
+    border-top: 1px solid color-mix(in oklab, var(--editorial-ink) 10%, transparent);
+  }
+</style>

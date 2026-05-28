@@ -1,0 +1,118 @@
+---
+export interface CompDatum {
+  label: string;
+  value: number; // 0–100
+}
+interface Props {
+  title: string;
+  subtitle: string;
+  foot: string;
+  data: CompDatum[];
+}
+const { title, subtitle, foot, data }: Props = Astro.props;
+---
+
+<figure class="chart" data-anim>
+  <figcaption class="head">
+    <div class="title">{title}</div>
+    <div class="sub">{subtitle}</div>
+  </figcaption>
+  <div class="comp">
+    {
+      data.map((d, i) => (
+        <div class="row" style={`--w:${d.value}%; --d:${i * 140}ms`}>
+          <div class="label">{d.label}</div>
+          <div class="bar">
+            <div class="bar-fill" />
+          </div>
+          <div class="pct">{d.value}%</div>
+        </div>
+      ))
+    }
+  </div>
+  <div class="foot">{foot}</div>
+</figure>
+
+<style>
+  .chart {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .head {
+    margin-bottom: 28px;
+  }
+  .title {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--editorial-ink);
+  }
+  .sub {
+    margin-top: 4px;
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--editorial-ink-muted);
+  }
+  .comp {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex: 1;
+  }
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 200px 40px;
+    align-items: center;
+    gap: 16px;
+  }
+  .label {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.3;
+    color: var(--editorial-ink);
+  }
+  .bar {
+    position: relative;
+    height: 18px;
+    overflow: hidden;
+    background: color-mix(in oklab, var(--editorial-ink) 7%, transparent);
+  }
+  /* Bar fills default to their final width. JS-ready resets to 0 so .in can
+     animate them in. */
+  .bar-fill {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: var(--w);
+    background: repeating-linear-gradient(
+      90deg,
+      var(--color-brand) 0,
+      var(--color-brand) 2px,
+      transparent 2px,
+      transparent 6px
+    );
+    transition: width 1200ms var(--ease-out);
+    transition-delay: var(--d);
+  }
+  :global([data-js-ready]) [data-anim]:not(.in) .bar-fill {
+    width: 0;
+  }
+  .pct {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 18px;
+    text-align: right;
+    color: var(--color-brand);
+  }
+  .foot {
+    margin-top: auto;
+    padding-top: 18px;
+    font-size: 11px;
+    font-style: italic;
+    line-height: 1.4;
+    color: var(--editorial-ink-muted);
+    border-top: 1px solid color-mix(in oklab, var(--editorial-ink) 10%, transparent);
+  }
+</style>

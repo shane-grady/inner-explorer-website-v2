@@ -1,0 +1,198 @@
+---
+export interface LineDatum {
+  week: number;
+  stress: number;
+  control: number;
+}
+interface Props {
+  title: string;
+  subtitle: string;
+  foot: string;
+  data: LineDatum[];
+}
+const { title, subtitle, foot, data }: Props = Astro.props;
+
+const W = 500;
+const H = 260;
+const P = { l: 40, r: 16, t: 20, b: 36 };
+const xs = data.map((d) => d.week);
+const minX = Math.min(...xs);
+const maxX = Math.max(...xs);
+const ys = [...data.map((d) => d.stress), ...data.map((d) => d.control)];
+const minY = Math.min(...ys, 65);
+const maxY = Math.max(...ys, 105);
+const x = (w: number) => P.l + ((w - minX) / (maxX - minX)) * (W - P.l - P.r);
+const y = (v: number) => P.t + (1 - (v - minY) / (maxY - minY)) * (H - P.t - P.b);
+const lineA = data.map((d, i) => `${i === 0 ? 'M' : 'L'} ${x(d.week)} ${y(d.stress)}`).join(' ');
+const lineB = data.map((d, i) => `${i === 0 ? 'M' : 'L'} ${x(d.week)} ${y(d.control)}`).join(' ');
+const areaA = `${lineA} L ${x(maxX)} ${H - P.b} L ${x(minX)} ${H - P.b} Z`;
+const gridLines = [70, 80, 90, 100];
+const gradId = `line-grad-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<figure class="chart" data-anim>
+  <figcaption class="head">
+    <div class="title">{title}</div>
+    <div class="sub">{subtitle}</div>
+  </figcaption>
+  <svg viewBox={`0 0 ${W} ${H}`} class="line-svg" role="img" aria-label={title}>
+    <defs>
+      <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" class="grad-top"></stop>
+        <stop offset="100%" class="grad-bot"></stop>
+      </linearGradient>
+    </defs>
+    {
+      gridLines.map((g) => (
+        <g>
+          <line x1={P.l} x2={W - P.r} y1={y(g)} y2={y(g)} class="grid-line" />
+          <text x={P.l - 8} y={y(g) + 4} text-anchor="end" class="axis-label">
+            {g}
+          </text>
+        </g>
+      ))
+    }
+    {
+      data.map((d) => (
+        <text x={x(d.week)} y={H - P.b + 20} text-anchor="middle" class="axis-label">
+          wk {d.week}
+        </text>
+      ))
+    }
+    <path d={areaA} fill={`url(#${gradId})`} class="area"></path>
+    <path d={lineB} class="line-control"></path>
+    <path d={lineA} class="line-stress" stroke-dasharray="700"></path>
+    {
+      data.map((d, i) => (
+        <circle
+          cx={x(d.week)}
+          cy={y(d.stress)}
+          r="4"
+          class="dot"
+          style={`--d:${700 + i * 100}ms`}
+        />
+      ))
+    }
+  </svg>
+  <div class="legend">
+    <span class="legend-item"><i class="bar-solid" aria-hidden="true"></i>Inner Explorer</span>
+    <span class="legend-item"><i class="bar-dashed" aria-hidden="true"></i>Active control</span>
+  </div>
+  <div class="foot">{foot}</div>
+</figure>
+
+<style>
+  .chart {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .head {
+    margin-bottom: 8px;
+  }
+  .title {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--editorial-ink);
+  }
+  .sub {
+    margin-top: 4px;
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--editorial-ink-muted);
+  }
+  .line-svg {
+    width: 100%;
+    height: 260px;
+  }
+  .grad-top {
+    stop-color: var(--color-brand);
+    stop-opacity: 0.22;
+  }
+  .grad-bot {
+    stop-color: var(--color-brand);
+    stop-opacity: 0;
+  }
+  .grid-line {
+    stroke: color-mix(in oklab, var(--editorial-ink) 8%, transparent);
+  }
+  .axis-label {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    fill: var(--editorial-ink-muted);
+  }
+  /* Lines/area/dots default to their visible final state. When JS is ready,
+     [data-anim]:not(.in) resets them to the hidden start state; .in animates
+     them back. */
+  .area {
+    opacity: 1;
+    transition: opacity 800ms 700ms;
+  }
+  .line-control {
+    fill: none;
+    stroke: color-mix(in oklab, var(--editorial-ink) 45%, transparent);
+    stroke-width: 2;
+    stroke-dasharray: 5 5;
+    opacity: 1;
+    transition: opacity 700ms 300ms;
+  }
+  .line-stress {
+    fill: none;
+    stroke: var(--color-brand);
+    stroke-width: 3;
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 1600ms var(--ease-out);
+  }
+  .dot {
+    fill: var(--color-brand);
+    stroke: var(--color-white);
+    stroke-width: 2;
+    opacity: 1;
+    transition: opacity 300ms;
+    transition-delay: var(--d);
+  }
+  :global([data-js-ready]) [data-anim]:not(.in) .area,
+  :global([data-js-ready]) [data-anim]:not(.in) .line-control,
+  :global([data-js-ready]) [data-anim]:not(.in) .dot {
+    opacity: 0;
+  }
+  :global([data-js-ready]) [data-anim]:not(.in) .line-stress {
+    stroke-dashoffset: 700;
+  }
+  .legend {
+    display: flex;
+    gap: 22px;
+    margin-top: 8px;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--editorial-ink-muted);
+  }
+  .legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .bar-solid {
+    display: inline-block;
+    width: 18px;
+    height: 2px;
+    background: var(--color-brand);
+  }
+  .bar-dashed {
+    display: inline-block;
+    width: 18px;
+    border-top: 2px dashed color-mix(in oklab, var(--editorial-ink) 50%, transparent);
+  }
+  .foot {
+    margin-top: auto;
+    padding-top: 18px;
+    font-size: 11px;
+    font-style: italic;
+    line-height: 1.4;
+    color: var(--editorial-ink-muted);
+    border-top: 1px solid color-mix(in oklab, var(--editorial-ink) 10%, transparent);
+  }
+</style>

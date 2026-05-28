@@ -186,6 +186,18 @@
     rgba(10, 30, 18, 0.65) 100%
   );
 
+  /* Editorial surfaces — dark/paper duality for longform marketing pages
+     (e.g. /research). Consumed via var() in scoped <style> blocks only; not
+     promoted to @theme utilities because they are page-context, not vocabulary. */
+  --editorial-night: #0d1418;
+  --editorial-night-soft: #161e22;
+  --editorial-paper: #f4f1ea;
+  --editorial-paper-soft: #ece8df;
+  --editorial-ink: #1a201e;
+  --editorial-ink-muted: rgba(26, 32, 30, 0.62);
+  --editorial-glow: #4ade80;
+  --editorial-glow-soft: #86efac;
+
   /* Motion durations (eases live in @theme). */
   --dur-fast: 200ms;
   --dur: 300ms;

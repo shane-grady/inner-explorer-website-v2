@@ -1,0 +1,121 @@
+---
+// Fixed right-edge scroll-progress indicator with active-chapter label.
+// Decorative — `aria-hidden`. Hidden ≤1024px. Listens for sections with
+// `data-screen-label` and reports the topmost one in view.
+---
+
+<div class="breath" aria-hidden="true" data-breath>
+  <div class="rail">
+    <div class="dot" data-dot></div>
+  </div>
+  <div class="label" data-label></div>
+</div>
+
+<style>
+  .breath {
+    position: fixed;
+    right: 28px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    pointer-events: none;
+  }
+  .rail {
+    position: relative;
+    width: 2px;
+    height: 220px;
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      color-mix(in oklab, var(--color-foreground) 18%, transparent) 20%,
+      color-mix(in oklab, var(--color-foreground) 18%, transparent) 80%,
+      transparent
+    );
+  }
+  .dot {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--editorial-glow);
+    box-shadow:
+      0 0 0 4px color-mix(in oklab, var(--editorial-glow) 22%, transparent),
+      0 0 24px color-mix(in oklab, var(--editorial-glow) 50%, transparent);
+    transition: top 600ms var(--ease-out);
+  }
+  .label {
+    margin-top: 8px;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: color-mix(in oklab, var(--color-foreground) 50%, transparent);
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    transition: color 300ms;
+  }
+  @media (max-width: 1024px) {
+    .breath {
+      display: none;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .dot {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const meter = document.querySelector<HTMLElement>('[data-breath]');
+  const dot = meter?.querySelector<HTMLElement>('[data-dot]');
+  const label = meter?.querySelector<HTMLElement>('[data-label]');
+
+  if (meter && dot && label) {
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const doc = document.documentElement;
+      const max = doc.scrollHeight - window.innerHeight;
+      const p = max <= 0 ? 0 : Math.min(1, window.scrollY / max);
+      dot.style.top = `${p * 100}%`;
+    };
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (!raf) raf = requestAnimationFrame(update);
+      },
+      { passive: true },
+    );
+    update();
+
+    // Track active section by topmost intersecting section[data-screen-label].
+    const sections = Array.from(document.querySelectorAll<HTMLElement>('[data-screen-label]'));
+    if (sections.length > 0 && 'IntersectionObserver' in window) {
+      const visible = new Set<HTMLElement>();
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const e of entries) {
+            if (e.isIntersecting) visible.add(e.target as HTMLElement);
+            else visible.delete(e.target as HTMLElement);
+          }
+          const list = Array.from(visible).sort(
+            (a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top,
+          );
+          const top = list[0];
+          if (top) label.textContent = top.dataset.screenLabel ?? '';
+        },
+        { rootMargin: '-30% 0px -60% 0px', threshold: 0 },
+      );
+      sections.forEach((s) => io.observe(s));
+    }
+  }
+</script>

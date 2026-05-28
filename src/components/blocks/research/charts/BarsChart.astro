@@ -1,0 +1,139 @@
+---
+export interface BarDatum {
+  label: string;
+  value: number;
+}
+interface Props {
+  title: string;
+  subtitle: string;
+  foot: string;
+  data: BarDatum[];
+  /** Highest expected value for normalization (defaults to max(data) or 20). */
+  max?: number;
+  /** "+" prefix on value (e.g. "+14%"). Default true. */
+  positive?: boolean;
+}
+const { title, subtitle, foot, data, max, positive = true }: Props = Astro.props;
+const ceiling = max ?? Math.max(...data.map((d) => d.value), 20);
+---
+
+<figure class="chart" data-anim>
+  <figcaption class="head">
+    <div class="title">{title}</div>
+    <div class="sub">{subtitle}</div>
+  </figcaption>
+  <div class="bars">
+    {
+      data.map((d, i) => (
+        <div class="row">
+          <div class="row-head">
+            <span class="label">{d.label}</span>
+            <span class="value">
+              {positive ? '+' : ''}
+              {d.value}%
+            </span>
+          </div>
+          <div class="track">
+            <div
+              class="fill"
+              style={`--w:${Math.min(100, (d.value / ceiling) * 100)}%; --d:${i * 120}ms`}
+            />
+          </div>
+        </div>
+      ))
+    }
+  </div>
+  <div class="foot">{foot}</div>
+</figure>
+
+<style>
+  .chart {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .head {
+    margin-bottom: 28px;
+  }
+  .title {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--editorial-ink);
+  }
+  .sub {
+    margin-top: 4px;
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--editorial-ink-muted);
+  }
+  .bars {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    flex: 1;
+  }
+  .row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .row-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .label {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--editorial-ink);
+  }
+  .value {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 24px;
+    letter-spacing: -0.01em;
+    color: var(--color-brand);
+  }
+  .track {
+    position: relative;
+    height: 14px;
+    overflow: hidden;
+    background: color-mix(in oklab, var(--editorial-ink) 7%, transparent);
+  }
+  /* Default: bar shown at its final width (no-JS readers see the data). When
+     JS is ready, [data-anim]:not(.in) collapses width to 0; the .in class
+     animates it back. */
+  .fill {
+    position: relative;
+    height: 100%;
+    width: var(--w);
+    background: var(--editorial-ink);
+    transition: width 1200ms var(--ease-out);
+    transition-delay: var(--d);
+  }
+  .fill::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--color-brand);
+  }
+  :global([data-js-ready]) [data-anim]:not(.in) .fill {
+    width: 0;
+  }
+  .foot {
+    margin-top: auto;
+    padding-top: 18px;
+    font-size: 11px;
+    font-style: italic;
+    line-height: 1.4;
+    color: var(--editorial-ink-muted);
+    border-top: 1px solid color-mix(in oklab, var(--editorial-ink) 10%, transparent);
+  }
+</style>

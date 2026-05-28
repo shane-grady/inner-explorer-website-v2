@@ -58,10 +58,63 @@ Faithful to the v1 handoff. Verified in-browser (light): hero, scroll timeline (
   flagged by Claude Design to fact-check; photos are Unsplash stand-ins to swap for real IE
   imagery. Hero Inter weight-200 falls back to 300 (not shipped in the bundle).
 
+## Research page (Claude Design handoff — complete)
+
+- [x] **Editorial surface tokens** added to `global.css` raw layer:
+      `--editorial-night/-soft`, `--editorial-paper/-soft`, `--editorial-ink/-muted`,
+      `--editorial-glow/-soft`. Brand-level (not page-scoped) so any future longform
+      editorial page can reuse the dark/paper duality.
+- [x] **`src/lib/intersect.ts`** — shared one-shot intersection observer with
+      reduced-motion + missing-IO fallbacks. Consumed by Receipts, Brain,
+      Outcomes, CTA reveal animations and all five chart `[data-anim]` triggers.
+- [x] **`/research`** built from 10 `blocks/research/*` components (opening void,
+      hero with ken-burns, six-study receipts wall, animated brain SVG with
+      stressed/mindful toggle, 5-tab outcome spreads with custom charts —
+      bars/before-after/dial/line/competencies — endorsers grid, auto-rotating
+      voices on dark, italic-display CTA, sticky breath meter). Content as
+      structured data in the page; light-only via `.appearance-light` pin.
+- [x] **Vanilla JS only** — ~3.4KB total per-page JS (compared to ~2.3KB on
+      About); zero framework JS. Brain toggle, voices rotation, outcome
+      active-nav, breath meter scroll, and reveal-on-intersect all hand-rolled.
+      Reduced-motion respected.
+- [x] **JSON-LD** on `/research` — Article + Citation[] (ScholarlyArticle for
+      each of the 6 studies, with `url` for those with known journal links).
+- [x] `pnpm check` green · `pnpm build` clean.
+
+### Review (Research)
+
+Faithful to the v2 "Quiet Revolution" direction (the user explicitly rejected
+the flat v1 in the design chat). Dark/paper alternating chapters, Roman-numeral
+marks, giant italic year-and-stat typography, full-bleed ken-burns hero. The
+existing pill nav and Footer carry across — no chrome forking. The breath
+meter (right-edge fixed dot + chapter label) is present for ≥1024px viewports.
+
+### Research page — follow-ups before publish
+
+- [ ] **Verify all representative stats with the research team** — the Claude
+      Design author flagged these as drawn from study results but not
+      individually verified: hero counter "15", receipts leadStats (`+14%`,
+      `+18%`, `−34%`, `−28%`, `+Math`, `+GPA`), outcome statValues
+      (`+18%` GPA, `−42%` referrals, `−34%` teacher stress, `−28%` student
+      stress), all chart datapoints (Reading +14 / Math +18 / Science +11 /
+      Overall +17; behavior before-after; teacher dial values; 8-week line
+      points; CASEL %s).
+- [ ] **Swap the Unsplash hero photo** at `src/assets/images/research/hero-classroom.jpg`
+      for a verified Inner Explorer classroom photo (calm window light, focused
+      students, anonymized as needed).
+- [ ] **Confirm study citations + URLs.** Lopez 2020, Stager 2022, Dunlap 2023
+      are "Pending publication" in our data — verify the latest journal status
+      and add the canonical URLs to `knownUrls` in `src/pages/research.astro`
+      so JSON-LD links to them.
+- [ ] **(Reuse follow-up)** Promote `ResearchEndorsers` 6-cell layout into a
+      shared `LogoGrid` block (props: `items[]`, `columns`) if/when a similar
+      partner grid is needed on another page. Until then it lives as a
+      page-scoped block.
+
 ## Next (post-foundation)
 
 - [ ] Confirm production `site` domain in `astro.config.mjs`.
-- [ ] Build remaining pages: program, research/impact, pricing, educators/districts, contact (+ form).
+- [ ] Build remaining pages: program, pricing, educators/districts, contact (+ form).
 - [ ] Replace About placeholder copy + Unsplash stand-ins with verified content + real IE photos.
 - [ ] Legacy migration: audit old URLs → populate `public/_redirects` (301s); import content.
 - [ ] Add Vitest (Container API) + Playwright (+ `@axe-core/playwright`) and wire into CI.

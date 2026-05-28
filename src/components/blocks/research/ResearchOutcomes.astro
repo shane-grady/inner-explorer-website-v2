@@ -1,0 +1,480 @@
+---
+import BarsChart, { type BarDatum } from './charts/BarsChart.astro';
+import BeforeAfterChart, { type BADatum } from './charts/BeforeAfterChart.astro';
+import DialChart, { type DialDatum } from './charts/DialChart.astro';
+import LineChart, { type LineDatum } from './charts/LineChart.astro';
+import CompetenciesChart, { type CompDatum } from './charts/CompetenciesChart.astro';
+import type { Study } from './ResearchReceipts.astro';
+
+export type ChartKind = 'bars' | 'before-after' | 'dial' | 'line' | 'competencies';
+
+export interface Outcome {
+  id: string;
+  label: string;
+  eyebrow: string;
+  /** Combined display: '+', '−', or '5' / '5/5'. */
+  statValue: string;
+  statUnit: string;
+  statCaption: string;
+  headline: string;
+  copy: string;
+  studyIds: string[];
+  chart: ChartKind;
+  data: BarDatum[] | BADatum[] | DialDatum[] | LineDatum[] | CompDatum[];
+  chartTitle: string;
+  chartSubtitle: string;
+  chartFoot: string;
+}
+
+interface Props {
+  chapterLabel: string;
+  chapterNumber: string;
+  headingHtml: string;
+  jumpLabel: string;
+  outcomes: Outcome[];
+  studies: Study[];
+}
+const { chapterLabel, chapterNumber, headingHtml, jumpLabel, outcomes, studies }: Props =
+  Astro.props;
+
+const studyShort = (sid: string) => {
+  const s = studies.find((x) => x.id === sid);
+  if (!s) return sid;
+  const first = s.authors.split(' ')[0].replace(',', '');
+  return `${first} ${s.year}`;
+};
+
+const splitStat = (value: string) => {
+  const first = value.charAt(0);
+  const isSign = first === '+' || first === '−';
+  return {
+    sign: isSign ? first : '',
+    rest: isSign ? value.slice(1) : value,
+  };
+};
+---
+
+<section
+  class="outcomes"
+  id="outcomes"
+  data-screen-label={chapterLabel}
+  aria-labelledby="outcomes-heading"
+>
+  <div class="wrap">
+    <div class="chap-mark reveal">
+      <span class="chap-num">{chapterNumber}</span>
+      <span class="chap-rule" aria-hidden="true"></span>
+      <span class="chap-label">{chapterLabel}</span>
+    </div>
+    <h2 class="chap-title reveal" id="outcomes-heading" set:html={headingHtml} />
+  </div>
+
+  <nav class="outcome-nav" aria-label="Outcomes">
+    <div class="outcome-nav-inner">
+      <span class="jump-label">{jumpLabel}</span>
+      {
+        outcomes.map((o, i) => (
+          <a
+            href={`#spread-${o.id}`}
+            class:list={['jump', { on: i === 0 }]}
+            data-target={`spread-${o.id}`}
+          >
+            {o.label}
+          </a>
+        ))
+      }
+    </div>
+  </nav>
+
+  <div class="wrap">
+    {
+      outcomes.map((o, i) => {
+        const flip = i % 2 === 1;
+        const { sign, rest } = splitStat(o.statValue);
+        return (
+          <article id={`spread-${o.id}`} class:list={['spread', { flip }]} data-spread-id={o.id}>
+            <div class="spread-copy">
+              <span class="spread-eyebrow">{o.eyebrow}</span>
+              <div class="spread-stat">
+                <span class="stat-value">
+                  {sign && <span class="stat-sign">{sign}</span>}
+                  {rest}
+                </span>
+                <span class="stat-unit">{o.statUnit}</span>
+              </div>
+              <p class="stat-caption">{o.statCaption}</p>
+              <h3 class="spread-h">{o.headline}</h3>
+              <p class="spread-body">{o.copy}</p>
+              {o.studyIds.length > 0 && (
+                <div class="cites">
+                  {o.studyIds.map((sid) => (
+                    <a href={`#r-${sid}`} class="cite">
+                      {studyShort(sid)}
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
+            <div class="spread-viz">
+              {o.chart === 'bars' && (
+                <BarsChart
+                  title={o.chartTitle}
+                  subtitle={o.chartSubtitle}
+                  foot={o.chartFoot}
+                  data={o.data as BarDatum[]}
+                />
+              )}
+              {o.chart === 'before-after' && (
+                <BeforeAfterChart
+                  title={o.chartTitle}
+                  subtitle={o.chartSubtitle}
+                  foot={o.chartFoot}
+                  data={o.data as BADatum[]}
+                />
+              )}
+              {o.chart === 'dial' && (
+                <DialChart
+                  title={o.chartTitle}
+                  subtitle={o.chartSubtitle}
+                  foot={o.chartFoot}
+                  data={o.data as DialDatum[]}
+                />
+              )}
+              {o.chart === 'line' && (
+                <LineChart
+                  title={o.chartTitle}
+                  subtitle={o.chartSubtitle}
+                  foot={o.chartFoot}
+                  data={o.data as LineDatum[]}
+                />
+              )}
+              {o.chart === 'competencies' && (
+                <CompetenciesChart
+                  title={o.chartTitle}
+                  subtitle={o.chartSubtitle}
+                  foot={o.chartFoot}
+                  data={o.data as CompDatum[]}
+                />
+              )}
+            </div>
+          </article>
+        );
+      })
+    }
+  </div>
+</section>
+
+<style>
+  .outcomes {
+    padding: 140px 0 120px;
+    background: var(--editorial-paper);
+    color: var(--editorial-ink);
+  }
+  .wrap {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  .chap-mark {
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+    margin-bottom: 28px;
+  }
+  .chap-num {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 1;
+    color: var(--color-brand);
+  }
+  .chap-rule {
+    flex: 1;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.18;
+    align-self: center;
+  }
+  .chap-label {
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    opacity: 0.55;
+  }
+  .chap-title {
+    margin: 0 0 32px;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(44px, 6vw, 88px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  .chap-title :global(em) {
+    font-style: italic;
+    color: var(--color-brand);
+    font-weight: 500;
+  }
+  .chap-title :global(.sans) {
+    font-family: var(--font-sans);
+    font-style: normal;
+    font-weight: 300;
+    letter-spacing: -0.025em;
+  }
+  .chap-title :global(.stk) {
+    display: block;
+  }
+
+  .outcome-nav {
+    position: sticky;
+    top: 70px;
+    z-index: 30;
+    margin-bottom: 40px;
+    padding: 16px 0;
+    background: color-mix(in oklab, var(--editorial-paper) 85%, transparent);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid color-mix(in oklab, var(--editorial-ink) 8%, transparent);
+  }
+  .outcome-nav-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .outcome-nav-inner::-webkit-scrollbar {
+    display: none;
+  }
+  .jump-label {
+    margin-right: 8px;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--editorial-ink-muted);
+    white-space: nowrap;
+  }
+  .jump {
+    padding: 10px 16px;
+    border-radius: 9999px;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--editorial-ink-muted);
+    white-space: nowrap;
+    transition: all 200ms var(--ease-out);
+  }
+  .jump:hover {
+    color: var(--editorial-ink);
+  }
+  .jump.on {
+    background: var(--editorial-ink);
+    color: var(--editorial-paper);
+  }
+
+  .spread {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    padding: 64px 0;
+    border-top: 1px solid color-mix(in oklab, var(--editorial-ink) 10%, transparent);
+    min-height: 600px;
+    scroll-margin-top: 140px;
+  }
+  .spread:first-of-type {
+    border-top: 0;
+    padding-top: 32px;
+  }
+  .spread.flip .spread-copy {
+    order: 2;
+  }
+  .spread.flip .spread-viz {
+    order: 1;
+  }
+
+  .spread-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .spread-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-brand);
+  }
+  .spread-eyebrow::before {
+    content: '';
+    width: 22px;
+    height: 1px;
+    background: var(--color-brand);
+  }
+  .spread-stat {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin: 4px 0 0;
+  }
+  .stat-value {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(108px, 14vw, 200px);
+    line-height: 0.88;
+    letter-spacing: -0.035em;
+    color: var(--editorial-ink);
+  }
+  .stat-sign {
+    color: var(--color-brand);
+  }
+  .stat-unit {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: clamp(36px, 4vw, 56px);
+    letter-spacing: -0.02em;
+    color: var(--color-brand);
+  }
+  .stat-caption {
+    margin: 0;
+    max-width: 420px;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--editorial-ink-muted);
+  }
+  .spread-h {
+    margin: 12px 0 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(28px, 3vw, 40px);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+  }
+  .spread-body {
+    margin: 4px 0 0;
+    max-width: 480px;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--editorial-ink);
+  }
+  .cites {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+  }
+  .cite {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    border-radius: 9999px;
+    background: color-mix(in oklab, var(--color-brand) 10%, transparent);
+    color: var(--brand-800);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1;
+    transition: all 200ms;
+  }
+  .cite:hover {
+    background: color-mix(in oklab, var(--color-brand) 18%, transparent);
+    transform: translateY(-1px);
+  }
+  .cite::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--color-brand);
+  }
+
+  .spread-viz {
+    position: relative;
+    min-height: 460px;
+    padding: 40px;
+    border-radius: 24px;
+    background: var(--editorial-paper-soft);
+    border: 1px solid color-mix(in oklab, var(--editorial-ink) 6%, transparent);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 900ms var(--ease-out),
+      transform 900ms var(--ease-out);
+  }
+  :global([data-js-ready]) .reveal:not(.in) {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+
+  @media (max-width: 820px) {
+    .spread,
+    .spread.flip {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      padding: 48px 0;
+    }
+    .spread.flip .spread-copy,
+    .spread.flip .spread-viz {
+      order: 0;
+    }
+  }
+</style>
+
+<script>
+  import { observe } from '../../../lib/intersect';
+  observe('.outcomes .reveal');
+  observe('.outcomes [data-anim]');
+
+  // Sticky-nav active tracking: highlight the jump whose spread is most centered.
+  const nav = document.querySelector<HTMLElement>('.outcome-nav');
+  const jumps = Array.from(document.querySelectorAll<HTMLAnchorElement>('.outcome-nav .jump'));
+  const spreads = Array.from(document.querySelectorAll<HTMLElement>('[data-spread-id]'));
+  if (nav && jumps.length && spreads.length) {
+    let raf = 0;
+    const tick = () => {
+      raf = 0;
+      const center = window.innerHeight / 2;
+      let best = spreads[0];
+      let bestDist = Infinity;
+      for (const s of spreads) {
+        const r = s.getBoundingClientRect();
+        const c = r.top + r.height / 2;
+        const dist = Math.abs(c - center);
+        if (dist < bestDist) {
+          bestDist = dist;
+          best = s;
+        }
+      }
+      const id = best.dataset.spreadId;
+      jumps.forEach((j) => j.classList.toggle('on', j.dataset.target === `spread-${id}`));
+    };
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (!raf) raf = requestAnimationFrame(tick);
+      },
+      { passive: true },
+    );
+    tick();
+  }
+</script>

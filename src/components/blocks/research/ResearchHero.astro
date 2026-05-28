@@ -1,0 +1,291 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Cta {
+  label: string;
+  href: string;
+}
+interface Props {
+  eyebrow: string;
+  /** Line objects: text + optional `face` ('sans' for the upright weight-300 line; default is italic display). `em` colors the line with the editorial glow. */
+  lines: Array<{ text: string; face?: 'sans' | 'display'; em?: boolean }>;
+  subtitle: string;
+  counterValue: string;
+  counterLabel: string;
+  primaryCta: Cta;
+  secondaryCta?: Cta;
+  image: ImageMetadata;
+  imageAlt: string;
+}
+const {
+  eyebrow,
+  lines,
+  subtitle,
+  counterValue,
+  counterLabel,
+  primaryCta,
+  secondaryCta,
+  image,
+  imageAlt,
+}: Props = Astro.props;
+---
+
+<section class="hero" id="hero" data-screen-label="Hero">
+  <div class="hero-bg">
+    <Image
+      src={image}
+      alt={imageAlt}
+      widths={[768, 1280, 1800, 2400]}
+      sizes="100vw"
+      loading="eager"
+      fetchpriority="high"
+    />
+  </div>
+  <div class="hero-tint" aria-hidden="true"></div>
+
+  <div class="hero-corner" aria-hidden="true">
+    <strong>{counterValue}</strong>
+    <span>{counterLabel}</span>
+  </div>
+
+  <div class="hero-inner">
+    <span class="hero-eyebrow">
+      <span class="hero-eyebrow-rule" aria-hidden="true"></span>
+      {eyebrow}
+    </span>
+    <h1 class="hero-h">
+      {
+        lines.map((l) => (
+          <span class:list={['stk', l.face === 'sans' ? 'sans' : 'display', { em: l.em }]}>
+            {l.text}
+          </span>
+        ))
+      }
+    </h1>
+    <div class="hero-row">
+      <p class="hero-sub">{subtitle}</p>
+      <div class="hero-cta-row">
+        <a href={primaryCta.href} class="btn btn-primary btn-lg">
+          {primaryCta.label}
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M12 5v14"></path>
+            <path d="M5 12l7 7 7-7"></path>
+          </svg>
+        </a>
+        {
+          secondaryCta && (
+            <a href={secondaryCta.href} class="btn btn-ghost-dark btn-lg">
+              {secondaryCta.label}
+            </a>
+          )
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-end;
+    padding: 140px 0 80px;
+    overflow: hidden;
+    background: var(--editorial-night);
+    color: var(--editorial-paper);
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  .hero-bg :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.85) saturate(1.05);
+    animation: heroKenburns 24s ease-in-out infinite alternate;
+  }
+  @keyframes heroKenburns {
+    0% {
+      transform: scale(1.05) translate(0, 0);
+    }
+    100% {
+      transform: scale(1.12) translate(-1%, -1.5%);
+    }
+  }
+  .hero-tint {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background:
+      linear-gradient(
+        to top,
+        color-mix(in oklab, var(--editorial-night) 95%, transparent) 0%,
+        color-mix(in oklab, var(--editorial-night) 45%, transparent) 40%,
+        color-mix(in oklab, var(--editorial-night) 25%, transparent) 70%,
+        color-mix(in oklab, var(--editorial-night) 60%, transparent) 100%
+      ),
+      linear-gradient(
+        to right,
+        color-mix(in oklab, var(--editorial-night) 40%, transparent),
+        transparent 50%
+      );
+  }
+  .hero-corner {
+    position: absolute;
+    top: 130px;
+    right: 32px;
+    z-index: 2;
+    text-align: right;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: color-mix(in oklab, var(--editorial-paper) 85%, transparent);
+  }
+  .hero-corner strong {
+    display: block;
+    margin-bottom: 6px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 56px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--editorial-glow);
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 32px;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--editorial-glow);
+  }
+  .hero-eyebrow-rule {
+    width: 28px;
+    height: 1px;
+    background: color-mix(in oklab, var(--editorial-glow) 50%, transparent);
+  }
+  .hero-h {
+    margin: 0 0 36px;
+    font-size: clamp(60px, 9.5vw, 156px);
+    line-height: 0.92;
+    letter-spacing: -0.025em;
+    color: var(--editorial-paper);
+    text-wrap: balance;
+  }
+  .stk {
+    display: block;
+  }
+  .display {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+  }
+  .sans {
+    font-family: var(--font-sans);
+    font-style: normal;
+    font-weight: 300;
+    letter-spacing: -0.03em;
+  }
+  .em {
+    color: var(--editorial-glow);
+  }
+
+  .hero-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 40px;
+  }
+  .hero-sub {
+    margin: 0;
+    max-width: 500px;
+    font-size: 18px;
+    line-height: 1.55;
+    color: color-mix(in oklab, var(--editorial-paper) 78%, transparent);
+  }
+  .hero-cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 24px;
+    border-radius: 9999px;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    transition: all 250ms var(--ease-out);
+    white-space: nowrap;
+  }
+  .btn-lg {
+    padding: 18px 30px;
+    font-size: 15px;
+  }
+  .btn-primary {
+    background: var(--editorial-glow);
+    color: var(--editorial-night);
+    box-shadow: 0 8px 24px color-mix(in oklab, var(--editorial-glow) 25%, transparent);
+  }
+  .btn-primary:hover {
+    background: var(--editorial-glow-soft);
+    transform: translateY(-2px);
+    box-shadow: 0 16px 36px color-mix(in oklab, var(--editorial-glow) 35%, transparent);
+  }
+  .btn-ghost-dark {
+    color: var(--editorial-paper);
+    border: 1px solid color-mix(in oklab, var(--editorial-paper) 25%, transparent);
+  }
+  .btn-ghost-dark:hover {
+    background: color-mix(in oklab, var(--editorial-paper) 8%, transparent);
+  }
+
+  @media (max-width: 768px) {
+    .hero-corner {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-bg :global(img) {
+      animation: none;
+      transform: scale(1.05);
+    }
+  }
+</style>
