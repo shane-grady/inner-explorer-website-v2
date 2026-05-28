@@ -1,47 +1,70 @@
 ---
-import Container from '../primitives/Container.astro';
-import Button from '../primitives/Button.astro';
+import { Image } from 'astro:assets';
+import mark from '../../assets/brand/inner-explorer-mark.png';
 import ThemeToggle from './ThemeToggle.astro';
 
+// Brand glass pill nav. Theme-aware (glass derives from the `card` token via
+// color-mix, so it reads correctly in light AND dark). Marketing chrome ships
+// ~0KB framework JS — a tiny vanilla script handles the scrolled state + mobile menu.
 const navLinks = [
-  { label: 'Program', href: '/program' },
+  { label: 'Educators', href: '/educators' },
+  { label: 'Districts', href: '/districts' },
   { label: 'Research', href: '/research' },
-  { label: 'Pricing', href: '/pricing' },
-  { label: 'Resources', href: '/resources' },
   { label: 'About', href: '/about' },
+  { label: 'Resources', href: '/resources' },
 ];
+
+const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
+const isActive = (href: string) => path === href || (href !== '/' && path.startsWith(href + '/'));
 ---
 
-<header class="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur">
-  <Container class="flex h-16 items-center justify-between gap-4">
-    <a href="/" class="font-serif text-lg font-semibold text-foreground">Inner Explorer</a>
+<header class="nav-wrap">
+  <nav class="nav" id="site-nav" aria-label="Primary">
+    <a class="nav-brand" href="/" aria-label="Inner Explorer — home">
+      <Image src={mark} alt="" width={30} height={30} loading="eager" />
+      <span>inner<em>Explorer</em></span>
+    </a>
 
-    <nav aria-label="Primary" class="hidden md:flex md:items-center md:gap-8">
+    <div class="nav-links">
       {
         navLinks.map((l) => (
           <a
             href={l.href}
-            class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+            class:list={['nav-link', { on: isActive(l.href) }]}
+            aria-current={isActive(l.href) ? 'page' : undefined}
           >
             {l.label}
           </a>
         ))
       }
-    </nav>
-
-    <div class="hidden items-center gap-2 md:flex">
-      <ThemeToggle />
-      <Button href="/contact" size="sm">Get a demo</Button>
     </div>
 
-    <div class="flex items-center gap-1 md:hidden">
+    <div class="nav-right">
+      <a class="nav-signin" href="/signin">Sign in</a>
       <ThemeToggle />
+      <a class="nav-cta" href="/contact">
+        Book a demo
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M5 12h14"></path>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </a>
       <button
+        class="nav-burger"
         id="nav-toggle"
         type="button"
         aria-expanded="false"
         aria-controls="nav-menu"
-        class="inline-flex h-11 w-11 items-center justify-center rounded-md text-foreground hover:bg-muted"
       >
         <span class="sr-only">Open main menu</span>
         <svg
@@ -58,26 +81,200 @@ const navLinks = [
         </svg>
       </button>
     </div>
-  </Container>
+  </nav>
 
-  <div id="nav-menu" hidden class="border-t border-border bg-background md:hidden">
-    <nav aria-label="Mobile" class="flex flex-col gap-1 px-6 py-4">
+  <div class="nav-menu" id="nav-menu" hidden>
+    <nav aria-label="Mobile" class="nav-menu-inner">
       {
         navLinks.map((l) => (
-          <a
-            href={l.href}
-            class="rounded-md px-3 py-2 text-base font-medium text-foreground hover:bg-muted"
-          >
+          <a href={l.href} aria-current={isActive(l.href) ? 'page' : undefined}>
             {l.label}
           </a>
         ))
       }
-      <Button href="/contact" size="md" class="mt-2" block>Get a demo</Button>
+      <a class="nav-menu-signin" href="/signin">Sign in</a>
+      <a class="nav-menu-cta" href="/contact">Book a demo</a>
     </nav>
   </div>
 </header>
 
+<style>
+  .nav-wrap {
+    position: fixed;
+    inset: 16px 16px auto 16px;
+    z-index: 50;
+  }
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 10px 14px 10px 22px;
+    border-radius: 9999px;
+    background: color-mix(in oklab, var(--color-card) 72%, transparent);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-glass);
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    backdrop-filter: blur(var(--glass-blur));
+    transition:
+      background var(--dur) var(--ease-out),
+      border-color var(--dur) var(--ease-out);
+  }
+  .nav.scrolled {
+    background: color-mix(in oklab, var(--color-card) 92%, transparent);
+  }
+
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+  .nav-brand span {
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    color: var(--color-foreground);
+  }
+  .nav-brand em {
+    color: var(--color-brand);
+    font-style: normal;
+    font-weight: 700;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 4px;
+  }
+  .nav-link {
+    padding: 9px 14px;
+    border-radius: 9999px;
+    font-size: 13.5px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--color-muted-foreground);
+    transition:
+      color var(--dur-fast),
+      background var(--dur-fast);
+  }
+  .nav-link:hover,
+  .nav-link.on {
+    color: var(--color-foreground);
+    background: var(--color-muted);
+  }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .nav-signin {
+    padding: 9px 14px;
+    font-size: 13.5px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--color-foreground);
+  }
+  .nav-cta {
+    height: 38px;
+    padding: 0 18px;
+    border-radius: 9999px;
+    background: var(--color-foreground);
+    color: var(--color-background);
+    font-size: 13.5px;
+    font-weight: 500;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: opacity var(--dur-fast);
+  }
+  .nav-cta:hover {
+    opacity: 0.88;
+  }
+
+  /* Fit the shared ThemeToggle into the pill. */
+  .nav :global(.theme-toggle) {
+    height: 38px;
+    width: 38px;
+    border-radius: 9999px;
+  }
+
+  .nav-burger {
+    display: none;
+    height: 38px;
+    width: 38px;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 9999px;
+    background: transparent;
+    color: var(--color-foreground);
+    cursor: pointer;
+  }
+  .nav-burger:hover {
+    background: var(--color-muted);
+  }
+
+  /* Mobile dropdown panel (glass). */
+  .nav-menu {
+    margin-top: 10px;
+    border-radius: var(--radius-xl);
+    background: color-mix(in oklab, var(--color-card) 92%, transparent);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-glass);
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    backdrop-filter: blur(var(--glass-blur));
+    overflow: hidden;
+  }
+  .nav-menu[hidden] {
+    display: none;
+  }
+  .nav-menu-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 12px;
+  }
+  .nav-menu-inner a {
+    padding: 12px 14px;
+    border-radius: var(--radius-md);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--color-foreground);
+  }
+  .nav-menu-inner a:hover,
+  .nav-menu-inner a[aria-current='page'] {
+    background: var(--color-muted);
+  }
+  .nav-menu-cta {
+    margin-top: 6px;
+    text-align: center;
+    background: var(--color-foreground) !important;
+    color: var(--color-background) !important;
+  }
+
+  @media (max-width: 920px) {
+    .nav-links,
+    .nav-signin,
+    .nav-cta {
+      display: none;
+    }
+    .nav-burger {
+      display: inline-flex;
+    }
+  }
+</style>
+
 <script>
+  // Scrolled state — subtle opacity bump after a little scroll.
+  const nav = document.getElementById('site-nav');
+  const onScroll = () => nav?.classList.toggle('scrolled', window.scrollY > 40);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // Accessible mobile menu (toggle + Escape to close).
   const btn = document.getElementById('nav-toggle');
   const menu = document.getElementById('nav-menu');
   if (btn && menu) {

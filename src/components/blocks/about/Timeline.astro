@@ -1,0 +1,589 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Entry {
+  year: number; // for rail matching
+  node: { yr: string; sub: string };
+  highlight?: boolean;
+  tag: { label: string; variant: 'milestone' | 'research' | 'partner' | 'global' };
+  title: string;
+  body: string;
+  pullHtml?: string; // e.g. "<b>3</b> classrooms"
+  image?: { src: ImageMetadata; alt: string; caption: string };
+}
+interface Props {
+  eyebrow: string;
+  headingHtml: string;
+  lede: string;
+  railYears: number[];
+  entries: Entry[];
+}
+const { eyebrow, headingHtml, lede, railYears, entries }: Props = Astro.props;
+---
+
+<section class="tl-section" id="timeline">
+  <div class="tl-head">
+    <span class="eyebrow">{eyebrow}</span>
+    <h2 class="display-h" set:html={headingHtml} />
+    <p class="lede">{lede}</p>
+  </div>
+
+  <div class="tl-rail" id="about-tl-rail" role="tablist" aria-label="Jump to a year">
+    {
+      railYears.map((y, i) => (
+        <button type="button" data-year={y} class:list={[{ on: i === 0 }]}>
+          {y}
+        </button>
+      ))
+    }
+  </div>
+
+  <div class="tl-wrap">
+    <div class="tl-track" id="about-tl-track">
+      <div class="tl-spine" aria-hidden="true"></div>
+      <div class="tl-spine-fill" id="about-tl-fill" aria-hidden="true"></div>
+
+      {
+        entries.map((e) => (
+          <div class:list={['tl-entry', { highlight: e.highlight }]} data-year={e.year}>
+            <div class="tl-card">
+              <span class:list={['tag', e.tag.variant]}>{e.tag.label}</span>
+              <h3>{e.title}</h3>
+              <p set:html={e.body} />
+              {e.pullHtml && <div class="pull" set:html={e.pullHtml} />}
+            </div>
+            <div class="tl-node">
+              <span class="yr">{e.node.yr}</span>
+              <span class="yr-sub">{e.node.sub}</span>
+            </div>
+            {e.image && (
+              <div class="tl-image">
+                <Image
+                  src={e.image.src}
+                  alt={e.image.alt}
+                  widths={[480, 768, 1100]}
+                  sizes="(max-width: 920px) 90vw, 45vw"
+                  loading="lazy"
+                />
+                <span class="cap">{e.image.caption}</span>
+              </div>
+            )}
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .tl-section {
+    background: var(--color-background);
+    padding: 140px 0 160px;
+    position: relative;
+  }
+  .tl-head {
+    max-width: 1280px;
+    margin: 0 auto 80px;
+    padding: 0 32px;
+    text-align: center;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-brand);
+  }
+  .display-h {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(40px, 5vw, 72px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 16px auto 0;
+    max-width: 880px;
+    color: var(--color-foreground);
+    text-wrap: balance;
+  }
+  .display-h :global(.accent) {
+    color: var(--color-brand);
+  }
+  .lede {
+    font-size: 19px;
+    line-height: 1.6;
+    color: var(--color-foreground);
+    max-width: 640px;
+    margin: 28px auto 0;
+  }
+
+  /* Year scrubber rail */
+  .tl-rail {
+    position: sticky;
+    top: 88px;
+    z-index: 10;
+    width: fit-content;
+    margin: 0 auto 64px;
+    padding: 10px 16px;
+    background: var(--glass-bg);
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    border-radius: 9999px;
+    box-shadow: var(--shadow-glass);
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .tl-rail button {
+    border: 0;
+    background: transparent;
+    padding: 8px 14px;
+    border-radius: 9999px;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--color-muted-foreground);
+    cursor: pointer;
+    transition:
+      color var(--dur-fast),
+      background var(--dur-fast);
+  }
+  .tl-rail button:hover {
+    color: var(--color-foreground);
+  }
+  .tl-rail button.on {
+    background: var(--color-foreground);
+    color: var(--color-background);
+  }
+
+  .tl-wrap {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  .tl-track {
+    position: relative;
+    max-width: 1140px;
+    margin: 0 auto;
+  }
+  .tl-spine {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    transform: translateX(-50%);
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      var(--brand-200) 6%,
+      var(--brand-300) 50%,
+      var(--brand-200) 94%,
+      transparent 100%
+    );
+  }
+  .tl-spine-fill {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 3px;
+    height: 0;
+    transform: translateX(-50%);
+    background: linear-gradient(to bottom, var(--brand-500), var(--brand-700));
+    box-shadow: 0 0 12px color-mix(in oklab, var(--brand-500) 35%, transparent);
+    border-radius: 9999px;
+    transition: height 80ms linear;
+  }
+
+  .tl-entry {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 120px 1fr;
+    align-items: center;
+    margin-bottom: 96px;
+    min-height: 380px;
+  }
+  .tl-entry:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Node */
+  .tl-node {
+    grid-column: 2;
+    justify-self: center;
+    position: relative;
+    z-index: 2;
+    width: 92px;
+    height: 92px;
+    border-radius: 9999px;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    box-shadow:
+      var(--shadow-md),
+      inset 0 1px 0 color-mix(in oklab, var(--color-white) 60%, transparent);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition:
+      transform var(--dur) var(--ease-out),
+      box-shadow var(--dur) var(--ease-out),
+      border-color var(--dur);
+  }
+  .tl-node .yr {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    color: var(--color-foreground);
+  }
+  .tl-node .yr-sub {
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--color-muted-foreground);
+    letter-spacing: 0.08em;
+    margin-top: 4px;
+    text-transform: uppercase;
+  }
+  .tl-node::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 9px solid var(--color-brand);
+    opacity: 0;
+    transition: opacity var(--dur);
+  }
+  .tl-entry.active .tl-node {
+    transform: scale(1.1);
+    border-color: var(--color-brand);
+    box-shadow: 0 12px 40px color-mix(in oklab, var(--color-brand) 35%, transparent);
+  }
+  .tl-entry.active .tl-node .yr {
+    color: var(--color-brand);
+  }
+  .tl-entry.active .tl-node::before {
+    opacity: 1;
+  }
+
+  /* Content card */
+  .tl-card {
+    grid-column: 1;
+    text-align: right;
+    padding-right: 24px;
+  }
+  .tl-entry:nth-child(even) .tl-card {
+    grid-column: 3;
+    text-align: left;
+    padding-right: 0;
+    padding-left: 24px;
+  }
+  .tl-card .tag {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    background: var(--brand-100);
+    color: var(--brand-800);
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .tl-card .tag.milestone {
+    background: var(--accent-100);
+    color: var(--accent-800);
+  }
+  .tl-card .tag.research {
+    background: var(--color-muted);
+    color: var(--color-foreground);
+  }
+  .tl-card .tag.partner {
+    background: var(--brand-100);
+    color: var(--brand-800);
+  }
+  .tl-card .tag.global {
+    background: var(--brand-200);
+    color: var(--brand-900);
+  }
+  .tl-card h3 {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    color: var(--color-foreground);
+    margin: 0 0 14px;
+    text-wrap: balance;
+  }
+  .tl-card p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--color-foreground);
+    margin: 0;
+    max-width: 480px;
+  }
+  .tl-entry:nth-child(odd) .tl-card p,
+  .tl-entry:nth-child(odd) .tl-card h3 {
+    margin-left: auto;
+  }
+  .tl-card .pull {
+    margin-top: 18px;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 10px 16px;
+    border: 1px solid var(--color-border);
+    border-radius: 9999px;
+    background: var(--color-card);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--color-muted-foreground);
+  }
+  .tl-card .pull :global(b) {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 1;
+    color: var(--color-foreground);
+    letter-spacing: -0.01em;
+  }
+
+  /* Image side */
+  .tl-image {
+    grid-column: 3;
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+    aspect-ratio: 4 / 3.2;
+    background: var(--color-muted);
+    box-shadow: var(--shadow-lg);
+    position: relative;
+  }
+  .tl-entry:nth-child(even) .tl-image {
+    grid-column: 1;
+  }
+  .tl-image :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1.2s var(--ease-out);
+  }
+  .tl-image:hover :global(img) {
+    transform: scale(1.04);
+  }
+  .tl-image .cap {
+    position: absolute;
+    bottom: 14px;
+    left: 14px;
+    padding: 6px 12px;
+    border-radius: 9999px;
+    background: var(--glass-bg-strong);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--color-foreground);
+    letter-spacing: 0.04em;
+  }
+
+  /* Highlight entries (no image, full-width moment) */
+  .tl-entry.highlight {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    margin: 80px 0 96px;
+  }
+  .tl-entry.highlight .tl-card {
+    grid-column: 1;
+    text-align: center;
+    padding: 24px 56px;
+    max-width: 760px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 3;
+    background: var(--color-background);
+    border-radius: var(--radius-xl);
+  }
+  .tl-entry.highlight .tl-card h3 {
+    font-size: clamp(40px, 4.4vw, 56px);
+  }
+  .tl-entry.highlight .tl-card p {
+    margin: 0 auto;
+    max-width: none;
+  }
+  .tl-entry.highlight .tl-node {
+    position: absolute;
+    left: 50%;
+    top: -50px;
+    transform: translateX(-50%);
+    width: 64px;
+    height: 64px;
+    background: var(--color-brand);
+    border-color: var(--color-brand);
+  }
+  .tl-entry.highlight .tl-node .yr {
+    color: var(--color-white);
+  }
+  .tl-entry.highlight .tl-node .yr-sub {
+    color: color-mix(in oklab, var(--color-white) 75%, transparent);
+  }
+  .tl-entry.highlight .tl-node::before {
+    display: none;
+  }
+
+  /* Scroll-reveal: visible by default (no-JS / SEO safe); JS opts in via [data-anim]. */
+  .tl-track[data-anim] .tl-card {
+    opacity: 0;
+    transform: translateX(-20px);
+    transition:
+      opacity 600ms var(--ease-out),
+      transform 600ms var(--ease-out);
+  }
+  .tl-track[data-anim] .tl-entry:nth-child(even) .tl-card {
+    transform: translateX(20px);
+  }
+  .tl-track[data-anim] .tl-entry.highlight .tl-card {
+    transform: translateY(20px);
+  }
+  .tl-track[data-anim] .tl-entry.visible .tl-card {
+    opacity: 1;
+    transform: none;
+  }
+  .tl-track[data-anim] .tl-image {
+    opacity: 0;
+    transform: translateX(20px) scale(0.98);
+    transition:
+      opacity 700ms var(--ease-out),
+      transform 700ms var(--ease-out);
+  }
+  .tl-track[data-anim] .tl-entry:nth-child(even) .tl-image {
+    transform: translateX(-20px) scale(0.98);
+  }
+  .tl-track[data-anim] .tl-entry.visible .tl-image {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+
+  @media (max-width: 920px) {
+    .tl-entry {
+      grid-template-columns: 80px 1fr;
+    }
+    .tl-spine,
+    .tl-spine-fill {
+      left: 40px;
+    }
+    .tl-node {
+      grid-column: 1;
+    }
+    .tl-card,
+    .tl-entry:nth-child(even) .tl-card,
+    .tl-image,
+    .tl-entry:nth-child(even) .tl-image {
+      grid-column: 2;
+      text-align: left;
+      padding: 0;
+    }
+    .tl-entry:nth-child(odd) .tl-card p,
+    .tl-entry:nth-child(odd) .tl-card h3 {
+      margin-left: 0;
+    }
+    .tl-image {
+      margin-top: 20px;
+    }
+    .tl-entry.highlight {
+      grid-template-columns: 1fr;
+    }
+    .tl-entry.highlight .tl-card {
+      padding: 24px;
+    }
+  }
+</style>
+
+<script>
+  const track = document.getElementById('about-tl-track');
+  const fill = document.getElementById('about-tl-fill');
+  const rail = document.getElementById('about-tl-rail');
+  if (track && fill && rail) {
+    const entries = Array.from(track.querySelectorAll<HTMLElement>('.tl-entry'));
+    const railBtns = Array.from(rail.querySelectorAll<HTMLButtonElement>('button'));
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Opt into the entrance animation only when motion is allowed.
+    if (!reduce) track.setAttribute('data-anim', '');
+
+    const update = () => {
+      const rect = track.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const centerY = vh * 0.45;
+      const progress = Math.max(0, Math.min(1, (centerY - rect.top) / rect.height));
+      fill.style.height = progress * 100 + '%';
+
+      let activeIdx = -1;
+      entries.forEach((entry, i) => {
+        const r = entry.getBoundingClientRect();
+        const inView = r.top < vh * 0.85 && r.bottom > vh * 0.15;
+        entry.classList.toggle('visible', inView);
+        if (r.top < centerY && r.bottom > centerY) activeIdx = i;
+      });
+      entries.forEach((e, i) => e.classList.toggle('active', i === activeIdx));
+
+      if (activeIdx >= 0) {
+        const yr = parseInt(entries[activeIdx].dataset.year || '0', 10);
+        let best: HTMLButtonElement | null = null;
+        let bestDiff = Infinity;
+        railBtns.forEach((b) => {
+          const diff = Math.abs(parseInt(b.dataset.year || '0', 10) - yr);
+          if (diff < bestDiff) {
+            bestDiff = diff;
+            best = b;
+          }
+        });
+        railBtns.forEach((b) => b.classList.toggle('on', b === best));
+      }
+    };
+
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+
+    rail.querySelectorAll<HTMLButtonElement>('button').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const yr = parseInt(btn.dataset.year || '0', 10);
+        let target: HTMLElement | null = null;
+        let bestDiff = Infinity;
+        entries.forEach((e) => {
+          const diff = Math.abs(parseInt(e.dataset.year || '0', 10) - yr);
+          if (diff < bestDiff) {
+            bestDiff = diff;
+            target = e;
+          }
+        });
+        if (target) {
+          const el = target as HTMLElement;
+          const y = el.getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.35;
+          window.scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' });
+        }
+      });
+    });
+  }
+</script>

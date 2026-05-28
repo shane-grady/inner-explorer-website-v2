@@ -1,0 +1,211 @@
+---
+interface StatItem {
+  n: string;
+  l: string;
+}
+interface Study {
+  yr: string;
+  pub: string;
+  title: string;
+  findHtml: string; // may contain <b>
+}
+interface Props {
+  eyebrow: string;
+  headingHtml: string;
+  lede: string;
+  stats: StatItem[];
+  studies: Study[];
+}
+const { eyebrow, headingHtml, lede, stats, studies }: Props = Astro.props;
+---
+
+<section class="pioneer">
+  <div class="pioneer-grid">
+    <div class="pioneer-left">
+      <span class="eyebrow">{eyebrow}</span>
+      <h2 class="display-h" set:html={headingHtml} />
+      <p class="lede">{lede}</p>
+      <dl class="pioneer-stats">
+        {
+          stats.map((s) => (
+            <div class="item">
+              <dt class="n">{s.n}</dt>
+              <dd class="l">{s.l}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+
+    <div class="pioneer-right">
+      {
+        studies.map((s) => (
+          <article class="study">
+            <div class="head">
+              <span class="yr">{s.yr}</span>
+              <span class="pub">{s.pub}</span>
+            </div>
+            <h3>{s.title}</h3>
+            <p class="find" set:html={s.findHtml} />
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .pioneer {
+    background: var(--color-card);
+    border-top: 1px solid var(--color-border);
+    position: relative;
+    overflow: hidden;
+    padding: 120px 0;
+  }
+  .pioneer-grid {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-brand);
+  }
+  .eyebrow::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: currentColor;
+  }
+  .display-h {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(40px, 5vw, 72px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 16px 0 0;
+    max-width: 540px;
+    color: var(--color-foreground);
+    text-wrap: balance;
+  }
+  .display-h :global(.accent) {
+    color: var(--color-brand);
+  }
+  .lede {
+    font-size: 19px;
+    line-height: 1.6;
+    color: var(--color-foreground);
+    max-width: 520px;
+    margin: 28px 0 0;
+  }
+  .pioneer-stats {
+    margin: 40px 0 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    max-width: 520px;
+  }
+  .pioneer-stats .item {
+    padding-top: 20px;
+    border-top: 1px solid var(--color-border);
+  }
+  .pioneer-stats .n {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 44px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--color-brand);
+    margin: 0 0 8px;
+  }
+  .pioneer-stats .l {
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--color-foreground);
+    margin: 0;
+  }
+
+  .pioneer-right {
+    position: relative;
+    padding: 32px;
+    background: linear-gradient(165deg, var(--brand-100) 0%, var(--brand-200) 100%);
+    border: 1px solid var(--brand-200);
+    border-radius: var(--radius-2xl);
+  }
+  .study {
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: 24px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow-sm);
+    transition:
+      transform var(--dur) var(--ease-out),
+      box-shadow var(--dur) var(--ease-out);
+  }
+  .study:last-child {
+    margin-bottom: 0;
+  }
+  .study:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+  .study .head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+  .study .yr {
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-brand);
+  }
+  .study .pub {
+    font-size: 12px;
+    line-height: 1;
+    color: var(--color-muted-foreground);
+    text-align: right;
+  }
+  .study h3 {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.4;
+    margin: 0 0 8px;
+    color: var(--color-foreground);
+  }
+  .study .find {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--color-foreground);
+    margin: 0;
+  }
+  .study .find :global(b) {
+    font-weight: 600;
+    color: var(--color-brand);
+  }
+
+  @media (max-width: 920px) {
+    .pioneer-grid {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+  }
+</style>

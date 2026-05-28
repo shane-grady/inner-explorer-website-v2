@@ -1,56 +1,65 @@
 ---
+import { Image } from 'astro:assets';
 import Container from '../primitives/Container.astro';
-import Link from '../primitives/Link.astro';
+import mark from '../../assets/brand/inner-explorer-mark.png';
 
 const year = new Date().getFullYear();
 
 const groups = [
   {
-    heading: 'Program',
+    heading: 'Product',
     links: [
-      { label: 'How it works', href: '/program' },
-      { label: 'Research & impact', href: '/research' },
+      { label: 'For educators', href: '/educators' },
+      { label: 'For districts', href: '/districts' },
       { label: 'Pricing', href: '/pricing' },
-    ],
-  },
-  {
-    heading: 'Resources',
-    links: [
-      { label: 'Blog', href: '/blog' },
-      { label: 'For educators', href: '/resources' },
-      { label: 'Support', href: '/support' },
+      { label: 'Mobile app', href: '/app' },
     ],
   },
   {
     heading: 'Company',
     links: [
       { label: 'About', href: '/about' },
-      { label: 'Contact', href: '/contact' },
+      { label: 'Research', href: '/research' },
+      { label: 'Newsroom', href: '/newsroom' },
       { label: 'Careers', href: '/careers' },
+    ],
+  },
+  {
+    heading: 'Get in touch',
+    links: [
+      { label: 'Contact us', href: '/contact' },
+      { label: 'Support', href: '/support' },
+      { label: 'Donate', href: '/donate' },
+      { label: 'Newsletter', href: '/newsletter' },
     ],
   },
 ];
 ---
 
-<footer class="border-t border-border bg-muted">
-  <Container class="py-section-md">
-    <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+<footer class="border-t border-border bg-card">
+  <Container width="wide" class="py-section-md">
+    <div class="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr]">
       <div>
-        <span class="font-serif text-lg font-semibold text-foreground">Inner Explorer</span>
-        <p class="mt-3 max-w-xs text-sm text-muted-foreground">
-          Daily audio-guided mindfulness practices for K-12 schools.
+        <Image src={mark} alt="" width={36} height={36} class="mb-4" />
+        <p class="max-w-xs text-sm text-muted-foreground">
+          Daily audio-guided mindfulness for K-12 schools. A 501(c)(3) nonprofit, founded 2011.
         </p>
       </div>
       {
         groups.map((group) => (
           <nav aria-label={group.heading}>
-            <h2 class="text-sm font-semibold text-foreground">{group.heading}</h2>
-            <ul class="mt-3 space-y-2">
+            <h2 class="text-xs font-medium tracking-wider text-muted-foreground uppercase">
+              {group.heading}
+            </h2>
+            <ul class="mt-4 space-y-3">
               {group.links.map((link) => (
                 <li>
-                  <Link href={link.href} variant="nav" class="text-sm">
+                  <a
+                    href={link.href}
+                    class="text-sm text-foreground transition-colors hover:text-brand"
+                  >
                     {link.label}
-                  </Link>
+                  </a>
                 </li>
               ))}
             </ul>
@@ -58,10 +67,11 @@ const groups = [
         ))
       }
     </div>
-    <div class="mt-10 border-t border-border pt-6">
-      <p class="text-sm text-muted-foreground">
-        &copy; {year} Inner Explorer. All rights reserved.
-      </p>
+    <div
+      class="mt-12 flex flex-col gap-3 border-t border-border pt-6 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between"
+    >
+      <span>&copy; 2011&ndash;{year} Inner Explorer, Inc. &middot; A 501(c)(3) nonprofit</span>
+      <span>Made with quiet, in Boston and Chicago.</span>
     </div>
   </Container>
 </footer>

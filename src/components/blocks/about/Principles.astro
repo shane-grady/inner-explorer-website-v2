@@ -1,0 +1,133 @@
+---
+interface Principle {
+  num: string;
+  title: string;
+  body: string;
+}
+interface Props {
+  eyebrow: string;
+  headingHtml: string;
+  principles: Principle[];
+}
+const { eyebrow, headingHtml, principles }: Props = Astro.props;
+---
+
+<section class="principles">
+  <div class="principles-head">
+    <span class="eyebrow">{eyebrow}</span>
+    <h2 class="display-h" set:html={headingHtml} />
+  </div>
+  <ul class="principles-grid">
+    {
+      principles.map((p) => (
+        <li class="principle">
+          <span class="num">{p.num}</span>
+          <h3>{p.title}</h3>
+          <p>{p.body}</p>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .principles {
+    padding: 140px 0;
+    background: var(--color-background);
+    position: relative;
+  }
+  .principles-head {
+    max-width: 1280px;
+    margin: 0 auto 64px;
+    padding: 0 32px;
+    text-align: center;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-brand);
+  }
+  .display-h {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(40px, 5vw, 72px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 16px auto 0;
+    max-width: 760px;
+    color: var(--color-foreground);
+    text-wrap: balance;
+  }
+  .display-h :global(.accent) {
+    color: var(--color-brand);
+  }
+  .principles-grid {
+    list-style: none;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  .principle {
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-2xl);
+    padding: 36px 28px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    position: relative;
+    transition:
+      transform var(--dur) var(--ease-out),
+      box-shadow var(--dur) var(--ease-out);
+  }
+  .principle:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+  }
+  .num {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 1;
+    color: var(--color-brand);
+    margin-bottom: 6px;
+  }
+  .principle h3 {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 1.2;
+    color: var(--color-foreground);
+    letter-spacing: -0.005em;
+    margin: 0 0 6px;
+  }
+  .principle p {
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--color-muted-foreground);
+    margin: 0;
+  }
+
+  @media (max-width: 920px) {
+    .principles-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media (max-width: 560px) {
+    .principles-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

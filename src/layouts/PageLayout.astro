@@ -8,8 +8,11 @@ interface Props {
   title: string;
   description?: string;
   type?: 'website' | 'article';
+  // The nav is a floating glass pill (position: fixed). Pages get top clearance by
+  // default; hero pages (e.g. About) set `flushTop` so a full-bleed hero sits under it.
+  flushTop?: boolean;
 }
-const { title, description, type = 'website' }: Props = Astro.props;
+const { title, description, type = 'website', flushTop = false }: Props = Astro.props;
 ---
 
 <BaseLayout title={title} description={description} type={type}>
@@ -21,7 +24,7 @@ const { title, description, type = 'website' }: Props = Astro.props;
     Skip to content
   </a>
   <Header />
-  <main id="main">
+  <main id="main" class:list={[{ 'pt-24': !flushTop }]}>
     <slot />
   </main>
   <Footer />

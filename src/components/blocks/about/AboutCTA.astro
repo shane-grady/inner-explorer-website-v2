@@ -1,0 +1,163 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Cta {
+  label: string;
+  href: string;
+}
+interface Props {
+  eyebrow: string;
+  headingHtml: string;
+  lede: string;
+  image: ImageMetadata;
+  imageAlt: string;
+  primary: Cta;
+  secondary: Cta;
+}
+const { eyebrow, headingHtml, lede, image, imageAlt, primary, secondary }: Props = Astro.props;
+---
+
+<section class="cta">
+  <div class="cta-inner">
+    <div class="cta-bg">
+      <Image src={image} alt={imageAlt} widths={[768, 1280, 1920]} sizes="100vw" loading="lazy" />
+    </div>
+    <div class="cta-tint" aria-hidden="true"></div>
+    <div class="cta-content">
+      <span class="eyebrow">{eyebrow}</span>
+      <h2 class="display-h" set:html={headingHtml} />
+      <p class="lede">{lede}</p>
+      <div class="cta-buttons">
+        <a class="btn-primary" href={primary.href}>
+          {primary.label}
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M5 12h14"></path>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+        <a class="btn-ghost" href={secondary.href}>{secondary.label}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta {
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-inner {
+    position: relative;
+    min-height: 560px;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+    color: var(--color-white);
+    text-align: center;
+  }
+  .cta-bg {
+    position: absolute;
+    inset: 0;
+  }
+  .cta-bg :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+  }
+  .cta-tint {
+    position: absolute;
+    inset: 0;
+    background: var(--cta-tint);
+  }
+  .cta-content {
+    position: relative;
+    z-index: 2;
+    max-width: 760px;
+    padding: 80px 32px;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: color-mix(in oklab, var(--brand-300) 90%, white);
+  }
+  .display-h {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(40px, 5.2vw, 76px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 16px 0 0;
+    color: var(--color-white);
+    text-wrap: balance;
+  }
+  .display-h :global(.accent) {
+    color: var(--brand-300);
+  }
+  .lede {
+    font-size: 19px;
+    line-height: 1.6;
+    color: color-mix(in oklab, var(--color-white) 86%, transparent);
+    max-width: 640px;
+    margin: 24px auto 36px;
+  }
+  .cta-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn-primary {
+    height: 54px;
+    padding: 0 28px;
+    border-radius: 9999px;
+    background: var(--color-white);
+    color: var(--color-foreground);
+    font-size: 15px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition:
+      transform var(--dur-fast),
+      box-shadow var(--dur-fast);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+  .btn-ghost {
+    height: 54px;
+    padding: 0 28px;
+    border-radius: 9999px;
+    background: color-mix(in oklab, var(--color-white) 10%, transparent);
+    border: 1px solid color-mix(in oklab, var(--color-white) 35%, transparent);
+    color: var(--color-white);
+    font-size: 15px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    transition: background var(--dur-fast);
+  }
+  .btn-ghost:hover {
+    background: color-mix(in oklab, var(--color-white) 18%, transparent);
+  }
+</style>

@@ -5,29 +5,132 @@
   Inner Explorer — design tokens (single source of truth).
   ----------------------------------------------------------------------------
   Layers:
-    1. Raw palette        → private CSS vars in :root (NOT exposed as utilities)
-    2. Semantic tokens    → :root (light) + .dark (dark); the only colors components use
-    3. @theme mapping     → turns semantic tokens into Tailwind utilities + the type ramp
+    1. Raw palette + brand surfaces → private CSS vars (NOT exposed as utilities)
+    2. Semantic tokens              → light (:root, .appearance-light) + dark (.dark)
+    3. @theme mapping               → turns semantic tokens into Tailwind utilities
   Drift control: we wipe Tailwind's default palette and type scale, so ONLY the
   tokens below exist as utilities. There is no `bg-blue-500`, no `text-7xl`.
-  Brand values here are PLACEHOLDERS — swap with real Inner Explorer / Claude Design
-  brand tokens. Token *names* are stable, so a rebrand is a one-file change.
+
+  These are the REAL Inner Explorer brand values (green primary #1A9A59, cool-gray
+  neutrals, Inter + Libre Caslon Condensed, glassmorphism), mapped onto the stable
+  semantic names — so a future rebrand stays a one-file change.
+
+  `.appearance-light` re-asserts the light tokens for a subtree, so a page can opt
+  out of dark mode (used by the light-only About page) without touching the global
+  theme toggle.
 */
 
-:root {
-  /* 1. Raw palette — calm teal (brand) + warm stone (neutral) + warm amber (accent) */
-  --brand-50: #f0f7f6;
-  --brand-100: #d8ebe9;
-  --brand-200: #b4d8d4;
-  --brand-300: #85bdb7;
-  --brand-400: #579e98;
-  --brand-500: #3a827c;
-  --brand-600: #2d6863;
-  --brand-700: #265450;
-  --brand-800: #224442;
-  --brand-900: #1f3a38;
-  --brand-950: #0f2322;
+/* --- Brand webfonts (self-hosted, subset-friendly woff2) ------------------- */
+/* Inter — body / UI. Bundled weights: 300/400/500/600/700. */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('/fonts/Inter-Light-BETA.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/Inter-Regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/Inter-Medium.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/Inter-SemiBold.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/Inter-Bold.woff2') format('woff2');
+}
 
+/* Libre Caslon Condensed — display / editorial headings (often italic). */
+@font-face {
+  font-family: 'Libre Caslon Condensed';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/LibreCaslonCondensed-Regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Libre Caslon Condensed';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/LibreCaslonCondensed-Italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Libre Caslon Condensed';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/LibreCaslonCondensed-Medium.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Libre Caslon Condensed';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/LibreCaslonCondensed-MediumItalic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Libre Caslon Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/LibreCaslonCondensed-SemiBold.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Libre Caslon Condensed';
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/LibreCaslonCondensed-SemiBoldItalic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Libre Caslon Condensed';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/LibreCaslonCondensed-Bold.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Libre Caslon Condensed';
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/LibreCaslonCondensed-BoldItalic.woff2') format('woff2');
+}
+
+:root {
+  /* 1. Raw palette — Inner Explorer green (ring-of-leaves mark) ------------ */
+  --brand-50: #f0fbf4;
+  --brand-100: #e6f7eb;
+  --brand-200: #bfefc9;
+  --brand-300: #86e29e;
+  --brand-400: #4ecb7f;
+  --brand-500: #2cb56a;
+  --brand-600: #1a9a59; /* PRIMARY — brand green */
+  --brand-700: #117a4c;
+  --brand-800: #0b6b44;
+  --brand-900: #064e3b;
+  --brand-950: #04382a;
+
+  /* Warm amber — secondary accent (used sparingly: e.g. milestone tags). */
   --accent-50: #fdf6ec;
   --accent-100: #f9e8cf;
   --accent-200: #f2cf9f;
@@ -40,51 +143,122 @@
   --accent-900: #6b351c;
   --accent-950: #3d1c0d;
 
-  --neutral-50: #fafaf9;
-  --neutral-100: #f5f5f4;
-  --neutral-200: #e7e5e4;
-  --neutral-300: #d6d3d1;
-  --neutral-400: #a8a29e;
-  --neutral-500: #78716c;
-  --neutral-600: #57534e;
-  --neutral-700: #44403c;
-  --neutral-800: #292524;
-  --neutral-900: #1c1917;
-  --neutral-950: #0c0a09;
+  /* Cool-gray neutrals (hsl 220 family — matches brand surfaces). */
+  --neutral-50: hsl(220 14% 98%);
+  --neutral-100: hsl(220 14% 96%);
+  --neutral-200: hsl(220 14% 90%);
+  --neutral-300: hsl(220 14% 88%);
+  --neutral-400: hsl(220 12% 64%);
+  --neutral-500: hsl(220 10% 50%);
+  --neutral-600: hsl(220 12% 38%);
+  --neutral-700: hsl(220 14% 28%);
+  --neutral-800: hsl(220 18% 20%);
+  --neutral-900: hsl(220 20% 16%);
+  --neutral-950: hsl(220 24% 10%);
 
-  /* 2. Semantic tokens — LIGHT. Contrast pairs target WCAG 2.2 AA. */
-  --background: var(--neutral-50);
+  /* Brand surface treatments (fixed, theme-independent) ------------------- */
+  /* Glassmorphism — signature surface (white-tinted; used on the light page). */
+  --glass-bg: hsla(0, 0%, 100%, 0.75);
+  --glass-bg-strong: hsla(0, 0%, 100%, 0.92);
+  --glass-border: hsla(0, 0%, 100%, 0.55);
+  --glass-blur: 20px;
+
+  /* Photographic overlays (deep brand green) for hero / CTA / featured card. */
+  --hero-tint:
+    linear-gradient(
+      180deg,
+      rgba(8, 40, 24, 0.55) 0%,
+      rgba(8, 40, 24, 0.15) 25%,
+      rgba(8, 40, 24, 0.35) 65%,
+      rgba(8, 40, 24, 0.85) 100%
+    ),
+    radial-gradient(ellipse 80% 50% at 30% 50%, rgba(8, 40, 24, 0.25), transparent 70%);
+  --cta-tint: linear-gradient(
+    180deg,
+    rgba(6, 78, 59, 0.75) 0%,
+    rgba(6, 78, 59, 0.55) 50%,
+    rgba(6, 78, 59, 0.92) 100%
+  );
+  --voice-featured-bg: linear-gradient(165deg, #1a2e1f 0%, #0e1d14 100%);
+  --voice-featured-overlay: linear-gradient(
+    165deg,
+    rgba(10, 30, 18, 0.85) 0%,
+    rgba(10, 30, 18, 0.65) 100%
+  );
+
+  /* Motion durations (eases live in @theme). */
+  --dur-fast: 200ms;
+  --dur: 300ms;
+  --dur-slow: 500ms;
+}
+
+/* 2. Semantic tokens — LIGHT. `.appearance-light` re-asserts these so a subtree
+      can stay light even under a `.dark` ancestor. Contrast pairs target WCAG AA. */
+:root,
+.appearance-light {
+  --background: var(--neutral-100);
   --foreground: var(--neutral-900);
   --card: #ffffff;
   --card-foreground: var(--neutral-900);
-  --muted: var(--neutral-100);
-  --muted-foreground: var(--neutral-600);
+  --muted: var(--neutral-200);
+  --muted-foreground: var(--neutral-500);
 
-  --brand: var(--brand-700);
-  --brand-foreground: var(--neutral-50);
-  --brand-subtle: var(--brand-50);
-  --brand-emphasis: var(--brand-800);
+  --brand: var(--brand-600);
+  --brand-foreground: #ffffff;
+  --brand-subtle: var(--brand-100);
+  --brand-emphasis: var(--brand-700);
 
   --accent: var(--accent-600);
-  --accent-foreground: var(--neutral-50);
+  --accent-foreground: #ffffff;
   --accent-subtle: var(--accent-50);
 
-  --border: var(--neutral-200);
+  --border: var(--neutral-300);
   --input: var(--neutral-300);
-  --ring: var(--brand-500);
+  --ring: var(--brand-600);
 
   --success: #15803d;
-  --success-foreground: var(--neutral-50);
+  --success-foreground: #ffffff;
   --warning: var(--accent-700);
-  --warning-foreground: var(--neutral-50);
+  --warning-foreground: #ffffff;
   --danger: #b42318;
-  --danger-foreground: var(--neutral-50);
+  --danger-foreground: #ffffff;
   --info: var(--brand-600);
-  --info-foreground: var(--neutral-50);
+  --info-foreground: #ffffff;
+}
+
+/* Pin the *resolved* theme utilities for the light subtree. `@theme` declares
+   `--color-x: var(--x)` on :root, so that indirection is computed at the root and
+   inherited — overriding only `--x` on a descendant (above) wouldn't re-resolve it.
+   Re-declaring the `--color-*` here forces re-substitution against the light values. */
+.appearance-light {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-brand-subtle: var(--brand-subtle);
+  --color-brand-emphasis: var(--brand-emphasis);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-subtle: var(--accent-subtle);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-danger: var(--danger);
+  --color-danger-foreground: var(--danger-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
 }
 
 .dark {
-  /* 2. Semantic tokens — DARK (auto-applied to all semantic utilities under .dark). */
+  /* 2. Semantic tokens — DARK (auto-applied to semantic utilities under .dark). */
   --background: var(--neutral-950);
   --foreground: var(--neutral-100);
   --card: var(--neutral-900);
@@ -94,7 +268,7 @@
 
   --brand: var(--brand-300);
   --brand-foreground: var(--neutral-950);
-  --brand-subtle: var(--brand-950);
+  --brand-subtle: var(--brand-900);
   --brand-emphasis: var(--brand-200);
 
   --accent: var(--accent-400);
@@ -156,10 +330,10 @@
   --color-info: var(--info);
   --color-info-foreground: var(--info-foreground);
 
-  /* Typography */
-  --font-sans:
-    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  --font-serif: ui-serif, Georgia, Cambria, 'Times New Roman', serif;
+  /* Typography — Inter (sans/UI/body) + Libre Caslon Condensed (serif/display). */
+  --font-sans: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-serif: 'Libre Caslon Condensed', Georgia, 'Times New Roman', serif;
+  --font-display: 'Libre Caslon Condensed', Georgia, serif;
   --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
 
   /* Fluid type ramp (clamp interpolates ~320px → ~1280px viewport). */
@@ -187,17 +361,18 @@
   --spacing-section-md: clamp(3rem, 2rem + 5vw, 6rem);
   --spacing-section-lg: clamp(4rem, 2.5rem + 7.5vw, 8rem);
 
-  /* Radius */
-  --radius-sm: 0.25rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
-  --radius-xl: 1rem;
-  --radius-2xl: 1.5rem;
+  /* Radius — brand scale (generous rounding). */
+  --radius-sm: 0.75rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.25rem;
+  --radius-xl: 1.5rem;
+  --radius-2xl: 1.75rem;
 
-  /* Soft, calm shadows */
-  --shadow-sm: 0 1px 2px 0 rgb(28 25 23 / 0.06);
-  --shadow-md: 0 4px 16px -4px rgb(28 25 23 / 0.1);
-  --shadow-lg: 0 16px 40px -12px rgb(28 25 23 / 0.16);
+  /* Shadows → shadow-sm|md|lg|glass utilities (also usable via var() in scoped CSS). */
+  --shadow-sm: 0 1px 2px hsla(220, 20%, 20%, 0.06);
+  --shadow-md: 0 4px 12px hsla(220, 20%, 20%, 0.08);
+  --shadow-lg: 0 16px 48px hsla(220, 20%, 20%, 0.12);
+  --shadow-glass: 0 8px 32px hsla(220, 20%, 20%, 0.08), inset 0 1px 0 hsla(0, 0%, 100%, 0.4);
 
   /* Motion */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
@@ -232,7 +407,8 @@
     color: var(--color-brand-foreground);
   }
 
-  /* Map the typography plugin (`prose`) onto our tokens — inherits brand + dark mode. */
+  /* Map the typography plugin (`prose`) onto our tokens. Body in Inter for
+     readability; headings in the Caslon display face. */
   .prose {
     --tw-prose-body: var(--color-foreground);
     --tw-prose-headings: var(--color-foreground);
@@ -249,10 +425,10 @@
     --tw-prose-pre-bg: var(--color-muted);
     --tw-prose-th-borders: var(--color-border);
     --tw-prose-td-borders: var(--color-border);
-    font-family: var(--font-serif);
+    font-family: var(--font-sans);
   }
   .prose :where(h1, h2, h3, h4) {
-    font-family: var(--font-serif);
+    font-family: var(--font-display);
   }
 
   /* Honor reduced-motion preference everywhere. */
