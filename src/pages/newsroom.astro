@@ -1,0 +1,350 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import EditorialMasthead from '../components/blocks/EditorialMasthead.astro';
+import NewsroomFilters from '../components/blocks/newsroom/NewsroomFilters.astro';
+import StoryGrid from '../components/blocks/newsroom/StoryGrid.astro';
+import GlowCTA from '../components/blocks/GlowCTA.astro';
+import type { Story } from '../components/blocks/newsroom/types';
+
+// Localized stand-in classroom photography (Unsplash placeholders — swap for real
+// Inner Explorer imagery before publish; see tasks/todo.md).
+import broward from '../assets/images/newsroom/broward.jpg';
+import morningCircle from '../assets/images/newsroom/morning-circle.jpg';
+import lincoln from '../assets/images/newsroom/lincoln.jpg';
+import bigFeelings from '../assets/images/newsroom/big-feelings.jpg';
+import principal from '../assets/images/newsroom/principal.jpg';
+
+// ── Page content (structured data; the CMS-ready seam) ──────────────────────
+// Placeholder copy carried from the Claude Design handoff — flagged for review.
+
+const pageTitle = 'Newsroom — Inner Explorer';
+const pageDescription =
+  'The latest research, announcements, and lessons from the Inner Explorer community.';
+
+const categories = [
+  { id: 'all', label: 'All' },
+  { id: 'case-study', label: 'Case studies' },
+  { id: 'announcement', label: 'Announcements' },
+  { id: 'article', label: 'Articles' },
+  { id: 'research', label: 'Research' },
+  { id: 'press', label: 'Press releases' },
+] as const;
+
+const stories: Story[] = [
+  {
+    id: 1,
+    cat: 'case-study',
+    catLabel: 'Case study',
+    title: 'How Broward County brought calm to 340 schools',
+    excerpt:
+      'Inside the largest district rollout of daily mindfulness — and the morning circle that changed everything.',
+    date: '2026-05-28',
+    read: 8,
+    pop: 98,
+    cover: { kind: 'photo', photo: broward },
+  },
+  {
+    id: 2,
+    cat: 'announcement',
+    catLabel: 'Announcement',
+    title: 'Introducing Daily Mindful Minutes for middle school',
+    excerpt:
+      'A new series built for grades 6–8, with practices that meet older students where they are.',
+    date: '2026-05-21',
+    read: 4,
+    pop: 86,
+    cover: { kind: 'mesh', tone: 'a', eyebrow: 'New series' },
+  },
+  {
+    id: 3,
+    cat: 'research',
+    catLabel: 'Research',
+    title: 'New study: a 30% drop in disciplinary referrals after one semester',
+    excerpt: 'Peer-reviewed findings from a year-long study across 12 Title I elementary schools.',
+    date: '2026-05-14',
+    read: 6,
+    pop: 94,
+    cover: { kind: 'stat', value: '30%', unit: 'fewer referrals', tone: 'b' },
+  },
+  {
+    id: 4,
+    cat: 'press',
+    catLabel: 'Press release',
+    title: 'Inner Explorer partners with the State of Florida',
+    excerpt:
+      'Bringing free daily mindfulness to every public school student in the state by fall 2026.',
+    date: '2026-05-09',
+    read: 3,
+    pop: 71,
+    cover: { kind: 'compass', eyebrow: 'Partnership' },
+  },
+  {
+    id: 5,
+    cat: 'article',
+    catLabel: 'Article',
+    title: 'Five two-minute practices for the morning circle',
+    excerpt: 'Short, teacher-tested ways to settle a classroom before the day begins.',
+    date: '2026-05-02',
+    read: 5,
+    pop: 88,
+    cover: { kind: 'photo', photo: morningCircle },
+  },
+  {
+    id: 6,
+    cat: 'announcement',
+    catLabel: 'Announcement',
+    title: 'The 2026 Mindful Schools Award winners',
+    excerpt: 'Celebrating the educators and districts who made calm a daily habit this year.',
+    date: '2026-04-24',
+    read: 4,
+    pop: 79,
+    cover: { kind: 'award', year: '2026' },
+  },
+  {
+    id: 7,
+    cat: 'case-study',
+    catLabel: 'Case study',
+    title: "A Title I school's year of calm: Lincoln Elementary",
+    excerpt: 'How one under-resourced school used three minutes a day to transform its mornings.',
+    date: '2026-04-17',
+    read: 7,
+    pop: 82,
+    cover: { kind: 'photo', photo: lincoln },
+  },
+  {
+    id: 8,
+    cat: 'article',
+    catLabel: 'Article',
+    title: 'Why morning matters: the science of starting calm',
+    excerpt: "What happens in a child's nervous system in the first ten minutes of the school day.",
+    date: '2026-04-10',
+    read: 6,
+    pop: 76,
+    cover: { kind: 'quote', quote: 'A calm brain is a brain that can learn.', tone: 'a' },
+  },
+  {
+    id: 9,
+    cat: 'research',
+    catLabel: 'Research',
+    title: 'The Inner Explorer Impact Report 2025',
+    excerpt: 'A full-year look at engagement, wellbeing, and academic outcomes across the network.',
+    date: '2026-04-03',
+    read: 12,
+    pop: 90,
+    cover: { kind: 'report', label: 'Impact Report', year: '2025' },
+  },
+  {
+    id: 10,
+    cat: 'announcement',
+    catLabel: 'Announcement',
+    title: 'Now in Spanish: practices for dual-language classrooms',
+    excerpt: 'Every core series, fully translated and recorded by native-speaking guides.',
+    date: '2026-03-27',
+    read: 3,
+    pop: 68,
+    cover: { kind: 'mesh', tone: 'c', eyebrow: 'Localization' },
+  },
+  {
+    id: 11,
+    cat: 'article',
+    catLabel: 'Article',
+    title: 'Helping students name their big feelings',
+    excerpt: "A simple vocabulary that gives kids language for what's happening inside.",
+    date: '2026-03-20',
+    read: 5,
+    pop: 73,
+    cover: { kind: 'photo', photo: bigFeelings },
+  },
+  {
+    id: 12,
+    cat: 'press',
+    catLabel: 'Press release',
+    title: 'Inner Explorer surpasses 10 million mindful minutes',
+    excerpt: 'A milestone made of three-minute moments, one classroom at a time.',
+    date: '2026-03-13',
+    read: 3,
+    pop: 84,
+    cover: { kind: 'stat', value: '10M', unit: 'mindful minutes', tone: 'a' },
+  },
+  {
+    id: 13,
+    cat: 'case-study',
+    catLabel: 'Case study',
+    title: "From chaos to calm: a principal's story",
+    excerpt: "Principal Dana Ruiz on rebuilding her school's climate with a daily practice.",
+    date: '2026-03-06',
+    read: 9,
+    pop: 77,
+    cover: { kind: 'photo', photo: principal },
+  },
+  {
+    id: 14,
+    cat: 'research',
+    catLabel: 'Research',
+    title: 'Educator wellbeing: a two-year look',
+    excerpt: 'Teachers who practice alongside students report measurably lower burnout.',
+    date: '2026-02-27',
+    read: 7,
+    pop: 70,
+    cover: { kind: 'report', label: 'Wellbeing Study', year: '2024–26' },
+  },
+  {
+    id: 15,
+    cat: 'article',
+    catLabel: 'Article',
+    title: 'Building a schoolwide mindfulness routine',
+    excerpt: 'A practical playbook for going from one classroom to every classroom.',
+    date: '2026-02-20',
+    read: 6,
+    pop: 65,
+    cover: { kind: 'quote', quote: 'Start small. Start daily. Start tomorrow.', tone: 'b' },
+  },
+  {
+    id: 16,
+    cat: 'announcement',
+    catLabel: 'Announcement',
+    title: 'Meet the redesigned educator app',
+    excerpt:
+      'A calmer classroom picker, a smarter player, and journaling that finally feels effortless.',
+    date: '2026-02-13',
+    read: 4,
+    pop: 81,
+    cover: { kind: 'mesh', tone: 'b', eyebrow: 'Product update' },
+  },
+];
+
+// ── SEO — CollectionPage + ItemList (mirrors /narrators) ────────────────────
+const base = new URL(Astro.site ?? 'https://www.innerexplorer.org').origin;
+const collectionLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: pageTitle,
+  url: `${base}/newsroom`,
+  description: pageDescription,
+  mainEntity: {
+    '@type': 'ItemList',
+    numberOfItems: stories.length,
+    itemListElement: stories.map((s, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: s.title,
+    })),
+  },
+};
+---
+
+<PageLayout title={pageTitle} description={pageDescription} flushTop>
+  <JsonLd slot="head" schema={collectionLd} />
+
+  <div class="appearance-light page-wash">
+    <EditorialMasthead
+      layout="inline"
+      size="lg"
+      glow
+      lead="Our"
+      display="Newsroom"
+      intro="The latest research, announcements, and lessons from the Inner Explorer community."
+    />
+
+    <NewsroomFilters categories={[...categories]} total={stories.length} />
+
+    <StoryGrid stories={stories} cols={4} initial={12} step={8} />
+
+    <GlowCTA
+      sans="Calm classrooms"
+      serif="start with you"
+      subtitle="Bring daily, research-backed mindfulness to every student in your school."
+      primary={{ label: 'Request a demo', href: '/contact' }}
+      secondary={{ label: 'Take a tour', href: '/educators' }}
+      trust="Trusted by 50,000+ educators across 8,000 schools"
+    />
+  </div>
+</PageLayout>
+
+<style>
+  /* Soft white→mint page wash. Painted on the light-pinned wrapper (overrides the
+     flat `.appearance-light` background); flushTop means it fills from the top
+     edge, so no dark body seam shows behind the floating nav. */
+  .page-wash {
+    background: var(--newsroom-wash);
+    padding-top: clamp(40px, 6vw, 64px);
+  }
+</style>
+
+<script>
+  // Newsroom controller (progressive enhancement): wires the filter tabs, sort
+  // toggle, live count, and "Load more" to the cards via data-attributes. With no
+  // JS, every card renders unfiltered and the button/empty-state stay hidden.
+  const grid = document.querySelector<HTMLElement>('[data-news-grid]');
+  const gridInner = grid?.querySelector<HTMLElement>('.grid');
+
+  if (grid && gridInner) {
+    const cards = Array.from(grid.querySelectorAll<HTMLElement>('[data-cat]'));
+    const loadMore = grid.querySelector<HTMLButtonElement>('[data-load-more]');
+    const empty = grid.querySelector<HTMLElement>('[data-empty]');
+    const initial = Number(grid.dataset.initial) || 12;
+    const step = Number(grid.dataset.step) || 8;
+
+    const tabs = Array.from(document.querySelectorAll<HTMLElement>('[data-filter]'));
+    const sorts = Array.from(document.querySelectorAll<HTMLElement>('[data-sort]'));
+    const countEl = document.querySelector<HTMLElement>('[data-count]');
+
+    let activeCat = 'all';
+    let sortMode = 'newest';
+    let limit = initial;
+
+    const render = () => {
+      const list = cards
+        .filter((c) => activeCat === 'all' || c.dataset.cat === activeCat)
+        .sort((a, b) =>
+          sortMode === 'newest'
+            ? (b.dataset.date ?? '').localeCompare(a.dataset.date ?? '')
+            : Number(b.dataset.pop) - Number(a.dataset.pop),
+        );
+
+      // Reorder matched cards into sorted order; hide the rest.
+      list.forEach((c) => gridInner.appendChild(c));
+      cards.forEach((c) => (c.hidden = !list.includes(c)));
+      // Clamp the visible matched set to the current limit.
+      list.forEach((c, i) => (c.hidden = i >= limit));
+
+      const total = list.length;
+      if (countEl) countEl.textContent = `${total} ${total === 1 ? 'story' : 'stories'}`;
+      if (loadMore) loadMore.hidden = total <= limit;
+      if (empty) empty.hidden = total > 0;
+    };
+
+    render();
+
+    tabs.forEach((tab) =>
+      tab.addEventListener('click', () => {
+        activeCat = tab.dataset.filter ?? 'all';
+        limit = initial;
+        tabs.forEach((t) => {
+          const on = t === tab;
+          t.classList.toggle('on', on);
+          t.setAttribute('aria-pressed', String(on));
+        });
+        render();
+      }),
+    );
+
+    sorts.forEach((btn) =>
+      btn.addEventListener('click', () => {
+        sortMode = btn.dataset.sort ?? 'newest';
+        sorts.forEach((b) => {
+          const on = b === btn;
+          b.classList.toggle('on', on);
+          b.setAttribute('aria-pressed', String(on));
+        });
+        render();
+      }),
+    );
+
+    loadMore?.addEventListener('click', () => {
+      limit += step;
+      render();
+    });
+  }
+</script>

@@ -1,0 +1,150 @@
+---
+import type { Category } from './types';
+
+// Editorial filter + sort bar: a row of category tabs (underline-active) on the
+// left, a live story count and a Newest/Popular segmented control on the right.
+// Presentational — the page controller binds the data-attributes and keeps the
+// active/aria state in sync. Without JS the bar still renders (tabs are inert).
+
+interface Tab {
+  id: 'all' | Category;
+  label: string;
+}
+interface Props {
+  categories: Tab[];
+  /** Initial (unfiltered) story count. */
+  total: number;
+}
+const { categories, total }: Props = Astro.props;
+---
+
+<section class="bar" aria-label="Filter and sort stories">
+  <div class="filterbar">
+    <div class="tabs" role="group" aria-label="Filter by category">
+      {
+        categories.map((c, i) => (
+          <button
+            type="button"
+            aria-pressed={i === 0 ? 'true' : 'false'}
+            class:list={['tab', { on: i === 0 }]}
+            data-filter={c.id}
+          >
+            {c.label}
+          </button>
+        ))
+      }
+    </div>
+
+    <div class="meta">
+      <span class="count" data-count aria-live="polite">{total} stories</span>
+      <div class="sort">
+        <span class="sort-label">Sort</span>
+        <div class="seg" role="group" aria-label="Sort order">
+          <button type="button" class="on" data-sort="newest" aria-pressed="true">Newest</button>
+          <button type="button" data-sort="popular" aria-pressed="false">Popular</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .bar {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  .filterbar {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    border-bottom: 1px solid var(--color-border);
+    flex-wrap: wrap;
+  }
+  .tabs {
+    display: flex;
+    gap: 2px;
+    flex-wrap: wrap;
+  }
+  .tab {
+    appearance: none;
+    background: none;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    padding: 12px 14px;
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--color-muted-foreground);
+    cursor: pointer;
+    transition:
+      color 0.18s var(--ease-out),
+      border-color 0.18s var(--ease-out);
+  }
+  .tab:hover {
+    color: var(--color-foreground);
+  }
+  .tab.on {
+    color: var(--color-brand);
+    font-weight: 600;
+    border-bottom-color: var(--color-brand);
+  }
+
+  .meta {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding-bottom: 10px;
+  }
+  .count {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-muted-foreground);
+  }
+  .sort {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+  .sort-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-muted-foreground);
+  }
+  .seg {
+    display: flex;
+    gap: 2px;
+    padding: 3px;
+    border-radius: 9999px;
+    background: var(--color-muted);
+  }
+  .seg button {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    padding: 7px 13px;
+    border-radius: 9999px;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-muted-foreground);
+    cursor: pointer;
+    transition:
+      color 0.18s var(--ease-out),
+      background 0.18s var(--ease-out);
+  }
+  .seg button.on {
+    background: var(--color-card);
+    color: var(--color-foreground);
+    font-weight: 600;
+    box-shadow: var(--shadow-sm);
+  }
+
+  @media (max-width: 920px) {
+    .bar {
+      padding: 0 24px;
+    }
+  }
+</style>

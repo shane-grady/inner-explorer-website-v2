@@ -1,0 +1,117 @@
+---
+import Button from '../primitives/Button.astro';
+
+// Centered closing CTA: a two-line "duet" headline (bold sans over serif-italic
+// brand line) on a soft brand glow rising from the bottom edge, with a primary +
+// optional secondary pill button and a small trust line. Light-surface companion
+// to the photo-led EditorialCTA / AboutCTA — reusable on home, pricing, etc.
+
+interface Cta {
+  label: string;
+  href: string;
+}
+interface Props {
+  /** Top headline line — bold sans. */
+  sans: string;
+  /** Bottom headline line — serif-italic, painted in the deep brand tone. */
+  serif: string;
+  subtitle?: string;
+  primary: Cta;
+  secondary?: Cta;
+  /** Small reassurance line under the buttons. */
+  trust?: string;
+}
+const { sans, serif, subtitle, primary, secondary, trust }: Props = Astro.props;
+---
+
+<section class="glow-cta">
+  <div class="glow" aria-hidden="true"></div>
+  <div class="inner">
+    <h2 class="title">
+      <span class="sans">{sans}</span>
+      <span class="serif">{serif}</span>
+    </h2>
+    {subtitle && <p class="sub">{subtitle}</p>}
+    <div class="actions">
+      <Button href={primary.href} size="lg" shape="pill" tone="neutral">{primary.label}</Button>
+      {
+        secondary && (
+          <Button href={secondary.href} size="lg" shape="pill" variant="outline" tone="neutral">
+            {secondary.label}
+          </Button>
+        )
+      }
+    </div>
+    {trust && <p class="trust">{trust}</p>}
+  </div>
+</section>
+
+<style>
+  .glow-cta {
+    position: relative;
+    padding: clamp(72px, 11vw, 132px) 0;
+    text-align: center;
+    overflow: hidden;
+  }
+  .glow {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -40px;
+    height: 90%;
+    background: var(--newsroom-cta-glow);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .inner {
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .title {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.02;
+    text-wrap: balance;
+  }
+  .title .sans {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: clamp(34px, 5vw, 58px);
+    letter-spacing: -0.02em;
+    color: var(--color-foreground);
+  }
+  .title .serif {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(38px, 5.6vw, 66px);
+    letter-spacing: -0.01em;
+    color: var(--color-brand-emphasis);
+  }
+  .sub {
+    margin: 18px auto 0;
+    max-width: 480px;
+    font-size: clamp(17px, 1.6vw, 20px);
+    line-height: 1.5;
+    color: var(--color-muted-foreground);
+    text-wrap: pretty;
+  }
+  .actions {
+    margin-top: 30px;
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .trust {
+    margin: 24px 0 0;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-muted-foreground);
+  }
+</style>

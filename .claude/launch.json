@@ -18,6 +18,12 @@
       "runtimeExecutable": "pnpm",
       "runtimeArgs": ["exec", "astro", "dev", "--port", "4424"],
       "port": 4424
+    },
+    {
+      "name": "ie-dev-newsroom",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["exec", "astro", "dev", "--port", "4425"],
+      "port": 4425
     }
   ]
 }

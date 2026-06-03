@@ -6,7 +6,7 @@ import { cn } from '../../lib/cn';
 // Renders <button> by default, or <a> when `href` is set. Min height meets the
 // 44px touch-target guidance (WCAG 2.2 — target size) at md/lg.
 const button = tv({
-  base: 'inline-flex items-center justify-center gap-2 rounded-md font-medium transition-colors duration-200 ease-out focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50',
+  base: 'inline-flex items-center justify-center gap-2 font-medium transition-colors duration-200 ease-out focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50',
   variants: {
     variant: {
       solid: '',
@@ -20,6 +20,9 @@ const button = tv({
       md: 'h-11 px-6 text-base',
       lg: 'h-12 px-8 text-lg',
     },
+    // Corner shape — `rounded` (default) keeps the standard radius; `pill` gives the
+    // fully-rounded brand pill used by the nav and editorial CTAs.
+    shape: { rounded: 'rounded-md', pill: 'rounded-full' },
     block: { true: 'w-full', false: '' },
   },
   compoundVariants: [
@@ -48,7 +51,7 @@ const button = tv({
     { variant: 'link', tone: 'accent', class: 'h-auto px-0 text-accent' },
     { variant: 'link', tone: 'neutral', class: 'h-auto px-0 text-foreground' },
   ],
-  defaultVariants: { variant: 'solid', tone: 'brand', size: 'md', block: false },
+  defaultVariants: { variant: 'solid', tone: 'brand', size: 'md', shape: 'rounded', block: false },
 });
 
 type Variants = VariantProps<typeof button>;
@@ -64,13 +67,14 @@ const {
   variant,
   tone,
   size,
+  shape,
   block,
   href,
   type = 'button',
   class: className,
   ...rest
 } = Astro.props;
-const classes = cn(button({ variant, tone, size, block }), className);
+const classes = cn(button({ variant, tone, size, shape, block }), className);
 ---
 
 {

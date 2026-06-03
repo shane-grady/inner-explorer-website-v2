@@ -370,6 +370,53 @@ the portrait `<Image>`).
       confirmed; the closer's "Days are _long_." duet is a brand line carried
       from the handoff — confirm with marketing.
 
+## Newsroom page (Claude Design handoff — complete)
+
+Built `/newsroom` (the content hub) from the `Bgn-oGnN6iNdYkdZNWdnzQ` handoff
+("Inner Explorer Newsroom"). The footer's existing `Newsroom → /newsroom` link is now
+live. Reuse-first per the `implement-design-handoff` skill — the design's "tweaks panel"
+is a design-tool artifact, so the single resolved direction was built: editorial cards ·
+4 columns · light wash · "Our _Newsroom_" duet hero.
+
+- [x] **System extensions (global, backward-compatible)**: - `primitives/Button` gained a `shape` variant (`rounded` default | `pill`) — the
+      component-reference's prescribed extension; all existing callers keep `rounded-md`. - `blocks/EditorialMasthead` gained an optional `glow` (soft brand halo) + an inline
+      `size` (`md` default | `lg` hero scale). Contact (`inline`/`md`) + stacked/display
+      callers verified unchanged. - 3 raw tokens in `global.css`: `--newsroom-wash` (white→mint page wash),
+      `--masthead-glow`, `--newsroom-cta-glow`. Cover gradients reuse `--brand-50…950`.
+- [x] **New shared block** `blocks/GlowCTA` — centered duet headline on a brand glow +
+      primary/secondary pill `Button`s + trust line (light-surface companion to the
+      photo-led `EditorialCTA`; reusable on home/pricing).
+- [x] **Newsroom blocks** in `blocks/newsroom/` (mirrors `blocks/narrator/`): `StoryCover`
+      (7 generative cover kinds — photo/mesh/compass/quote/stat/report/award, all
+      brand-token colours, no SVG illustration), `StoryCard` (editorial body +
+      whole-card link + hover lift), `StoryGrid` (responsive 4→2→1, load-more, empty
+      state), `NewsroomFilters` (category tabs + count + Newest/Popular sort). Shared
+      types in `blocks/newsroom/types.ts` (a `.ts` module — Astro frontmatter trips on
+      multi-line `export type` unions; see lessons).
+- [x] **`src/pages/newsroom.astro`** — 16 stories as typed `Story[]` structured data (the
+      CMS seam), light-pinned `.appearance-light` + `flushTop`, `CollectionPage` +
+      `ItemList` JSON-LD. One small vanilla controller `<script>` wires filter/sort/
+      load-more via data-attributes (progressive enhancement: no JS → all 16 render).
+- [x] **Verified**: `pnpm check` 0 errors / 0 warnings (lone hint is the pre-existing
+      contact clipboard fallback); `pnpm build` clean (43 pages). `/newsroom` ships the
+      shared ClientRouter + a 40-byte page shim + the inlined controller — **no React**.
+      Browser (Claude Preview MCP) at 1280 + 375: duet hero glow, all 7 cover kinds,
+      working category filter (Research → 3), Newest/Popular sort (pop desc verified),
+      Load more (12→16), 1-col mobile. Dark mode: page stays light (cards #fff, brand
+      labels) while the nav flips dark. Regression: `/contact` masthead unchanged.
+
+### Stand-ins to swap before publishing (Newsroom)
+
+- [ ] **All 16 stories are placeholder copy** carried from the handoff (titles, excerpts,
+      dates, read times, popularity, and the "30% / 10M / 50,000+ educators / 8,000
+      schools" figures). Replace with real newsroom content; confirm stats with the team.
+- [ ] **5 cover photos** in `src/assets/images/newsroom/` (broward, morning-circle,
+      lincoln, big-feelings, principal) are Unsplash stand-ins — swap for real IE imagery.
+- [ ] **Card links are placeholder `#`** — no detail pages exist yet. Wire to real article
+      routes (and consider promoting `Story[]` to a `newsroom` content collection then).
+- [ ] **CTA links**: "Take a tour" → `/educators` and "Request a demo" → `/contact` —
+      confirm the intended targets.
+
 ## Next (post-foundation)
 
 - [ ] Confirm production `site` domain in `astro.config.mjs`.

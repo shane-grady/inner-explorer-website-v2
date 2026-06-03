@@ -30,6 +30,12 @@ any correction or surprise.
   but never used." Fix by annotating the destructure: `const { ... }: Props = Astro.props`.
 - Tailwind v4 in Astro uses the **`@tailwindcss/vite`** plugin in `vite.plugins`
   (not the deprecated `@astrojs/tailwind` integration).
+- **A multi-line `export type X = | {…} | {…}` discriminated union in `.astro`
+  frontmatter passes `astro check` but FAILS `astro build`** — esbuild errors
+  `Unexpected "|"` (the type-aware checker tolerates it; the build-time transform
+  doesn't). `export interface` from frontmatter is fine; a multi-line union is not.
+  Fix: put shared union types in a plain `.ts` module and import them
+  (`import type { Cover } from './types'`). See `blocks/newsroom/types.ts`.
 
 ## ESLint (flat, v10)
 
