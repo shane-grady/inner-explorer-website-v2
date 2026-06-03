@@ -187,12 +187,14 @@
   );
 
   /* Editorial surfaces — dark/paper duality for longform marketing pages
-     (e.g. /research). Consumed via var() in scoped <style> blocks only; not
-     promoted to @theme utilities because they are page-context, not vocabulary. */
+     (e.g. /research, 404). Consumed via var() in scoped <style> blocks only; not
+     promoted to @theme utilities because they are page-context, not vocabulary.
+     Paper steps derive from the site neutrals so the light/paper surfaces match
+     the rest of the site's cool off-white (was warm cream #f4f1ea / #ece8df). */
   --editorial-night: #0d1418;
   --editorial-night-soft: #161e22;
-  --editorial-paper: #f4f1ea;
-  --editorial-paper-soft: #ece8df;
+  --editorial-paper: var(--neutral-100);
+  --editorial-paper-soft: var(--neutral-200);
   --editorial-ink: #1a201e;
   --editorial-ink-muted: rgba(26, 32, 30, 0.62);
   --editorial-glow: #4ade80;
