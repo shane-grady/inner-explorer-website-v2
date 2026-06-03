@@ -1,0 +1,1621 @@
+---
+import Button from '../../primitives/Button.astro';
+import PlatformIcon from './PlatformIcon.astro';
+
+// Platform hero: a two-column intro (duet headline + right-aligned subhead + CTAs)
+// over a showcase panel that previews each platform — the Classroom practice arc,
+// the District dashboard bento, and the Home TuneIn sync. The three views crossfade
+// via a tiny vanilla tab script; Classroom is `.on` in markup so it's visible with
+// no JS. The mockups are decorative (the page's real copy lives in the sections
+// below), so the showcase is labelled but the device chrome is aria-hidden.
+
+interface Cta {
+  label: string;
+  href: string;
+}
+interface Props {
+  titleLine1: string;
+  titleLine2: string;
+  subtitle: string;
+  primaryCta: Cta;
+  secondaryCta: Cta;
+}
+const { titleLine1, titleLine2, subtitle, primaryCta, secondaryCta }: Props = Astro.props;
+---
+
+<section class="phero">
+  <div class="phero-inner">
+    <div class="hero-top">
+      <div class="hero-lead">
+        <h1>{titleLine1}<br /><span class="l2">{titleLine2}</span></h1>
+        <div class="hero-actions">
+          <Button href={primaryCta.href} tone="brand" shape="pill" size="sm"
+            >{primaryCta.label}</Button
+          >
+          <Button href={secondaryCta.href} variant="outline" tone="neutral" shape="pill" size="sm">
+            {secondaryCta.label}
+          </Button>
+        </div>
+      </div>
+      <p class="hero-sub">{subtitle}</p>
+    </div>
+
+    <div class="showcase">
+      <div class="showcase-tabs" role="tablist" aria-label="Preview the platform">
+        <button
+          class="showcase-tab on"
+          role="tab"
+          type="button"
+          aria-selected="true"
+          aria-controls="hv-classroom"
+          data-tab="classroom"
+        >
+          <span class="dot" aria-hidden="true"></span> Classroom
+        </button>
+        <button
+          class="showcase-tab"
+          role="tab"
+          type="button"
+          aria-selected="false"
+          aria-controls="hv-district"
+          data-tab="district"
+        >
+          <span class="dot" aria-hidden="true"></span> District
+        </button>
+        <button
+          class="showcase-tab"
+          role="tab"
+          type="button"
+          aria-selected="false"
+          aria-controls="hv-home"
+          data-tab="home"
+        >
+          <span class="dot" aria-hidden="true"></span> Home
+        </button>
+      </div>
+
+      <div class="hstage">
+        {/* ===== CLASSROOM · practice arc ===== */}
+        <div
+          class="hv on"
+          id="hv-classroom"
+          role="tabpanel"
+          aria-label="Classroom"
+          data-view="classroom"
+        >
+          <div class="hv-pad">
+            <div class="arc-wrap">
+              <div class="arc-rail" aria-hidden="true"></div>
+              <div class="acard p1 mesh-dusk">
+                <span class="grain"></span>
+                <span class="ac-pill">8 min</span>
+                <span class="ac-lbl">Mountain View</span>
+              </div>
+              <div class="acard p2 mesh-water">
+                <span class="grain"></span>
+                <span class="ac-pill">6 min</span>
+                <span class="ac-lbl">River Path</span>
+              </div>
+              <div class="acard p3 mesh-forest is-active">
+                <span class="grain"></span>
+                <span class="ac-pill on">Day 14 · Today</span>
+                <span class="ac-play"><PlatformIcon name="play" /></span>
+                <span class="ac-lbl">Forest Walk</span>
+              </div>
+              <div class="acard p4 mesh-calm">
+                <span class="grain"></span>
+                <span class="ac-pill">4 min</span>
+                <span class="ac-lbl">Lake Reflection</span>
+              </div>
+              <div class="acard p5 mesh-dawn">
+                <span class="grain"></span>
+                <span class="ac-pill">7 min</span>
+                <span class="ac-lbl">Open Field</span>
+              </div>
+            </div>
+            <div class="arc-foot">
+              <div class="arc-meta">
+                Day 14 of 21 · Calm Breathing series<b>Forest Walk · 5 min · Grades 3–5</b>
+              </div>
+              <a class="arc-cta" href={primaryCta.href}>
+                Start practice <PlatformIcon name="arrow" />
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* ===== DISTRICT · dashboard bento ===== */}
+        <div class="hv" id="hv-district" role="tabpanel" aria-label="District" data-view="district">
+          <div class="dash" aria-hidden="true">
+            <div class="dash-main">
+              <div class="dash-head">
+                <div class="dh-ti2">District Overview</div>
+                <div class="dh-filters">
+                  <span class="fpill"><PlatformIcon name="calendar" />Jan 01 – Jul 31</span>
+                  <span class="fpill ghost">Daily <PlatformIcon name="chevron" /></span>
+                  <span class="fpill ghost"
+                    ><PlatformIcon name="building" />All Schools <PlatformIcon
+                      name="chevron"
+                    /></span
+                  >
+                </div>
+              </div>
+
+              <div class="dash-bento">
+                <div class="brow top">
+                  <div class="dcard">
+                    <div class="dcard-h">
+                      <span class="t">User Adoption</span><span class="menu">···</span>
+                    </div>
+                    <div class="ua-tabs">
+                      <div class="uat"><span>Licensed Seats</span><b>2,400</b></div>
+                      <div class="uat"><span>Registered</span><b>1,850</b></div>
+                      <div class="uat on"><span>Active Users</span><b>1,240</b></div>
+                      <div class="uat"><span>Engaged</span><b>890</b></div>
+                      <div class="uat"><span>Champions</span><b>320</b></div>
+                    </div>
+                    <div class="ua-chart">
+                      <div class="uabar" style="--h:100%"><span class="cap">2.4k</span></div>
+                      <div class="uabar" style="--h:77%"><span class="cap">1.9k</span></div>
+                      <div class="uabar active" style="--h:52%"><span class="cap">1.2k</span></div>
+                      <div class="uabar" style="--h:37%"><span class="cap">890</span></div>
+                      <div class="uabar" style="--h:14%"><span class="cap">320</span></div>
+                    </div>
+                  </div>
+                  <div class="dcard">
+                    <div class="dcard-h">
+                      <span class="t">Mindful Minutes</span><span class="menu">···</span>
+                    </div>
+                    <div class="mm-big">41,540 <span class="mm-pill">↗ +15%</span></div>
+                    <div class="mm-list">
+                      <div class="mmr">
+                        <div class="mmr-top">
+                          <span>Elementary Schools</span><b>24,200 min</b>
+                        </div><div class="seg green" style="--p:100%"></div>
+                      </div>
+                      <div class="mmr">
+                        <div class="mmr-top"><span>Middle Schools</span><b>10,400 min</b></div><div
+                          class="seg blue"
+                          style="--p:43%"
+                        >
+                        </div>
+                      </div>
+                      <div class="mmr">
+                        <div class="mmr-top"><span>High Schools</span><b>6,940 min</b></div><div
+                          class="seg pink"
+                          style="--p:29%"
+                        >
+                        </div>
+                      </div>
+                      <div class="mmr">
+                        <div class="mmr-top"><span>Early Learning</span><b>3,200 min</b></div><div
+                          class="seg purple"
+                          style="--p:14%"
+                        >
+                        </div>
+                      </div>
+                      <div class="mmr">
+                        <div class="mmr-top"><span>Support Staff</span><b>1,800 min</b></div><div
+                          class="seg amber"
+                          style="--p:8%"
+                        >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="brow bot">
+                  <div class="dcard sm">
+                    <div class="dcard-h">
+                      <span class="t">Retention</span><span class="menu">···</span>
+                    </div>
+                    <div class="chip-sm">Peak: 42%</div>
+                    <svg class="ret-line" viewBox="0 0 240 78" preserveAspectRatio="none">
+                      <line class="rl-grid" x1="0" y1="20" x2="240" y2="20"></line>
+                      <line class="rl-grid" x1="0" y1="45" x2="240" y2="45"></line>
+                      <line class="rl-grid" x1="0" y1="70" x2="240" y2="70"></line>
+                      <polyline
+                        class="rl-trend"
+                        fill="none"
+                        stroke-width="2.5"
+                        stroke-linejoin="round"
+                        points="0,60 40,60 40,52 80,52 80,40 120,40 120,30 160,30 160,38 200,38 200,33 240,33"
+                      ></polyline>
+                    </svg>
+                    <div class="ret-ax">
+                      <span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span
+                        >May</span
+                      ><span>Jun</span>
+                    </div>
+                  </div>
+                  <div class="dcard sm">
+                    <div class="dcard-h">
+                      <span class="t">Practice Sessions</span><span class="menu">···</span>
+                    </div>
+                    <div class="chip-sm">Peak: Wed</div>
+                    <div class="sm-big">106k</div>
+                    <div class="sm-cmp">vs last period <b>+34,002</b></div>
+                    <div class="dotgrid green">
+                      <i class="a"></i><i class="a"></i><i class="a"></i><i class="b"></i><i
+                        class="a"></i><i class="a"></i><i class="a"></i><i class="b"></i><i
+                        class="a"></i><i class="a"></i>
+                      <i class="a"></i><i class="b"></i><i class="a"></i><i class="a"></i><i
+                        class="a"></i><i class="b"></i><i class="a"></i><i class="a"></i><i></i><i
+                      ></i>
+                      <i class="a"></i><i class="a"></i><i class="b"></i><i class="a"></i><i></i><i
+                      ></i><i></i><i></i><i></i><i></i>
+                    </div>
+                  </div>
+                  <div class="dcard sm">
+                    <div class="dcard-h">
+                      <span class="t">Active Educators</span><span class="menu">···</span>
+                    </div>
+                    <div class="chip-sm">Highest: Thu</div>
+                    <div class="sm-big">1,284</div>
+                    <div class="sm-cmp">vs last period <b>+320</b></div>
+                    <div class="dotgrid blue">
+                      <i class="a"></i><i class="a"></i><i class="b"></i><i class="a"></i><i
+                        class="a"></i><i class="b"></i><i class="a"></i><i class="a"></i><i></i><i
+                      ></i>
+                      <i class="a"></i><i class="b"></i><i class="a"></i><i class="a"></i><i
+                        class="b"></i><i class="a"></i><i></i><i></i><i></i><i></i>
+                      <i class="b"></i><i class="a"></i><i class="a"></i><i></i><i></i><i></i><i
+                      ></i><i></i><i></i><i></i>
+                    </div>
+                  </div>
+                  <div class="dcard ins">
+                    <span class="grain"></span>
+                    <div class="ins-pill">◇ Insights</div>
+                    <div class="ins-big">75%</div>
+                    <div class="ins-tx">
+                      Engagement rate increased by 12% compared to last week.
+                    </div>
+                    <div class="ins-segs"><i class="on"></i><i></i><i></i></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ===== HOME · TuneIn (classroom → home sync) ===== */}
+        <div class="hv" id="hv-home" role="tabpanel" aria-label="Home" data-view="home">
+          <div class="tunein">
+            <div class="sync-source" aria-hidden="true">
+              <div class="ss-eb">In class today</div>
+              <div class="ss-card">
+                <div class="ss-thumb mesh-forest"><span class="grain"></span></div>
+                <div class="ss-meta">
+                  <div class="ss-ti">Forest Walk</div>
+                  <div class="ss-sub">Mrs. Palmer's Grade 3 · Day 14</div>
+                </div>
+              </div>
+              <div class="ss-foot"><span class="ss-dot"></span>24 students practiced together</div>
+            </div>
+
+            <div class="sync-link" aria-hidden="true">
+              <div class="sl-line"></div>
+              <div class="sl-badge"><PlatformIcon name="link" /> TuneIn</div>
+              <div class="sl-line"></div>
+              <span class="sl-pulse"></span>
+              <div class="sl-cap">syncs class → home</div>
+            </div>
+
+            <div class="phone phone-lg" aria-hidden="true">
+              <div class="notch"></div>
+              <div class="screen tiscreen">
+                <div class="tih-top mesh-forest">
+                  <span class="grain"></span>
+                  <div class="ph-status"><span>8:32</span><span>●●●</span></div>
+                  <div class="tih-brand"><PlatformIcon name="link" /> TuneIn</div>
+                  <div class="tih-sync">
+                    <span class="tih-syncdot"></span>Linked to Mrs. Palmer's class
+                  </div>
+                </div>
+                <div class="tih-body">
+                  <div class="tih-eb">Tonight · same as class today</div>
+                  <div class="tih-prac">
+                    <div class="tp-thumb mesh-forest">
+                      <span class="grain"></span><span class="tp-play"
+                        ><PlatformIcon name="play" /></span
+                      >
+                    </div>
+                    <div class="tp-meta">
+                      <div class="tp-ti">Forest Walk</div><div class="tp-sub">
+                        5 min · Calm Breathing
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tih-cta"><PlatformIcon name="play" /> Play at home</div>
+                  <div class="tih-note">
+                    The exact practice your child did in class today — listen together and the calm
+                    carries home.
+                  </div>
+                  <div class="tih-fam">
+                    <span class="avs"><span></span><span></span></span>You and Maya, tonight
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .phero {
+    padding: clamp(96px, 11vh, 128px) 0 0;
+  }
+  .phero-inner {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  @media (min-width: 768px) {
+    .phero-inner {
+      padding: 0 40px;
+    }
+  }
+
+  /* ---- intro ---- */
+  .hero-top {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 40px;
+    align-items: end;
+    padding-bottom: 34px;
+  }
+  .hero-lead h1 {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: clamp(40px, 5vw, 68px);
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    font-weight: 500;
+    color: var(--color-foreground);
+  }
+  .hero-lead h1 .l2 {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .hero-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 26px;
+  }
+  .hero-sub {
+    color: var(--color-muted-foreground);
+    font-size: 17px;
+    line-height: 1.5;
+    max-width: 440px;
+    justify-self: end;
+    margin: 0;
+  }
+  @media (max-width: 820px) {
+    .hero-top {
+      grid-template-columns: 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+    .hero-sub {
+      justify-self: start;
+    }
+  }
+
+  /* ---- showcase shell ---- */
+  .showcase {
+    border-radius: 26px;
+    overflow: hidden;
+    background: var(--neutral-100);
+    border: 1px solid var(--color-border);
+  }
+  .showcase-tabs {
+    display: flex;
+    gap: 6px;
+    padding: 10px;
+  }
+  .showcase-tab {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    padding: 13px 10px;
+    font-size: 14.5px;
+    font-weight: 500;
+    color: var(--color-muted-foreground);
+    background: transparent;
+    border: none;
+    border-radius: 13px;
+    cursor: pointer;
+    transition: all 0.25s var(--ease-out);
+  }
+  .showcase-tab .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--neutral-400);
+    transition: background 0.2s;
+  }
+  .showcase-tab:hover {
+    color: var(--color-foreground);
+  }
+  .showcase-tab.on {
+    background: var(--color-card);
+    color: var(--color-foreground);
+    box-shadow:
+      0 1px 2px color-mix(in oklab, var(--neutral-900) 7%, transparent),
+      0 6px 16px -6px color-mix(in oklab, var(--neutral-900) 12%, transparent);
+  }
+  .showcase-tab.on .dot {
+    background: var(--color-brand);
+  }
+
+  .hstage {
+    position: relative;
+    height: 624px;
+    overflow: hidden;
+  }
+  .hv {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.992);
+    transition:
+      opacity 0.55s var(--ease-out),
+      transform 0.55s var(--ease-out);
+  }
+  .hv.on {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+
+  /* ---- Classroom · practice arc ---- */
+  .hv-pad {
+    position: relative;
+    height: 100%;
+    padding: 24px 18px 18px;
+    display: flex;
+    flex-direction: column;
+  }
+  .arc-wrap {
+    position: relative;
+    flex: 1;
+    width: 100%;
+    margin: 0 auto;
+    overflow: visible;
+  }
+  .arc-rail {
+    position: absolute;
+    left: 50%;
+    top: 138%;
+    width: 1900px;
+    height: 1900px;
+    transform: translate(-50%, -50%);
+    border-radius: 9999px;
+    border: 1px dashed color-mix(in oklab, var(--neutral-900) 10%, transparent);
+    pointer-events: none;
+  }
+  .acard {
+    position: absolute;
+    left: 50%;
+    top: 34px;
+    width: 228px;
+    height: 316px;
+    margin-left: -114px;
+    border-radius: 24px;
+    overflow: hidden;
+    transform-origin: 50% 1500px;
+    box-shadow: 0 22px 50px -16px color-mix(in oklab, var(--neutral-900) 42%, transparent);
+  }
+  .acard .grain {
+    opacity: 0.42;
+    z-index: 1;
+  }
+  .acard::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: linear-gradient(
+      to top,
+      color-mix(in oklab, var(--neutral-950) 46%, transparent),
+      transparent 56%
+    );
+  }
+  .ac-pill {
+    position: absolute;
+    top: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    padding: 6px 13px;
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--color-white) 24%, transparent);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    border: 1px solid color-mix(in oklab, var(--color-white) 42%, transparent);
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-white);
+    white-space: nowrap;
+  }
+  .ac-pill.on {
+    background: color-mix(in oklab, var(--color-white) 92%, transparent);
+    color: var(--brand-800);
+    border-color: var(--color-white);
+  }
+  .ac-lbl {
+    position: absolute;
+    left: 14px;
+    right: 14px;
+    bottom: 20px;
+    z-index: 3;
+    color: var(--color-white);
+    text-align: center;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 24px;
+    text-shadow: 0 2px 10px color-mix(in oklab, var(--neutral-950) 40%, transparent);
+  }
+  .ac-play {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 56px;
+    height: 56px;
+    border-radius: 999px;
+    background: var(--color-white);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 4;
+    box-shadow: 0 6px 18px color-mix(in oklab, var(--neutral-950) 28%, transparent);
+  }
+  .ac-play :global(svg) {
+    width: 19px;
+    height: 19px;
+    color: var(--color-foreground);
+    margin-left: 2px;
+  }
+  .acard.is-active .ac-play {
+    display: flex;
+  }
+  /* every card rotates around one shared pivot far below → a single true arc */
+  .acard.p1 {
+    transform: rotate(-28deg);
+    opacity: 0.52;
+    z-index: 1;
+  }
+  .acard.p2 {
+    transform: rotate(-14deg);
+    z-index: 3;
+  }
+  .acard.p3 {
+    transform: scale(1.12);
+    transform-origin: center;
+    z-index: 6;
+    box-shadow:
+      0 40px 84px -20px color-mix(in oklab, var(--neutral-900) 55%, transparent),
+      0 0 0 3px color-mix(in oklab, var(--color-white) 82%, transparent) inset;
+  }
+  .acard.p4 {
+    transform: rotate(14deg);
+    z-index: 3;
+  }
+  .acard.p5 {
+    transform: rotate(28deg);
+    opacity: 0.52;
+    z-index: 1;
+  }
+
+  .arc-foot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding-top: 8px;
+    flex-shrink: 0;
+  }
+  .arc-meta {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    color: var(--neutral-400);
+    text-transform: uppercase;
+    line-height: 1.4;
+    text-align: center;
+  }
+  .arc-meta b {
+    display: block;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 17px;
+    color: var(--color-foreground);
+    text-transform: none;
+    letter-spacing: 0;
+    margin-top: 3px;
+  }
+  .arc-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 20px;
+    border-radius: 999px;
+    background: var(--color-brand);
+    color: var(--color-white);
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: 0 1px 2px color-mix(in oklab, var(--brand-600) 30%, transparent);
+    transition: background 0.2s;
+  }
+  .arc-cta:hover {
+    background: var(--brand-700);
+  }
+  .arc-cta :global(svg) {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* ---- District · dashboard bento ---- */
+  .dash {
+    position: absolute;
+    inset: 0;
+    display: flex;
+  }
+  .dash-main {
+    flex: 1;
+    padding: 18px 22px 20px;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  .dash-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .dh-ti2 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 25px;
+    letter-spacing: -0.01em;
+    color: var(--color-foreground);
+  }
+  .dh-filters {
+    display: flex;
+    gap: 8px;
+  }
+  .fpill {
+    font-size: 11.5px;
+    font-weight: 500;
+    color: var(--neutral-700);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    padding: 7px 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+  }
+  .fpill :global(svg) {
+    width: 12px;
+    height: 12px;
+    color: var(--neutral-400);
+  }
+  .fpill.ghost {
+    color: var(--color-muted-foreground);
+  }
+
+  .dash-bento {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+    min-height: 0;
+  }
+  .brow {
+    display: grid;
+    gap: 11px;
+    min-height: 0;
+  }
+  .brow.top {
+    grid-template-columns: 1.62fr 1fr;
+    flex: 1.24;
+  }
+  .brow.bot {
+    grid-template-columns: repeat(4, 1fr);
+    flex: 1;
+  }
+  .dcard {
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    padding: 16px 18px;
+    box-shadow: var(--shadow-sm);
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .dcard.sm {
+    padding: 15px 16px;
+  }
+  .dcard-h {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .dcard-h .t {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: -0.005em;
+    color: var(--color-foreground);
+  }
+  .menu {
+    color: var(--neutral-400);
+    font-size: 15px;
+    letter-spacing: 1px;
+    line-height: 0.5;
+  }
+  .chip-sm {
+    align-self: flex-start;
+    font-size: 10.5px;
+    font-weight: 600;
+    color: var(--neutral-700);
+    background: var(--color-muted);
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    padding: 3px 10px;
+    margin-bottom: 10px;
+  }
+
+  /* User Adoption */
+  .ua-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 11px;
+    margin-bottom: 6px;
+  }
+  .uat {
+    flex: 1;
+    padding-left: 13px;
+    border-left: 1px solid var(--color-border);
+  }
+  .uat:first-child {
+    padding-left: 0;
+    border-left: none;
+  }
+  .uat span {
+    display: block;
+    font-size: 10.5px;
+    color: var(--color-muted-foreground);
+    margin-bottom: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .uat b {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--neutral-400);
+    letter-spacing: -0.01em;
+  }
+  .uat.on span {
+    color: var(--color-foreground);
+    font-weight: 600;
+  }
+  .uat.on b {
+    color: var(--color-foreground);
+  }
+  .ua-chart {
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    padding-top: 24px;
+    min-height: 0;
+  }
+  .uabar {
+    flex: 1;
+    height: var(--h);
+    border-radius: 7px 7px 0 0;
+    position: relative;
+    background: repeating-linear-gradient(
+      45deg,
+      color-mix(in oklab, var(--brand-500) 20%, transparent) 0 5px,
+      color-mix(in oklab, var(--brand-500) 5%, transparent) 5px 11px
+    );
+    border: 1px solid color-mix(in oklab, var(--brand-500) 22%, transparent);
+    border-bottom: none;
+  }
+  .uabar.active {
+    background: linear-gradient(180deg, var(--brand-400), var(--brand-600));
+    border: none;
+    box-shadow: 0 0 30px color-mix(in oklab, var(--brand-500) 45%, transparent);
+  }
+  .uabar .cap {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--brand-100) 95%, transparent);
+    color: var(--brand-700);
+    white-space: nowrap;
+  }
+  .uabar.active .cap {
+    background: var(--color-brand);
+    color: var(--color-white);
+  }
+
+  /* Mindful Minutes */
+  .mm-big {
+    font-size: 39px;
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    margin: 2px 0 12px;
+    color: var(--color-foreground);
+  }
+  .mm-pill {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--brand-700);
+    background: var(--brand-100);
+    padding: 4px 9px;
+    border-radius: 999px;
+    letter-spacing: 0;
+  }
+  .mm-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+    justify-content: space-between;
+    padding-bottom: 2px;
+  }
+  .mmr-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 12px;
+    margin-bottom: 5px;
+  }
+  .mmr-top span {
+    color: var(--neutral-700);
+  }
+  .mmr-top b {
+    font-weight: 600;
+    font-size: 12.5px;
+    color: var(--color-foreground);
+  }
+  .seg {
+    position: relative;
+    height: 8px;
+    border-radius: 3px;
+    overflow: hidden;
+    background: repeating-linear-gradient(
+      90deg,
+      color-mix(in oklab, var(--color-border) 85%, transparent) 0 6px,
+      transparent 6px 9px
+    );
+  }
+  .seg::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: var(--p);
+    background: repeating-linear-gradient(90deg, var(--c) 0 6px, transparent 6px 9px);
+  }
+  .seg.green {
+    --c: var(--viz-green);
+  }
+  .seg.blue {
+    --c: var(--viz-blue);
+  }
+  .seg.pink {
+    --c: var(--viz-pink);
+  }
+  .seg.purple {
+    --c: var(--viz-purple);
+  }
+  .seg.amber {
+    --c: var(--viz-amber);
+  }
+
+  /* bottom small cards */
+  .sm-big {
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1;
+    margin-top: 2px;
+    color: var(--color-foreground);
+  }
+  .sm-cmp {
+    font-size: 11px;
+    color: var(--color-muted-foreground);
+    margin: 5px 0 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .sm-cmp b {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--color-foreground);
+    letter-spacing: -0.01em;
+  }
+  .dotgrid {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 4px;
+    margin-top: auto;
+  }
+  .dotgrid i {
+    aspect-ratio: 1;
+    border-radius: 999px;
+    background: var(--color-muted);
+  }
+  .dotgrid.green i.a {
+    background: var(--brand-600);
+  }
+  .dotgrid.green i.b {
+    background: var(--brand-300);
+  }
+  .dotgrid.blue i.a {
+    background: var(--viz-blue);
+  }
+  .dotgrid.blue i.b {
+    background: color-mix(in oklab, var(--viz-blue) 45%, var(--color-white));
+  }
+  .ret-line {
+    width: 100%;
+    flex: 1;
+    min-height: 0;
+    margin-top: 4px;
+  }
+  .ret-line .rl-grid {
+    stroke: var(--color-border);
+    stroke-width: 1;
+  }
+  .ret-line .rl-trend {
+    stroke: var(--viz-pink);
+  }
+  .ret-ax {
+    display: flex;
+    justify-content: space-between;
+    font-size: 9px;
+    color: var(--neutral-400);
+    margin-top: 6px;
+  }
+  .dcard.ins {
+    position: relative;
+    border: none;
+    color: var(--color-white);
+    justify-content: flex-end;
+    background: var(--insights-wash);
+  }
+  .dcard.ins .ins-pill {
+    position: relative;
+    z-index: 2;
+    align-self: flex-start;
+    font-size: 10.5px;
+    font-weight: 600;
+    background: color-mix(in oklab, var(--color-white) 22%, transparent);
+    border: 1px solid color-mix(in oklab, var(--color-white) 32%, transparent);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    padding: 5px 11px;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: auto;
+  }
+  .ins-big {
+    position: relative;
+    z-index: 2;
+    font-size: 44px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  .ins-tx {
+    position: relative;
+    z-index: 2;
+    font-size: 11.5px;
+    line-height: 1.4;
+    opacity: 0.95;
+    margin-top: 7px;
+  }
+  .ins-segs {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    gap: 6px;
+    margin-top: 13px;
+  }
+  .ins-segs i {
+    flex: 1;
+    height: 4px;
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--color-white) 40%, transparent);
+  }
+  .ins-segs i.on {
+    background: var(--color-white);
+  }
+
+  /* ---- Home · TuneIn ---- */
+  .tunein {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 28px;
+  }
+  .sync-source {
+    width: 272px;
+    flex-shrink: 0;
+  }
+  .ss-eb {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--color-muted-foreground);
+    margin-bottom: 12px;
+  }
+  .ss-card {
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 18px;
+    padding: 14px;
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    box-shadow: 0 18px 40px -22px color-mix(in oklab, var(--neutral-900) 30%, transparent);
+  }
+  .ss-thumb {
+    position: relative;
+    width: 74px;
+    height: 90px;
+    border-radius: 13px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .ss-thumb::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      color-mix(in oklab, var(--neutral-950) 32%, transparent),
+      transparent 62%
+    );
+  }
+  .ss-ti {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 23px;
+    color: var(--color-foreground);
+    line-height: 1.05;
+  }
+  .ss-sub {
+    font-size: 12px;
+    color: var(--color-muted-foreground);
+    margin-top: 5px;
+    line-height: 1.4;
+  }
+  .ss-foot {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 12px;
+    color: var(--neutral-700);
+    margin-top: 15px;
+    font-weight: 500;
+  }
+  .ss-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--color-brand);
+    box-shadow: 0 0 0 4px color-mix(in oklab, var(--color-brand) 16%, transparent);
+    flex-shrink: 0;
+  }
+
+  .sync-link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 172px;
+    flex-shrink: 0;
+  }
+  /* Dashed connector whose pattern flows toward the home device (the live sync). */
+  .sl-line {
+    flex: 1;
+    height: 2px;
+    min-width: 16px;
+    background: repeating-linear-gradient(90deg, var(--brand-400) 0 5px, transparent 5px 9px);
+    animation: sl-flow-x 0.9s linear infinite;
+  }
+  .sl-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--brand-800);
+    background: var(--brand-100);
+    border: 1px solid var(--brand-200);
+    border-radius: 999px;
+    padding: 9px 15px;
+    box-shadow: 0 8px 20px -8px color-mix(in oklab, var(--brand-600) 55%, transparent);
+    animation: sl-glow 2.4s ease-in-out infinite;
+  }
+  /* A pulse that travels class → home through the TuneIn badge. */
+  .sl-pulse {
+    position: absolute;
+    top: 50%;
+    left: 2px;
+    width: 8px;
+    height: 8px;
+    margin-top: -4px;
+    border-radius: 999px;
+    background: var(--brand-500);
+    box-shadow: 0 0 0 4px color-mix(in oklab, var(--brand-400) 35%, transparent);
+    animation: sl-travel-x 2.4s ease-in-out infinite;
+  }
+  .sl-badge :global(svg) {
+    width: 16px;
+    height: 16px;
+    color: var(--brand-700);
+  }
+  .sl-cap {
+    flex-basis: 100%;
+    text-align: center;
+    font-size: 11px;
+    color: var(--color-muted-foreground);
+    font-weight: 500;
+    margin-top: 12px;
+  }
+
+  /* the phone, at home (TuneIn variant) */
+  .phone {
+    position: relative;
+    background: var(--neutral-950);
+    border-radius: 36px;
+    padding: 7px;
+    box-shadow:
+      0 30px 60px -18px color-mix(in oklab, var(--neutral-900) 50%, transparent),
+      0 4px 12px color-mix(in oklab, var(--neutral-900) 16%, transparent);
+  }
+  .phone-lg {
+    width: 252px;
+    height: 516px;
+    z-index: 4;
+    flex-shrink: 0;
+  }
+  .phone .screen {
+    width: 100%;
+    height: 100%;
+    border-radius: 30px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--color-card);
+  }
+  .phone .notch {
+    position: absolute;
+    top: 9px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 52px;
+    height: 5px;
+    border-radius: 99px;
+    background: color-mix(in oklab, var(--color-white) 60%, transparent);
+    z-index: 6;
+  }
+  .ph-status {
+    position: absolute;
+    top: 13px;
+    left: 16px;
+    right: 16px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    font-weight: 600;
+    z-index: 6;
+    color: color-mix(in oklab, var(--color-white) 85%, transparent);
+  }
+  .tih-top {
+    position: relative;
+    padding: 15px 18px 18px;
+    color: var(--color-white);
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .tih-brand {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-top: 32px;
+  }
+  .tih-brand :global(svg) {
+    width: 18px;
+    height: 18px;
+  }
+  .tih-sync {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 11px;
+    font-weight: 500;
+    opacity: 0.95;
+    margin-top: 7px;
+  }
+  .tih-syncdot {
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: var(--color-white);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-white) 30%, transparent);
+    flex-shrink: 0;
+  }
+  .tih-body {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    background: var(--color-card);
+  }
+  .tih-eb {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-muted-foreground);
+    margin-bottom: 11px;
+  }
+  .tih-prac {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px;
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    margin-bottom: 14px;
+  }
+  .tp-thumb {
+    position: relative;
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    overflow: hidden;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .tp-play {
+    position: relative;
+    z-index: 2;
+    width: 30px;
+    height: 30px;
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--color-white) 94%, transparent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 10px color-mix(in oklab, var(--neutral-950) 20%, transparent);
+  }
+  .tp-play :global(svg) {
+    width: 12px;
+    height: 12px;
+    color: var(--color-foreground);
+    margin-left: 1px;
+  }
+  .tp-ti {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 1;
+    color: var(--color-foreground);
+  }
+  .tp-sub {
+    font-size: 11.5px;
+    color: var(--color-muted-foreground);
+    margin-top: 4px;
+  }
+  .tih-cta {
+    height: 46px;
+    border-radius: 999px;
+    background: var(--color-brand);
+    color: var(--color-white);
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .tih-cta :global(svg) {
+    width: 13px;
+    height: 13px;
+  }
+  .tih-note {
+    font-size: 11.5px;
+    line-height: 1.5;
+    color: var(--color-muted-foreground);
+    margin-top: 14px;
+  }
+  .tih-fam {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px solid var(--color-border);
+    font-size: 11.5px;
+    color: var(--neutral-700);
+    font-weight: 500;
+  }
+  .tih-fam .avs {
+    display: flex;
+  }
+  .tih-fam .avs span {
+    width: 24px;
+    height: 24px;
+    border-radius: 999px;
+    border: 2px solid var(--color-card);
+    margin-left: -7px;
+    background: linear-gradient(135deg, var(--brand-400), var(--brand-600));
+  }
+  .tih-fam .avs span:first-child {
+    margin-left: 0;
+    background: linear-gradient(135deg, var(--brand-300), var(--brand-700));
+  }
+
+  /* sync connector animations (TuneIn). Pattern flows + a pulse travels class→home. */
+  @keyframes sl-flow-x {
+    to {
+      background-position: 9px 0;
+    }
+  }
+  @keyframes sl-flow-y {
+    to {
+      background-position: 0 9px;
+    }
+  }
+  @keyframes sl-travel-x {
+    0% {
+      left: 2px;
+      opacity: 0;
+    }
+    18%,
+    82% {
+      opacity: 1;
+    }
+    100% {
+      left: calc(100% - 10px);
+      opacity: 0;
+    }
+  }
+  @keyframes sl-travel-y {
+    0% {
+      top: 2px;
+      opacity: 0;
+    }
+    18%,
+    82% {
+      opacity: 1;
+    }
+    100% {
+      top: calc(100% - 10px);
+      opacity: 0;
+    }
+  }
+  @keyframes sl-glow {
+    0%,
+    100% {
+      box-shadow: 0 8px 20px -8px color-mix(in oklab, var(--brand-600) 55%, transparent);
+    }
+    50% {
+      box-shadow: 0 10px 26px -6px color-mix(in oklab, var(--brand-500) 85%, transparent);
+    }
+  }
+
+  /* ============================================================
+     Responsive — the showcase is a fixed-height panel, so each view gets a
+     dedicated COMPACT layout for small screens rather than a clipped desktop one.
+     ============================================================ */
+  @media (max-width: 880px) {
+    .hstage {
+      height: 660px;
+    }
+
+    /* District — a clean, legible mobile dashboard: the headline metric on top,
+       two stat cards below. The densest desktop-only cards are dropped (they read
+       as a cramped mess at phone widths). */
+    .dash-main {
+      padding: 16px 16px 18px;
+    }
+    .dh-ti2 {
+      font-size: 21px;
+    }
+    .dh-filters .fpill:nth-child(n + 2) {
+      display: none;
+    }
+    .brow.top {
+      grid-template-columns: 1fr;
+    }
+    .brow.top .dcard:nth-child(1) {
+      display: none; /* User Adoption (5-tab chart) — too dense for mobile */
+    }
+    .brow.bot {
+      grid-template-columns: 1fr 1fr;
+    }
+    .brow.bot .dcard:nth-child(1),
+    .brow.bot .dcard.ins {
+      display: none; /* Retention + Insights — keep Practice Sessions + Active Educators */
+    }
+
+    /* Home — stack the TuneIn sync vertically so the class→home story stays the
+       point (source card → animated connector → phone), not just a lone phone. */
+    .tunein {
+      flex-direction: column;
+      gap: 0;
+      padding: 12px;
+      justify-content: center;
+    }
+    .sync-source {
+      width: 100%;
+      max-width: 320px;
+    }
+    .sync-link {
+      width: auto;
+      height: 54px;
+      flex-direction: column;
+      flex-wrap: nowrap;
+    }
+    .sl-line {
+      width: 2px;
+      height: auto;
+      min-width: 0;
+      min-height: 10px;
+      background: repeating-linear-gradient(180deg, var(--brand-400) 0 5px, transparent 5px 9px);
+      animation: sl-flow-y 0.9s linear infinite;
+    }
+    .sl-badge {
+      margin: 5px 0;
+    }
+    .sl-cap {
+      display: none; /* the vertical flow is self-explanatory; reclaim height */
+    }
+    .sl-pulse {
+      top: 2px;
+      left: 50%;
+      margin: 0 0 0 -4px;
+      animation: sl-travel-y 2.4s ease-in-out infinite;
+    }
+    .phone-lg {
+      width: 204px;
+      height: 372px;
+    }
+    .tih-fam {
+      display: none; /* trim to fit the shorter phone */
+    }
+    .tih-note {
+      margin-top: 10px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    /* Classroom — one primary card with two evenly-spaced peeks at the edges. */
+    .acard {
+      width: 168px;
+      height: 252px;
+      margin-left: -84px;
+      top: 40px;
+    }
+    .acard.p1,
+    .acard.p5 {
+      display: none;
+    }
+    .acard.p2 {
+      transform: translateX(-116px) scale(0.84) rotate(-7deg);
+      transform-origin: center;
+      opacity: 0.62;
+      z-index: 2;
+    }
+    .acard.p3 {
+      transform: scale(1.04);
+      transform-origin: center;
+    }
+    .acard.p4 {
+      transform: translateX(116px) scale(0.84) rotate(7deg);
+      transform-origin: center;
+      opacity: 0.62;
+      z-index: 2;
+    }
+    .ac-lbl {
+      font-size: 20px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hv {
+      transition: none;
+    }
+    .sl-line,
+    .sl-badge {
+      animation: none;
+    }
+    .sl-pulse {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // Hero showcase: tab switches between the three platform views (crossfade via the
+  // `.on` class). Classroom is `.on` in markup, so the preview works with no JS.
+  const tabs = document.querySelector<HTMLElement>('.showcase .showcase-tabs');
+  const stage = document.querySelector<HTMLElement>('.showcase .hstage');
+  if (tabs && stage) {
+    const btns = Array.from(tabs.querySelectorAll<HTMLButtonElement>('.showcase-tab'));
+    const views = Array.from(stage.querySelectorAll<HTMLElement>('.hv'));
+    btns.forEach((b) => {
+      b.addEventListener('click', () => {
+        const v = b.getAttribute('data-tab');
+        btns.forEach((x) => {
+          const on = x === b;
+          x.classList.toggle('on', on);
+          x.setAttribute('aria-selected', String(on));
+        });
+        views.forEach((hv) => hv.classList.toggle('on', hv.getAttribute('data-view') === v));
+      });
+    });
+  }
+</script>

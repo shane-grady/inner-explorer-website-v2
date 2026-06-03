@@ -417,6 +417,60 @@ is a design-tool artifact, so the single resolved direction was built: editorial
 - [ ] **CTA links**: "Take a tour" → `/educators` and "Request a demo" → `/contact` —
       confirm the intended targets.
 
+## Platform page (`/platform`) — Claude Design handoff (`platform-page-v2`)
+
+Reskin of the ElevenLabs homepage as the Inner Explorer Platform page (Classroom ·
+District · Home). New page-scoped folder `src/components/blocks/platform/`; global,
+retunable additions to `global.css`; reuse-first throughout.
+
+- [x] **Global (one-file, retunable)**: added practice-theme mesh gradients
+      (`--mesh-forest|-nature|-dawn|-dusk|-water|-calm|-space`) + `.mesh-*`/`.grain`
+      helpers, a categorical data-viz palette (`--viz-blue|-pink|-purple|-amber`), and
+      `--insights-wash` to `global.css` (raw stops are fine — `.css` isn't drift-scanned).
+- [x] **Nav**: added `Platform` (first item) to `Header.astro` `navLinks`; flows into the
+      mobile menu. Added `ie-dev-platform` (port 4426) to `.claude/launch.json`.
+- [x] **Reused**: `PageLayout` (flushTop) + `appearance-light` light-pin + `JsonLd`
+      (WebPage), `Button`/`Heading`/`Text`, and the newsroom **`StoryCard`** (mesh covers)
+      for "Latest updates". Page copy is typed structured data at the top of
+      `src/pages/platform.astro` (blocks export their `Props` types).
+- [x] **New blocks** (`blocks/platform/`): `PlatformHero` (two-column hero + showcase with
+      3 swappable views — Classroom practice arc on one true pivot, District dashboard
+      bento, Home TuneIn), `FeatureSection` (×3, data-driven) + `FeatureVisual` +
+      `PhoneMock`, `PlatformTrio`, `TrustLogos`, `SignOn` (+ `providers.ts` for vendor
+      logos), `ImpactStories`, `OutcomesExplorer`, `Safety`, `LatestUpdates`,
+      `PlatformCTA`, plus shared `PlatformIcon` / `LinkArrow` / `SectionHead`.
+- [x] **Verified**: `pnpm check` 0 errors (drift green); `pnpm build` clean (44 pages).
+      `/platform` ships the shared ClientRouter + ~4KB of inlined vanilla `<script>` —
+      **no React**. Browser (Claude Preview MCP) 1280 + 375: all 3 hero tabs, the 4
+      research outcome tabs (count-up + before/after bars), the In-schools/In-research
+      toggle, and the 6 CTA chips all work; content visible with the default tab/panel
+      pre-rendered (no-JS safe). Dark mode: page stays light-pinned while the nav flips
+      dark. Regression: homepage nav + render unchanged.
+- [x] **Hero showcase — mobile redesign** (the showcase is a fixed-height panel, so each
+      view needed a dedicated compact layout, not a clipped desktop one). At ≤880px the
+      panel grows to 660px and: **Classroom** shows one primary card with two evenly-
+      spaced peeks at the edges (≤600px); **District** becomes a clean compact dashboard —
+      Mindful Minutes hero (all 5 segment rows) + Practice Sessions & Active Educators
+      stat cards, dropping the dense User Adoption / Retention / Insights cards; **Home**
+      stacks the TuneIn sync vertically (source card → connector → phone) so the
+      class→home story stays the point. Added a **TuneIn sync animation** (flowing dashed
+      connector + a pulse that travels class→home, horizontal on desktop / vertical on
+      mobile, reduced-motion-safe) — pure CSS, no new JS. Verified 390px: zero horizontal
+      overflow, nothing clipped; desktop unchanged.
+
+### Stand-ins to swap before publishing (Platform)
+
+- [ ] **All copy is illustrative** from the handoff — district logos (12 text names),
+      customer quotes (Broward / Chicago / a Broward family), the dashboard numbers, the
+      research outcomes + citations (+28% grades, −15% absences, −77% incidents, −43%
+      educator stress), and the "Latest updates" posts. Confirm every stat/citation with
+      the team before publishing.
+- [ ] **SSO provider marks** (`providers.ts`) are clean recreations of Clever, Schoology,
+      ClassLink, Google Classroom, Canvas, Gmail — swap for official logo assets.
+- [ ] **Links**: feature CTAs → `/educators` and `/districts`; egress/quotes → `/newsroom`,
+      `/research`; CTAs → `/contact`. `/educators` doesn't exist yet (already in Header).
+      Confirm targets; "Explore the full platform" jumps to `#classroom`.
+
 ## Next (post-foundation)
 
 - [ ] Confirm production `site` domain in `astro.config.mjs`.

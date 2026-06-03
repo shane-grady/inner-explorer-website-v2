@@ -1,0 +1,123 @@
+---
+import LinkArrow from './LinkArrow.astro';
+import PlatformIcon from './PlatformIcon.astro';
+
+// "Safety, built in" — a connected three-cell grid of trust commitments with large,
+// quiet line icons.
+interface Cell {
+  icon: string;
+  title: string;
+  text: string;
+}
+interface Props {
+  heading: string;
+  egress: { label: string; href: string };
+  cells: Cell[];
+}
+const { heading, egress, cells }: Props = Astro.props;
+---
+
+<section class="safety">
+  <div class="pwrap">
+    <div class="safety-head">
+      <h2>{heading}</h2>
+      <LinkArrow label={egress.label} href={egress.href} />
+    </div>
+    <div class="safety-grid">
+      {
+        cells.map((c) => (
+          <div class="safety-cell">
+            <div class="art">
+              <PlatformIcon name={c.icon} strokeWidth={1.4} />
+            </div>
+            <p class="ti">{c.title}</p>
+            <p class="tx">{c.text}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .safety {
+    padding: 30px 0 64px;
+  }
+  .pwrap {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  @media (min-width: 768px) {
+    .pwrap {
+      padding: 0 40px;
+    }
+  }
+  .safety-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 34px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .safety-head h2 {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: clamp(26px, 3vw, 38px);
+    letter-spacing: -0.02em;
+    font-weight: 500;
+    color: var(--color-foreground);
+  }
+  .safety-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border: 1px solid var(--color-border);
+    border-radius: 18px;
+    overflow: hidden;
+    background: var(--color-card);
+  }
+  .safety-cell {
+    padding: 30px;
+    border-right: 1px solid var(--color-border);
+  }
+  .safety-cell:last-child {
+    border-right: none;
+  }
+  .safety-cell .art {
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    color: var(--brand-700);
+  }
+  .safety-cell .art :global(svg) {
+    width: 84px;
+    height: 84px;
+  }
+  .safety-cell .ti {
+    font-size: 17px;
+    font-weight: 600;
+    margin: 0 0 8px;
+    color: var(--color-foreground);
+  }
+  .safety-cell .tx {
+    font-size: 14px;
+    color: var(--color-muted-foreground);
+    line-height: 1.55;
+    margin: 0;
+  }
+  @media (max-width: 820px) {
+    .safety-grid {
+      grid-template-columns: 1fr;
+    }
+    .safety-cell {
+      border-right: none;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .safety-cell:last-child {
+      border-bottom: none;
+    }
+  }
+</style>

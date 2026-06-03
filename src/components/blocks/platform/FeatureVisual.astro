@@ -1,0 +1,408 @@
+---
+import PlatformIcon from './PlatformIcon.astro';
+import PhoneMock from './PhoneMock.astro';
+
+// The decorative mockup that fills a feature card's visual panel. One `kind` per
+// card: `immersive` / `journal` (Classroom), `dashHero` / `lineChart` (District),
+// `phone` / `streak` (Home). Each renders its own `.visual` surface; the card body
+// (label/title/copy) is rendered by FeatureSection.
+
+type Kind = 'immersive' | 'journal' | 'dashHero' | 'lineChart' | 'phone' | 'streak';
+interface Props {
+  kind: Kind;
+}
+const { kind }: Props = Astro.props;
+---
+
+{
+  kind === 'immersive' && (
+    <div class="visual mesh-forest" aria-hidden="true">
+      <span class="grain" />
+      <div class="immersive">
+        <div class="im-play">
+          <PlatformIcon name="play" />
+        </div>
+        <div class="im-cap">Forest Floor · breathing with the trees</div>
+      </div>
+    </div>
+  )
+}
+
+{
+  kind === 'journal' && (
+    <div class="visual fill" aria-hidden="true">
+      <div class="journal">
+        <div class="j-prompt">What is one small thing you're grateful for today?</div>
+        <div class="j-lines">
+          <i />
+          <i />
+          <i style="width:70%" />
+        </div>
+        <div class="j-foot">
+          <span class="j-chip">Gratitude</span>
+          <span class="j-saved">Saved · 9:14 AM</span>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+{
+  kind === 'dashHero' && (
+    <div class="visual mesh-forest" aria-hidden="true">
+      <span class="grain" />
+      <div class="dash-hero">
+        <div class="dh-eyebrow">Broward County · Spring term</div>
+        <div class="dh-title">Adoption by school</div>
+        <div class="dh-funnel">
+          <div class="dh-f">
+            <>
+              <span>Invited</span>
+              <i style="width:100%" />
+            </>
+          </div>
+          <div class="dh-f">
+            <>
+              <span>Activated</span>
+              <i style="width:79%" />
+            </>
+          </div>
+          <div class="dh-f">
+            <>
+              <span>Weekly active</span>
+              <i style="width:58%" />
+            </>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+{
+  kind === 'lineChart' && (
+    <div class="visual fill" aria-hidden="true">
+      <div class="linechart">
+        <div class="lc-h">
+          <>
+            <span>Mindful minutes</span>
+            <span class="lc-tag">+18%</span>
+          </>
+        </div>
+        <svg viewBox="0 0 320 120" preserveAspectRatio="none">
+          <polyline
+            class="lc-trend"
+            fill="none"
+            stroke-width="2.5"
+            points="0,96 40,88 80,92 120,70 160,74 200,52 240,44 280,30 320,22"
+          />
+          <polyline
+            class="lc-prev"
+            fill="none"
+            stroke-width="2"
+            stroke-dasharray="4 4"
+            points="0,104 40,100 80,98 120,90 160,86 200,80 240,72 280,66 320,58"
+          />
+        </svg>
+        <div class="lc-axis">
+          <>
+            <span>Sep</span>
+            <span>Nov</span>
+            <span>Jan</span>
+            <span>Mar</span>
+            <span>May</span>
+          </>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+{
+  kind === 'phone' && (
+    <div class="visual fill-soft">
+      <PhoneMock theme="dusk" time="8:32" eyebrow="Bedtime · 6 min" title="Wind down together" />
+    </div>
+  )
+}
+
+{
+  kind === 'streak' && (
+    <div class="visual fill-soft" aria-hidden="true">
+      <div class="streak">
+        <div class="st-top">
+          <>
+            <div class="st-num">12</div>
+            <div class="st-lab">
+              day streak
+              <br />
+              at home
+            </div>
+          </>
+        </div>
+        <div class="st-week">
+          <>
+            <div class="d on">M</div>
+            <div class="d on">T</div>
+            <div class="d on">W</div>
+            <div class="d on">T</div>
+            <div class="d on">F</div>
+            <div class="d">S</div>
+            <div class="d">S</div>
+          </>
+        </div>
+        <div class="st-note">Practiced together 5 evenings this week — keep it going.</div>
+      </div>
+    </div>
+  )
+}
+
+<style>
+  .visual {
+    height: 248px;
+    position: relative;
+    overflow: hidden;
+  }
+  .visual.fill {
+    background: var(--color-muted);
+  }
+  .visual.fill-soft {
+    background: var(--neutral-100);
+  }
+
+  /* immersive */
+  .immersive {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    z-index: 2;
+  }
+  .im-play {
+    width: 56px;
+    height: 56px;
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--color-white) 92%, transparent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 24px color-mix(in oklab, var(--neutral-950) 22%, transparent);
+  }
+  .im-play :global(svg) {
+    width: 20px;
+    height: 20px;
+    color: var(--color-foreground);
+    margin-left: 2px;
+  }
+  .im-cap {
+    color: color-mix(in oklab, var(--color-white) 92%, transparent);
+    font-size: 13px;
+    font-weight: 500;
+    background: color-mix(in oklab, var(--neutral-950) 22%, transparent);
+    padding: 6px 14px;
+    border-radius: 999px;
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+  }
+
+  /* journal */
+  .journal {
+    position: absolute;
+    inset: 0;
+    margin: 22px;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .j-prompt {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 18px;
+    color: var(--color-foreground);
+    line-height: 1.3;
+  }
+  .j-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+  .j-lines i {
+    height: 7px;
+    border-radius: 4px;
+    background: var(--color-muted);
+  }
+  .j-foot {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .j-chip {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--brand-700);
+    background: var(--brand-100);
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+  .j-saved {
+    font-size: 11px;
+    color: var(--neutral-400);
+  }
+
+  /* dash hero */
+  .dash-hero {
+    position: absolute;
+    inset: 0;
+    padding: 24px;
+    color: var(--color-white);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    z-index: 2;
+  }
+  .dh-eyebrow {
+    font-size: 11px;
+    opacity: 0.8;
+    font-weight: 500;
+  }
+  .dh-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .dh-funnel {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+  .dh-f {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+  }
+  .dh-f span {
+    width: 84px;
+    flex-shrink: 0;
+    opacity: 0.85;
+  }
+  .dh-f i {
+    height: 14px;
+    border-radius: 5px;
+    background: color-mix(in oklab, var(--color-white) 85%, transparent);
+  }
+
+  /* line chart */
+  .linechart {
+    position: absolute;
+    inset: 0;
+    margin: 22px;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+  }
+  .lc-h {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--neutral-700);
+  }
+  .lc-tag {
+    color: var(--brand-700);
+    background: var(--brand-100);
+    padding: 2px 9px;
+    border-radius: 999px;
+    font-size: 11px;
+  }
+  .linechart svg {
+    flex: 1;
+    width: 100%;
+    margin: 12px 0;
+  }
+  .lc-trend {
+    stroke: var(--color-brand);
+  }
+  .lc-prev {
+    stroke: var(--neutral-300);
+  }
+  .lc-axis {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: var(--neutral-400);
+  }
+
+  /* streak / family routine */
+  .streak {
+    position: absolute;
+    inset: 0;
+    margin: 24px;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    box-shadow: var(--shadow-sm);
+  }
+  .st-top {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .st-num {
+    font-size: 46px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--color-foreground);
+    line-height: 0.9;
+  }
+  .st-lab {
+    font-size: 13px;
+    color: var(--color-muted-foreground);
+    line-height: 1.3;
+    font-weight: 500;
+  }
+  .st-week {
+    display: flex;
+    gap: 8px;
+  }
+  .st-week .d {
+    flex: 1;
+    aspect-ratio: 1;
+    border-radius: 11px;
+    background: var(--color-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--neutral-400);
+  }
+  .st-week .d.on {
+    background: var(--brand-100);
+    color: var(--brand-700);
+    border: 1px solid var(--brand-200);
+  }
+  .st-note {
+    font-size: 13px;
+    color: var(--color-muted-foreground);
+    line-height: 1.5;
+    margin-top: auto;
+  }
+</style>
