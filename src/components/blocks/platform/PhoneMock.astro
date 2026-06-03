@@ -1,0 +1,193 @@
+---
+import PlatformIcon from './PlatformIcon.astro';
+
+// Practice-player phone mockup (the "Home / family app" device). Absolutely
+// positioned so it peeks up from the bottom of a relative, overflow-hidden card
+// (used by PlatformTrio's Home card and the Home FeatureVisual). Decorative —
+// the surrounding section carries the real heading/copy, so this is aria-hidden.
+
+interface Props {
+  theme?: 'dusk' | 'dawn' | 'forest' | 'water' | 'calm' | 'nature' | 'space';
+  time?: string;
+  eyebrow: string;
+  title: string;
+}
+const { theme = 'dusk', time = '9:41', eyebrow, title }: Props = Astro.props;
+---
+
+<div class="phone" aria-hidden="true">
+  <div class="notch"></div>
+  <div class="screen">
+    <div class={`ph-top mesh-${theme}`}>
+      <span class="grain"></span>
+      <div class="ph-status"><span>{time}</span><span>●●●</span></div>
+      <div class="scrim"></div>
+      <div class="ph-play"><PlatformIcon name="play" /></div>
+      <div class="ph-eyebrow">{eyebrow}</div>
+      <div class="ph-title">{title}</div>
+    </div>
+    <div class="ph-body">
+      <div class="ph-bar"><div class="f"></div></div>
+      <div class="ph-row">
+        <div class="ph-ic mesh-water"></div><div class="ph-lines"><i></i><i></i></div>
+      </div>
+      <div class="ph-row">
+        <div class="ph-ic mesh-dawn"></div><div class="ph-lines"><i></i><i></i></div>
+      </div>
+      <div class="ph-row">
+        <div class="ph-ic mesh-forest"></div><div class="ph-lines"><i></i><i></i></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .phone {
+    position: absolute;
+    left: 50%;
+    top: 26px;
+    transform: translateX(-50%);
+    width: 190px;
+    height: 400px;
+    background: var(--neutral-950);
+    border-radius: 36px;
+    padding: 7px;
+    box-shadow:
+      0 30px 60px -18px color-mix(in oklab, var(--neutral-900) 50%, transparent),
+      0 4px 12px color-mix(in oklab, var(--neutral-900) 16%, transparent);
+  }
+  .screen {
+    width: 100%;
+    height: 100%;
+    border-radius: 30px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--color-card);
+  }
+  .notch {
+    position: absolute;
+    top: 9px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 52px;
+    height: 5px;
+    border-radius: 99px;
+    background: color-mix(in oklab, var(--color-white) 60%, transparent);
+    z-index: 6;
+  }
+  .ph-top {
+    position: relative;
+    height: 188px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 16px;
+    color: var(--color-white);
+  }
+  .scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      color-mix(in oklab, var(--brand-950) 55%, transparent),
+      transparent 65%
+    );
+    z-index: 1;
+  }
+  .ph-status {
+    position: absolute;
+    top: 13px;
+    left: 16px;
+    right: 16px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    font-weight: 600;
+    z-index: 6;
+  }
+  .ph-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -60%);
+    width: 46px;
+    height: 46px;
+    border-radius: 999px;
+    background: var(--color-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    box-shadow: 0 4px 14px color-mix(in oklab, var(--neutral-950) 20%, transparent);
+  }
+  .ph-play :global(svg) {
+    width: 16px;
+    height: 16px;
+    color: var(--color-foreground);
+    margin-left: 2px;
+  }
+  .ph-eyebrow {
+    position: relative;
+    z-index: 2;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.85;
+    font-weight: 600;
+  }
+  .ph-title {
+    position: relative;
+    z-index: 2;
+    font-size: 17px;
+    font-weight: 600;
+    margin-top: 3px;
+  }
+  .ph-body {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+    background: var(--color-card);
+    flex: 1;
+  }
+  .ph-bar {
+    height: 5px;
+    border-radius: 99px;
+    background: var(--color-muted);
+  }
+  .ph-bar .f {
+    height: 100%;
+    width: 42%;
+    border-radius: 99px;
+    background: var(--color-brand);
+  }
+  .ph-row {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+  }
+  .ph-ic {
+    width: 34px;
+    height: 34px;
+    border-radius: 11px;
+    flex-shrink: 0;
+  }
+  .ph-lines {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .ph-lines i {
+    height: 7px;
+    border-radius: 4px;
+    background: var(--color-muted);
+    display: block;
+  }
+  .ph-lines i:first-child {
+    width: 62%;
+  }
+</style>

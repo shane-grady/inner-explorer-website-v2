@@ -1,0 +1,91 @@
+---
+// Shared two-column section header used across the Platform page: eyebrow +
+// headline (+ optional actions) on the left, supporting copy right-aligned. The
+// headline accepts inline HTML so an italic-serif emphasis runs via `<span class="em">`.
+// Collapses to one column ≤820px. Place inside a section's own width wrapper.
+
+interface Props {
+  eyebrow: string;
+  eyebrowUp?: boolean;
+  headingHtml: string;
+  desc?: string;
+  /** Let the headline run wider (the "Three platforms" head). */
+  wide?: boolean;
+}
+const { eyebrow, eyebrowUp = false, headingHtml, desc, wide = false }: Props = Astro.props;
+---
+
+<div class="shead">
+  <div class="left">
+    <span class:list={['eyebrow', { up: eyebrowUp }]}>{eyebrow}</span>
+    <h2 class:list={['shead-h', { wide }]} set:html={headingHtml} />
+    <div class="actions"><slot /></div>
+  </div>
+  {desc && <p class="desc">{desc}</p>}
+</div>
+
+<style>
+  .shead {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 40px;
+    align-items: end;
+    padding: 64px 0 30px;
+  }
+  .eyebrow {
+    display: block;
+    margin-bottom: 14px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-muted-foreground);
+    letter-spacing: -0.01em;
+  }
+  .eyebrow.up {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 12px;
+  }
+  .shead-h {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: clamp(30px, 3.4vw, 44px);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    font-weight: 500;
+    color: var(--color-foreground);
+    max-width: 16.5ch;
+  }
+  .shead-h.wide {
+    max-width: 24ch;
+  }
+  .shead-h :global(.em) {
+    font-family: var(--font-display);
+    font-style: italic;
+  }
+  .actions {
+    margin-top: 22px;
+    display: flex;
+    gap: 10px;
+  }
+  .actions:empty {
+    display: none;
+  }
+  .desc {
+    color: var(--color-muted-foreground);
+    font-size: 16px;
+    line-height: 1.55;
+    max-width: 430px;
+    justify-self: end;
+    margin: 0;
+  }
+  @media (max-width: 820px) {
+    .shead {
+      grid-template-columns: 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+    .desc {
+      justify-self: start;
+    }
+  }
+</style>

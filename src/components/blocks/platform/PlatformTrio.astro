@@ -1,0 +1,359 @@
+---
+import SectionHead from './SectionHead.astro';
+import LinkArrow from './LinkArrow.astro';
+import PhoneMock from './PhoneMock.astro';
+
+// "One foundation → three platforms" — the moment the story narrows to Classroom,
+// District, and Home, each with a small live-feeling mockup. Captions are data;
+// the mockups are decorative (aria-hidden).
+
+interface CardCopy {
+  name: string;
+  desc: string;
+}
+export interface PlatformTrioProps {
+  eyebrow: string;
+  headingHtml: string;
+  desc: string;
+  egress: { label: string; href: string };
+  cards: [CardCopy, CardCopy, CardCopy];
+}
+type Props = PlatformTrioProps;
+const { eyebrow, headingHtml, desc, egress, cards }: Props = Astro.props;
+---
+
+<section class="platforms">
+  <div class="pwrap">
+    <SectionHead eyebrow={eyebrow} eyebrowUp headingHtml={headingHtml} desc={desc} wide>
+      <LinkArrow label={egress.label} href={egress.href} />
+    </SectionHead>
+
+    <div class="plat-grid">
+      {/* Classroom */}
+      <article class="plat-card">
+        <div class="cap">
+          <p class="nm"><span class="pdot" aria-hidden="true"></span> {cards[0].name}</p>
+          <p class="ds">{cards[0].desc}</p>
+        </div>
+        <div class="plat-shot">
+          <div class="mock-classroom" aria-hidden="true">
+            <div class="mc-sidebar">
+              <div class="mc-brand"></div>
+              <div class="mc-nav on"></div><div class="mc-nav"></div><div class="mc-nav"></div><div
+                class="mc-nav"
+              >
+              </div>
+            </div>
+            <div class="mc-main mesh-nature">
+              <span class="grain"></span>
+              <div class="mc-overlay"></div>
+              <div class="mc-card">
+                <div class="mc-eyebrow">Today · Gratitude</div>
+                <div class="mc-title">Press play to begin</div>
+                <div class="mc-prog"><i style="width:38%"></i></div>
+                <div class="mc-meta">
+                  <span>1:54 / 5:00</span><span class="mc-pill">Day 3 of 5</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      {/* District */}
+      <article class="plat-card">
+        <div class="cap">
+          <p class="nm"><span class="pdot" aria-hidden="true"></span> {cards[1].name}</p>
+          <p class="ds">{cards[1].desc}</p>
+        </div>
+        <div class="plat-shot">
+          <div class="mock-district" aria-hidden="true">
+            <div class="md-row">
+              <div class="md-stat">
+                <div class="k">Mindful minutes</div><div class="v">1.24M</div><div class="up">
+                  ▲ 18% this term
+                </div>
+              </div>
+              <div class="md-stat">
+                <div class="k">Active classrooms</div><div class="v">2,340</div><div class="up">
+                  ▲ 6% this term
+                </div>
+              </div>
+            </div>
+            <div class="md-chart">
+              <div class="md-chart-h">Adoption funnel</div>
+              <div class="md-bar"><span>Invited</span><i style="width:100%"></i></div>
+              <div class="md-bar"><span>Activated</span><i style="width:82%"></i></div>
+              <div class="md-bar"><span>Weekly active</span><i style="width:61%"></i></div>
+              <div class="md-bar"><span>Daily active</span><i style="width:44%"></i></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      {/* Home */}
+      <article class="plat-card">
+        <div class="cap">
+          <p class="nm"><span class="pdot" aria-hidden="true"></span> {cards[2].name}</p>
+          <p class="ds">{cards[2].desc}</p>
+        </div>
+        <div class="plat-shot">
+          <PhoneMock theme="dusk" eyebrow="Bedtime" title="Wind down together" />
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .platforms {
+    padding-bottom: 72px;
+  }
+  .pwrap {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  @media (min-width: 768px) {
+    .pwrap {
+      padding: 0 40px;
+    }
+  }
+
+  .plat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+  .plat-card {
+    border: 1px solid var(--color-border);
+    border-radius: 22px;
+    background: var(--color-card);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-sm);
+    transition:
+      transform 0.3s var(--ease-out),
+      box-shadow 0.3s var(--ease-out);
+  }
+  .plat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 18px 40px -16px color-mix(in oklab, var(--neutral-900) 18%, transparent);
+  }
+  .cap {
+    padding: 26px 26px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  .cap .nm {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-foreground);
+  }
+  .cap .nm .pdot {
+    width: 9px;
+    height: 9px;
+    border-radius: 999px;
+    background: var(--color-brand);
+  }
+  .cap .ds {
+    color: var(--color-muted-foreground);
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+  }
+  .plat-shot {
+    margin: auto 14px 14px;
+    border: 1px solid var(--color-border);
+    border-radius: 15px;
+    overflow: hidden;
+    background: var(--neutral-100);
+    height: 264px;
+    position: relative;
+  }
+  @media (max-width: 920px) {
+    .plat-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Classroom mock */
+  .mock-classroom {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    background: var(--color-card);
+  }
+  .mc-sidebar {
+    background: var(--color-card);
+    border-right: 1px solid var(--color-border);
+    padding: 14px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+  .mc-brand {
+    width: 24px;
+    height: 24px;
+    border-radius: 7px;
+    background: var(--brand-100);
+    border: 1px solid var(--brand-200);
+  }
+  .mc-nav {
+    width: 30px;
+    height: 8px;
+    border-radius: 4px;
+    background: var(--color-muted);
+  }
+  .mc-nav.on {
+    background: var(--brand-300);
+  }
+  .mc-main {
+    position: relative;
+    margin: 14px;
+    border-radius: 14px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+  }
+  .mc-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      color-mix(in oklab, var(--brand-950) 60%, transparent),
+      transparent 60%
+    );
+  }
+  .mc-card {
+    position: relative;
+    z-index: 2;
+    margin: 14px;
+    background: color-mix(in oklab, var(--color-white) 92%, transparent);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    border-radius: 14px;
+    padding: 14px 16px;
+    width: calc(100% - 28px);
+  }
+  .mc-eyebrow {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-muted-foreground);
+    font-weight: 600;
+  }
+  .mc-title {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 4px 0 10px;
+    color: var(--color-foreground);
+  }
+  .mc-prog {
+    height: 5px;
+    border-radius: 999px;
+    background: var(--color-muted);
+    overflow: hidden;
+  }
+  .mc-prog i {
+    display: block;
+    height: 100%;
+    background: var(--color-brand);
+  }
+  .mc-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 9px;
+    font-size: 11px;
+    color: var(--color-muted-foreground);
+  }
+  .mc-pill {
+    background: var(--brand-100);
+    color: var(--brand-700);
+    padding: 2px 9px;
+    border-radius: 999px;
+    font-weight: 600;
+  }
+
+  /* District mock */
+  .mock-district {
+    position: absolute;
+    inset: 0;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: var(--color-card);
+  }
+  .md-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .md-stat {
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 12px 14px;
+  }
+  .md-stat .k {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-muted-foreground);
+    font-weight: 600;
+  }
+  .md-stat .v {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 4px 0 2px;
+    letter-spacing: -0.02em;
+    color: var(--color-foreground);
+  }
+  .md-stat .up {
+    font-size: 11px;
+    color: var(--brand-700);
+    font-weight: 600;
+  }
+  .md-chart {
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 14px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+  .md-chart-h {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--color-muted-foreground);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .md-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    color: var(--neutral-700);
+  }
+  .md-bar span {
+    width: 74px;
+    flex-shrink: 0;
+  }
+  .md-bar i {
+    height: 14px;
+    border-radius: 5px;
+    background: linear-gradient(90deg, var(--brand-400), var(--brand-200));
+  }
+</style>

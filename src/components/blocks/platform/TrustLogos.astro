@@ -1,0 +1,95 @@
+---
+import LinkArrow from './LinkArrow.astro';
+
+// "Trusted by" band: a caption + an egress to impact stories, then a grayscale,
+// fade-on-hover grid of partner names (text stand-ins for real district logos).
+
+interface Props {
+  caption: string;
+  egress: { label: string; href: string };
+  logos: string[];
+}
+const { caption, egress, logos }: Props = Astro.props;
+---
+
+<section class="trust">
+  <div class="pwrap">
+    <div class="trust-head">
+      <div class="t">{caption}</div>
+      <LinkArrow label={egress.label} href={egress.href} />
+    </div>
+    <ul class="logo-grid">
+      {
+        logos.map((name) => (
+          <li class="logo-cell">
+            <span>{name}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .trust {
+    padding: 36px 0 40px;
+  }
+  .pwrap {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  @media (min-width: 768px) {
+    .pwrap {
+      padding: 0 40px;
+    }
+  }
+  .trust-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 34px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .trust-head .t {
+    font-size: 15px;
+    color: var(--color-muted-foreground);
+  }
+  .logo-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px 20px;
+  }
+  .logo-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 64px;
+    color: var(--neutral-700);
+    font-size: 14.5px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    text-align: center;
+    padding: 6px;
+    opacity: 0.5;
+    filter: grayscale(1);
+    transition: opacity 0.25s var(--ease-out);
+  }
+  .logo-cell:hover {
+    opacity: 0.85;
+  }
+  @media (max-width: 900px) {
+    .logo-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .logo-cell {
+      transition: none;
+    }
+  }
+</style>

@@ -1,0 +1,569 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import PlatformHero from '../components/blocks/platform/PlatformHero.astro';
+import TrustLogos from '../components/blocks/platform/TrustLogos.astro';
+import PlatformTrio, {
+  type PlatformTrioProps,
+} from '../components/blocks/platform/PlatformTrio.astro';
+import FeatureSection, {
+  type FeatureSectionProps,
+} from '../components/blocks/platform/FeatureSection.astro';
+import SignOn from '../components/blocks/platform/SignOn.astro';
+import ImpactStories, {
+  type ImpactStoriesProps,
+} from '../components/blocks/platform/ImpactStories.astro';
+import OutcomesExplorer, {
+  type OutcomesExplorerProps,
+} from '../components/blocks/platform/OutcomesExplorer.astro';
+import Safety from '../components/blocks/platform/Safety.astro';
+import LatestUpdates from '../components/blocks/platform/LatestUpdates.astro';
+import PlatformCTA, {
+  type PlatformCTAProps,
+} from '../components/blocks/platform/PlatformCTA.astro';
+import type { Story } from '../components/blocks/newsroom/types';
+
+// ── Page content (structured data; the CMS-ready seam) ──────────────────────
+// Copy is taken from the Claude Design handoff. Stats, customer names, district
+// logos, and the research citations are illustrative — swap for verified figures
+// and official assets before publishing (see tasks/todo.md).
+
+const hero = {
+  titleLine1: 'Bringing calm',
+  titleLine2: 'to every classroom',
+  subtitle:
+    'Supporting educators, students, and school districts. From the Classroom practice player to the District impact dashboard, Inner Explorer brings daily, research-backed mindfulness to K-12.',
+  primaryCta: { label: 'Get started', href: '/contact' },
+  secondaryCta: { label: 'Talk to our team', href: '/contact' },
+};
+
+const trust = {
+  caption: 'Trusted by leading schools and districts across the country',
+  egress: { label: 'Read impact stories', href: '/newsroom' },
+  logos: [
+    'Broward County',
+    'Chicago Public Schools',
+    'Los Angeles USD',
+    'Miami-Dade',
+    'NYC Public Schools',
+    'Houston ISD',
+    'Clark County',
+    'Atlanta Public Schools',
+    'Denver Public Schools',
+    'Boston Public Schools',
+    'Fresno Unified',
+    'Tulsa Public Schools',
+  ],
+};
+
+const trio: PlatformTrioProps = {
+  eyebrow: 'One foundation',
+  headingHtml: 'Three platforms built on the same <span class="em">mindfulness research</span>',
+  desc: 'Everything Inner Explorer makes grows from one evidence base — short, daily, audio-guided practice. The classroom app, the district dashboard, and the family app share a single library, progress model, and mission.',
+  egress: { label: 'Explore the full platform', href: '#classroom' },
+  cards: [
+    {
+      name: 'Classroom',
+      desc: 'Where teachers press play — a calm, themed practice player, multi-day series, and guided journaling for the school day.',
+    },
+    {
+      name: 'District',
+      desc: 'Where leaders see impact — adoption funnels, mindful minutes, and wellbeing outcomes across every school.',
+    },
+    {
+      name: 'Home',
+      desc: 'Where the habit continues — a free family app that brings the same guided practice into evenings and weekends.',
+    },
+  ],
+};
+
+const classroom: FeatureSectionProps = {
+  id: 'classroom',
+  eyebrow: 'Classroom',
+  headingHtml: 'Practice, reflect, and grow <span class="em">in one daily ritual</span>',
+  desc: 'Lead students through short guided practices, follow themed multi-day series, and reflect through journaling. Build a daily mindfulness habit with one calm, all-in-one classroom app.',
+  cta: { label: 'Explore the classroom app', href: '/educators' },
+  cards: [
+    {
+      visual: 'immersive',
+      label: 'Guided practice',
+      title: 'Press play and breathe',
+      text: 'Full-screen, themed audio practices that settle a classroom in five minutes — no prep, no screens for students.',
+    },
+    {
+      visual: 'journal',
+      label: 'Reflection',
+      title: 'Journal the moment',
+      text: 'Gentle prompts turn each practice into a short reflection students return to over the year.',
+    },
+  ],
+  grid: [
+    {
+      icon: 'play',
+      title: 'Guided practices',
+      text: 'Hundreds of short, audio-guided sessions for every grade band.',
+    },
+    {
+      icon: 'series',
+      title: 'Themed series',
+      text: 'Multi-day arcs on focus, gratitude, kindness, and calm.',
+    },
+    {
+      icon: 'journal',
+      title: 'Journaling',
+      text: 'Prompted reflection after every practice, kept private to the student.',
+    },
+    {
+      icon: 'milestone',
+      title: 'Milestones',
+      text: 'Streaks and gentle rewards that build the daily habit, class-wide.',
+    },
+  ],
+  customer: {
+    badge: 'B',
+    name: 'Broward County',
+    quote:
+      '“Daily practice is now part of every morning across 240 classrooms — it’s the calmest our hallways have ever been.”',
+    egress: { label: 'Read story', href: '/newsroom' },
+  },
+};
+
+const district: FeatureSectionProps = {
+  id: 'district',
+  eyebrow: 'District',
+  headingHtml: 'See adoption, engagement, <span class="em">and impact in real time</span>',
+  desc: 'Track classroom adoption, measure mindful minutes, and report on student wellbeing across every school — with dashboards built for administrators, not analysts.',
+  cta: { label: 'Explore the dashboard', href: '/districts' },
+  cards: [
+    {
+      visual: 'dashHero',
+      label: 'Adoption',
+      title: 'Every school, one view',
+      text: 'Watch practice spread school-by-school and spot the classrooms that need a little support.',
+    },
+    {
+      visual: 'lineChart',
+      label: 'Engagement',
+      title: 'Mindful minutes over time',
+      text: 'Trend lines show momentum across terms and campaigns, district-wide or per school.',
+    },
+  ],
+  grid: [
+    {
+      icon: 'adoption',
+      title: 'Adoption',
+      text: 'Active classrooms and practice frequency, by school and grade.',
+    },
+    {
+      icon: 'engagement',
+      title: 'Engagement',
+      text: 'Mindful minutes, streaks, and session completion at a glance.',
+    },
+    {
+      icon: 'wellbeing',
+      title: 'Wellbeing',
+      text: 'Survey-based outcomes on focus, calm, and classroom climate.',
+    },
+    {
+      icon: 'reporting',
+      title: 'Reporting',
+      text: 'Board-ready impact reports exported in a single click.',
+    },
+  ],
+  customer: {
+    badge: 'C',
+    name: 'Chicago Public Schools',
+    quote:
+      '“We can finally show the board the impact, district-wide — adoption, minutes, and outcomes in one report.”',
+    egress: { label: 'Read story', href: '/newsroom' },
+  },
+};
+
+const home: FeatureSectionProps = {
+  id: 'home',
+  eyebrow: 'Home',
+  headingHtml: 'Carry the calm <span class="em">home with families</span>',
+  desc: 'Send practice home with a free family app. Parents and students continue the same guided sessions, build evening routines, and keep the streak going well beyond the school day.',
+  cta: { label: 'Explore the family app', href: '/educators' },
+  cards: [
+    {
+      visual: 'phone',
+      label: 'On the go',
+      title: 'Practice anywhere',
+      text: 'A calm mobile companion for evenings, weekends, and breaks — the same library, in your family’s pocket.',
+    },
+    {
+      visual: 'streak',
+      label: 'Together',
+      title: 'A routine the whole family shares',
+      text: 'Gentle reminders and shared streaks keep mindfulness part of home life, not just the classroom.',
+    },
+  ],
+  grid: [
+    {
+      icon: 'gift',
+      title: 'Free for families',
+      text: 'Every student’s family gets the app at no cost.',
+    },
+    {
+      icon: 'moon',
+      title: 'Evening routines',
+      text: 'Wind-down and sleep practices designed for home.',
+    },
+    {
+      icon: 'flame',
+      title: 'Shared streaks',
+      text: 'Keep the daily habit going beyond the school day.',
+    },
+    {
+      icon: 'home',
+      title: 'Family-friendly',
+      text: 'Practices parents can do right alongside their kids.',
+    },
+  ],
+  customer: {
+    badge: 'F',
+    name: 'A Broward family',
+    quote:
+      '“Bedtime got easier the week we started practicing together at home — it’s our new wind-down.”',
+    egress: { label: 'Read story', href: '/newsroom' },
+  },
+};
+
+const signOn = {
+  eyebrow: 'Single sign-on',
+  headingHtml: 'Sign in the way your school <span class="em">already does</span>',
+  desc: 'No new passwords. No setup for teachers. Inner Explorer works with the accounts your district already trusts — so every student is one tap from today’s practice.',
+  cta: { label: 'Set up sign-in for your school', href: '/contact' },
+  lead: 'When the bell rings, the last thing a classroom needs is a forgotten password. Students and teachers simply continue with the account they use every day — and they’re right where the practice begins.',
+  benefits: [
+    {
+      icon: 'key',
+      title: 'No passwords to remember',
+      text: 'Kids continue with the same login they already have — nothing new to write on the board.',
+    },
+    {
+      icon: 'refresh',
+      title: 'Classrooms ready before day one',
+      text: 'Class lists sync automatically from your roster, so teachers open the app to a room that’s already set up.',
+    },
+    {
+      icon: 'device',
+      title: 'Works on whatever’s in the room',
+      text: 'Chromebook, tablet, or interactive board — the same one-tap sign-in meets students where they are.',
+    },
+  ],
+  signIn: {
+    welcome: 'Welcome back',
+    sub: 'Choose how you’d like to sign in',
+    foot: 'Sign-in handled securely by your school',
+  },
+};
+
+const impact: ImpactStoriesProps = {
+  headingHtml: 'Showcasing the impact of <span class="em">daily mindfulness</span>',
+  toggle: [
+    { id: 'schools', label: 'In schools' },
+    { id: 'research', label: 'In research' },
+  ],
+  groups: {
+    schools: [
+      {
+        tag: 'Milestone',
+        title: 'Inner Explorer reaches one million students with daily practice',
+        theme: 'dawn',
+      },
+      {
+        tag: 'Field notes',
+        title: 'Inside the classrooms where five mindful minutes changed the morning',
+        theme: 'forest',
+      },
+      {
+        tag: 'Study',
+        title: 'New research links daily practice to gains in focus and classroom climate',
+        theme: 'space',
+      },
+    ],
+    research: [
+      {
+        tag: 'Peer-reviewed',
+        title: 'Eight weeks of daily practice raised grades and cut disruptions by half',
+        theme: 'water',
+      },
+      {
+        tag: 'Meta-analysis',
+        title: 'Across 18 studies, educators report markedly lower stress and burnout',
+        theme: 'nature',
+      },
+      {
+        tag: 'Field study',
+        title: 'One district cut behavioral incidents by 77% in a single year',
+        theme: 'calm',
+      },
+    ],
+  },
+  egress: { label: 'Explore all impact stories', href: '/newsroom' },
+};
+
+const research: OutcomesExplorerProps = {
+  eyebrow: 'The evidence',
+  headingHtml: 'Five mindful minutes, <span class="em">measurable outcomes</span>',
+  desc: 'Inner Explorer grows from four decades of mindfulness science, then proves itself in real K–12 classrooms. The effects show up exactly where schools already keep score — grades, attendance, behavior, and how teachers feel.',
+  egress: { label: 'View the research', href: '/research' },
+  outcomes: [
+    {
+      id: 'academics',
+      label: 'Academics',
+      statValue: '+28%',
+      kicker: 'higher grades',
+      sign: '+',
+      fig: 28,
+      typ: 100,
+      ie: 128,
+      dir: 'higher grades',
+      claimHtml:
+        'Students in Inner Explorer classrooms post <strong>28% higher grades</strong> across reading, math, and science.',
+      src: 'Inner Explorer program research, K–12 classrooms',
+    },
+    {
+      id: 'attendance',
+      label: 'Attendance',
+      statValue: '−15%',
+      kicker: 'fewer absences',
+      sign: '−',
+      fig: 15,
+      typ: 100,
+      ie: 85,
+      dir: 'fewer absences',
+      claimHtml:
+        'Daily practice lowers chronic absenteeism by <strong>5–15%</strong> as students feel calmer about showing up.',
+      src: 'UPenn Center for High-Impact Philanthropy',
+    },
+    {
+      id: 'behavior',
+      label: 'Behavior',
+      statValue: '−77%',
+      kicker: 'fewer incidents',
+      sign: '−',
+      fig: 77,
+      typ: 100,
+      ie: 23,
+      dir: 'fewer incidents',
+      claimHtml:
+        'After one year of daily practice, one school cut behavioral incidents by <strong>77%</strong> — fewer disruptions, more time to learn.',
+      src: 'Henry J. Kaiser Elementary, MTSS case study',
+    },
+    {
+      id: 'wellbeing',
+      label: 'Educators',
+      statValue: '−43%',
+      kicker: 'less stress',
+      sign: '−',
+      fig: 43,
+      typ: 100,
+      ie: 57,
+      dir: 'less teacher stress',
+      claimHtml:
+        'Teachers who practice alongside their students report <strong>43% less stress</strong> and burnout.',
+      src: 'Meta-analysis of 18 studies, 1,000+ educators',
+    },
+  ],
+  provenance: [
+    '<b>Four decades</b> of mindfulness research',
+    '<b>9,000+</b> peer-reviewed studies',
+    '<b>CASEL</b> SELect program',
+    '<b>BrainFutures</b> Top 10 for executive function',
+  ],
+};
+
+const safety = {
+  heading: 'Safety, built in',
+  egress: { label: 'Learn more', href: '/districts' },
+  cells: [
+    {
+      icon: 'shield-check',
+      title: 'Student privacy',
+      text: 'We never sell student data. Ever. Information is used only to deliver and improve daily practice.',
+    },
+    {
+      icon: 'lock',
+      title: 'Compliance',
+      text: 'COPPA, FERPA, and SOPIPA compliant, with district data-privacy agreements available on request.',
+    },
+    {
+      icon: 'users',
+      title: 'Age-appropriate',
+      text: 'Every practice is reviewed for developmental fit, from pre-K through high school classrooms.',
+    },
+  ],
+};
+
+const updateStories: Story[] = [
+  {
+    id: 1,
+    cat: 'announcement',
+    catLabel: 'Product',
+    title: 'Introducing Series Builder for educators',
+    excerpt:
+      'Design your own multi-day practice arcs from the full Inner Explorer library — and share them across your team.',
+    date: '2026-03-11',
+    read: 3,
+    pop: 9,
+    href: '/newsroom',
+    cover: { kind: 'mesh', tone: 'a', eyebrow: 'Series Builder' },
+  },
+  {
+    id: 2,
+    cat: 'announcement',
+    catLabel: 'Company',
+    title: 'Inner Explorer for Pre-K is here',
+    excerpt:
+      'Gentle, developmentally-tuned practices now reach our youngest learners, from circle time to rest.',
+    date: '2026-02-11',
+    read: 2,
+    pop: 8,
+    href: '/newsroom',
+    cover: { kind: 'mesh', tone: 'b', eyebrow: 'Pre-K' },
+  },
+  {
+    id: 3,
+    cat: 'press',
+    catLabel: 'Company',
+    title: 'Expanding to 500 new districts this fall',
+    excerpt:
+      'A new cohort of districts joins the daily practice — bringing calm mornings to more classrooms than ever.',
+    date: '2026-02-10',
+    read: 2,
+    pop: 7,
+    href: '/newsroom',
+    cover: { kind: 'mesh', tone: 'c', eyebrow: '500 districts' },
+  },
+];
+
+const updates = {
+  heading: 'Latest updates',
+  cta: { label: 'All posts', href: '/newsroom' },
+  stories: updateStories,
+};
+
+const cta: PlatformCTAProps = {
+  headingHtml: 'A mindfulness platform <span class="em">for every classroom</span>',
+  primaryCta: { label: 'Get started', href: '/contact' },
+  secondaryCta: { label: 'Talk to our team', href: '/contact' },
+  categories: [
+    {
+      id: 'calm',
+      label: 'Calm',
+      features: [
+        {
+          name: 'Settle the room',
+          text: 'Five-minute practices that bring a buzzing classroom back to center.',
+        },
+        {
+          name: 'Breathing anchors',
+          text: 'Simple breath patterns students can carry into a test or a tough moment.',
+        },
+        {
+          name: 'Transitions',
+          text: 'Short resets between subjects, recess, and the end of the day.',
+        },
+      ],
+    },
+    {
+      id: 'focus',
+      label: 'Focus',
+      features: [
+        {
+          name: 'Attention warm-ups',
+          text: 'Quick practices that prime students to listen and learn.',
+        },
+        { name: 'Mindful starts', text: 'Begin a lesson with one minute of grounded attention.' },
+        { name: 'Test-day calm', text: 'Steady nerves before assessments with a guided reset.' },
+      ],
+    },
+    {
+      id: 'gratitude',
+      label: 'Gratitude',
+      features: [
+        { name: 'Daily thanks', text: 'A gentle prompt to notice one good thing each morning.' },
+        {
+          name: 'Class gratitude',
+          text: 'Shared reflections that build a kinder classroom culture.',
+        },
+        { name: 'Journaling', text: 'Carry the practice into a private, returning reflection.' },
+      ],
+    },
+    {
+      id: 'kindness',
+      label: 'Kindness',
+      features: [
+        { name: 'Kind words', text: 'Practices that turn empathy into everyday classroom habits.' },
+        {
+          name: 'Repair & restore',
+          text: 'Calm conversations after conflict, guided step by step.',
+        },
+        { name: 'Belonging', text: 'Build a room where every student feels seen and safe.' },
+      ],
+    },
+    {
+      id: 'sleep',
+      label: 'Sleep',
+      features: [
+        { name: 'Wind-down', text: 'Soothing practices for the end of a long school day.' },
+        { name: 'Rest at home', text: 'Family-friendly sessions students can use before bed.' },
+        { name: 'Body scan', text: 'Release tension from head to toe in a few quiet minutes.' },
+      ],
+    },
+    {
+      id: 'mornings',
+      label: 'Mornings',
+      features: [
+        { name: 'First bell', text: 'Open the day with a shared, settling moment.' },
+        { name: 'Intentions', text: 'Name one focus for the day ahead, together.' },
+        { name: 'Energy & ease', text: 'A balanced start that is calm but never sleepy.' },
+      ],
+    },
+  ],
+};
+
+const pageTitle = 'Platform — daily mindfulness for every classroom | Inner Explorer';
+const pageDescription =
+  'One platform, three connected apps — the Classroom practice player, the District impact dashboard, and the Home family app — bringing daily, research-backed mindfulness to K-12.';
+
+const base = new URL(Astro.site ?? 'https://www.innerexplorer.org').origin;
+const platformLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: pageTitle,
+  url: `${base}/platform`,
+  description: pageDescription,
+  isPartOf: { '@type': 'WebSite', name: 'Inner Explorer', url: base },
+  about: {
+    '@type': 'ItemList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Classroom app' },
+      { '@type': 'ListItem', position: 2, name: 'District dashboard' },
+      { '@type': 'ListItem', position: 3, name: 'Home family app' },
+    ],
+  },
+};
+---
+
+<PageLayout title={pageTitle} description={pageDescription} flushTop>
+  <JsonLd slot="head" schema={platformLd} />
+
+  <div class="appearance-light">
+    <PlatformHero {...hero} />
+    <TrustLogos {...trust} />
+    <PlatformTrio {...trio} />
+    <FeatureSection {...classroom} />
+    <FeatureSection {...district} />
+    <FeatureSection {...home} />
+    <SignOn {...signOn} />
+    <ImpactStories {...impact} />
+    <OutcomesExplorer {...research} />
+    <Safety {...safety} />
+    <LatestUpdates {...updates} />
+    <PlatformCTA {...cta} />
+  </div>
+</PageLayout>

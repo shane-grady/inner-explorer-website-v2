@@ -5,12 +5,11 @@ any correction or surprise.
 
 ## Environment
 
-- **Subagents now spawn fine** (verified 2026-05 in Claude Code: a trivial
-  general-purpose agent returned in ~2s). An earlier note claimed they overflowed the
-  prompt limit ("Prompt is too long") from the large inherited MCP tool surface — that
-  is now stale. Use subagents normally for research/parallel work. If a spawn ever does
-  fail with "Prompt is too long," it's the MCP tool context; fall back to the main
-  context for that task.
+- **Subagent spawning is environment-dependent — it failed again 2026-06.** A trivial
+  Explore agent returned "Prompt is too long" (the large inherited MCP tool surface
+  overflows the prompt) while building the Platform page. It reportedly worked in
+  2026-05. Treat it as flaky: try a subagent if useful, but be ready to **do research +
+  work in the main context** when the spawn fails — that's the reliable path here.
 
 ## Toolchain (pnpm / Node)
 
@@ -120,3 +119,39 @@ var(--color-foreground)` so the wrapper paints its surface in the pinned tones.
 - `woff2_compress` (Homebrew) converts the brand `.otf` faces to small `.woff2`
   (Inter ~100KB, Libre Caslon ~40KB each). Self-host from `public/fonts/` with
   `font-display: swap`. The hero's Inter weight-200 isn't shipped → falls back to 300.
+
+## Astro / handoff build patterns (Platform page, 2026-06)
+
+- **Exporting a block's props type? Keep a `Props` alias.** Astro types `Astro.props`
+  from a type/interface literally named `Props`. Renaming it to `export interface FooProps`
+  makes `Astro.props` fall back to `Record<string, any>` → `ts(2739) missing properties`
+  on the destructure. Fix: `export interface FooProps {…}` **plus** `type Props = FooProps;`
+  then `const {…}: Props = Astro.props`. The page imports `FooProps` and annotates its
+  structured-data const so union fields (discriminated covers, `'+'|'−'`, theme names)
+  contextually resolve — no `as const` sprinkles. (`import type { X } from './Foo.astro'`
+  works; the repo already does it, e.g. `BarDatum`/`Study`.)
+- **Third-party brand logos with exact hex → put SVG data in a `.ts` module + `set:html`.**
+  The drift guard scans `.astro/.tsx/.jsx` (incl. `<style>` AND markup attrs) for raw hex,
+  so `fill="#436CF6"` in an `.astro` fails it. Vendor colors aren't ours to tokenize;
+  keep the logo SVG strings in a `.ts` (data files aren't scanned) and render via
+  `set:html`. Same trick used for the practice-theme mesh gradients (raw stops live in
+  `global.css`, also unscanned).
+- **An icon component in a `Button` slot renders unsized.** Components that rely on a
+  parent `:global(svg){width…}` rule break when slotted into another component — scoped
+  styles don't cross the boundary. Give the icon an explicit intrinsic `size` prop
+  (sets `width`/`height` attrs) for those cases; CSS still overrides where present.
+- **A fixed-height "showcase panel" with absolutely-positioned swappable views needs a
+  dedicated mobile layout per view — don't just clip.** The Platform hero packs three
+  desktop-proportioned mockups (practice arc, dashboard bento, TuneIn sync) into one
+  `overflow:hidden` panel. On phones the first cut at "just let the panel clip it" left
+  the dashboard cut off mid-word and the arc showing only one card. Fix per view at
+  ≤880/≤600: grow the panel height, give the arc a `translateX`-based "primary + two
+  even peeks" layout, rebuild the dashboard as a compact card stack (hide the densest
+  cards), and stack the TuneIn sync vertically so its story survives. Measure fit with
+  `getBoundingClientRect()` (`el.bottom - panel.bottom`) rather than eyeballing — that's
+  how the phone-clip + 5th-row-clip were dialed in exactly.
+- **Claude Preview screenshots come back blank/stale at non-zero scroll** in this env (hit-test
+  - computed styles confirm the content is there and styled — it's a capture quirk). For
+    below-the-fold verification, drive interactions with `preview_click` and read state /
+    computed styles with `preview_eval` + `preview_snapshot` instead of screenshotting.
+    Top-anchored screenshots (scrollY≈0) capture fine.

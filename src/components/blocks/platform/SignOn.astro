@@ -1,0 +1,356 @@
+---
+import { Image } from 'astro:assets';
+import mark from '../../../assets/brand/inner-explorer-mark.png';
+import Button from '../../primitives/Button.astro';
+import PlatformIcon from './PlatformIcon.astro';
+import { PROVIDERS } from './providers';
+
+// Single sign-on: a centered header (set apart from the page's two-column heads),
+// warm teacher-facing copy + three benefit points on the left, and the real
+// sign-in moment — an Inner Explorer card on a soft green-glass stage listing the
+// district SSO providers — on the right.
+
+interface Benefit {
+  icon: string;
+  title: string;
+  text: string;
+}
+interface Props {
+  eyebrow: string;
+  headingHtml: string;
+  desc: string;
+  cta: { label: string; href: string };
+  lead: string;
+  benefits: Benefit[];
+  signIn: { welcome: string; sub: string; foot: string };
+}
+const { eyebrow, headingHtml, desc, cta, lead, benefits, signIn }: Props = Astro.props;
+---
+
+<section class="sso-section">
+  <div class="pwrap">
+    <div class="shead-center">
+      <span class="eyebrow up">{eyebrow}</span>
+      <h2 set:html={headingHtml} />
+      <p class="desc">{desc}</p>
+      <div class="actions">
+        <Button href={cta.href} variant="outline" tone="neutral" shape="pill" size="sm">
+          {cta.label}
+          <PlatformIcon name="arrow" size={15} />
+        </Button>
+      </div>
+    </div>
+
+    <div class="sso">
+      <div class="sso-copy">
+        <p class="lead">{lead}</p>
+        <div class="sso-benefits">
+          {
+            benefits.map((b) => (
+              <div class="sso-benefit">
+                <div class="bi">
+                  <PlatformIcon name={b.icon} />
+                </div>
+                <div>
+                  <p class="bt">{b.title}</p>
+                  <p class="bx">{b.text}</p>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="sso-stage">
+        <div class="signin">
+          <Image class="mark" src={mark} alt="Inner Explorer" width={42} height={42} />
+          <p class="welc">{signIn.welcome}</p>
+          <p class="sub">{signIn.sub}</p>
+          <div class="sso-list">
+            {
+              PROVIDERS.map((p) => (
+                <div class="prov">
+                  <span class="lg" set:html={p.svg} />
+                  <span class="nm">Continue with {p.name}</span>
+                  <span class="ch">
+                    <PlatformIcon name="chevron-right" strokeWidth={2.2} />
+                  </span>
+                </div>
+              ))
+            }
+          </div>
+          <p class="foot"><PlatformIcon name="lock" /> {signIn.foot}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .sso-section {
+    padding-bottom: 8px;
+  }
+  .pwrap {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  @media (min-width: 768px) {
+    .pwrap {
+      padding: 0 40px;
+    }
+  }
+
+  /* centered header — differentiates from the two-column section heads */
+  .shead-center {
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 64px 0 34px;
+  }
+  .eyebrow.up {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-muted-foreground);
+  }
+  .shead-center h2 {
+    margin: 16px auto 0;
+    max-width: 18ch;
+    font-family: var(--font-sans);
+    font-size: clamp(30px, 3.4vw, 44px);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    font-weight: 500;
+    color: var(--color-foreground);
+  }
+  .shead-center h2 :global(.em) {
+    font-family: var(--font-display);
+    font-style: italic;
+  }
+  .shead-center .desc {
+    color: var(--color-muted-foreground);
+    font-size: 16px;
+    line-height: 1.55;
+    margin: 18px auto 0;
+    max-width: 50ch;
+  }
+  .shead-center .actions {
+    margin-top: 24px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .sso {
+    display: grid;
+    grid-template-columns: 1fr 1.05fr;
+    gap: 56px;
+    align-items: center;
+    padding: 14px 0 64px;
+  }
+
+  /* left — warm narrative + benefits */
+  .sso-copy .lead {
+    font-size: 17px;
+    line-height: 1.62;
+    color: var(--neutral-700);
+    margin: 0 0 30px;
+    max-width: 42ch;
+  }
+  .sso-benefits {
+    display: flex;
+    flex-direction: column;
+  }
+  .sso-benefit {
+    display: flex;
+    gap: 16px;
+    padding: 20px 0;
+    border-top: 1px solid var(--color-border);
+  }
+  .sso-benefit:first-child {
+    border-top: none;
+    padding-top: 2px;
+  }
+  .sso-benefit .bi {
+    flex: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 13px;
+    background: var(--brand-100);
+    color: var(--brand-700);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .sso-benefit .bi :global(svg) {
+    width: 21px;
+    height: 21px;
+  }
+  .sso-benefit .bt {
+    font-size: 15.5px;
+    font-weight: 600;
+    margin: 3px 0 5px;
+    letter-spacing: -0.01em;
+    color: var(--color-foreground);
+  }
+  .sso-benefit .bx {
+    font-size: 14px;
+    color: var(--color-muted-foreground);
+    line-height: 1.55;
+    margin: 0;
+    max-width: 38ch;
+  }
+
+  /* right — the sign-in moment */
+  .sso-stage {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    padding: 40px 34px;
+    border-radius: 28px;
+    background: radial-gradient(
+      125% 115% at 28% -10%,
+      var(--brand-100) 0%,
+      var(--brand-50) 40%,
+      var(--color-card) 100%
+    );
+    border: 1px solid var(--color-border);
+    overflow: hidden;
+  }
+  .sso-stage::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      60% 50% at 82% 108%,
+      color-mix(in oklab, var(--brand-400) 18%, transparent),
+      transparent 70%
+    );
+    pointer-events: none;
+  }
+  .signin {
+    position: relative;
+    width: 100%;
+    max-width: 372px;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 22px;
+    box-shadow:
+      0 22px 55px color-mix(in oklab, var(--brand-900) 12%, transparent),
+      0 2px 6px color-mix(in oklab, var(--brand-900) 4%, transparent);
+    padding: 30px 28px 24px;
+  }
+  .signin .mark {
+    width: 42px;
+    height: 42px;
+    margin: 0 auto 16px;
+    display: block;
+  }
+  .signin .welc {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 31px;
+    line-height: 1;
+    text-align: center;
+    margin: 0 0 7px;
+    letter-spacing: 0.01em;
+    color: var(--color-foreground);
+  }
+  .signin .sub {
+    text-align: center;
+    color: var(--color-muted-foreground);
+    font-size: 13.5px;
+    margin: 0 0 22px;
+  }
+  .sso-list {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+  .prov {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 10px 14px;
+    border: 1px solid var(--color-border);
+    border-radius: 13px;
+    background: var(--color-card);
+    transition:
+      border-color 0.2s var(--ease-out),
+      box-shadow 0.2s var(--ease-out),
+      transform 0.2s var(--ease-out);
+    cursor: pointer;
+  }
+  .prov:hover {
+    border-color: var(--brand-400);
+    box-shadow: 0 5px 16px color-mix(in oklab, var(--brand-600) 12%, transparent);
+    transform: translateY(-1px);
+  }
+  .prov .lg {
+    flex: none;
+    width: 30px;
+    height: 30px;
+  }
+  .prov .lg :global(svg) {
+    width: 30px;
+    height: 30px;
+    display: block;
+  }
+  .prov .nm {
+    font-size: 14.5px;
+    font-weight: 500;
+    color: var(--color-foreground);
+  }
+  .prov .ch {
+    margin-left: auto;
+    display: flex;
+    color: var(--brand-600);
+    opacity: 0;
+    transform: translateX(-5px);
+    transition:
+      opacity 0.2s var(--ease-out),
+      transform 0.2s var(--ease-out);
+  }
+  .prov:hover .ch {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  .prov .ch :global(svg) {
+    width: 17px;
+    height: 17px;
+  }
+  .signin .foot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--neutral-400);
+    margin: 20px 0 2px;
+  }
+  .signin .foot :global(svg) {
+    width: 13px;
+    height: 13px;
+  }
+
+  @media (max-width: 900px) {
+    .sso {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+    .sso-stage {
+      padding: 30px 22px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .prov,
+    .prov:hover,
+    .prov .ch {
+      transition: none;
+      transform: none;
+    }
+  }
+</style>
