@@ -226,6 +226,32 @@
     linear-gradient(180deg, var(--cream-50) 0%, var(--background) 100%);
   --studio-card-wash:
     radial-gradient(ellipse at 30% 20%, var(--brand-100) 0%, transparent 65%), var(--cream-100);
+
+  /* Newsroom — soft white→mint page wash, plus two brand glows (masthead halo +
+     a CTA glow rising from the bottom edge). On-palette via brand steps; consumed
+     by var() in scoped <style>. */
+  --newsroom-wash: linear-gradient(180deg, #ffffff 0%, var(--brand-50) 100%);
+  --masthead-glow: radial-gradient(
+    closest-side,
+    color-mix(in oklab, var(--brand-200) 55%, transparent),
+    transparent 72%
+  );
+  --newsroom-cta-glow:
+    radial-gradient(
+      58% 80% at 50% 118%,
+      color-mix(in oklab, var(--brand-300) 60%, transparent) 0%,
+      transparent 66%
+    ),
+    radial-gradient(
+      40% 70% at 22% 122%,
+      color-mix(in oklab, var(--brand-200) 50%, transparent) 0%,
+      transparent 64%
+    ),
+    radial-gradient(
+      40% 70% at 80% 120%,
+      color-mix(in oklab, var(--brand-200) 50%, transparent) 0%,
+      transparent 64%
+    );
 }
 
 /* 2. Semantic tokens — LIGHT. `.appearance-light` re-asserts these so a subtree

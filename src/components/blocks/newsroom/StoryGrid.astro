@@ -1,0 +1,112 @@
+---
+import StoryCard from './StoryCard.astro';
+import type { Story } from './types';
+
+// Data-driven story grid with a "Load more" affordance and an empty state.
+// Presentational only — filtering / sorting / load-more are wired by the page's
+// controller script via the data-attributes below (progressive enhancement: with
+// no JS, every card renders and the button/empty-state stay hidden).
+
+interface Props {
+  stories: Story[];
+  /** Columns at desktop width. */
+  cols?: 3 | 4;
+  /** Cards visible before the first "Load more". */
+  initial?: number;
+  /** Cards revealed per "Load more". */
+  step?: number;
+}
+const { stories, cols = 4, initial = 12, step = 8 }: Props = Astro.props;
+---
+
+<div class="grid-wrap" data-news-grid data-initial={initial} data-step={step}>
+  <div class:list={['grid', `cols-${cols}`]}>
+    {stories.map((story) => <StoryCard story={story} />)}
+  </div>
+
+  <button class="loadmore" type="button" data-load-more hidden>
+    Load more
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M6 9l6 6 6-6"></path>
+    </svg>
+  </button>
+
+  <p class="empty" data-empty hidden>No stories in this category yet.</p>
+</div>
+
+<style>
+  .grid-wrap {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 36px 32px 56px;
+  }
+  .grid {
+    display: grid;
+    gap: 26px;
+  }
+  .grid.cols-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .grid.cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media (max-width: 1120px) {
+    .grid.cols-4,
+    .grid.cols-3 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 680px) {
+    .grid.cols-4,
+    .grid.cols-3 {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 920px) {
+    .grid-wrap {
+      padding: 28px 24px 48px;
+    }
+  }
+
+  .loadmore {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: fit-content;
+    margin: 48px auto 0;
+    height: 48px;
+    padding: 0 24px;
+    border: 1px solid var(--color-border);
+    border-radius: 9999px;
+    background: var(--color-card);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-foreground);
+    cursor: pointer;
+    transition:
+      background 0.2s var(--ease-out),
+      border-color 0.2s var(--ease-out);
+  }
+  .loadmore:hover {
+    background: var(--color-muted);
+    border-color: color-mix(in oklab, var(--color-brand) 45%, var(--color-border));
+  }
+
+  .empty {
+    margin: 0;
+    padding: 64px 0;
+    text-align: center;
+    font-size: 16px;
+    color: var(--color-muted-foreground);
+  }
+</style>

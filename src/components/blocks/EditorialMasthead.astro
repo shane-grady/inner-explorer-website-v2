@@ -24,6 +24,11 @@ interface Props {
   maxWidth?: string;
   /** Layout style. */
   layout?: 'stacked' | 'inline' | 'display';
+  /** Inline-layout scale. `lg` is the oversized hero treatment (Newsroom); `md`
+   *  (default) is the one-line sentence size used by Contact. */
+  size?: 'md' | 'lg';
+  /** Render a soft brand halo behind the headline (Newsroom hero). */
+  glow?: boolean;
 }
 const {
   eyebrow,
@@ -32,10 +37,13 @@ const {
   intro,
   maxWidth = '1200px',
   layout = 'stacked',
+  size = 'md',
+  glow = false,
 }: Props = Astro.props;
 ---
 
-<section class="masthead" data-layout={layout} style={`--mw: ${maxWidth}`}>
+<section class="masthead" data-layout={layout} data-size={size} style={`--mw: ${maxWidth}`}>
+  {glow && <div class="glow" aria-hidden="true" />}
   <div class="wrap">
     {
       eyebrow && (
@@ -56,10 +64,25 @@ const {
 
 <style>
   .masthead {
+    position: relative;
     padding: 56px 0;
     text-align: center;
   }
+  /* Soft brand halo behind the headline (opt-in via `glow`). */
+  .glow {
+    position: absolute;
+    left: 50%;
+    top: 40px;
+    transform: translateX(-50%);
+    width: min(680px, 92vw);
+    height: 340px;
+    background: var(--masthead-glow);
+    pointer-events: none;
+    z-index: 0;
+  }
   .wrap {
+    position: relative;
+    z-index: 1;
     max-width: var(--mw);
     margin: 0 auto;
     padding: 0 32px;
@@ -127,6 +150,15 @@ const {
     font-style: italic;
     font-weight: 700;
     color: var(--color-brand);
+  }
+  /* Inline `lg` — the oversized Newsroom hero scale; lead reads lighter. */
+  [data-layout='inline'][data-size='lg'] .display {
+    font-size: clamp(40px, 9vw, 88px);
+    line-height: 1;
+    letter-spacing: -0.025em;
+  }
+  [data-layout='inline'][data-size='lg'] .lead {
+    font-weight: 300;
   }
 
   /* Display: single oversized serif-italic line (no lead). */
