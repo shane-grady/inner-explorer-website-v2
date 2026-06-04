@@ -7,6 +7,7 @@ import ThemeToggle from './ThemeToggle.astro';
 // color-mix, so it reads correctly in light AND dark). Marketing chrome ships
 // ~0KB framework JS — a tiny vanilla script handles the scrolled state + mobile menu.
 const navLinks = [
+  { label: 'Platform', href: '/platform' },
   { label: 'Educators', href: '/educators' },
   { label: 'Districts', href: '/districts' },
   // Single case study for now → deep-links to it; repoint to a /case-studies index
@@ -260,9 +261,9 @@ const isActive = (href: string) => path === href || (href !== '/' && path.starts
   }
 
   /* Collapse to the burger early enough that the full link row never crams. The
-     7-item nav needs ~1100px of pill width to sit comfortably; below that the
-     mobile menu carries the links. */
-  @media (max-width: 1100px) {
+     8-item nav's intrinsic width is ~1209px (fits at a ~1243px viewport), so the
+     full row shows on 1280px+ and the mobile menu carries the links below ~1260px. */
+  @media (max-width: 1260px) {
     .nav-links,
     .nav-signin,
     .nav-cta {

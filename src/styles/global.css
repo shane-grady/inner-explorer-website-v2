@@ -187,12 +187,14 @@
   );
 
   /* Editorial surfaces — dark/paper duality for longform marketing pages
-     (e.g. /research). Consumed via var() in scoped <style> blocks only; not
-     promoted to @theme utilities because they are page-context, not vocabulary. */
+     (e.g. /research, 404). Consumed via var() in scoped <style> blocks only; not
+     promoted to @theme utilities because they are page-context, not vocabulary.
+     Paper steps derive from the site neutrals so the light/paper surfaces match
+     the rest of the site's cool off-white (was warm cream #f4f1ea / #ece8df). */
   --editorial-night: #0d1418;
   --editorial-night-soft: #161e22;
-  --editorial-paper: #f4f1ea;
-  --editorial-paper-soft: #ece8df;
+  --editorial-paper: var(--neutral-100);
+  --editorial-paper-soft: var(--neutral-200);
   --editorial-ink: #1a201e;
   --editorial-ink-muted: rgba(26, 32, 30, 0.62);
   --editorial-glow: #4ade80;
@@ -252,6 +254,65 @@
       color-mix(in oklab, var(--brand-200) 50%, transparent) 0%,
       transparent 64%
     );
+
+  /* Practice-theme mesh gradients — soft, layered, dreamy surfaces for the
+     product/app mockups on the Platform page (practice cards, phone screens,
+     story posters). A shared visual vocabulary: edit a theme here and every
+     mockup re-skins. Consumed via the `.mesh-*` helper classes below; raw
+     stops are fine here because .css is not drift-scanned. */
+  --mesh-nature:
+    radial-gradient(at 26% 20%, #e4f7e7 0%, transparent 52%),
+    radial-gradient(at 74% 26%, #58d28d 0%, transparent 50%),
+    radial-gradient(at 58% 84%, #f1e7bd 0%, transparent 48%),
+    radial-gradient(at 18% 78%, #1fa362 0%, transparent 52%),
+    linear-gradient(135deg, #3cc079, #0c7146);
+  --mesh-forest:
+    radial-gradient(at 28% 22%, #b9f4d4 0%, transparent 50%),
+    radial-gradient(at 78% 30%, #15b87f 0%, transparent 50%),
+    radial-gradient(at 60% 82%, #d9efb0 0%, transparent 46%),
+    radial-gradient(at 20% 80%, #0c6b4a 0%, transparent 54%),
+    linear-gradient(135deg, #108a5c, #064233);
+  --mesh-space:
+    radial-gradient(at 28% 22%, #d6cdfb 0%, transparent 52%),
+    radial-gradient(at 76% 28%, #7c6cf0 0%, transparent 50%),
+    radial-gradient(at 58% 84%, #a7d8f5 0%, transparent 46%),
+    radial-gradient(at 20% 80%, #4338ca 0%, transparent 54%),
+    linear-gradient(135deg, #6d62e0, #241c66);
+  --mesh-water:
+    radial-gradient(at 26% 20%, #cdf5fb 0%, transparent 52%),
+    radial-gradient(at 76% 28%, #34c8e6 0%, transparent 50%),
+    radial-gradient(at 58% 84%, #c9d6f7 0%, transparent 46%),
+    radial-gradient(at 18% 80%, #0e89aa 0%, transparent 54%),
+    linear-gradient(135deg, #2bb6cf, #0a5e76);
+  --mesh-dawn:
+    radial-gradient(at 26% 20%, #fdeec2 0%, transparent 52%),
+    radial-gradient(at 76% 28%, #fb9f5a 0%, transparent 50%),
+    radial-gradient(at 58% 84%, #f7c0c8 0%, transparent 48%),
+    radial-gradient(at 18% 80%, #ef7e4e 0%, transparent 52%),
+    linear-gradient(135deg, #fba85f, #d2592e);
+  --mesh-dusk:
+    radial-gradient(at 26% 20%, #f9d6ec 0%, transparent 52%),
+    radial-gradient(at 76% 28%, #c58cf0 0%, transparent 50%),
+    radial-gradient(at 58% 84%, #c3c8f7 0%, transparent 46%),
+    radial-gradient(at 18% 80%, #9460d8 0%, transparent 54%),
+    linear-gradient(135deg, #b97fe6, #6d3fb0);
+  --mesh-calm:
+    radial-gradient(at 26% 20%, #d4ecfd 0%, transparent 52%),
+    radial-gradient(at 76% 28%, #5fb6f5 0%, transparent 50%),
+    radial-gradient(at 58% 84%, #cfe0f2 0%, transparent 46%),
+    radial-gradient(at 18% 80%, #2f7fce 0%, transparent 54%),
+    linear-gradient(135deg, #54a6ec, #1d5b9e);
+
+  /* Categorical data-viz palette — for the dashboard / chart mockups on the
+     Platform page (segmented bars, dot grids, trend lines). Brand green is the
+     primary series; these add distinct, accessible categories. Consumed via
+     var() in scoped <style>; raw stops are fine here (.css isn't drift-scanned). */
+  --viz-green: var(--brand-600);
+  --viz-blue: #2a6fdb;
+  --viz-pink: #e0457b;
+  --viz-purple: #8b5cf6;
+  --viz-amber: #e0922f;
+  --insights-wash: linear-gradient(118deg, #c8a87b 0%, #a9b48c 52%, #83a59f 100%);
 }
 
 /* 2. Semantic tokens — LIGHT. `.appearance-light` re-asserts these so a subtree
@@ -513,5 +574,43 @@
       transition-duration: 0.01ms !important;
       scroll-behavior: auto !important;
     }
+  }
+}
+
+/* Practice-theme surfaces — thin helpers so product mockups share one definition.
+   `.mesh-*` paints a theme gradient; `.grain` is a fine soft-light noise overlay
+   (drop an empty <span class="grain"> inside any rounded mesh surface). */
+@layer components {
+  .mesh-nature {
+    background: var(--mesh-nature);
+  }
+  .mesh-forest {
+    background: var(--mesh-forest);
+  }
+  .mesh-space {
+    background: var(--mesh-space);
+  }
+  .mesh-water {
+    background: var(--mesh-water);
+  }
+  .mesh-dawn {
+    background: var(--mesh-dawn);
+  }
+  .mesh-dusk {
+    background: var(--mesh-dusk);
+  }
+  .mesh-calm {
+    background: var(--mesh-calm);
+  }
+
+  .grain {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.4;
+    mix-blend-mode: soft-light;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
   }
 }

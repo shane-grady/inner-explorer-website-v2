@@ -1,0 +1,41 @@
+---
+import PlatformIcon from './PlatformIcon.astro';
+
+// Inline "label →" egress link with an arrow that nudges right on hover. Used for
+// every section's path to its full page.
+interface Props {
+  label: string;
+  href: string;
+  class?: string;
+}
+const { label, href, class: className }: Props = Astro.props;
+---
+
+<a href={href} class:list={['linkarrow', className]}>
+  {label}
+  <PlatformIcon name="arrow" />
+</a>
+
+<style>
+  .linkarrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-foreground);
+  }
+  .linkarrow :global(svg) {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.2s var(--ease-out);
+  }
+  .linkarrow:hover :global(svg) {
+    transform: translateX(3px);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .linkarrow :global(svg) {
+      transition: none;
+    }
+  }
+</style>

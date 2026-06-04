@@ -150,10 +150,12 @@ const page = {
     color: var(--color-foreground);
     font-family: var(--font-sans);
     background-color: var(--editorial-paper);
+    /* Two faint brand-green halos on the site off-white base — keeps the page
+       reading as the consistent site background (no warm cast). */
     background-image:
       radial-gradient(
         120% 80% at 80% -10%,
-        color-mix(in oklab, var(--accent-100) 55%, transparent) 0%,
+        color-mix(in oklab, var(--brand-100) 45%, transparent) 0%,
         transparent 55%
       ),
       radial-gradient(

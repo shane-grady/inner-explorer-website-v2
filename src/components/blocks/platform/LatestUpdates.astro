@@ -1,0 +1,70 @@
+---
+import Button from '../../primitives/Button.astro';
+import StoryCard from '../newsroom/StoryCard.astro';
+import type { Story } from '../newsroom/types';
+
+// "Latest updates" — reuses the newsroom StoryCard (mesh covers) so this preview
+// reads exactly like the newsroom it links to. Three stories in a simple grid.
+interface Props {
+  heading: string;
+  cta: { label: string; href: string };
+  stories: Story[];
+}
+const { heading, cta, stories }: Props = Astro.props;
+---
+
+<section class="updates">
+  <div class="pwrap">
+    <div class="updates-head">
+      <h2>{heading}</h2>
+      <Button href={cta.href} variant="outline" tone="neutral" shape="pill" size="sm"
+        >{cta.label}</Button
+      >
+    </div>
+    <div class="up-grid">
+      {stories.map((story) => <StoryCard story={story} />)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .updates {
+    padding: 30px 0 64px;
+  }
+  .pwrap {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  @media (min-width: 768px) {
+    .pwrap {
+      padding: 0 40px;
+    }
+  }
+  .updates-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 26px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .updates-head h2 {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: clamp(26px, 3vw, 38px);
+    letter-spacing: -0.02em;
+    font-weight: 500;
+    color: var(--color-foreground);
+  }
+  .up-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 820px) {
+    .up-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
