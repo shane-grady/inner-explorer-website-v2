@@ -417,6 +417,65 @@ is a design-tool artifact, so the single resolved direction was built: editorial
 - [ ] **CTA links**: "Take a tour" → `/educators` and "Request a demo" → `/contact` —
       confirm the intended targets.
 
+## Broward County Case Study (Claude Design handoff — complete)
+
+Built `/case-studies/broward` from the `case-study-2` handoff. Reuse-first per the skill;
+shipped as a **`caseStudies` content collection** (mirrors `narrators`) so more district
+stories drop in as data files — no markup. Brand already matched the handoff's
+`colors_and_type.css`, so no rebrand: mapped `--ie-*` → existing repo semantic tokens.
+
+- [x] **Asset download**: 11 prototype Unsplash photos localized into
+      `src/assets/images/case-studies/broward/` (hero, challenge, approach, 2 portraits,
+      6 gallery), optimized at build via `<Image>`. User-authorized.
+- [x] **8 shared case-study blocks** in `blocks/case-study/` (+ `types.ts` plain module —
+      avoids the multi-line-union frontmatter build bug): `CaseStudyHero` (light editorial
+      split + glass district badge, page `<h1>`, eager LCP), `SnapshotBar` (glass at-a-glance
+      bar), `StoryBlock` (text + image + glass stat chip, reversible), `Pillars` (gradient
+      icon chip + serif index), `Timeline` (rollout rail), `ResultsBand` (dark forest band:
+      featured count-up + cited metric grid + numbered sources), `CaseStudyVoices` (featured
+      pair side-by-side + student trio), `PhotoMosaic` (deliberate 6-tile composition +
+      graceful fallback). Closing CTA **reuses** the shared `GlowCTA`.
+- [x] **Reuse note (deviation from plan):** planned to _extend_ `StatStrip` for the
+      snapshot, but its band/scale/divider treatment diverged enough that a small dedicated
+      `SnapshotBar` was cleaner and zero-risk to existing `StatStrip` callers. Reveal +
+      count-up reuse the shared `lib/intersect.ts` pattern; no new JS frameworks.
+- [x] **`caseStudies` collection** in `content.config.ts` (Zod, `image()` for every photo) +
+      `src/content/case-studies/broward.yaml` (full handoff copy/figures). The CMS seam.
+- [x] **Route** `src/pages/case-studies/[slug].astro` — collection-driven `getStaticPaths`,
+      light-pinned `.appearance-light`, `Breadcrumb`, Article + BreadcrumbList JSON-LD,
+      reading-progress bar + scroll-reveal (one shared `<script>`, progressive enhancement).
+- [x] **Wire-ins**: added "Case studies" to `Header` nav (desktop + mobile menu) →
+      `/case-studies/broward`; set the existing newsroom Broward story `href` to the route.
+      Raised the nav burger breakpoint to **1260px** so the link row never crams. (After
+      merging main's `/platform` nav item the row is 8 items, intrinsic width ~1209px /
+      fits a ~1243px viewport — full nav shows on 1280px+, mobile menu carries it below.)
+- [x] **Hero LCP fix**: the hero is above-the-fold, so it does **not** opt into the
+      scroll-reveal (was briefly fading on first paint) — only below-fold sections reveal.
+- [x] **Verified**: `pnpm check` 0/0/1 (lone hint is the pre-existing contact
+      `execCommand`); `pnpm build` clean (44 pages). `dist/case-studies/broward/index.html`
+      ships only the shared ClientRouter + the inlined controller — **no React**. Claude
+      Preview (1280 / 1160 / 960 / 375): hero crisp, snapshot, challenge/approach + stat
+      chip, pillars, timeline, dark results band (white-on-forest, AA-safe), voices
+      side-by-side pair + student trio, 6-tile mosaic, CTA. Geometry confirmed (featured
+      cards side-by-side, 3-col metric grid, 2×2 gallery hero). Dark mode: page stays
+      light-pinned while the nav flips dark. Reveal settles to opacity 1 (no stuck-hidden).
+      Regression: `/newsroom` Broward card now deep-links in; nav fits at >1260 / collapses
+      below; no console errors.
+
+### Stand-ins to swap before publishing (Broward case study)
+
+- [ ] **Photos** in `src/assets/images/case-studies/broward/` are the prototype's Unsplash
+      stand-ins — swap for real Broward classroom + administrator/teacher photography.
+- [ ] **Metrics + sources are representative** (the Claude Design author flagged them as
+      framed against IE's published reporting, not individually verified): featured 65%,
+      grid (43% / 12% / 1.6× / 27% / 89% / 31%), snapshot (253K / 241 / 18K), the 4
+      footnoted sources, and the "4.8/5 from 2,140 educators" trust line. Confirm with the
+      district + research team. Voices (Dr. Vega, James Okafor, students) are placeholders.
+- [ ] **CTA secondary** "Download the full report (PDF)" points to `/contact` as a stopgap —
+      wire a real report PDF (or drop the secondary) before publish.
+- [ ] **When a 2nd case study lands**: add a `/case-studies` index, repoint the `Header`
+      "Case studies" nav link + the `[slug]` breadcrumb parent from `/newsroom` to it.
+
 ## Platform page (`/platform`) — Claude Design handoff (`platform-page-v2`)
 
 Reskin of the ElevenLabs homepage as the Inner Explorer Platform page (Classroom ·

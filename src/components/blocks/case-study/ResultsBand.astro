@@ -1,0 +1,325 @@
+---
+import type { Metric, Source } from './types';
+
+// The results "proof" band — a deep forest-green full-bleed section carrying one
+// oversized featured stat, a cited metric grid (units + ↑/↓ trend + footnote refs),
+// and a numbered sources list. White type over the brand-dark gradient (AA-checked).
+// Distinct from StatStrip (the light editorial by-the-numbers band); reusable wherever
+// a results/impact proof block is needed.
+interface Props {
+  eyebrow: string;
+  heading: string;
+  note?: string;
+  featured: Metric;
+  metrics: Metric[];
+  sources?: Source[];
+  id?: string;
+}
+const { eyebrow, heading, note, featured, metrics, sources = [], id }: Props = Astro.props;
+
+const arrow = (trend?: Metric['trend']) =>
+  trend === 'up-good' ? '↑' : trend === 'down-good' ? '↓' : '';
+---
+
+<section class="results" id={id}>
+  <div class="wrap">
+    <div class="head" data-cs-reveal>
+      <div>
+        <span class="eyebrow">{eyebrow}</span>
+        <h2 class="h2">{heading}</h2>
+      </div>
+      {note && <p class="note">{note}</p>}
+    </div>
+
+    <div class="featured" data-cs-reveal>
+      <div class="feat-num">
+        <span class="num" data-value={featured.value}>{featured.value}</span>
+        {featured.trend && <span class="arrow">{arrow(featured.trend)}</span>}
+      </div>
+      <div class="feat-label">
+        {featured.label}
+        {featured.sourceId && <sup>{featured.sourceId}</sup>}
+      </div>
+    </div>
+
+    <div class="grid" data-cs-reveal>
+      {
+        metrics.map((m) => (
+          <div class="metric">
+            <div class="metric-v">
+              <span class="num" data-value={m.value}>
+                {m.value}
+              </span>
+              {m.unit && <span class="unit">{m.unit}</span>}
+              {m.trend && <span class="trend">{arrow(m.trend)}</span>}
+            </div>
+            <div class="metric-l">
+              {m.label}
+              {m.sourceId && <sup>{m.sourceId}</sup>}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+    {
+      sources.length > 0 && (
+        <div class="sources" data-cs-reveal>
+          <div class="sources-title">Sources</div>
+          {sources.map((s) => (
+            <div class="source">
+              <b>{s.id}</b>
+              <span>{s.text}</span>
+            </div>
+          ))}
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .results {
+    margin-top: clamp(72px, 9vw, 132px);
+    padding: clamp(56px, 7vw, 104px) 0;
+    position: relative;
+    color: var(--color-white);
+    background:
+      radial-gradient(
+        120% 90% at 100% 0%,
+        color-mix(in oklab, var(--color-white) 10%, transparent),
+        transparent 55%
+      ),
+      radial-gradient(
+        90% 80% at 0% 100%,
+        color-mix(in oklab, var(--color-black) 22%, transparent),
+        transparent 60%
+      ),
+      linear-gradient(165deg, var(--brand-800), var(--brand-950));
+  }
+  .wrap {
+    max-width: 1340px;
+    margin: 0 auto;
+    padding-inline: clamp(20px, 5vw, 64px);
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--brand-300);
+  }
+  .eyebrow::before {
+    content: '';
+    width: 22px;
+    height: 1.5px;
+    background: var(--brand-300);
+  }
+  .head {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 24px 48px;
+    align-items: end;
+  }
+  .h2 {
+    margin: 16px 0 0;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: clamp(30px, 4vw, 46px);
+    line-height: 1.06;
+    letter-spacing: -0.02em;
+    color: var(--color-white);
+    text-wrap: balance;
+  }
+  .note {
+    margin: 0;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: color-mix(in oklab, var(--color-white) 72%, transparent);
+  }
+
+  .featured {
+    margin-top: clamp(34px, 4vw, 52px);
+    padding-bottom: clamp(30px, 4vw, 46px);
+    border-bottom: 1px solid color-mix(in oklab, var(--color-white) 18%, transparent);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: clamp(20px, 3vw, 44px);
+    align-items: center;
+  }
+  .feat-num {
+    display: flex;
+    align-items: flex-start;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(86px, 15vw, 184px);
+    line-height: 0.86;
+    letter-spacing: -0.02em;
+    color: var(--color-white);
+  }
+  .feat-num .arrow {
+    font-size: 0.32em;
+    margin: 0.35em 0 0 0.1em;
+    font-style: normal;
+    color: var(--brand-300);
+  }
+  .feat-label {
+    max-width: 18ch;
+    font-size: clamp(19px, 2.3vw, 28px);
+    line-height: 1.4;
+    color: color-mix(in oklab, var(--color-white) 92%, transparent);
+  }
+  .feat-label sup {
+    font-size: 0.6em;
+    font-weight: 600;
+    color: var(--brand-300);
+  }
+
+  .grid {
+    margin-top: clamp(34px, 4vw, 52px);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: color-mix(in oklab, var(--color-white) 14%, transparent);
+    border: 1px solid color-mix(in oklab, var(--color-white) 14%, transparent);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  .metric {
+    padding: clamp(24px, 3vw, 34px);
+    background:
+      linear-gradient(
+        160deg,
+        color-mix(in oklab, var(--color-white) 5%, transparent),
+        transparent 60%
+      ),
+      var(--brand-900);
+  }
+  .metric-v {
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+    font-weight: 500;
+    font-size: clamp(40px, 5vw, 60px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+  }
+  .metric-v .unit {
+    font-size: 0.5em;
+    font-weight: 600;
+    color: var(--brand-300);
+  }
+  .metric-v .trend {
+    margin-left: 8px;
+    align-self: center;
+    font-size: 16px;
+    color: var(--brand-300);
+  }
+  .metric-l {
+    margin-top: 12px;
+    max-width: 22ch;
+    font-size: 15px;
+    line-height: 1.5;
+    color: color-mix(in oklab, var(--color-white) 82%, transparent);
+  }
+  .metric-l sup {
+    margin-left: 1px;
+    font-size: 0.72em;
+    font-weight: 600;
+    color: var(--brand-300);
+  }
+
+  .sources {
+    margin-top: clamp(30px, 4vw, 46px);
+    display: grid;
+    gap: 8px;
+  }
+  .sources-title {
+    margin-bottom: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: color-mix(in oklab, var(--color-white) 55%, transparent);
+  }
+  .source {
+    display: flex;
+    gap: 10px;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: color-mix(in oklab, var(--color-white) 70%, transparent);
+  }
+  .source b {
+    flex: none;
+    font-weight: 600;
+    color: var(--brand-300);
+  }
+
+  @media (max-width: 820px) {
+    .head {
+      grid-template-columns: 1fr;
+    }
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 700px) {
+    .featured {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+  }
+  @media (max-width: 520px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  // Count-up on first scroll-in for the featured + metric numbers. Animates the
+  // numeric part, preserves any letter/symbol tail (e.g. "%", "×", "K"). Skipped
+  // under reduced motion. Mirrors the shared StatStrip/CinematicHero pattern.
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const nums = document.querySelectorAll<HTMLElement>('.results .num');
+  if (nums.length && !reduce) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target as HTMLElement;
+          const raw = el.dataset.value ?? '';
+          const m = raw.match(/([\d.,]+)(.*)$/);
+          if (!m) return;
+          const target = parseFloat(m[1].replace(/,/g, ''));
+          const tail = m[2];
+          const decimals = (m[1].split('.')[1] || '').length;
+          const start = performance.now();
+          const dur = 1400;
+          const tick = (t: number) => {
+            const p = Math.min(1, (t - start) / dur);
+            const eased = 1 - Math.pow(1 - p, 3);
+            const v = target * eased;
+            const shown =
+              decimals > 0 ? v.toFixed(decimals) : Math.round(v).toLocaleString('en-US');
+            el.textContent = shown + tail;
+            if (p < 1) requestAnimationFrame(tick);
+            else el.textContent = raw;
+          };
+          requestAnimationFrame(tick);
+          io.unobserve(el);
+        });
+      },
+      { threshold: 0.4 },
+    );
+    nums.forEach((n) => io.observe(n));
+  }
+</script>

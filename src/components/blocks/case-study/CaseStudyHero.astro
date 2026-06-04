@@ -1,0 +1,259 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import brandMark from '../../../assets/brand/inner-explorer-mark.png';
+import Button from '../../primitives/Button.astro';
+
+// Case-study opener: a light editorial split — meta row, "duet" headline (sans lead +
+// serif-italic emphasis), dek, and a primary/secondary CTA pair on the left; a tall
+// portrait photo with an overlapping glass district badge on the right. Carries the
+// page <h1> (LCP image loads eagerly). The dark/full-bleed CinematicHero didn't fit;
+// this is the light, story-first counterpart.
+interface Cta {
+  label: string;
+  href: string;
+}
+interface District {
+  name: string;
+  location: string;
+  partnerSince?: string;
+  seal?: ImageMetadata;
+}
+interface Props {
+  kicker: string;
+  readingTime?: string;
+  published?: string;
+  titleLead: string;
+  titleEmphasis: string;
+  dek: string;
+  image: ImageMetadata;
+  imageAlt: string;
+  primary?: Cta;
+  secondary?: Cta;
+  district: District;
+}
+const {
+  kicker,
+  readingTime,
+  published,
+  titleLead,
+  titleEmphasis,
+  dek,
+  image,
+  imageAlt,
+  primary,
+  secondary,
+  district,
+}: Props = Astro.props;
+
+const meta = [readingTime, published].filter(Boolean) as string[];
+---
+
+<header class="hero" id="top">
+  <div class="inner">
+    <div class="grid">
+      <div class="text">
+        <div class="kicker">
+          <span class="eyebrow">{kicker}</span>
+          {
+            meta.map((m) => (
+              <>
+                <span class="dot" aria-hidden="true">
+                  •
+                </span>
+                <span class="metatext">{m}</span>
+              </>
+            ))
+          }
+        </div>
+        <h1 class="title">
+          <span class="lead">{titleLead}</span>
+          <span class="emph">{titleEmphasis}</span>
+        </h1>
+        <p class="dek">{dek}</p>
+        {
+          (primary || secondary) && (
+            <div class="actions">
+              {primary && (
+                <Button href={primary.href} size="lg" shape="pill" tone="brand">
+                  {primary.label}
+                </Button>
+              )}
+              {secondary && (
+                <Button
+                  href={secondary.href}
+                  size="lg"
+                  shape="pill"
+                  variant="outline"
+                  tone="neutral"
+                >
+                  {secondary.label}
+                </Button>
+              )}
+            </div>
+          )
+        }
+      </div>
+
+      <div class="media">
+        <Image
+          class="photo"
+          src={image}
+          alt={imageAlt}
+          widths={[600, 900, 1200, 1600]}
+          sizes="(max-width: 940px) 100vw, 600px"
+          loading="eager"
+          fetchpriority="high"
+        />
+        <div class="badge">
+          <Image class="seal" src={district.seal ?? brandMark} alt="" width={46} height={46} />
+          <div>
+            <div class="b-name">{district.name}</div>
+            <div class="b-loc">
+              {district.location}
+              {district.partnerSince ? ` · Partner since ${district.partnerSince}` : ''}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  .hero {
+    padding-top: clamp(24px, 4vw, 56px);
+  }
+  .inner {
+    max-width: 1340px;
+    margin: 0 auto;
+    padding-inline: clamp(20px, 5vw, 64px);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: clamp(28px, 4vw, 64px);
+    align-items: center;
+  }
+
+  .kicker {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--color-brand-emphasis);
+  }
+  .eyebrow::before {
+    content: '';
+    width: 22px;
+    height: 1.5px;
+    background: var(--color-brand-emphasis);
+  }
+  .dot {
+    color: var(--color-border);
+  }
+  .metatext {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-muted-foreground);
+  }
+
+  .title {
+    margin: 24px 0 0;
+    font-weight: 500;
+    font-size: clamp(38px, 5.6vw, 70px);
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+    color: var(--color-foreground);
+  }
+  .title .lead {
+    display: block;
+    font-family: var(--font-sans);
+  }
+  .title .emph {
+    display: block;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--color-brand-emphasis);
+  }
+  .dek {
+    margin: 26px 0 0;
+    max-width: 30em;
+    font-size: clamp(17px, 1.7vw, 20px);
+    line-height: 1.6;
+    color: var(--color-muted-foreground);
+    text-wrap: pretty;
+  }
+  .actions {
+    margin-top: 34px;
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .media {
+    position: relative;
+  }
+  .photo {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-lg);
+  }
+  .badge {
+    position: absolute;
+    left: -22px;
+    bottom: 26px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 20px 14px 14px;
+    border-radius: 9999px;
+    background: var(--glass-bg-strong);
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-glass);
+  }
+  .seal {
+    width: 46px;
+    height: 46px;
+    border-radius: 9999px;
+  }
+  .b-name {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--color-foreground);
+  }
+  .b-loc {
+    margin-top: 2px;
+    font-size: 12.5px;
+    line-height: 1.3;
+    color: var(--color-muted-foreground);
+  }
+
+  @media (max-width: 940px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+    .photo {
+      aspect-ratio: 16 / 11;
+    }
+    .badge {
+      left: 12px;
+    }
+  }
+</style>

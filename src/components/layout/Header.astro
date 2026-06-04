@@ -10,6 +10,9 @@ const navLinks = [
   { label: 'Platform', href: '/platform' },
   { label: 'Educators', href: '/educators' },
   { label: 'Districts', href: '/districts' },
+  // Single case study for now → deep-links to it; repoint to a /case-studies index
+  // once a second story exists (see tasks/todo.md).
+  { label: 'Case studies', href: '/case-studies/broward' },
   { label: 'Research', href: '/research' },
   { label: 'Narrators', href: '/narrators' },
   { label: 'About', href: '/about' },
@@ -257,7 +260,10 @@ const isActive = (href: string) => path === href || (href !== '/' && path.starts
     color: var(--color-background) !important;
   }
 
-  @media (max-width: 920px) {
+  /* Collapse to the burger early enough that the full link row never crams. The
+     8-item nav's intrinsic width is ~1209px (fits at a ~1243px viewport), so the
+     full row shows on 1280px+ and the mobile menu carries the links below ~1260px. */
+  @media (max-width: 1260px) {
     .nav-links,
     .nav-signin,
     .nav-cta {

@@ -1,0 +1,477 @@
+---
+import { Image } from 'astro:assets';
+import mark from '../../../assets/brand/inner-explorer-mark.png';
+import type { Voice } from './types';
+
+// "Voices" — the final, conversion-optimized testimonial composition (the designer
+// rejected the audio-player and the tall stacked layouts). A credibility-first header
+// with a star trust line framing the rating as *daily-practice* feedback, then two
+// compact featured cards side-by-side (photo-top · stars · serif quote · attribution ·
+// outcome stat · district logo chip), then a student-voices trio. CMS logic: any voice
+// with a `portrait` renders as a featured card (auto-alternating); any without becomes
+// a student card.
+interface Props {
+  eyebrow: string;
+  headingLead: string;
+  headingEmphasis: string;
+  trustRating?: string;
+  trustLine?: string;
+  studentsLabel?: string;
+  voices: Voice[];
+  /** District short name shown on the logo chip. */
+  district: string;
+  id?: string;
+}
+const {
+  eyebrow,
+  headingLead,
+  headingEmphasis,
+  trustRating,
+  trustLine,
+  studentsLabel = 'In their own words',
+  voices,
+  district,
+  id,
+}: Props = Astro.props;
+
+const featured = voices.filter((v) => v.portrait);
+const students = voices.filter((v) => !v.portrait);
+
+// Single star glyph; the 5-up rating rows below map over it.
+const STAR =
+  'M12 2l2.9 6.26 6.9.6-5.2 4.52 1.56 6.74L12 17.27 5.84 20.62 7.4 13.88 2.2 9.36l6.9-.6L12 2z';
+---
+
+<section class="voices" id={id}>
+  <div class="wrap">
+    <header class="head" data-cs-reveal>
+      <div>
+        <span class="eyebrow">{eyebrow}</span>
+        <h2 class="h2">{headingLead} <em>{headingEmphasis}</em></h2>
+      </div>
+      {
+        (trustRating || trustLine) && (
+          <div class="trust">
+            <span class="stars" role="img" aria-label="5 out of 5 stars">
+              {Array.from({ length: 5 }, () => (
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d={STAR} />
+                </svg>
+              ))}
+            </span>
+            <p class="trustline">
+              {trustRating && <b>{trustRating}</b>}
+              {trustLine && <Fragment set:html={` ${trustLine}`} />}
+            </p>
+          </div>
+        )
+      }
+    </header>
+
+    <div class="features">
+      {
+        featured.map((v) => (
+          <figure class="feature" data-cs-reveal>
+            <div class="media">
+              {v.portrait && (
+                <Image
+                  src={v.portrait}
+                  alt={v.portraitAlt ?? v.name}
+                  widths={[400, 700, 900]}
+                  sizes="(max-width: 760px) 100vw, 540px"
+                  loading="lazy"
+                />
+              )}
+              <span class="logo">
+                <Image src={mark} alt="" width={26} height={26} />
+                <span>{district}</span>
+              </span>
+            </div>
+            <div class="body">
+              <span class="stars" role="img" aria-label="5 out of 5 stars">
+                {Array.from({ length: 5 }, () => (
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d={STAR} />
+                  </svg>
+                ))}
+              </span>
+              <blockquote class="q">{v.quote}</blockquote>
+              <figcaption class="by">
+                <span class="nm">{v.name}</span>
+                <span class="rl">
+                  {v.role}
+                  {v.org ? ` · ${v.org}` : ''}
+                </span>
+              </figcaption>
+              {v.stat && (
+                <div class="stat">
+                  <span class="v">{v.stat.value}</span>
+                  <span class="l">
+                    <b>{v.stat.label}</b>
+                    {v.org ? `at ${v.org}` : ''}
+                  </span>
+                </div>
+              )}
+            </div>
+          </figure>
+        ))
+      }
+    </div>
+
+    {
+      students.length > 0 && (
+        <div class="students" data-cs-reveal>
+          <div class="students-label">{studentsLabel}</div>
+          <div class="students-grid">
+            {students.map((v) => (
+              <figure class="scard">
+                <blockquote class="sq">{v.quote}</blockquote>
+                <figcaption class="sby">
+                  <span class="av" aria-hidden="true">
+                    {v.name.charAt(0)}
+                  </span>
+                  <span>
+                    <span class="snm">{v.name}</span>
+                    <span class="sgr">
+                      {v.role}
+                      {v.org ? ` · ${v.org}` : ''}
+                    </span>
+                  </span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .voices {
+    padding-top: clamp(72px, 9vw, 132px);
+  }
+  .wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding-inline: clamp(20px, 5vw, 64px);
+  }
+
+  /* Header + trust line */
+  .head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 32px;
+    margin-bottom: clamp(36px, 4.5vw, 60px);
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--color-brand-emphasis);
+  }
+  .eyebrow::before {
+    content: '';
+    width: 22px;
+    height: 1.5px;
+    background: var(--color-brand-emphasis);
+  }
+  .h2 {
+    margin: 14px 0 0;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: clamp(30px, 4.2vw, 46px);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    color: var(--color-foreground);
+    text-wrap: balance;
+  }
+  .h2 em {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--color-brand-emphasis);
+  }
+  .trust {
+    flex: none;
+    margin-bottom: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+  }
+  .trustline {
+    margin: 0;
+    max-width: 30ch;
+    font-size: 13.5px;
+    line-height: 1.5;
+    text-align: right;
+    color: var(--color-muted-foreground);
+  }
+  .trustline b {
+    font-weight: 600;
+    color: var(--color-foreground);
+  }
+
+  .stars {
+    display: inline-flex;
+    gap: 3px;
+    color: var(--color-brand);
+  }
+  .stars svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+  }
+
+  /* Featured cards — two compact, side by side */
+  .features {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: stretch;
+    gap: clamp(18px, 2.2vw, 28px);
+  }
+  .feature {
+    margin: 0;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+  }
+  .media {
+    position: relative;
+    aspect-ratio: 16 / 9;
+  }
+  .media :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .logo {
+    position: absolute;
+    left: 18px;
+    bottom: 18px;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 9px 14px 9px 10px;
+    border-radius: 9999px;
+    background: var(--glass-bg-strong);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-sm);
+  }
+  .logo :global(img) {
+    position: static;
+    width: 26px;
+    height: 26px;
+    border-radius: 9999px;
+  }
+  .logo span {
+    font-size: 12.5px;
+    font-weight: 600;
+    line-height: 1.1;
+    color: var(--color-foreground);
+  }
+
+  .body {
+    padding: clamp(24px, 2.6vw, 36px);
+    display: flex;
+    flex-direction: column;
+  }
+  .body .stars {
+    margin-bottom: clamp(12px, 1.6vw, 18px);
+  }
+  .q {
+    margin: 0;
+    position: relative;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(20px, 1.7vw, 26px);
+    line-height: 1.34;
+    letter-spacing: -0.01em;
+    color: var(--color-foreground);
+    text-wrap: pretty;
+  }
+  .q::before {
+    content: '\201C';
+    position: absolute;
+    left: -0.05em;
+    top: -0.46em;
+    font-size: 1.4em;
+    line-height: 1;
+    color: var(--brand-300);
+    pointer-events: none;
+  }
+  .by {
+    margin-top: clamp(18px, 2.2vw, 26px);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .nm {
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--color-foreground);
+  }
+  .rl {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--color-muted-foreground);
+  }
+  .stat {
+    margin-top: auto;
+    padding-top: clamp(18px, 2.2vw, 26px);
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .stat .v {
+    flex: none;
+    font-weight: 600;
+    font-size: clamp(26px, 2.6vw, 34px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--color-brand-emphasis);
+  }
+  .stat .l {
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--color-muted-foreground);
+  }
+  .stat .l b {
+    display: block;
+    margin-bottom: 2px;
+    font-weight: 600;
+    color: var(--color-foreground);
+  }
+
+  /* Student voices trio */
+  .students {
+    margin-top: clamp(40px, 5vw, 64px);
+  }
+  .students-label {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: clamp(22px, 2.6vw, 30px);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--color-muted-foreground);
+  }
+  .students-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--color-border);
+  }
+  .students-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(16px, 2vw, 22px);
+  }
+  .scard {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    padding: clamp(24px, 2.8vw, 32px);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-sm);
+    transition:
+      transform var(--dur) var(--ease-out),
+      box-shadow var(--dur) var(--ease-out);
+  }
+  .scard:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+  .sq {
+    margin: 0;
+    flex: 1;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(18px, 1.8vw, 22px);
+    line-height: 1.4;
+    color: var(--color-brand-emphasis);
+    text-wrap: pretty;
+  }
+  .sby {
+    margin-top: clamp(20px, 2.4vw, 26px);
+    padding-top: clamp(16px, 1.8vw, 20px);
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .av {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 9999px;
+    background: var(--brand-100);
+    color: var(--color-brand-emphasis);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 1;
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-brand) 16%, transparent);
+  }
+  .snm {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--color-foreground);
+  }
+  .sgr {
+    display: block;
+    margin-top: 3px;
+    font-size: 12.5px;
+    line-height: 1.3;
+    color: var(--color-muted-foreground);
+  }
+
+  @media (max-width: 760px) {
+    .head {
+      display: block;
+    }
+    .trust {
+      align-items: flex-start;
+      margin-top: 16px;
+    }
+    .trustline {
+      text-align: left;
+    }
+    .features {
+      grid-template-columns: 1fr;
+    }
+    .students-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

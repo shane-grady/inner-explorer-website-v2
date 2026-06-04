@@ -1,0 +1,259 @@
+# Broward County — case study content. One file → the whole /case-studies/broward page.
+# Duplicate this file (swap values + images) to publish another district story.
+order: 1
+draft: false
+
+seoTitle: 'Broward County Case Study — Inner Explorer'
+seoDescription: >-
+  How Broward County Public Schools turned a five-minute daily mindfulness practice
+  into a district-wide culture — reaching 253K students across 241 schools, with a
+  65% drop in behavioral outbursts.
+publishedDate: 2026-02-01
+updatedDate: 2026-02-01
+
+meta:
+  kicker: 'District Case Study'
+  titleLead: 'How Broward County made'
+  titleEmphasis: 'calm a daily habit'
+  dek: >-
+    Inside the sixth-largest school district in America, a five-minute morning practice
+    grew into a district-wide culture of focus, regulation, and belonging — reaching a
+    quarter-million students before the first bell.
+  readingTime: '8 min read'
+  published: 'Updated February 2026'
+  heroImage: '../../assets/images/case-studies/broward/hero-morning-practice.jpg'
+  heroImageAlt: 'Elementary students sitting calmly with eyes closed during a morning mindfulness practice'
+
+district:
+  name: 'Broward County Public Schools'
+  shortName: 'Broward County'
+  location: 'Fort Lauderdale, Florida'
+  partnerSince: '2021'
+  snapshot:
+    - { value: '253K', label: 'Students reached' }
+    - { value: '241', label: 'Schools live' }
+    - { value: '18K', label: 'Educators trained' }
+    - { value: 'PreK–12', label: 'Grade bands' }
+    - { value: '4 yrs', label: 'In partnership' }
+
+intro:
+  challenge:
+    eyebrow: 'The Challenge'
+    heading: 'A district under pressure, looking for something that scales'
+    body:
+      - >-
+        Coming out of a turbulent few years, Broward County's leadership saw the data they
+        feared most: rising behavioral referrals, classroom disruptions eating into
+        instruction, and educators reporting burnout at record levels. Existing SEL programs
+        were well-intentioned but uneven — adopted in pockets, hard to measure, and quick to
+        fade once the launch energy wore off.
+      - >-
+        The district needed something different: a practice simple enough for any teacher to
+        lead on day one, consistent enough to build a habit, and measurable enough to prove
+        its worth to a board accountable for 250,000 students.
+    image: '../../assets/images/case-studies/broward/challenge-classroom.jpg'
+    imageAlt: 'A teacher at the chalkboard with students at desks'
+    stat: { value: '1 in 3', label: 'teachers reported chronic stress before rollout' }
+  approach:
+    eyebrow: 'The Approach'
+    heading: 'Five minutes a day, led by the teacher already in the room'
+    body:
+      - >-
+        Inner Explorer's premise was disarmingly simple: a daily, audio-guided practice that
+        any educator can press play on — no certification, no prep, no new staff. Broward
+        started with a focused pilot across 12 schools, pairing the practice with the District
+        Dashboard so leaders could watch adoption climb in real time.
+      - >-
+        What spread wasn't a mandate — it was a morning ritual. Teachers told other teachers.
+        Principals saw calmer hallways. Within three semesters the pilot became a district-wide
+        standard, woven into the start of the school day.
+    image: '../../assets/images/case-studies/broward/approach-student-desk.jpg'
+    imageAlt: 'A student working at a desk with the teacher nearby'
+    pillars:
+      - icon: 'play'
+        title: "Press play, that's it"
+        text: 'Daily 5–10 minute audio practices any teacher can lead, with zero prep.'
+      - icon: 'repeat'
+        title: 'Built for the habit'
+        text: 'Themed multi-day series turn one good morning into a year-long routine.'
+      - icon: 'chart'
+        title: 'Visible from the top'
+        text: 'The District Dashboard turns adoption and engagement into reportable data.'
+
+timeline:
+  eyebrow: 'The Rollout'
+  heading: 'From a 12-school pilot to district-wide in three semesters'
+  phases:
+    - date: 'Fall 2021'
+      tag: 'Pilot'
+      title: '12 schools, one shared morning'
+      text: 'A focused pilot launches across a cross-section of elementary and middle schools. Leadership baselines behavior and attendance data before day one.'
+    - date: 'Spring 2022'
+      tag: 'Proof'
+      title: 'Early signal, fast word-of-mouth'
+      text: 'Pilot schools post measurable drops in office referrals. Teachers in non-pilot schools begin asking for access. The dashboard makes the momentum undeniable.'
+    - date: 'Fall 2022'
+      tag: 'Scale'
+      title: 'Expansion to every elementary school'
+      text: "Inner Explorer rolls out across all elementary campuses, backed by a district-wide educator onboarding and a 'first 10 days' practice guide."
+    - date: '2023–24'
+      tag: 'Embed'
+      title: 'Part of the school day, PreK–12'
+      text: 'Practice is written into the master schedule across grade bands. Family practices extend the routine home. Coaches use dashboard insights to support low-adoption sites.'
+    - date: '2025'
+      tag: 'Sustain'
+      title: 'A culture, not a program'
+      text: 'Four years in, daily practice is simply how the day begins. Broward shares its playbook with peer districts across Florida.'
+
+metrics:
+  eyebrow: 'The Results'
+  heading: 'What four years of daily practice produced'
+  note: >-
+    Outcomes compare partner schools against district baselines and matched comparison sites.
+    Figures are representative of Inner Explorer's published district reporting and
+    peer-reviewed research base.
+  featured:
+    value: '65%'
+    label: 'fewer behavioral outbursts in classrooms with daily practice'
+    trend: 'down-good'
+    sourceId: 1
+  grid:
+    - {
+        value: '43',
+        unit: '%',
+        label: 'reduction in reported student stress',
+        trend: 'down-good',
+        sourceId: 2,
+      }
+    - {
+        value: '12',
+        unit: '%',
+        label: 'improvement in average daily attendance',
+        trend: 'up-good',
+        sourceId: 1,
+      }
+    - {
+        value: '1.6',
+        unit: '×',
+        label: 'more likely to meet grade-level reading growth',
+        trend: 'up-good',
+        sourceId: 3,
+      }
+    - {
+        value: '27',
+        unit: '%',
+        label: 'fewer office discipline referrals',
+        trend: 'down-good',
+        sourceId: 1,
+      }
+    - {
+        value: '89',
+        unit: '%',
+        label: 'of educators say students focus better after practice',
+        trend: 'up-good',
+        sourceId: 4,
+      }
+    - {
+        value: '31',
+        unit: '%',
+        label: 'drop in teacher-reported burnout',
+        trend: 'down-good',
+        sourceId: 4,
+      }
+
+sources:
+  - { id: 1, text: 'Inner Explorer District Impact Report — Broward County, 2025.' }
+  - {
+      id: 2,
+      text: 'Bakosh et al., peer-reviewed study on audio-guided mindfulness and student stress, Journal of Child & Family Studies.',
+    }
+  - {
+      id: 3,
+      text: 'District benchmark assessment data, partner vs. matched comparison schools, 2024–25.',
+    }
+  - { id: 4, text: 'Inner Explorer Annual Educator Survey, Broward County respondents, n = 2,140.' }
+
+voicesIntro:
+  eyebrow: 'What partners say'
+  headingLead: 'Trusted by the people who'
+  headingEmphasis: 'start the day with kids'
+  trustRating: '4.8 / 5'
+  trustLine: 'average rating of the daily practice from <b>2,140 Broward educators surveyed</b>'
+  studentsLabel: 'In their own words — students of Broward'
+
+voices:
+  - kind: 'Leadership'
+    quote: >-
+      We weren't looking for another initiative. We were looking for something teachers would
+      actually keep doing. Four years later, it's just how our day starts — and the data backs
+      up what we feel in the building.
+    name: 'Dr. Marisol Vega'
+    role: 'Assistant Superintendent, Student Services'
+    org: 'Broward County Public Schools'
+    portrait: '../../assets/images/case-studies/broward/voice-vega.jpg'
+    portraitAlt: 'Dr. Marisol Vega, Assistant Superintendent of Student Services for Broward County Public Schools'
+    stat: { value: '65%', label: 'fewer behavioral referrals' }
+  - kind: 'In the classroom'
+    quote: >-
+      My students ask for it now. On the hard mornings, the ones who need it most are the first
+      to close their eyes. I get five calm minutes to start the day with them — and then we can
+      actually learn.
+    name: 'James Okafor'
+    role: '4th Grade Teacher'
+    org: 'Sunland Park Elementary'
+    portrait: '../../assets/images/case-studies/broward/voice-okafor.jpg'
+    portraitAlt: 'James Okafor, fourth-grade teacher at Sunland Park Elementary'
+    stat: { value: '94%', label: 'of teachers practice daily' }
+  - kind: 'From the students'
+    quote: 'When I get mad, I do the breathing and it gets smaller. Then I can think again.'
+    name: 'Aaliyah'
+    role: 'Grade 3'
+    org: 'Sunland Park Elementary'
+  - kind: 'From the students'
+    quote: "It's the quietest part of my whole day. I didn't know I liked the quiet until now."
+    name: 'Marcus'
+    role: 'Grade 5'
+    org: 'Walker Elementary'
+  - kind: 'From the students'
+    quote: 'Before a test I do it and my brain stops being so loud. I remember more stuff.'
+    name: 'Sofia'
+    role: 'Grade 7'
+    org: 'Pompano Beach Middle'
+
+gallery:
+  eyebrow: 'In the classroom'
+  heading: 'A quarter-million mornings, one practice at a time'
+  images:
+    - {
+        src: '../../assets/images/case-studies/broward/gallery-1-hands-in.jpg',
+        alt: 'Students putting their hands in together',
+      }
+    - {
+        src: '../../assets/images/case-studies/broward/gallery-2-smiling-students.jpg',
+        alt: 'A group of smiling students',
+      }
+    - {
+        src: '../../assets/images/case-studies/broward/gallery-3-studying.jpg',
+        alt: 'Students studying together at a table',
+      }
+    - {
+        src: '../../assets/images/case-studies/broward/gallery-4-classroom-seated.jpg',
+        alt: 'Students seated together in a classroom',
+      }
+    - {
+        src: '../../assets/images/case-studies/broward/gallery-5-desk-apple.jpg',
+        alt: 'Books and an apple on a classroom desk',
+      }
+    - {
+        src: '../../assets/images/case-studies/broward/gallery-6-bright-classroom.jpg',
+        alt: 'A bright, empty classroom ready for the day',
+      }
+
+cta:
+  heading: 'Bring Inner Explorer'
+  headingEmphasis: 'to your district'
+  body: >-
+    See how a five-minute daily practice can change the way your schools begin the day. We'll
+    walk you through the rollout playbook Broward used — and what it could look like for you.
+  primary: { label: 'Book a demo', href: '/contact' }
+  secondary: { label: 'Download the full report (PDF)', href: '/contact' }
