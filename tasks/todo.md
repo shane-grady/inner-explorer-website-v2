@@ -462,6 +462,12 @@ stories drop in as data files — no markup. Brand already matched the handoff's
       Regression: `/newsroom` Broward card now deep-links in; nav fits at >1260 / collapses
       below; no console errors.
 
+- [x] **Design revision (handoff update)**: compacted the two featured testimonial cards
+      to match a tweaked handoff — flatter **2:1** media (was 16:9), tighter body padding,
+      smaller stars (14px; header trust stars unchanged) / quote / name / role / stat, and
+      a stat value with `min-width: 2.6ch` + `tabular-nums` so figures align. CSS-only in
+      `CaseStudyVoices`; verified every value against the handoff diff via computed styles.
+
 ### Stand-ins to swap before publishing (Broward case study)
 
 - [ ] **Photos** in `src/assets/images/case-studies/broward/` are the prototype's Unsplash
