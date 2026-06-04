@@ -95,6 +95,21 @@ var(--color-foreground)` so the wrapper paints its surface in the pinned tones.
   `href={undefined}` simply omits the attribute. Avoids nested-interactive HTML when
   some rows are links and others are static.
 
+- **Scroll-reveal must NOT cover above-the-fold / LCP content.** A page-level reveal
+  (opacity:0 → fade-in on intersect, gated by `html[data-js-ready]`) is great for below-fold
+  sections, but if the hero opts in too, the LCP element starts hidden and fades on first
+  paint (visible jank; caught faded in preview). The Claude Design prototypes do this right —
+  `render.js` explicitly hides ONLY items below `vh * 0.88`. Mirror that: don't put the
+  reveal hook (`data-cs-reveal`) on the hero; let it paint immediately. Below-fold blocks
+  reveal on scroll via `lib/intersect.ts` (`observe()`), which is already reduced-motion- and
+  no-JS-safe.
+- **Glass pill nav item count drives the burger breakpoint.** The floating `Header` nav is a
+  single content-sized row (brand + links + sign-in + demo). Each top-level link adds ~90px;
+  a 7th item pushed the intrinsic row to ~1100px, so it overflowed the pill between the old
+  920px burger breakpoint and ~1044px. Rule: when adding nav links, bump the
+  `@media (max-width: …)` collapse point to ≳ the intrinsic row width (measure
+  `#site-nav.scrollWidth`) so the row never crams — the mobile menu carries the links below it.
+
 ## Skills (skill-creator)
 
 - **`implement-design-handoff` skill** lives at `.claude/skills/implement-design-handoff/`

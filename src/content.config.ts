@@ -91,4 +91,142 @@ const narrators = defineCollection({
     }),
 });
 
-export const collections = { blog, testimonials, narrators };
+// Case studies — district success stories. ONE schema-validated file per district
+// (src/content/case-studies/<slug>.yaml) drives the whole `case-studies/[slug]` page,
+// so a new story = a new data file, no markup. Mirrors the prototype's `window.CASE_STUDY`
+// content object. `image()` localizes + optimizes every photo. This is the CMS seam.
+const caseStudies = defineCollection({
+  loader: glob({ pattern: '**/*.{json,yaml,yml}', base: './src/content/case-studies' }),
+  schema: ({ image }) => {
+    const metric = z.object({
+      value: z.string(),
+      unit: z.string().optional(),
+      label: z.string(),
+      trend: z.enum(['up-good', 'down-good']).optional(),
+      sourceId: z.number().optional(),
+    });
+    const valueLabel = z.object({ value: z.string(), label: z.string() });
+    const cta = z.object({ label: z.string(), href: z.string() });
+
+    return z.object({
+      draft: z.boolean().default(false),
+      order: z.number().default(0),
+
+      // SEO (optional — falls back to meta copy + today's date on the page).
+      seoTitle: z.string().optional(),
+      seoDescription: z.string().optional(),
+      publishedDate: z.coerce.date().optional(),
+      updatedDate: z.coerce.date().optional(),
+
+      meta: z.object({
+        kicker: z.string(),
+        // Duet headline: `titleLead` renders sans, `titleEmphasis` serif-italic.
+        titleLead: z.string(),
+        titleEmphasis: z.string(),
+        dek: z.string(),
+        readingTime: z.string().optional(),
+        published: z.string().optional(),
+        heroImage: image(),
+        heroImageAlt: z.string(),
+      }),
+
+      district: z.object({
+        name: z.string(),
+        shortName: z.string(),
+        location: z.string(),
+        seal: image().optional(),
+        partnerSince: z.string().optional(),
+        snapshot: z.array(valueLabel).default([]),
+      }),
+
+      intro: z.object({
+        challenge: z.object({
+          eyebrow: z.string(),
+          heading: z.string(),
+          body: z.array(z.string()),
+          image: image(),
+          imageAlt: z.string(),
+          stat: valueLabel.optional(),
+        }),
+        approach: z.object({
+          eyebrow: z.string(),
+          heading: z.string(),
+          body: z.array(z.string()),
+          image: image(),
+          imageAlt: z.string(),
+          pillars: z
+            .array(
+              z.object({
+                icon: z.enum(['play', 'repeat', 'chart']).default('play'),
+                title: z.string(),
+                text: z.string(),
+              }),
+            )
+            .default([]),
+        }),
+      }),
+
+      timeline: z.object({
+        eyebrow: z.string(),
+        heading: z.string(),
+        phases: z.array(
+          z.object({
+            date: z.string(),
+            tag: z.string(),
+            title: z.string(),
+            text: z.string(),
+          }),
+        ),
+      }),
+
+      metrics: z.object({
+        eyebrow: z.string(),
+        heading: z.string(),
+        note: z.string().optional(),
+        featured: metric,
+        grid: z.array(metric).default([]),
+      }),
+      sources: z.array(z.object({ id: z.number(), text: z.string() })).default([]),
+
+      voicesIntro: z.object({
+        eyebrow: z.string(),
+        headingLead: z.string(),
+        headingEmphasis: z.string(),
+        trustRating: z.string().optional(),
+        trustLine: z.string().optional(),
+        studentsLabel: z.string().optional(),
+      }),
+      // A voice with a `portrait` renders as a featured card; without one, a student card.
+      voices: z
+        .array(
+          z.object({
+            kind: z.string(),
+            quote: z.string(),
+            name: z.string(),
+            role: z.string(),
+            org: z.string().optional(),
+            portrait: image().optional(),
+            portraitAlt: z.string().optional(),
+            stat: valueLabel.optional(),
+          }),
+        )
+        .default([]),
+
+      gallery: z.object({
+        eyebrow: z.string(),
+        heading: z.string(),
+        images: z.array(z.object({ src: image(), alt: z.string() })).default([]),
+      }),
+
+      cta: z.object({
+        heading: z.string(),
+        headingEmphasis: z.string(),
+        body: z.string(),
+        primary: cta,
+        secondary: cta.optional(),
+      }),
+    });
+  },
+});
+
+export const collections = { blog, testimonials, narrators, caseStudies };

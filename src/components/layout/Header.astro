@@ -9,6 +9,9 @@ import ThemeToggle from './ThemeToggle.astro';
 const navLinks = [
   { label: 'Educators', href: '/educators' },
   { label: 'Districts', href: '/districts' },
+  // Single case study for now → deep-links to it; repoint to a /case-studies index
+  // once a second story exists (see tasks/todo.md).
+  { label: 'Case studies', href: '/case-studies/broward' },
   { label: 'Research', href: '/research' },
   { label: 'Narrators', href: '/narrators' },
   { label: 'About', href: '/about' },
@@ -256,7 +259,10 @@ const isActive = (href: string) => path === href || (href !== '/' && path.starts
     color: var(--color-background) !important;
   }
 
-  @media (max-width: 920px) {
+  /* Collapse to the burger early enough that the full link row never crams. The
+     7-item nav needs ~1100px of pill width to sit comfortably; below that the
+     mobile menu carries the links. */
+  @media (max-width: 1100px) {
     .nav-links,
     .nav-signin,
     .nav-cta {

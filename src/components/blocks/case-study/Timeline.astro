@@ -1,0 +1,165 @@
+---
+import type { TimelinePhase } from './types';
+
+// The rollout journey: a vertical rail with brand dots and date · tag · title · text
+// per phase. Data-driven and reusable for any chronological "journey" section.
+interface Props {
+  eyebrow: string;
+  heading: string;
+  phases: TimelinePhase[];
+  id?: string;
+}
+const { eyebrow, heading, phases, id }: Props = Astro.props;
+---
+
+<section class="timeline" id={id}>
+  <div class="wrap">
+    <div class="head" data-cs-reveal>
+      <span class="eyebrow">{eyebrow}</span>
+      <h2 class="h2">{heading}</h2>
+    </div>
+
+    <ol class="rail">
+      {
+        phases.map((p) => (
+          <li class="item" data-cs-reveal>
+            <span class="dot" aria-hidden="true">
+              <span />
+            </span>
+            <div class="body">
+              <div class="row">
+                <span class="date">{p.date}</span>
+                <span class="tag">{p.tag}</span>
+              </div>
+              <h3 class="title">{p.title}</h3>
+              <p class="text">{p.text}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .timeline {
+    padding-top: clamp(72px, 9vw, 132px);
+  }
+  .wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding-inline: clamp(20px, 5vw, 64px);
+  }
+  .head {
+    max-width: 720px;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--color-brand-emphasis);
+  }
+  .eyebrow::before {
+    content: '';
+    width: 22px;
+    height: 1.5px;
+    background: var(--color-brand-emphasis);
+  }
+  .h2 {
+    margin: 18px 0 0;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: clamp(30px, 4.2vw, 46px);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    color: var(--color-foreground);
+    text-wrap: balance;
+  }
+
+  .rail {
+    position: relative;
+    margin: clamp(40px, 5vw, 64px) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  /* The vertical spine, aligned to the dot centers. */
+  .rail::before {
+    content: '';
+    position: absolute;
+    left: 19px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: linear-gradient(var(--brand-200), var(--brand-200) 60%, transparent);
+  }
+  .item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 26px;
+    padding-bottom: 38px;
+  }
+  .item:last-child {
+    padding-bottom: 0;
+  }
+  .dot {
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 9999px;
+    background: var(--color-card);
+    border: 2px solid var(--color-brand);
+  }
+  .dot span {
+    width: 12px;
+    height: 12px;
+    border-radius: 9999px;
+    background: var(--color-brand);
+  }
+  .row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .date {
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    color: var(--color-brand-emphasis);
+  }
+  .tag {
+    padding: 6px 10px;
+    border-radius: 9999px;
+    background: var(--brand-100);
+    color: var(--color-brand-emphasis);
+    font-size: 10.5px;
+    font-weight: 600;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .title {
+    margin: 10px 0 0;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 1.3;
+    color: var(--color-foreground);
+  }
+  .text {
+    margin: 7px 0 0;
+    font-size: 15.5px;
+    line-height: 1.6;
+    color: var(--color-muted-foreground);
+    max-width: 58ch;
+  }
+</style>

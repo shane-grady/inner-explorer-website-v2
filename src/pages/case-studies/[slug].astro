@@ -1,0 +1,219 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '../../layouts/PageLayout.astro';
+import JsonLd from '../../components/seo/JsonLd.astro';
+import Breadcrumb from '../../components/primitives/Breadcrumb.astro';
+import CaseStudyHero from '../../components/blocks/case-study/CaseStudyHero.astro';
+import SnapshotBar from '../../components/blocks/case-study/SnapshotBar.astro';
+import StoryBlock from '../../components/blocks/case-study/StoryBlock.astro';
+import Pillars from '../../components/blocks/case-study/Pillars.astro';
+import Timeline from '../../components/blocks/case-study/Timeline.astro';
+import ResultsBand from '../../components/blocks/case-study/ResultsBand.astro';
+import CaseStudyVoices from '../../components/blocks/case-study/CaseStudyVoices.astro';
+import PhotoMosaic from '../../components/blocks/case-study/PhotoMosaic.astro';
+import GlowCTA from '../../components/blocks/GlowCTA.astro';
+import { articleSchema, breadcrumbSchema } from '../../lib/schema';
+
+// One schema-validated file per district drives the whole page. Add a new
+// src/content/case-studies/<slug>.yaml and a detail page builds itself.
+export async function getStaticPaths() {
+  const all = await getCollection('caseStudies', ({ data }) => !data.draft);
+  const sorted = all.sort((a, b) => a.data.order - b.data.order);
+  return sorted.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const d = entry.data;
+const path = `/case-studies/${entry.id}/`;
+
+const title = d.seoTitle ?? `${d.district.shortName} Case Study — Inner Explorer`;
+const description = d.seoDescription ?? d.meta.dek;
+
+const articleLd = articleSchema(Astro.site, {
+  title,
+  description,
+  author: 'Inner Explorer',
+  pubDate: d.publishedDate ?? d.updatedDate ?? new Date(),
+  updatedDate: d.updatedDate,
+  path,
+});
+// The case study is surfaced from the Newsroom content hub.
+const crumbLd = breadcrumbSchema(Astro.site, [
+  { name: 'Newsroom', path: '/newsroom' },
+  { name: d.district.name, path },
+]);
+---
+
+<PageLayout title={title} description={description} type="article">
+  <JsonLd slot="head" schema={articleLd} />
+  <JsonLd slot="head" schema={crumbLd} />
+
+  <div class="cs-progress" aria-hidden="true"><span class="cs-progress__bar"></span></div>
+
+  <div class="appearance-light cs">
+    <div class="bc">
+      <Breadcrumb
+        items={[{ label: 'Newsroom', href: '/newsroom' }, { label: d.district.shortName }]}
+      />
+    </div>
+
+    <CaseStudyHero
+      kicker={d.meta.kicker}
+      readingTime={d.meta.readingTime}
+      published={d.meta.published}
+      titleLead={d.meta.titleLead}
+      titleEmphasis={d.meta.titleEmphasis}
+      dek={d.meta.dek}
+      image={d.meta.heroImage}
+      imageAlt={d.meta.heroImageAlt}
+      primary={d.cta.primary}
+      secondary={{ label: 'See the results', href: '#results' }}
+      district={{
+        name: d.district.name,
+        location: d.district.location,
+        partnerSince: d.district.partnerSince,
+        seal: d.district.seal,
+      }}
+    />
+
+    {
+      d.district.snapshot.length > 0 && (
+        <SnapshotBar
+          stats={d.district.snapshot}
+          ariaLabel={`${d.district.shortName} at a glance`}
+        />
+      )
+    }
+
+    <StoryBlock
+      id="challenge"
+      eyebrow={d.intro.challenge.eyebrow}
+      heading={d.intro.challenge.heading}
+      body={d.intro.challenge.body}
+      image={d.intro.challenge.image}
+      imageAlt={d.intro.challenge.imageAlt}
+      statChip={d.intro.challenge.stat}
+    />
+
+    <StoryBlock
+      id="approach"
+      reversed
+      eyebrow={d.intro.approach.eyebrow}
+      heading={d.intro.approach.heading}
+      body={d.intro.approach.body}
+      image={d.intro.approach.image}
+      imageAlt={d.intro.approach.imageAlt}
+    />
+    {d.intro.approach.pillars.length > 0 && <Pillars items={d.intro.approach.pillars} />}
+
+    <Timeline
+      id="timeline"
+      eyebrow={d.timeline.eyebrow}
+      heading={d.timeline.heading}
+      phases={d.timeline.phases}
+    />
+
+    <ResultsBand
+      id="results"
+      eyebrow={d.metrics.eyebrow}
+      heading={d.metrics.heading}
+      note={d.metrics.note}
+      featured={d.metrics.featured}
+      metrics={d.metrics.grid}
+      sources={d.sources}
+    />
+
+    <CaseStudyVoices
+      id="voices"
+      eyebrow={d.voicesIntro.eyebrow}
+      headingLead={d.voicesIntro.headingLead}
+      headingEmphasis={d.voicesIntro.headingEmphasis}
+      trustRating={d.voicesIntro.trustRating}
+      trustLine={d.voicesIntro.trustLine}
+      studentsLabel={d.voicesIntro.studentsLabel}
+      voices={d.voices}
+      district={d.district.shortName}
+    />
+
+    {
+      d.gallery.images.length > 0 && (
+        <PhotoMosaic
+          id="gallery"
+          eyebrow={d.gallery.eyebrow}
+          heading={d.gallery.heading}
+          images={d.gallery.images}
+        />
+      )
+    }
+
+    <GlowCTA
+      sans={d.cta.heading}
+      serif={d.cta.headingEmphasis}
+      subtitle={d.cta.body}
+      primary={d.cta.primary}
+      secondary={d.cta.secondary}
+    />
+  </div>
+</PageLayout>
+
+<style>
+  /* Reading-progress bar across the top edge (above the floating nav). */
+  .cs-progress {
+    position: fixed;
+    inset: 0 0 auto 0;
+    height: 3px;
+    z-index: 60;
+    background: transparent;
+    pointer-events: none;
+  }
+  .cs-progress__bar {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, var(--color-brand), var(--brand-400));
+    transition: width 80ms linear;
+  }
+
+  .bc {
+    max-width: 1340px;
+    margin: 0 auto;
+    padding: 28px clamp(20px, 5vw, 64px) 0;
+  }
+</style>
+
+<!-- Scroll-reveal opt-in: only hide-then-animate when JS is ready AND motion is allowed.
+     No-JS / reduced-motion readers see the fully rendered page. Scoped under `.cs`. -->
+<style is:global>
+  @media (prefers-reduced-motion: no-preference) {
+    html[data-js-ready] .cs [data-cs-reveal] {
+      opacity: 0;
+      transform: translateY(20px);
+      transition:
+        opacity 0.6s var(--ease-out),
+        transform 0.6s var(--ease-out);
+    }
+    html[data-js-ready] .cs [data-cs-reveal].in {
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  import { observe } from '../../lib/intersect';
+
+  // Reveal sections as they scroll in (one-shot; reduced-motion-safe via intersect.ts).
+  observe('[data-cs-reveal]', { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+  // Reading-progress bar.
+  const bar = document.querySelector<HTMLElement>('.cs-progress__bar');
+  if (bar) {
+    const onScroll = () => {
+      const el = document.documentElement;
+      const max = el.scrollHeight - el.clientHeight;
+      bar.style.width = (max > 0 ? (el.scrollTop / max) * 100 : 0) + '%';
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+</script>
