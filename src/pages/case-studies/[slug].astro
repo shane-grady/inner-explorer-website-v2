@@ -4,7 +4,7 @@ import PageLayout from '../../layouts/PageLayout.astro';
 import JsonLd from '../../components/seo/JsonLd.astro';
 import Breadcrumb from '../../components/primitives/Breadcrumb.astro';
 import CaseStudyHero from '../../components/blocks/case-study/CaseStudyHero.astro';
-import SnapshotBar from '../../components/blocks/case-study/SnapshotBar.astro';
+import StatStrip from '../../components/blocks/StatStrip.astro';
 import StoryBlock from '../../components/blocks/case-study/StoryBlock.astro';
 import Pillars from '../../components/blocks/case-study/Pillars.astro';
 import Timeline from '../../components/blocks/case-study/Timeline.astro';
@@ -78,10 +78,16 @@ const crumbLd = breadcrumbSchema(Astro.site, [
 
     {
       d.district.snapshot.length > 0 && (
-        <SnapshotBar
-          stats={d.district.snapshot}
-          ariaLabel={`${d.district.shortName} at a glance`}
-        />
+        <div class="snap" data-cs-reveal>
+          <StatStrip
+            stats={d.district.snapshot}
+            labelCase="upper"
+            contained
+            size="compact"
+            maxWidth="1180px"
+            ariaLabel={`${d.district.shortName} at a glance`}
+          />
+        </div>
       )
     }
 
@@ -178,6 +184,12 @@ const crumbLd = breadcrumbSchema(Astro.site, [
     max-width: 1340px;
     margin: 0 auto;
     padding: 28px clamp(20px, 5vw, 64px) 0;
+  }
+
+  /* Separate the "at a glance" StatStrip band from the hero (the hero has no
+     bottom padding; matches the spacing the prior snapshot band carried). */
+  .snap {
+    margin-top: clamp(40px, 6vw, 72px);
   }
 </style>
 

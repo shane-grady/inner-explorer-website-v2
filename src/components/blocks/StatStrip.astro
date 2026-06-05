@@ -13,6 +13,10 @@ interface Props {
   /** `false` (default) is the full-bleed card band (About). `true` keeps the
    *  rules within the content column on the page background (detail pages). */
   contained?: boolean;
+  /** Figure scale. `display` (default) is the big About-page hero figure;
+   *  `compact` is a denser figure for snapshot bands with more columns (e.g. a
+   *  5-up case-study "at a glance" where the display size would overflow). */
+  size?: 'display' | 'compact';
   ariaLabel?: string;
 }
 const {
@@ -20,11 +24,16 @@ const {
   maxWidth = '1440px',
   labelCase = 'sentence',
   contained = false,
+  size = 'display',
   ariaLabel = 'Inner Explorer by the numbers',
 }: Props = Astro.props;
 ---
 
-<section class:list={['stats', { contained }]} aria-label={ariaLabel} style={`--mw: ${maxWidth}`}>
+<section
+  class:list={['stats', { contained, compact: size === 'compact' }]}
+  aria-label={ariaLabel}
+  style={`--mw: ${maxWidth}; --cols: ${stats.length}`}
+>
   <div class="stats-row">
     {
       stats.map((s) => (
@@ -60,18 +69,25 @@ const {
     max-width: var(--mw);
     margin: 0 auto;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    /* Column count follows the data — 4-up for About, 5-up for a case-study snapshot. */
+    grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr));
     align-items: end;
   }
   .stat-cell {
     padding: 56px 32px;
     border-right: 1px solid var(--color-border);
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: 8px;
   }
   .stat-cell:last-child {
     border-right: 0;
+  }
+  /* Compact: denser figure + padding so a 5-up band reads as a tidy snapshot
+     bar rather than the oversized hero stat. */
+  .compact .stat-cell {
+    padding: clamp(28px, 3vw, 38px) clamp(18px, 2vw, 26px);
   }
   .num {
     font-family: var(--font-display);
@@ -81,6 +97,9 @@ const {
     line-height: 1;
     letter-spacing: -0.02em;
     color: var(--color-foreground);
+  }
+  .compact .num {
+    font-size: clamp(30px, 3.2vw, 46px);
   }
   .num sup {
     font-size: 0.4em;
@@ -109,7 +128,9 @@ const {
     .stats-row {
       grid-template-columns: repeat(2, 1fr);
     }
-    .stat-cell:nth-child(2) {
+    /* Drop the rule on the right column for any column count (was hardcoded to
+       the 2nd cell, which broke for non-4-up bands). */
+    .stat-cell:nth-child(even) {
       border-right: 0;
     }
   }
@@ -128,10 +149,13 @@ const {
           if (!entry.isIntersecting) return;
           root.querySelectorAll<HTMLElement>('.num').forEach((el) => {
             const raw = el.dataset.value ?? '';
-            const m = raw.match(/([\d.,]+)(.*)$/);
+            // Anchored: only count up values that START with digits ("253K", "4 yrs",
+            // "2.4M"). Letter-leading values ("PreK–12") have no numeric lead and stay
+            // static rather than animating a stripped fragment.
+            const m = raw.match(/^([\d.,]+)(.*)$/);
             if (!m) return;
             const target = parseFloat(m[1].replace(/,/g, ''));
-            const tail = m[2]; // letters like "M"
+            const tail = m[2]; // letters like "M" or " yrs"
             const sup = el.querySelector('sup')?.outerHTML ?? '';
             const decimals = (m[1].split('.')[1] || '').length;
             const start = performance.now();
