@@ -4,3 +4,14 @@
 # Example:
 # /mindfulness-program   /program    301
 # /about-us              /about      301
+
+# Interim 301s for nav/footer routes that don't exist yet (SEO audit 2026-06:
+# every page emitted 8 dead internal links). Remove each line when the real
+# page ships. /signin is intentionally NOT redirected — it will be the app login.
+/educators    /platform    301
+/resources    /research    301
+/pricing      /contact     301
+/app          /platform    301
+/careers      /about       301
+/donate       /about       301
+/newsletter   /newsroom    301

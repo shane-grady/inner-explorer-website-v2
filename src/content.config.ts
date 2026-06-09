@@ -157,7 +157,9 @@ const caseStudies = defineCollection({
           pillars: z
             .array(
               z.object({
-                icon: z.enum(['play', 'repeat', 'chart']).default('play'),
+                icon: z
+                  .enum(['play', 'repeat', 'chart', 'calendar', 'palette', 'heart', 'compass'])
+                  .default('play'),
                 title: z.string(),
                 text: z.string(),
               }),
@@ -186,7 +188,31 @@ const caseStudies = defineCollection({
         featured: metric,
         grid: z.array(metric).default([]),
       }),
-      sources: z.array(z.object({ id: z.number(), text: z.string() })).default([]),
+      // Optional grouped bar chart rendered after the results band (e.g. the Webb
+      // School restraints-by-year figure). `tone` is a token vocabulary, not data:
+      // muted = baseline bars, brand = outcome bars, accent = a noteworthy aside.
+      chart: z
+        .object({
+          title: z.string(),
+          subtitle: z.string().optional(),
+          foot: z.string().optional(),
+          sourceId: z.number().optional(),
+          groups: z
+            .array(
+              z.object({
+                label: z.string(),
+                tone: z.enum(['muted', 'brand', 'accent']).default('brand'),
+                bars: z.array(z.object({ label: z.string(), value: z.number() })).min(1),
+              }),
+            )
+            .min(1),
+        })
+        .optional(),
+      // `href` links a citation to its public source (DOI, agency page) — linked,
+      // verifiable sources are an E-E-A-T/AI-citation signal, not just a footnote.
+      sources: z
+        .array(z.object({ id: z.number(), text: z.string(), href: z.string().url().optional() }))
+        .default([]),
 
       voicesIntro: z.object({
         eyebrow: z.string(),

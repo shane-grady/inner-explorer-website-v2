@@ -572,3 +572,25 @@ retunable additions to `global.css`; reuse-first throughout.
 - [ ] Add Vitest (Container API) + Playwright (+ `@axe-core/playwright`) and wire into CI.
 - [ ] (Deferred) Lightweight custom CMS admin over the content collections.
 - [ ] Connect repo to Claude Design workspace so handoff writes against these tokens/components.
+
+## Webb School case study — transfer from innerexplorer.com/case-study4 (2026-06)
+
+Goal: publish the real Webb School in the Valley story (65% fewer restraints &
+seclusions) at `/case-studies/webb-school/`, reusing the Broward one-YAML-per-page
+pattern, then run a comprehensive SEO workflow and apply improvements.
+
+- [x] Schema: extend pillar icon enum; add optional `chart` section (caseStudies).
+- [x] Types: mirror PillarIcon + chart interfaces in case-study/types.ts.
+- [x] New block: ResultsChart.astro (accessible, token-only bar chart, zero JS).
+- [x] Pillars.astro: 4-up grid support + 4 new icons.
+- [x] [slug].astro: conditional chart render after ResultsBand.
+- [ ] Images: generate via Higgsfield (hero/challenge/approach/gallery ×6,
+      2 portraits, newsroom cover); compress; save under assets.
+- [x] Content: webb-school.yaml (real facts; representative fills flagged # REVIEW).
+- [x] PDF: copy original → public/downloads/webb-school-case-study.pdf.
+- [x] Newsroom: add Webb case-study story card.
+- [x] Verify: preview screenshots (desktop+mobile), Broward unchanged, pnpm build
+      meta/JSON-LD/sitemap inspection, pnpm check green.
+- [x] SEO: Workflow audit (on-page, technical, structured data, E-E-A-T/GEO, SERP)
+      → verify findings → apply (incl. per-page OG image threading) → re-verify.
+- [ ] Commit + PR to main.

@@ -8,14 +8,35 @@ interface Props {
   title: string;
   description?: string;
   type?: 'website' | 'article';
+  /** Page-specific social-share image (path or URL); falls back to the site default. */
+  image?: string;
+  /** Alt text for the share image (og:image:alt / twitter:image:alt). */
+  imageAlt?: string;
+  /** Hide the page from search engines (e.g. the internal styleguide). */
+  noindex?: boolean;
   // The nav is a floating glass pill (position: fixed). Pages get top clearance by
   // default; hero pages (e.g. About) set `flushTop` so a full-bleed hero sits under it.
   flushTop?: boolean;
 }
-const { title, description, type = 'website', flushTop = false }: Props = Astro.props;
+const {
+  title,
+  description,
+  type = 'website',
+  image,
+  imageAlt,
+  noindex,
+  flushTop = false,
+}: Props = Astro.props;
 ---
 
-<BaseLayout title={title} description={description} type={type}>
+<BaseLayout
+  title={title}
+  description={description}
+  type={type}
+  image={image}
+  imageAlt={imageAlt}
+  noindex={noindex}
+>
   <slot name="head" slot="head" />
   <a
     href="#main"

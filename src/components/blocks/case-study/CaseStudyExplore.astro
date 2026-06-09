@@ -1,0 +1,242 @@
+---
+// "Keep exploring" band — contextual internal links out of a case study (research,
+// districts, platform) plus a cross-link to the next case study. Added per the SEO
+// audit: a proof page that dead-ends into a PDF wastes the topical authority it
+// builds, and descriptive anchors seed the phrases the linked pages should rank for.
+interface ExploreLink {
+  label: string;
+  text: string;
+  href: string;
+}
+interface NextStudy {
+  href: string;
+  headline: string;
+  statValue: string;
+  statLabel: string;
+}
+interface Props {
+  links: ExploreLink[];
+  next?: NextStudy | null;
+  id?: string;
+}
+const { links, next, id }: Props = Astro.props;
+---
+
+<section class="explore" id={id} aria-labelledby="explore-heading">
+  <div class="wrap">
+    <header class="head" data-cs-reveal>
+      <span class="eyebrow">Keep exploring</span>
+      <h2 class="h2" id="explore-heading">
+        The story behind <em>the results</em>
+      </h2>
+    </header>
+
+    <div class="grid" data-cs-reveal>
+      {
+        links.map((l) => (
+          <a class="card" href={l.href}>
+            <span class="label">{l.label}</span>
+            <span class="text">{l.text}</span>
+            <span class="arrow" aria-hidden="true">
+              →
+            </span>
+          </a>
+        ))
+      }
+    </div>
+
+    {
+      next && (
+        <a class="next" href={next.href} data-cs-reveal>
+          <span class="next-body">
+            <span class="label">Next case study</span>
+            <span class="next-headline">{next.headline}</span>
+          </span>
+          <span class="next-stat">
+            <b>{next.statValue}</b>
+            <span>{next.statLabel}</span>
+          </span>
+          <span class="arrow" aria-hidden="true">
+            →
+          </span>
+        </a>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .explore {
+    padding-top: clamp(72px, 9vw, 132px);
+  }
+  .wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding-inline: clamp(20px, 5vw, 64px);
+  }
+  .head {
+    margin-bottom: clamp(28px, 3.6vw, 44px);
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--color-brand-emphasis);
+  }
+  .eyebrow::before {
+    content: '';
+    width: 22px;
+    height: 1.5px;
+    background: var(--color-brand-emphasis);
+  }
+  .h2 {
+    margin: 14px 0 0;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: clamp(28px, 3.6vw, 40px);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    color: var(--color-foreground);
+    text-wrap: balance;
+  }
+  .h2 em {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--color-brand-emphasis);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(14px, 1.8vw, 20px);
+  }
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: clamp(22px, 2.6vw, 30px);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-sm);
+    text-decoration: none;
+    transition:
+      transform var(--dur) var(--ease-out),
+      box-shadow var(--dur) var(--ease-out),
+      border-color var(--dur) var(--ease-out);
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--brand-200);
+  }
+  .label {
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-brand-emphasis);
+  }
+  .text {
+    font-size: 15.5px;
+    font-weight: 500;
+    line-height: 1.5;
+    color: var(--color-foreground);
+    text-wrap: pretty;
+  }
+  .arrow {
+    margin-top: auto;
+    padding-top: 10px;
+    font-size: 18px;
+    line-height: 1;
+    color: var(--color-brand-emphasis);
+    transition: transform var(--dur) var(--ease-out);
+  }
+  .card:hover .arrow,
+  .next:hover .arrow {
+    transform: translateX(4px);
+  }
+
+  .next {
+    margin-top: clamp(14px, 1.8vw, 20px);
+    display: flex;
+    align-items: center;
+    gap: clamp(18px, 3vw, 40px);
+    padding: clamp(22px, 2.6vw, 30px);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-sm);
+    text-decoration: none;
+    transition:
+      transform var(--dur) var(--ease-out),
+      box-shadow var(--dur) var(--ease-out),
+      border-color var(--dur) var(--ease-out);
+  }
+  .next:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--brand-200);
+  }
+  .next-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+  }
+  .next-headline {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(19px, 2.2vw, 26px);
+    line-height: 1.25;
+    color: var(--color-foreground);
+    text-wrap: pretty;
+  }
+  .next-stat {
+    margin-left: auto;
+    flex: none;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    max-width: 30ch;
+  }
+  .next-stat b {
+    font-weight: 600;
+    font-size: clamp(24px, 2.6vw, 32px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--color-brand-emphasis);
+  }
+  .next-stat span {
+    font-size: 13.5px;
+    line-height: 1.4;
+    color: var(--color-muted-foreground);
+  }
+  .next > .arrow {
+    margin-top: 0;
+    padding-top: 0;
+    flex: none;
+  }
+
+  @media (max-width: 820px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+    .next {
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+    .next-stat {
+      margin-left: 0;
+    }
+  }
+</style>

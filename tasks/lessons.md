@@ -173,3 +173,18 @@ var(--color-foreground)` so the wrapper paints its surface in the pinned tones.
     below-the-fold verification, drive interactions with `preview_click` and read state /
     computed styles with `preview_eval` + `preview_snapshot` instead of screenshotting.
     Top-anchored screenshots (scrollY≈0) capture fine.
+
+## 2026-06-09 — Webb School case study build
+- `sr-only` on a `<table>` does NOT collapse it: tables refuse width below
+  min-content, leaving an invisible page-wide overflow on mobile. Wrap tables in
+  a `div.sr-only` instead.
+- In a column flex container, `flex: 1` (basis 0) overrides an explicit `height`
+  on the child for main-axis sizing — the child collapses to min-content if the
+  container is auto-height. Drop the `flex` shorthand when the child has a fixed
+  height.
+- The preview screenshot tool intermittently captures `data-cs-reveal` content
+  as hidden (IntersectionObserver doesn't fire in its capture context). Verify
+  via DOM eval (classList/computed opacity), not pixels, for reveal-gated UI.
+- Workflow-tool subagents DO spawn successfully in this Cowork env now
+  (10-agent SEO audit ran 2026-06-09) — the prompt-overflow note may be stale
+  for Workflow specifically; Task/Explore agents still unverified.

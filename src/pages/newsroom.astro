@@ -10,6 +10,7 @@ import type { Story } from '../components/blocks/newsroom/types';
 // Localized stand-in classroom photography (Unsplash placeholders — swap for real
 // Inner Explorer imagery before publish; see tasks/todo.md).
 import broward from '../assets/images/newsroom/broward.jpg';
+import webbSchool from '../assets/images/newsroom/webb-school.jpg';
 import morningCircle from '../assets/images/newsroom/morning-circle.jpg';
 import lincoln from '../assets/images/newsroom/lincoln.jpg';
 import bigFeelings from '../assets/images/newsroom/big-feelings.jpg';
@@ -32,6 +33,19 @@ const categories = [
 ] as const;
 
 const stories: Story[] = [
+  {
+    id: 17,
+    cat: 'case-study',
+    catLabel: 'Case study',
+    title: 'The Webb School cut restraints and seclusions 65% — here’s how',
+    excerpt:
+      'Inside a therapeutic school where a daily mindfulness practice replaced points and levels with self-regulation.',
+    date: '2026-06-09',
+    read: 7,
+    pop: 92,
+    href: '/case-studies/webb-school/',
+    cover: { kind: 'photo', photo: webbSchool },
+  },
   {
     id: 1,
     cat: 'case-study',
