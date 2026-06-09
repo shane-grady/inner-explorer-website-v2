@@ -1,8 +1,10 @@
 import type { ImageMetadata } from 'astro';
 
-// Shared types for the case-study blocks (CaseStudyHero / SnapshotBar / StoryBlock /
-// Pillars / Timeline / ResultsBand / CaseStudyVoices / PhotoMosaic) and the
-// `case-studies/[slug]` route. Kept in a plain `.ts` module so the types compile
+// Shared types for the case-study blocks (CaseStudyHero / StoryBlock / Pillars /
+// Timeline / ResultsBand / CaseStudyVoices / PhotoMosaic) and the
+// `case-studies/[slug]` route. The "at a glance" stats band beneath the hero reuses
+// the shared `StatStrip` (the About-page stats component), fed `district.snapshot`
+// (a `ValueLabel[]`). Kept in a plain `.ts` module so the types compile
 // cleanly — Astro frontmatter trips on multi-line `export type` unions (see
 // tasks/lessons.md) — and every block imports from one source.
 //

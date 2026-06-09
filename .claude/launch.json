@@ -30,6 +30,12 @@
       "runtimeExecutable": "pnpm",
       "runtimeArgs": ["exec", "astro", "dev", "--port", "4425"],
       "port": 4425
+    },
+    {
+      "name": "ie-dev-casestudy",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["exec", "astro", "dev", "--port", "4427"],
+      "port": 4427
     }
   ]
 }

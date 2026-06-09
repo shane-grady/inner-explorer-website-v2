@@ -1,5 +1,38 @@
 # Tasks — Inner Explorer Website
 
+## Case study snapshot → reuse About-page StatStrip (2026-06)
+
+Goal: the stats band directly beneath the case-study hero should reuse the
+About-page stats component (`StatStrip`) instead of the bespoke `SnapshotBar`.
+
+- [x] Extend shared `StatStrip` (backward-compatible — About/Narrators unchanged):
+  - [x] Column count derives from `stats.length` (`--cols`), not hardcoded 4-up.
+  - [x] Generalize mobile divider removal (`nth-child(even)`, not `nth-child(2)`).
+  - [x] Anchor count-up regex (`^…`) so letter-leading values (`PreK–12`) stay static.
+  - [x] Add a `size` variant (`display` default | `compact`) so a denser N-up snapshot
+        bar fits without the huge hero figure overflowing.
+- [x] Swap `SnapshotBar` → `StatStrip` on `case-studies/[slug]` (contained, upper labels,
+      compact, 1180px to match the case-study content rhythm; preserve top spacing + reveal).
+- [x] Delete now-unused `SnapshotBar.astro`; update `case-study/types.ts` comment.
+- [x] Verify: `pnpm check` green; dev-server render of `/case-studies/broward/` — no
+      overflow on `PreK–12`, count-up animates numeric cells only, mobile 2-up clean.
+
+### Review
+
+- The "at a glance" band beneath the case-study hero now reuses the About-page
+  `StatStrip` instead of the bespoke `case-study/SnapshotBar`. Same italic Libre-Caslon
+  figures + hairline rules + tracked-caps labels, fed `district.snapshot` directly
+  (`ValueLabel[]` is structurally a `StatStrip` `Stat[]`).
+- `StatStrip` gained three backward-compatible levers: `--cols` (data-driven column
+  count), a `compact` `size` variant (denser figure/padding for N-up snapshot bands),
+  and an anchored count-up regex. Verified About (4-up, full-bleed, 66px display,
+  sentence labels, `+`/`%` sup) and the count-up across About/narrator values are
+  unchanged.
+- Verified on `/case-studies/broward/`: 5-up, no overflow on `PreK–12` even at the
+  46px font cap (236px cells); numeric cells count up while `PreK–12` stays static;
+  mobile collapses to a clean 2-up with no dangling dividers (incl. the trailing 5th
+  cell). `pnpm check` (typecheck + lint + drift + format) green.
+
 ## Foundation (complete)
 
 - [x] **Phase 0 — Scaffold + tooling**: Astro 6 (strict TS), Tailwind v4, React,
