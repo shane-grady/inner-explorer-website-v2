@@ -264,12 +264,13 @@ const collectionLd = {
 </PageLayout>
 
 <style>
-  /* Soft white→mint page wash. Painted on the light-pinned wrapper (overrides the
-     flat `.appearance-light` background); flushTop means it fills from the top
-     edge, so no dark body seam shows behind the floating nav. */
+  /* The page rides on the site's standard gray surface, painted by `.appearance-light`
+     (var(--background)) like the rest of the marketing pages — no bespoke wash. flushTop
+     drops the layout's default nav clearance, so this top padding gives the masthead room
+     to breathe below the floating nav (the band still fills to the top edge, so no dark
+     body seam shows behind it). */
   .page-wash {
-    background: var(--newsroom-wash);
-    padding-top: clamp(40px, 6vw, 64px);
+    padding-top: clamp(72px, 8vw, 112px);
   }
 </style>
 
