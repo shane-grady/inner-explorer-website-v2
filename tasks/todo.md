@@ -807,10 +807,30 @@ Photos show upper-elementary/middle-school-age students.
 
 ### Plan
 
-- [ ] Placeholder images under final filenames; PDF → public/downloads/
-- [ ] la-joya-isd.yaml (order 7) + newsroom card id 22
-- [ ] Imagery: Higgsfield per inner-explorer-covers conventions (bilingual
-      special-ed classroom, TX Rio Grande Valley; vision-review every image)
-- [ ] SEO Workflow: research → synthesize → apply → adversarial verify
-- [ ] Verify: preview, baseline dist diff, pnpm check, build, dist inspection
-- [ ] Commit + PR
+- [x] Placeholder images under final filenames; PDF → public/downloads/
+- [x] la-joya-isd.yaml (order 7) + newsroom card id 22
+- [x] Imagery: Higgsfield per inner-explorer-covers conventions — 12 generations
+      (~112 credits), every image vision-reviewed, 1 NSFW false-positive
+      reworded and cleared; 11 installed at 1600px JPEG (229–299KB) + newsroom
+      cover.
+- [x] SEO Workflow: 11 agents (~1.0M tokens) — 4 researchers → synthesis (25
+      rules, 10 fact verdicts) → 3 appliers → 3 adversarial verifiers. 32/36
+      proposals accepted and applied (4 rejected: redundant heading swap,
+      "emergent bilingual" overreach, weaker pillar reword, demographics with
+      misattributed year). Key verified findings: TEA intervention →
+      classroom-scoped framing everywhere; 43% stat is vendor-provenance →
+      demoted to pillar with attribution; @HOME/TuneIn → HOME / Tune In; CEIS
+      funding-law fix; 4 new linked sources incl. first-party La Joya video.
+- [x] Verify: preview desktop + 345px (no overflow), all 11 images cache-busted
+      200, canonical sentence ×2, 80% absent, baseline diff clean (only
+      dwight-morrow next-card retarget), pnpm check green, build green, dist
+      inspection (title 59, desc 152, OG hero, Article JSON-LD 7 citations,
+      sitemap, ~14KB JS).
+- [x] Commit + PR #21 (collision check at push: order 7 / id 22 free; the
+      Michigan parallel session had not pushed yet)
+
+  Review: page live at /case-studies/la-joya-isd/. PUBLISH GATES for launch
+  review: 85% vs 80% source discrepancy (85% featured), two stand-in portraits
+  (Lopez Guerra, Garza), 43% canonical source, representative timeline stage
+  labels. A parallel session (worktree xenodochial-knuth) appears to be building
+  Mindful Michigan — expect order/newsroom-id merge races.
