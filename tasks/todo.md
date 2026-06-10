@@ -636,7 +636,7 @@ research-backed SEO workflow. Decisions (user, 2026-06-09): Webb-precedent fidel
       desc 152, OG = hero crop, Article JSON-LD with 4 citations, sitemap entry,
       canonical stat sentence, stale claims absent), new imagery confirmed in
       build (content-hashed assets) + cache-busted preview fetch.
-- [ ] Commit + PR to main.
+- [x] Commit + PR to main (PR #19).
 
   Review: page live at /case-studies/john-marshall-hs/. PUBLISH GATES for launch
   review: partnerSince '2017' (representative), 2017–18 pilot dates (derived),
