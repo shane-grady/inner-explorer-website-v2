@@ -18,9 +18,35 @@ synthesis, application, and adversarial verification). Applied to
   schools? · What are the alternatives to restraint and seclusion? · What is
   MBSEL? · How long does a school mindfulness program take to show results? ·
   What did the pilot cost?
-- **Procurement vocabulary:** Title IV-A (Safe and Healthy Students) · IDEA early
+- **Procurement vocabulary:** Title IV, Part A (Student Support and Academic
+  Enrichment — its official name; "Safe and Healthy Students" is an allowable-use
+  category inside it, not the program name; corrected 2026-06) · IDEA early
   intervening services · state school mental-health grants · MTSS / Tier 1
   universal support · ESSA evidence tiers · restraint and seclusion reporting
+
+## Keyword map (Goddard Middle School page, 2026-06 workflow)
+
+- **Primary:** mindfulness case study middle school · SEL case study middle school ·
+  Mindfulness-Based Social Emotional Learning (MBSEL) · Inner Explorer case study ·
+  mindfulness academic performance middle school (long-tail/entity variants only —
+  the head term is owned by MIT/PMC)
+- **Secondary:** social emotional learning academic achievement · daily mindfulness
+  practice in the classroom · "students meeting or exceeding expectations" (official
+  CMAS vocabulary — keep byte-identical) · trauma-sensitive / trauma-informed (one
+  use each) · self-regulation / self-management (CASEL competency) · MTSS Tier 1
+  classroom / Tier 2 small-group (ASCA 2025 vocabulary)
+- **Question phrases:** How did Goddard Middle School earn state recognition in
+  academics? · What is MBSEL? · Does MBSEL replace an existing SEL curriculum? ·
+  How long until academic results? (the two-year window) · What did it cost? ·
+  How much training did teachers need?
+- **Entities (verified):** Goddard Middle School (NCES 080531000879, grades 6–8,
+  open) · Littleton Public Schools · CMAS · Colorado Department of Education —
+  never "Colorado State Department of Education" · LG Electronics USA "Life's Good:
+  Experience Happiness" · Jenica Loether, School Counselor
+- **Claim discipline (2026 evidence):** SEL→academics is well-evidenced (Ha et al.
+  2025 RER meta-analysis); standalone mindfulness→test-scores remains contested
+  (MYRIAD null findings) — keep "preceded / the principal credited" association
+  framing, never causal "mindfulness raises test scores".
 
 ## Rules that earned their place (evidence-backed)
 

@@ -14,10 +14,21 @@ interface Props {
   featured: Metric;
   metrics: Metric[];
   chart?: ResultsChartData;
+  charts?: ResultsChartData[];
   sources?: Source[];
   id?: string;
 }
-const { eyebrow, heading, note, featured, metrics, chart, sources = [], id }: Props = Astro.props;
+const {
+  eyebrow,
+  heading,
+  note,
+  featured,
+  metrics,
+  chart,
+  charts = [],
+  sources = [],
+  id,
+}: Props = Astro.props;
 
 const arrow = (trend?: Metric['trend']) =>
   trend === 'up-good' ? '↑' : trend === 'down-good' ? '↓' : '';
@@ -65,6 +76,7 @@ const arrow = (trend?: Metric['trend']) =>
     </div>
 
     {chart && <ResultsChart {...chart} />}
+    {charts.map((c) => <ResultsChart {...c} />)}
 
     {
       sources.length > 0 && (

@@ -584,7 +584,7 @@ pattern, then run a comprehensive SEO workflow and apply improvements.
 - [x] New block: ResultsChart.astro (accessible, token-only bar chart, zero JS).
 - [x] Pillars.astro: 4-up grid support + 4 new icons.
 - [x] [slug].astro: conditional chart render after ResultsBand.
-- [ ] Images: generate via Higgsfield (hero/challenge/approach/gallery ×6,
+- [x] Images: generate via Higgsfield (hero/challenge/approach/gallery ×6,
       2 portraits, newsroom cover); compress; save under assets.
 - [x] Content: webb-school.yaml (real facts; representative fills flagged # REVIEW).
 - [x] PDF: copy original → public/downloads/webb-school-case-study.pdf.
@@ -593,7 +593,42 @@ pattern, then run a comprehensive SEO workflow and apply improvements.
       meta/JSON-LD/sitemap inspection, pnpm check green.
 - [x] SEO: Workflow audit (on-page, technical, structured data, E-E-A-T/GEO, SERP)
       → verify findings → apply (incl. per-page OG image threading) → re-verify.
-- [ ] Commit + PR to main.
+- [x] Commit + PR to main (PR #15, merged).
+
+## Goddard Middle School case study — transfer from innerexplorer.com/case-study3 (2026-06)
+
+Goal: publish the Goddard Middle School story (academic gains 3X the state in
+ELA & math, 5X in science, 2016–2018; LG-funded) at
+`/case-studies/goddard-middle-school/` via the transfer-case-study skill (this
+session doubles as the skill's real-environment evaluation).
+
+- [x] Extract: legacy HTML + 3-page PDF (pypdf — bundled regex extractor fails on
+      CID fonts) + all three chart images read via vision; web/PDF header-swap
+      discrepancy noted (PDF pairing is correct).
+- [x] Decisions (user): representative copy + PUBLISH GATE; generate new imagery;
+      extend schema with charts[]; slug goddard-middle-school.
+- [x] Schema: additive optional `charts[]` (+ `valueSuffix` for %-bars) in
+      content.config.ts, types.ts, ResultsChart, ResultsBand, [slug].astro.
+- [x] Fix (shared, pre-existing): `.next-stat` fixed 30ch → `min(30ch, 100%)` —
+      next-study card overflowed every case-study page at ≤345px viewports.
+- [x] Content: goddard-middle-school.yaml (order 3; real facts; REVIEW/PUBLISH
+      GATE comments on inferred dates, portraits, student voices, trust line).
+- [x] PDF: copy original → public/downloads/goddard-middle-school-case-study.pdf.
+- [x] Newsroom: add Goddard case-study story card (id 18).
+- [x] Images: generated via Higgsfield (hero/challenge/approach/gallery ×6,
+      2 portraits, newsroom cover); every image reviewed; installed ≤300KB.
+- [x] SEO: content workflow ran (4 researchers → synthesize → 3 appliers →
+      3 adversarial verifiers; 23/28 proposals accepted). Verified-entity wins:
+      CMAS named (CDE archives), "Colorado Department of Education" corrected
+      (the source's "Colorado State Department of Education" names no agency),
+      Littleton Public Schools added (NCES), LG initiative named + linked, LG
+      tense made period-bound, Title IV-A program name corrected (also fixed in
+      seo-playbook.md). All new source URLs verified 200.
+- [x] Verify: preview desktop/375/320 (no overflow), 3 charts + FAQ + voices
+      render, existing pages unchanged vs baseline except CSS hash + the
+      intentional next-card retarget, pnpm check green, dist meta/JSON-LD/
+      sitemap audit passed (title 53ch, desc 154ch, 4 JSON-LD citations).
+- [x] Commit + PR to main (PR #16, merged).
 
 ## John Marshall HS case study — transfer from innerexplorer.com/case-study5 (2026-06)
 
@@ -610,12 +645,13 @@ research-backed SEO workflow. Decisions (user, 2026-06-09): Webb-precedent fidel
 - [x] Baseline `pnpm build` dist snapshot → /tmp/baseline-dist (Broward + Webb must
       stay byte-identical except next-card retarget + CSS hash).
 - [x] Placeholder images under final filenames (webb stand-ins).
-- [x] Content: john-marshall-hs.yaml (order 3; real quotes ×9, real stats; gates
+- [x] Content: john-marshall-hs.yaml (order 4 after the Goddard merge; real
+      quotes ×9, real stats; gates
       on representative fills). CASEL designation VERIFIED at pg.casel.org
       2026-06-09: "Designated SEL-Supportive Program" (resolves the seo-playbook
       open follow-up; legacy "CASEL-approved" not carried forward).
 - [x] PDF: copy original → public/downloads/john-marshall-hs-case-study.pdf.
-- [x] Newsroom: story card id 18, first in array (stable sort on tie-date).
+- [x] Newsroom: story card id 19 (renumbered after the Goddard merge took 18).
 - [x] Imagery: Higgsfield per inner-explorer-covers conventions — 13 generations
       (~91 credits), every image vision-reviewed; 2 REJECTED for invented school
       names on banners ("DUNBAR", "WESTLAKE HIGH") and regenerated with
@@ -642,3 +678,6 @@ research-backed SEO workflow. Decisions (user, 2026-06-09): Webb-precedent fidel
   review: partnerSince '2017' (representative), 2017–18 pilot dates (derived),
   two stand-in portraits (Kelly, Roeder). Follow-ups in tasks/seo-playbook.md
   (audio excerpt, 301s at migration, LAUSD signup year if source found).
+  Merge with main (Goddard, PR #16): JM renumbered to order 4 + newsroom id 19
+  (both collided at order 3 / id 18); next-card chain is now Broward → Webb →
+  Goddard → John Marshall → Broward.

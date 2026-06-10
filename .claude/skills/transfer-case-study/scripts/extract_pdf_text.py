@@ -28,7 +28,21 @@ def extract(path: str) -> str:
             txt = re.sub(rb'\)\s*-?[\d.]+\s*\(', b'', chunk)
             txt = txt.replace(rb'\(', b'(').replace(rb'\)', b')').replace(rb'\\', b'\\')
             out.append(txt.decode('latin-1', 'ignore'))
-    return ' '.join(out)
+    text = ' '.join(out)
+    # PDFs with Type0/CIDFontType2 fonts store glyph indices, not ASCII, so the
+    # regex pass yields nothing (hit on Goddard-MS.pdf, 2026-06). pypdf follows
+    # the ToUnicode CMaps and recovers full text — fall back to it.
+    if len(text.strip()) < 40:
+        try:
+            from pypdf import PdfReader
+
+            return '\n'.join(p.extract_text() or '' for p in PdfReader(path).pages)
+        except ImportError:
+            sys.stderr.write(
+                'No plain-text Tj/TJ operators found (likely CID-encoded fonts). '
+                'Install the fallback: pip3 install --user pypdf\n'
+            )
+    return text
 
 
 if __name__ == '__main__':
