@@ -17,6 +17,20 @@ any correction or surprise.
   `pnpm-workspace.yaml` as `allowBuilds: { esbuild: true, sharp: true, '@tailwindcss/oxide': true }`.
   The `package.json` "pnpm" field is ignored (warns).
 - `pnpm` and `corepack` were not preinstalled; `npm i -g pnpm` works.
+- **netlify-cli resolves the project root past a git worktree** (worktrees have a
+  `.git` _file_; the CLI walks up to the main checkout's `.git/` dir), so
+  `netlify serve`/`dev` in a `.claude/worktrees/*` worktree silently skips
+  `netlify/edge-functions/` — no error, the functions just never load. `--cwd`
+  doesn't fix it. To exercise edge functions locally from a worktree, stage a
+  minimal copy outside the repo (`netlify.toml` with `command = "true"`, the
+  `netlify/` dir, prebuilt `dist/`) and run `netlify serve` there; spoof hosts
+  with `curl -H "Host: …"`.
+- **Netlify auto-noindexes deploy previews/branch deploys** (`X-Robots-Tag` is
+  added by the platform) but NOT the production deploy on the `*.netlify.app`
+  subdomain. So a deploy-preview curl can't prove your own noindex logic works —
+  verify via the local edge runtime instead. A tell that an edge function ran on
+  a response: strong `etag` becomes weak (`W/"…-df"`), `content-length` dropped,
+  `vary: Accept-Encoding` added.
 
 ## Astro 6 specifics
 
