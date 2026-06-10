@@ -60,6 +60,12 @@
       "runtimeExecutable": "pnpm",
       "runtimeArgs": ["exec", "astro", "dev", "--port", "4435"],
       "port": 4435
+    },
+    {
+      "name": "ie-dev-lajoya",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["exec", "astro", "dev", "--port", "4437"],
+      "port": 4437
     }
   ]
 }

@@ -19,3 +19,8 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     X-Frame-Options = "SAMEORIGIN"
+
+# X-Robots-Tag: noindex for *.netlify.app hosts (staging / previews / branch deploys)
+# is added per-request by netlify/edge-functions/noindex-netlify-host.ts (declared
+# inline via its `config` export). [[headers]] here can't condition on Host, and the
+# production custom domain must NOT get the header.

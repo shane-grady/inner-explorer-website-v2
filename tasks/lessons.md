@@ -17,6 +17,20 @@ any correction or surprise.
   `pnpm-workspace.yaml` as `allowBuilds: { esbuild: true, sharp: true, '@tailwindcss/oxide': true }`.
   The `package.json` "pnpm" field is ignored (warns).
 - `pnpm` and `corepack` were not preinstalled; `npm i -g pnpm` works.
+- **netlify-cli resolves the project root past a git worktree** (worktrees have a
+  `.git` _file_; the CLI walks up to the main checkout's `.git/` dir), so
+  `netlify serve`/`dev` in a `.claude/worktrees/*` worktree silently skips
+  `netlify/edge-functions/` — no error, the functions just never load. `--cwd`
+  doesn't fix it. To exercise edge functions locally from a worktree, stage a
+  minimal copy outside the repo (`netlify.toml` with `command = "true"`, the
+  `netlify/` dir, prebuilt `dist/`) and run `netlify serve` there; spoof hosts
+  with `curl -H "Host: …"`.
+- **Netlify auto-noindexes deploy previews/branch deploys** (`X-Robots-Tag` is
+  added by the platform) but NOT the production deploy on the `*.netlify.app`
+  subdomain. So a deploy-preview curl can't prove your own noindex logic works —
+  verify via the local edge runtime instead. A tell that an edge function ran on
+  a response: strong `etag` becomes weak (`W/"…-df"`), `content-length` dropped,
+  `vary: Accept-Encoding` added.
 
 ## Astro 6 specifics
 
@@ -335,3 +349,37 @@ src/content/case-studies/*.yaml` for duplicates and renumber.
 - **Media outlets rebrand:** the cited Second Wave article now lives at
   fromcommonground.com with a different title. Re-resolve legacy press URLs and
   cite the current domain + exact title, not the legacy page's description of it.
+
+## 2026-06-10 — La Joya ISD case study transfer
+
+- **A legacy source can disagree with ITSELF on the headline stat.** La Joya's
+  page and PDF both print "reduction in behavior issues" twice — 85% (page 1)
+  and 80% (page 2) — for the same claim. Neither the fact-verification agent nor
+  any first/third-party restatement resolves it. Pattern: feature the
+  primary-placement figure, keep the variant off-page entirely, PUBLISH GATE for
+  the owner, and make "reported … as observed by educators" load-bearing in
+  every occurrence.
+- **Verify the SUBJECT's governance before letting the district act in
+  headlines.** La Joya ISD has been under TEA intervention (board of managers
+  2024 → conservator → authority through 2028). The page was reframed so
+  classrooms and named educators are always the acting subject. Check for
+  takeovers/conservatorships on every new district BEFORE writing the H1 — it
+  changes every "District did X" sentence.
+- **Re-verify legacy product naming against the live product.** The 2022 source
+  says "@HOME app" and "TuneIn"; current branding is "Inner Explorer HOME" and
+  "Tune In" (innerexplorer.com/homeapp). Legacy pages are authoritative for the
+  school's story, never for product naming.
+- **Funding-stream vocabulary has failure modes worse than omission.** The
+  first-draft FAQ implied CEIS funds special-education classrooms — by
+  regulation (34 CFR 300.226) CEIS serves students NOT yet identified for
+  special education. For special-ed pages: IDEA Part B is the lane, CEIS only as
+  scale-beyond-special-ed, and never ESSER/ARP/Title III.
+- **Higgsfield NSFW false-positive on "tween boy" + distress posture** ("hands
+  pressed to his temples, overwhelmed") — reworded to "young student about 12 …
+  eyes downcast at a confusing worksheet" and it cleared. The covers-skill
+  guidance (swap the subject noun, soften the distress) works for tweens too.
+- **A funder report is not a case study.** Mindful Michigan (legacy
+  case-study7) is a first-person Fetzer grant report with fundraising asks and
+  internal forecasts — flagged to the user instead of auto-porting; they scoped
+  it out. Check the genre of the source before assuming the transfer pattern
+  applies.

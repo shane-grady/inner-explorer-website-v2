@@ -235,3 +235,70 @@ synthesis, application, and adversarial verification). Applied to
   cannibalize it).
 - Adjacent informational queries (national restraint statistics, de-escalation
   explainers) belong in /research or blog posts that link here — not on this URL.
+
+## Keyword map (La Joya ISD page, 2026-06-10 workflow)
+
+- **Primary:** mindfulness in special education classrooms (head SERP is vendor
+  how-to guides with no case study present — the hybrid story-plus-practices
+  format fills the gap) · La Joya ISD mindfulness program (winnable entity SERP) ·
+  reduce behavior issues in special education classrooms
+- **Secondary:** mindfulness for students with disabilities (person-first
+  variant) · daily mindfulness practice for students with disabilities · bilingual
+  mindfulness practices / in English and Spanish (lowest-competition
+  differentiator — no district story owns it) · calming strategies for special
+  education students · self-regulation strategies for students with disabilities
+  (IEP-adjacent; touch, don't target) · behavior specialist mindfulness program ·
+  school mental health Texas (TEA SB 11 umbrella — politically safe in-state)
+- **Question phrases:** How does mindfulness help students with disabilities? ·
+  How do you teach mindfulness in a special education classroom? · Does
+  mindfulness reduce behavior problems in school? (skeptical — hedged research
+  context + attributed 85% only) · What is MBSEL? · Can mindfulness help students
+  with disabilities express their needs? · How do teachers calm an overwhelmed
+  student during a lesson? · How can a district fund a program like this?
+- **Entities (verified):** La Joya ISD (NCES 4826130, Hidalgo County, Rio Grande
+  Valley, TX) · Judith Lopez Guerra, special education teacher · Cynthia Salgado,
+  behavior specialist (paraphrase only — no verbatim quote exists) · Angelika
+  Loraine Garza, school counselor · Dr. Laura Bakosh (MBSEL term: Bakosh et al.
+  2015, Mindfulness — "coined" is the verified ceiling) · Inner Explorer HOME app /
+  Tune In (current branding — legacy "@HOME"/"TuneIn" is outdated, fixed on-page)
+- **Procurement:** Title IV, Part A (exact name, once) · IDEA Part B (the
+  special-education lane, once, no dollar figures) · CEIS **only** as the lane for
+  students NOT yet identified for special education (34 CFR 300.226 — citing it as
+  funding for special-ed classrooms is a credibility-destroying error) · MTSS /
+  Tier 1 once each · NEGATIVE: never ESSER, ARP, Stronger Connections,
+  School-Based Mental Health grants, or Title III as funding lanes; avoid
+  "evidence-based SEL" phrasing on Texas-facing surfaces (SB 123 climate)
+
+### Page-specific rules that earned their place (La Joya)
+
+- **Governance scoping (TEA intervention through 2028, verified):** every claim
+  stays scoped to classrooms and named educators — never "the district" as acting
+  or endorsing subject. H1 says "La Joya ISD's special education classrooms cut…",
+  CTA says "how La Joya educators made the practice stick". Do not mention the
+  intervention on-page.
+- **The 85%/80% source-internal discrepancy:** the legacy page AND PDF print both
+  figures for the same claim. 85% featured (primary placement in both sources),
+  80% appears nowhere, PUBLISH GATE in the YAML until the owner rules. "Reported"
+  is load-bearing in every occurrence — never paraphrase to referrals/discipline
+  data; metrics.note states it is an educator-reported observation, not a
+  controlled study, from an undated source.
+- **43% educator-stress figure is vendor-marketing provenance** (circulating
+  since 2017, no named instrument, absent from IE's own research page): demoted
+  from the metrics grid to the "Adults practice too" pillar with explicit "Inner
+  Explorer reports…" attribution; source 2 says "program-reported figure, not an
+  independent study."
+- **First-party corroborating media:** IE's public "La Joya ISD Success Story"
+  YouTube video is cited as source 8 (no stats, no date inference — entity
+  corroboration only).
+
+### Open follow-ups (La Joya page)
+
+- At domain migration: 301 innerexplorer.com/case-study6(.html), the
+  lms.innerexplorer.org variant, and /images/La-Joya-ISD.pdf to
+  /case-studies/la-joya-isd/.
+- District-context sentence (≈22,000 students, >99% Hispanic, year-anchored
+  NCES/TEA) was REJECTED as drafted for misattributing the demographic year —
+  re-propose with per-figure year+source if the owner wants it.
+- Internal link from the MBSEL FAQ answer to the Webb MBSEL canonical once the
+  site has a definitional anchor strategy.
+- A real student or family voice (the source has none) — only with consent.
