@@ -166,7 +166,7 @@ per-scope and can't see each other — resolve cross-set redundancies yourself
 ## Step 6 — Verify and ship
 
 - Preview desktop + mobile; check `document.documentElement.scrollWidth ===
-  clientWidth` (overflow), the chart/FAQ/voices render, and all links resolve.
+clientWidth` (overflow), the chart/FAQ/voices render, and all links resolve.
 - Existing case-study pages (Broward, Webb School, …) must be byte-unchanged.
 - `pnpm check` green; `pnpm build`, then inspect the dist HTML: title ≤60 chars /
   description ≤155 with the headline stat front-loaded, OG image is this page's

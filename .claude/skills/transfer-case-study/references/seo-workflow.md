@@ -33,22 +33,19 @@ structure, schemas, and verification stance.
 export const meta = {
   name: '<slug>-content-seo',
   description: 'Research + optimize the <slug> case study copy',
-  phases: [
-    { title: 'Research' }, { title: 'Synthesize' },
-    { title: 'Apply' }, { title: 'Verify' },
-  ],
-}
+  phases: [{ title: 'Research' }, { title: 'Synthesize' }, { title: 'Apply' }, { title: 'Verify' }],
+};
 
 const PAGE_CONTEXT = `...the ONLY page in scope; the story's established facts
 (every number, name, funder, quote — these are the only permitted claims); brand
 voice + duet headline constraint; what the prior site-wide audit already fixed
-(read tasks/seo-playbook.md + the YAML so you don't repeat it); today's date.`
+(read tasks/seo-playbook.md + the YAML so you don't repeat it); today's date.`;
 
 const RESEARCH_RULES = `Web researcher: load WebSearch/WebFetch via ToolSearch
 ("select:WebSearch,WebFetch") if unavailable. 5–10 varied searches; read the
 strongest 4–8 sources; 2024–2026 reputable publishers only; every finding =
 insight + mechanism/evidence + sourceUrls + applicationToPage + confidence.
-Reject 2015-era folklore; flag contested claims.`
+Reject 2015-era folklore; flag contested claims.`;
 
 // Research angles — personalize 1–3 to THIS story's topic:
 //   1. keywords-serp: real SERPs for THIS story's outcome domain (who ranks,
@@ -60,74 +57,177 @@ Reject 2015-era folklore; flag contested claims.`
 //   are already distilled in tasks/seo-playbook.md; only re-run one if the
 //   playbook looks stale or the story type is genuinely novel.)
 
-phase('Research')
-const research = (await parallel(RESEARCHERS.map(r => () =>
-  agent(r.prompt, { label: `research:${r.key}`, phase: 'Research', schema: RESEARCH_SCHEMA })
-))).filter(Boolean)
+phase('Research');
+const research = (
+  await parallel(
+    RESEARCHERS.map(
+      (r) => () =>
+        agent(r.prompt, { label: `research:${r.key}`, phase: 'Research', schema: RESEARCH_SCHEMA }),
+    ),
+  )
+).filter(Boolean);
 
-phase('Synthesize')
-const playbook = await agent(`...merge findings + tasks/seo-playbook.md into ONE
+phase('Synthesize');
+const playbook = await agent(
+  `...merge findings + tasks/seo-playbook.md into ONE
 page playbook + keyword map; resolve conflicts explicitly; read the current YAML
 and built HTML so rules are grounded in what exists...
 RESEARCH:\n${JSON.stringify(research, null, 1).slice(0, 180000)}`,
-  { label: 'synthesize', phase: 'Synthesize', schema: SYNTH_SCHEMA })
+  { label: 'synthesize', phase: 'Synthesize', schema: SYNTH_SCHEMA },
+);
 
-phase('Apply')  // three scopes, each piped straight into its verifier
+phase('Apply'); // three scopes, each piped straight into its verifier
 const applied = await pipeline(
   [headMetaHero, bodyNarrative, structureGaps],
   (a) => agent(a.prompt, { label: `apply:${a.key}`, phase: 'Apply', schema: APPLY_SCHEMA }),
-  (res, a) => res?.proposals?.length
-    ? agent(adversarialPrompt(a.key, res.proposals),
-        { label: `verify:${a.key}`, phase: 'Verify', schema: VERDICT_SCHEMA })
-        .then(v => ({ key: a.key, proposals: res.proposals, verdicts: v?.verdicts ?? null }))
-    : res,
-)
-return { playbook, applications: applied.filter(Boolean) }
+  (res, a) =>
+    res?.proposals?.length
+      ? agent(adversarialPrompt(a.key, res.proposals), {
+          label: `verify:${a.key}`,
+          phase: 'Verify',
+          schema: VERDICT_SCHEMA,
+        }).then((v) => ({ key: a.key, proposals: res.proposals, verdicts: v?.verdicts ?? null }))
+      : res,
+);
+return { playbook, applications: applied.filter(Boolean) };
 ```
 
 ## Schemas (structured output — agents retry on mismatch)
 
 ```js
-const RESEARCH_SCHEMA = { type: 'object', required: ['angle','sourcesConsulted','findings'],
+const RESEARCH_SCHEMA = {
+  type: 'object',
+  required: ['angle', 'sourcesConsulted', 'findings'],
   properties: {
     angle: { type: 'string' },
-    sourcesConsulted: { type: 'array', items: { type: 'object',
-      properties: { url:{type:'string'}, publisher:{type:'string'}, date:{type:'string'}, credibility:{type:'string'} },
-      required: ['url','publisher'] } },
-    findings: { type: 'array', items: { type: 'object',
-      properties: { insight:{type:'string'}, detail:{type:'string'},
-        sourceUrls:{type:'array',items:{type:'string'}}, applicationToPage:{type:'string'},
-        confidence:{type:'string',enum:['high','medium','low']} },
-      required: ['insight','detail','sourceUrls','applicationToPage','confidence'] } },
-    keywords: { type: 'array', items: { type: 'object',   // keyword angles only
-      properties: { phrase:{type:'string'}, role:{type:'string',enum:['primary','secondary','question','entity','procurement']},
-        intent:{type:'string'}, evidence:{type:'string'} },
-      required: ['phrase','role','intent','evidence'] } } } }
+    sourcesConsulted: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          url: { type: 'string' },
+          publisher: { type: 'string' },
+          date: { type: 'string' },
+          credibility: { type: 'string' },
+        },
+        required: ['url', 'publisher'],
+      },
+    },
+    findings: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          insight: { type: 'string' },
+          detail: { type: 'string' },
+          sourceUrls: { type: 'array', items: { type: 'string' } },
+          applicationToPage: { type: 'string' },
+          confidence: { type: 'string', enum: ['high', 'medium', 'low'] },
+        },
+        required: ['insight', 'detail', 'sourceUrls', 'applicationToPage', 'confidence'],
+      },
+    },
+    keywords: {
+      type: 'array',
+      items: {
+        type: 'object', // keyword angles only
+        properties: {
+          phrase: { type: 'string' },
+          role: {
+            type: 'string',
+            enum: ['primary', 'secondary', 'question', 'entity', 'procurement'],
+          },
+          intent: { type: 'string' },
+          evidence: { type: 'string' },
+        },
+        required: ['phrase', 'role', 'intent', 'evidence'],
+      },
+    },
+  },
+};
 
-const SYNTH_SCHEMA = { type: 'object', required: ['playbook','keywordMap','contentGaps','conflicts'],
+const SYNTH_SCHEMA = {
+  type: 'object',
+  required: ['playbook', 'keywordMap', 'contentGaps', 'conflicts'],
   properties: {
-    playbook: { type:'array', items:{ type:'object',
-      properties:{ rule:{type:'string'}, why:{type:'string'},
-        sourceUrls:{type:'array',items:{type:'string'}}, priority:{type:'string',enum:['must','should','consider']} },
-      required:['rule','why','sourceUrls','priority'] } },
-    keywordMap: { type:'object', required:['primary','secondary','questions','entities','procurement'],
-      properties: Object.fromEntries(['primary','secondary','questions','entities','procurement']
-        .map(k => [k, { type:'array', items:{type:'string'} }])) },
-    contentGaps: { type:'array', items:{type:'string'} },
-    conflicts: { type:'array', items:{type:'string'} } } }
+    playbook: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          rule: { type: 'string' },
+          why: { type: 'string' },
+          sourceUrls: { type: 'array', items: { type: 'string' } },
+          priority: { type: 'string', enum: ['must', 'should', 'consider'] },
+        },
+        required: ['rule', 'why', 'sourceUrls', 'priority'],
+      },
+    },
+    keywordMap: {
+      type: 'object',
+      required: ['primary', 'secondary', 'questions', 'entities', 'procurement'],
+      properties: Object.fromEntries(
+        ['primary', 'secondary', 'questions', 'entities', 'procurement'].map((k) => [
+          k,
+          { type: 'array', items: { type: 'string' } },
+        ]),
+      ),
+    },
+    contentGaps: { type: 'array', items: { type: 'string' } },
+    conflicts: { type: 'array', items: { type: 'string' } },
+  },
+};
 
-const APPLY_SCHEMA = { type: 'object', required: ['proposals'],
-  properties: { proposals: { type:'array', items:{ type:'object',
-    properties:{ location:{type:'string'}, current:{type:'string'}, proposed:{type:'string'},
-      rationale:{type:'string'}, keywordsUsed:{type:'array',items:{type:'string'}},
-      requiresNewComponent:{type:'boolean'}, priority:{type:'string',enum:['high','medium','low']} },
-    required:['location','current','proposed','rationale','keywordsUsed','requiresNewComponent','priority'] } } } }
+const APPLY_SCHEMA = {
+  type: 'object',
+  required: ['proposals'],
+  properties: {
+    proposals: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          location: { type: 'string' },
+          current: { type: 'string' },
+          proposed: { type: 'string' },
+          rationale: { type: 'string' },
+          keywordsUsed: { type: 'array', items: { type: 'string' } },
+          requiresNewComponent: { type: 'boolean' },
+          priority: { type: 'string', enum: ['high', 'medium', 'low'] },
+        },
+        required: [
+          'location',
+          'current',
+          'proposed',
+          'rationale',
+          'keywordsUsed',
+          'requiresNewComponent',
+          'priority',
+        ],
+      },
+    },
+  },
+};
 
-const VERDICT_SCHEMA = { type: 'object', required: ['verdicts'],
-  properties: { verdicts: { type:'array', items:{ type:'object',
-    properties:{ location:{type:'string'}, accept:{type:'boolean'},
-      revised:{type:'string'}, note:{type:'string'} },
-    required:['location','accept','note'] } } } }
+const VERDICT_SCHEMA = {
+  type: 'object',
+  required: ['verdicts'],
+  properties: {
+    verdicts: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          location: { type: 'string' },
+          accept: { type: 'boolean' },
+          revised: { type: 'string' },
+          note: { type: 'string' },
+        },
+        required: ['location', 'accept', 'note'],
+      },
+    },
+  },
+};
 ```
 
 ## Apply-scope briefs (adapt locations to the story)
