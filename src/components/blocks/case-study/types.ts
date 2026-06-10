@@ -38,12 +38,14 @@ export interface ChartGroup {
   tone: ChartTone;
   bars: ChartBar[];
 }
-/** The optional grouped bar chart rendered after the results band. */
+/** A grouped bar chart rendered after the results band — one via `chart`, or a
+ *  sequence via `charts`. `valueSuffix` annotates on-bar values (e.g. '%'). */
 export interface ResultsChartData {
   title: string;
   subtitle?: string;
   foot?: string;
   sourceId?: number;
+  valueSuffix?: string;
   groups: ChartGroup[];
 }
 

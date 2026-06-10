@@ -7,14 +7,19 @@ import type { ResultsChartData } from './types';
 // screen readers. Bars grow in on first scroll-in via the page's existing
 // `data-cs-reveal` observer — pure CSS, zero JS shipped by this block.
 type Props = ResultsChartData;
-const { title, subtitle, foot, sourceId, groups }: Props = Astro.props;
+const { title, subtitle, foot, sourceId, valueSuffix, groups }: Props = Astro.props;
 
 const max = Math.max(...groups.flatMap((g) => g.bars.map((b) => b.value)));
 // Running bar index drives the staggered grow-in delay across group boundaries.
 let barIndex = 0;
 const rows = groups.map((g) => ({
   ...g,
-  bars: g.bars.map((b) => ({ ...b, h: b.value / max, d: barIndex++ * 110 })),
+  bars: g.bars.map((b) => ({
+    ...b,
+    h: b.value / max,
+    d: barIndex++ * 110,
+    shown: `${b.value}${valueSuffix ?? ''}`,
+  })),
 }));
 ---
 
@@ -32,7 +37,7 @@ const rows = groups.map((g) => ({
           <div class="bars">
             {g.bars.map((b) => (
               <div class="cell" style={`--v:${b.h.toFixed(4)}; --d:${b.d}ms`}>
-                <span class="val">{b.value}</span>
+                <span class="val">{b.shown}</span>
                 <span class={`bar tone-${g.tone}`} />
                 <span class="xlabel">{b.label}</span>
               </div>
@@ -62,7 +67,7 @@ const rows = groups.map((g) => ({
               <tr>
                 <th scope="row">{b.label}</th>
                 <td>{g.label}</td>
-                <td>{b.value}</td>
+                <td>{b.shown}</td>
               </tr>
             )),
           )

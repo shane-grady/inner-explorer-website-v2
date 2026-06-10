@@ -616,7 +616,7 @@ pattern, then run a comprehensive SEO workflow and apply improvements.
 - [x] New block: ResultsChart.astro (accessible, token-only bar chart, zero JS).
 - [x] Pillars.astro: 4-up grid support + 4 new icons.
 - [x] [slug].astro: conditional chart render after ResultsBand.
-- [ ] Images: generate via Higgsfield (hero/challenge/approach/gallery ×6,
+- [x] Images: generate via Higgsfield (hero/challenge/approach/gallery ×6,
       2 portraits, newsroom cover); compress; save under assets.
 - [x] Content: webb-school.yaml (real facts; representative fills flagged # REVIEW).
 - [x] PDF: copy original → public/downloads/webb-school-case-study.pdf.
@@ -625,4 +625,39 @@ pattern, then run a comprehensive SEO workflow and apply improvements.
       meta/JSON-LD/sitemap inspection, pnpm check green.
 - [x] SEO: Workflow audit (on-page, technical, structured data, E-E-A-T/GEO, SERP)
       → verify findings → apply (incl. per-page OG image threading) → re-verify.
-- [ ] Commit + PR to main.
+- [x] Commit + PR to main (PR #15, merged).
+
+## Goddard Middle School case study — transfer from innerexplorer.com/case-study3 (2026-06)
+
+Goal: publish the Goddard Middle School story (academic gains 3X the state in
+ELA & math, 5X in science, 2016–2018; LG-funded) at
+`/case-studies/goddard-middle-school/` via the transfer-case-study skill (this
+session doubles as the skill's real-environment evaluation).
+
+- [x] Extract: legacy HTML + 3-page PDF (pypdf — bundled regex extractor fails on
+      CID fonts) + all three chart images read via vision; web/PDF header-swap
+      discrepancy noted (PDF pairing is correct).
+- [x] Decisions (user): representative copy + PUBLISH GATE; generate new imagery;
+      extend schema with charts[]; slug goddard-middle-school.
+- [x] Schema: additive optional `charts[]` (+ `valueSuffix` for %-bars) in
+      content.config.ts, types.ts, ResultsChart, ResultsBand, [slug].astro.
+- [x] Fix (shared, pre-existing): `.next-stat` fixed 30ch → `min(30ch, 100%)` —
+      next-study card overflowed every case-study page at ≤345px viewports.
+- [x] Content: goddard-middle-school.yaml (order 3; real facts; REVIEW/PUBLISH
+      GATE comments on inferred dates, portraits, student voices, trust line).
+- [x] PDF: copy original → public/downloads/goddard-middle-school-case-study.pdf.
+- [x] Newsroom: add Goddard case-study story card (id 18).
+- [x] Images: generated via Higgsfield (hero/challenge/approach/gallery ×6,
+      2 portraits, newsroom cover); every image reviewed; installed ≤300KB.
+- [x] SEO: content workflow ran (4 researchers → synthesize → 3 appliers →
+      3 adversarial verifiers; 23/28 proposals accepted). Verified-entity wins:
+      CMAS named (CDE archives), "Colorado Department of Education" corrected
+      (the source's "Colorado State Department of Education" names no agency),
+      Littleton Public Schools added (NCES), LG initiative named + linked, LG
+      tense made period-bound, Title IV-A program name corrected (also fixed in
+      seo-playbook.md). All new source URLs verified 200.
+- [x] Verify: preview desktop/375/320 (no overflow), 3 charts + FAQ + voices
+      render, existing pages unchanged vs baseline except CSS hash + the
+      intentional next-card retarget, pnpm check green, dist meta/JSON-LD/
+      sitemap audit passed (title 53ch, desc 154ch, 4 JSON-LD citations).
+- [x] Commit + PR to main (this PR).

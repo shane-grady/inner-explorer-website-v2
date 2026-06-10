@@ -12,6 +12,7 @@ import type { Story } from '../components/blocks/newsroom/types';
 import broward from '../assets/images/newsroom/broward.jpg';
 import webbSchool from '../assets/images/newsroom/webb-school.jpg';
 import kaiserElementary from '../assets/images/newsroom/kaiser-elementary.jpg';
+import goddard from '../assets/images/newsroom/goddard-middle-school.jpg';
 import morningCircle from '../assets/images/newsroom/morning-circle.jpg';
 import lincoln from '../assets/images/newsroom/lincoln.jpg';
 import bigFeelings from '../assets/images/newsroom/big-feelings.jpg';
@@ -34,6 +35,20 @@ const categories = [
 ] as const;
 
 const stories: Story[] = [
+  {
+    id: 19,
+    cat: 'case-study',
+    catLabel: 'Case study',
+    title:
+      'Goddard Middle School outpaced the state’s academic gains 3X — the state called to ask how',
+    excerpt:
+      'A Colorado middle school with the district’s highest concentrations of student need made daily mindfulness its edge.',
+    date: '2026-06-10',
+    read: 7,
+    pop: 90,
+    href: '/case-studies/goddard-middle-school/',
+    cover: { kind: 'photo', photo: goddard },
+  },
   {
     id: 18,
     cat: 'case-study',

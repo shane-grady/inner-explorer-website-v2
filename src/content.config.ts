@@ -107,6 +107,25 @@ const caseStudies = defineCollection({
     });
     const valueLabel = z.object({ value: z.string(), label: z.string() });
     const cta = z.object({ label: z.string(), href: z.string() });
+    // Grouped bar chart rendered after the results band. `tone` is a token
+    // vocabulary, not data: muted = baseline bars, brand = outcome bars, accent =
+    // a noteworthy aside. `valueSuffix` annotates on-bar values (e.g. '%').
+    const chart = z.object({
+      title: z.string(),
+      subtitle: z.string().optional(),
+      foot: z.string().optional(),
+      sourceId: z.number().optional(),
+      valueSuffix: z.string().optional(),
+      groups: z
+        .array(
+          z.object({
+            label: z.string(),
+            tone: z.enum(['muted', 'brand', 'accent']).default('brand'),
+            bars: z.array(z.object({ label: z.string(), value: z.number() })).min(1),
+          }),
+        )
+        .min(1),
+    });
 
     return z.object({
       draft: z.boolean().default(false),
@@ -188,26 +207,12 @@ const caseStudies = defineCollection({
         featured: metric,
         grid: z.array(metric).default([]),
       }),
-      // Optional grouped bar chart rendered after the results band (e.g. the Webb
-      // School restraints-by-year figure). `tone` is a token vocabulary, not data:
-      // muted = baseline bars, brand = outcome bars, accent = a noteworthy aside.
-      chart: z
-        .object({
-          title: z.string(),
-          subtitle: z.string().optional(),
-          foot: z.string().optional(),
-          sourceId: z.number().optional(),
-          groups: z
-            .array(
-              z.object({
-                label: z.string(),
-                tone: z.enum(['muted', 'brand', 'accent']).default('brand'),
-                bars: z.array(z.object({ label: z.string(), value: z.number() })).min(1),
-              }),
-            )
-            .min(1),
-        })
-        .optional(),
+      // Optional grouped bar chart(s) rendered after the results band. `chart` is
+      // the single-figure form (e.g. the Webb School restraints-by-year figure);
+      // `charts` renders several figures in sequence (e.g. Goddard's per-subject
+      // assessment comparisons). Both are optional and compose.
+      chart: chart.optional(),
+      charts: z.array(chart).optional(),
       // `href` links a citation to its public source (DOI, agency page) — linked,
       // verifiable sources are an E-E-A-T/AI-citation signal, not just a footnote.
       sources: z
