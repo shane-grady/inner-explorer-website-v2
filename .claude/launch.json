@@ -38,6 +38,12 @@
       "port": 4427
     },
     {
+      "name": "ie-dev-jmhs",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["exec", "astro", "dev", "--port", "4428"],
+      "port": 4428
+    },
+    {
       "name": "ie-dev-kaiser",
       "runtimeExecutable": "pnpm",
       "runtimeArgs": ["exec", "astro", "dev", "--port", "4431"],

@@ -79,6 +79,8 @@ synthesis, application, and adversarial verification). Applied to
 9. **Buyer-language, once each:** Tier 1/MTSS framing, accommodation, funding
    streams. One mention is recognition; three is salesy.
 
+## Keyword map (John Marshall HS page, from the 2026-06-10 workflow)
+
 ## Additions from the Kaiser Elementary workflow (2026-06-09)
 
 - **Verify quotes against the PRIMARY source, not the legacy site.** The legacy
@@ -102,8 +104,55 @@ synthesis, application, and adversarial verification). Applied to
 
 ## Open follow-ups for this page
 
-- Verify Inner Explorer's exact CASEL Program Guide designation (pg.casel.org)
-  before citing it — never paraphrase upward.
+- **Primary:** teen mental health program high school · teen mental health case
+  study · school mindfulness program case study · student-led mental health club ·
+  mindfulness in high school case study
+- **Secondary:** wellness room in schools · daily mindfulness practice high school ·
+  SEL high school case study · Tier 1 universal mental health support · preventative
+  mental health in schools · school connectedness and belonging · student voice
+- **Question phrases:** How did John Marshall High School improve teen mental health
+  with mindfulness? · What is the Wellness Advisory? · What are the Six Sustainable
+  Happiness Skills? · Do students like mindfulness in school? · Does mindfulness work
+  in high schools? (contested SERP — correlational framing ONLY; MYRIAD null result
+  dominates) · How do schools fund mental health programs after ESSER?
+- **Procurement:** Title IV-A (verified current, $1.38B FY26) · LCFF/LCAP (CA) ·
+  California Community Schools Partnership Program · MTSS/Tier 1 · post-ESSER
+  formula funding
+- **Page-specific rules that earned their place:** time-anchor the LAUSD 1,100 claim
+  ("roughly 1,100 at the time" — NCES counts 784 LAUSD schools for 2024–25, so any
+  present-tense claim fails AI fact-checks); LG Experience Happiness initiative in
+  past tense, anchored to its 2018 launch (last verifiable activity 2021); Pew's
+  exact instrument is "a major problem among people their age" (the legacy "in their
+  lives" was an upward paraphrase); the legacy 35%-can't-cope figure has NO locatable
+  canonical source (verified 2026-06-10) — use qualitative "far fewer", never cite
+  Pew for it; keep academics correlational ("That tracks the broader evidence"),
+  never causal; "student-led" is an ownership narrative, never an efficacy mechanism
+  (2025 meta-analysis: peer-led school interventions show no pooled wellbeing
+  effect); Cipriano et al. 2023 (424 studies, 575,361 students) is the modern SEL
+  citation to pair with Durlak 2011.
+
+## Open follow-ups (John Marshall HS page)
+
+- The one format gap vs. competitors: a 60–90s real Inner Explorer audio practice
+  excerpt with transcript (repo components exist) — content owner's call.
+- Off-page targets that should link here, not live here: "how to start a mental
+  health club at your school" (blog), "what is Tier 1 mental health support" (/research).
+- At domain migration: 301 innerexplorer.com/case-study5.html and
+  /images/John-Marshall-HS.pdf to this page.
+- The LAUSD signup year (~2021) is asserted nowhere because no verifiable public
+  source was reachable (LAUSD's flyer is WAF-blocked, unarchived) — if the team can
+  produce the announcement, add the year to the snapshot label and timeline.
+
+## Open follow-ups for this page (Webb School)
+
+- ~~Verify Inner Explorer's exact CASEL Program Guide designation (pg.casel.org)
+  before citing it — never paraphrase upward.~~ RESOLVED 2026-06-09: current
+  designation is **"Designated SEL-Supportive Program"** ("meets either the SELect
+  or Promising evidence criteria … but does not fully meet all necessary program
+  design criteria"), plus "a CASEL-approved evaluation demonstrates evidence of
+  effectiveness at grade 3." Cited precisely on the John Marshall page (source 4).
+  The legacy "CASEL-approved program" phrasing is an upward paraphrase — never carry
+  it forward.
 - Highest-value honest refresh: one more school year of Webb-reported data
   (answers "did it last?" and justifies a truthful updatedDate bump).
 - A real teacher voice (from the legacy PDF or Webb staff) — the one persona
