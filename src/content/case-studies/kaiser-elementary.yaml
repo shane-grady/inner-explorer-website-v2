@@ -1,0 +1,472 @@
+# Henry J. Kaiser Elementary School — case study content. One file → the whole
+# /case-studies/kaiser-elementary page.
+#
+# Transferred from the legacy site (innerexplorer.com/case-study1) and its PDF
+# ("Henry J Kaiser Elementary School Tackles the Opioid Crisis with Mindfulness",
+# images/HJK-Elementary.pdf). All quotes, discipline/academic figures, the LG
+# Electronics funding, and the five focus areas are real source content. Items
+# marked PUBLISH GATE were written to fill the template (per content owner's
+# direction) and need sign-off or real data before publish.
+#
+# Source-data notes:
+# - The PDF is internally inconsistent on 2020 math proficiency: the chart bar
+#   reads 36%, the Before/After list reads 38% (8 → 38 is exactly the +375% the
+#   school reports; 8 → 36 is +350%). We present the chart values (8% → 36%)
+#   and avoid asserting the 375% figure in our own voice.
+# - The PDF credits "Anne E. Casey Foundation"; the correct entity is The Annie
+#   E. Casey Foundation (cited correctly below).
+# - The $22,600/yr savings metric is the sum of the PDF's two figures:
+#   ~$11,500/yr (reading interventions) + ~$11,100/yr (math interventions).
+#
+# Photography: AI-generated brand imagery (Higgsfield / GPT Image 2, 2026-06-09 —
+# provenance manifests in /tmp/hjk-imagery/batch_log*.csv from the build session).
+# The two PORTRAITS remain stand-ins for real named people and carry PUBLISH GATE
+# comments below; the gallery carries a visible representative-imagery note.
+#
+# LANGUAGE RULES (frozen by the 2026-06-09 content workflow — apply to every edit):
+# (a) Condition-first addiction language only: never "addicts", "junkies", "users",
+#     "drug abuse(rs)". Use "addiction", "overdose death", "families affected by
+#     substance use disorder". ("Child abuse and neglect" is correct standard
+#     terminology — do not "fix" it.)
+# (b) Mindfulness SUPPORTS students living amid the opioid crisis — it never
+#     "tackles", "fights", "heals", or "combats" addiction or trauma. The legacy
+#     PDF's "Tackles the Opioid Crisis" framing must never leak into title/H1/dek/
+#     social/alt text. Academic gains are school-reported outcomes ALONGSIDE the
+#     practice — never claim causation, never import outside statistics (no SEL-ROI
+#     multipliers, no CASEL designations, no ESSA tier claims).
+order: 3
+draft: false
+
+# Title ≤60 chars (no brand suffix — Google shows the site name separately);
+# description ≤155 chars with the stat first.
+seoTitle: 'Mindfulness Case Study: 77% Fewer Discipline Events'
+seoDescription: >-
+  Discipline events fell 77% — from 82 to 19 — in one year at Henry J. Kaiser Elementary
+  in West Virginia. How a daily 10-minute mindfulness practice did it.
+publishedDate: 2026-06-09
+updatedDate: 2026-06-09
+
+meta:
+  kicker: 'Elementary School Case Study'
+  # H1 carries entity + outcome + topic (what LLMs surface as the document's name);
+  # the duet format keeps the brand voice — stat in the sans lead, program in the serif.
+  titleLead: 'How Henry J. Kaiser Elementary cut discipline events 77%'
+  titleEmphasis: 'with ten minutes of daily mindfulness'
+  # The dek doubles as the page's quotable answer: it names the school, the place,
+  # the program, and the outcome (with absolute counts) in one self-contained passage.
+  dek: >-
+    In Ravenswood, West Virginia — the state with the nation's highest drug-overdose
+    death rate in 2018 — Henry J. Kaiser Elementary added Inner Explorer's 10-minute
+    audio-guided mindfulness practice to every school morning. Within a year, school-wide
+    discipline events fell 77%, from 82 to 19, and the share of students reading at grade
+    level nearly tripled, from 17% to 48%.
+  readingTime: '7 min read'
+  published: 'Updated June 2026'
+  heroImage: '../../assets/images/case-studies/kaiser-elementary/hero-morning-practice.jpg'
+  heroImageAlt: 'A classroom of young elementary students sitting upright with eyes closed during the morning mindfulness practice'
+
+district:
+  name: 'Henry J. Kaiser Elementary School'
+  shortName: 'Kaiser Elementary'
+  location: 'Ravenswood, West Virginia'
+  partnerSince: '2019'
+  snapshot:
+    - { value: '77%', label: 'Fewer school-wide discipline events (82 → 19)' }
+    - { value: '370', label: 'Students, PreK–2nd grade' }
+    - { value: '10 min', label: 'Whole-school practice every morning' }
+    - { value: '17% → 48%', label: 'Students reading at grade level' }
+    - { value: '$0', label: 'Program cost — LG Electronics grant' }
+
+intro:
+  challenge:
+    eyebrow: 'The Challenge'
+    heading: 'The opioid crisis followed students into the classroom'
+    body:
+      - >-
+        West Virginia had the nation's highest drug-overdose death rate — 51.5 per
+        100,000 people in 2018, against a national average of 21.7 — after years of
+        exceptionally high opioid prescribing: 69 prescriptions written for every 100
+        residents, compared with the U.S. rate of 51.4.
+      - >-
+        The addiction crisis rippled through the community around Henry J. Kaiser
+        Elementary in Ravenswood — disrupting families and straining public
+        institutions. The Nation reported that a quarter of the students in one
+        second-grade class were being raised by grandparents or in foster care. West
+        Virginia counties with the highest rates of opioid deaths also tended to see
+        higher rates of child abuse and neglect, and the CDC is blunt about what
+        follows: adverse childhood experiences (ACEs) like these can have lasting,
+        negative effects on children's health, well-being, and opportunity well into
+        adulthood.
+      - >-
+        In July 2018, The Nation profiled Henry J. Kaiser Elementary in "These Kids Are
+        Watching Their Parents Die," reporting that Principal Amber Hardman and other
+        teachers had noticed "a marked uptick in behavioral problems—students who are
+        defiant, who throw chairs and tip over tables or bolt from the classroom." The
+        school had outstanding teachers and social-emotional learning (SEL) programs in
+        place, yet students carried chronic stress from poverty, family dislocation,
+        addiction, overdose death, and incarceration into the classroom each morning. As
+        educator Christy Archer put it: "We feel hopeless. We want to help these
+        children read, but they can't … because of things beyond our control."
+    image: '../../assets/images/case-studies/kaiser-elementary/challenge-supported-student.jpg'
+    imageAlt: 'A teacher gently supporting a young student at a desk in an early-elementary classroom'
+    stat:
+      {
+        value: '51.5',
+        label: "overdose deaths per 100,000 West Virginians in 2018 — the nation's highest rate",
+      }
+  approach:
+    eyebrow: 'The Approach'
+    heading: 'Ten minutes every morning — the whole school together'
+    body:
+      - >-
+        Inner Explorer reached out to Principal Hardman in response to The Nation's
+        profile of Henry J. Kaiser Elementary, to see if its daily mindfulness program
+        could help. "We were struggling … classrooms were taken over by behavior
+        issues," Hardman said. "Kids were exposed to so much trauma that they were
+        simply not ready for academics. We desperately needed a solution and tools but
+        we lacked resources. Just as I started to look into trauma sensitive programs,
+        Inner Explorer found us!" Through a partnership with LG Electronics, Inner
+        Explorer granted the school the program at no charge.
+      - >-
+        Principal Hardman took a student-centered approach at Henry J. Kaiser
+        Elementary: she allocated time in the school schedule for the 10-minute
+        audio-guided practices, and the entire school — students and staff — practiced
+        together every morning to reach a state of educational "readiness." Rather than
+        bolting on another program, the school folded mindfulness into the Positive
+        Behavioral Interventions and Supports (PBIS) framework it had used for years:
+        daily practice for every student as universal prevention at Tier 1, small
+        groups with the counselor or therapist at Tier 2, and one-on-one practice with
+        the school-based therapist at Tier 3. Five focus areas — embed, champion,
+        adopt, change, and model — made it stick.
+    image: '../../assets/images/case-studies/kaiser-elementary/approach-small-group.jpg'
+    imageAlt: 'A small group of young students practicing mindfulness with a school counselor'
+    # Card titles are descriptive takeaways (what skimming administrators retain);
+    # the source taxonomy — embed / champion / adopt / change / model — is named in
+    # the approach body paragraph above. "Change" and "Model" fold into the last card.
+    pillars:
+      - icon: 'calendar'
+        title: 'Embedded in the daily schedule'
+        text: >-
+          Principal Hardman allocated time in the daily curriculum and made the purpose
+          clear to staff: mindfulness was a priority. The entire school practiced
+          together every morning.
+      - icon: 'heart'
+        title: 'Champions built momentum'
+        text: >-
+          The school-based therapist and a lead teacher — both drawn to the approach —
+          were selected as champions, and built positive momentum throughout the
+          school.
+      - icon: 'repeat'
+        title: 'Adoption spread by what teachers saw'
+        text: >-
+          Early adopters noticed improvements in students' emotional regulation and
+          attention. Teachers who hadn't bought in watched the changes reach the
+          playground — and were grateful for the chance to join in.
+      - icon: 'compass'
+        title: 'A routine that became a culture'
+        text: >-
+          Once daily practice was part of the routine, students grew more self-aware,
+          regulated, focused, and collaborative — and the practice became a platform
+          for connection as students, faculty, and families practiced together every
+          day.
+
+timeline:
+  eyebrow: 'The Turnaround'
+  heading: 'From a national headline to a 77% drop in discipline events'
+  phases:
+    - date: '2018'
+      tag: 'Crisis'
+      title: "The nation's hardest-hit state"
+      text: "West Virginia records the country's highest drug-overdose death rate — 51.5 per 100,000 people. At Henry J. Kaiser Elementary, the fallout shows up as escalating behavior problems in classrooms as young as preschool."
+    - date: 'July 2018'
+      tag: 'Profile'
+      title: 'The Nation tells the school’s story'
+      text: "The Nation's profile brings Henry J. Kaiser Elementary to national attention. In response, Inner Explorer reaches out to Principal Amber Hardman — just as she begins searching for trauma-sensitive programs."
+    - date: '2019'
+      tag: 'Pilot'
+      title: 'Daily mindfulness begins — at no cost'
+      text: 'Funded through a partnership with LG Electronics, the whole school — students and staff — begins a 10-minute audio-guided practice together every morning, woven into the PBIS tiers the school already used.'
+    - date: 'March 2020'
+      tag: 'Proof'
+      title: 'Discipline events fall 77% in one year'
+      text: 'Comparing March 2019 with March 2020, total discipline events at Henry J. Kaiser Elementary fall from 82 to 19. Lunch detentions drop 78%, suspensions 71% — and the share of students reading at grade level climbs from 17% to 48%.'
+
+metrics:
+  eyebrow: 'The Results'
+  heading: 'What ten minutes a day changed in one year'
+  # The first sentence is the page's canonical claim — keep it byte-identical
+  # wherever this story is summarized (cards, anchors, social copy).
+  note: >-
+    School-wide discipline events at Henry J. Kaiser Elementary in Ravenswood, West
+    Virginia fell 77% — from 82 to 19 — after one year of Inner Explorer's daily
+    mindfulness practice (March 2019 to March 2020). Discipline and academic figures
+    are reported by the school; statewide opioid statistics are drawn from the federal
+    sources cited below.
+  featured:
+    value: '77%'
+    label: 'fewer school-wide discipline events after one year of daily mindfulness practice'
+    trend: 'down-good'
+    sourceId: 1
+  grid:
+    - {
+        value: '82 → 19',
+        label: 'total discipline events — detentions, suspensions, and alternative-school placements',
+        trend: 'down-good',
+        sourceId: 1,
+      }
+    - {
+        value: '17% → 48%',
+        label: 'students reading at or above grade level after one year of daily practice',
+        trend: 'up-good',
+        sourceId: 1,
+      }
+    - {
+        value: '8% → 36%',
+        label: 'students at or above grade level in math',
+        trend: 'up-good',
+        sourceId: 1,
+      }
+    - {
+        value: '115',
+        label: 'more students on track to read at grade level — the milestone the Annie E. Casey Foundation links to high-school graduation',
+        sourceId: 1,
+      }
+    # $11,500/yr (reading) + $11,100/yr (math) — see source-data note at top.
+    - {
+        value: '$22,600',
+        unit: '/yr',
+        label: 'saved as 31% fewer students needed reading interventions and 30% fewer needed math interventions',
+        sourceId: 1,
+      }
+    - {
+        value: '10',
+        unit: 'min',
+        label: 'of audio-guided practice each morning — the whole school, students and staff, together',
+      }
+
+chart:
+  title: 'Discipline events by type, before and after daily practice'
+  subtitle: 'Henry J. Kaiser Elementary, March 2019 vs. March 2020'
+  sourceId: 1
+  foot: >-
+    Lunch detentions fell 78% (65 to 14), suspensions 71% (14 to 4), and
+    alternative-school placements 67% (3 to 1) — a 77% reduction in total discipline
+    events.
+  groups:
+    - label: 'March 2019 — before daily practice'
+      tone: 'muted'
+      bars:
+        - { label: 'Detentions', value: 65 }
+        - { label: 'Suspensions', value: 14 }
+        - { label: 'Alt. school', value: 3 }
+    - label: 'March 2020 — after one year'
+      tone: 'brand'
+      bars:
+        - { label: 'Detentions', value: 14 }
+        - { label: 'Suspensions', value: 4 }
+        - { label: 'Alt. school', value: 1 }
+
+sources:
+  - {
+      id: 1,
+      text: 'Discipline and academic data reported by Henry J. Kaiser Elementary School, Ravenswood, West Virginia, March 2019 – March 2020.',
+    }
+  - {
+      id: 2,
+      text: 'The Nation, "These Kids Are Watching Their Parents Die" (July 2018) — the profile of Henry J. Kaiser Elementary that brought the school and Inner Explorer together.',
+      href: 'https://www.thenation.com/article/archive/kids-watching-parents-die/',
+    }
+  - {
+      id: 3,
+      text: 'Hedegaard H., Miniño A. M., & Warner M., "Drug Overdose Deaths in the United States, 1999–2018," NCHS Data Brief No. 356, National Center for Health Statistics (2020) — West Virginia''s age-adjusted rate of 51.5 deaths per 100,000 was the nation''s highest.',
+      href: 'https://www.cdc.gov/nchs/products/databriefs/db356.htm',
+    }
+  - {
+      id: 4,
+      text: 'Centers for Disease Control and Prevention, U.S. State Opioid Dispensing Rates, 2018 — 69.3 prescriptions per 100 persons in West Virginia vs. 51.4 nationally.',
+      href: 'https://archive.cdc.gov/www_cdc_gov/drugoverdose/rxrate-maps/state2018.html',
+    }
+  - {
+      id: 5,
+      text: 'Centers for Disease Control and Prevention, About Adverse Childhood Experiences — ACEs can have lasting, negative effects on health, well-being, and opportunity into adulthood.',
+      href: 'https://www.cdc.gov/aces/about/index.html',
+    }
+  - {
+      id: 6,
+      text: 'The Annie E. Casey Foundation, "Early Warning! Why Reading by the End of Third Grade Matters," KIDS COUNT Special Report (2010).',
+      href: 'https://www.aecf.org/resources/early-warning-why-reading-by-the-end-of-third-grade-matters',
+    }
+
+voicesIntro:
+  eyebrow: 'What educators say'
+  headingLead: 'Trusted by the adults who'
+  headingEmphasis: 'see these students every day'
+  # PUBLISH GATE (SEO/E-E-A-T audit precedent from Webb): representative trust figure
+  # with no named survey instrument. Before launch, either back it with a real
+  # instrument + year + n in the trustLine or delete trustRating/trustLine — the block
+  # hides automatically. Never move this into Review/aggregateRating JSON-LD
+  # (self-serving ratings violate Google's policy).
+  trustRating: '4.8 / 5'
+  trustLine: 'average educator rating of the daily practice <b>across Inner Explorer partner schools</b>'
+  studentsLabel: 'From the classroom'
+
+voices:
+  - kind: 'Classroom teacher'
+    quote: >-
+      I wanted to quit. In my 31 years of teaching, I had never experienced so much
+      disobedience and trauma before in my career. After practicing Inner Explorer with
+      the kids for a year, I saw a transformation in my classroom. Students no longer
+      had outbursts in class, I didn't have to send any of the kids to detention, and
+      their grades significantly improved. I decided not to quit.
+    name: 'Trudy Humphreys'
+    role: '2nd-Grade Teacher'
+    org: 'Henry J. Kaiser Elementary School'
+    # PUBLISH GATE: placeholder portrait — must be Trudy Humphreys's real photo before
+    # launch (a stand-in face with an identity-asserting alt is a fabrication risk).
+    # Alt text stays non-identifying until the real photo lands.
+    portrait: '../../assets/images/case-studies/kaiser-elementary/voice-humphreys.jpg'
+    portraitAlt: 'Portrait of an elementary school teacher (placeholder image)'
+    stat: { value: '0', label: 'students she sent to detention after a year of daily practice' }
+  - kind: 'Leadership'
+    quote: >-
+      We were struggling … classrooms were taken over by behavior issues. Kids were
+      exposed to so much trauma that they were simply not ready for academics. We
+      desperately needed a solution and tools but we lacked resources. Just as I
+      started to look into trauma sensitive programs, Inner Explorer found us!
+    name: 'Amber Hardman'
+    role: 'Principal'
+    org: 'Henry J. Kaiser Elementary School'
+    # PUBLISH GATE: placeholder portrait — same rule as above.
+    portrait: '../../assets/images/case-studies/kaiser-elementary/voice-hardman.jpg'
+    portraitAlt: 'Portrait of an elementary school principal (placeholder image)'
+    stat: { value: '82 → 19', label: 'school-wide discipline events in one year' }
+  - kind: 'Student support'
+    quote: >-
+      I even used Inner Explorer in my therapy sessions with students. It creates an
+      atmosphere that's conducive to learning. I know students are using these skills
+      at home too, because parents have made so many positive comments.
+    name: 'Stephanie Majetich'
+    role: 'School-Based Therapist'
+  # PUBLISH GATE (highest severity on this page): representative student voices —
+  # the legacy case study has no student quotes; these names/grades are invented.
+  # Kept per content owner's direction (Webb precedent, 2026-06-09), BUT the content
+  # workflow's research escalated this beyond the Webb case and recommends DELETING
+  # rather than gating: these would be fabricated quotes from children ages ~4-8
+  # affected by the opioid crisis — a Quality-Rater-Guidelines "Lowest" trigger, a
+  # consent impossibility (Dart Center: children under ~9 cannot reliably provide
+  # accounts and require parental consent), and the canonical exploitation-storytelling
+  # failure. Decide at launch review: replace with real, consented quotes (with
+  # guardian sign-off) or delete the two entries — the section renders cleanly with
+  # the three real adult voices above.
+  - kind: 'From the students'
+    quote: 'When we do the breathing, the mad feeling gets smaller and I can stay with my friends.'
+    name: 'Lily'
+    role: 'Grade 2'
+  - kind: 'From the students'
+    quote: 'I do my belly breaths when I get upset, like we practice in the morning.'
+    name: 'Mason'
+    role: 'Grade 1'
+
+gallery:
+  # Non-documentary eyebrow + visible disclosure: the photos are AI-generated
+  # representative imagery of a real, named PreK-2 school — sector standards
+  # (Save the Children 2024, Dart Center) require representative imagery to be
+  # identifiable as such.
+  eyebrow: 'The daily practice'
+  heading: 'Ten quiet minutes, PreK through 2nd grade'
+  note: 'Photos are representative and do not depict Henry J. Kaiser Elementary students.'
+  images:
+    - {
+        src: '../../assets/images/case-studies/kaiser-elementary/gallery-1-morning-practice.jpg',
+        alt: 'A classroom of young students sitting with eyes closed during the morning mindfulness practice',
+      }
+    - {
+        src: '../../assets/images/case-studies/kaiser-elementary/gallery-2-small-group.jpg',
+        alt: 'A small group of students practicing mindfulness together with the school counselor',
+      }
+    - {
+        src: '../../assets/images/case-studies/kaiser-elementary/gallery-3-belly-breathing.jpg',
+        alt: 'A young student practicing belly breathing with hands resting on their stomach',
+      }
+    - {
+        src: '../../assets/images/case-studies/kaiser-elementary/gallery-4-reading-corner.jpg',
+        alt: 'A young student reading in a cozy classroom reading corner',
+      }
+    - {
+        src: '../../assets/images/case-studies/kaiser-elementary/gallery-5-playground.jpg',
+        alt: 'Young students playing calmly together on the school playground',
+      }
+    - {
+        src: '../../assets/images/case-studies/kaiser-elementary/gallery-6-quiet-classroom.jpg',
+        alt: 'A calm early-elementary classroom ready for the day',
+      }
+
+# FAQ — real buyer questions (cost, training, age fit, PBIS fit) answered from
+# established facts only; rendered with the shared FAQAccordion. Deliberately NO
+# FAQPage JSON-LD (restricted to gov/health rich results since 2023 — the visible
+# copy is the asset).
+faq:
+  eyebrow: 'FAQ'
+  titleHtml: 'The questions <em>elementary school leaders ask about this story.</em>'
+  intro: >-
+    Direct answers from Henry J. Kaiser Elementary's implementation — what the daily
+    practice asked of educators, what it cost, and what changed.
+  items:
+    - q: 'How did Henry J. Kaiser Elementary reduce discipline events by 77%?'
+      a: >-
+        By adding one consistent routine: a 10-minute audio-guided Inner Explorer
+        mindfulness practice every morning, practiced by the whole school — students
+        and staff together — and woven into the school's existing PBIS framework.
+        Total discipline events fell from 82 in March 2019 to 19 in March 2020.
+    - q: 'Does daily mindfulness work for students as young as PreK?'
+      a: >-
+        Henry J. Kaiser ran the practice school-wide with 370 students in grades PreK
+        through 2nd. In one year, discipline events fell 77%, the share of students
+        reading at or above grade level climbed from 17% to 48%, and math proficiency
+        rose from 8% to 36%.
+    - q: 'How does Inner Explorer fit into a PBIS or MTSS framework?'
+      a: >-
+        As a universal Tier 1 support: every student and staff member practices
+        together daily. Kaiser added small-group practice with the counselor or
+        therapist at Tier 2, and one-on-one practice in therapy sessions at Tier 3 —
+        the same tiered structure the school already used.
+    - q: 'Can mindfulness help students with trauma?'
+      a: >-
+        At Henry J. Kaiser Elementary, the daily practice was adopted as a support for
+        students carrying chronic stress — not as a treatment for trauma. Principal
+        Amber Hardman had just begun looking into trauma-sensitive programs when Inner
+        Explorer reached out, and the school delivered the practice inside the PBIS
+        tiers it already used — whole-school practice at Tier 1 through one-on-one
+        sessions with the school-based therapist at Tier 3. The outcomes are the
+        school-reported figures on this page: discipline events fell 77%, from 82 to
+        19, in one year.
+    - q: 'How much training did teachers need to run the daily practice?'
+      a: >-
+        None beyond pressing play. The practices are fully audio-guided — no prep, no
+        script, no curriculum to deliver. At Kaiser, educators practiced alongside
+        their students every morning, which is part of why the routine stuck.
+    - q: 'What did the program cost the school?'
+      a: >-
+        Nothing. Through a partnership with LG Electronics, Inner Explorer granted
+        Henry J. Kaiser Elementary the program at no charge — and the school went on to
+        save an estimated $22,600 a year as fewer students needed reading and math
+        interventions. Districts typically fund the program through sources like Title
+        IV-A (Safe and Healthy Students) and school mental-health funds; small rural
+        districts can also draw on the federal Rural Education Achievement Program
+        (REAP), and some states direct opioid settlement funds toward school-based
+        prevention — our partnerships team helps identify the right one.
+
+cta:
+  heading: 'Bring daily mindfulness'
+  headingEmphasis: 'to your elementary school'
+  body: >-
+    See what ten minutes of daily Mindfulness-Based Social Emotional Learning (MBSEL)
+    could look like for your students — in a single elementary school or across a whole
+    district. We'll walk you through how Henry J. Kaiser Elementary made the practice
+    stick, and how a pilot could work in your classrooms.
+  primary: { label: 'Book a demo', href: '/contact' }
+  secondary:
+    {
+      label: 'Download the original case study (PDF)',
+      href: '/downloads/kaiser-elementary-case-study.pdf',
+    }

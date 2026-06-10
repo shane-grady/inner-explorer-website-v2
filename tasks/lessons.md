@@ -189,3 +189,31 @@ var(--color-foreground)` so the wrapper paints its surface in the pinned tones.
 - Workflow-tool subagents DO spawn successfully in this Cowork env now
   (10-agent SEO audit ran 2026-06-09) — the prompt-overflow note may be stale
   for Workflow specifically; Task/Explore agents still unverified.
+
+## 2026-06-09 — Kaiser Elementary case study build
+
+- **Verify third-party quotes against the PRIMARY source, not the legacy site.**
+  The legacy innerexplorer.com/case-study1 page misquoted its own press coverage
+  (The Nation): added "intense" inside quotation marks, truncated, and
+  mis-attributed to the principal alone. A workflow verifier caught it by reading
+  the live article. Legacy pages are authoritative for the school's own data only.
+- **inner-explorer-covers `submit_queue.sh` has a printf octal bug**: prompt
+  numbers `008`/`009` fail `printf %03d` (invalid octal) and get mangled to `000`,
+  cross-wiring result JSONs. Number prompts to avoid 008/009 (e.g. 001–007, then
+  101+), and treat `timing.tsv` as the authoritative success record, not stdout.
+  Also: instant `rate_limit_reached` on first submit means OTHER jobs hold account
+  slots — resubmit in waves of ≤4, not 7.
+- **The Claude Preview browser can open with a 0×0 viewport** — `innerWidth 0`,
+  bogus `scrollWidth`, and `naturalWidth: 0` on perfectly served images (false
+  "broken image" readings). `preview_resize` to explicit dimensions, reload, THEN
+  trust layout/image metrics. Confirm a suspect image via
+  `fetch(src, {cache:'no-store'})` status/bytes, not element state.
+- **Astro dedupes identical image bytes across source files**: copying webb-school
+  photos as kaiser placeholders renamed WEBB's emitted `/_astro/` asset URLs to
+  the kaiser filenames (alphabetical winner), tripping the byte-diff gate on a
+  page that wasn't edited. Transient — it resolves when real (unique) imagery
+  replaces the placeholders; don't chase it as a bug.
+- **An optional Astro slot expression (`{x && <p/>}`) leaves one whitespace char**
+  in pages where it renders nothing — a deliberate shared-component change
+  therefore shifts other pages' HTML by a space + the CSS bundle hash. Compare
+  baselines with asset-hash + whitespace normalization.

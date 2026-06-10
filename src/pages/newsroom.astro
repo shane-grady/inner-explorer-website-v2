@@ -11,6 +11,7 @@ import type { Story } from '../components/blocks/newsroom/types';
 // Inner Explorer imagery before publish; see tasks/todo.md).
 import broward from '../assets/images/newsroom/broward.jpg';
 import webbSchool from '../assets/images/newsroom/webb-school.jpg';
+import kaiserElementary from '../assets/images/newsroom/kaiser-elementary.jpg';
 import morningCircle from '../assets/images/newsroom/morning-circle.jpg';
 import lincoln from '../assets/images/newsroom/lincoln.jpg';
 import bigFeelings from '../assets/images/newsroom/big-feelings.jpg';
@@ -33,6 +34,19 @@ const categories = [
 ] as const;
 
 const stories: Story[] = [
+  {
+    id: 18,
+    cat: 'case-study',
+    catLabel: 'Case study',
+    title: 'Henry J. Kaiser Elementary cut discipline events 77% amid the opioid crisis',
+    excerpt:
+      'In the West Virginia town The Nation profiled, a ten-minute daily practice rebuilt readiness to learn — and nearly tripled grade-level reading.',
+    date: '2026-06-09',
+    read: 7,
+    pop: 90,
+    href: '/case-studies/kaiser-elementary/',
+    cover: { kind: 'photo', photo: kaiserElementary },
+  },
   {
     id: 17,
     cat: 'case-study',

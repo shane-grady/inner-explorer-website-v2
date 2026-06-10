@@ -1,5 +1,37 @@
 # Tasks — Inner Explorer Website
 
+## Case study: Henry J. Kaiser Elementary transfer (2026-06-09)
+
+Transferred innerexplorer.com/case-study1 (+ HJK-Elementary.pdf) to
+`/case-studies/kaiser-elementary/` via the transfer-case-study skill.
+
+- [x] Extract legacy page + 3-page PDF (text + vision); fact inventory in plan file.
+- [x] `src/content/case-studies/kaiser-elementary.yaml` (order 3) — full story; chart
+      from the discipline-by-type table; 6 linked verified sources; 6-item buyer FAQ.
+- [x] Newsroom story card; legacy PDF at `public/downloads/kaiser-elementary-case-study.pdf`.
+- [x] Higgsfield imagery (11 scenes, GPT Image 2, PreK-2 WV-specific; ~224 credits);
+      installed at 1600px; hero copied to newsroom cover.
+- [x] Content-SEO workflow (11 agents): 4 researchers → synthesis → 3 appliers →
+      3 adversarial verifiers. 15/19 proposals accepted (8 with verifier revisions),
+      4 rejected. Headline finding: the LEGACY site misquoted The Nation — fixed
+      against the live article. Gallery gained a representative-imagery disclosure
+      (`gallery.note`, additive-optional schema + PhotoMosaic slot).
+- [x] Verified: checks green, build green, broward byte-identical, webb delta =
+      next-card retarget only.
+
+### Launch gates (decide before publish)
+
+- [ ] Real portraits for Trudy Humphreys + Amber Hardman (stand-ins live, alt text
+      non-identifying).
+- [ ] Student voices: invented (Lily/Mason) kept per content-owner direction, but the
+      workflow escalated to DELETE-recommended (fabricated child quotes, ages 4-8,
+      opioid-crisis context — QRG Lowest trigger + consent impossibility). Decide:
+      real consented quotes w/ guardian sign-off, or delete the two entries.
+- [ ] trustRating 4.8/5: back with a named survey instrument + year + n, or delete.
+- [ ] At domain migration: 301 BOTH innerexplorer.com/case-study1 AND
+      lms.innerexplorer.org/case-study1 (+ /images/HJK-Elementary.pdf on both hosts)
+      to /case-studies/kaiser-elementary/.
+
 ## Case study snapshot → reuse About-page StatStrip (2026-06)
 
 Goal: the stats band directly beneath the case-study hero should reuse the

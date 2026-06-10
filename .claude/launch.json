@@ -36,6 +36,12 @@
       "runtimeExecutable": "pnpm",
       "runtimeArgs": ["exec", "astro", "dev", "--port", "4427"],
       "port": 4427
+    },
+    {
+      "name": "ie-dev-kaiser",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["exec", "astro", "dev", "--port", "4431"],
+      "port": 4431
     }
   ]
 }
