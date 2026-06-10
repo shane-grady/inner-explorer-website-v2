@@ -81,6 +81,29 @@ synthesis, application, and adversarial verification). Applied to
 
 ## Keyword map (John Marshall HS page, from the 2026-06-10 workflow)
 
+## Additions from the Kaiser Elementary workflow (2026-06-09)
+
+- **Verify quotes against the PRIMARY source, not the legacy site.** The legacy
+  innerexplorer.com/case-study1 page misquoted The Nation ("intense behavior
+  problems" — the article says "behavioral problems", attributed to Hardman AND
+  other teachers). Legacy pages are extraction sources for _our own_ claims, but
+  third-party quotes must be checked against the third party.
+- **Sensitive-topic pages (addiction, child trauma) get a language freeze** in the
+  YAML header: condition-first addiction language; the program supports students —
+  never "tackles/fights/heals" the crisis; no causation claims on school-reported
+  academics; no imported statistics (SEL-ROI multipliers, CASEL designations, ESSA
+  tier claims).
+- **Representative imagery needs visible disclosure** when photoreal generated
+  children appear under a real named school: `gallery.note` (additive-optional in
+  the caseStudies schema, rendered by PhotoMosaic) + a non-documentary eyebrow.
+- **Site-level CASEL ceiling:** Inner Explorer's verified designation is
+  "SEL-Supportive Program" — NOT "SELect". Never cite higher anywhere on the site.
+- At domain migration: the legacy case studies ALSO live on the lms. subdomain —
+  301 both innerexplorer.com AND lms.innerexplorer.org variants of /case-study1
+  and /images/HJK-Elementary.pdf to /case-studies/kaiser-elementary/.
+
+## Open follow-ups for this page
+
 - **Primary:** teen mental health program high school · teen mental health case
   study · school mindfulness program case study · student-led mental health club ·
   mindfulness in high school case study

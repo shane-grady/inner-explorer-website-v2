@@ -11,6 +11,7 @@ import type { Story } from '../components/blocks/newsroom/types';
 // Inner Explorer imagery before publish; see tasks/todo.md).
 import broward from '../assets/images/newsroom/broward.jpg';
 import webbSchool from '../assets/images/newsroom/webb-school.jpg';
+import kaiserElementary from '../assets/images/newsroom/kaiser-elementary.jpg';
 import johnMarshall from '../assets/images/newsroom/john-marshall-hs.jpg';
 import goddard from '../assets/images/newsroom/goddard-middle-school.jpg';
 import morningCircle from '../assets/images/newsroom/morning-circle.jpg';
@@ -36,7 +37,7 @@ const categories = [
 
 const stories: Story[] = [
   {
-    id: 18,
+    id: 19,
     cat: 'case-study',
     catLabel: 'Case study',
     title:
@@ -50,7 +51,7 @@ const stories: Story[] = [
     cover: { kind: 'photo', photo: goddard },
   },
   {
-    id: 19,
+    id: 20,
     cat: 'case-study',
     catLabel: 'Case study',
     title: '91% of John Marshall High students voted to keep daily mindfulness',
@@ -61,6 +62,19 @@ const stories: Story[] = [
     pop: 95,
     href: '/case-studies/john-marshall-hs/',
     cover: { kind: 'photo', photo: johnMarshall },
+  },
+  {
+    id: 18,
+    cat: 'case-study',
+    catLabel: 'Case study',
+    title: 'Henry J. Kaiser Elementary cut discipline events 77% amid the opioid crisis',
+    excerpt:
+      'In the West Virginia town The Nation profiled, a ten-minute daily practice rebuilt readiness to learn — and nearly tripled grade-level reading.',
+    date: '2026-06-09',
+    read: 7,
+    pop: 90,
+    href: '/case-studies/kaiser-elementary/',
+    cover: { kind: 'photo', photo: kaiserElementary },
   },
   {
     id: 17,
