@@ -741,3 +741,76 @@ research-backed SEO workflow. Decisions (user, 2026-06-09): Webb-precedent fidel
   Merge with main (Goddard, PR #16): JM renumbered to order 4 + newsroom id 19
   (both collided at order 3 / id 18); next-card chain is now Broward → Webb →
   Goddard → John Marshall → Broward.
+
+## 2026-06-10 — La Joya ISD case study transfer (legacy /case-study6)
+
+Scope settled with user: La Joya ISD only (Dwight Morrow already live via PR #17;
+Mindful Michigan deliberately skipped — its source is a first-person Fetzer
+funder report). Webb-precedent fidelity (PUBLISH GATE fills), Higgsfield imagery
+now, slug `la-joya-isd`, order 7, newsroom id 22.
+
+### Facts ledger (the ONLY claims the page may make)
+
+Entities: La Joya Independent School District (La Joya, Texas); Cynthia Salgado,
+behavior specialist; Judith Lopez Guerra, special education teacher (practices
+in English AND Spanish); Angelika Loraine Garza, school counselor; Dr. Laura
+Bakosh, Inner Explorer co-founder, coined MBSEL; Inner Explorer @HOME app +
+TuneIn feature; Educator Well-Being Series.
+
+Story facts: mental health concerns rising nationally; pandemic learning-gap
+pressure. La Joya staff use MBSEL via Inner Explorer as a PREVENTATIVE solution.
+Salgado (paraphrase, no verbatim quote): students looking for help — shows up as
+stress/anxiety, anger/frustration, breaking down emotionally. Bakosh coined
+MBSEL after establishing daily practice supports the 5 CASEL competencies
+(self-awareness, self-management, social awareness, relationship skills,
+responsible decision-making). PFC framing: traditional SEL activates the
+prefrontal cortex, but a stressed brain can't access what it cognitively knows
+or absorb new information; MBSEL targets stress first. Special-ed students'
+challenges amplified — hard to express feelings/advocate. Judith + co-teachers
+noticed remarkable behavior difference — drastic decrease in REPORTED behavioral
+issues. Best practices: set time 2×/day (morning + end of day); dim lights;
+practice alongside students (removes stigma; teachers who practice report
+improved well-being + 43% less stress — VERIFY source in workflow); extra
+sessions on demand mid-lesson; reflection time + corner display board
+(drawings/journal entries, opt-in); @HOME app + TuneIn for families.
+
+Quotes (verbatim, prefer PDF):
+
+- Garza: "If students are not mentally and emotionally there, they are not
+  going to learn." — Angelika Loraine Garza, School Counselor
+- Judith #1: "Students who were once extremely shy learn to ask for what they
+  need. It's not that their voice wasn't there before, it's that they didn't
+  know how to find it. Mindfulness helps the students get in touch with who
+  they are."
+- Judith #2 (green band): "We have math and we have science, but we also have
+  Inner Explorer. Through MBSEL, students can get in touch with how they are
+  feeling; as a teacher, I want them to know that what they are feeling matters
+  because it impacts everything else that they do."
+- Judith #3: "If we are in the middle of a math lesson and they become
+  overwhelmed and can't focus, I will offer to do a session right then and
+  there – or the students will ask me to play an Inner Explorer practice."
+- Judith #4 (closing): "Eventually, my students will move on to a new
+  classroom, a new school, and a career. The tools they learn through MBSEL are
+  tools they can take with them for their entire lives." (intro: Judith views
+  MBSEL initiatives as critical lifelong skills for her students)
+
+DISCREPANCY (source-internal): the 85%-reduction box (pg 1 / web box 1) and an
+identical 80% box (pg 2 / web box 2) — "Reduction in behavior issues in special
+education classrooms through practicing daily mindfulness with Inner Explorer."
+Decision: feature 85% (primary placement, adjacent to the narrative claim in
+both sources) with PUBLISH GATE documenting the 80% variant for owner sign-off.
+
+No dates anywhere in source (masked photos → COVID era; legacy index card
+comment says April 05, 2022). Timeline uses stage labels (Dwight Morrow
+pattern), no invented years. No funding/cost facts. No real student quotes.
+Photos show upper-elementary/middle-school-age students.
+
+### Plan
+
+- [ ] Placeholder images under final filenames; PDF → public/downloads/
+- [ ] la-joya-isd.yaml (order 7) + newsroom card id 22
+- [ ] Imagery: Higgsfield per inner-explorer-covers conventions (bilingual
+      special-ed classroom, TX Rio Grande Valley; vision-review every image)
+- [ ] SEO Workflow: research → synthesize → apply → adversarial verify
+- [ ] Verify: preview, baseline dist diff, pnpm check, build, dist inspection
+- [ ] Commit + PR
