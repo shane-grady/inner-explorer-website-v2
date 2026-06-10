@@ -741,3 +741,180 @@ research-backed SEO workflow. Decisions (user, 2026-06-09): Webb-precedent fidel
   Merge with main (Goddard, PR #16): JM renumbered to order 4 + newsroom id 19
   (both collided at order 3 / id 18); next-card chain is now Broward → Webb →
   Goddard → John Marshall → Broward.
+
+## 2026-06-10 — Mindful Michigan case study transfer (case-study7)
+
+### Source-fact inventory (the ONLY claims the page may make)
+
+Sources: innerexplorer.com/case-study7.html (web) + images/Mindful-Michigan-Model.pdf
+(11pp, CID fonts — extracted via pypdf) + 10 page images (read via vision).
+Legacy genre note: this is a FUNDER REPORT (first-person, addressed to the Fetzer
+Institute, with fundraising asks). The new page reframes as a case study; all
+fundraising asks (GreenLight/Georgia/NC pipeline, "grateful for Fetzer's help")
+are dropped, facts retained.
+
+**Reach (grant's first two years):** 202 and 146 schools/centers respectively;
+~58,000 students and their families; 2,300 educators. Settings: school districts,
+charter networks, foster care group homes, OST providers, park districts, juvenile
+detention centers, families.
+
+**The Mindful Michigan Model** (hexagon diagram, Image1): first-of-its-kind
+state-wide model for a mindful theory of system change. Six components:
+
+1. Foundational Daily Mindful Practice — 180 days of sequenced 10-min audio-guided
+   practice; transition-responsive practices; promotes wellbeing, academic
+   achievement, school safety.
+2. Inspired Innovation — Riverfront Reflections, Extreme Makeover Mindful Edition,
+   Experiential Roundtables.
+3. Data Driven Research — evidence-based, real-time data for decision making.
+4. Inter-generational Approach — links home and school for family engagement.
+5. Collaboration and Collective Impact — public/private partnerships for leaders.
+6. Intentional Equity and Inclusion — juvenile justice, early learning, OST, foster
+   care, children's hospitals; English and Spanish.
+   Theory: "stress blocks thinking, learning, and relating"; "address biology before
+   behavior" — reduce stress effects before expecting responsive expression.
+
+**Academic impact (program-reported analysis of public state-wide records;
+2021-22 → 2022-23; IE schools vs demographic peer schools):**
+
+- Proficiency: Top IE schools 20.15 → 24.13 (+19.71%); non-IE peers 29.96 → 29.97
+  (+0.01%). IE schools were underperforming peers before adoption.
+- Attendance: Top IE schools 45.51 → 53.75 (+18.11%); non-IE 54.24 → 63.18
+  (+16.47%). Web page headline framing: "19.7% higher academic achievement and a
+  1.64% improvement in attendance compared to peer schools" (1.64 = 18.11−16.47;
+  PRESENT HONESTLY as growth-vs-growth, units of the index are not defined in
+  source — treat values as reported index/percentage).
+- Researcher could not get school-level data by student/classroom (stated).
+- Appendix: data reviews with Southfield, Wayne Metro, ACCESS, NHA; spring pre/post
+  evaluation of Southfield/ACCESS/Wayne Metro "working with MSU to finalize".
+
+**Fortis Academy (Ypsilanti) / NHA:** NHA = 100-school charter network, 50 in MI.
+Fortis = first NHA school on IE; high users in 2021-22 + 2022-23; >30% improvement
+in proficiency across the two years (cumulative gains); Mindful March Madness;
+school-wide adoption; "zero behavior issues" (program-reported); other NHA schools
+followed and embedded IE in their budgets.
+
+**Southfield Public Schools (model district):** first in the nation to REQUIRE
+daily mindful practice with IE for students AND staff (administration, bus
+drivers, janitors, office/secretaries) — program-reported claim. Leadership:
+Paula Lightsey. Training partners: MC4ME, Breathe for Change (10 leaders),
+Millennium Forum (16 new leaders, started January) — nearly 200 educators reached.
+Usage rose 800% in the past year. 14 schools, 5,000+ students, 98% minority
+enrollment; initially bottom 50% — 20% math, 36% reading proficiency (source:
+NCES / MI Dept of Education). District invested in a 3-year subscription.
+Multi-year evaluation in process. Alder Elementary won the district Winter
+Challenge — entire staff practicing daily, 300% engagement increase sustained.
+
+**Community deepening:** three state-wide roundtable convenings (1st: 8 education
+leaders, "Insights Into Our Why", Mon Nov 14 [2022]; 2nd: "Connecting Moments to
+Movements", Feb 27, 40+ leaders, co-sponsored w/ Fetzer Institute, Student
+Advocacy Center, Southfield; 3rd: IN-SPIRE Story Quest showcase, May 15 2023,
+35+ leaders). IN-SPIRE Story Quest: 40+ applicants (students + educators).
+A youth opened the COSEM Conference; new elementary series features youth-led
+practices. Conference presence: Student Mental Health Summit (Lansing), Michigan
+Afterschool Association (with ACCESS), MIPTA.
+
+**Policy & advocacy (verify all in workflow):** CDC issued six recommendations for
+school administrators on youth mental health — daily mindfulness practice #2
+(ahead of SEL), mindfulness training for teachers #6 [= CDC 2023 action guide
+"Promoting Mental Health and Well-Being in Schools"]. US Surgeon General promotes
+mindfulness for well-being/loneliness. US Dept of Ed (ERIC ED606075 linked) and
+AAP recommend mindfulness. NPR (2024-01-26, health-shots/1227056527) highlighted
+IE; legacy page says Patricia Sullivan Elementary profiled w/ results: >80%
+unhoused, Title 1, F → A using IE daily [Image5: "every day since 2017", closed
+achievement gap, ZERO suspensions past 3 years; charts vs Hillsborough/FL/national
+2017-2022 — VERIFY school vs NPR story]. Head Start best-practice profile
+(secondwavemedia.com 2024-03-07). UPenn Center for High Impact Philanthropy
+included IE in 2024 High Impact Giving Toolkit (impact.upenn.edu linked).
+
+**Funders/partners (logos on legacy page):** Fetzer Institute (fetzer.org), Hemera
+Foundation (hemera.org), MC4ME (mc4me.org), Millennium Forum, Skillman Foundation
+(skillman.org). PDF: did not raise expected funds from MI-based foundations;
+raised from national donors/foundations + schools paying directly.
+
+**New sites (year 2):** Dickerson + Children's Village juvenile justice centers;
+We Care Foster Care; 6 new Wayne Metro OST sites; 6 new ACCESS sites; new
+schools/districts incl. Wayne Westland CSD (10), Freeland CSD (2), South Pointe
+Scholars, Endeavor Charter Academy, Tylor Exemplary Academy, Poineer [sic] Middle
+School, Great Lakes Learning Academy, Angell Elementary, L'Anse Creuse HS, Dwight
+Rich School of the Arts, North Muskegon HS, West Middle School (Grand Blanc),
+Monroe YMCA, Kent ISD, Cornerstone Charter, UM Children's Hospital.
+
+**Real quotes (named, public award context — NO invented voices needed):**
+
+- Gabrielle Gross, Southfield Adler student, 1st Place In-Spire Story Champion:
+  "When I know that I need mindfulness is when I have mixed feelings, feeling mad,
+  sad, angry, uncomfortable, you can use mindfulness for all of these situations.
+  If I were you and had a problem, the best place to go is to Inner Explorer."
+- Elaine Sandouno, Fortis student, 2nd Place: "After doing these mindful practices
+  for about a month and a half straight (still counting), It has helped me to feel
+  physically strong and emotionally replenished."
+- Israa Abella, Fortis student, 3rd Place: "Whenever I feel tired or in a bad mood,
+  I make sure to practice taking deep breaths to calm myself down and let myself
+  have enough time to make decisions. Inner Explorer has given me chances to avoid
+  conflicts and has helped me in a positive way."
+- Marc Zendejas, Educator: "While reading my students' Inner Explorer essays, I was
+  blown away by some of their insights. Inner Explorer has not only helped me to
+  have more compassion for myself, but to be more compassionate to those around me:
+  my students, coworkers, friends, and family."
+- Pamela Mckenzie, Behavior Interventionist: "The best tool in my toolbox is
+  mindfulness. Inner Explorer helps our school find a calmness in the present
+  moment and connects us to each other."
+- Kindergartener at Detroit Leadership Academy: "I am grateful for all the people
+  in the world."
+- Karen Burns, Kindergarten Teacher, Detroit Leadership Academy — poem "Mindful
+  Mission" (full text in PDF p.11).
+
+**Web vs PDF discrepancies:** none material — web page is a superset (adds the
+funders strip + table layout); PDF adds appendix detail (Southfield 1-2-3 case,
+new-sites lists, quotes pages). Image10 ("Top 20 Districts Playback Comparison of
+LSY") is platform-wide, non-Michigan data — EXCLUDE (district names are LA,
+Chula Vista, Racine… not MI).
+
+**Slot claims:** order: 8 — initially 7, renumbered pre-push because open PR #21 (La Joya ISD, parallel session) claims 7 (1-6 taken after merging origin/main — dwight-morrow
+landed order 6); newsroom card id: 23 — initially 22, renumbered (PR #21 claims 22; 21 taken). Slug: mindful-michigan.
+Legacy URLs for 301 at migration: /case-study7.html + /images/Mindful-Michigan-Model.pdf.
+
+### Build checklist
+
+- [x] Step 2: user decisions — real content only (no trust block, no invented
+      voices), generate imagery, stand-in portraits + PUBLISH GATE for the two
+      educators, slug mindful-michigan
+- [x] YAML + placeholder images under final filenames (order 7; baseline dist
+      snapshotted to /tmp/cs7/dist-baseline BEFORE first edit)
+- [x] Newsroom card (id 22) + PDF to public/downloads/mindful-michigan-case-study.pdf
+- [x] Imagery via inner-explorer-covers conventions — 12 generations (GPT Image
+      2, ~84 credits), every image vision-reviewed (posture/lettering/modern
+      rooms; bulletin-board lettering came out correctly spelled), 11 installed
+      at 1600px q78 (<300KB each) + newsroom hero copy; 105 spare unused;
+      provenance manifest /tmp/cs7/imagery/batch_log.csv
+- [x] SEO workflow (wf_db01eb4e-613: 12 agents, ~1.27M tokens — 5 researchers
+      incl. a dedicated fact-verification angle, synthesis, 3 appliers, 3
+      adversarial verifiers). 35 proposals → 33 accepted / 2 rejected (HTML link
+      in plain-text body; stat-in-title date mismatch). Cross-scope merges
+      refereed in main context: CDC paragraph (structure-gaps version), 2024
+      timeline ("one of nine featured nonprofits"), attendance foot (merged),
+      methodology disclosure deduped into sources[0] only.
+- [x] Fact-check fixes from the workflow: NPR never says "proven" (reframed);
+      Second Wave article retitled + re-domained (now Common Ground —
+      fromcommonground.com); Southfield size time-anchored ("then 14 schools");
+      Paula Lightsey named; chart index-scale caveats; 3 new sources (MDE .gov,
+      Ha et al. 2025 RER via doi.org, Cipriano 2023 via doi.org); 2 new FAQ
+      items (academic-evidence with association framing; funding streams:
+      Title IV-A, MI 31n/31aa, MiLEAP 32n); Surgeon General claim stays dropped;
+      Patricia Sullivan stays off-page.
+- [x] Verify: 6 existing case-study pages byte-identical to baseline
+      (dwight-morrow differs only by expected next-card retarget; hub/newsroom
+      by the new card); pnpm check green; build green; dist inspection — title
+      59 chars, desc 153, OG = hero 1200×630 crop, Article JSON-LD with 7
+      citations, sitemap entry, canonical stat sentence in prose, 7 FAQ
+      <details>, Tier 1 exactly once, "proven" absent, JS parity with existing
+      pages; no overflow at 1280/375/320; dist hero asset byte-matches the
+      generated image (preview showed stale pixels — known dev /\_image cache).
+- [x] Commit + PR
+
+  Review: page live at /case-studies/mindful-michigan/ (order 8, newsroom id 23 — renumbered pre-push; open PR #21 La Joya claims 7/22).
+  PUBLISH GATES for launch review: two stand-in portraits (Zendejas, Mckenzie).
+  Open follow-ups in tasks/seo-playbook.md (301s at migration incl. the PDF and
+  lms. variants; real grant-year anchors if the team can produce them; staging
+  noindex handled by the separate open PR).

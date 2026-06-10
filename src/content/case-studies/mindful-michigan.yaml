@@ -1,0 +1,497 @@
+# Mindful Michigan — case study content. One file → the whole
+# /case-studies/mindful-michigan page.
+#
+# Transferred from the legacy site (innerexplorer.com/case-study7.html) and its PDF
+# ("Mindful Michigan Project Highlights" — the initiative's funder report, 11pp).
+# The legacy source is a first-person FUNDER REPORT addressed to the Fetzer
+# Institute; this page reframes it as a case study. All reach figures, the
+# statewide academic analysis, the Southfield and Fortis stories, and every quote
+# are real source content. Fundraising asks in the source (the GreenLight
+# Georgia/North Carolina pipeline, requests for Fetzer introductions) were
+# deliberately dropped, not carried.
+#
+# Content-owner decision (2026-06-10): REAL CONTENT ONLY — no representative
+# filler. The trust-rating block is omitted and all six voices are verbatim
+# source quotes from named people (three IN-SPIRE champions, two educators; the
+# kindergartner's line and Karen Burns' poem are carried in body copy).
+#
+# CLAIM DISCIPLINE: the 19.7% figure is the initiative's own analysis of public
+# statewide records (growth vs. demographically matched peer schools, 2021-22 →
+# 2022-23). It is always framed as growth-over-growth (19.7% vs 0.01%), never as
+# "IE schools score higher than peers" — peers were higher in absolute terms,
+# and the charts show that honestly. The source table does not define the index
+# units; values are presented "as reported".
+# SPELLING NOTE: the source spells the Southfield school both "Adler" and
+# "Alder"; the real school is Adler Elementary (Southfield Public Schools) —
+# "Adler" is used throughout.
+#
+# Photography: AI-generated brand imagery (Higgsfield / GPT Image 2, 2026-06-10).
+# The two PORTRAITS are stand-ins for real named people and carry PUBLISH GATE
+# comments below.
+order: 8
+draft: false
+
+# Title ≤60 chars (no brand suffix — Google shows the site name separately);
+# description ≤155 chars with the stat first.
+seoTitle: 'Mindful Michigan: 19.7% vs. 0.01% Academic Growth Statewide'
+seoDescription: >-
+  19.7% proficiency growth in a year vs. 0.01% for matched peers: Mindful
+  Michigan's analysis of schools using Inner Explorer's daily mindfulness practice.
+publishedDate: 2026-06-10
+updatedDate: 2026-06-10
+
+meta:
+  kicker: 'Statewide Case Study'
+  # H1 carries entity + outcome + topic (what LLMs surface as the document's name);
+  # the duet format keeps the brand voice — stat in the sans lead, model in the serif.
+  titleLead: 'How Michigan schools grew academic achievement 19.7% in one year'
+  titleEmphasis: "with Inner Explorer's statewide daily mindfulness model"
+  # The dek doubles as the page's quotable answer: it names the initiative, the
+  # reach, and the outcome (with the peer comparison) in one self-contained passage.
+  dek: >-
+    Mindful Michigan is the first-of-its-kind statewide model for mindful systems
+    change in education. In its first two years the initiative reached 202 and then
+    146 schools and centers — roughly 58,000 students and 2,300 educators — and
+    Michigan schools using Inner Explorer's daily practice grew academic proficiency
+    19.7% year over year, while demographically matched peer schools grew 0.01%, in
+    the initiative's analysis of public statewide records.
+  readingTime: '7 min read'
+  published: 'Updated June 2026'
+  heroImage: '../../assets/images/case-studies/mindful-michigan/hero-statewide-practice.jpg'
+  heroImageAlt: 'An elementary classroom of students sitting upright with eyes closed during a daily audio-guided mindfulness practice'
+
+district:
+  name: 'Mindful Michigan'
+  shortName: 'Mindful Michigan'
+  location: 'Statewide initiative · Michigan'
+  snapshot:
+    - { value: '202', label: 'Schools & centers in year one' }
+    - { value: '58,000', label: 'Students reached, with their families' }
+    - { value: '2,300', label: 'Educators practicing' }
+    - { value: '19.7%', label: 'One-year academic growth — matched peers grew 0.01%' }
+    - { value: '1st', label: 'Statewide mindful systems-change model' }
+
+intro:
+  challenge:
+    eyebrow: 'The Challenge'
+    heading: 'Stress blocks thinking, learning, and relating — and no single school can fix that alone'
+    body:
+      - >-
+        The youth mental health crisis is a significant factor linked to academic
+        failure, and Michigan's classrooms felt it daily. The CDC's 2023 action guide
+        for school and district leaders lists "Promote Mindfulness" second among its
+        six strategies (ahead of social, emotional, and behavioral learning) and
+        dedicates its sixth strategy to staff well-being, beginning with
+        mindfulness-based training. Mindful Michigan starts from a simple premise:
+        stress blocks thinking, learning, and relating — so schools must address
+        biology before behavior, reducing the effects of stress before expecting
+        students to show up ready to learn.
+      - >-
+        The before picture was stark. Schools that would later adopt Inner Explorer
+        were underperforming demographically matched peer schools on statewide
+        measures. In Southfield Public Schools — then 14 schools and more than 5,000
+        students, 98% minority enrollment — the district ranked in the bottom half of
+        the state, with 20% math proficiency and 36% reading proficiency.
+      - >-
+        And scale itself was the hardest problem. Even when a mindfulness program is
+        offered free through grant funding, not every school fully engages. Reaching a
+        whole state takes more than a good practice — it takes a model: funders,
+        training partners, data, and districts willing to lead.
+    image: '../../assets/images/case-studies/mindful-michigan/challenge-stress-classroom.jpg'
+    imageAlt: 'A teacher kneeling beside a young student to offer calm support in a busy elementary classroom'
+    stat:
+      {
+        value: '20%',
+        label: 'math proficiency in Southfield Public Schools before its mindful-district commitment',
+      }
+  approach:
+    eyebrow: 'The Approach'
+    heading: 'A six-part statewide model built on one daily mindfulness practice'
+    body:
+      - >-
+        The Mindful Michigan Model is a state-level framework for mindful systems
+        change, built on a decade of Inner Explorer's evidence-based program. Its six
+        components work inside-out: Foundational Daily Mindful Practice — 180 days of
+        sequenced, 10-minute audio-guided practices in every classroom — supported by
+        Data-Driven Research, an Inter-generational Approach linking home and school,
+        Intentional Equity and Inclusion, Inspired Innovation, and Collaboration and
+        Collective Impact across public and private partners.
+      - >-
+        Funders and partners made the model possible — the Fetzer Institute, the Hemera
+        Foundation, and the Skillman Foundation alongside training partners MC4ME,
+        Millennium Forum, and Breathe for Change. Innovation kept it alive: Fortis
+        Academy ran a Mindful March Madness challenge, Adler Elementary won Southfield's
+        district-wide Winter Challenge by getting its entire staff practicing daily, and
+        the IN-SPIRE Story Quest drew more than 40 student and educator entries from
+        across the state. A Detroit Leadership Academy kindergartner put the practice in
+        five-year-old terms: "I am grateful for all the people in the world."
+      - >-
+        Three statewide roundtable convenings brought Michigan's education leaders into
+        one community of practice — eight leaders at the first, more than 40 by the
+        second — and kindergarten teacher Karen Burns turned her class's first mindful
+        year into a poem, "Mindful Mission," tracing the arc from "Screaming, crying"
+        to students taking deep breaths on their own.
+    image: '../../assets/images/case-studies/mindful-michigan/approach-press-play.jpg'
+    imageAlt: 'An educator starting the day’s audio-guided mindfulness practice for a classroom of students'
+    # Four pillar cards carry the model's four operating components; the remaining
+    # two (Inspired Innovation, Collaboration and Collective Impact) are named in
+    # the body paragraphs above with their concrete examples.
+    pillars:
+      - icon: 'play'
+        title: 'One daily practice, 180 days a year'
+        text: >-
+          Every setting starts from the same foundation: sequenced, 10-minute
+          audio-guided practices, every school day — a universal, Tier 1 support for
+          every student and educator, no screening or identification required. Easy
+          to use, with transition-responsive practices that together promote
+          wellbeing, academic achievement, and school safety.
+      - icon: 'chart'
+        title: 'Data-driven from day one'
+        text: >-
+          Real-time usage data and meaningful-impact evaluation guide decisions —
+          including data reviews with the initiative's biggest partners and a
+          statewide public-records analysis comparing Inner Explorer schools with
+          demographically matched peers.
+      - icon: 'heart'
+        title: 'Home and school practice together'
+        text: >-
+          The model links home and school for family engagement and transparency.
+          Southfield's growth came from students, staff, and families joining the same
+          daily practice — not from students practicing alone.
+      - icon: 'compass'
+        title: 'Equity by design'
+        text: >-
+          The model deliberately includes youth in juvenile detention centers,
+          foster-care group homes, early learning centers, out-of-school-time
+          programs, and children's hospitals — with practices available in English
+          and Spanish.
+
+timeline:
+  eyebrow: 'The Rollout'
+  heading: 'From one charter school to the nation’s first required-practice district'
+  phases:
+    - date: '2021–22'
+      tag: 'Early proof'
+      title: 'Fortis Academy goes school-wide'
+      text: "At Fortis Academy in Ypsilanti — the first Inner Explorer school in National Heritage Academies' 100-school charter network — daily practice is already school-wide. Across two years of high usage, proficiency improves more than 30%, and other NHA schools follow, embedding the program in their own budgets."
+    - date: 'Year one'
+      tag: 'Scale'
+      title: '202 schools and centers start practicing'
+      text: 'Following a tipping-point growth strategy, Mindful Michigan reaches 202 schools and centers in its first grant year — school districts, charter networks, foster-care group homes, out-of-school-time providers, park districts, and juvenile detention centers — at no cost to schools.'
+    - date: '2022–23'
+      tag: 'Proof'
+      title: "The initiative's analysis finds 19.7% growth vs. 0.01% for matched peers"
+      text: "Mindful Michigan's analysis of public statewide records compares schools using Inner Explorer consistently with demographically matched peers: proficiency grows 19.7% year over year at Inner Explorer schools, against 0.01% at peer schools — and attendance improves faster too, 18.1% vs. 16.5%."
+    - date: 'Year two'
+      tag: 'Deepen'
+      title: 'Southfield becomes the first required-practice district in the nation'
+      text: 'Championed by district leader Paula Lightsey, Southfield Public Schools commits district-wide: daily mindful practice required for students and staff — administrators, bus drivers, janitors, and office staff included — backed by a three-year subscription and training for nearly 200 educators. Usage rises 800% in a single year as students, staff, and families join the same system-wide practice.'
+    - date: '2024'
+      tag: 'Momentum'
+      title: 'National recognition arrives'
+      text: "NPR profiles Inner Explorer's press-play daily practice as an easier way for schools to bring mindfulness into the classroom; a Michigan feature on mindfulness in Head Start preschools highlights Mindful Michigan and Inner Explorer's daily practice for preschoolers; and the University of Pennsylvania's Center for High Impact Philanthropy includes Inner Explorer as one of nine featured nonprofits in its 2024 High Impact Giving Toolkit."
+
+metrics:
+  eyebrow: 'The Results'
+  heading: 'What a statewide daily practice changed'
+  # The first sentence is the page's canonical claim — keep it byte-identical
+  # wherever this story is summarized (cards, anchors, social copy).
+  note: >-
+    Michigan schools using Inner Explorer consistently grew academic proficiency
+    19.7% from 2021–22 to 2022–23 — while demographically matched peer schools grew
+    0.01% — in Mindful Michigan's analysis of public statewide records. Reach and
+    engagement figures are reported by the initiative; recognition sources are
+    linked below.
+  featured:
+    value: '19.7%'
+    label: 'one-year growth in academic proficiency at Michigan schools using Inner Explorer, 2021–22 to 2022–23 — matched peer schools grew 0.01%'
+    trend: 'up-good'
+    sourceId: 1
+  grid:
+    - {
+        value: '202',
+        label: 'schools and centers reached in year one of the statewide initiative',
+        sourceId: 1,
+      }
+    - {
+        value: '58,000',
+        label: 'students reached, with their families, across the first two years',
+        sourceId: 1,
+      }
+    - { value: '2,300', label: 'educators practicing alongside their students', sourceId: 1 }
+    - {
+        value: '18.1%',
+        label: 'attendance improvement at Inner Explorer schools — vs. 16.5% at matched peer schools',
+        trend: 'up-good',
+        sourceId: 1,
+      }
+    - {
+        value: '30%+',
+        label: 'proficiency improvement at Fortis Academy across two school years of high usage',
+        trend: 'up-good',
+        sourceId: 1,
+      }
+    - {
+        value: '800%',
+        label: 'one-year growth in usage after Southfield Public Schools required daily mindful practice for students and staff',
+        trend: 'up-good',
+        sourceId: 1,
+      }
+
+charts:
+  - title: 'Academic proficiency: Inner Explorer schools vs. matched peers'
+    subtitle: "Proficiency index averages from the initiative's analysis of public statewide records, 2021–22 → 2022–23"
+    sourceId: 1
+    # Methodology disclosure lives once, in sources[0] — the chart foot keeps the
+    # honesty notes (gap narrowed, undefined index scale) without duplicating it.
+    foot: >-
+      Inner Explorer schools entered the year behind their demographically matched
+      peers and grew 19.7% in one year; peer schools grew 0.01%. The gap narrowed but
+      did not close. Values are shown as the initiative reported them; the source does
+      not define the index scale.
+    groups:
+      - label: 'Inner Explorer schools'
+        tone: 'brand'
+        bars:
+          - { label: '2021–22', value: 20.15 }
+          - { label: '2022–23', value: 24.13 }
+      - label: 'Matched peer schools'
+        tone: 'muted'
+        bars:
+          - { label: '2021–22', value: 29.96 }
+          - { label: '2022–23', value: 29.97 }
+  - title: 'Attendance: Inner Explorer schools vs. matched peers'
+    subtitle: "Attendance index averages from the initiative's analysis of public statewide records, 2021–22 → 2022–23"
+    sourceId: 1
+    foot: >-
+      Attendance improved across Michigan as schools recovered post-pandemic —
+      statewide gains the Michigan Department of Education also reported for 2022–23.
+      Against that backdrop, attendance still improved faster at Inner Explorer
+      schools (+18.1%) than at matched peer schools (+16.5%). Values are shown as the
+      initiative reported them; the source does not define the index scale.
+    groups:
+      - label: 'Inner Explorer schools'
+        tone: 'brand'
+        bars:
+          - { label: '2021–22', value: 45.51 }
+          - { label: '2022–23', value: 53.75 }
+      - label: 'Matched peer schools'
+        tone: 'muted'
+        bars:
+          - { label: '2021–22', value: 54.24 }
+          - { label: '2022–23', value: 63.18 }
+
+sources:
+  - {
+      id: 1,
+      text: 'Mindful Michigan project reporting — reach and engagement figures, and the initiative’s analysis of public statewide academic and attendance records comparing schools using Inner Explorer consistently with demographically matched peer schools, 2021–22 to 2022–23. The analysis is school-level, using the same public records for both groups for the same two school years; student- and classroom-level data were not available.',
+    }
+  - {
+      id: 2,
+      text: 'Centers for Disease Control and Prevention, Promoting Mental Health and Well-Being in Schools: An Action Guide for School and District Leaders (2023).',
+      href: 'https://www.cdc.gov/mental-health-action-guide/about/index.html',
+    }
+  - {
+      id: 3,
+      text: 'NPR, "To help these school kids deal with trauma, mindfulness lessons over the loudspeaker" (January 26, 2024).',
+      href: 'https://www.npr.org/sections/health-shots/2024/01/26/1227056527/to-help-these-school-kids-deal-with-trauma-mindfulness-lessons-over-the-loudspea',
+    }
+  - {
+      id: 4,
+      text: 'Second Wave Media (now Common Ground), "Pilot program in Jackson County aims to support preschoolers’ mental health through mindfulness" (March 7, 2024) — a Michigan feature on preschool mindfulness that describes Inner Explorer’s Mindful Michigan and its daily practice for preschoolers.',
+      href: 'https://fromcommonground.com/features/headstartmindfulness03072024.aspx',
+    }
+  - {
+      id: 5,
+      text: 'University of Pennsylvania Center for High Impact Philanthropy, 2024 High Impact Giving Toolkit — Inner Explorer inclusion.',
+      href: 'https://www.impact.upenn.edu/2024-high-impact-giving-toolkit/',
+    }
+  - {
+      id: 6,
+      text: 'Michigan Department of Education, "State Attendance and Absenteeism Rates Improve in 2022-23 School Year" (October 10, 2023).',
+      href: 'https://www.michigan.gov/mde/news-and-information/press-releases/2023/10/10/state-attendance-and-absenteeism-rates-improve-in-2022-23-school-year',
+    }
+  - {
+      id: 7,
+      text: 'Ha et al., "Disentangling the Effects of Social and Emotional Learning Programs on Student Academic Achievement," Review of Educational Research (2025) — independent meta-analysis; academic gains associated with participation were strongest in elementary grades and in programs running more than four months.',
+      href: 'https://doi.org/10.3102/00346543251367769',
+    }
+  - {
+      id: 8,
+      text: 'Cipriano et al., "The state of evidence for social and emotional learning: A contemporary meta-analysis of universal school-based SEL interventions," Child Development (2023).',
+      href: 'https://doi.org/10.1111/cdev.13968',
+    }
+
+voicesIntro:
+  eyebrow: 'What Michigan says'
+  headingLead: 'Voices from the schools'
+  headingEmphasis: 'practicing every day'
+  studentsLabel: 'From the IN-SPIRE Story Quest'
+
+voices:
+  - kind: 'Educator'
+    quote: >-
+      While reading my students' Inner Explorer essays, I was blown away by some of
+      their insights. Inner Explorer has not only helped me to have more compassion
+      for myself, but to be more compassionate to those around me: my students,
+      coworkers, friends, and family.
+    name: 'Marc Zendejas'
+    role: 'Educator'
+    org: 'Mindful Michigan'
+    # PUBLISH GATE: placeholder portrait — must be Marc Zendejas's real photo before
+    # launch (a stand-in face with an identity-asserting alt is a fabrication risk).
+    # Alt text stays non-identifying until the real photo lands.
+    portrait: '../../assets/images/case-studies/mindful-michigan/voice-zendejas.jpg'
+    portraitAlt: 'Portrait of an educator (placeholder image)'
+    stat:
+      { value: '40+', label: 'IN-SPIRE Story Quest entries from students and educators statewide' }
+  - kind: 'Student support'
+    quote: >-
+      The best tool in my toolbox is mindfulness. Inner Explorer helps our school find
+      a calmness in the present moment and connects us to each other.
+    name: 'Pamela Mckenzie'
+    role: 'Behavior Interventionist'
+    org: 'Mindful Michigan'
+    # PUBLISH GATE: placeholder portrait — same rule as above.
+    portrait: '../../assets/images/case-studies/mindful-michigan/voice-mckenzie.jpg'
+    portraitAlt: 'Portrait of a behavior interventionist (placeholder image)'
+    stat: { value: '2,300', label: 'Michigan educators practicing daily' }
+  - kind: 'From the students'
+    quote: >-
+      When I know that I need mindfulness is when I have mixed feelings, feeling mad,
+      sad, angry, uncomfortable, you can use mindfulness for all of these situations.
+      If I were you and had a problem, the best place to go is to Inner Explorer.
+    name: 'Gabrielle Gross'
+    role: '1st-place champion · Adler Elementary, Southfield'
+  - kind: 'From the students'
+    quote: >-
+      After doing these mindful practices for about a month and a half straight (still
+      counting), it has helped me to feel physically strong and emotionally
+      replenished.
+    name: 'Elaine Sandouno'
+    role: '2nd-place champion · Fortis Academy'
+  - kind: 'From the students'
+    quote: >-
+      Whenever I feel tired or in a bad mood, I make sure to practice taking deep
+      breaths to calm myself down and let myself have enough time to make decisions.
+      Inner Explorer has given me chances to avoid conflicts and has helped me in a
+      positive way.
+    name: 'Israa Abella'
+    role: '3rd-place champion · Fortis Academy'
+
+gallery:
+  eyebrow: 'Across the state'
+  heading: 'One daily practice, many settings'
+  note: 'Photos are representative brand imagery and do not depict the named schools, students, or staff.'
+  images:
+    - {
+        src: '../../assets/images/case-studies/mindful-michigan/gallery-1-elementary-practice.jpg',
+        alt: 'Young students sitting at their desks with eyes closed during the daily mindfulness practice',
+      }
+    - {
+        src: '../../assets/images/case-studies/mindful-michigan/gallery-2-staff-practice.jpg',
+        alt: 'School staff members practicing mindfulness together in a staff room before the school day',
+      }
+    - {
+        src: '../../assets/images/case-studies/mindful-michigan/gallery-3-roundtable.jpg',
+        alt: 'Education leaders gathered around a table in conversation at a community roundtable',
+      }
+    - {
+        src: '../../assets/images/case-studies/mindful-michigan/gallery-4-family-practice.jpg',
+        alt: 'A parent and child practicing a guided breathing exercise together at home',
+      }
+    - {
+        src: '../../assets/images/case-studies/mindful-michigan/gallery-5-bulletin-board.jpg',
+        alt: 'A colorful classroom bulletin board celebrating the school’s mindfulness practice',
+      }
+    - {
+        src: '../../assets/images/case-studies/mindful-michigan/gallery-6-ost-practice.jpg',
+        alt: 'Students practicing mindfulness in an after-school program space',
+      }
+
+# FAQ — real buyer questions (model, results, requirements, training, funding)
+# answered from established facts only; rendered with the shared FAQAccordion.
+# Deliberately NO FAQPage JSON-LD (restricted to gov/health rich results since 2023).
+faq:
+  eyebrow: 'FAQ'
+  titleHtml: 'The questions <em>state and district leaders ask.</em>'
+  intro: >-
+    Direct answers from Mindful Michigan's first two years — what the model includes,
+    what the data shows, what it asks of schools, and how districts fund the practice
+    today.
+  items:
+    - q: 'What is the Mindful Michigan Model?'
+      a: >-
+        The Mindful Michigan Model is the first-of-its-kind statewide model for
+        mindful systems change in education, built on Inner Explorer's evidence-based
+        daily practice. Six components work together: a foundational daily mindful
+        practice (180 days of sequenced, 10-minute audio-guided practices),
+        data-driven research, an inter-generational approach linking home and school,
+        intentional equity and inclusion, inspired innovation, and collaboration for
+        collective impact across public and private partners.
+    - q: 'What academic results did Michigan schools see?'
+      a: >-
+        In Mindful Michigan's analysis of public statewide records, schools using
+        Inner Explorer consistently grew academic proficiency 19.7% from 2021–22 to
+        2022–23 while demographically matched peer schools grew 0.01% — and attendance
+        improved faster too (18.1% vs. 16.5%). Inner Explorer schools entered the year
+        behind their matched peers and remained below them in absolute terms; what
+        changed was the rate of growth. At Fortis Academy in Ypsilanti, proficiency
+        improved more than 30% across two years of high usage.
+    - q: 'Does mindfulness improve academic achievement in schools?'
+      a: >-
+        Independent meta-analyses find that participation in school-based social and
+        emotional learning (SEL) is associated with academic gains — strongest in
+        elementary grades and in programs running more than four months; the Mindful
+        Michigan Model's foundational practice runs daily for 180 school days. This
+        case study's own evidence is an association, not a causal claim: the 19.7%
+        vs. 0.01% proficiency growth comparison (2021–22 to 2022–23) is Mindful
+        Michigan's own analysis of public statewide records, not an independent study.
+    - q: 'What does Southfield Public Schools actually require?'
+      a: >-
+        Daily mindful practice with Inner Explorer for students and staff — the first
+        district in the nation to require it, as the initiative reports — including
+        administrators, bus drivers, janitors, and office staff. The district backed
+        the commitment with a three-year subscription and training for nearly 200
+        educators through MC4ME, Breathe for Change, and Millennium Forum. Usage rose
+        800% in a single year.
+    - q: 'How much training do educators need to run the daily practice?'
+      a: >-
+        None beyond pressing play. The practices are fully audio-guided — 180 days,
+        sequenced, 10 minutes each — so any classroom, bus depot, or front office can
+        practice from day one. Partners like MC4ME and Breathe for Change offer
+        optional deeper training for educators who want to grow their own practice.
+    - q: 'Who funded Mindful Michigan?'
+      a: >-
+        The initiative ran on grant funding from national funders and partners —
+        including the Fetzer Institute, the Hemera Foundation, and the Skillman
+        Foundation — so participating schools and centers started at no cost. A
+        growing number of schools now fund the program directly, the way Fortis
+        Academy and other National Heritage Academies schools embedded it in their
+        own budgets.
+    - q: 'How do districts fund a program like this today?'
+      a: >-
+        Districts typically braid existing streams: Title IV, Part A (Student Support
+        and Academic Enrichment) supports work in its "safe and healthy students"
+        category, and Michigan districts can look to Section 31n school mental health
+        funds, Section 31aa Student Mental Health & Safety Per-Pupil Payments, and
+        MiLEAP Out-of-School Time (Section 32n) grants for programs beyond the school
+        day. Mindful Michigan itself started schools at no cost through philanthropy,
+        and the durable pattern is that districts then sustain the practice in their
+        own budgets — the way Southfield backed its district-wide commitment with a
+        three-year subscription.
+
+cta:
+  heading: 'Bring daily mindfulness'
+  headingEmphasis: 'to your district — or your whole state'
+  body: >-
+    Mindful Michigan shows what one daily practice can do at system scale — and how
+    schools sustain it, moving from grant-funded, no-cost starts to programs embedded
+    in their own budgets. We'll walk you through how districts like Southfield made
+    the practice stick, and what a pilot could look like in your schools.
+  primary: { label: 'Book a demo', href: '/contact' }
+  secondary:
+    {
+      label: 'Download the original report (PDF)',
+      href: '/downloads/mindful-michigan-case-study.pdf',
+    }
