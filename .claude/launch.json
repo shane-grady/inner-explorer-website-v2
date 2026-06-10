@@ -56,6 +56,12 @@
       "port": 4433
     },
     {
+      "name": "ie-dev-michigan",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["exec", "astro", "dev", "--port", "4435"],
+      "port": 4435
+    },
+    {
       "name": "ie-dev-lajoya",
       "runtimeExecutable": "pnpm",
       "runtimeArgs": ["exec", "astro", "dev", "--port", "4437"],

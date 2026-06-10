@@ -328,6 +328,28 @@ src/content/case-studies/*.yaml` for duplicates and renumber.
   therefore shifts other pages' HTML by a space + the CSS bundle hash. Compare
   baselines with asset-hash + whitespace normalization.
 
+## 2026-06-10 — Mindful Michigan case study transfer (case-study7)
+
+- **Higgsfield rate-limits trigger even when YOUR account is otherwise idle:** a
+  first wave of 7 simultaneous submits had 2 instant `rate_limit_reached`
+  failures whose 30s retries also failed; resubmitting those 2 in a later wave
+  of ≤4 succeeded immediately. Treat ≤4-job waves as the reliable submit size
+  (refines the Kaiser ≤4 lesson — it applies even with no other jobs holding
+  slots).
+- **Scholarly source URLs (Sage/Wiley) 403 curl** — verify journal citations
+  via `doi.org` HEAD (302 = handle exists) plus `api.crossref.org/works/<doi>`
+  for title/journal/year, and cite the `https://doi.org/...` form, not the
+  publisher page.
+- **Legacy funder reports are a distinct genre:** case-study7 is a first-person
+  report TO a funder (Fetzer) with fundraising asks and donor-pipeline claims.
+  Reframe as case study; drop the asks deliberately and say so in the YAML
+  header; expect press paraphrases inside it to be upward ("proven",
+  "best practice") — the fact-verification research angle caught both on this
+  page (NPR + Second Wave) and is worth keeping as a standing workflow angle.
+- **Media outlets rebrand:** the cited Second Wave article now lives at
+  fromcommonground.com with a different title. Re-resolve legacy press URLs and
+  cite the current domain + exact title, not the legacy page's description of it.
+
 ## 2026-06-10 — La Joya ISD case study transfer
 
 - **A legacy source can disagree with ITSELF on the headline stat.** La Joya's

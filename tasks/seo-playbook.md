@@ -48,6 +48,79 @@ synthesis, application, and adversarial verification). Applied to
   (MYRIAD null findings) — keep "preceded / the principal credited" association
   framing, never causal "mindfulness raises test scores".
 
+## Keyword map (Mindful Michigan page, 2026-06-10 workflow)
+
+- **Primary:** Mindful Michigan (brand SERP owned by legacy IE properties — the
+  301s transfer it) · statewide mindfulness program schools / statewide
+  mindfulness initiative K-12 (zero competing statewide case studies; Mindful
+  Schools wound down April 2024) · mindfulness in schools case study · daily
+  mindfulness practice in schools
+- **Secondary:** district-wide mindfulness program required daily practice (the
+  Southfield query space — unoccupied) · district-wide SEL initiative case study ·
+  mindfulness academic achievement case study · daily mindfulness practice school
+  attendance · mindful systems change in education (coined term) · Tier 1 /
+  universal SEL support (ONE on-page use) · whole child (official MDE vocabulary)
+- **Questions:** What is the Mindful Michigan Model? · What academic results did
+  Michigan schools see? · What does Southfield Public Schools actually require? ·
+  How do districts fund a program like this today? · Does mindfulness improve
+  academic achievement in schools? (contested — association framing in FAQ only,
+  never question-ized headings)
+- **Entities (verified):** Inner Explorer adjacent to "Mindful Michigan" (
+  disambiguates from UMich "Michigan Mindfulness") · Southfield Public Schools ·
+  Paula Lightsey · Fortis Academy (Ypsilanti) · National Heritage Academies ·
+  Adler Elementary — never "Alder" · Fetzer Institute · Hemera Foundation ·
+  Skillman Foundation ($100K 2021 independently verifiable; Fetzer/Hemera
+  program-reported) · MC4ME · Millennium Forum · Breathe for Change · Michigan
+  Department of Education · IN-SPIRE Story Quest
+- **Procurement (re-verified live 2026-06):** Title IV-A "safe and healthy
+  students" category (FY26 $1.38B, P.L. 119-75) · MI Section 31n school mental
+  health ($107.8M FY 2025-26) · Section 31aa Student Mental Health & Safety
+  Per-Pupil Payments ($321M one-time) · MiLEAP OST Section 32n ($73M) ·
+  post-ESSER grant-to-district-budget sustainability arc. EXCLUDED: Stronger
+  Connections (expires Sept 2026), 21st CCLC (too niche).
+
+### Page-specific rules that earned their place (Mindful Michigan)
+
+- **Growth-vs-growth, always paired, always attributed.** The 19.7% travels ONLY
+  as "19.7% vs 0.01%, in Mindful Michigan's analysis of public statewide
+  records". Peers were HIGHER in absolute terms both years (20.15→24.13 vs
+  29.96→29.97); the legacy "19.7% HIGHER than peers" snippet is false as an
+  absolute claim — the 301s exist to overwrite it. Same for attendance: always
+  the 18.1%-vs-16.5% pair (statewide post-pandemic recovery is the confound; MDE
+  Oct 10 2023 press release is the .gov anchor).
+- **Index units are undefined in the source** — chart values carry no % suffix
+  and a visible "source does not define the index scale" caveat. Never map them
+  onto M-STEP/percent-proficient/chronic absenteeism (45.51 read as "45%
+  attendance" discredits the chart; MI's real attendance rate was 88.8%).
+- **NPR never says "proven"** (text.npr.org/1227056527 verified) — its framing
+  is "makes it easier"; the page mirrors that. The Second Wave article was
+  retitled and re-domained (now Common Ground, fromcommonground.com, "Pilot
+  program in Jackson County…") and never says "best practice".
+- **Inputs are never outcomes:** 202 schools / 58,000 students / 2,300 educators
+  / 800% usage stay out of the featured-metric slot (Wayfinder pattern is the
+  anti-model). The 800% always travels with its confound (the requirement).
+- **Surgeon General mindfulness claim: dropped** — the 2023 advisory has no
+  quotable mindfulness recommendation (verified); don't resurrect it. Patricia
+  Sullivan Elementary stays off this page (Florida story; NPR supports F-to-A
+  but not the 80%-unhoused figure).
+- **CDC guide citation is safe and verified:** "Promote Mindfulness" is
+  literally strategy #2 of six (ahead of SEL at #3); strategy #6 (Support Staff
+  Well-Being) leads with mindfulness-based training programs.
+- **Never self-certify an ESSA evidence tier** for the program-reported
+  analysis; disclose the design instead (school-level, same public records both
+  groups, same two years, no student/classroom-level data).
+
+### Open follow-ups (Mindful Michigan page)
+
+- At domain migration: 301 innerexplorer.com/case-study7.html AND
+  /images/Mindful-Michigan-Model.pdf (plus lms.innerexplorer.org variants) to
+  /case-studies/mindful-michigan/.
+- PUBLISH GATES: two stand-in portraits (Zendejas, Mckenzie) need real photos.
+- The staging-domain noindex is handled by the separate open PR
+  (claude/magical-ptolemy-74fe00) — confirm merged before launch.
+- If the team can produce the grant start year / which school years "year one"
+  and "year two" map to, anchor the timeline tags to real years.
+
 ## Rules that earned their place (evidence-backed)
 
 1. **No fabricated trust elements, ever.** Jan-2025 Quality Rater Guidelines make
