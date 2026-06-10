@@ -189,3 +189,28 @@ var(--color-foreground)` so the wrapper paints its surface in the pinned tones.
 - Workflow-tool subagents DO spawn successfully in this Cowork env now
   (10-agent SEO audit ran 2026-06-09) — the prompt-overflow note may be stale
   for Workflow specifically; Task/Explore agents still unverified.
+
+## 2026-06-09 — Goddard Middle School case study transfer (skill eval run)
+
+- **Legacy PDFs with Type0/CIDFontType2 fonts defeat the bundled regex extractor**
+  (`extract_pdf_text.py` returns empty — Tj/TJ strings are binary glyph indices,
+  not ASCII). Fix: `pip3 install --user pypdf`, then `PdfReader(...).pages[i]
+.extract_text()` — pypdf follows ToUnicode CMaps and recovers full text. To
+  RENDER such PDFs page-by-page without poppler: split to single-page PDFs with
+  pypdf, then `sips -s format png -Z 1400 pg1.pdf` (sips converts only a PDF's
+  first page — splitting first is the workaround).
+- **`.next-stat` in CaseStudyExplore had a fixed `max-width: 30ch` + `flex: none`**
+  — it can't shrink, so EVERY case-study page overflowed horizontally at ≤345px
+  viewports (pre-existing on main; both existing stories' stat labels exceed
+  30ch). Fix: `max-width: min(30ch, 100%)`. Lesson: a fixed `ch` cap on a flex
+  item needs a `100%` guard or `min-width: 0` to survive narrow wrapped rows.
+- **Cross-worktree preview-server collision:** `preview_start` found port 4427
+  already serving a _different_ worktree (the prior session's). Always check
+  `preview_list` cwd matches the current worktree before trusting a "reused"
+  server — stop the stale one and restart, or pages show the wrong branch.
+- **Overwritten source images keep showing old pixels in the dev preview** — the
+  dev `/_image` endpoint sends `Cache-Control: public, max-age=31536000`, so the
+  preview browser caches transforms for a year and a server restart (or even
+  clearing `node_modules/.astro`) changes nothing the browser will re-request.
+  Verify swapped imagery with `fetch(src, {cache:'no-store'})` (compare bytes /
+  blit blob URLs into the `img`s), not with reloads or screenshots.
