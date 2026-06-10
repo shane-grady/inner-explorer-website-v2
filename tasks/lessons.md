@@ -249,6 +249,15 @@ var(--color-foreground)` so the wrapper paints its surface in the pinned tones.
   next-card chain. After any merge of a parallel story, re-check `grep "^order:"
 src/content/case-studies/*.yaml` for duplicates and renumber.
 
+## 2026-06-10 — Parallel case-study sessions collide on shared slots
+
+- Three sessions transferred stories simultaneously and ALL claimed `order: 3`/
+  newsroom `id: 18`. Before picking a YAML `order` or newsroom card id, check
+  `origin/main` AND open PRs (`gh pr list`) for claims; expect a merge race
+  anyway and re-fetch right before pushing. Resolution pattern: keep both cards
+  with unique ids, re-sequence `order` by merge arrival, keep every session's
+  lessons/launch.json entries.
+
 ## 2026-06-09 — Kaiser Elementary case study build
 
 - **Verify third-party quotes against the PRIMARY source, not the legacy site.**
