@@ -13,6 +13,7 @@ import ResultsBand from '../../components/blocks/case-study/ResultsBand.astro';
 import CaseStudyVoices from '../../components/blocks/case-study/CaseStudyVoices.astro';
 import PhotoMosaic from '../../components/blocks/case-study/PhotoMosaic.astro';
 import CaseStudyExplore from '../../components/blocks/case-study/CaseStudyExplore.astro';
+import FAQAccordion from '../../components/blocks/districts/FAQAccordion.astro';
 import GlowCTA from '../../components/blocks/GlowCTA.astro';
 import { articleSchema, breadcrumbSchema } from '../../lib/schema';
 
@@ -210,6 +211,17 @@ const exploreLinks = [
           eyebrow={d.gallery.eyebrow}
           heading={d.gallery.heading}
           images={d.gallery.images}
+        />
+      )
+    }
+
+    {
+      d.faq && (
+        <FAQAccordion
+          eyebrow={d.faq.eyebrow}
+          titleHtml={d.faq.titleHtml}
+          intro={d.faq.intro}
+          items={d.faq.items}
         />
       )
     }

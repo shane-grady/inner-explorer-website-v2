@@ -175,6 +175,7 @@ var(--color-foreground)` so the wrapper paints its surface in the pinned tones.
     Top-anchored screenshots (scrollY≈0) capture fine.
 
 ## 2026-06-09 — Webb School case study build
+
 - `sr-only` on a `<table>` does NOT collapse it: tables refuse width below
   min-content, leaving an invisible page-wide overflow on mobile. Wrap tables in
   a `div.sr-only` instead.

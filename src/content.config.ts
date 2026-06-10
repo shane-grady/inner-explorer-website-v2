@@ -244,6 +244,17 @@ const caseStudies = defineCollection({
         images: z.array(z.object({ src: image(), alt: z.string() })).default([]),
       }),
 
+      // Optional FAQ — real buyer questions answered from the story's established
+      // facts; rendered with the shared FAQAccordion (plain-text answers only).
+      faq: z
+        .object({
+          eyebrow: z.string().default('FAQ'),
+          titleHtml: z.string(),
+          intro: z.string(),
+          items: z.array(z.object({ q: z.string(), a: z.string() })).min(1),
+        })
+        .optional(),
+
       cta: z.object({
         heading: z.string(),
         headingEmphasis: z.string(),
