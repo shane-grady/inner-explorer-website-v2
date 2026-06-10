@@ -595,6 +595,38 @@ pattern, then run a comprehensive SEO workflow and apply improvements.
       → verify findings → apply (incl. per-page OG image threading) → re-verify.
 - [x] Commit + PR to main (PR #15, merged).
 
+## Staging noindex — keep \*.netlify.app out of Google (2026-06)
+
+Goal: `innerexplorerwebsitev2.netlify.app` is indexed by Google (verified 2026-06 via
+quoted searches), which would duplicate-cannibalize every production URL at domain
+launch (flagged "must" by the Dwight Morrow SEO research workflow). Serve
+`X-Robots-Tag: noindex` on every `*.netlify.app` host while guaranteeing the future
+production custom domain never gets it.
+
+- [x] **Why not `[[headers]]`**: netlify.toml headers apply per-deploy, to every host
+      the deploy serves — the SAME production deploy will serve both the netlify.app
+      host and the custom domain. Only the request's Host header differs.
+- [x] **Edge function** `netlify/edge-functions/noindex-netlify-host.ts` (path `/*`,
+      inline `config` export): sets `X-Robots-Tag: noindex` when the request Host ends
+      in `.netlify.app` — covers the primary staging host, deploy previews
+      (`deploy-preview-N--…`), and branch deploys, on every response incl. the
+      indexable PDFs under `/downloads/`. Deny-list (vs allow-listing the prod domain,
+      still TODO in astro.config.mjs) fails safe: production can never be noindexed by
+      a wrong/changed domain, and launch needs zero config flips.
+- [x] **robots.txt unchanged** (`Allow: /`) — deliberately. Google only sees a noindex
+      on URLs it may crawl; a Disallow would freeze the stale staging URLs in the index.
+- [x] **Verified**: handler unit-tested under Node (6 host cases: staging/preview/
+      branch get the header; `www.innerexplorer.org`, apex, and `evilnetlify.app`
+      suffix-trick don't); `pnpm check` green (2 pre-existing hints only); deploy
+      preview `curl -sI` shows `x-robots-tag: noindex` on a real `*.netlify.app` host.
+- [ ] **Post-merge**: `curl -sI https://innerexplorerwebsitev2.netlify.app/` → expect
+      `x-robots-tag: noindex`; spot-check `/case-studies/dwight-morrow/` too.
+- [ ] **Post-merge — Google cleanup**: in Search Console, add a URL-prefix property for
+      `https://innerexplorerwebsitev2.netlify.app/` and submit a site-wide **Removals →
+      Temporarily remove** request (hides results ~6 months while the noindex header
+      does the permanent de-indexing on recrawl). At launch, Netlify auto-301s the
+      netlify.app subdomain to the primary custom domain, which finishes the job.
+
 ## Goddard Middle School case study — transfer from innerexplorer.com/case-study3 (2026-06)
 
 Goal: publish the Goddard Middle School story (academic gains 3X the state in
