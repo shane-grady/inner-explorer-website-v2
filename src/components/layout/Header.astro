@@ -10,9 +10,7 @@ const navLinks = [
   { label: 'Platform', href: '/platform' },
   { label: 'Educators', href: '/educators' },
   { label: 'Districts', href: '/districts' },
-  // Single case study for now → deep-links to it; repoint to a /case-studies index
-  // once a second story exists (see tasks/todo.md).
-  { label: 'Case studies', href: '/case-studies/broward' },
+  { label: 'Case studies', href: '/case-studies/' },
   { label: 'Research', href: '/research' },
   { label: 'Narrators', href: '/narrators' },
   { label: 'About', href: '/about' },
@@ -20,7 +18,10 @@ const navLinks = [
 ];
 
 const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
-const isActive = (href: string) => path === href || (href !== '/' && path.startsWith(href + '/'));
+const isActive = (rawHref: string) => {
+  const href = rawHref.replace(/\/+$/, '') || '/';
+  return path === href || (href !== '/' && path.startsWith(href + '/'));
+};
 ---
 
 <header class="nav-wrap">

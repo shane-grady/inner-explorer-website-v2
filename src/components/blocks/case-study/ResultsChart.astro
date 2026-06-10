@@ -1,0 +1,237 @@
+---
+import type { ResultsChartData } from './types';
+
+// Grouped bar chart for the results band (e.g. Webb School's restraints-by-year
+// figure). Renders on the dark proof band, so all color is white-mix + brand scale.
+// The visual plot is aria-hidden; a visually-hidden table carries the data for
+// screen readers. Bars grow in on first scroll-in via the page's existing
+// `data-cs-reveal` observer — pure CSS, zero JS shipped by this block.
+type Props = ResultsChartData;
+const { title, subtitle, foot, sourceId, groups }: Props = Astro.props;
+
+const max = Math.max(...groups.flatMap((g) => g.bars.map((b) => b.value)));
+// Running bar index drives the staggered grow-in delay across group boundaries.
+let barIndex = 0;
+const rows = groups.map((g) => ({
+  ...g,
+  bars: g.bars.map((b) => ({ ...b, h: b.value / max, d: barIndex++ * 110 })),
+}));
+---
+
+<figure class="chartfig" data-cs-reveal>
+  <figcaption class="chead">
+    <span class="ctitle">{title}{sourceId && <sup>{sourceId}</sup>}</span>
+    {subtitle && <span class="csub">{subtitle}</span>}
+  </figcaption>
+
+  <div class="plot" aria-hidden="true">
+    {
+      rows.map((g) => (
+        <div class="group" style={`--n:${g.bars.length}`}>
+          <div class="glabel">{g.label}</div>
+          <div class="bars">
+            {g.bars.map((b) => (
+              <div class="cell" style={`--v:${b.h.toFixed(4)}; --d:${b.d}ms`}>
+                <span class="val">{b.value}</span>
+                <span class={`bar tone-${g.tone}`} />
+                <span class="xlabel">{b.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))
+    }
+  </div>
+
+  {foot && <p class="cfoot">{foot}</p>}
+
+  {
+    /* sr-only goes on a wrapper div: tables won't shrink below min-content width,
+      so the utility's width:1px leaves a page-wide invisible overflow on mobile. */
+  }
+  <div class="sr-only">
+    <table>
+      <caption>{title}{subtitle ? ` — ${subtitle}` : ''}</caption>
+      <thead>
+        <tr><th scope="col">Label</th><th scope="col">Period</th><th scope="col">Value</th></tr>
+      </thead>
+      <tbody>
+        {
+          rows.flatMap((g) =>
+            g.bars.map((b) => (
+              <tr>
+                <th scope="row">{b.label}</th>
+                <td>{g.label}</td>
+                <td>{b.value}</td>
+              </tr>
+            )),
+          )
+        }
+      </tbody>
+    </table>
+  </div>
+</figure>
+
+<style>
+  /* Card chrome matches the results metric grid (same border + surface recipe). */
+  .chartfig {
+    margin: clamp(34px, 4vw, 52px) 0 0;
+    padding: clamp(24px, 3vw, 38px);
+    border: 1px solid color-mix(in oklab, var(--color-white) 14%, transparent);
+    border-radius: var(--radius-lg);
+    background:
+      linear-gradient(
+        160deg,
+        color-mix(in oklab, var(--color-white) 5%, transparent),
+        transparent 60%
+      ),
+      var(--brand-900);
+  }
+  .chead {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: clamp(26px, 3.4vw, 40px);
+  }
+  .ctitle {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--color-white);
+  }
+  .ctitle sup {
+    margin-left: 2px;
+    font-size: 0.72em;
+    font-weight: 600;
+    color: var(--brand-300);
+  }
+  .csub {
+    font-size: 13px;
+    line-height: 1.5;
+    color: color-mix(in oklab, var(--color-white) 68%, transparent);
+  }
+
+  /* Plot: groups sized by bar count, separated by a faint rule. */
+  .plot {
+    display: flex;
+    align-items: stretch;
+    gap: clamp(14px, 2.4vw, 30px);
+  }
+  .group {
+    flex: var(--n);
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(14px, 2vw, 20px);
+  }
+  .group + .group {
+    padding-left: clamp(14px, 2.4vw, 30px);
+    border-left: 1px solid color-mix(in oklab, var(--color-white) 16%, transparent);
+  }
+  .glabel {
+    font-size: 10.5px;
+    font-weight: 600;
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: color-mix(in oklab, var(--color-white) 58%, transparent);
+  }
+  .bars {
+    display: flex;
+    align-items: stretch;
+    gap: clamp(10px, 1.8vw, 22px);
+    height: clamp(160px, 24vw, 240px);
+  }
+  .cell {
+    flex: 1;
+    min-width: 0;
+    max-width: 110px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+  .val {
+    font-weight: 600;
+    font-size: clamp(14px, 1.6vw, 18px);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-white);
+  }
+  .bar {
+    width: 100%;
+    height: calc(var(--v) * (100% - 48px));
+    min-height: 4px;
+    border-radius: 6px 6px 2px 2px;
+    transform-origin: bottom;
+  }
+  .tone-muted {
+    background: color-mix(in oklab, var(--color-white) 26%, transparent);
+  }
+  .tone-brand {
+    background: linear-gradient(180deg, var(--brand-300), var(--brand-400));
+  }
+  .tone-accent {
+    background: color-mix(in oklab, var(--brand-300) 52%, transparent);
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--brand-300) 55%, transparent);
+  }
+  .xlabel {
+    font-size: 11px;
+    line-height: 1.2;
+    white-space: nowrap;
+    color: color-mix(in oklab, var(--color-white) 62%, transparent);
+  }
+
+  .cfoot {
+    margin: clamp(20px, 2.6vw, 28px) 0 0;
+    padding-top: 16px;
+    border-top: 1px solid color-mix(in oklab, var(--color-white) 12%, transparent);
+    font-size: 12.5px;
+    font-style: italic;
+    line-height: 1.5;
+    color: color-mix(in oklab, var(--color-white) 64%, transparent);
+  }
+
+  /* Grow-in on first reveal: gated on JS-ready + motion-ok, so no-JS and
+     reduced-motion readers always see the fully drawn chart. */
+  @media (prefers-reduced-motion: no-preference) {
+    .bar {
+      transition: transform 700ms var(--ease-out);
+      transition-delay: var(--d);
+    }
+    .val {
+      transition: opacity 500ms var(--ease-out);
+      transition-delay: calc(var(--d) + 320ms);
+    }
+    :global([data-js-ready]) .chartfig:not(.in) .bar {
+      transform: scaleY(0);
+    }
+    :global([data-js-ready]) .chartfig:not(.in) .val {
+      opacity: 0;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .plot {
+      gap: 10px;
+    }
+    .group {
+      gap: 12px;
+    }
+    .group + .group {
+      padding-left: 10px;
+    }
+    .bars {
+      gap: 6px;
+      height: 150px;
+    }
+    .glabel {
+      font-size: 9px;
+      letter-spacing: 0.1em;
+    }
+    .xlabel {
+      font-size: 9.5px;
+    }
+  }
+</style>

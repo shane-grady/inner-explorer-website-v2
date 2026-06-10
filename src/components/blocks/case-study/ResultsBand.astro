@@ -1,21 +1,23 @@
 ---
-import type { Metric, Source } from './types';
+import type { Metric, ResultsChartData, Source } from './types';
+import ResultsChart from './ResultsChart.astro';
 
 // The results "proof" band — a deep forest-green full-bleed section carrying one
 // oversized featured stat, a cited metric grid (units + ↑/↓ trend + footnote refs),
-// and a numbered sources list. White type over the brand-dark gradient (AA-checked).
-// Distinct from StatStrip (the light editorial by-the-numbers band); reusable wherever
-// a results/impact proof block is needed.
+// an optional grouped bar chart, and a numbered sources list. White type over the
+// brand-dark gradient (AA-checked). Distinct from StatStrip (the light editorial
+// by-the-numbers band); reusable wherever a results/impact proof block is needed.
 interface Props {
   eyebrow: string;
   heading: string;
   note?: string;
   featured: Metric;
   metrics: Metric[];
+  chart?: ResultsChartData;
   sources?: Source[];
   id?: string;
 }
-const { eyebrow, heading, note, featured, metrics, sources = [], id }: Props = Astro.props;
+const { eyebrow, heading, note, featured, metrics, chart, sources = [], id }: Props = Astro.props;
 
 const arrow = (trend?: Metric['trend']) =>
   trend === 'up-good' ? '↑' : trend === 'down-good' ? '↓' : '';
@@ -62,6 +64,8 @@ const arrow = (trend?: Metric['trend']) =>
       }
     </div>
 
+    {chart && <ResultsChart {...chart} />}
+
     {
       sources.length > 0 && (
         <div class="sources" data-cs-reveal>
@@ -69,7 +73,13 @@ const arrow = (trend?: Metric['trend']) =>
           {sources.map((s) => (
             <div class="source">
               <b>{s.id}</b>
-              <span>{s.text}</span>
+              {s.href ? (
+                <a href={s.href} rel="noopener">
+                  {s.text}
+                </a>
+              ) : (
+                <span>{s.text}</span>
+              )}
             </div>
           ))}
         </div>
@@ -261,6 +271,16 @@ const arrow = (trend?: Metric['trend']) =>
     flex: none;
     font-weight: 600;
     color: var(--brand-300);
+  }
+  .source a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    text-decoration-color: color-mix(in oklab, var(--color-white) 40%, transparent);
+  }
+  .source a:hover {
+    color: color-mix(in oklab, var(--color-white) 92%, transparent);
+    text-decoration-color: var(--brand-300);
   }
 
   @media (max-width: 820px) {

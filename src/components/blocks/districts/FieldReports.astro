@@ -30,9 +30,11 @@ interface Props {
   eyebrow: string;
   title: string;
   intro: string;
+  /** Optional arrow link under the intro (e.g. to the full case studies). */
+  link?: { label: string; href: string };
   reports: Report[];
 }
-const { eyebrow, title, intro, reports }: Props = Astro.props;
+const { eyebrow, title, intro, link, reports }: Props = Astro.props;
 ---
 
 <section class="fr" id="field-reports" aria-label="Field reports">
@@ -42,7 +44,16 @@ const { eyebrow, title, intro, reports }: Props = Astro.props;
         <div class="eyebrow">{eyebrow}</div>
         <h2 class="head-h">{title}</h2>
       </div>
-      <p class="head-p">{intro}</p>
+      <p class="head-p">
+        {intro}
+        {
+          link && (
+            <a class="head-link" href={link.href}>
+              {link.label} <span aria-hidden="true">→</span>
+            </a>
+          )
+        }
+      </p>
     </div>
 
     <div class="fr-list">
@@ -188,6 +199,18 @@ const { eyebrow, title, intro, reports }: Props = Astro.props;
     max-width: 460px;
     justify-self: end;
     margin: 0;
+  }
+  .head-link {
+    display: inline-block;
+    margin-left: 6px;
+    font-weight: 600;
+    color: var(--color-brand-emphasis);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--brand-300);
+  }
+  .head-link:hover {
+    text-decoration-color: var(--color-brand-emphasis);
   }
 
   .fr-list {

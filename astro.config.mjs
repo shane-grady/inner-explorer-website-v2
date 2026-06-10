@@ -14,7 +14,8 @@ export default defineConfig({
   // Snappier marketing navigation; prefetch on link hover.
   prefetch: { prefetchAll: true, defaultStrategy: 'hover' },
 
-  integrations: [react(), sitemap(), mdx()],
+  // Keep the internal styleguide out of the sitemap (it also carries noindex).
+  integrations: [react(), sitemap({ filter: (page) => !page.includes('/styleguide') }), mdx()],
 
   vite: {
     plugins: [tailwindcss()],

@@ -9,8 +9,9 @@ interface Props {
   title: string;
   subtitle?: string;
   cta: { label: string; href: string };
+  secondaryCta?: { label: string; href: string };
 }
-const { title, subtitle, cta }: Props = Astro.props;
+const { title, subtitle, cta, secondaryCta }: Props = Astro.props;
 ---
 
 <Section space="lg" surface="brand">
@@ -23,8 +24,18 @@ const { title, subtitle, cta }: Props = Astro.props;
         </Text>
       )
     }
-    <div class="mt-8">
+    <div class="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
       <Button href={cta.href} size="lg" tone="accent">{cta.label}</Button>
+      {
+        secondaryCta && (
+          <a
+            href={secondaryCta.href}
+            class="font-medium text-brand-foreground/90 underline underline-offset-4 hover:text-brand-foreground"
+          >
+            {secondaryCta.label}
+          </a>
+        )
+      }
     </div>
   </Container>
 </Section>

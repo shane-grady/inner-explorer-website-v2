@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import { getImage } from 'astro:assets';
 import PageLayout from '../../layouts/PageLayout.astro';
 import JsonLd from '../../components/seo/JsonLd.astro';
 import Breadcrumb from '../../components/primitives/Breadcrumb.astro';
@@ -11,40 +12,101 @@ import Timeline from '../../components/blocks/case-study/Timeline.astro';
 import ResultsBand from '../../components/blocks/case-study/ResultsBand.astro';
 import CaseStudyVoices from '../../components/blocks/case-study/CaseStudyVoices.astro';
 import PhotoMosaic from '../../components/blocks/case-study/PhotoMosaic.astro';
+import CaseStudyExplore from '../../components/blocks/case-study/CaseStudyExplore.astro';
+import FAQAccordion from '../../components/blocks/districts/FAQAccordion.astro';
 import GlowCTA from '../../components/blocks/GlowCTA.astro';
 import { articleSchema, breadcrumbSchema } from '../../lib/schema';
 
 // One schema-validated file per district drives the whole page. Add a new
 // src/content/case-studies/<slug>.yaml and a detail page builds itself.
+// Each page also gets a cross-link to the next study (wrap-around order).
 export async function getStaticPaths() {
   const all = await getCollection('caseStudies', ({ data }) => !data.draft);
   const sorted = all.sort((a, b) => a.data.order - b.data.order);
-  return sorted.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+  return sorted.map((entry, i) => {
+    const n = sorted[(i + 1) % sorted.length];
+    const next =
+      n.id === entry.id
+        ? null
+        : {
+            href: `/case-studies/${n.id}/`,
+            headline: `${n.data.meta.titleLead} ${n.data.meta.titleEmphasis}`,
+            statValue: n.data.metrics.featured.value,
+            statLabel: n.data.metrics.featured.label,
+          };
+    return { params: { slug: entry.id }, props: { entry, next } };
+  });
 }
 
-const { entry } = Astro.props;
+const { entry, next } = Astro.props;
 const d = entry.data;
 const path = `/case-studies/${entry.id}/`;
 
 const title = d.seoTitle ?? `${d.district.shortName} Case Study — Inner Explorer`;
 const description = d.seoDescription ?? d.meta.dek;
 
+// Social-share card: the hero photo at the standard 1200×630 OG crop.
+const ogImage = await getImage({
+  src: d.meta.heroImage,
+  width: 1200,
+  height: 630,
+  fit: 'cover',
+  format: 'jpg',
+});
+const ogImageAbs = new URL(ogImage.src, Astro.site).href;
+
+// Article schema: headline mirrors the visible H1 (not the <title> tag), `about`
+// binds the page to the real-world school/district entity, and `citation` lists
+// the linked research sources — entity + citation markup AI retrieval keys on.
 const articleLd = articleSchema(Astro.site, {
-  title,
+  title: `${d.meta.titleLead} ${d.meta.titleEmphasis}`,
   description,
   author: 'Inner Explorer',
   pubDate: d.publishedDate ?? d.updatedDate ?? new Date(),
   updatedDate: d.updatedDate,
   path,
+  image: [ogImageAbs],
+  about: {
+    '@type': 'EducationalOrganization',
+    name: d.district.name,
+    location: d.district.location,
+  },
+  citation: d.sources
+    .filter((s) => s.href)
+    .map((s) => ({ '@type': 'CreativeWork', name: s.text, url: s.href })),
 });
-// The case study is surfaced from the Newsroom content hub.
 const crumbLd = breadcrumbSchema(Astro.site, [
-  { name: 'Newsroom', path: '/newsroom' },
+  { name: 'Case studies', path: '/case-studies/' },
   { name: d.district.name, path },
 ]);
+
+// Contextual outbound links (SEO: descriptive anchors to the pages that close deals).
+const exploreLinks = [
+  {
+    label: 'The research',
+    text: 'See the peer-reviewed evidence behind daily mindfulness practice.',
+    href: '/research',
+  },
+  {
+    label: 'For districts',
+    text: 'How districts fund, roll out, and measure Inner Explorer.',
+    href: '/districts',
+  },
+  {
+    label: 'The platform',
+    text: 'Explore the 5–10 minute daily practices educators press play on.',
+    href: '/platform',
+  },
+];
 ---
 
-<PageLayout title={title} description={description} type="article">
+<PageLayout
+  title={title}
+  description={description}
+  type="article"
+  image={ogImage.src}
+  imageAlt={d.meta.heroImageAlt}
+>
   <JsonLd slot="head" schema={articleLd} />
   <JsonLd slot="head" schema={crumbLd} />
 
@@ -53,7 +115,7 @@ const crumbLd = breadcrumbSchema(Astro.site, [
   <div class="appearance-light cs">
     <div class="bc">
       <Breadcrumb
-        items={[{ label: 'Newsroom', href: '/newsroom' }, { label: d.district.shortName }]}
+        items={[{ label: 'Case studies', href: '/case-studies/' }, { label: d.district.shortName }]}
       />
     </div>
 
@@ -126,6 +188,7 @@ const crumbLd = breadcrumbSchema(Astro.site, [
       note={d.metrics.note}
       featured={d.metrics.featured}
       metrics={d.metrics.grid}
+      chart={d.chart}
       sources={d.sources}
     />
 
@@ -151,6 +214,19 @@ const crumbLd = breadcrumbSchema(Astro.site, [
         />
       )
     }
+
+    {
+      d.faq && (
+        <FAQAccordion
+          eyebrow={d.faq.eyebrow}
+          titleHtml={d.faq.titleHtml}
+          intro={d.faq.intro}
+          items={d.faq.items}
+        />
+      )
+    }
+
+    <CaseStudyExplore id="explore" links={exploreLinks} next={next} />
 
     <GlowCTA
       sans={d.cta.heading}

@@ -1,16 +1,24 @@
 ---
 // Centralized meta: canonical, Open Graph, Twitter. Rendered once in BaseLayout.
+// og:image:width/height let scrapers render the FIRST share of a URL with the image
+// (they otherwise fetch + size it async and drop it from the initial card).
 interface Props {
   title: string;
   description?: string;
   image?: string;
+  imageAlt?: string;
+  imageWidth?: number;
+  imageHeight?: number;
   type?: 'website' | 'article';
   canonical?: string;
 }
 const {
   title,
   description,
-  image = '/og-default.png',
+  image = '/og-default.jpg',
+  imageAlt,
+  imageWidth = 1200,
+  imageHeight = 630,
   type = 'website',
   canonical,
 }: Props = Astro.props;
@@ -27,9 +35,13 @@ const imageURL = new URL(image, Astro.site).href;
 {description && <meta property="og:description" content={description} />}
 <meta property="og:url" content={canonicalURL} />
 <meta property="og:image" content={imageURL} />
+<meta property="og:image:width" content={String(imageWidth)} />
+<meta property="og:image:height" content={String(imageHeight)} />
+{imageAlt && <meta property="og:image:alt" content={imageAlt} />}
 <meta property="og:site_name" content="Inner Explorer" />
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={title} />
 {description && <meta name="twitter:description" content={description} />}
 <meta name="twitter:image" content={imageURL} />
+{imageAlt && <meta name="twitter:image:alt" content={imageAlt} />}

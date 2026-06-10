@@ -1,0 +1,396 @@
+# The Webb School in the Valley — case study content. One file → the whole
+# /case-studies/webb-school page.
+#
+# Transferred from the legacy site (innerexplorer.com/case-study4) and its PDF
+# ("Transforming Student Behavioral Challenges Through Mindfulness at the Webb
+# School in the Valley"). All quotes, restraint/seclusion figures, funders, and
+# implementation strategies are real source content. Items marked
+# "REVIEW: representative" were written to fill the template (per content owner's
+# direction) and need sign-off or real data before publish.
+#
+# Photography: AI-generated brand imagery (Higgsfield / GPT Image 2, 2026-06-09 —
+# provenance manifest in the session batch log). The two PORTRAITS remain stand-ins
+# for real named people and carry PUBLISH GATE comments below.
+order: 2
+draft: false
+
+# Title ≤60 chars (no brand suffix — Google shows the site name separately, and
+# og:site_name carries it on social); description ≤155 chars with the stat first.
+seoTitle: 'Mindfulness Case Study: 65% Fewer Restraints & Seclusions'
+seoDescription: >-
+  Restraints and seclusions fell 65% in one school year at The Webb School in Hartford.
+  How Inner Explorer's daily 5–10 minute mindfulness practice did it.
+publishedDate: 2026-06-09
+updatedDate: 2026-06-09
+
+meta:
+  kicker: 'Therapeutic School Case Study'
+  # H1 carries entity + outcome + topic (what LLMs surface as the document's name);
+  # the duet format keeps the brand voice — stat in the sans lead, program in the serif.
+  titleLead: 'How the Webb School cut restraints and seclusions 65%'
+  titleEmphasis: 'with one daily mindfulness practice'
+  # The dek doubles as the page's quotable answer: it names the school, the place,
+  # the program, and the outcome (with absolute counts) in one self-contained passage.
+  dek: >-
+    At The Webb School in the Valley, a therapeutic school at Hartford's Institute of
+    Living, Inner Explorer's daily 5–10 minute audio-guided mindfulness practice replaced
+    points and levels with self-regulation — and restraints and seclusions fell 65% in a
+    single school year, from 180 to 62.
+  readingTime: '6 min read'
+  published: 'Updated June 2026'
+  heroImage: '../../assets/images/case-studies/webb-school/hero-daily-practice.jpg'
+  heroImageAlt: 'A small therapeutic classroom of students sitting upright with eyes closed during a daily guided mindfulness practice'
+
+district:
+  name: 'The Webb School in the Valley'
+  shortName: 'Webb School'
+  location: 'Institute of Living · Hartford, Connecticut'
+  partnerSince: '2018'
+  snapshot:
+    - { value: '65%', label: 'Fewer restraints & seclusions' }
+    - { value: '5–10 min', label: 'Daily guided mindfulness practice' }
+    - { value: '3', label: 'Schools in the Webb network' }
+    - { value: '2018', label: 'Pilot year' }
+    - { value: '$0', label: 'Pilot cost — grant-funded' }
+
+intro:
+  challenge:
+    eyebrow: 'The Challenge'
+    heading: "Point and level systems couldn't reach what students carried inside"
+    body:
+      - >-
+        The Webb School in the Valley is a therapeutic special-education school, part of
+        the Institute of Living in Hartford, Connecticut, and one of three Webb schools
+        alongside The Webb School at Cheshire and The Grace S. Webb School in Hartford.
+        These schools exist to help students with mental health challenges realize their
+        potential and become self-regulated in a safe, supportive, and respectful setting.
+      - >-
+        When a crisis escalated past what words could reach, staff were left with the
+        interventions of last resort: a restraint — physically holding a student until
+        they are safe — or a seclusion, placing a student alone in a separate space. In
+        the 2017–18 school year, that happened 180 times. Federal guidance is blunt about
+        these interventions: there is no evidence that restraint or seclusion reduces the
+        behaviors that trigger them.
+      - >-
+        Staff recognized that external motivators — points, levels, consequences —
+        weren't enough, and set out to transform behavior from the inside out: through
+        social-emotional learning (SEL) and coping strategies students could carry beyond
+        the classroom.
+    image: '../../assets/images/case-studies/webb-school/challenge-supported-student.jpg'
+    imageAlt: 'A teacher gently supporting a student at a desk in a small, calm classroom'
+    stat: { value: '180', label: 'restraints & seclusions in the year before daily practice' }
+  approach:
+    eyebrow: 'The Approach'
+    heading: 'One consistent daily practice — not mindfulness in pockets'
+    body:
+      - >-
+        Some school counselors were already using mindfulness in isolated instances. But
+        School Administrator Jill DeVane knew that a consistent, school-wide practice — a
+        universal Tier 1 support for every student, not a pull-out intervention — was the
+        key to maximizing what mindfulness has to offer. Inner Explorer's
+        Mindfulness-Based Social Emotional Learning (MBSEL) program fit: daily 5–10 minute
+        audio-guided practices that ask nothing of educators but to press play.
+      - >-
+        Through grant funding from the Aetna Foundation and LG Electronics, the school
+        piloted Inner Explorer at no cost. Layered onto the educators' existing relational
+        model and trauma-informed teaching, the practice found its place at the same time
+        each day, in every classroom. Four implementation strategies — structure,
+        adaptation, support, and application — made it stick.
+    image: '../../assets/images/case-studies/webb-school/approach-drawing-while-listening.jpg'
+    imageAlt: 'A student drawing at a desk while listening to an audio-guided mindfulness practice'
+    # Card titles are descriptive takeaways (what skimming administrators retain);
+    # the source taxonomy — structure / adaptation / support / application — is named
+    # in the approach body paragraph above.
+    pillars:
+      - icon: 'calendar'
+        title: 'A predictable daily routine'
+        text: >-
+          The practice happens at the same time each day, in every classroom, with
+          students and teachers practicing together. That predictability is what turns
+          5–10 minutes of mindfulness into a school-wide habit — and sets the stage for a
+          productive day of learning.
+      - icon: 'palette'
+        title: 'Accommodations, not exemptions'
+        text: >-
+          Students who find it hard to sit still with their thoughts can draw or color
+          while they listen. Participation over perfection — the accommodation keeps
+          students in the practice instead of opting out.
+      - icon: 'heart'
+        title: 'Buy-in before compliance'
+        text: >-
+          When a student resists the practice, educators work to understand the
+          underlying reason rather than insisting. Building the "why" is what helps the
+          exercises make sense — and stick.
+      - icon: 'compass'
+        title: 'Skills that transfer'
+        text: >-
+          The day's technique goes on the board — belly breathing, a body scan — so
+          students can de-escalate hard moments with a tool they already know. Older
+          students practice independently on their own devices whenever they feel
+          anxious, stressed, or overwhelmed.
+
+timeline:
+  eyebrow: 'The Turnaround'
+  heading: 'From 180 incidents a year to a culture of self-regulation'
+  phases:
+    - date: '2016–2018'
+      tag: 'Baseline'
+      title: 'Restraints and seclusions climb to 180 a year'
+      text: "Incidents rise from 116 to 180 per year while the school works through external behavior systems — points, levels, and consequences that couldn't reach the cause."
+    - date: 'Fall 2018'
+      tag: 'Pilot'
+      title: 'Daily mindfulness begins — at no cost'
+      text: "Funded by grants from the Aetna Foundation and LG Electronics, every classroom adds a 5–10 minute audio-guided mindfulness practice at the same time each day. Counselors' isolated mindfulness moments become a whole-school routine."
+    - date: '2018–19'
+      tag: 'Proof'
+      title: 'Restraints and seclusions fall 65%'
+      text: 'In the first year of daily practice, restraints and seclusions at the Webb School fall from 180 to 62 — a 65% reduction. One student goes from 40+ restraint-or-seclusion outbursts to a single one.'
+    - date: '2019–20'
+      tag: 'Sustain'
+      title: 'The new normal holds'
+      text: "A second year of daily practice keeps incidents at 63 — evidence the first year's drop was a habit, not a novelty effect."
+    - date: '2020–21'
+      tag: 'Resilience'
+      title: 'The habit survives COVID-19'
+      text: 'Practice continues through remote learning, and incidents hold at 68 — near pilot-year lows — during the most stressful school year in memory. After the return to in-person learning, they remain low.'
+
+metrics:
+  eyebrow: 'The Results'
+  heading: 'What daily practice changed — and what it prevented'
+  # The first sentence is the page's canonical claim — keep it byte-identical
+  # wherever this story is summarized (cards, anchors, social copy).
+  note: >-
+    Restraints and seclusions at The Webb School in the Valley fell 65% — from 180 to 62 —
+    in the first school year of Inner Explorer's daily practice (2018–19). Figures are
+    reported by the school for 2016–17 through 2020–21; national statistics on
+    exclusionary discipline are drawn from the peer-reviewed and federal research cited
+    below.
+  featured:
+    value: '65%'
+    label: 'fewer restraints and seclusions in the first year of daily mindfulness practice'
+    trend: 'down-good'
+    sourceId: 1
+  grid:
+    - {
+        value: '180 → 62',
+        label: 'restraints & seclusions, the year before vs. the first year of practice',
+        trend: 'down-good',
+        sourceId: 1,
+      }
+    - {
+        value: '40+ → 1',
+        label: 'restraint-and-seclusion incidents for one student with extreme social anxiety',
+        trend: 'down-good',
+        sourceId: 1,
+      }
+    - {
+        value: '3',
+        unit: 'yrs',
+        label: 'incidents held near pilot-year lows — including through COVID-19',
+        sourceId: 1,
+      }
+    - {
+        value: '5–10',
+        unit: 'min',
+        label: 'of daily audio-guided mindfulness practice, with zero prep required from educators',
+      }
+    - {
+        value: '10',
+        unit: '×',
+        label: 'higher risk of dropout, academic failure, and incarceration for young students who are expelled or suspended',
+        sourceId: 2,
+      }
+    - {
+        value: '>25',
+        unit: '%',
+        label: 'chance of failure on a state-wide standardized test predicted by a single in-school suspension',
+        sourceId: 3,
+      }
+
+chart:
+  title: 'Restraints and seclusions by school year'
+  subtitle: 'The Webb School in the Valley, 2016–2021'
+  sourceId: 1
+  foot: >-
+    The school maintained a lower number of behavioral incidents throughout COVID-19,
+    after the initial decrease in the school year following the Inner Explorer pilot.
+  groups:
+    - label: 'Before Inner Explorer'
+      tone: 'muted'
+      bars:
+        - { label: '2016–17', value: 116 }
+        - { label: '2017–18', value: 180 }
+    - label: 'After Inner Explorer'
+      tone: 'brand'
+      bars:
+        - { label: '2018–19', value: 62 }
+        - { label: '2019–20', value: 63 }
+    - label: 'During COVID'
+      tone: 'accent'
+      bars:
+        - { label: '2020–21', value: 68 }
+
+sources:
+  - {
+      id: 1,
+      text: 'Restraint and seclusion data reported by The Webb School in the Valley, Institute of Living, school years 2016–17 through 2020–21.',
+    }
+  - {
+      id: 2,
+      text: 'U.S. Department of Health and Human Services & U.S. Department of Education, Policy Statement on Expulsion and Suspension in Early Childhood Settings (2014).',
+      href: 'https://www.acf.hhs.gov/occ/policy-guidance/expulsion-and-suspension-policy-statement',
+    }
+  - {
+      id: 3,
+      text: 'Smith, D., Ortiz, N. A., & Blake, J. J., "Tipping Point: Effect of the Number of In-School Suspensions on Academic Failure," Contemporary School Psychology 25, 466–475 (2021).',
+      href: 'https://doi.org/10.1007/s40688-020-00289-7',
+    }
+  - {
+      id: 4,
+      text: 'U.S. Department of Education, Restraint and Seclusion: Resource Document (2012) — "there is no evidence that using restraint or seclusion is effective in reducing the occurrence of the problem behaviors" that precipitate their use.',
+      href: 'https://www.ed.gov/sites/ed/files/policy/seclusion/restraints-and-seclusion-resources.pdf',
+    }
+
+voicesIntro:
+  eyebrow: 'What partners say'
+  headingLead: 'Trusted by the adults who'
+  headingEmphasis: 'know these students best'
+  # PUBLISH GATE (SEO/E-E-A-T audit): representative trust figure with no named survey
+  # instrument. Before launch, either back it with a real instrument + year + n in the
+  # trustLine (Broward pattern: "from 2,140 Broward educators surveyed") or delete
+  # trustRating/trustLine — the block hides automatically. Never move this into
+  # Review/aggregateRating JSON-LD (self-serving ratings violate Google's policy).
+  trustRating: '4.8 / 5'
+  trustLine: 'average educator rating of the daily practice <b>across Inner Explorer partner schools</b>'
+  studentsLabel: 'From the classroom'
+
+voices:
+  - kind: 'Leadership'
+    quote: >-
+      One student with extreme social anxiety had 40+ outbursts resulting in restraint or
+      seclusion the year before Inner Explorer. The year we began practicing, he had ONE.
+      The change was so significant that his mother asked why she wasn't talking to us as
+      much — we had no behavior issues to review with her.
+    name: 'Jill DeVane'
+    role: 'School Administrator'
+    org: 'The Webb School in the Valley'
+    # PUBLISH GATE: placeholder portrait — must be Jill DeVane's real photo before
+    # launch (a stand-in face with an identity-asserting alt is a fabrication risk).
+    # Alt text stays non-identifying until the real photo lands.
+    portrait: '../../assets/images/case-studies/webb-school/voice-devane.jpg'
+    portraitAlt: 'Portrait of a school administrator (placeholder image)'
+    stat: { value: '40+ → 1', label: 'restraints & seclusions for that student' }
+  - kind: 'Juvenile justice'
+    quote: >-
+      Students need tools that help them slow down, make better choices, and avoid acting
+      out of anger. Mindfulness teaches exactly that. As a juvenile judge, I work with some
+      of the most troubled youth in America — if we can teach them to practice mindfulness,
+      they will have a better chance to be successful, law-abiding citizens.
+    name: 'Judge Frank Szymanski'
+    role: 'Third Circuit Court, Juvenile Division'
+    # PUBLISH GATE: placeholder portrait — same rule as above.
+    portrait: '../../assets/images/case-studies/webb-school/voice-szymanski.jpg'
+    portraitAlt: 'Portrait of a judge (placeholder image)'
+    stat: { value: '10×', label: 'higher dropout risk after exclusionary discipline' }
+  # PUBLISH GATE (SEO/E-E-A-T audit, high severity): representative student voices —
+  # the legacy case study has no student quotes; these names/grades are invented.
+  # Replace with real, consented quotes before launch or delete the three entries
+  # (the section renders cleanly with just the two adult voices above).
+  - kind: 'From the students'
+    quote: 'When it gets loud in my head, the breathing makes it quieter. I can stay in the room now.'
+    name: 'Elijah'
+    role: 'Grade 6'
+  - kind: 'From the students'
+    quote: 'I used to leave class when I got upset. Now I draw while I listen, and I stay.'
+    name: 'Maya'
+    role: 'Grade 4'
+  - kind: 'From the students'
+    quote: "The body scan is my favorite. I do it before tests, and when I'm mad it helps me think again."
+    name: 'Devon'
+    role: 'Grade 8'
+
+gallery:
+  eyebrow: 'Inside the classrooms'
+  heading: 'The daily practice, one quiet moment at a time'
+  images:
+    - {
+        src: '../../assets/images/case-studies/webb-school/gallery-1-practice-circle.jpg',
+        alt: 'A small group of students practicing mindfulness together in a circle',
+      }
+    - {
+        src: '../../assets/images/case-studies/webb-school/gallery-2-headphones-corner.jpg',
+        alt: 'A student listening to a guided practice with headphones in a quiet corner',
+      }
+    - {
+        src: '../../assets/images/case-studies/webb-school/gallery-3-belly-breathing.jpg',
+        alt: 'A student practicing belly breathing with a hand resting on their stomach',
+      }
+    - {
+        src: '../../assets/images/case-studies/webb-school/gallery-4-technique-board.jpg',
+        alt: "A teacher pointing to the day's mindfulness technique written on the whiteboard",
+      }
+    - {
+        src: '../../assets/images/case-studies/webb-school/gallery-5-calm-hallway.jpg',
+        alt: 'Two students walking calmly down a sunlit school hallway',
+      }
+    - {
+        src: '../../assets/images/case-studies/webb-school/gallery-6-quiet-classroom.jpg',
+        alt: 'A calm, quiet classroom ready for the day',
+      }
+
+# FAQ — real buyer questions (training, cost, durability) answered from established
+# facts only; rendered with the shared FAQAccordion. Deliberately NO FAQPage JSON-LD
+# (restricted to gov/health rich results since 2023 — the visible copy is the asset).
+faq:
+  eyebrow: 'FAQ'
+  titleHtml: 'The questions <em>school leaders ask about this story.</em>'
+  intro: >-
+    Direct answers from the Webb School's implementation — what the daily practice asked
+    of educators, what it cost, and whether the results held.
+  items:
+    - q: 'How did The Webb School in the Valley reduce restraints and seclusions by 65%?'
+      a: >-
+        By adding one consistent routine: a 5–10 minute audio-guided Inner Explorer
+        mindfulness practice at the same time each day, in every classroom, layered onto
+        the school's existing trauma-informed teaching. Restraints and seclusions fell
+        from 180 in the year before daily practice to 62 in the first year.
+    - q: 'What is Mindfulness-Based Social Emotional Learning (MBSEL)?'
+      a: >-
+        MBSEL is social-emotional learning built on daily mindfulness practice rather
+        than occasional lessons. Inner Explorer delivers it as a 5–10 minute audio-guided
+        practice every school day, building self-regulation skills — belly breathing,
+        body scans — that students can reach for whenever they feel anxious, stressed, or
+        overwhelmed.
+    - q: 'How much training did teachers need to run the daily practice?'
+      a: >-
+        None beyond pressing play. The practices are fully audio-guided — no prep, no
+        script, no curriculum to deliver. At Webb, educators practice alongside their
+        students, and the day's technique goes on the board so hard moments can route
+        back to it.
+    - q: 'What did the pilot cost the school?'
+      a: >-
+        Nothing. The Webb School's 2018 pilot was funded by the Aetna Foundation and LG
+        Electronics, so the school ran Inner Explorer at no cost. Districts typically
+        fund the program through sources like Title IV-A (Safe and Healthy Students),
+        school mental-health funds, and state SEL line items — our partnerships team
+        helps identify the right one.
+    - q: 'Did the reduction in restraints and seclusions last?'
+      a: >-
+        Yes. After falling 65% in the first year of daily practice, incidents held at 63
+        the following year and stayed near pilot-year lows — 68 — through the COVID-19
+        school year, including remote learning.
+
+cta:
+  heading: 'Bring daily mindfulness'
+  headingEmphasis: 'to your school or district'
+  body: >-
+    See what daily Mindfulness-Based Social Emotional Learning (MBSEL) could look like
+    for your students — in a therapeutic school, a special-education program, or across a
+    whole district. We'll walk you through how the Webb School made the practice stick,
+    and how a pilot could work in your classrooms.
+  primary: { label: 'Book a demo', href: '/contact' }
+  secondary:
+    {
+      label: 'Download the original case study (PDF)',
+      href: '/downloads/webb-school-case-study.pdf',
+    }

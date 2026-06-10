@@ -17,12 +17,19 @@ export function organizationSchema(site: URL | string | undefined) {
 }
 
 interface ArticleInput {
+  /** The article's actual headline — should match the visible H1, not the <title> tag. */
   title: string;
   description: string;
   author: string;
   pubDate: Date;
   updatedDate?: Date;
   path: string;
+  /** Absolute image URL(s) — effectively required for Article rich results. */
+  image?: string[];
+  /** The real-world entity the article is about (disambiguates the subject). */
+  about?: Record<string, unknown>;
+  /** Works the article cites (research papers, policy statements). */
+  citation?: Record<string, unknown>[];
 }
 
 export function articleSchema(site: URL | string | undefined, article: ArticleInput) {
@@ -32,9 +39,12 @@ export function articleSchema(site: URL | string | undefined, article: ArticleIn
     '@type': 'Article',
     headline: article.title,
     description: article.description,
+    ...(article.image?.length ? { image: article.image } : {}),
     author: { '@type': 'Organization', name: article.author },
     datePublished: article.pubDate.toISOString(),
     ...(article.updatedDate ? { dateModified: article.updatedDate.toISOString() } : {}),
+    ...(article.about ? { about: article.about } : {}),
+    ...(article.citation?.length ? { citation: article.citation } : {}),
     mainEntityOfPage: `${base}${article.path}`,
     publisher: organizationSchema(site),
   };

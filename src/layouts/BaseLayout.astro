@@ -12,9 +12,23 @@ interface Props {
   description?: string;
   lang?: string;
   type?: 'website' | 'article';
+  /** Page-specific social-share image (path or URL); falls back to the site default. */
+  image?: string;
+  /** Alt text for the share image (og:image:alt / twitter:image:alt). */
+  imageAlt?: string;
+  /** Hide the page from search engines (e.g. the internal styleguide). */
+  noindex?: boolean;
 }
 
-const { title, description, lang = 'en', type = 'website' }: Props = Astro.props;
+const {
+  title,
+  description,
+  lang = 'en',
+  type = 'website',
+  image,
+  imageAlt,
+  noindex = false,
+}: Props = Astro.props;
 const org = organizationSchema(Astro.site);
 ---
 
@@ -40,7 +54,8 @@ const org = organizationSchema(Astro.site);
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
     <meta name="generator" content={Astro.generator} />
-    <SEO title={title} description={description} type={type} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <SEO title={title} description={description} type={type} image={image} imageAlt={imageAlt} />
     <JsonLd schema={org} />
     {
       /* Astro 6 view transitions: enables cross-page FLIP morphs for elements
