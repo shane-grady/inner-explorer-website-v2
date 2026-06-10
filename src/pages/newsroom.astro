@@ -11,6 +11,7 @@ import type { Story } from '../components/blocks/newsroom/types';
 // Inner Explorer imagery before publish; see tasks/todo.md).
 import broward from '../assets/images/newsroom/broward.jpg';
 import webbSchool from '../assets/images/newsroom/webb-school.jpg';
+import dwightMorrow from '../assets/images/newsroom/dwight-morrow.jpg';
 import morningCircle from '../assets/images/newsroom/morning-circle.jpg';
 import lincoln from '../assets/images/newsroom/lincoln.jpg';
 import bigFeelings from '../assets/images/newsroom/big-feelings.jpg';
@@ -33,6 +34,19 @@ const categories = [
 ] as const;
 
 const stories: Story[] = [
+  {
+    id: 18,
+    cat: 'case-study',
+    catLabel: 'Case study',
+    title: 'Dwight Morrow students raised mindfulness engagement 371% — by leading it themselves',
+    excerpt:
+      'Inside the student-run Project Happiness Club whose 21-Day Quest push got classmates practicing three to four times a week — up from once.',
+    date: '2026-06-10',
+    read: 6,
+    pop: 90,
+    href: '/case-studies/dwight-morrow/',
+    cover: { kind: 'photo', photo: dwightMorrow },
+  },
   {
     id: 17,
     cat: 'case-study',

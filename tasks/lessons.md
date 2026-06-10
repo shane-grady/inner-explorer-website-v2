@@ -189,3 +189,27 @@ var(--color-foreground)` so the wrapper paints its surface in the pinned tones.
 - Workflow-tool subagents DO spawn successfully in this Cowork env now
   (10-agent SEO audit ran 2026-06-09) — the prompt-overflow note may be stale
   for Workflow specifically; Task/Explore agents still unverified.
+
+## 2026-06-09 — Dwight Morrow case study build
+
+- **Don't append rows to a prompts CSV while `submit_queue.sh` is mid-run.** The
+  inner-explorer-covers submit script indexes result files by CSV row position at
+  write time, so a mid-run append shifted the last results: two result JSONs were
+  never written (timing.tsv still said ok) and a later 2-prompt run saved under
+  wrong numbers. Recovery that works: `higgsfield generate list --json` and match
+  jobs by prompt prefix, then download `result_url` directly. Always byte-compare
+  (md5) before trusting a recovered mapping.
+- **GPT Image 2 inserts real brand logos and real org names unprompted** (Nike
+  swoosh, North Face logo, "Key Club" on a whiteboard). For marketing imagery,
+  bake "plain unbranded clothing/bags, no visible logos" and "clean whiteboard
+  with no writing" into prompts up front — regens cost ~7 credits each; reviewing
+  for trademarks is part of the per-image review pass.
+- **The preview eval context can detach from the rendering surface**: eval reports
+  `clientWidth 0` / images `naturalWidth 0` while a screenshot of the same server
+  renders perfectly. A `preview_resize` (any preset) reattaches it; after that,
+  overflow/geometry readings are trustworthy. Don't conclude "broken images" from
+  a 0-width eval context — fetch the image URL and check the bytes.
+- **Legacy case-study PDFs hide content the web page dropped** (again): the
+  Dwight Morrow PDF held a real anonymous student-leader quote + the two research
+  citations — which meant NO student quotes needed inventing (better E-E-A-T than
+  Webb's gated placeholders). Always mine the PDF before deciding fidelity gaps.

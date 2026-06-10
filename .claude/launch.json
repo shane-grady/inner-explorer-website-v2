@@ -36,6 +36,12 @@
       "runtimeExecutable": "pnpm",
       "runtimeArgs": ["exec", "astro", "dev", "--port", "4427"],
       "port": 4427
+    },
+    {
+      "name": "ie-dev-dwight",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["exec", "astro", "dev", "--port", "4433"],
+      "port": 4433
     }
   ]
 }
