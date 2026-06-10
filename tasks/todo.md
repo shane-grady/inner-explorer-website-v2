@@ -617,8 +617,13 @@ production custom domain never gets it.
       on URLs it may crawl; a Disallow would freeze the stale staging URLs in the index.
 - [x] **Verified**: handler unit-tested under Node (6 host cases: staging/preview/
       branch get the header; `www.innerexplorer.org`, apex, and `evilnetlify.app`
-      suffix-trick don't); `pnpm check` green (2 pre-existing hints only); deploy
-      preview `curl -sI` shows `x-robots-tag: noindex` on a real `*.netlify.app` host.
+      suffix-trick don't); both branches re-proven in Netlify's local edge runtime
+      (`netlify serve` + spoofed `Host:` — staging/preview hosts get `noindex`, the
+      production host doesn't); `pnpm check` + `pnpm build` green (2 pre-existing
+      hints only). Note: deploy-preview curls alone can't prove this — Netlify
+      auto-noindexes previews (but NOT the production `*.netlify.app` host, which is
+      the gap this fixes); PR #20's preview does show the edge-function transform
+      signature (weak etag, dropped content-length).
 - [ ] **Post-merge**: `curl -sI https://innerexplorerwebsitev2.netlify.app/` → expect
       `x-robots-tag: noindex`; spot-check `/case-studies/dwight-morrow/` too.
 - [ ] **Post-merge — Google cleanup**: in Search Console, add a URL-prefix property for
