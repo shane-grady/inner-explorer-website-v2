@@ -242,3 +242,74 @@ var(--color-foreground)` so the wrapper paints its surface in the pinned tones.
   clearing `node_modules/.astro`) changes nothing the browser will re-request.
   Verify swapped imagery with `fetch(src, {cache:'no-store'})` (compare bytes /
   blit blob URLs into the `img`s), not with reloads or screenshots.
+
+## 2026-06-10 — John Marshall HS case study build
+
+- **GPT Image 2 invents school names on banners/pennants.** Two of 11 school-scene
+  generations carried legible wrong-school lettering ("DUNBAR" pennant, "WESTLAKE
+  HIGH WELLNESS CLUB" banner) that would assert a different school's identity on a
+  named-school case-study page. Catch it in the per-image vision review; fix by
+  regenerating with explicit "plain solid-color pennants with no lettering / no
+  school names or mascot text anywhere". On-image text it's ASKED to render (SAY HEY
+  DAY, YOU HAVE A FRIEND, agendas, correct algebra on whiteboards) comes out
+  correctly spelled — the risk is specifically the unrequested ambient signage.
+- **Higgsfield result JSONs put the image URL in `result_url`** (not `url`/
+  `image_url`). And the system Python (3.13 framework build) lacks SSL root certs —
+  `urllib` fails on every https download; extract URLs with Python, download with
+  curl.
+- **Fact-check legacy stats against their actual instruments before citing.** Three
+  upstream-paraphrase traps in one legacy page: "CASEL-approved" (actual current
+  designation: "Designated SEL-Supportive Program"), "70% of teens report
+  depression and anxiety are major problems in their lives" (Pew's instrument is
+  "among people their age"), and a companion "only 35% know how to cope" with NO
+  locatable canonical source (don't cite Pew for it). Also de-presentize legacy
+  scale claims ("now serves all 1,100 LAUSD schools" — NCES counts 784 LAUSD
+  schools in 2024–25; anchor as "roughly 1,100 at the time").
+- **Cross-scope verifier conflicts are real and need a main-context referee.** Two
+  Workflow verify agents disagreed on the same surfaces (add quote-wrapping fields
+  vs. reject as duplicate-quote filler; assert "2021" vs. year-unverifiable).
+  Resolution principle that worked: prefer the verdict grounded in a re-verified
+  source/QRG rule over the one grounded in a tactic's average effect.
+- **Parallel case-study worktrees collide on shared counters.** Goddard (PR #16)
+  and John Marshall (PR #19) were built simultaneously in separate worktrees; both
+  took `order: 3` in their YAML and story id 18 in newsroom.astro. Git only
+  conflicts on newsroom.astro — the duplicate `order:` is silent and scrambles the
+  next-card chain. After any merge of a parallel story, re-check `grep "^order:"
+src/content/case-studies/*.yaml` for duplicates and renumber.
+
+## 2026-06-10 — Parallel case-study sessions collide on shared slots
+
+- Three sessions transferred stories simultaneously and ALL claimed `order: 3`/
+  newsroom `id: 18`. Before picking a YAML `order` or newsroom card id, check
+  `origin/main` AND open PRs (`gh pr list`) for claims; expect a merge race
+  anyway and re-fetch right before pushing. Resolution pattern: keep both cards
+  with unique ids, re-sequence `order` by merge arrival, keep every session's
+  lessons/launch.json entries.
+
+## 2026-06-09 — Kaiser Elementary case study build
+
+- **Verify third-party quotes against the PRIMARY source, not the legacy site.**
+  The legacy innerexplorer.com/case-study1 page misquoted its own press coverage
+  (The Nation): added "intense" inside quotation marks, truncated, and
+  mis-attributed to the principal alone. A workflow verifier caught it by reading
+  the live article. Legacy pages are authoritative for the school's own data only.
+- **inner-explorer-covers `submit_queue.sh` has a printf octal bug**: prompt
+  numbers `008`/`009` fail `printf %03d` (invalid octal) and get mangled to `000`,
+  cross-wiring result JSONs. Number prompts to avoid 008/009 (e.g. 001–007, then
+  101+), and treat `timing.tsv` as the authoritative success record, not stdout.
+  Also: instant `rate_limit_reached` on first submit means OTHER jobs hold account
+  slots — resubmit in waves of ≤4, not 7.
+- **The Claude Preview browser can open with a 0×0 viewport** — `innerWidth 0`,
+  bogus `scrollWidth`, and `naturalWidth: 0` on perfectly served images (false
+  "broken image" readings). `preview_resize` to explicit dimensions, reload, THEN
+  trust layout/image metrics. Confirm a suspect image via
+  `fetch(src, {cache:'no-store'})` status/bytes, not element state.
+- **Astro dedupes identical image bytes across source files**: copying webb-school
+  photos as kaiser placeholders renamed WEBB's emitted `/_astro/` asset URLs to
+  the kaiser filenames (alphabetical winner), tripping the byte-diff gate on a
+  page that wasn't edited. Transient — it resolves when real (unique) imagery
+  replaces the placeholders; don't chase it as a bug.
+- **An optional Astro slot expression (`{x && <p/>}`) leaves one whitespace char**
+  in pages where it renders nothing — a deliberate shared-component change
+  therefore shifts other pages' HTML by a space + the CSS bundle hash. Compare
+  baselines with asset-hash + whitespace normalization.

@@ -247,6 +247,9 @@ const caseStudies = defineCollection({
         eyebrow: z.string(),
         heading: z.string(),
         images: z.array(z.object({ src: image(), alt: z.string() })).default([]),
+        // Optional disclosure under the grid — required when imagery is
+        // representative (e.g. AI-generated stand-ins) rather than documentary.
+        note: z.string().optional(),
       }),
 
       // Optional FAQ — real buyer questions answered from the story's established

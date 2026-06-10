@@ -1,0 +1,433 @@
+# John Marshall High School (Los Angeles) — case study content. One file → the
+# whole /case-studies/john-marshall-hs page.
+#
+# Transferred from the legacy site (innerexplorer.com/case-study5) and its PDF
+# ("Students at John Marshall High School Shape the Future of Teen Mental Health
+# Through Mindfulness"). All quotes (Elena Kelly, Mark Roeder, Lisa Grady, six
+# skill-labeled student voices), survey/academic figures (91%, 15%, 19%), the
+# LG Electronics USA grant/Experience Happiness framing, Wellness Advisory
+# projects, and the LAUSD 1,100-schools expansion are real source content.
+# Items marked PUBLISH GATE were written to fill the template (per content
+# owner's direction, 2026-06-09) and need sign-off or real data before publish.
+#
+# Deliberately dropped from the legacy page: the "Did You Know? COVID-19 Relief
+# Funding" call-out (ESSER funds expired 2024 — stale advice in 2026), and the
+# legacy "CASEL-approved program" phrasing — per pg.casel.org (verified
+# 2026-06-09) Inner Explorer's current designation is "Designated SEL-Supportive
+# Program", cited precisely in source 4 and the FAQ.
+#
+# Photography: AI-generated brand imagery (Higgsfield / GPT Image 2). The two
+# PORTRAITS are stand-ins for real named people and carry PUBLISH GATE comments.
+order: 4
+draft: false
+
+# Title ≤60 chars (no brand suffix — Google shows the site name separately);
+# description ≤155 chars with the stat first.
+seoTitle: 'Teen Mental Health Case Study: 91% Chose Daily Mindfulness'
+seoDescription: >-
+  91% of John Marshall High students voted to keep daily mindfulness with Inner
+  Explorer. The student-led movement LAUSD took to every one of its schools.
+publishedDate: 2026-06-09
+updatedDate: 2026-06-09
+
+meta:
+  kicker: 'High School Case Study'
+  # H1 carries entity + outcome + topic (what LLMs surface as the document's name);
+  # the duet format keeps the brand voice — story in the sans lead, movement in the serif.
+  titleLead: 'How John Marshall High students turned a daily mindfulness practice'
+  titleEmphasis: 'into a teen mental health movement'
+  # The dek doubles as the page's quotable answer: it names the school, the city,
+  # the program, and the outcomes (with absolute counts) in one self-contained passage.
+  dek: >-
+    At John Marshall High School in Los Angeles, Inner Explorer's daily 5–10 minute
+    audio-guided mindfulness practice grew into the Wellness Advisory — a student-led
+    mental health movement. 91% of students voted to keep practicing, more students
+    exceeded expectations in English and math, and LAUSD later signed up to provide
+    Inner Explorer access in every one of its schools — roughly 1,100 at the time.
+  readingTime: '7 min read'
+  published: 'Updated June 2026'
+  heroImage: '../../assets/images/case-studies/john-marshall-hs/hero-wellness-advisory.jpg'
+  heroImageAlt: 'A circle of high school students in a Wellness Advisory meeting, sitting upright with eyes closed in a brief mindfulness practice'
+
+district:
+  name: 'John Marshall High School'
+  shortName: 'John Marshall HS'
+  location: 'Los Angeles Unified School District · Los Angeles, California'
+  # PUBLISH GATE: representative year. The source dates the Wellness Advisory to the
+  # 2017–18 school year and says the daily practice preceded it ("over time"), but
+  # never states the exact start year of the partnership. Confirm before launch.
+  partnerSince: '2017'
+  snapshot:
+    - { value: '91%', label: 'Students voted to keep daily practice' }
+    - { value: '6', label: 'Sustainable Happiness Skills' }
+    - { value: '19%', label: 'More students exceeding expectations in math' }
+    - { value: '1,100', label: 'LAUSD schools when the district signed up' }
+    - { value: '$0', label: 'Cost to the school — LG grant-funded' }
+
+intro:
+  challenge:
+    eyebrow: 'The Challenge'
+    heading: 'Teens named the problem; far fewer knew how to cope with it'
+    body:
+      - >-
+        At John Marshall High School in Los Angeles, California, the numbers behind teen
+        mental health were impossible to ignore: 70% of teens say anxiety and depression
+        are a major problem among people their age, yet far fewer report knowing how to
+        cope. Stress negatively impacts their lives, friendships, school performance,
+        relationships with family members, and their long-term success.
+      - >-
+        Thanks to a grant from LG Electronics USA, students at John Marshall began
+        practicing daily mindfulness with Inner Explorer as a preventative, Tier 1
+        mental health measure — universal support that reaches every student before a
+        crisis, not after one. The grant came through LG's Experience Happiness
+        initiative, which set out in 2018 to bring Sustainable Happiness Skills to 5.5
+        million U.S. teens.
+      - >-
+        Educator Elena Kelly introduced the routine, and students started practicing
+        with Inner Explorer at the beginning of each school day. Over time, their daily
+        practice in the classroom inspired something larger: a student-led mental
+        health initiative.
+    image: '../../assets/images/case-studies/john-marshall-hs/challenge-teen-stress.jpg'
+    imageAlt: 'A high school student pausing alone at the edge of a busy corridor, carrying the weight of the school day'
+    stat:
+      {
+        value: '70%',
+        label: 'of teens say anxiety and depression are a major problem among people their age',
+      }
+  approach:
+    eyebrow: 'The Approach'
+    heading: 'Students took the daily practice and built a movement around it'
+    body:
+      - >-
+        Using mindfulness as the foundation, John Marshall students created the Wellness
+        Advisory — a student-led organization that uses the LG Electronics Six
+        Sustainable Happiness Skills to improve the mental health and well-being of the
+        whole school community.
+      - >-
+        Mindfulness is foundational to the other five skills — Human Connection,
+        Gratitude, Positive Outlook, Purpose, and Generosity. As defined by the LG
+        Experience Happiness initiative and identified by the Greater Good Science
+        Center at UC Berkeley, these are research-backed skills that can be taught,
+        learned, and practiced to improve happiness and well-being.
+      # Lisa Grady attribution verified 2026-06-09: the title (Chief Strategy Officer)
+      # is current at innerexplorer.com/ie-team, where she is listed as "Lisa G. Moore".
+      # Quote attribution stays as published in the legacy case study; an optional
+      # "(now Lisa G. Moore)" rendering is the content owner's call.
+      - >-
+        "Success in school is linked to greater opportunities in life. One of the most
+        effective practices used to lead children towards their highest potential by
+        bolstering academic performance, creativity, social and emotional aptitude, and
+        well-being is mindfulness," shares Inner Explorer Chief Strategy Officer Lisa
+        Grady.
+    image: '../../assets/images/case-studies/john-marshall-hs/approach-daily-practice.jpg'
+    imageAlt: 'High school students at their desks practicing an audio-guided mindfulness exercise at the start of the school day'
+    # Card titles are descriptive takeaways (what skimming administrators retain);
+    # the source material's own initiatives — daily practice, the Advisory, the
+    # Wellness Room, the community rituals — are each named verbatim in the text.
+    pillars:
+      - icon: 'calendar'
+        title: 'The day starts with practice'
+        text: >-
+          Students practice mindfulness with Inner Explorer at the beginning of each
+          school day — 5–10 minutes, audio-guided, nothing for educators to prepare.
+          The routine came first; the movement grew out of it.
+      - icon: 'heart'
+        title: 'Student-led from the start'
+        text: >-
+          The Wellness Advisory is created and run by students. Members carry the
+          skills onto campus — checking in on classmates, modeling a moment of
+          mindfulness — and every Advisory meeting begins with an Inner Explorer
+          practice.
+      - icon: 'compass'
+        title: 'A dedicated Wellness Room'
+        text: >-
+          Students opened a dedicated Wellness Room at John Marshall High School — a
+          safe space to practice mindfulness and hold Advisory meetings, and a
+          permanent, visible home for well-being on campus.
+      - icon: 'palette'
+        title: 'Rituals that build belonging'
+        text: >-
+          "Say Hey" Days encourage students and staff to greet people they have never
+          talked to before or eat lunch with them; the "You Have a Friend" effort sent
+          letters to elderly neighbors isolated during the pandemic.
+
+timeline:
+  eyebrow: 'The Movement'
+  heading: "From one classroom's routine to every school in LAUSD"
+  phases:
+    - date: 'The backdrop'
+      tag: 'The need'
+      title: 'Anxiety and depression loom over teen life'
+      text: 'Pew Research Center put a number on the need in 2019: seven in ten U.S. teens see anxiety and depression as a major problem among people their age. Far fewer say they know how to cope — and stress weighs on friendships, school performance, family relationships, and long-term success.'
+    # PUBLISH GATE: the two 2017–18 dates below are derived, not stated — the source
+    # dates the Wellness Advisory's founding to 2017–18 and says daily practice came
+    # first ("over time"). Confirm the pilot school year before launch.
+    - date: '2017–18'
+      tag: 'Pilot'
+      title: 'Daily mindfulness starts with one educator'
+      text: 'Funded by a grant from LG Electronics USA, educator Elena Kelly introduces Inner Explorer at John Marshall High School. Students practice at the beginning of each school day — a preventative mental health measure, not a crisis response.'
+    - date: '2017–18'
+      tag: 'Student-led'
+      title: 'Students found the Wellness Advisory'
+      text: 'The daily classroom practice inspires a larger initiative: a student-led organization built on the Six Sustainable Happiness Skills, with mindfulness as the foundation. A dedicated Wellness Room opens, and every Advisory meeting begins with practice.'
+    - date: '2018–19'
+      tag: 'Proof'
+      title: 'More John Marshall students exceed expectations — and 91% vote to keep going'
+      text: 'In the school year after the Wellness Advisory began, the number of students exceeding expectations rises 15% in English Language Arts and 19% in Math. Asked whether they would like to continue practicing daily mindfulness, 91% of students say yes.'
+    - date: 'Since then'
+      tag: 'Scale'
+      title: 'LAUSD takes the model district-wide'
+      text: 'Los Angeles Unified implements the Wellness Advisory concept in other schools — then signs up to provide Inner Explorer access in every school: roughly 1,100 schools at the time, across the second-largest school district in the nation.'
+
+metrics:
+  eyebrow: 'The Results'
+  heading: 'What changed at John Marshall after the daily practice took hold'
+  # The first sentence is the page's canonical claim — keep it byte-identical
+  # wherever this story is summarized (cards, anchors, social copy). The LAUSD
+  # figure is deliberately time-anchored ("roughly 1,100 at the time"): NCES counts
+  # 784 LAUSD schools for 2024–25, so any present-tense 1,100 claim fails fact-checks.
+  note: >-
+    At John Marshall High School in Los Angeles, 91% of students voted to keep Inner
+    Explorer's daily mindfulness practice — a student-led movement that grew into the
+    Wellness Advisory and was followed by LAUSD signing up to provide Inner Explorer
+    access in every one of its schools, roughly 1,100 at the time. The vote gave school
+    leaders student-voice evidence that the practice had earned its place. School
+    figures were reported by John Marshall High School through the LG Experience
+    Happiness initiative; national research is cited below.
+  featured:
+    value: '91%'
+    label: 'of students said yes to continuing daily mindfulness practice with Inner Explorer'
+    trend: 'up-good'
+    sourceId: 1
+  grid:
+    - {
+        value: '15%',
+        label: 'more students exceeded expectations in English Language Arts, 2017–18 → 2018–19',
+        trend: 'up-good',
+        sourceId: 1,
+      }
+    - {
+        value: '19%',
+        label: 'more students exceeded expectations in Math, 2017–18 → 2018–19',
+        trend: 'up-good',
+        sourceId: 1,
+      }
+    - {
+        value: '1,100',
+        label: 'LAUSD schools at the time the district signed up to provide Inner Explorer access in every school',
+        sourceId: 1,
+      }
+    - {
+        value: '11',
+        unit: 'pts',
+        label: 'percentile-point academic gain from SEL programs across 213 studies of 270,000+ students',
+        trend: 'up-good',
+        sourceId: 2,
+      }
+    # The legacy companion figure — "only 35% report knowing how to cope" — does not
+    # appear in the Pew report cited here, and no canonical source for it could be
+    # located (verified 2026-06-09). It is not cited on this page; the narrative
+    # uses the qualitative "far fewer" instead.
+    - {
+        value: '70%',
+        label: 'of teens say anxiety and depression are a major problem among people their age',
+        sourceId: 3,
+      }
+    - {
+        value: '5–10',
+        unit: 'min',
+        label: 'of daily audio-guided mindfulness practice, with zero prep required from educators',
+      }
+
+# No chart block: the legacy page published percentage changes and survey shares,
+# not a year-by-year series — there is no real data to draw bars from.
+
+sources:
+  - {
+      id: 1,
+      text: 'Student survey, academic performance, and implementation details reported in the Inner Explorer / LG Experience Happiness case study of John Marshall High School, Los Angeles Unified School District (school years 2017–18 and 2018–19).',
+    }
+  - {
+      id: 2,
+      text: 'Durlak, J. A., Weissberg, R. P., Dymnicki, A. B., Taylor, R. D., & Schellinger, K. B., "The Impact of Enhancing Students'' Social and Emotional Learning: A Meta-Analysis of School-Based Universal Interventions," Child Development 82(1), 405–432 (2011).',
+      href: 'https://pubmed.ncbi.nlm.nih.gov/21291449/',
+    }
+  - {
+      id: 3,
+      text: 'Pew Research Center, "Most U.S. Teens See Anxiety and Depression as a Major Problem Among Their Peers" (February 2019).',
+      href: 'https://www.pewresearch.org/social-trends/2019/02/20/most-u-s-teens-see-anxiety-and-depression-as-a-major-problem-among-their-peers/',
+    }
+  - {
+      id: 4,
+      text: 'Collaborative for Academic, Social, and Emotional Learning (CASEL), CASEL Program Guide: Inner Explorer — Designated SEL-Supportive Program.',
+      href: 'https://pg.casel.org/inner-explorer/',
+    }
+  - {
+      id: 5,
+      text: 'Cipriano, C., Strambler, M. J., Naples, L. H., et al., "The State of Evidence for Social and Emotional Learning: A Contemporary Meta-Analysis of Universal School-Based SEL Interventions," Child Development 94(5), 1181–1204 (2023).',
+      href: 'https://pubmed.ncbi.nlm.nih.gov/37448158/',
+    }
+
+voicesIntro:
+  eyebrow: 'Voices from the movement'
+  headingLead: 'Hearts and minds,'
+  headingEmphasis: 'changed on campus'
+  # No trustRating/trustLine: the real trust figure for this story is the 91%
+  # student vote, already featured in the results band — nothing needs inventing.
+  studentsLabel: 'From the Wellness Advisory'
+
+voices:
+  - kind: 'Educator'
+    quote: >-
+      Daily mindfulness has a powerful way of helping teens open up. When you are
+      self-aware, you notice what is on your mind and communicate that with others. In
+      this way, it paves the way for Human Connection, Gratitude, Positive Outlook,
+      Purpose, and Generosity.
+    name: 'Elena Kelly'
+    role: 'Educator'
+    org: 'John Marshall High School'
+    # PUBLISH GATE: placeholder portrait — must be Elena Kelly's real photo before
+    # launch (a stand-in face with an identity-asserting alt is a fabrication risk).
+    # Alt text stays non-identifying until the real photo lands.
+    portrait: '../../assets/images/case-studies/john-marshall-hs/voice-kelly.jpg'
+    portraitAlt: 'Portrait of an educator (placeholder image)'
+    stat: { value: '91%', label: 'of students voted to keep daily practice' }
+  - kind: 'Faculty'
+    quote: >-
+      The Wellness Advisory has become part of the fabric of this school; [the student
+      members] change hearts and minds on campus. They say things like 'Hey, you should
+      try a moment of mindfulness,' or 'Are you having a hard day? How is your
+      breathing?' Without them, these types of interactions wouldn't be happening.
+    name: 'Mark Roeder'
+    role: 'English and Math Teacher'
+    org: 'John Marshall High School'
+    # PUBLISH GATE: placeholder portrait — same rule as above.
+    portrait: '../../assets/images/case-studies/john-marshall-hs/voice-roeder.jpg'
+    portraitAlt: 'Portrait of a teacher (placeholder image)'
+    stat: { value: '6', label: 'Sustainable Happiness Skills students champion' }
+  # The six student voices below are REAL quotes from the legacy case study, published
+  # anonymously and labeled by the Sustainable Happiness Skill each speaks to. The
+  # 'Marshall student' byline keeps them honest — no invented names or grades.
+  - kind: 'Student'
+    quote: "I have anxiety and ADHD — I feel anxious all the time. By doing mindfulness, I'm able to center myself."
+    name: 'Marshall student'
+    role: 'Mindfulness'
+  - kind: 'Student'
+    quote: 'It has been a beautiful experience to be a founding member of the Wellness Advisory because people from all different interests are coming together to make one big community.'
+    name: 'Marshall student'
+    role: 'Human Connection'
+  - kind: 'Student'
+    quote: 'When I practice the Six Sustainable Happiness Skills, I feel like I am able to appreciate life more.'
+    name: 'Marshall student'
+    role: 'Gratitude'
+  - kind: 'Student'
+    quote: 'Seeing the Wellness Advisory members on campus is a boost of happiness.'
+    name: 'Marshall student'
+    role: 'Positive Outlook'
+  - kind: 'Student'
+    quote: 'We want to be role models. When you see other students practicing [mindfulness], you want to learn from them and experience it too.'
+    name: 'Marshall student'
+    role: 'Purpose'
+  - kind: 'Student'
+    quote: 'The Wellness Advisory is a place where we can help ourselves and then learn how we can better help others.'
+    name: 'Marshall student'
+    role: 'Generosity'
+
+gallery:
+  eyebrow: 'On campus'
+  heading: 'A movement you can see in the hallways'
+  images:
+    - {
+        src: '../../assets/images/case-studies/john-marshall-hs/gallery-1-wellness-room.jpg',
+        alt: 'Students practicing mindfulness together in a dedicated wellness room',
+      }
+    - {
+        src: '../../assets/images/case-studies/john-marshall-hs/gallery-2-headphones-practice.jpg',
+        alt: 'A student listening to a guided mindfulness practice with headphones at the start of the school day',
+      }
+    - {
+        src: '../../assets/images/case-studies/john-marshall-hs/gallery-3-say-hey-day.jpg',
+        alt: 'Two students meeting for the first time over lunch at an outdoor cafeteria table on a "Say Hey" Day',
+      }
+    - {
+        src: '../../assets/images/case-studies/john-marshall-hs/gallery-4-letter-writing.jpg',
+        alt: 'Students writing letters by hand around a classroom table',
+      }
+    - {
+        src: '../../assets/images/case-studies/john-marshall-hs/gallery-5-advisory-meeting.jpg',
+        alt: 'A student leading a wellness club meeting in a circle of classmates',
+      }
+    - {
+        src: '../../assets/images/case-studies/john-marshall-hs/gallery-6-campus-calm.jpg',
+        alt: 'A calm, sunlit morning on a high school campus',
+      }
+
+# FAQ — real buyer questions (training, cost, scale, evidence) answered from
+# established facts only; rendered with the shared FAQAccordion. Deliberately NO
+# FAQPage JSON-LD (restricted to gov/health rich results since 2023).
+faq:
+  eyebrow: 'FAQ'
+  titleHtml: 'The questions <em>school and district leaders ask about this story.</em>'
+  intro: >-
+    Direct answers from John Marshall High School's implementation — what the daily
+    practice asked of educators, what it cost, and how it scaled across LAUSD.
+  items:
+    - q: 'How did John Marshall High School improve teen mental health with mindfulness?'
+      a: >-
+        With a daily 5–10 minute audio-guided Inner Explorer practice at the beginning
+        of each school day, introduced by educator Elena Kelly and funded by a grant
+        from LG Electronics USA. The classroom routine inspired students to found the
+        Wellness Advisory — and when surveyed, 91% of students said they wanted to keep
+        practicing.
+    - q: 'What is the Wellness Advisory?'
+      a: >-
+        A student-led mental health club at John Marshall High School that uses the LG
+        Electronics Six Sustainable Happiness Skills to improve the well-being of the
+        whole school community. Its projects include a dedicated Wellness Room, "Say
+        Hey" Days, and the "You Have a Friend" letter-writing effort — and every
+        meeting begins with an Inner Explorer practice.
+    - q: 'What are the Six Sustainable Happiness Skills?'
+      a: >-
+        Mindfulness, Human Connection, Gratitude, Positive Outlook, Purpose, and
+        Generosity — research-backed skills that can be taught, learned, and practiced
+        to improve happiness and well-being, as defined by the LG Experience Happiness
+        initiative and identified by the Greater Good Science Center at UC Berkeley.
+        Mindfulness is the foundation the other five build on.
+    - q: 'Did academics improve too?'
+      a: >-
+        Yes. Between 2017–18, when the Wellness Advisory started, and 2018–19, the
+        number of John Marshall students exceeding expectations rose 15% in English
+        Language Arts and 19% in Math. That tracks the broader evidence: across 213
+        studies involving over 270,000 students, SEL programs raised academic
+        performance by 11 percentile points — a finding reaffirmed by a 2023
+        meta-analysis of 424 studies involving 575,361 students. Inner Explorer is
+        listed in the CASEL Program Guide as a Designated SEL-Supportive Program.
+    - q: 'What did the program cost the school?'
+      a: >-
+        Nothing — John Marshall's implementation was funded by a grant from LG
+        Electronics USA through its Experience Happiness initiative. Today, districts
+        typically fund Inner Explorer through sources like Title IV-A (Safe and Healthy
+        Students) and, in California, LCFF/LCAP dollars or community-schools grants —
+        our partnerships team helps identify the right one.
+    - q: 'Did it scale beyond one school?'
+      a: >-
+        Yes. Los Angeles Unified implemented the Wellness Advisory concept in other
+        schools, and following the success that mindfulness continued to have at John
+        Marshall, the district signed up to provide Inner Explorer access in every
+        school — roughly 1,100 LAUSD schools at the time.
+
+cta:
+  heading: 'Start a movement'
+  headingEmphasis: 'in your school or district'
+  body: >-
+    See what daily Mindfulness-Based Social Emotional Learning (MBSEL) could look like
+    for your students — in one classroom, one high school, or across a whole district.
+    We'll walk you through how John Marshall students made the practice their own — the
+    same daily practice now used in about 3,000 schools nationwide, as NPR reported in
+    2024 — and how a pilot could work in your schools.
+  primary: { label: 'Book a demo', href: '/contact' }
+  secondary:
+    {
+      label: 'Download the original case study (PDF)',
+      href: '/downloads/john-marshall-hs-case-study.pdf',
+    }
