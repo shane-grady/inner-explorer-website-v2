@@ -214,3 +214,37 @@ var(--color-foreground)` so the wrapper paints its surface in the pinned tones.
   clearing `node_modules/.astro`) changes nothing the browser will re-request.
   Verify swapped imagery with `fetch(src, {cache:'no-store'})` (compare bytes /
   blit blob URLs into the `img`s), not with reloads or screenshots.
+
+## 2026-06-10 — John Marshall HS case study build
+
+- **GPT Image 2 invents school names on banners/pennants.** Two of 11 school-scene
+  generations carried legible wrong-school lettering ("DUNBAR" pennant, "WESTLAKE
+  HIGH WELLNESS CLUB" banner) that would assert a different school's identity on a
+  named-school case-study page. Catch it in the per-image vision review; fix by
+  regenerating with explicit "plain solid-color pennants with no lettering / no
+  school names or mascot text anywhere". On-image text it's ASKED to render (SAY HEY
+  DAY, YOU HAVE A FRIEND, agendas, correct algebra on whiteboards) comes out
+  correctly spelled — the risk is specifically the unrequested ambient signage.
+- **Higgsfield result JSONs put the image URL in `result_url`** (not `url`/
+  `image_url`). And the system Python (3.13 framework build) lacks SSL root certs —
+  `urllib` fails on every https download; extract URLs with Python, download with
+  curl.
+- **Fact-check legacy stats against their actual instruments before citing.** Three
+  upstream-paraphrase traps in one legacy page: "CASEL-approved" (actual current
+  designation: "Designated SEL-Supportive Program"), "70% of teens report
+  depression and anxiety are major problems in their lives" (Pew's instrument is
+  "among people their age"), and a companion "only 35% know how to cope" with NO
+  locatable canonical source (don't cite Pew for it). Also de-presentize legacy
+  scale claims ("now serves all 1,100 LAUSD schools" — NCES counts 784 LAUSD
+  schools in 2024–25; anchor as "roughly 1,100 at the time").
+- **Cross-scope verifier conflicts are real and need a main-context referee.** Two
+  Workflow verify agents disagreed on the same surfaces (add quote-wrapping fields
+  vs. reject as duplicate-quote filler; assert "2021" vs. year-unverifiable).
+  Resolution principle that worked: prefer the verdict grounded in a re-verified
+  source/QRG rule over the one grounded in a tactic's average effect.
+- **Parallel case-study worktrees collide on shared counters.** Goddard (PR #16)
+  and John Marshall (PR #19) were built simultaneously in separate worktrees; both
+  took `order: 3` in their YAML and story id 18 in newsroom.astro. Git only
+  conflicts on newsroom.astro — the duplicate `order:` is silent and scrambles the
+  next-card chain. After any merge of a parallel story, re-check `grep "^order:"
+src/content/case-studies/*.yaml` for duplicates and renumber.

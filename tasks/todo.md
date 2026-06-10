@@ -628,4 +628,56 @@ session doubles as the skill's real-environment evaluation).
       render, existing pages unchanged vs baseline except CSS hash + the
       intentional next-card retarget, pnpm check green, dist meta/JSON-LD/
       sitemap audit passed (title 53ch, desc 154ch, 4 JSON-LD citations).
-- [x] Commit + PR to main (this PR).
+- [x] Commit + PR to main (PR #16, merged).
+
+## John Marshall HS case study — transfer from innerexplorer.com/case-study5 (2026-06)
+
+Goal: publish the John Marshall High School (Los Angeles) student-led teen mental
+health story — 91% of students voted to continue daily practice; Wellness Advisory;
+LG Six Sustainable Happiness Skills; +15%/+19% ELA/Math; LAUSD scale to 1,100
+schools — at `/case-studies/john-marshall-hs/`, Webb-pattern (one YAML), then the
+research-backed SEO workflow. Decisions (user, 2026-06-09): Webb-precedent fidelity
+(PUBLISH GATE fills), generated imagery, stand-in portraits, slug `john-marshall-hs`.
+
+- [x] Extract legacy page + PDF verbatim (web HTML, 2-page image PDF via vision,
+      quote graphic); facts inventoried — no chart on legacy page (skip chart block;
+      no year-series data exists, won't invent data points).
+- [x] Baseline `pnpm build` dist snapshot → /tmp/baseline-dist (Broward + Webb must
+      stay byte-identical except next-card retarget + CSS hash).
+- [x] Placeholder images under final filenames (webb stand-ins).
+- [x] Content: john-marshall-hs.yaml (order 4 after the Goddard merge; real
+      quotes ×9, real stats; gates
+      on representative fills). CASEL designation VERIFIED at pg.casel.org
+      2026-06-09: "Designated SEL-Supportive Program" (resolves the seo-playbook
+      open follow-up; legacy "CASEL-approved" not carried forward).
+- [x] PDF: copy original → public/downloads/john-marshall-hs-case-study.pdf.
+- [x] Newsroom: story card id 19 (renumbered after the Goddard merge took 18).
+- [x] Imagery: Higgsfield per inner-explorer-covers conventions — 13 generations
+      (~91 credits), every image vision-reviewed; 2 REJECTED for invented school
+      names on banners ("DUNBAR", "WESTLAKE HIGH") and regenerated with
+      no-lettering constraints; 11 installed at 1600px JPEG (245–316KB) +
+      newsroom cover.
+- [x] SEO: 11-agent Workflow (4 researchers → synthesis → 3 appliers → 3
+      adversarial verifiers; ~1.1M tokens). 45/49 proposals accepted and applied;
+      4 rejected (duplicate-quote filler, redundant title stat, NPR parenthetical
+      variant). Main-context referee calls: dropped both quote-wrapping schema
+      extensions (duplicate quotes = QRG filler; 91% already quote-wrapped by the
+      Kelly card) and omitted the bare "2021" everywhere (year unverifiable —
+      LAUSD flyer WAF-blocked). Keyword map + page rules added to
+      tasks/seo-playbook.md.
+- [x] Verify: preview desktop+mobile (no overflow), page links resolve (global
+      header/footer 404s pre-existing), baseline diff clean (Broward
+      byte-identical; Webb = next-card retarget only; research = nondeterministic
+      SVG gradient id), pnpm check green, build green, dist inspection (title 58,
+      desc 152, OG = hero crop, Article JSON-LD with 4 citations, sitemap entry,
+      canonical stat sentence, stale claims absent), new imagery confirmed in
+      build (content-hashed assets) + cache-busted preview fetch.
+- [x] Commit + PR to main (PR #19).
+
+  Review: page live at /case-studies/john-marshall-hs/. PUBLISH GATES for launch
+  review: partnerSince '2017' (representative), 2017–18 pilot dates (derived),
+  two stand-in portraits (Kelly, Roeder). Follow-ups in tasks/seo-playbook.md
+  (audio excerpt, 301s at migration, LAUSD signup year if source found).
+  Merge with main (Goddard, PR #16): JM renumbered to order 4 + newsroom id 19
+  (both collided at order 3 / id 18); next-card chain is now Broward → Webb →
+  Goddard → John Marshall → Broward.
