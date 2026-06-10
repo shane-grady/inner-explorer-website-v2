@@ -63,7 +63,11 @@ WebFetch summarizes; you need exact words. `curl -sL` the raw HTML to /tmp.
   "40+ outbursts → ONE" detail and the research citations. `pdftotext`/`pdftoppm`
   are not installed and the Read tool can't render PDFs here; run
   `python3 scripts/extract_pdf_text.py <file.pdf>` (bundled with this skill) to
-  pull the text via zlib stream decompression.
+  pull the text via zlib stream decompression. PDFs with CID-encoded fonts
+  (Type0/CIDFontType2 — e.g. Goddard-MS.pdf) yield nothing from the regex pass;
+  the script then falls back to pypdf (`pip3 install --user pypdf` if prompted).
+  To RENDER pages visually, split to single-page PDFs with pypdf and convert
+  each with `sips -s format png -Z 1400` (sips only converts a PDF's first page).
 - **Download every chart image and Read it** (vision) — the data values you read
   off the bars become the `chart` block and metric values.
 - Record in your plan file: every fact, number, name, role, funder, quote (prefer
@@ -118,6 +122,12 @@ Known traps (full write-ups in `tasks/lessons.md` — read it):
   find Sharp" on new image transforms) — restart the preview server.
 - Run `pnpm format` before `pnpm check`; Prettier reformats YAML/astro files and
   `check` includes `format:check`.
+- The dev `/_image` endpoint sends `Cache-Control: max-age=31536000`, so after
+  overwriting a source image the preview browser shows the OLD pixels forever —
+  restarts and clearing `node_modules/.astro` don't help. Verify swapped imagery
+  with `fetch(src, {cache:'no-store'})` byte comparisons, not reloads.
+- `preview_start` may reuse a server from a DIFFERENT worktree (same port).
+  Check `preview_list` cwd matches your worktree before trusting any render.
 
 ## Step 4 — Imagery (Higgsfield)
 
@@ -167,7 +177,11 @@ per-scope and can't see each other — resolve cross-set redundancies yourself
 
 - Preview desktop + mobile; check `document.documentElement.scrollWidth ===
 clientWidth` (overflow), the chart/FAQ/voices render, and all links resolve.
-- Existing case-study pages (Broward, Webb School, …) must be byte-unchanged.
+- Existing case-study pages (Broward, Webb School, …) must be byte-unchanged —
+  run `pnpm build` and snapshot their dist HTML BEFORE your first edit, then diff
+  at the end (expected deltas only: CSS bundle hash if a shared component
+  changed deliberately, and the previous study's next-card retargeting to the
+  new story).
 - `pnpm check` green; `pnpm build`, then inspect the dist HTML: title ≤60 chars /
   description ≤155 with the headline stat front-loaded, OG image is this page's
   hero crop, Article JSON-LD headline/about/citation, sitemap entry, canonical

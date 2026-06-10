@@ -22,7 +22,7 @@
 # Morrow's Project Happiness Club") and keep the LG Experience Happiness linkage
 # explicit — it is what lets engines disambiguate. Do not 'clarify' the relationship
 # without owner sign-off.
-order: 3
+order: 4
 draft: false
 
 # Title ≤60 chars (no brand suffix — Google shows the site name separately);
