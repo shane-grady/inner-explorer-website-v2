@@ -1,0 +1,430 @@
+# Dwight Morrow High School — case study content. One file → the whole
+# /case-studies/dwight-morrow page.
+#
+# Transferred from the legacy site (innerexplorer.com/case-study2) and its PDF
+# ("Empowering Student Leaders to Address Youth Mental Health at Dwight Morrow
+# High School"). All quotes, engagement figures, names, partners, and the four
+# club findings are real source content. The school's location (Englewood, NJ —
+# Englewood Public School District, Bergen County) was verified against the
+# school's public records, not the legacy page (which omits it). Items marked
+# "REVIEW: representative" were written to fill the template (per content owner's
+# direction) and need sign-off or real data before publish.
+#
+# Photography: AI-generated brand imagery (Higgsfield / GPT Image 2, 2026-06-09 —
+# provenance manifest in /tmp/dm-imagery/batch_log.csv for the session). The two
+# PORTRAITS remain stand-ins for real named people and carry PUBLISH GATE
+# comments below.
+#
+# ENTITY NOTE: 'Project Happiness Club' collides with projecthappiness.org — a national
+# nonprofit that runs LG-sponsored clubs in 30+ high schools and owns that SERP. The
+# legacy source never states an official affiliation, so this page must not claim or
+# imply one. Keep every load-bearing mention school-scoped ("the school's / Dwight
+# Morrow's Project Happiness Club") and keep the LG Experience Happiness linkage
+# explicit — it is what lets engines disambiguate. Do not 'clarify' the relationship
+# without owner sign-off.
+order: 6
+draft: false
+
+# Title ≤60 chars (no brand suffix — Google shows the site name separately);
+# description ≤155 chars with the stat first.
+seoTitle: 'Student-Led Mental Health Club Raises Engagement 371%'
+seoDescription: >-
+  Mindfulness engagement rose 371% — usage 14% to 53% — after Dwight Morrow High
+  School's student-led Project Happiness Club promoted the 21-Day Quest.
+publishedDate: 2026-06-09
+updatedDate: 2026-06-09
+
+meta:
+  kicker: 'High School Case Study'
+  # H1 carries entity + outcome + topic (what LLMs surface as the document's name);
+  # the duet format keeps the brand voice — stat in the sans lead, story in the serif.
+  titleLead: 'How Dwight Morrow students raised mindfulness engagement 371%'
+  titleEmphasis: 'by leading the mental-health work themselves'
+  # The dek doubles as the page's quotable answer: it names the school, the place,
+  # the program, and the outcome (with absolute counts) in one self-contained passage.
+  dek: >-
+    At Dwight Morrow High School in Englewood, New Jersey, one educator's classroom
+    mindfulness practice grew into the student-run Project Happiness Club — and the
+    club's first initiative, Inner Explorer's 21-Day Quest, raised participants'
+    engagement with the daily practice by an average of 371%, with active usage
+    climbing from 14.34% to 53.23%.
+  readingTime: '6 min read'
+  published: 'Updated June 2026'
+  heroImage: '../../assets/images/case-studies/dwight-morrow/hero-club-practice.jpg'
+  heroImageAlt: 'High school students practicing a guided mindfulness exercise together during a student club meeting'
+
+district:
+  name: 'Dwight Morrow High School'
+  shortName: 'Dwight Morrow'
+  location: 'Englewood Public School District · Englewood, New Jersey'
+  snapshot:
+    - { value: '371%', label: 'Average engagement increase after the 21-Day Quest' }
+    - { value: '21 days', label: 'Quest designed to instill a daily practice habit' }
+    - { value: '3–4×', label: 'Weekly practice after the Quest — up from once' }
+    - { value: '300+', label: 'Thank-you notes written to school staff' }
+    - { value: '6', label: 'Sustainable happiness skills guiding club projects' }
+
+intro:
+  challenge:
+    eyebrow: 'The Challenge'
+    heading: 'A youth mental-health crisis that adults could not solve alone'
+    body:
+      - >-
+        Youth mental health was suffering before the pandemic: 1 in 6 U.S. youth ages
+        6–17 experiences a mental health disorder each year. The COVID-19 pandemic
+        added a layer of complexity to these already critical issues — school closures,
+        social isolation, and financial hardship for families.
+      - >-
+        The 2021 State of Mental Health in America report put numbers on the trend:
+        9.7% of U.S. youth live with severe major depression, up from 9.2% in the prior
+        year's dataset — and the rate is highest among youth who identify as more than
+        one race, at 12.4%. "In order to get to the academic success, we have to start
+        with the social and emotional well-being and make sure that not only our
+        students, but also our educators, are able to come back and that their social
+        and emotional well-being guides the decisions we're making," said
+        then-U.S. Secretary of Education Miguel Cardona in an interview at the time.
+      - >-
+        At Dwight Morrow High School, a public high school in Englewood, New Jersey,
+        educator Melissa Conceicao recognized the need to address youth mental health
+        in school — and that students may feel embarrassed or hesitant to talk about
+        it. Reaching them would take more than another adult-led program.
+    image: '../../assets/images/case-studies/dwight-morrow/challenge-quiet-weight.jpg'
+    imageAlt: 'A high school student sitting alone at a desk, carrying a quiet weight'
+    stat:
+      {
+        value: '1 in 6',
+        label: 'U.S. youth ages 6–17 experience a mental health disorder each year',
+      }
+  approach:
+    eyebrow: 'The Approach'
+    heading: 'From one classroom’s practice to a student-run movement'
+    body:
+      - >-
+        Dwight Morrow High School's mindfulness practice was voluntary and student-led
+        — never mandated, but modeled by one teacher and then chosen and promoted by
+        students themselves. It began with Melissa Conceicao, an LG Electronics
+        Superhero Teacher at the school, practicing Inner Explorer's Mindfulness-Based
+        Social Emotional Learning (MBSEL) programs — daily audio-guided practices an
+        educator can run by simply pressing play — in her own classroom. Over time,
+        students were inspired to lead mental health and well-being initiatives of
+        their own, and with the support of Principal Ben Suro, Mrs. Conceicao and
+        several students kickstarted the school's Project Happiness Club, a
+        student-run, peer-to-peer club on a mission to empower their school community
+        to recognize and prioritize mental health.
+      - >-
+        The club's first initiative promoted the Inner Explorer 21-Day Quest, with the
+        goal of instilling the habit of daily mindfulness practice as a preventative
+        mental health tool. Many of the club's projects draw on the six sustainable
+        happiness skills defined by the LG Experience Happiness initiative —
+        mindfulness, generosity, gratitude, human connection, purpose, and positive
+        outlook. The club's mission also aligned with a nationwide push following the
+        pandemic to integrate mental health resources into education: at the time, a
+        portion of COVID education relief funding could be dedicated to mental health
+        resources, including MBSEL programs such as Inner Explorer.
+    image: '../../assets/images/case-studies/dwight-morrow/approach-club-leaders.jpg'
+    imageAlt: 'Student leaders running a Project Happiness Club meeting in a high school classroom'
+    # The four cards are the source case study's own "four key findings" for
+    # starting a youth well-being club — kept under their original names.
+    pillars:
+      - icon: 'heart'
+        title: 'Get student buy-in'
+        text: >-
+          Getting students to buy in starts with peers going first: students may feel
+          embarrassed or hesitant to talk about mental health, but when student leaders
+          step up and set an example, they create a safe space for their peers to
+          express themselves too. "The perception of mental health begins to change,"
+          shares Principal Suro — stigma reduction that opens the door to help-seeking.
+      - icon: 'palette'
+        title: 'Expand on student strengths'
+        text: >-
+          Every club member holds a role that develops a skill they already have. One
+          student artist creates an art piece illustrating a positive message of the
+          week, shared via the school announcements. Playing to their strengths gives
+          students purpose and fuels their passion behind the mission.
+      - icon: 'chart'
+        title: 'Make the case to administration'
+        text: >-
+          MBSEL provides a pathway to key skills like self-awareness and emotional
+          regulation, and daily practice has been shown to reduce stress and amplify
+          learning. In MTSS terms, daily practice is a Tier 1 universal support —
+          prevention for every student, not a referral-based service. Communicating
+          those benefits to school administration is the first step in bringing a
+          mental health club to your school.
+      - icon: 'compass'
+        title: 'Communicate the long-term impact'
+        text: >-
+          Students are used to instant gratification — "they have to understand the
+          'why' behind what they are doing, otherwise they will feel discouraged if
+          they do not see results right away," shares Mrs. Conceicao. Naming the
+          long-term impact from the get-go keeps students motivated.
+
+timeline:
+  eyebrow: 'The Turnaround'
+  heading: 'From one teacher pressing play to a practice students made their own'
+  phases:
+    - date: 'Before COVID-19'
+      tag: 'Baseline'
+      title: '1 in 6 youth already struggling'
+      text: '1 in 6 U.S. youth experiences a mental health disorder each year — then the pandemic adds school closures, social isolation, and financial hardship for families.'
+    - date: 'One classroom'
+      tag: 'Seed'
+      title: 'Daily practice starts with one teacher'
+      text: "Melissa Conceicao begins practicing Inner Explorer's audio-guided MBSEL programs with her own students — no mandate, just a daily moment of calm in one classroom."
+    - date: 'Club launch'
+      tag: 'Leadership'
+      title: 'Students take the lead'
+      text: "Inspired by the classroom practice, students kickstart Dwight Morrow's Project Happiness Club with Principal Ben Suro's support — a student-run club on a mission to make mental health something their school community recognizes and prioritizes."
+    - date: '21 school days'
+      tag: 'Proof'
+      title: 'The Quest lifts engagement 371%'
+      text: "Club members promote the Inner Explorer 21-Day Quest to their Dwight Morrow classmates. Participants' engagement rises 371% on average — active usage climbs from 14.34% to 53.23%, and practice frequency grows from about once a week to three or four times a week."
+    - date: 'Next school year'
+      tag: 'Sustain'
+      title: 'The club plans year two'
+      text: "Members write 300+ thank-you notes to staff, host a Q&A for incoming underclassmen, plan an end-of-year reflection survey, and prepare to fold LG Experience Happiness resources into the next school year's initiatives."
+
+metrics:
+  eyebrow: 'The Results'
+  heading: 'What a student-led quest changed'
+  # The first sentence is the page's canonical claim — keep it byte-identical
+  # wherever this story is summarized (cards, anchors, social copy).
+  note: >-
+    After Dwight Morrow High School's student-run Project Happiness Club promoted Inner
+    Explorer's 21-Day Quest, participants' engagement with the daily mindfulness
+    practice rose 371% on average — active usage grew from 14.34% to 53.23%.
+    Engagement figures are Inner Explorer program usage data for Dwight Morrow Quest
+    participants; national youth mental-health statistics are drawn from the
+    peer-reviewed and national survey research cited below.
+  featured:
+    value: '371%'
+    label: 'average increase in engagement with the daily practice after the 21-Day Quest'
+    trend: 'up-good'
+    sourceId: 1
+  grid:
+    - {
+        value: '14% → 53%',
+        label: 'active usage of the daily practice, before vs. after the Quest (14.34% to 53.23%)',
+        trend: 'up-good',
+        sourceId: 1,
+      }
+    - {
+        value: '1× → 3–4×',
+        label: 'practice frequency per week — from about once to three or four times',
+        trend: 'up-good',
+        sourceId: 1,
+      }
+    - {
+        value: '300+',
+        label: 'thank-you notes written by club members to school staff',
+        sourceId: 1,
+      }
+    - {
+        value: '21',
+        unit: 'days',
+        label: 'of the Inner Explorer Quest the club promoted — designed to instill a daily practice habit',
+      }
+    - {
+        value: '1 in 6',
+        label: 'U.S. youth ages 6–17 experience a mental health disorder each year',
+        sourceId: 2,
+      }
+    - {
+        value: '9.7',
+        unit: '%',
+        label: 'of U.S. youth live with severe major depression — 12.4% among multiracial youth',
+        sourceId: 3,
+      }
+
+chart:
+  title: 'Active usage before and after the 21-Day Quest'
+  subtitle: 'Dwight Morrow High School Quest participants, % of active usage'
+  sourceId: 1
+  foot: >-
+    The same participants improved their practice habit from about once a week to three
+    or four times a week — the daily consistency MBSEL is built on.
+  groups:
+    - label: 'Before the Quest'
+      tone: 'muted'
+      bars:
+        - { label: 'Before 21-Day Quest', value: 14.34 }
+    - label: 'After the Quest'
+      tone: 'brand'
+      bars:
+        - { label: 'After 21-Day Quest', value: 53.23 }
+
+sources:
+  - {
+      id: 1,
+      text: 'Inner Explorer program engagement data for Dwight Morrow High School 21-Day Quest participants; club activities as reported by the school.',
+    }
+  - {
+      id: 2,
+      text: 'Whitney, D. G., & Peterson, M. D., "US National and State-Level Prevalence of Mental Health Disorders and Disparities of Mental Health Care Use in Children," JAMA Pediatrics 173(4), 389–391 (2019).',
+      href: 'https://doi.org/10.1001/jamapediatrics.2018.5399',
+    }
+  - {
+      id: 3,
+      text: 'Reinert, M., Nguyen, T., & Fritze, D., "The State of Mental Health in America 2021," Mental Health America (2020).',
+      href: 'https://mhanational.org/research-reports/2021-state-mental-health-america',
+    }
+  - {
+      id: 4,
+      text: 'LG Electronics, "Happiness League Honors Superhero Teachers for Helping Students'' Mental Wellness," LG Newsroom.',
+      href: 'https://www.lg.com/global/newsroom/esg/esg-achievements/happiness-league-recognizes-superhero-teachers-for-helping-students-mental-wellness/',
+    }
+
+voicesIntro:
+  eyebrow: 'What the school says'
+  headingLead: 'Led by students,'
+  headingEmphasis: 'backed by the adults'
+  studentsLabel: 'From the club'
+
+voices:
+  - kind: 'Educator'
+    quote: >-
+      Having student leaders allows kids to see that they have peers who feel how they
+      feel and understand what they are going through; they need fellow students that
+      they can look up to and relate to.
+    name: 'Melissa Conceicao'
+    role: 'Educator · LG Electronics Superhero Teacher'
+    org: 'Dwight Morrow High School'
+    # PUBLISH GATE: placeholder portrait — must be Melissa Conceicao's real photo
+    # before launch (a stand-in face with an identity-asserting alt is a fabrication
+    # risk). Alt text stays non-identifying until the real photo lands.
+    portrait: '../../assets/images/case-studies/dwight-morrow/voice-conceicao.jpg'
+    portraitAlt: 'Portrait of a high school educator (placeholder image)'
+    stat: { value: '371%', label: 'engagement increase after the Quest her students promoted' }
+  - kind: 'Leadership'
+    quote: >-
+      Our team, our students, and their families are experiencing a lot of trauma. The
+      best way to help is to ensure people feel safe, acknowledged, and heard.
+      Mindfulness-Based Social Emotional Learning teaches us skills we can use to make
+      that happen.
+    name: 'Ben Suro'
+    role: 'School Principal'
+    org: 'Dwight Morrow High School'
+    # PUBLISH GATE: placeholder portrait — same rule as above.
+    portrait: '../../assets/images/case-studies/dwight-morrow/voice-suro.jpg'
+    portraitAlt: 'Portrait of a school principal (placeholder image)'
+    stat: { value: '1 in 6', label: 'U.S. youth experience a mental health disorder each year' }
+  # A real, consented-anonymous voice from the source PDF — quoted verbatim.
+  - kind: 'From the club'
+    quote: >-
+      With a little bit of confidence, you can do so much to help your community. Go
+      for it, even if you feel apprehensive as you do it! You aren't alone, there are a
+      lot of people who will help you and contribute. Also, listen to others as much as
+      you lead — really listen to other people's thoughts and opinions, because a
+      variety of perspectives results in a better outcome.
+    name: 'Student Leader'
+    role: 'Project Happiness Club'
+
+gallery:
+  eyebrow: 'Inside the club'
+  heading: 'A school community learning to prioritize mental health'
+  images:
+    - {
+        src: '../../assets/images/case-studies/dwight-morrow/gallery-1-club-circle.jpg',
+        alt: 'Club members sitting in a circle during a guided mindfulness practice',
+      }
+    - {
+        src: '../../assets/images/case-studies/dwight-morrow/gallery-2-headphones-practice.jpg',
+        alt: 'A high school student listening to a guided practice with headphones',
+      }
+    - {
+        src: '../../assets/images/case-studies/dwight-morrow/gallery-3-thank-you-notes.jpg',
+        alt: 'Students writing thank-you notes to school staff at a classroom table',
+      }
+    - {
+        src: '../../assets/images/case-studies/dwight-morrow/gallery-4-announcement-art.jpg',
+        alt: 'A student artist working on the positive message of the week',
+      }
+    - {
+        src: '../../assets/images/case-studies/dwight-morrow/gallery-5-calm-hallway.jpg',
+        alt: 'Students walking calmly through a sunlit high school hallway',
+      }
+    - {
+        src: '../../assets/images/case-studies/dwight-morrow/gallery-6-club-room.jpg',
+        alt: 'A classroom arranged for a student club meeting',
+      }
+
+# FAQ — real buyer questions (results, the Quest, starting a club, funding, training)
+# answered from established facts only; rendered with the shared FAQAccordion.
+# Deliberately NO FAQPage JSON-LD (restricted to gov/health rich results since 2023).
+faq:
+  eyebrow: 'FAQ'
+  titleHtml: 'The questions <em>school leaders ask about this story.</em>'
+  intro: >-
+    Direct answers from Dwight Morrow's experience — what the club asked of educators,
+    what the 21-Day Quest changed, and how to fund a program like this.
+  items:
+    - q: 'How did Dwight Morrow High School increase mindfulness engagement by 371%?'
+      a: >-
+        Through a student-led push: the school's Project Happiness Club promoted Inner
+        Explorer's 21-Day Quest to build a daily practice habit. Quest participants'
+        engagement rose 371% on average, with active usage climbing from 14.34% to
+        53.23% — a habit shift from practicing about once a week to three or four
+        times a week.
+    - q: 'What is the Inner Explorer 21-Day Quest?'
+      a: >-
+        A 21-day challenge designed to instill the habit of daily audio-guided
+        mindfulness practice as a preventative mental health tool — at Dwight Morrow,
+        Quest participants went from practicing about once a week to three or four
+        times a week. Consistent practice helps students, staff, and families gain
+        skills like self-awareness and emotional regulation — and when practiced
+        daily, Inner Explorer has been shown to reduce stress and improve average
+        G.P.A. and reading, math, and science grades.
+    - q: 'How do you start a mental health club at your high school?'
+      a: >-
+        Dwight Morrow's club shares four findings: get student buy-in (student leaders
+        make it safe for peers to open up), expand on student strengths (every member
+        holds a role built on a skill they already have), make the case for MBSEL to
+        school administration, and communicate the long-term impact from the start so
+        students stay motivated.
+    - q: 'What does a student mental health club do?'
+      a: >-
+        At Dwight Morrow, the school's Project Happiness Club promoted Inner
+        Explorer's 21-Day Quest to classmates, wrote 300+ thank-you notes to school
+        staff, hosted a Q&A for incoming underclassmen, and planned an end-of-year
+        reflection survey on how the club could best support students the following
+        year. One member, a student artist, creates an art piece illustrating a
+        positive message of the week, shared through the school announcements.
+    - q: 'Do student-led mental health clubs actually make a difference?'
+      a: >-
+        After Dwight Morrow High School's student-run Project Happiness Club promoted
+        Inner Explorer's 21-Day Quest, participants' engagement with the daily
+        mindfulness practice rose 371% on average — active usage grew from 14.34% to
+        53.23%. That is an engagement result, not a clinical outcome — what this
+        peer-led push measurably changed was whether students chose to practice, with
+        frequency growing from about once a week to three or four times a week.
+    - q: 'How can a school fund a program like this?'
+      a: >-
+        Dwight Morrow's work grew out of an LG Electronics partnership — Mrs. Conceicao
+        is an LG Electronics Superhero Teacher. For schools funding this today, the
+        lead federal stream is Title IV, Part A (Student Support and Academic
+        Enrichment), whose Safe and Healthy Students category covers mental-health and
+        SEL programming, alongside Title I, IDEA, and state school mental-health
+        initiatives — the COVID relief funds that supported this era expired in 2024.
+        Most of these sources ask for evidence-based programs (ESSA evidence tiers),
+        and our partnerships team helps schools match Inner Explorer's evidence base
+        to a funding source's requirements.
+    - q: 'Do teachers need special training to bring MBSEL into a classroom?'
+      a: >-
+        No — Inner Explorer's practices are fully audio-guided, so educators simply
+        press play. That's how it started at Dwight Morrow: one teacher practicing
+        with her own students, no mandate, before students took the mission
+        school-wide.
+
+cta:
+  heading: 'Bring student-led well-being'
+  headingEmphasis: 'to your school or district'
+  body: >-
+    See what daily Mindfulness-Based Social Emotional Learning (MBSEL) could look like
+    in your high school — and how a student-run club can carry it further than any
+    adult-led program alone. We'll walk you through how Dwight Morrow's students got
+    their classmates practicing, and how a 21-Day Quest could work in your classrooms.
+  primary: { label: 'Book a demo', href: '/contact' }
+  secondary:
+    {
+      label: 'Download the original case study (PDF)',
+      href: '/downloads/dwight-morrow-case-study.pdf',
+    }

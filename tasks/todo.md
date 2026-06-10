@@ -1,5 +1,33 @@
 # Tasks — Inner Explorer Website
 
+## Dwight Morrow case study transfer (2026-06-09)
+
+Goal: transfer legacy innerexplorer.com/case-study2 ("Empowering Student Leaders to
+Address Youth Mental Health at Dwight Morrow High School") to
+`/case-studies/dwight-morrow/` via the transfer-case-study skill.
+
+- [x] Extract legacy page + PDF verbatim (incl. PDF-only student-leader quote and
+      JAMA Pediatrics / MHA 2021 citations; chart read via vision: 14.34% → 53.23%).
+- [x] `src/content/case-studies/dwight-morrow.yaml` (order 6 after parallel-story
+      merges) — no schema changes needed; newsroom story card (id 21); legacy PDF at
+      `public/downloads/dwight-morrow-case-study.pdf`.
+- [x] 11 brand images generated (Higgsfield GPT Image 2, ~175 credits) — 3 regens
+      for brand-logo (Nike/North Face) and "Key Club" whiteboard-text issues; all
+      reviewed before install; hero copied to newsroom asset.
+- [x] 12-agent content-SEO workflow (5 researchers / synth / 3 appliers / 3
+      adversarial verifiers): 30/30 proposals accepted (8 verifier-revised), applied
+      with cross-scope dedup (Cardona pull-quote component skipped — embedded in
+      challenge body instead).
+- [x] Verified: desktop + mobile no overflow; chart/FAQ(7)/3 real voices render;
+      Broward dist byte-identical, Webb delta = next-card retarget only; `pnpm check` + build green; title 53 / description 149 chars; 3 linked citations in JSON-LD.
+
+### Publish gates (carry-over for launch review)
+
+- Two stand-in portraits (Conceicao, Suro) need real photos.
+- Cardona quote attribution is "in an interview at the time" — source interview URL
+  was not found verbatim on the indexed web (NEA's version differs); keep unlinked.
+- Staging-domain noindex flagged as a separate task (netlify.app already indexed).
+
 ## Case study: Henry J. Kaiser Elementary transfer (2026-06-09)
 
 Transferred innerexplorer.com/case-study1 (+ HJK-Elementary.pdf) to
