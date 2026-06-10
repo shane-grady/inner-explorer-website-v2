@@ -207,7 +207,9 @@ const { links, next, id }: Props = Astro.props;
     display: flex;
     align-items: baseline;
     gap: 10px;
-    max-width: 30ch;
+    /* min(…, 100%) lets the block shrink inside narrow wrapped rows — a fixed
+       30ch refuses to and overflows the page on ≤345px viewports. */
+    max-width: min(30ch, 100%);
   }
   .next-stat b {
     font-weight: 600;
