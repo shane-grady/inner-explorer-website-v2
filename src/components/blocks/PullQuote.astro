@@ -1,0 +1,88 @@
+---
+// Editorial pull-quote — a centered, serif-italic article quote with a soft brand
+// quotation mark and attribution beneath. The long-form "pull-quote" that breaks up
+// an article (blog posts, case studies). Distinct from `QuoteRow` (3 quote cards) and
+// `PhotoQuote` (photo banner): this is a quiet, typographic standalone quote.
+interface Props {
+  quote: string;
+  /** Attributed speaker, e.g. "Dr. Marisol Vega". */
+  name: string;
+  /** Title/role, e.g. "Assistant Superintendent, Student Services". */
+  role?: string;
+  /** Organization, e.g. "Broward County Public Schools". */
+  org?: string;
+  id?: string;
+}
+const { quote, name, role, org, id }: Props = Astro.props;
+---
+
+<section class="pq" id={id}>
+  <figure class="pq-inner">
+    <span class="mark" aria-hidden="true">&ldquo;</span>
+    <blockquote class="quote">{quote}</blockquote>
+    <figcaption class="by">
+      <span class="nm">{name}</span>
+      {
+        (role || org) && (
+          <span class="rl">
+            {role}
+            {role && org ? ' · ' : ''}
+            {org}
+          </span>
+        )
+      }
+    </figcaption>
+  </figure>
+</section>
+
+<style>
+  .pq {
+    padding: clamp(64px, 8vw, 104px) 0;
+    background: var(--color-background);
+  }
+  .pq-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    padding-inline: clamp(20px, 5vw, 64px);
+    text-align: center;
+  }
+  .mark {
+    display: block;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(72px, 9vw, 104px);
+    line-height: 0.6;
+    color: var(--brand-300);
+    margin-bottom: clamp(8px, 1.4vw, 16px);
+  }
+  .quote {
+    margin: 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(26px, 3.4vw, 40px);
+    line-height: 1.28;
+    letter-spacing: -0.015em;
+    color: var(--color-foreground);
+    text-wrap: pretty;
+  }
+  .by {
+    margin-top: clamp(24px, 3vw, 36px);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .nm {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 1.3;
+    color: var(--color-foreground);
+  }
+  .rl {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--color-muted-foreground);
+  }
+</style>
