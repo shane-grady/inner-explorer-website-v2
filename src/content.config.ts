@@ -232,6 +232,17 @@ const caseStudies = defineCollection({
         .array(z.object({ id: z.number(), text: z.string(), href: z.string().url().optional() }))
         .default([]),
 
+      // Optional editorial quote rendered right after the results band — a quiet,
+      // article-style attributed quote that breaks up the page. Reuses `EditorialQuote`.
+      editorialQuote: z
+        .object({
+          quote: z.string(),
+          name: z.string(),
+          role: z.string().optional(),
+          org: z.string().optional(),
+        })
+        .optional(),
+
       voicesIntro: z.object({
         eyebrow: z.string(),
         headingLead: z.string(),

@@ -10,6 +10,15 @@ any correction or surprise.
   overflows the prompt) while building the Platform page. It reportedly worked in
   2026-05. Treat it as flaky: try a subagent if useful, but be ready to **do research +
   work in the main context** when the spawn fails — that's the reliable path here.
+- **`preview_screenshot` desyncs from programmatic scroll on long, reveal-animated
+  pages.** Two compounding traps on `.cs` case-study pages: (1) the scroll-reveal hides
+  `[data-cs-reveal]` at `opacity:0` until the IntersectionObserver fires, so jumping to a
+  deep section with `scrollTop` captures blank; (2) deep `scrollTop` jumps don't reliably
+  reflect in the capture (global `scroll-behavior` is `smooth`, so force it to `auto`
+  first). Reliable way to screenshot one section: pin it with inline
+  `position:fixed;top:0;left:0;right:0;z-index:99999` via a live-DOM `preview_eval`
+  mutation (not a file edit) and shoot at scroll 0. Verify structure/styles with
+  `preview_eval` (computed styles, `compareDocumentPosition`) rather than trusting the image.
 
 ## Toolchain (pnpm / Node)
 
