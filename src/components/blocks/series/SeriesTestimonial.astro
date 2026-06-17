@@ -1,0 +1,108 @@
+---
+import SeriesIcon from './SeriesIcon.astro';
+
+// Featured single testimonial — centered serif pull-quote with a quote chip and
+// an initials avatar. (Distinct from the collection-driven 3-up `Testimonials`
+// block: this is the series template's one-voice editorial moment.)
+
+interface Props {
+  quote: string;
+  name: string;
+  role: string;
+  place?: string;
+}
+const { quote, name, role, place }: Props = Astro.props;
+const initials = name
+  .split(/\s+/)
+  .map((w) => w[0])
+  .join('')
+  .slice(0, 2)
+  .toUpperCase();
+---
+
+<figure class="testi" data-sr>
+  <span class="tq">
+    <SeriesIcon name="quote" />
+  </span>
+  <blockquote>{quote}</blockquote>
+  <figcaption class="ta">
+    <span class="av" aria-hidden="true">{initials}</span>
+    <span class="tn">
+      <b>{name}</b>
+      <span>{role}{place ? ` · ${place}` : ''}</span>
+    </span>
+  </figcaption>
+</figure>
+
+<style>
+  .testi {
+    max-width: 880px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .tq {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--series-tint-a, var(--color-brand-subtle));
+    color: var(--series-accent, var(--color-brand));
+    display: grid;
+    place-items: center;
+    margin: 0 auto 28px;
+  }
+  .tq :global(svg) {
+    width: 30px;
+    height: 30px;
+  }
+  blockquote {
+    margin: 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(26px, 3.4vw, 38px);
+    line-height: 1.32;
+    letter-spacing: -0.01em;
+    color: var(--color-foreground);
+    text-wrap: balance;
+  }
+  .ta {
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+  }
+  .av {
+    width: 48px;
+    height: 48px;
+    flex: none;
+    border-radius: 50%;
+    background: linear-gradient(
+      150deg,
+      var(--series-accent, var(--color-brand)),
+      var(--series-accent-deep, var(--color-brand-emphasis))
+    );
+    color: var(--color-white);
+    display: grid;
+    place-items: center;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .tn {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .tn b {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--color-foreground);
+  }
+  .tn span {
+    font-size: 13px;
+    line-height: 1.3;
+    color: var(--color-muted-foreground);
+  }
+</style>

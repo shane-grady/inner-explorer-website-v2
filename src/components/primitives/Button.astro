@@ -14,7 +14,9 @@ const button = tv({
       ghost: 'bg-transparent',
       link: 'bg-transparent underline underline-offset-4',
     },
-    tone: { brand: '', accent: '', neutral: '' },
+    // `light` is the on-photo tone for dark/photographic surfaces (immersive
+    // heroes, CTA bands): solid = white pill, outline = translucent glass.
+    tone: { brand: '', accent: '', neutral: '', light: '' },
     size: {
       sm: 'h-9 px-4 text-sm',
       md: 'h-11 px-6 text-base',
@@ -50,6 +52,14 @@ const button = tv({
     { variant: 'link', tone: 'brand', class: 'h-auto px-0 text-brand hover:text-brand-emphasis' },
     { variant: 'link', tone: 'accent', class: 'h-auto px-0 text-accent' },
     { variant: 'link', tone: 'neutral', class: 'h-auto px-0 text-foreground' },
+    { variant: 'solid', tone: 'light', class: 'bg-white text-black shadow-md hover:bg-white/90' },
+    {
+      variant: 'outline',
+      tone: 'light',
+      class: 'border-white/30 bg-white/15 text-white backdrop-blur-md hover:bg-white/25',
+    },
+    { variant: 'ghost', tone: 'light', class: 'text-white hover:bg-white/15' },
+    { variant: 'link', tone: 'light', class: 'h-auto px-0 text-white' },
   ],
   defaultVariants: { variant: 'solid', tone: 'brand', size: 'md', shape: 'rounded', block: false },
 });

@@ -1,0 +1,182 @@
+# Educator Well-Being Series — one file → the whole /series/educator-wellbeing page.
+# Duplicate this file (swap values + images) to publish another series.
+#
+# Imagery: Unsplash stand-ins from the Claude Design handoff — swap for real
+# Inner Explorer educator/classroom photography before publish.
+# Stats (43% / 28% / 60%, MBSR footnote) are from IE public materials — fact-check
+# exact figures before publish.
+order: 1
+draft: false
+
+name: 'Educator Well-Being Series'
+shortName: 'Educator Well-Being'
+category: 'Supplemental Series'
+tone: 'sage'
+
+seoTitle: 'Educator Well-Being Series — Inner Explorer'
+seoDescription: >-
+  Short, audio-guided mindfulness practices made for educators — to ease stress,
+  restore focus, and carry a little more calm into every classroom.
+
+hero:
+  duetTop: 'Calm for the'
+  duetBottom: 'ones who hold the room'
+  lede: >-
+    Short, audio-guided practices made for educators — to ease stress and restore
+    focus in just a few minutes.
+  image: '../../assets/images/series/hero-educator.jpg'
+  imageAlt: 'A teacher taking a quiet, calm moment'
+  primaryCta: { label: 'Explore the series', href: '#practices' }
+  secondaryCta: { label: 'Listen to a sample', href: '#sample' }
+
+glance:
+  - { icon: 'clock', label: 'Practice length', value: '2–10 min' }
+  - { icon: 'headphones', label: 'Format', value: 'Audio-guided' }
+  - { icon: 'home', label: 'Practice at', value: 'School or home' }
+  - { icon: 'users', label: 'Made for', value: 'Teachers & staff' }
+  - { icon: 'globe', label: 'Languages', value: 'English & Spanish' }
+
+audience:
+  eyebrow: "Who it's for"
+  heading: 'Made for the adults in the building'
+  intro: >-
+    Every practice meets you where your day is — between classes, before the bell,
+    or after everyone has gone home.
+  cards:
+    - icon: 'presentation'
+      title: 'Teachers'
+      body: >-
+        For the moments between lessons, when you need to reset before the next
+        group walks in.
+    - icon: 'lifebuoy'
+      title: 'School staff'
+      body: >-
+        Counselors, aides, and front-office teams carry the day's weight too.
+        These practices are for them.
+    - icon: 'compass'
+      title: 'School leaders'
+      body: >-
+        Principals and administrators set the tone for a building. Calm is
+        contagious — it starts at the top.
+
+stats:
+  eyebrow: 'Why it matters'
+  heading: 'The most stressed profession deserves the most support'
+  intro: >-
+    Educators report the highest levels of occupational burnout and symptoms of
+    depression of any profession. Daily mindfulness is a simple, proven way to meet
+    that pressure — a few quiet minutes that compound into steadier days.
+  items:
+    - { value: '43%', label: 'less stress reported by educators who practice daily mindfulness' }
+    - { value: '28%', label: 'higher grades in reading, math, and science across classrooms' }
+    - { value: '60%', label: 'fewer behavioral issues when mindfulness becomes a daily habit' }
+  footnote: >-
+    Inner Explorer is built on the Mindfulness-Based Stress Reduction (MBSR)
+    protocol — a method backed by more than 9,000 studies.
+
+practices:
+  eyebrow: 'Inside the series'
+  heading: 'A practice for every part of your day'
+  intro: >-
+    Short, themed sessions designed to fit a full schedule — from the first bell to
+    the drive home.
+  items:
+    - title: 'Start Your Day'
+      theme: 'Intention'
+      duration: '5 min'
+      image: '../../assets/images/series/practice-morning.jpg'
+      blurb: 'A grounding practice to meet the morning before the morning meets you.'
+    - title: 'Stress Resilience'
+      theme: 'Regulation'
+      duration: '7 min'
+      image: '../../assets/images/series/practice-regulation.jpg'
+      blurb: "Notice the tension you're holding, and let it soften one breath at a time."
+    - title: 'A Moment of Gratitude'
+      theme: 'Gratitude'
+      duration: '4 min'
+      image: '../../assets/images/series/practice-gratitude.jpg'
+      blurb: 'Close the day by naming what went right, however small.'
+    - title: 'Between the Bells'
+      theme: 'Reset'
+      duration: '2 min'
+      image: '../../assets/images/series/practice-reset.jpg'
+      blurb: 'A quick transition to clear the last class before the next one arrives.'
+    - title: 'Self-Compassion'
+      theme: 'Kindness'
+      duration: '8 min'
+      image: '../../assets/images/series/practice-kindness.jpg'
+      blurb: 'Offer yourself the same patience you so easily give your students.'
+    - title: 'Unwind at Home'
+      theme: 'Rest'
+      duration: '10 min'
+      image: '../../assets/images/series/practice-rest.jpg'
+      blurb: 'Leave the day at the door and let your body finally rest.'
+
+how:
+  eyebrow: 'How it works'
+  heading: 'No prep. No training. Just press play.'
+  steps:
+    - icon: 'play'
+      title: 'Press play'
+      body: >-
+        Open Inner Explorer on any device and start. There is nothing to plan and
+        nothing to teach.
+    - icon: 'headphones'
+      title: 'Practice 2–10 minutes'
+      body: >-
+        Each session is audio-guided, so you can close your eyes and fully relax —
+        no screen required.
+    - icon: 'map-pin'
+      title: 'Anywhere you are'
+      body: >-
+        At your desk, in the car, or on the couch at home. The habit travels
+        with you.
+
+benefits:
+  eyebrow: 'The benefit'
+  heading: 'What a few mindful minutes give back'
+  items:
+    - icon: 'wind'
+      title: 'Less stress, more steadiness'
+      body: >-
+        Regular practice eases the symptoms of chronic stress that build over a
+        long school year.
+    - icon: 'focus'
+      title: 'Sharper focus'
+      body: 'A short reset restores the attention that demanding days quietly wear down.'
+    - icon: 'sparkles'
+      title: 'Model the calm'
+      body: 'Students learn to regulate by watching the adults around them do it first.'
+    - icon: 'repeat'
+      title: 'A habit that lasts'
+      body: >-
+        Designed for school and home, so mindfulness becomes part of life — not
+        just the lesson plan.
+
+sample:
+  eyebrow: 'Try it now'
+  title: 'A Stress Resilience Practice'
+  theme: 'Regulation · Educator Well-Being'
+  duration: '6 min'
+  narrator: 'Guided by Ana'
+  description: >-
+    A short practice to release the tension of a hard day. Find a quiet corner,
+    press play, and let your shoulders drop.
+  image: '../../assets/images/series/sample-educator.jpg'
+
+testimonial:
+  quote: >-
+    I started practicing for my students. I kept practicing for me. For the first
+    time in years, I leave work without carrying the whole day home with me.
+  name: 'Maria L.'
+  role: '3rd Grade Teacher'
+  place: 'Public Elementary School'
+
+cta:
+  duetTop: 'Bring calm to'
+  duetBottom: 'every adult in your building'
+  body: >-
+    The Educator Well-Being Series is included with the Inner Explorer Community
+    plan. Invite your staff and start practicing together.
+  primary: { label: 'Get started', href: '/contact' }
+  secondary: { label: 'For districts', href: '/districts' }

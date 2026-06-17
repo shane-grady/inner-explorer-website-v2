@@ -1,0 +1,131 @@
+---
+import SeriesIcon from './SeriesIcon.astro';
+
+// At-a-glance facts bar — a white card row of icon + label/value items sitting
+// under the immersive hero (practice length, format, audience, languages…).
+
+interface GlanceItem {
+  icon: string;
+  label: string;
+  value: string;
+}
+interface Props {
+  items: GlanceItem[];
+  ariaLabel?: string;
+}
+const { items, ariaLabel = 'Series at a glance' }: Props = Astro.props;
+---
+
+<section class="glance" aria-label={ariaLabel}>
+  <div class="wrap">
+    <ul class="row" style={`--cols:${items.length}`}>
+      {
+        items.map((g) => (
+          <li class="item">
+            <span class="ic">
+              <SeriesIcon name={g.icon} />
+            </span>
+            <span class="tx">
+              <span class="lab">{g.label}</span>
+              <span class="val">{g.value}</span>
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .glance {
+    margin-top: 20px;
+  }
+  .wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding-inline: clamp(20px, 4vw, 40px);
+  }
+  .row {
+    list-style: none;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(var(--cols, 5), 1fr);
+    gap: 0;
+    padding: 12px;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-sm);
+  }
+  .item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px;
+    min-width: 0;
+  }
+  .item:not(:first-child) {
+    border-left: 1px solid var(--color-border);
+  }
+  .ic {
+    width: 40px;
+    height: 40px;
+    flex: none;
+    border-radius: 12px;
+    background: var(--series-tint-a, var(--color-brand-subtle));
+    color: var(--series-accent-deep, var(--color-brand-emphasis));
+    display: grid;
+    place-items: center;
+  }
+  .ic :global(svg) {
+    width: 20px;
+    height: 20px;
+  }
+  .tx {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 0;
+  }
+  .lab {
+    font-size: 11.5px;
+    font-weight: 500;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-muted-foreground);
+  }
+  .val {
+    font-size: 15.5px;
+    font-weight: 600;
+    line-height: 1.1;
+    color: var(--color-foreground);
+  }
+
+  @media (max-width: 920px) {
+    .row {
+      grid-template-columns: repeat(3, 1fr);
+      row-gap: 6px;
+    }
+    .item:nth-child(3n + 1) {
+      border-left: 0;
+    }
+    .item:nth-child(n + 4) {
+      border-top: 1px solid var(--color-border);
+      padding-top: 18px;
+    }
+  }
+  @media (max-width: 640px) {
+    .row {
+      grid-template-columns: 1fr;
+      row-gap: 0;
+    }
+    .item {
+      border-left: 0;
+    }
+    .item:not(:first-child) {
+      border-top: 1px solid var(--color-border);
+      padding-top: 12px;
+    }
+  }
+</style>

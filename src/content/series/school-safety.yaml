@@ -1,0 +1,185 @@
+# School Safety Series — one file → the whole /series/school-safety page.
+# Imagery: Unsplash stand-ins (swap before publish). Stats footnote cites the
+# CDC 2024 DASH Action Guide — fact-check before publish.
+order: 2
+draft: false
+
+name: 'School Safety Series'
+shortName: 'School Safety'
+category: 'Supplemental Series'
+tone: 'teal'
+
+seoTitle: 'School Safety Series — Inner Explorer'
+seoDescription: >-
+  Short, calming mindfulness practices that help students and staff steady the
+  nervous system before, during, and after drills and lockdowns.
+
+hero:
+  duetTop: 'Steady minds for'
+  duetBottom: 'the moments that test them'
+  lede: >-
+    Drills and lockdowns stir up real fear — for students and staff alike. These
+    short practices steady the nervous system before, during, and after the
+    hardest moments of the school day.
+  image: '../../assets/images/series/hero-safety.jpg'
+  imageAlt: 'A calm, supported classroom'
+  primaryCta: { label: 'Explore the series', href: '#practices' }
+  secondaryCta: { label: 'Listen to a sample', href: '#sample' }
+
+glance:
+  - { icon: 'clock', label: 'Practice length', value: '2–10 min' }
+  - { icon: 'headphones', label: 'Format', value: 'Audio-guided' }
+  - { icon: 'users', label: 'Practice as', value: 'Whole class' }
+  - { icon: 'shield', label: 'Made for', value: 'K–12 & staff' }
+  - { icon: 'globe', label: 'Languages', value: 'English & Spanish' }
+
+audience:
+  eyebrow: "Who it's for"
+  heading: 'Calm that the whole building can share'
+  intro: >-
+    When the unexpected happens, everyone benefits from the same steadying
+    language — said in the same calm voice.
+  cards:
+    - icon: 'graduation-cap'
+      title: 'Students'
+      body: >-
+        Simple, repeatable practices that give kids something to do with the fear
+        in their bodies.
+    - icon: 'presentation'
+      title: 'Teachers'
+      body: >-
+        A grounded way to lead the room through a drill without having to find the
+        words yourself.
+    - icon: 'shield'
+      title: 'Safety teams'
+      body: >-
+        Crisis and safety staff get shared tools to support the community before
+        and after hard moments.
+
+stats:
+  eyebrow: 'Why it matters'
+  heading: "Hard moments don't end when the all-clear sounds"
+  intro: >-
+    Drills and lockdowns activate a real fear response that lingers long after the
+    event. Short mindfulness practices help students and staff down-regulate,
+    recover, and return to learning.
+  items:
+    - {
+        value: '60%',
+        label: 'fewer behavioral issues when mindfulness is part of the daily routine',
+      }
+    - { value: '43%', label: 'less stress reported by educators who practice mindfulness' }
+    - { value: '2 min', label: 'is all it takes to begin settling an activated nervous system' }
+  footnote: >-
+    The CDC's 2024 DASH Action Guide names mindfulness a key school-based strategy
+    for supporting student mental health.
+
+practices:
+  eyebrow: 'Inside the series'
+  heading: 'Practices for before, during, and after'
+  intro: >-
+    Designed to supplement your Daily Practice — there when a hard moment arrives,
+    and there to help everyone recover.
+  items:
+    - title: 'Before a Drill'
+      theme: 'Preparation'
+      duration: '4 min'
+      image: '../../assets/images/series/practice-preparation.jpg'
+      blurb: 'Set expectations and settle nerves before a scheduled drill begins.'
+    - title: 'Steady Breathing'
+      theme: 'Regulation'
+      duration: '3 min'
+      image: '../../assets/images/series/practice-breathing.jpg'
+      blurb: 'A simple breath practice to bring the body back from high alert.'
+    - title: 'Grounding in Place'
+      theme: 'Grounding'
+      duration: '2 min'
+      image: '../../assets/images/series/practice-reset.jpg'
+      blurb: 'Find what is steady and here, even when the moment feels uncertain.'
+    - title: 'After the All-Clear'
+      theme: 'Recovery'
+      duration: '6 min'
+      image: '../../assets/images/series/practice-morning.jpg'
+      blurb: 'Help the room come down and feel safe together once the moment passes.'
+    - title: 'Calming the Body'
+      theme: 'Release'
+      duration: '5 min'
+      image: '../../assets/images/series/practice-regulation.jpg'
+      blurb: 'Release the tension that fear leaves behind in the shoulders and chest.'
+    - title: 'Returning to Learning'
+      theme: 'Reset'
+      duration: '5 min'
+      image: '../../assets/images/series/practice-gratitude.jpg'
+      blurb: 'Gently shift attention back toward the day and the work ahead.'
+
+how:
+  eyebrow: 'How it works'
+  heading: 'Ready the moment you need it'
+  steps:
+    - icon: 'play'
+      title: 'Press play'
+      body: >-
+        When a hard moment arrives, start a practice on any device — no prep
+        required.
+    - icon: 'headphones'
+      title: 'Practice together'
+      body: >-
+        A calm, audio-guided voice leads the whole room, so no one has to find the
+        words alone.
+    - icon: 'heart-handshake'
+      title: 'Recover as a community'
+      body: >-
+        Use the after-practices to help everyone feel safe and settled before
+        moving on.
+
+benefits:
+  eyebrow: 'The benefit'
+  heading: 'What shared calm makes possible'
+  items:
+    - icon: 'wind'
+      title: 'Down-regulate fear'
+      body: 'Short practices help bring an activated nervous system back to baseline.'
+    - icon: 'rewind'
+      title: 'Recover faster'
+      body: >-
+        Students and staff return to learning sooner when they have a way to
+        process what happened.
+    - icon: 'message-circle'
+      title: 'A shared language'
+      body: >-
+        Everyone in the building learns the same steadying cues, said in the same
+        calm voice.
+    - icon: 'shield'
+      title: 'Support for staff too'
+      body: >-
+        The adults managing the moment get practices to steady themselves, not
+        just the room.
+
+sample:
+  eyebrow: 'Try it now'
+  title: 'A Grounding Practice for Hard Moments'
+  theme: 'Grounding · School Safety'
+  duration: '3 min'
+  narrator: 'Guided by Ana'
+  description: >-
+    A brief practice to find what is steady and here. Press play, plant your feet,
+    and let the breath slow.
+  image: '../../assets/images/series/sample-safety.jpg'
+
+testimonial:
+  quote: >-
+    Our drills used to leave the kids rattled for the rest of the day. Now we have
+    a way to bring everyone back down together. It changed the whole tone
+    afterward.
+  name: 'James R.'
+  role: 'School Safety Coordinator'
+  place: 'Public Middle School'
+
+cta:
+  duetTop: 'Help your community'
+  duetBottom: 'meet hard moments with calm'
+  body: >-
+    The School Safety Series supplements your Daily Practice on the Inner Explorer
+    Community plan. Give every classroom a steadying voice.
+  primary: { label: 'Get started', href: '/contact' }
+  secondary: { label: 'For districts', href: '/districts' }

@@ -1,0 +1,154 @@
+---
+import SeriesSectionHead from './SeriesSectionHead.astro';
+import SeriesIcon from './SeriesIcon.astro';
+
+// "Why it matters" band — a tinted gradient panel holding the section head,
+// three glass stat cards, and an optional research footnote with a flask chip.
+
+interface Stat {
+  value: string;
+  label: string;
+}
+interface Props {
+  eyebrow: string;
+  heading: string;
+  intro?: string;
+  items: Stat[];
+  footnote?: string;
+  id?: string;
+}
+const { eyebrow, heading, intro, items, footnote, id }: Props = Astro.props;
+---
+
+<section class="band" id={id} data-sr>
+  <div class="inner">
+    <SeriesSectionHead eyebrow={eyebrow} heading={heading} intro={intro} />
+    <div class="grid">
+      {
+        items.map((it, i) => (
+          <div class="stat" data-sr data-sr-delay={`${i + 1}`}>
+            <div class="sv">{it.value}</div>
+            <div class="sl">{it.label}</div>
+          </div>
+        ))
+      }
+    </div>
+    {
+      footnote && (
+        <div class="foot" data-sr data-sr-delay="3">
+          <span class="ffl">
+            <SeriesIcon name="flask" />
+          </span>
+          <p>{footnote}</p>
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .band {
+    position: relative;
+    overflow: hidden;
+    border-radius: 40px;
+    padding: 72px clamp(24px, 4vw, 40px);
+    background: linear-gradient(
+      165deg,
+      var(--series-tint-a, var(--color-brand-subtle)),
+      var(--series-tint-b, var(--color-brand-subtle))
+    );
+  }
+  .band::before {
+    content: '';
+    position: absolute;
+    right: -120px;
+    top: -120px;
+    width: 360px;
+    height: 360px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      color-mix(in oklab, var(--series-accent) 22%, transparent),
+      transparent 70%
+    );
+  }
+  .inner {
+    position: relative;
+    max-width: 980px;
+    margin: 0 auto;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 54px;
+  }
+  .stat {
+    background: color-mix(in oklab, var(--color-white) 60%, transparent);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: 1px solid color-mix(in oklab, var(--color-white) 60%, transparent);
+    border-radius: var(--radius-2xl);
+    padding: 32px 28px;
+    text-align: center;
+    box-shadow: var(--shadow-glass);
+  }
+  .sv {
+    font-family: var(--font-sans);
+    font-weight: 900;
+    font-size: clamp(46px, 6vw, 66px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--series-accent-deep, var(--color-brand-emphasis));
+  }
+  .sl {
+    margin-top: 14px;
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: var(--color-foreground);
+    text-wrap: pretty;
+  }
+  .foot {
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+  }
+  .ffl {
+    width: 38px;
+    height: 38px;
+    flex: none;
+    border-radius: 50%;
+    background: var(--color-card);
+    color: var(--series-accent-deep, var(--color-brand-emphasis));
+    display: grid;
+    place-items: center;
+    box-shadow: var(--shadow-sm);
+  }
+  .ffl :global(svg) {
+    width: 19px;
+    height: 19px;
+  }
+  .foot p {
+    margin: 0;
+    max-width: 640px;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--series-accent-deep, var(--color-brand-emphasis));
+  }
+
+  @media (max-width: 920px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 640px) {
+    .band {
+      border-radius: 28px;
+    }
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,323 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Button from '../../primitives/Button.astro';
+import SeriesIcon from './SeriesIcon.astro';
+
+// Immersive series hero — the design's final "wide split stage": white duet
+// copy on the left over a tone gradient that blends seamlessly into the photo
+// on the right, with a floating glass audio chip teasing the sample practice.
+// Duet renders as a styled <p> (the page <h1> is the masthead above). This is
+// the LCP block — image loads eagerly and nothing here is reveal-gated.
+
+interface Cta {
+  label: string;
+  href: string;
+}
+interface Props {
+  duetTop: string;
+  duetBottom: string;
+  lede: string;
+  image: ImageMetadata;
+  imageAlt: string;
+  primaryCta: Cta;
+  secondaryCta?: Cta;
+  /** Glass-chip teaser for the sample practice (title / duration / narrator). */
+  chip?: { title: string; meta: string };
+}
+const { duetTop, duetBottom, lede, image, imageAlt, primaryCta, secondaryCta, chip }: Props =
+  Astro.props;
+
+// Stable pseudo-random waveform heights (same generator as the prototype, so the
+// chip's mini-wave matches the approved design and stays identical across builds).
+function wave(n: number, seed: number): number[] {
+  let x = seed;
+  const out: number[] = [];
+  for (let i = 0; i < n; i++) {
+    x = (x * 1103515245 + 12345) & 0x7fffffff;
+    const base = 0.25 + ((x % 1000) / 1000) * 0.75;
+    const env = 0.55 + Math.sin((i / n) * Math.PI) * 0.45;
+    out.push(Math.max(0.16, Math.min(1, base * env)));
+  }
+  return out;
+}
+const chipWave = wave(18, 31);
+---
+
+<section class="hero">
+  <div class="wrap">
+    <div class="stage">
+      <div class="bg">
+        <Image
+          src={image}
+          alt={imageAlt}
+          widths={[640, 960, 1400, 1920]}
+          sizes="(max-width: 640px) 100vw, min(1100px, 94vw)"
+          loading="eager"
+          fetchpriority="high"
+        />
+      </div>
+      <div class="grad" aria-hidden="true"></div>
+      <div class="inner">
+        <p class="duet">
+          <span class="l1">{duetTop}</span>
+          <span class="l2">{duetBottom}</span>
+        </p>
+        <p class="lede">{lede}</p>
+        <div class="cta">
+          <Button href={primaryCta.href} tone="light" size="md" shape="pill">
+            {primaryCta.label}
+            <SeriesIcon name="arrow-right" size={18} />
+          </Button>
+          {
+            secondaryCta && (
+              <Button
+                href={secondaryCta.href}
+                tone="light"
+                variant="outline"
+                size="md"
+                shape="pill"
+              >
+                <SeriesIcon name="play" size={16} />
+                {secondaryCta.label}
+              </Button>
+            )
+          }
+        </div>
+      </div>
+      {
+        chip && (
+          <div class="chip">
+            <div class="chip-top">
+              <span class="chip-ic">
+                <SeriesIcon name="headphones" />
+              </span>
+              <span class="chip-tx">
+                <b>{chip.title}</b>
+                <small>{chip.meta}</small>
+              </span>
+            </div>
+            <div class="chip-wave" aria-hidden="true">
+              {chipWave.map((h, i) => (
+                <i style={`height:${Math.round(h * 100)}%;animation-delay:${(i * 90) % 1300}ms`} />
+              ))}
+            </div>
+          </div>
+        )
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding: 8px 0 0;
+  }
+  .wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding-inline: clamp(20px, 4vw, 40px);
+  }
+  .stage {
+    position: relative;
+    min-height: 470px;
+    border-radius: 40px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    box-shadow: var(--shadow-lg);
+    background: var(--series-tint-b, var(--color-brand-subtle));
+  }
+  .bg {
+    position: absolute;
+    inset: 0;
+  }
+  .bg :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 72% center;
+  }
+  /* The seam: deep tone on the left dissolving into the photo on the right. */
+  .grad {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      95deg,
+      var(--series-accent-deep) 0%,
+      color-mix(in oklab, var(--series-accent-deep) 95%, transparent) 30%,
+      color-mix(in oklab, var(--series-accent-deep) 58%, transparent) 50%,
+      color-mix(in oklab, var(--series-accent-deep) 14%, transparent) 66%,
+      transparent 78%
+    );
+  }
+  .inner {
+    position: relative;
+    z-index: 2;
+    padding: 48px 48px 48px 60px;
+    max-width: 55%;
+  }
+  .duet {
+    margin: 0;
+  }
+  .duet .l1,
+  .duet .l2 {
+    display: block;
+    color: var(--color-white);
+  }
+  .duet .l1 {
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: clamp(30px, 3.6vw, 42px);
+    line-height: 1;
+    letter-spacing: -0.035em;
+  }
+  .duet .l2 {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(32px, 3.9vw, 46px);
+    line-height: 1.04;
+    letter-spacing: -0.01em;
+    margin-top: 4px;
+  }
+  .lede {
+    margin: 22px 0 0;
+    max-width: 440px;
+    font-size: 18px;
+    line-height: 1.62;
+    color: color-mix(in oklab, var(--color-white) 90%, transparent);
+    text-wrap: pretty;
+  }
+  .cta {
+    display: flex;
+    gap: 14px;
+    margin-top: 36px;
+    flex-wrap: wrap;
+  }
+
+  /* Floating glass audio chip (teases the sample practice). */
+  .chip {
+    position: absolute;
+    right: 30px;
+    bottom: 30px;
+    z-index: 3;
+    width: 248px;
+    padding: 18px 20px;
+    background: var(--glass-bg);
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-glass);
+  }
+  .chip-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .chip-ic {
+    width: 38px;
+    height: 38px;
+    flex: none;
+    border-radius: 50%;
+    background: var(--series-accent);
+    color: var(--color-white);
+    display: grid;
+    place-items: center;
+    box-shadow: 0 6px 16px color-mix(in oklab, var(--series-accent) 40%, transparent);
+  }
+  .chip-ic :global(svg) {
+    width: 19px;
+    height: 19px;
+  }
+  .chip-tx {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+  .chip-tx b {
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--color-foreground);
+  }
+  .chip-tx small {
+    font-size: 11.5px;
+    line-height: 1.2;
+    color: var(--color-muted-foreground);
+  }
+  .chip-wave {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 30px;
+  }
+  .chip-wave i {
+    flex: 1;
+    border-radius: 2px;
+    background: color-mix(in oklab, var(--series-accent) 55%, transparent);
+    animation: wv 1.4s var(--ease-out) infinite alternate;
+  }
+  @keyframes wv {
+    from {
+      height: 18%;
+    }
+    to {
+      height: 100%;
+    }
+  }
+  /* Static varied wave when motion is reduced (global rules also stop the loop). */
+  @media (prefers-reduced-motion: reduce) {
+    .chip-wave i {
+      animation: none;
+    }
+  }
+
+  @media (max-width: 920px) {
+    .stage {
+      min-height: 360px;
+    }
+    .inner {
+      max-width: 72%;
+      padding: 36px 36px 36px 40px;
+    }
+    .grad {
+      background: linear-gradient(
+        102deg,
+        var(--series-accent-deep) 0%,
+        color-mix(in oklab, var(--series-accent-deep) 88%, transparent) 46%,
+        color-mix(in oklab, var(--series-accent-deep) 40%, transparent) 70%,
+        transparent 92%
+      );
+    }
+  }
+  @media (max-width: 640px) {
+    .stage {
+      min-height: 440px;
+      border-radius: 28px;
+      align-items: flex-end;
+    }
+    .inner {
+      max-width: 100%;
+      padding: 0 26px 30px;
+    }
+    .bg :global(img) {
+      object-position: 64% center;
+    }
+    /* Copy moves to the bottom — the seam rotates to a vertical scrim. */
+    .grad {
+      background: linear-gradient(
+        180deg,
+        transparent 0%,
+        color-mix(in oklab, var(--series-accent-deep) 28%, transparent) 32%,
+        color-mix(in oklab, var(--series-accent-deep) 90%, transparent) 100%
+      );
+    }
+    .chip {
+      display: none;
+    }
+  }
+</style>
