@@ -1,0 +1,176 @@
+# Summer Series — one file → the whole /series/summer page.
+# Imagery: Unsplash stand-ins (swap before publish).
+order: 4
+draft: false
+
+name: 'Summer Series'
+shortName: 'Summer'
+category: 'Seasonal Series'
+tone: 'gold'
+
+seoTitle: 'Summer Series — Inner Explorer'
+seoDescription: >-
+  Age-appropriate, audio-guided summer practices and playful extension activities
+  that keep the mindfulness habit alive through the break.
+
+hero:
+  duetTop: 'Keep the calm'
+  duetBottom: 'going all summer'
+  lede: >-
+    Age-appropriate, audio-guided practices and playful extension activities that
+    keep the mindfulness habit alive through the break.
+  image: '../../assets/images/series/hero-summer.jpg'
+  imageAlt: 'Warm summer light over an open field'
+  primaryCta: { label: 'Explore the series', href: '#practices' }
+  secondaryCta: { label: 'Listen to a sample', href: '#sample' }
+
+glance:
+  - { icon: 'clock', label: 'Practice length', value: '5–10 min' }
+  - { icon: 'headphones', label: 'Format', value: 'Audio-guided' }
+  - { icon: 'sun', label: 'Practice at', value: 'Camp & home' }
+  - { icon: 'users', label: 'Made for', value: 'All ages' }
+  - { icon: 'globe', label: 'Languages', value: 'English & Spanish' }
+
+audience:
+  eyebrow: "Who it's for"
+  heading: 'For everywhere summer happens'
+  intro: >-
+    Whether the days are full of programming or wide open, these practices keep
+    mindful awareness part of the rhythm.
+  cards:
+    - icon: 'sun'
+      title: 'Summer programs'
+      body: >-
+        Set a calm tone for the day and give campers a shared moment to begin and
+        end together.
+    - icon: 'home'
+      title: 'Families'
+      body: >-
+        A simple way to practice together at home, so the habit doesn't fade over
+        the break.
+    - icon: 'tent'
+      title: 'Camps'
+      body: >-
+        Playful, age-appropriate practices and activities that build creativity
+        and connection.
+
+stats:
+  eyebrow: 'Why it matters'
+  heading: "Don't let the habit slip away over the break"
+  intro: >-
+    A summer without routine can undo months of progress. Keeping a daily mindful
+    practice through the break protects well-being and makes the return to school
+    far smoother.
+  items:
+    - { value: '10 wk', label: 'of summer is enough to lose hard-won well-being routines' }
+    - { value: '5–10', label: 'minutes a day keeps the mindfulness habit alive and easy' }
+    - { value: '100%', label: 'age-appropriate — practices and activities for every group' }
+  footnote: >-
+    The Summer Series pairs daily audio practices with fun extension activities to
+    enhance the habit, not interrupt the break.
+
+practices:
+  eyebrow: 'Inside the series'
+  heading: 'Mindful moments for sunny days'
+  intro: >-
+    Relaxed, playful practices that fit the slower pace of summer — at camp, at
+    home, or somewhere in between.
+  items:
+    - title: 'Slow Mornings'
+      theme: 'Intention'
+      duration: '6 min'
+      image: '../../assets/images/series/practice-morning.jpg'
+      blurb: 'Ease into the day with no bell to beat and nowhere to rush.'
+    - title: 'Outdoor Awareness'
+      theme: 'Senses'
+      duration: '8 min'
+      image: '../../assets/images/series/hero-summer.jpg'
+      blurb: 'Take the practice outside and notice the world with all five senses.'
+    - title: 'Gratitude Walk'
+      theme: 'Gratitude'
+      duration: '10 min'
+      image: '../../assets/images/series/practice-regulation.jpg'
+      blurb: 'A walking practice to notice and name the good in an ordinary day.'
+    - title: 'Creative Calm'
+      theme: 'Creativity'
+      duration: '7 min'
+      image: '../../assets/images/series/practice-gratitude.jpg'
+      blurb: 'Quiet the mind and let imagination wander somewhere new.'
+    - title: 'Community Circle'
+      theme: 'Connection'
+      duration: '8 min'
+      image: '../../assets/images/series/practice-reset.jpg'
+      blurb: 'A shared practice that builds belonging in any group, of any age.'
+    - title: 'Wind-Down'
+      theme: 'Rest'
+      duration: '9 min'
+      image: '../../assets/images/series/practice-rest.jpg'
+      blurb: 'Settle a busy summer body and mind before the day comes to a close.'
+
+how:
+  eyebrow: 'How it works'
+  heading: 'Easy enough for the whole summer'
+  steps:
+    - icon: 'play'
+      title: 'Press play'
+      body: 'Open Inner Explorer wherever summer takes you and start — no plan needed.'
+    - icon: 'headphones'
+      title: 'Practice 5–10 minutes'
+      body: >-
+        Age-appropriate, audio-guided sessions that fit camp days and lazy
+        afternoons alike.
+    - icon: 'palette'
+      title: 'Extend the moment'
+      body: >-
+        Follow each practice with a playful activity that builds creativity and
+        connection.
+
+benefits:
+  eyebrow: 'The benefit'
+  heading: 'What summer mindfulness protects'
+  items:
+    - icon: 'repeat'
+      title: 'Keep the habit'
+      body: >-
+        A daily anchor keeps mindful awareness from fading over a long,
+        unstructured break.
+    - icon: 'sparkles'
+      title: 'Bolster creativity'
+      body: >-
+        Quiet, open practices give imagination room to grow when the schedule
+        loosens.
+    - icon: 'users'
+      title: 'Build community'
+      body: 'Shared moments create belonging at camp, in programs, and at home.'
+    - icon: 'graduation-cap'
+      title: 'A smoother return'
+      body: 'Kids who keep practicing come back in the fall ready, regulated, and steady.'
+
+sample:
+  eyebrow: 'Try it now'
+  title: 'An Outdoor Awareness Practice'
+  theme: 'Senses · Summer'
+  duration: '8 min'
+  narrator: 'Guided by Ana'
+  description: >-
+    A practice for a sunny afternoon. Step outside, press play, and notice the
+    world with all five senses.
+  image: '../../assets/images/series/practice-morning.jpg'
+
+testimonial:
+  quote: >-
+    We worried the kids would lose everything they'd built by September. Keeping
+    the practice going all summer meant they came back calmer than the year
+    before.
+  name: 'Priya S.'
+  role: 'Summer Program Director'
+  place: 'Community Learning Center'
+
+cta:
+  duetTop: 'Carry the calm'
+  duetBottom: 'right through the summer'
+  body: >-
+    The Summer Series keeps your community practicing on the Inner Explorer
+    Community plan. Make mindfulness part of the season.
+  primary: { label: 'Get started', href: '/contact' }
+  secondary: { label: 'For districts', href: '/districts' }

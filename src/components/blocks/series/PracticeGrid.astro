@@ -1,0 +1,173 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import SeriesIcon from './SeriesIcon.astro';
+
+// "Inside the series" — themed practice cards: photo with duration pill + play
+// chip, theme kicker, title, blurb. Cards are presentational for now (no
+// destination exists yet); the play chip is decorative iconography.
+
+interface Practice {
+  title: string;
+  theme: string;
+  duration: string;
+  image: ImageMetadata;
+  blurb: string;
+}
+interface Props {
+  items: Practice[];
+}
+const { items }: Props = Astro.props;
+---
+
+<div class="grid">
+  {
+    items.map((p, i) => (
+      <article class="card" data-sr data-sr-delay={`${(i % 3) + 1}`}>
+        <div class="media">
+          <Image
+            src={p.image}
+            alt=""
+            widths={[480, 760, 1000]}
+            sizes="(max-width: 640px) 92vw, (max-width: 920px) 46vw, 360px"
+            loading="lazy"
+          />
+          <div class="scrim" aria-hidden="true" />
+          <span class="dur">{p.duration}</span>
+          <span class="play" aria-hidden="true">
+            <SeriesIcon name="play" />
+          </span>
+        </div>
+        <div class="body">
+          <p class="theme">{p.theme}</p>
+          <h3>{p.title}</h3>
+          <p class="blurb">{p.blurb}</p>
+        </div>
+      </article>
+    ))
+  }
+</div>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 56px;
+  }
+  .card {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+    transition:
+      transform var(--dur) var(--ease-out),
+      box-shadow var(--dur) var(--ease-out);
+  }
+  .card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
+  }
+  .media {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+  }
+  .media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--dur-slow) var(--ease-out);
+  }
+  .card:hover .media :global(img) {
+    transform: scale(1.06);
+  }
+  .scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      color-mix(in oklab, var(--series-ink) 55%, transparent),
+      transparent 55%
+    );
+  }
+  .dur {
+    position: absolute;
+    right: 12px;
+    top: 12px;
+    padding: 7px 13px;
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--color-white) 22%, transparent);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: 1px solid color-mix(in oklab, var(--color-white) 35%, transparent);
+    color: var(--color-white);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+  }
+  .play {
+    position: absolute;
+    left: 14px;
+    bottom: 14px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: color-mix(in oklab, var(--color-white) 92%, transparent);
+    color: var(--series-accent-deep, var(--color-brand-emphasis));
+    display: grid;
+    place-items: center;
+    box-shadow: 0 6px 18px color-mix(in oklab, var(--color-black) 25%, transparent);
+    transition: transform var(--dur) var(--ease-out);
+  }
+  .card:hover .play {
+    transform: scale(1.08);
+  }
+  .play :global(svg) {
+    width: 15px;
+    height: 15px;
+    margin-left: 2px;
+  }
+  .body {
+    flex: 1;
+    padding: 22px 24px 26px;
+  }
+  .theme {
+    margin: 0 0 10px;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--series-accent, var(--color-brand));
+  }
+  h3 {
+    margin: 0 0 8px;
+    font-family: var(--font-sans);
+    font-size: 19px;
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    color: var(--color-foreground);
+  }
+  .blurb {
+    margin: 0;
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--color-muted-foreground);
+    text-wrap: pretty;
+  }
+
+  @media (max-width: 920px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 640px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

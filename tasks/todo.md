@@ -1048,3 +1048,64 @@ Photos show upper-elementary/middle-school-age students.
   (Lopez Guerra, Garza), 43% canonical source, representative timeline stage
   labels. A parallel session (worktree xenodochial-knuth) appears to be building
   Mindful Michigan — expect order/newsroom-id merge races.
+
+## 2026-06-10 — Series page template (Claude Design handoff: series-page-v2)
+
+Implement `Series Page.html` — a CMS-driven series template (splash masthead +
+immersive hero + 9 content sections), launched with 4 series: Educator Well-Being,
+School Safety, Counselor, Summer. Final design per the handoff chats: splash =
+concept A single-line lockup; hero = immersive wide split stage (copy left over
+tone gradient blending into photo right, audio chip, glance bar below, no eyebrow
+badge, vertically centered). The prototype's nav series-switcher + Tweaks panel
+are design-tool demo artifacts — the production equivalent is real per-series
+URLs + related-series cards.
+
+Architecture = the established case-study template pattern: content collection +
+dynamic route + shared data-driven blocks.
+
+### Plan
+
+- [x] Tokens (`global.css`): series tone presets (`[data-series-tone]` →
+      `--series-accent/-deep/-tint-a/-tint-b`; sage=brand, teal, slate, gold) +
+      Inter 800/900 @font-face (stat figures / hero headline weights).
+- [x] Button: add `tone="light"` variants (solid white + glass outline) for
+      on-photo CTAs — per the system's "on-photo button is a variant" rule.
+- [x] Collection: `series` in `content.config.ts` (schema mirrors the prototype's
+      `series-data.js` shape; icons as enum; images via `image()`).
+- [x] Images: localized the 15 unique Unsplash stand-ins →
+      `src/assets/images/series/` (flagged below for replacement).
+- [x] Content: 4 YAML files in `src/content/series/` (CTAs → /contact, /districts).
+- [x] Blocks (`src/components/blocks/series/`, all data-driven): SeriesIcon ·
+      SeriesMasthead · SeriesHero (LCP — no reveal) · GlanceBar · SeriesSectionHead ·
+      IconCards (grid|split = audience/benefits) · StatsBand · PracticeGrid ·
+      HowSteps · SamplePractice (simulated player, vanilla JS) · SeriesTestimonial ·
+      RelatedSeries (tone-aware cards → sibling URLs) · SeriesCTA.
+- [x] Page: `src/pages/series/[slug].astro` — `appearance-light` +
+      `data-series-tone`, scroll-reveal via `lib/intersect` (below-fold only),
+      OG image from hero, breadcrumb JSON-LD.
+- [x] Verify: `pnpm check` + `pnpm build` + ~0KB page JS + preview (desktop/
+      mobile, dark chrome, no-JS content visible) + regress home/about.
+
+### Follow-ups / flags
+
+- [ ] Imagery is Unsplash placeholder photography (per handoff) — swap for real
+      Inner Explorer photos before publish (one `image:` per slot in the YAML).
+- [ ] Stats copy (43% / 28% / 60%, CDC/CASEL footnotes) from IE public materials —
+      fact-check exact figures before publish.
+- [ ] Sample player is a simulated demo (no real audio asset exists yet). Wire a
+      real `audioSrc` + captions when audio is available.
+- [ ] Practice cards are non-interactive (prototype had no real action); link them
+      into the platform when destinations exist.
+- [ ] No `/series/` index page (not in this design) — nav/footer linking TBD.
+
+  Review: live at /series/educator-wellbeing|school-safety|counselor|summer.
+  Hero CTAs use Button size="md" (lg labels overflow the designed 55% column —
+  measured 538px vs 497px available). Reveal/IO appear frozen in the hidden
+  preview tab (known env artifact; mechanism proven by class toggle with
+  transitions disabled; same lib/intersect pattern as shipped case studies).
+  Verified: pnpm check + build green (57 pages), drift guard clean, 1 h1/page,
+  ~14KB page JS (shared ClientRouter; player ~1.2KB inline; zero React), tones
+  resolve per page AND per related-card, mobile 375px no overflow, dark chrome
+  with light-pinned page, no-JS content visible (reveal gated on data-js-ready),
+  home/about/platform/districts/webb-school regression-clean. Not committed
+  (commit/PR not requested).

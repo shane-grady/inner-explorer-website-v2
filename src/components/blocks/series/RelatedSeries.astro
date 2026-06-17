@@ -1,0 +1,154 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import SeriesIcon from './SeriesIcon.astro';
+
+// "Explore the other series" — photo cards linking to the sibling series pages.
+// Each card carries its target's tone (via `data-series-tone`), so the multiply
+// wash previews that series' accent.
+
+export interface RelatedItem {
+  href: string;
+  name: string;
+  category: string;
+  image: ImageMetadata;
+  imageAlt: string;
+  tone: string;
+}
+type Props = { items: RelatedItem[] };
+const { items }: Props = Astro.props;
+---
+
+<div class="grid">
+  {
+    items.map((r, i) => (
+      <a class="card" href={r.href} data-series-tone={r.tone} data-sr data-sr-delay={`${i + 1}`}>
+        <Image
+          src={r.image}
+          alt={r.imageAlt}
+          widths={[480, 760, 1000]}
+          sizes="(max-width: 640px) 92vw, (max-width: 920px) 46vw, 360px"
+          loading="lazy"
+        />
+        <span class="wash" aria-hidden="true" />
+        <span class="scrim" aria-hidden="true" />
+        <span class="c">
+          <span class="cat">{r.category}</span>
+          <span class="name">{r.name}</span>
+          <span class="go">
+            View series <SeriesIcon name="arrow-right" />
+          </span>
+        </span>
+      </a>
+    ))
+  }
+</div>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    margin-top: 52px;
+  }
+  .card {
+    position: relative;
+    display: block;
+    aspect-ratio: 5 / 4;
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition:
+      transform var(--dur) var(--ease-out),
+      box-shadow var(--dur) var(--ease-out);
+  }
+  .card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
+  }
+  .card :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--dur-slow) var(--ease-out);
+  }
+  .card:hover :global(img) {
+    transform: scale(1.07);
+  }
+  .wash {
+    position: absolute;
+    inset: 0;
+    background: var(--series-accent-deep);
+    mix-blend-mode: multiply;
+    opacity: 0.35;
+  }
+  .scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      color-mix(in oklab, var(--series-ink) 86%, transparent) 8%,
+      color-mix(in oklab, var(--series-ink) 20%, transparent) 55%,
+      transparent
+    );
+  }
+  .c {
+    position: absolute;
+    left: 26px;
+    right: 26px;
+    bottom: 24px;
+    z-index: 2;
+    color: var(--color-white);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .cat {
+    margin-bottom: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: color-mix(in oklab, var(--color-white) 82%, transparent);
+  }
+  .name {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 26px;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+  .go {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 14px;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+    opacity: 0.9;
+    transition: gap var(--dur) var(--ease-out);
+  }
+  .card:hover .go {
+    gap: 12px;
+  }
+  .go :global(svg) {
+    width: 15px;
+    height: 15px;
+  }
+
+  @media (max-width: 920px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 640px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

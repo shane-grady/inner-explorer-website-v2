@@ -1,0 +1,114 @@
+---
+// Shared inline-SVG icon set for the series template (glance bar, audience/
+// benefit cards, how-steps, player chrome). Lucide-style stroke glyphs from the
+// Claude Design handoff; names mirror the `seriesIcon` enum in content.config.ts
+// so content files are schema-validated against this registry. Same conventions
+// as PlatformIcon: stroke icons inherit `currentColor`; size via parent CSS, or
+// the `size` prop where no parent rule applies (e.g. inside a Button slot).
+
+interface Props {
+  name: string;
+  strokeWidth?: number;
+  /** Intrinsic px size — only needed where no parent CSS sizes the <svg>. */
+  size?: number;
+  class?: string;
+}
+
+const ICONS: Record<string, { fill?: boolean; body: string }> = {
+  clock: { body: '<circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/>' },
+  headphones: {
+    body: '<path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/>',
+  },
+  home: {
+    body: '<path d="M3 9.5 12 3l9 6.5"/><path d="M5 10v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V10"/><path d="M9 21v-6h6v6"/>',
+  },
+  users: {
+    body: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>',
+  },
+  globe: {
+    body: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18Z"/>',
+  },
+  presentation: {
+    body: '<path d="M2 4h20"/><path d="M3 4v9a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V4"/><path d="m9 20 3-4 3 4"/><path d="M12 14v2"/>',
+  },
+  lifebuoy: {
+    body: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><path d="m4.9 4.9 4.6 4.6m5 5 4.6 4.6m0-14.2-4.6 4.6m-5 5-4.6 4.6"/>',
+  },
+  compass: {
+    body: '<circle cx="12" cy="12" r="9"/><polygon points="16.2 7.8 13.4 13.4 7.8 16.2 10.6 10.6 16.2 7.8"/>',
+  },
+  play: { body: '<polygon points="7 4 20 12 7 20 7 4"/>' },
+  'map-pin': {
+    body: '<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>',
+  },
+  wind: {
+    body: '<path d="M12.8 19A2 2 0 1 0 14 15.5H2"/><path d="M17.7 4.5A2.5 2.5 0 1 1 19.5 9H2"/><path d="M9.6 5.5A2 2 0 1 1 11 9H2"/>',
+  },
+  focus: {
+    body: '<circle cx="12" cy="12" r="3"/><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/>',
+  },
+  sparkles: {
+    body: '<path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3Z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8L19 15Z"/>',
+  },
+  repeat: {
+    body: '<path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/>',
+  },
+  shield: { body: '<path d="M12 3 4 6v6c0 5 3.5 7.5 8 9 4.5-1.5 8-4 8-9V6l-8-3Z"/>' },
+  'graduation-cap': {
+    body: '<path d="M21.4 9.3 12 5 2.6 9.3 12 13.6l9.4-4.3Z"/><path d="M6 11v4.5c0 1 2.7 2.5 6 2.5s6-1.5 6-2.5V11"/><path d="M21.4 9.3V14"/>',
+  },
+  heart: {
+    body: '<path d="M19 6.6a4.5 4.5 0 0 0-6.4 0L12 7.2l-.6-.6a4.5 4.5 0 1 0-6.4 6.4l.6.6 6.4 6.4 6.4-6.4.6-.6a4.5 4.5 0 0 0 0-6.4Z"/>',
+  },
+  'message-circle': {
+    body: '<path d="M21 11.5a8.5 8.5 0 0 1-12.5 7.5L3 21l2-5.5A8.5 8.5 0 1 1 21 11.5Z"/>',
+  },
+  rewind: {
+    body: '<polygon points="11 19 2 12 11 5 11 19"/><polygon points="22 19 13 12 22 5 22 19"/>',
+  },
+  'heart-handshake': {
+    body: '<path d="M19 6.6a4.5 4.5 0 0 0-6.4 0L12 7.2l-.6-.6a4.5 4.5 0 1 0-6.4 6.4l6.9 6.9a.7.7 0 0 0 1 0l6.5-6.5a4.5 4.5 0 0 0 0-6.4Z"/><path d="m12 7 1.8 1.8a1.5 1.5 0 0 0 2.1 0"/>',
+  },
+  sprout: {
+    body: '<path d="M7 20h10"/><path d="M12 20V9"/><path d="M12 9C12 6 10 4 6 4c0 4 2 5 6 5Z"/><path d="M12 11c0-2.5 1.8-4.5 5-4.5 0 3.2-1.8 4.5-5 4.5Z"/>',
+  },
+  sun: {
+    body: '<circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+  },
+  tent: { body: '<path d="M3.5 20 12 5l8.5 15"/><path d="M12 5v15"/><path d="M9 20l3-4 3 4"/>' },
+  palette: {
+    body: '<path d="M12 3a9 9 0 0 0 0 18c1.1 0 2-.9 2-2 0-.5-.2-1-.5-1.3-.3-.4-.5-.8-.5-1.2 0-1 .8-1.7 1.7-1.7H17a4 4 0 0 0 4-4c0-4.4-4-8-9-8Z"/><circle cx="7.5" cy="11" r="1"/><circle cx="11" cy="7.5" r="1"/><circle cx="15.5" cy="9" r="1"/>',
+  },
+  'arrow-right': { body: '<path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/>' },
+  pause: {
+    body: '<rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/>',
+  },
+  quote: {
+    body: '<path d="M7 7H4a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h2v2a2 2 0 0 1-2 2"/><path d="M19 7h-3a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h2v2a2 2 0 0 1-2 2"/>',
+  },
+  star: {
+    body: '<polygon points="12 3 14.6 8.6 21 9.3 16.3 13.6 17.6 20 12 16.8 6.4 20 7.7 13.6 3 9.3 9.4 8.6 12 3"/>',
+  },
+  flask: {
+    body: '<path d="M9 3h6"/><path d="M10 3v6.5L5 18a2 2 0 0 0 1.7 3h10.6A2 2 0 0 0 19 18l-5-8.5V3"/><path d="M7.5 14h9"/>',
+  },
+  award: { body: '<circle cx="12" cy="9" r="6"/><path d="m8.5 14-1.5 7 5-3 5 3-1.5-7"/>' },
+};
+
+const { name, strokeWidth = 2, size, class: className }: Props = Astro.props;
+const icon = ICONS[name] ?? ICONS.play;
+---
+
+<svg
+  viewBox="0 0 24 24"
+  width={size}
+  height={size}
+  fill={icon.fill ? 'currentColor' : 'none'}
+  stroke={icon.fill ? undefined : 'currentColor'}
+  stroke-width={icon.fill ? undefined : strokeWidth}
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  class={className}
+  set:html={icon.body}
+/>

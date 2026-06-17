@@ -1,0 +1,245 @@
+---
+import { getCollection } from 'astro:content';
+import { getImage } from 'astro:assets';
+import PageLayout from '../../layouts/PageLayout.astro';
+import JsonLd from '../../components/seo/JsonLd.astro';
+import Section from '../../components/layout/Section.astro';
+import SeriesMasthead from '../../components/blocks/series/SeriesMasthead.astro';
+import SeriesHero from '../../components/blocks/series/SeriesHero.astro';
+import GlanceBar from '../../components/blocks/series/GlanceBar.astro';
+import SeriesSectionHead from '../../components/blocks/series/SeriesSectionHead.astro';
+import IconCards from '../../components/blocks/series/IconCards.astro';
+import StatsBand from '../../components/blocks/series/StatsBand.astro';
+import PracticeGrid from '../../components/blocks/series/PracticeGrid.astro';
+import HowSteps from '../../components/blocks/series/HowSteps.astro';
+import SamplePractice from '../../components/blocks/series/SamplePractice.astro';
+import SeriesTestimonial from '../../components/blocks/series/SeriesTestimonial.astro';
+import RelatedSeries from '../../components/blocks/series/RelatedSeries.astro';
+import type { RelatedItem } from '../../components/blocks/series/RelatedSeries.astro';
+import SeriesCTA from '../../components/blocks/series/SeriesCTA.astro';
+import { breadcrumbSchema } from '../../lib/schema';
+
+// One schema-validated file per series drives the whole page (the CMS seam —
+// mirrors the case-study template). Add src/content/series/<slug>.yaml and a
+// page builds itself; every sibling page's "Explore the other series" rail
+// picks it up automatically.
+export async function getStaticPaths() {
+  const all = await getCollection('series', ({ data }) => !data.draft);
+  const sorted = all.sort((a, b) => a.data.order - b.data.order);
+  return sorted.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry, siblings: sorted.filter((e) => e.id !== entry.id) },
+  }));
+}
+
+const { entry, siblings } = Astro.props;
+const d = entry.data;
+const path = `/series/${entry.id}/`;
+
+const title = d.seoTitle ?? `${d.name} — Inner Explorer`;
+const description = d.seoDescription ?? d.hero.lede;
+
+// Social-share card: the hero photo at the standard 1200×630 OG crop.
+const ogImage = await getImage({
+  src: d.hero.image,
+  width: 1200,
+  height: 630,
+  fit: 'cover',
+  format: 'jpg',
+});
+const crumbLd = breadcrumbSchema(Astro.site, [{ name: d.name, path }]);
+
+// Template chrome (identical across series — not per-series content).
+const relatedHead = {
+  eyebrow: 'The series family',
+  heading: 'Explore the other series',
+  intro:
+    'Every Inner Explorer series shares the same press-play simplicity — short, audio-guided practices for the moments that need them.',
+};
+const related: RelatedItem[] = siblings.map((e) => ({
+  href: `/series/${e.id}/`,
+  name: e.data.shortName,
+  category: e.data.category,
+  image: e.data.hero.image,
+  imageAlt: e.data.hero.imageAlt,
+  tone: e.data.tone,
+}));
+---
+
+<PageLayout title={title} description={description} image={ogImage.src} imageAlt={d.hero.imageAlt}>
+  <JsonLd slot="head" schema={crumbLd} />
+
+  <div class="appearance-light series" data-series-tone={d.tone}>
+    <SeriesMasthead name={d.shortName} subline={`Inner Explorer · ${d.category}`} />
+
+    <SeriesHero
+      duetTop={d.hero.duetTop}
+      duetBottom={d.hero.duetBottom}
+      lede={d.hero.lede}
+      image={d.hero.image}
+      imageAlt={d.hero.imageAlt}
+      primaryCta={d.hero.primaryCta}
+      secondaryCta={d.hero.secondaryCta}
+      chip={{ title: d.sample.title, meta: `${d.sample.duration} · ${d.sample.narrator}` }}
+    />
+
+    <GlanceBar items={d.glance} ariaLabel={`${d.name} at a glance`} />
+
+    <Section space="md" id="who">
+      <div class="wrap">
+        <div data-sr>
+          <SeriesSectionHead
+            eyebrow={d.audience.eyebrow}
+            heading={d.audience.heading}
+            intro={d.audience.intro}
+          />
+        </div>
+        <IconCards items={d.audience.cards} />
+      </div>
+    </Section>
+
+    <Section space="sm" id="why">
+      <div class="wrap">
+        <StatsBand
+          eyebrow={d.stats.eyebrow}
+          heading={d.stats.heading}
+          intro={d.stats.intro}
+          items={d.stats.items}
+          footnote={d.stats.footnote}
+        />
+      </div>
+    </Section>
+
+    <Section space="md" id="practices">
+      <div class="wrap">
+        <div data-sr>
+          <SeriesSectionHead
+            eyebrow={d.practices.eyebrow}
+            heading={d.practices.heading}
+            intro={d.practices.intro}
+          />
+        </div>
+        <PracticeGrid items={d.practices.items} />
+      </div>
+    </Section>
+
+    <Section space="sm" id="how">
+      <div class="wrap">
+        <div data-sr>
+          <SeriesSectionHead eyebrow={d.how.eyebrow} heading={d.how.heading} />
+        </div>
+        <HowSteps steps={d.how.steps} />
+      </div>
+    </Section>
+
+    <Section space="md" id="benefits">
+      <div class="wrap">
+        <IconCards
+          layout="split"
+          eyebrow={d.benefits.eyebrow}
+          heading={d.benefits.heading}
+          items={d.benefits.items}
+        />
+      </div>
+    </Section>
+
+    <Section space="md" id="sample">
+      <div class="wrap">
+        <SamplePractice
+          eyebrow={d.sample.eyebrow}
+          title={d.sample.title}
+          theme={d.sample.theme}
+          duration={d.sample.duration}
+          narrator={d.sample.narrator}
+          description={d.sample.description}
+          image={d.sample.image}
+        />
+      </div>
+    </Section>
+
+    <Section space="sm">
+      <div class="wrap">
+        <SeriesTestimonial
+          quote={d.testimonial.quote}
+          name={d.testimonial.name}
+          role={d.testimonial.role}
+          place={d.testimonial.place}
+        />
+      </div>
+    </Section>
+
+    {
+      related.length > 0 && (
+        <Section space="md" id="series">
+          <div class="wrap">
+            <div data-sr>
+              <SeriesSectionHead
+                eyebrow={relatedHead.eyebrow}
+                heading={relatedHead.heading}
+                intro={relatedHead.intro}
+              />
+            </div>
+            <RelatedSeries items={related} />
+          </div>
+        </Section>
+      )
+    }
+
+    <Section space="sm">
+      <div class="wrap">
+        <SeriesCTA
+          duetTop={d.cta.duetTop}
+          duetBottom={d.cta.duetBottom}
+          body={d.cta.body}
+          primary={d.cta.primary}
+          secondary={d.cta.secondary}
+        />
+      </div>
+    </Section>
+  </div>
+</PageLayout>
+
+<style>
+  /* Shared content column for the composed sections (the top blocks — masthead,
+     hero, glance — carry their own). */
+  .wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding-inline: clamp(20px, 4vw, 40px);
+  }
+</style>
+
+<!-- Scroll-reveal opt-in: only hide-then-animate when JS is ready AND motion is
+     allowed; no-JS / reduced-motion readers see the fully rendered page. The
+     masthead, hero, and glance bar are never gated (LCP / above the fold). -->
+<style is:global>
+  @media (prefers-reduced-motion: no-preference) {
+    html[data-js-ready] .series [data-sr] {
+      opacity: 0;
+      transform: translateY(22px);
+      transition:
+        opacity 0.7s var(--ease-out),
+        transform 0.7s var(--ease-out);
+    }
+    html[data-js-ready] .series [data-sr][data-sr-delay='1'] {
+      transition-delay: 0.08s;
+    }
+    html[data-js-ready] .series [data-sr][data-sr-delay='2'] {
+      transition-delay: 0.16s;
+    }
+    html[data-js-ready] .series [data-sr][data-sr-delay='3'] {
+      transition-delay: 0.24s;
+    }
+    html[data-js-ready] .series [data-sr].in {
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  import { observe } from '../../lib/intersect';
+
+  // Reveal sections as they scroll in (one-shot; reduced-motion-safe).
+  observe('.series [data-sr]', { threshold: 0.08, rootMargin: '0px 0px -6% 0px' });
+</script>

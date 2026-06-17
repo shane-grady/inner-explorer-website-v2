@@ -1,0 +1,74 @@
+---
+// Series splash masthead — the single-line editorial lockup the design landed on
+// (handoff "concept A"): "The {Name} Series" with the framing words in muted
+// Inter and the name as the big Libre Caslon centerpiece, over a tracked
+// sub-line. This is the page's <h1>; the immersive hero's duet below is a
+// styled paragraph, keeping one h1 per page.
+
+interface Props {
+  /** Masthead centerpiece — the series short name (e.g. "Educator Well-Being"). */
+  name: string;
+  /** Tracked sub-line, e.g. "Inner Explorer · Supplemental Series". */
+  subline: string;
+}
+const { name, subline }: Props = Astro.props;
+---
+
+<header class="splash">
+  <div class="wrap">
+    <h1 class="title">
+      <span class="sans">The</span>
+      <span class="serif">{name}</span>
+      <span class="sans">Series</span>
+    </h1>
+    <p class="sub">{subline}</p>
+  </div>
+</header>
+
+<style>
+  .splash {
+    padding: clamp(36px, 5vw, 60px) 0 clamp(16px, 2.5vw, 30px);
+    text-align: center;
+  }
+  .wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding-inline: clamp(20px, 4vw, 40px);
+  }
+  .title {
+    margin: 0;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0 0.34em;
+    text-wrap: balance;
+  }
+  .sans {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: clamp(20px, 2.2vw, 30px);
+    line-height: 1;
+    letter-spacing: 0.01em;
+    color: var(--color-muted-foreground);
+  }
+  .serif {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(50px, 7.4vw, 96px);
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    color: var(--color-foreground);
+  }
+  .sub {
+    margin: 22px 0 0;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    text-indent: 0.22em;
+    color: var(--series-accent-deep, var(--color-brand-emphasis));
+  }
+</style>

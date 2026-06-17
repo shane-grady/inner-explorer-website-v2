@@ -57,6 +57,21 @@
   font-display: swap;
   src: url('/fonts/Inter-Bold.woff2') format('woff2');
 }
+/* 800/900 — display-figure weights (series stat values, immersive-hero headline). */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url('/fonts/Inter-ExtraBold.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Black.woff2') format('woff2');
+}
 
 /* Libre Caslon Condensed — display / editorial headings (often italic). */
 @font-face {
@@ -420,6 +435,41 @@
   --danger-foreground: var(--neutral-950);
   --info: var(--brand-300);
   --info-foreground: var(--neutral-950);
+}
+
+/* Series tone presets — per-series accent for the /series template. The page
+   wrapper (or a related-series card) sets `data-series-tone="<name>"`; series
+   blocks consume the vars in scoped <style>. `sage` (the default) maps onto the
+   brand greens, so the base declaration doubles as the fallback. Raw values are
+   fine here (.css is not drift-scanned); edit a preset and every series page
+   using it re-skins. `--series-ink` is the shared near-black green the template
+   mixes into photo scrims (practice cards, sample card, related cards). */
+:root {
+  --series-ink: #081410;
+}
+[data-series-tone] {
+  --series-accent: var(--brand-600);
+  --series-accent-deep: var(--brand-800);
+  --series-tint-a: var(--brand-100);
+  --series-tint-b: #d6efe0;
+}
+[data-series-tone='teal'] {
+  --series-accent: #2e7d9a;
+  --series-accent-deep: #1e5c73;
+  --series-tint-a: #e5f1f5;
+  --series-tint-b: #d3e6ed;
+}
+[data-series-tone='slate'] {
+  --series-accent: #5a7d9a;
+  --series-accent-deep: #3e5c73;
+  --series-tint-a: #eceff5;
+  --series-tint-b: #dce3ed;
+}
+[data-series-tone='gold'] {
+  --series-accent: #c9863f;
+  --series-accent-deep: #a66a28;
+  --series-tint-a: #fbf0df;
+  --series-tint-b: #f5e2c8;
 }
 
 /* Class-based dark mode: `dark:` variant keys off the .dark class. */

@@ -383,3 +383,21 @@ src/content/case-studies/*.yaml` for duplicates and renumber.
   internal forecasts — flagged to the user instead of auto-porting; they scoped
   it out. Check the genre of the source before assuming the transfer pattern
   applies.
+
+## 2026-06-10 — Series template build
+
+- **The hidden Claude-Preview tab freezes CSS transitions at their START value**
+  (no animation frames are produced; `document.hidden` is true) — `getComputedStyle`
+  reports the frozen value, IntersectionObserver never fires, and even injecting an
+  `opacity: .5 !important` rule "fails" because the engine starts a transition it
+  never advances. So a reveal system can look completely broken here while being
+  fine in any visible browser (the Claude Design chats hit the same artifact). To
+  verify a hide-then-reveal mechanism in this env: inject `transition: none`, then
+  toggle the reveal class and read computed values — that bypasses the frozen
+  transition and proves the CSS + selector logic.
+- **Pick Button sizes by measuring the designed column, not by matching pixel
+  height.** A handoff's 54px/15px buttons sat between our `md` (44px/16-18) and
+  `lg` (48px/18-20). At `lg` the hero's two pills measured 538px against a 497px
+  content column (55% stage) and wrapped to two rows — a fidelity break worse than
+  the 4px height delta. Measure `getBoundingClientRect` sums against the column
+  before choosing.
