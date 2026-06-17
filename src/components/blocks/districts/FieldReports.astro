@@ -3,8 +3,9 @@ import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 
 // Part One — Field Reports. Three district case studies as alternating photo-spread
-// articles. Each: 4:5 photo with overlay caption, story column with chips, headline,
-// pull quote with green rule, attribution, three-up metrics under hairline, footer.
+// articles. Each: square photo (sized to sit level with the story column) with overlay
+// caption, story column with chips, headline, pull quote with green rule, attribution,
+// three-up metrics under hairline, footer.
 
 interface Metric {
   value: string;
@@ -233,7 +234,7 @@ const { eyebrow, title, intro, link, reports }: Props = Astro.props;
   .fr-photo .frame {
     position: relative;
     overflow: hidden;
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 1 / 1;
     border-radius: var(--radius-sm);
     background: var(--color-muted);
   }
