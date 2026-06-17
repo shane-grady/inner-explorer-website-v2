@@ -1,5 +1,9 @@
 ---
-// "Partnered with" — a thin band of district wordmarks paired with a short caption.
+// "Partnered with" — a green band of partner-district names that scroll slowly in a
+// seamless marquee, with soft left/right edge fades. Pure CSS (zero JS): the list is
+// rendered twice (the second copy aria-hidden) and the track translates by -50% on a
+// loop, so the two identical halves splice together with no visible seam. Pauses on
+// hover so a reader can stop on a name; honors prefers-reduced-motion (static).
 
 interface Props {
   caption: string;
@@ -14,19 +18,20 @@ const { caption, districts }: Props = Astro.props;
       <div class="eyebrow">Partnered with</div>
       <p class="caption">{caption}</p>
     </div>
-    <ul class="trust-row" aria-label="Partner districts">
-      {districts.map((d) => <li>{d}</li>)}
-    </ul>
+    <div class="trust-marquee">
+      <ul class="trust-track" aria-label="Partner districts">
+        {districts.map((d) => <li>{d}</li>)}
+        {districts.map((d) => <li aria-hidden="true">{d}</li>)}
+      </ul>
+    </div>
   </div>
 </section>
 
 <style>
   .trust {
-    background: var(--color-muted);
-    color: var(--color-foreground);
+    background: var(--brand-700);
+    color: var(--color-white);
     padding: 44px 0;
-    border-top: 1px solid var(--color-border);
-    border-bottom: 1px solid var(--color-border);
   }
   .trust-inner {
     max-width: 1360px;
@@ -43,7 +48,7 @@ const { caption, districts }: Props = Astro.props;
     line-height: 1;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: var(--color-muted-foreground);
+    color: color-mix(in oklab, var(--color-white) 72%, transparent);
     margin-bottom: 8px;
   }
   .trust-meta .caption {
@@ -52,26 +57,69 @@ const { caption, districts }: Props = Astro.props;
     font-weight: 400;
     font-size: 13.5px;
     line-height: 1.45;
-    color: var(--color-muted-foreground);
+    color: color-mix(in oklab, var(--color-white) 80%, transparent);
     margin: 0;
   }
-  .trust-row {
+
+  /* Marquee viewport: clip the overflowing track and fade both edges. */
+  .trust-marquee {
+    position: relative;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to right, transparent, black 7%, black 93%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 7%, black 93%, transparent);
+  }
+  .trust-track {
     list-style: none;
     margin: 0;
     padding: 0;
     display: flex;
-    flex-wrap: wrap;
-    gap: 20px 48px;
+    flex-wrap: nowrap;
+    width: max-content;
     align-items: center;
+    animation: trust-scroll 42s linear infinite;
+    will-change: transform;
   }
-  .trust-row li {
+  .trust-marquee:hover .trust-track {
+    animation-play-state: paused;
+  }
+  .trust-track li {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
     font-family: var(--font-sans);
     font-weight: 500;
     font-size: 17px;
     line-height: 1;
-    color: color-mix(in oklab, var(--color-foreground) 75%, transparent);
     letter-spacing: -0.01em;
+    color: color-mix(in oklab, var(--color-white) 92%, transparent);
   }
+  /* Dot separator centered in the gap — applied to every item (including across the
+     splice point) so spacing stays uniform and the loop is seamless. */
+  .trust-track li::after {
+    content: '';
+    flex: none;
+    width: 4px;
+    height: 4px;
+    margin: 0 30px;
+    border-radius: 9999px;
+    background: color-mix(in oklab, var(--color-white) 42%, transparent);
+  }
+
+  @keyframes trust-scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .trust-track {
+      animation: none;
+    }
+  }
+
   @media (max-width: 720px) {
     .trust-inner {
       grid-template-columns: 1fr;
