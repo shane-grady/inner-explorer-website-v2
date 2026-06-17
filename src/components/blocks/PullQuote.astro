@@ -1,0 +1,49 @@
+---
+// In-article pull quote — an oversized serif-italic line with a brand left rule and
+// an optional source citation. Quote text is the default slot so authors can include
+// inline emphasis. Used inside the blog "Article" body.
+interface Props {
+  /** Source line (rendered tracked-caps under the quote), e.g. "— Field note, 2025". */
+  cite?: string;
+}
+const { cite }: Props = Astro.props;
+---
+
+<blockquote class="ie-pullquote">
+  <slot />
+  {cite && <cite>{cite}</cite>}
+</blockquote>
+
+<style>
+  .ie-pullquote {
+    margin: 3.5rem 0;
+    padding: 8px 0 8px 32px;
+    border-left: 3px solid var(--color-brand);
+    max-width: 640px;
+    /* Quote typography is set on the slotted paragraph (MDX wraps the children in a
+       <p>); the blockquote itself carries it too as a fallback for raw-text usage. */
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 1.25;
+    letter-spacing: -0.005em;
+    color: var(--color-foreground);
+    text-wrap: pretty;
+  }
+  .ie-pullquote :global(p) {
+    margin: 0;
+    font: inherit;
+    color: inherit;
+  }
+  .ie-pullquote cite {
+    display: block;
+    margin-top: 16px;
+    font-style: normal;
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-muted-foreground);
+  }
+</style>

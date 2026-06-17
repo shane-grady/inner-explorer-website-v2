@@ -17,6 +17,10 @@ interface Props {
    *  `compact` is a denser figure for snapshot bands with more columns (e.g. a
    *  5-up case-study "at a glance" where the display size would overflow). */
   size?: 'display' | 'compact';
+  /** Number typeface. `serif` (default) is the brand's italic display figure;
+   *  `sans` gives the in-article editorial treatment — a sans number with the
+   *  unit (`sup`) set in the serif italic (blog "Article" stat row). */
+  numStyle?: 'serif' | 'sans';
   ariaLabel?: string;
 }
 const {
@@ -25,12 +29,16 @@ const {
   labelCase = 'sentence',
   contained = false,
   size = 'display',
+  numStyle = 'serif',
   ariaLabel = 'Inner Explorer by the numbers',
 }: Props = Astro.props;
 ---
 
 <section
-  class:list={['stats', { contained, compact: size === 'compact' }]}
+  class:list={[
+    'stats',
+    { contained, compact: size === 'compact', 'num-sans': numStyle === 'sans' },
+  ]}
   aria-label={ariaLabel}
   style={`--mw: ${maxWidth}; --cols: ${stats.length}`}
 >
@@ -111,6 +119,20 @@ const {
     top: 0.6em;
     position: relative;
   }
+  /* In-article editorial figure: sans number, serif-italic unit in the foreground
+     ink (matches the handoff's stat row). */
+  .num-sans .num {
+    font-family: var(--font-sans);
+    font-style: normal;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+  }
+  .num-sans .num sup {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--color-foreground);
+  }
   .lbl {
     font-size: 14px;
     line-height: 1.4;
@@ -139,10 +161,11 @@ const {
 <script>
   // Count-up on first scroll-in. Animates the numeric part, preserves suffix
   // letters (M) and the <sup> symbol. Skipped entirely under reduced motion.
-  const root = document.querySelector<HTMLElement>('.stats');
+  // Observes every `.stats` on the page so multiple bands each animate.
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  if (root && !reduce) {
+  document.querySelectorAll<HTMLElement>('.stats').forEach((root) => {
+    if (reduce) return;
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -171,6 +194,12 @@ const {
               else el.innerHTML = raw + sup; // restore exact label
             };
             requestAnimationFrame(tick);
+            // Guarantee the final value even if rAF is throttled/paused (e.g. the
+            // tab is backgrounded mid-animation) — timers still fire, so the figure
+            // never gets stuck on a partial count. Idempotent with normal completion.
+            setTimeout(() => {
+              el.innerHTML = raw + sup;
+            }, dur + 250);
           });
           io.unobserve(entry.target);
         });
@@ -178,5 +207,5 @@ const {
       { threshold: 0.4 },
     );
     io.observe(root);
-  }
+  });
 </script>

@@ -383,3 +383,26 @@ src/content/case-studies/*.yaml` for duplicates and renumber.
   internal forecasts — flagged to the user instead of auto-porting; they scoped
   it out. Check the genre of the source before assuming the transfer pattern
   applies.
+
+## 2026-06-17 — Blog "Article" template (MDX modules)
+
+- **MDX wraps slot children in a `<p>`.** A module that takes block text via
+  `<slot/>` must NOT add its own `<p>` — MDX already wraps the children, so
+  `<p><slot/></p>` becomes invalid nested `<p>` (the browser auto-closes the
+  outer one, leaving an empty styled paragraph). Fix: render the slot bare and
+  style the slotted child with `:global(p)` (see `PullQuote.astro`).
+- **A scroll-triggered count-up can freeze on a *wrong* partial value.** The
+  shared `StatStrip` count-up only wrote the final figure in the rAF `p>=1`
+  branch; if rAF is throttled/paused mid-animation (backgrounded tab, headless
+  preview) the figure sticks at e.g. "0.3×" instead of "4.2×". Added a
+  `setTimeout(…, dur+250)` that snaps to the exact value regardless of rAF —
+  timers still fire when rAF doesn't. Always guarantee the end state of an
+  animation out-of-band, not only inside the rAF loop.
+- **Date-only frontmatter slips a day in western TZs.** `z.coerce.date()` parses
+  `2026-05-12` as UTC midnight; `Intl.DateTimeFormat` then renders it in local
+  time → "May 11". Pass `timeZone: 'UTC'` to the formatter so the calendar date
+  shows as authored.
+- **Claude Preview screenshots blank out at non-zero scroll** on pages with a
+  `position: sticky` rail. DOM/computed-style checks (`preview_inspect`,
+  `preview_eval`) are reliable there; for a visual, use a tall viewport so the
+  target sits at scroll 0.

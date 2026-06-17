@@ -1,0 +1,151 @@
+---
+// Share rail — copy-link, X, LinkedIn, email. The social actions are real share
+// links (open in a new tab); copy-link is a small vanilla button. Used in the blog
+// article's left rail under the table of contents.
+interface Props {
+  /** Absolute URL of the page being shared. */
+  url: string;
+  title: string;
+  label?: string;
+}
+const { url, title, label }: Props = Astro.props;
+const enc = encodeURIComponent;
+const x = `https://twitter.com/intent/tweet?url=${enc(url)}&text=${enc(title)}`;
+const linkedin = `https://www.linkedin.com/sharing/share-offsite/?url=${enc(url)}`;
+const email = `mailto:?subject=${enc(title)}&body=${enc(url)}`;
+---
+
+<div class="share" data-share>
+  {label && <p class="label">{label}</p>}
+  <div class="rail">
+    <button type="button" class="btn" data-copy={url} aria-label="Copy link">
+      <svg
+        viewBox="0 0 24 24"
+        width="15"
+        height="15"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+      </svg>
+      <span class="tip" aria-hidden="true">Copied</span>
+    </button>
+    <a class="btn" href={x} target="_blank" rel="noopener noreferrer" aria-label="Share on X">
+      <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true">
+        <path
+          d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z"
+        ></path>
+      </svg>
+    </a>
+    <a
+      class="btn"
+      href={linkedin}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Share on LinkedIn"
+    >
+      <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true">
+        <path
+          d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm6 0h3.8v1.64h.05A4.17 4.17 0 0 1 16.6 8.7c4.06 0 4.8 2.67 4.8 6.14V21h-4v-5.3c0-1.27-.02-2.9-1.77-2.9-1.77 0-2.04 1.38-2.04 2.81V21H9V9Z"
+        ></path>
+      </svg>
+    </a>
+    <a class="btn" href={email} aria-label="Share by email">
+      <svg
+        viewBox="0 0 24 24"
+        width="15"
+        height="15"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+        <polyline points="3 7 12 13 21 7"></polyline>
+      </svg>
+    </a>
+  </div>
+</div>
+
+<style>
+  .label {
+    margin: 0 0 14px;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--color-muted-foreground);
+  }
+  .rail {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    position: relative;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    color: var(--color-muted-foreground);
+    cursor: pointer;
+    transition:
+      color var(--dur-fast) var(--ease-out),
+      border-color var(--dur-fast) var(--ease-out);
+  }
+  .btn:hover {
+    color: var(--color-foreground);
+    border-color: var(--color-muted-foreground);
+  }
+  .tip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    padding: 3px 8px;
+    border-radius: var(--radius-sm);
+    font-size: 11px;
+    font-weight: 500;
+    white-space: nowrap;
+    color: var(--color-background);
+    background: var(--color-foreground);
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      opacity var(--dur-fast) var(--ease-out),
+      transform var(--dur-fast) var(--ease-out);
+  }
+  .btn.copied .tip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-share]').forEach((root) => {
+    const btn = root.querySelector<HTMLButtonElement>('[data-copy]');
+    if (!btn) return;
+    const url = btn.dataset.copy ?? '';
+    btn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(url);
+        btn.classList.add('copied');
+        setTimeout(() => btn.classList.remove('copied'), 1600);
+      } catch {
+        /* clipboard blocked — no-op */
+      }
+    });
+  });
+</script>
