@@ -14,6 +14,12 @@ interface Props {
    *  Always rendered as a `<track>` (with or without src) so the a11y lint passes. */
   captionsSrc?: string;
   maxWidth?: string;
+  /** Surface. `light` (default) is the white pill on the narrator detail page;
+   *  `dark` is the immersive deep-green player embedded inside an article body. */
+  tone?: 'light' | 'dark';
+  /** Drop the section's outer max-width + padding so the bar sits flush inside a
+   *  content column (e.g. the blog article prose). */
+  inset?: boolean;
 }
 const {
   audioSrc,
@@ -23,6 +29,8 @@ const {
   transcriptHref,
   captionsSrc,
   maxWidth = '1200px',
+  tone = 'light',
+  inset = false,
 }: Props = Astro.props;
 
 // Deterministic, speech-shaped waveform (computed at build time).
@@ -34,7 +42,12 @@ const fmt = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).p
 const totalLabel = fmt(durationSec);
 ---
 
-<section class="voice-wrap" style={`--mw: ${maxWidth}`}>
+<section
+  class="voice-wrap"
+  data-tone={tone}
+  data-inset={inset ? '' : undefined}
+  style={`--mw: ${maxWidth}`}
+>
   <div class="voice-bar" data-voicebar data-duration={durationSec}>
     <audio class="vb-audio" preload="none" src={audioSrc}>
       <track kind="captions" srclang="en" label="English" src={captionsSrc} default />
@@ -298,6 +311,77 @@ const totalLabel = fmt(durationSec);
       grid-area: cc;
       justify-self: end;
     }
+  }
+
+  /* Inset — flush inside a content column (e.g. the blog article body). */
+  .voice-wrap[data-inset] {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Dark immersive surface — the in-article practice player. Reuses the brand's
+     deep-green featured gradient; colors come from tokens / color-mix so the drift
+     guard stays green and the surface looks identical in light and dark mode. */
+  [data-tone='dark'] .voice-bar {
+    position: relative;
+    overflow: hidden;
+    gap: 18px;
+    border: 0;
+    border-radius: var(--radius-2xl);
+    background: var(--voice-featured-bg);
+    box-shadow: var(--shadow-lg);
+  }
+  [data-tone='dark'] .voice-bar::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      circle at 90% 25%,
+      color-mix(in oklab, var(--brand-400) 32%, transparent),
+      transparent 60%
+    );
+    pointer-events: none;
+  }
+  [data-tone='dark'] .voice-bar > * {
+    position: relative;
+    z-index: 1;
+  }
+  [data-tone='dark'] .btn {
+    background: var(--color-white);
+    color: var(--brand-900);
+  }
+  [data-tone='dark'] .btn.on {
+    background: var(--color-white);
+    color: var(--brand-900);
+  }
+  [data-tone='dark'] .eyebrow {
+    color: color-mix(in oklab, var(--color-white) 72%, transparent);
+  }
+  [data-tone='dark'] .title {
+    font-weight: 400;
+    font-size: 24px;
+    color: var(--color-white);
+  }
+  [data-tone='dark'] .vb-bar {
+    background: color-mix(in oklab, var(--color-white) 45%, transparent);
+  }
+  [data-tone='dark'] .vb-bar.on {
+    background: var(--color-white);
+  }
+  [data-tone='dark'] .time {
+    color: var(--color-white);
+  }
+  [data-tone='dark'] .time .sep,
+  [data-tone='dark'] .time .tot {
+    color: color-mix(in oklab, var(--color-white) 60%, transparent);
+  }
+  [data-tone='dark'] .cc {
+    color: var(--color-white);
+    border-color: color-mix(in oklab, var(--color-white) 28%, transparent);
+  }
+  [data-tone='dark'] .cc:hover {
+    background: color-mix(in oklab, var(--color-white) 12%, transparent);
   }
 </style>
 

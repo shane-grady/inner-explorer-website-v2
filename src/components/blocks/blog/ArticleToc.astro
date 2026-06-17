@@ -1,0 +1,124 @@
+---
+// Sticky table of contents (the article "outline"). Built from the post's H2
+// headings. Anchor links work without JS; an IntersectionObserver highlights the
+// section currently in view (scrollspy). Numbered with leading-zero counters.
+interface TocItem {
+  slug: string;
+  text: string;
+}
+interface Props {
+  items: TocItem[];
+  label?: string;
+}
+const { items, label = 'In this article' }: Props = Astro.props;
+---
+
+{
+  items.length > 0 && (
+    <nav class="toc" data-toc aria-label="Table of contents">
+      <p class="label">{label}</p>
+      <ol>
+        {items.map((it) => (
+          <li>
+            <a href={`#${it.slug}`} data-slug={it.slug}>
+              {it.text}
+            </a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+  )
+}
+
+<style>
+  .toc {
+    padding: 6px 0;
+  }
+  .label {
+    margin: 0 0 18px;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--color-muted-foreground);
+  }
+  .toc ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: toc;
+  }
+  .toc li {
+    counter-increment: toc;
+  }
+  .toc a {
+    display: flex;
+    gap: 14px;
+    align-items: baseline;
+    margin-left: -16px;
+    padding: 10px 0 10px 14px;
+    border-left: 2px solid transparent;
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--color-muted-foreground);
+    text-decoration: none;
+    transition:
+      color var(--dur-fast) var(--ease-out),
+      border-color var(--dur-fast) var(--ease-out);
+  }
+  .toc a::before {
+    content: counter(toc, decimal-leading-zero);
+    font-size: 11px;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-muted-foreground);
+    opacity: 0.55;
+  }
+  .toc a:hover {
+    color: var(--color-foreground);
+  }
+  .toc a.on {
+    color: var(--color-foreground);
+    font-weight: 500;
+    border-left-color: var(--color-brand);
+  }
+  .toc a.on::before {
+    color: var(--color-brand);
+    opacity: 1;
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-toc]').forEach((toc) => {
+    const links = Array.from(toc.querySelectorAll<HTMLAnchorElement>('a[data-slug]'));
+    const map = new Map<string, HTMLAnchorElement>();
+    const targets: HTMLElement[] = [];
+    links.forEach((link) => {
+      const slug = link.dataset.slug;
+      if (!slug) return;
+      map.set(slug, link);
+      const el = document.getElementById(slug);
+      if (el) targets.push(el);
+    });
+    if (!targets.length) return;
+
+    let active = '';
+    const setActive = (id: string) => {
+      if (id === active) return;
+      if (active) map.get(active)?.classList.remove('on');
+      map.get(id)?.classList.add('on');
+      active = id;
+    };
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        if (visible[0]) setActive(visible[0].target.id);
+      },
+      { rootMargin: '-100px 0px -70% 0px', threshold: 0 },
+    );
+    targets.forEach((t) => io.observe(t));
+  });
+</script>

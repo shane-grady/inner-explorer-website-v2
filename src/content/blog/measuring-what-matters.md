@@ -3,6 +3,7 @@ title: 'Measuring what matters'
 description: 'The research behind daily mindfulness — and how schools track its impact on focus, behavior, and well-being.'
 pubDate: 2026-05-06
 author: 'Inner Explorer'
+category: 'Research'
 tags: ['research', 'impact']
 ---
 

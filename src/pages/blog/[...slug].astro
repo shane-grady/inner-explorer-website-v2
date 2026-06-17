@@ -1,13 +1,24 @@
 ---
 import { getCollection, render } from 'astro:content';
 import PageLayout from '../../layouts/PageLayout.astro';
-import Container from '../../components/primitives/Container.astro';
-import Section from '../../components/layout/Section.astro';
-import Heading from '../../components/primitives/Heading.astro';
-import Text from '../../components/primitives/Text.astro';
+import Breadcrumb from '../../components/primitives/Breadcrumb.astro';
 import Prose from '../../components/primitives/Prose.astro';
 import JsonLd from '../../components/seo/JsonLd.astro';
+import ArticleHeader from '../../components/blocks/blog/ArticleHeader.astro';
+import ArticleToc from '../../components/blocks/blog/ArticleToc.astro';
+import ShareRail from '../../components/blocks/blog/ShareRail.astro';
+import ReadingProgress from '../../components/blocks/blog/ReadingProgress.astro';
+import GlowCTA from '../../components/blocks/GlowCTA.astro';
+import RelatedPosts from '../../components/blocks/RelatedPosts.astro';
+import NewsletterSignup from '../../components/blocks/NewsletterSignup.astro';
+// In-article MDX modules (passed to <Content> so authors use them without imports).
+import Figure from '../../components/blocks/Figure.astro';
+import PullQuote from '../../components/blocks/PullQuote.astro';
+import ResourceCard from '../../components/blocks/ResourceCard.astro';
+import StatRow from '../../components/blocks/blog/ArticleStats.astro';
+import AudioPractice from '../../components/blocks/blog/AudioPractice.astro';
 import { articleSchema } from '../../lib/schema';
+import { readingTime } from '../../lib/reading-time';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
@@ -15,35 +26,163 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const { Content } = await render(post);
-const dateFmt = new Intl.DateTimeFormat('en-US', { dateStyle: 'long' });
+const d = post.data;
+const { Content, headings } = await render(post);
+
+// The "outline" — H2 sections only, matching Astro's auto-slugged heading ids.
+const tocItems = headings.filter((h) => h.depth === 2).map((h) => ({ slug: h.slug, text: h.text }));
+const reading = d.readingTime ?? readingTime(post.body);
+
+const canonical = new URL(`/blog/${post.id}/`, Astro.site).toString();
+const crumbs = [{ label: 'Blog', href: '/blog' }, { label: d.category ?? 'Article' }];
+
+// "Keep reading" — latest sibling posts (exclude this one).
+const relDateFmt = new Intl.DateTimeFormat('en-US', { dateStyle: 'medium', timeZone: 'UTC' });
+const related = (await getCollection('blog', ({ data }) => !data.draft))
+  .filter((p) => p.id !== post.id)
+  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
+  .slice(0, 3)
+  .map((p) => ({
+    title: p.data.title,
+    href: `/blog/${p.id}/`,
+    category: p.data.category,
+    meta: [relDateFmt.format(p.data.pubDate), `${p.data.readingTime ?? readingTime(p.body)} read`],
+    image: p.data.heroImage,
+    imageAlt: p.data.heroImageAlt ?? '',
+  }));
+
+// Attribution is the Inner Explorer brand (Organization), not a person.
 const schema = articleSchema(Astro.site, {
-  title: post.data.title,
-  description: post.data.description,
-  author: post.data.author,
-  pubDate: post.data.pubDate,
-  updatedDate: post.data.updatedDate,
+  title: d.title,
+  description: d.description,
+  author: d.author,
+  pubDate: d.pubDate,
+  updatedDate: d.updatedDate,
   path: `/blog/${post.id}/`,
+  image: d.heroImage ? [new URL(d.heroImage.src, Astro.site).toString()] : undefined,
 });
 ---
 
-<PageLayout
-  title={`${post.data.title} — Inner Explorer`}
-  description={post.data.description}
-  type="article"
->
+<PageLayout title={`${d.title} — Inner Explorer`} description={d.description} type="article">
   <JsonLd schema={schema} slot="head" />
-  <Section space="lg">
-    <Container width="prose">
-      <Text size="sm" tone="muted">
-        <time datetime={post.data.pubDate.toISOString()}>{dateFmt.format(post.data.pubDate)}</time>
-        &middot; {post.data.author}
-      </Text>
-      <Heading as="h1" size="xl" class="mt-2">{post.data.title}</Heading>
-      <Text size="lg" tone="muted" class="mt-3">{post.data.description}</Text>
-      <Prose class="mt-8">
-        <Content />
-      </Prose>
-    </Container>
-  </Section>
+  <ReadingProgress />
+
+  <article class="article-page">
+    <Breadcrumb items={crumbs} class="crumb" />
+
+    <ArticleHeader
+      titleHtml={d.titleHtml}
+      title={d.title}
+      category={d.category}
+      readingTime={reading}
+      dek={d.description}
+      pubDate={d.pubDate}
+      tags={d.tags}
+      heroImage={d.heroImage}
+      heroImageAlt={d.heroImageAlt}
+      heroCaption={d.heroCaption}
+    />
+
+    <div class="article-grid" data-has-toc={tocItems.length > 0}>
+      {
+        tocItems.length > 0 && (
+          <aside class="rail-left">
+            <ArticleToc items={tocItems} />
+            <div class="rail-share">
+              <ShareRail url={canonical} title={d.title} label="Share" />
+            </div>
+          </aside>
+        )
+      }
+
+      <div class="article-main">
+        <Prose variant="article">
+          <Content components={{ Figure, PullQuote, ResourceCard, StatRow, AudioPractice }} />
+        </Prose>
+      </div>
+    </div>
+  </article>
+
+  <GlowCTA
+    sans="Bring mindful minutes to"
+    serif="every classroom."
+    subtitle="Join 14,000 schools using Inner Explorer. See how a district rollout would look for your community — in a 20-minute walkthrough."
+    primary={{ label: 'Book a district demo', href: '/contact' }}
+    secondary={{ label: 'Explore for districts', href: '/districts' }}
+  />
+
+  {
+    related.length > 0 && (
+      <RelatedPosts
+        heading="Keep reading"
+        allHref="/blog"
+        allLabel="All articles"
+        items={related}
+      />
+    )
+  }
+
+  <div class="news-wrap">
+    <NewsletterSignup />
+  </div>
 </PageLayout>
+
+<style>
+  .article-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 56px 32px 0;
+  }
+  .crumb {
+    margin-bottom: 32px;
+  }
+  .article-grid {
+    display: grid;
+    grid-template-columns: 264px minmax(0, 1fr);
+    gap: 56px;
+    margin-top: 48px;
+  }
+  .article-grid[data-has-toc='false'] {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 740px;
+  }
+  .rail-left {
+    position: sticky;
+    top: 96px;
+    align-self: start;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+  .rail-left::-webkit-scrollbar {
+    width: 0;
+  }
+  .rail-share {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--color-border);
+  }
+  .news-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  @media (max-width: 1100px) {
+    .article-grid {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+    .rail-left {
+      position: static;
+      max-height: none;
+      overflow: visible;
+      margin-bottom: 40px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .rail-share {
+      margin-top: 24px;
+      padding-top: 20px;
+    }
+  }
+</style>

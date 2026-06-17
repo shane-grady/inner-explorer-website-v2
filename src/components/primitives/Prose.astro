@@ -1,11 +1,20 @@
 ---
-// Long-form rich content (MDX bodies, article copy). Typography plugin styles are
-// remapped to our design tokens in global.css (.prose), so it inherits brand + dark mode.
+// Long-form rich content (MDX bodies, article copy).
+//
+//   default — Tailwind Typography plugin (`prose`) remapped to our tokens in
+//             global.css; inherits brand + dark mode. Used for simple posts/docs.
+//   article — the editorial blog-article treatment (19px Inter on a 700px measure,
+//             serif-italic `em`, green-dot bullets, drop cap, green links, sans h2).
+//             Defined as `.prose-article` in global.css so the look stays tokenized
+//             and lives in one place. In-article modules (Figure, StatRow, ResourceCard,
+//             AudioPractice, PullQuote) self-space, so they compose cleanly inside it.
 import { cn } from '../../lib/cn';
 interface Props {
+  variant?: 'default' | 'article';
   class?: string;
 }
-const { class: className } = Astro.props;
+const { variant = 'default', class: className } = Astro.props;
+const base = variant === 'article' ? 'prose-article' : 'prose max-w-none';
 ---
 
-<div class={cn('prose max-w-none', className)}><slot /></div>
+<div class={cn(base, className)}><slot /></div>
