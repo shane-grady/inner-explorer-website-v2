@@ -391,7 +391,7 @@ src/content/case-studies/*.yaml` for duplicates and renumber.
   `<p><slot/></p>` becomes invalid nested `<p>` (the browser auto-closes the
   outer one, leaving an empty styled paragraph). Fix: render the slot bare and
   style the slotted child with `:global(p)` (see `PullQuote.astro`).
-- **A scroll-triggered count-up can freeze on a *wrong* partial value.** The
+- **A scroll-triggered count-up can freeze on a _wrong_ partial value.** The
   shared `StatStrip` count-up only wrote the final figure in the rAF `p>=1`
   branch; if rAF is throttled/paused mid-animation (backgrounded tab, headless
   preview) the figure sticks at e.g. "0.3×" instead of "4.2×". Added a
