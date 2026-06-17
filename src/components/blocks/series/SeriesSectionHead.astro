@@ -1,0 +1,63 @@
+---
+// Centered section header for the series template: dot-eyebrow in the series
+// accent, serif-italic heading, optional muted intro. Used by the audience,
+// stats, practices, how-it-works, and related sections.
+
+interface Props {
+  eyebrow: string;
+  heading: string;
+  intro?: string;
+}
+const { eyebrow, heading, intro }: Props = Astro.props;
+---
+
+<div class="shead">
+  <span class="eyebrow"><span class="dot" aria-hidden="true"></span> {eyebrow}</span>
+  <h2>{heading}</h2>
+  {intro && <p>{intro}</p>}
+</div>
+
+<style>
+  .shead {
+    max-width: 740px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 18px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--series-accent-deep, var(--color-brand-emphasis));
+  }
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--series-accent, var(--color-brand));
+  }
+  h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(34px, 4.4vw, 52px);
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+    color: var(--color-foreground);
+    text-wrap: balance;
+  }
+  p {
+    margin: 18px auto 0;
+    max-width: 620px;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--color-muted-foreground);
+    text-wrap: pretty;
+  }
+</style>

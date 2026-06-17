@@ -1,0 +1,340 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import SeriesIcon from './SeriesIcon.astro';
+
+// "Try it now" — the dark immersive sample-practice card: full-bleed photo under
+// a radial ink scrim, with a demo player (play/pause button, waveform progress,
+// click-to-scrub, elapsed/total time). Playback is SIMULATED at demo speed — no
+// sample audio asset exists yet. When one does, swap the tick loop for a real
+// <audio> element (+ captions track) without touching the markup.
+
+interface Props {
+  eyebrow: string;
+  title: string;
+  theme: string;
+  /** Display duration, e.g. "6 min" — also drives the simulated total. */
+  duration: string;
+  narrator: string;
+  description: string;
+  image: ImageMetadata;
+  id?: string;
+}
+const { eyebrow, title, theme, duration, narrator, description, image, id }: Props = Astro.props;
+
+// Same stable waveform generator as the hero chip (seed from the prototype).
+function wave(n: number, seed: number): number[] {
+  let x = seed;
+  const out: number[] = [];
+  for (let i = 0; i < n; i++) {
+    x = (x * 1103515245 + 12345) & 0x7fffffff;
+    const base = 0.25 + ((x % 1000) / 1000) * 0.75;
+    const env = 0.55 + Math.sin((i / n) * Math.PI) * 0.45;
+    out.push(Math.max(0.16, Math.min(1, base * env)));
+  }
+  return out;
+}
+const bars = wave(56, 13);
+const totalSec = (parseInt(duration.match(/\d+/)?.[0] ?? '5', 10) || 5) * 60;
+const fmt = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+---
+
+<section class="sample" id={id}>
+  <div class="card" data-sample data-total={totalSec} data-sr>
+    <div class="bg">
+      <Image
+        src={image}
+        alt=""
+        widths={[760, 1100, 1600]}
+        sizes="(max-width: 640px) 100vw, min(1100px, 94vw)"
+        loading="lazy"
+      />
+    </div>
+    <div class="ov" aria-hidden="true"></div>
+    <div class="content">
+      <p class="eyebrow"><span class="dot" aria-hidden="true"></span> {eyebrow}</p>
+      <h2>{title}</h2>
+      <p class="theme">{theme}</p>
+      <p class="desc">{description}</p>
+      <div class="player">
+        <button class="pbtn" type="button" aria-label={`Play sample: ${title}`} data-play>
+          <span class="ic is-play"><SeriesIcon name="play" /></span>
+          <span class="ic is-pause"><SeriesIcon name="pause" /></span>
+        </button>
+        <div class="pmain">
+          <div class="pmeta">
+            <span class="nar">{narrator}</span>
+            <span class="state" data-state aria-live="polite">Ready to play</span>
+          </div>
+          <div class="pwave" data-wave aria-hidden="true">
+            {bars.map((h, i) => <i data-i={i} style={`height:${Math.round(h * 100)}%`} />)}
+          </div>
+          <div class="ptime">
+            <span data-cur>0:00</span>
+            <span>{fmt(totalSec)}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .card {
+    position: relative;
+    border-radius: 40px;
+    overflow: hidden;
+    min-height: 520px;
+    display: flex;
+    align-items: flex-end;
+    color: var(--color-white);
+    box-shadow: var(--shadow-lg);
+    background: var(--series-ink);
+  }
+  .bg {
+    position: absolute;
+    inset: 0;
+  }
+  .bg :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(1.1);
+  }
+  .ov {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse at 30% 30%,
+      transparent 0%,
+      color-mix(in oklab, var(--series-ink) 35%, transparent) 50%,
+      color-mix(in oklab, var(--series-ink) 82%, transparent) 100%
+    );
+  }
+  .content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding: 52px 56px;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 18px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: color-mix(in oklab, var(--color-white) 85%, transparent);
+  }
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-white);
+  }
+  h2 {
+    margin: 0;
+    max-width: 620px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(34px, 4.4vw, 52px);
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+  }
+  .theme {
+    margin: 14px 0 0;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+    color: color-mix(in oklab, var(--color-white) 75%, transparent);
+  }
+  .desc {
+    margin: 20px 0 0;
+    max-width: 460px;
+    font-size: 16px;
+    line-height: 1.6;
+    color: color-mix(in oklab, var(--color-white) 82%, transparent);
+    text-wrap: pretty;
+  }
+
+  .player {
+    margin-top: 34px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    max-width: 620px;
+  }
+  .pbtn {
+    width: 64px;
+    height: 64px;
+    flex: none;
+    border: 0;
+    border-radius: 50%;
+    background: var(--color-white);
+    color: var(--series-ink);
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    box-shadow: 0 12px 34px color-mix(in oklab, var(--color-black) 34%, transparent);
+    transition: transform var(--dur) var(--ease-out);
+  }
+  .pbtn:hover {
+    transform: scale(1.06);
+  }
+  .pbtn .ic :global(svg) {
+    width: 24px;
+    height: 24px;
+  }
+  .pbtn .is-play {
+    margin-left: 3px;
+  }
+  .pbtn .is-pause,
+  .card.is-playing .pbtn .is-play {
+    display: none;
+  }
+  .card.is-playing .pbtn .is-pause {
+    display: block;
+    margin: 0;
+  }
+  .pmain {
+    flex: 1;
+    min-width: 0;
+  }
+  .pmeta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+    color: color-mix(in oklab, var(--color-white) 80%, transparent);
+  }
+  .pmeta .nar {
+    color: var(--color-white);
+  }
+  .pwave {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    height: 40px;
+    cursor: pointer;
+  }
+  .pwave i {
+    flex: 1;
+    min-width: 2px;
+    border-radius: 2px;
+    background: color-mix(in oklab, var(--color-white) 32%, transparent);
+    transition: background var(--dur);
+  }
+  .pwave i.on {
+    background: color-mix(in oklab, var(--color-white) 95%, transparent);
+  }
+  .pwave i.cur {
+    background: var(--color-white);
+    box-shadow: 0 0 10px color-mix(in oklab, var(--color-white) 70%, transparent);
+  }
+  .ptime {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1;
+    color: color-mix(in oklab, var(--color-white) 70%, transparent);
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (max-width: 640px) {
+    .card {
+      border-radius: 28px;
+    }
+    .content {
+      padding: 36px 26px;
+    }
+    .player {
+      flex-wrap: wrap;
+    }
+  }
+</style>
+
+<script>
+  // Simulated sample playback (no audio asset yet): ticks at demo speed, paints
+  // waveform progress, supports click-to-scrub. Swap for a real <audio> when the
+  // sample file lands.
+  document.querySelectorAll<HTMLElement>('[data-sample]').forEach((card) => {
+    const total = parseInt(card.dataset.total ?? '300', 10);
+    const btn = card.querySelector<HTMLButtonElement>('[data-play]');
+    const state = card.querySelector<HTMLElement>('[data-state]');
+    const cur = card.querySelector<HTMLElement>('[data-cur]');
+    const waveEl = card.querySelector<HTMLElement>('[data-wave]');
+    if (!btn || !state || !cur || !waveEl) return;
+    const bars = Array.from(waveEl.querySelectorAll('i'));
+    const title = btn.getAttribute('aria-label')?.replace(/^Play sample/, '') ?? '';
+
+    let t = 0;
+    let playing = false;
+    let timer: ReturnType<typeof setInterval> | null = null;
+
+    const fmt = (s: number) =>
+      `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+    const paint = () => {
+      const idx = Math.floor((t / total) * bars.length);
+      bars.forEach((b, i) => {
+        b.classList.toggle('on', i < idx);
+        b.classList.toggle('cur', i === idx && playing);
+      });
+      cur.textContent = fmt(Math.min(t, total));
+    };
+    const sync = () => {
+      card.classList.toggle('is-playing', playing);
+      btn.setAttribute('aria-label', `${playing ? 'Pause' : 'Play'} sample${title}`);
+    };
+    const stop = () => {
+      playing = false;
+      if (timer) clearInterval(timer);
+      timer = null;
+      sync();
+      state.textContent = t >= total ? 'Practice complete' : 'Paused';
+      paint();
+    };
+    const play = () => {
+      playing = true;
+      sync();
+      state.textContent = 'Now playing';
+      if (timer) clearInterval(timer);
+      // Demo speed: long samples tick faster so progress is visible.
+      timer = setInterval(
+        () => {
+          t += 1;
+          if (t >= total) {
+            t = total;
+            paint();
+            stop();
+            return;
+          }
+          paint();
+        },
+        1000 * (total > 240 ? 0.18 : 0.5),
+      );
+    };
+
+    btn.addEventListener('click', () => {
+      if (t >= total) t = 0;
+      if (playing) stop();
+      else play();
+    });
+    waveEl.addEventListener('click', (e) => {
+      const b = (e.target as HTMLElement).closest('i');
+      if (!b) return;
+      t = Math.round((bars.indexOf(b) / bars.length) * total);
+      paint();
+      if (!playing) state.textContent = 'Paused';
+    });
+    paint();
+  });
+</script>

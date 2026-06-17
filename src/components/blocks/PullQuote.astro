@@ -1,88 +1,49 @@
 ---
-// Editorial pull-quote — a centered, serif-italic article quote with a soft brand
-// quotation mark and attribution beneath. The long-form "pull-quote" that breaks up
-// an article (blog posts, case studies). Distinct from `QuoteRow` (3 quote cards) and
-// `PhotoQuote` (photo banner): this is a quiet, typographic standalone quote.
+// In-article pull quote — an oversized serif-italic line with a brand left rule and
+// an optional source citation. Quote text is the default slot so authors can include
+// inline emphasis. Used inside the blog "Article" body.
 interface Props {
-  quote: string;
-  /** Attributed speaker, e.g. "Dr. Marisol Vega". */
-  name: string;
-  /** Title/role, e.g. "Assistant Superintendent, Student Services". */
-  role?: string;
-  /** Organization, e.g. "Broward County Public Schools". */
-  org?: string;
-  id?: string;
+  /** Source line (rendered tracked-caps under the quote), e.g. "— Field note, 2025". */
+  cite?: string;
 }
-const { quote, name, role, org, id }: Props = Astro.props;
+const { cite }: Props = Astro.props;
 ---
 
-<section class="pq" id={id}>
-  <figure class="pq-inner">
-    <span class="mark" aria-hidden="true">&ldquo;</span>
-    <blockquote class="quote">{quote}</blockquote>
-    <figcaption class="by">
-      <span class="nm">{name}</span>
-      {
-        (role || org) && (
-          <span class="rl">
-            {role}
-            {role && org ? ' · ' : ''}
-            {org}
-          </span>
-        )
-      }
-    </figcaption>
-  </figure>
-</section>
+<blockquote class="ie-pullquote">
+  <slot />
+  {cite && <cite>{cite}</cite>}
+</blockquote>
 
 <style>
-  .pq {
-    padding: clamp(64px, 8vw, 104px) 0;
-    background: var(--color-background);
-  }
-  .pq-inner {
-    max-width: 860px;
-    margin: 0 auto;
-    padding-inline: clamp(20px, 5vw, 64px);
-    text-align: center;
-  }
-  .mark {
-    display: block;
-    font-family: var(--font-display);
-    font-style: italic;
-    font-weight: 500;
-    font-size: clamp(72px, 9vw, 104px);
-    line-height: 0.6;
-    color: var(--brand-300);
-    margin-bottom: clamp(8px, 1.4vw, 16px);
-  }
-  .quote {
-    margin: 0;
+  .ie-pullquote {
+    margin: 3.5rem 0;
+    padding: 8px 0 8px 32px;
+    border-left: 3px solid var(--color-brand);
+    max-width: 640px;
+    /* Quote typography is set on the slotted paragraph (MDX wraps the children in a
+       <p>); the blockquote itself carries it too as a fallback for raw-text usage. */
     font-family: var(--font-display);
     font-style: italic;
     font-weight: 400;
-    font-size: clamp(26px, 3.4vw, 40px);
-    line-height: 1.28;
-    letter-spacing: -0.015em;
+    font-size: 32px;
+    line-height: 1.25;
+    letter-spacing: -0.005em;
     color: var(--color-foreground);
     text-wrap: pretty;
   }
-  .by {
-    margin-top: clamp(24px, 3vw, 36px);
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+  .ie-pullquote :global(p) {
+    margin: 0;
+    font: inherit;
+    color: inherit;
   }
-  .nm {
-    font-family: var(--font-sans);
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 1.3;
-    color: var(--color-foreground);
-  }
-  .rl {
-    font-size: 14px;
-    line-height: 1.5;
+  .ie-pullquote cite {
+    display: block;
+    margin-top: 16px;
+    font-style: normal;
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
     color: var(--color-muted-foreground);
   }
 </style>

@@ -10,7 +10,7 @@ import StoryBlock from '../../components/blocks/case-study/StoryBlock.astro';
 import Pillars from '../../components/blocks/case-study/Pillars.astro';
 import Timeline from '../../components/blocks/case-study/Timeline.astro';
 import ResultsBand from '../../components/blocks/case-study/ResultsBand.astro';
-import PullQuote from '../../components/blocks/PullQuote.astro';
+import EditorialQuote from '../../components/blocks/EditorialQuote.astro';
 import CaseStudyVoices from '../../components/blocks/case-study/CaseStudyVoices.astro';
 import PhotoMosaic from '../../components/blocks/case-study/PhotoMosaic.astro';
 import CaseStudyExplore from '../../components/blocks/case-study/CaseStudyExplore.astro';
@@ -195,13 +195,13 @@ const exploreLinks = [
     />
 
     {
-      d.pullQuote && (
+      d.editorialQuote && (
         <div data-cs-reveal>
-          <PullQuote
-            quote={d.pullQuote.quote}
-            name={d.pullQuote.name}
-            role={d.pullQuote.role}
-            org={d.pullQuote.org}
+          <EditorialQuote
+            quote={d.editorialQuote.quote}
+            name={d.editorialQuote.name}
+            role={d.editorialQuote.role}
+            org={d.editorialQuote.org}
           />
         </div>
       )

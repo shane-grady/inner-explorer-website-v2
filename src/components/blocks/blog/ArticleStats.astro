@@ -1,0 +1,26 @@
+---
+// In-article stat row — thin wrapper that renders the shared StatStrip with the
+// blog "Article" defaults (in-column rules, sans figures, full column width) so MDX
+// authors write a clean `<StatRow stats={[…]} />`.
+import StatStrip from '../StatStrip.astro';
+
+interface Stat {
+  value: string;
+  sup?: string;
+  label: string;
+}
+interface Props {
+  stats: Stat[];
+  ariaLabel?: string;
+}
+const { stats, ariaLabel = 'Key figures' }: Props = Astro.props;
+---
+
+<StatStrip
+  stats={stats}
+  contained
+  size="compact"
+  numStyle="sans"
+  maxWidth="100%"
+  ariaLabel={ariaLabel}
+/>

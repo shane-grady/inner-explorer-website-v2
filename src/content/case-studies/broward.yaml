@@ -173,7 +173,7 @@ sources:
     }
   - { id: 4, text: 'Inner Explorer Annual Educator Survey, Broward County respondents, n = 2,140.' }
 
-pullQuote:
+editorialQuote:
   quote: >-
     Four years later, it's just how our day starts — and the data backs up what we
     feel in the building.

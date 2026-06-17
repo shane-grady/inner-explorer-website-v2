@@ -1,0 +1,182 @@
+# Counselor Series — one file → the whole /series/counselor page.
+# Imagery: Unsplash stand-ins (swap before publish). CASEL/MBSEL footnote —
+# fact-check before publish.
+order: 3
+draft: false
+
+name: 'Counselor Series'
+shortName: 'Counselor'
+category: 'Supplemental Series'
+tone: 'slate'
+
+seoTitle: 'Counselor Series — Inner Explorer'
+seoDescription: >-
+  Mindful awareness for individual and small-group settings — practices to open a
+  session, settle big feelings, and build skills students carry beyond the room.
+
+hero:
+  duetTop: 'Mindfulness for'
+  duetBottom: 'the quieter conversations'
+  lede: >-
+    Built for counselors and the students they support — practices to open a
+    session, settle big feelings, and build skills students carry well beyond
+    the room.
+  image: '../../assets/images/series/hero-counselor.jpg'
+  imageAlt: 'A supportive one-on-one conversation'
+  primaryCta: { label: 'Explore the series', href: '#practices' }
+  secondaryCta: { label: 'Listen to a sample', href: '#sample' }
+
+glance:
+  - { icon: 'clock', label: 'Practice length', value: '2–10 min' }
+  - { icon: 'headphones', label: 'Format', value: 'Audio-guided' }
+  - { icon: 'users', label: 'Practice as', value: '1:1 & small group' }
+  - { icon: 'heart', label: 'Made for', value: 'Counselors' }
+  - { icon: 'globe', label: 'Languages', value: 'English & Spanish' }
+
+audience:
+  eyebrow: "Who it's for"
+  heading: 'For the people students turn to'
+  intro: >-
+    Practices sized for the settings where the real conversations happen — across
+    a desk, in a circle, one student at a time.
+  cards:
+    - icon: 'heart'
+      title: 'School counselors'
+      body: >-
+        A calm, consistent way to open a session and help a student arrive before
+        the talking begins.
+    - icon: 'lifebuoy'
+      title: 'Social workers'
+      body: >-
+        Tools to help students regulate big feelings so they can name what they
+        actually need.
+    - icon: 'users'
+      title: 'Small groups'
+      body: >-
+        Shared practices that build trust and a common language inside a small,
+        safe circle.
+
+stats:
+  eyebrow: 'Why it matters'
+  heading: 'Regulation comes before the conversation'
+  intro: >-
+    Students often arrive at a counselor's door already dysregulated. A short
+    practice helps them settle enough to reflect — turning a hard moment into a
+    chance to build a lasting skill.
+  items:
+    - { value: '5', label: 'core SEL competencies supported by daily mindful awareness' }
+    - { value: '60%', label: 'fewer behavioral issues across schools practicing daily' }
+    - { value: '1:1', label: 'or small group — practices sized for the settings counselors use' }
+  footnote: >-
+    Inner Explorer's approach, Mindfulness-Based Social Emotional Learning
+    (MBSEL), is approved by CASEL.
+
+practices:
+  eyebrow: 'Inside the series'
+  heading: 'Practices for the work of one room'
+  intro: >-
+    Short sessions to structure a meeting — open with calm, work through the
+    feeling, and close with care.
+  items:
+    - title: 'Opening a Session'
+      theme: 'Arrival'
+      duration: '3 min'
+      image: '../../assets/images/series/practice-morning.jpg'
+      blurb: 'Help a student land in the room and feel safe before anything else.'
+    - title: 'Naming the Feeling'
+      theme: 'Awareness'
+      duration: '5 min'
+      image: '../../assets/images/series/practice-regulation.jpg'
+      blurb: 'Build the vocabulary to notice and name what is happening inside.'
+    - title: 'Calming Big Emotions'
+      theme: 'Regulation'
+      duration: '6 min'
+      image: '../../assets/images/series/practice-breathing.jpg'
+      blurb: 'A gentle practice for the moments when feelings get too big to hold.'
+    - title: 'Building Focus'
+      theme: 'Attention'
+      duration: '4 min'
+      image: '../../assets/images/series/practice-reset.jpg'
+      blurb: 'Steady a wandering mind and return attention to the present.'
+    - title: 'Safe & Grounded'
+      theme: 'Grounding'
+      duration: '5 min'
+      image: '../../assets/images/series/practice-gratitude.jpg'
+      blurb: 'Reconnect with the body and a felt sense of safety in the room.'
+    - title: 'Closing with Care'
+      theme: 'Integration'
+      duration: '4 min'
+      image: '../../assets/images/series/practice-rest.jpg'
+      blurb: 'End a session gently, with something the student can carry out the door.'
+
+how:
+  eyebrow: 'How it works'
+  heading: 'A calm structure for every session'
+  steps:
+    - icon: 'play'
+      title: 'Press play'
+      body: >-
+        Choose a practice that fits the moment and start — works for one student
+        or a small group.
+    - icon: 'headphones'
+      title: 'Practice together'
+      body: >-
+        The audio guides the session, so you can stay present with the student
+        instead of leading alone.
+    - icon: 'sprout'
+      title: 'Build the skill'
+      body: >-
+        Each practice leaves the student with a tool they can use long after they
+        leave the room.
+
+benefits:
+  eyebrow: 'The benefit'
+  heading: 'What mindful awareness opens up'
+  items:
+    - icon: 'wind'
+      title: 'Settle before the talk'
+      body: >-
+        A regulated student can reflect, name feelings, and engage with the real
+        conversation.
+    - icon: 'message-circle'
+      title: 'Language for feelings'
+      body: >-
+        Practices build the vocabulary students need to express what they are
+        experiencing.
+    - icon: 'shield'
+      title: 'A sense of safety'
+      body: 'Grounding practices help students feel safe enough to be honest in the room.'
+    - icon: 'sprout'
+      title: 'Skills that travel'
+      body: >-
+        Students leave with self-regulation tools they can use in class, at home,
+        and beyond.
+
+sample:
+  eyebrow: 'Try it now'
+  title: 'An Opening Practice for One'
+  theme: 'Arrival · Counselor'
+  duration: '3 min'
+  narrator: 'Guided by Ana'
+  description: >-
+    A short practice to help a student arrive and settle. Press play together and
+    let the room grow quiet.
+  image: '../../assets/images/series/sample-counselor.jpg'
+
+testimonial:
+  quote: >-
+    When a student comes in overwhelmed, we start with a practice before we talk.
+    By the end of those few minutes, they can finally tell me what's really
+    going on.
+  name: 'Dana W.'
+  role: 'School Counselor'
+  place: 'Public High School'
+
+cta:
+  duetTop: 'Give every conversation'
+  duetBottom: 'a calm place to begin'
+  body: >-
+    The Counselor Series is included with the Inner Explorer Community plan. Bring
+    mindful awareness into the rooms where it matters most.
+  primary: { label: 'Get started', href: '/contact' }
+  secondary: { label: 'For districts', href: '/districts' }

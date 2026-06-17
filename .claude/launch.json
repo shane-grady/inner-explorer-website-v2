@@ -66,6 +66,18 @@
       "runtimeExecutable": "pnpm",
       "runtimeArgs": ["exec", "astro", "dev", "--port", "4437"],
       "port": 4437
+    },
+    {
+      "name": "ie-dev-series",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["exec", "astro", "dev", "--port", "4439"],
+      "port": 4439
+    },
+    {
+      "name": "ie-dev-blog",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["exec", "astro", "dev", "--port", "4440"],
+      "port": 4440
     }
   ]
 }
