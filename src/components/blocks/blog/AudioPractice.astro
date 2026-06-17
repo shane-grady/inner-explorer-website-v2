@@ -1,0 +1,35 @@
+---
+// In-article audio practice — thin wrapper that renders the shared VoiceBar in its
+// dark, inset (in-column) configuration with the "Listen" eyebrow, so MDX authors
+// write a clean `<AudioPractice audioSrc=… durationSec={…} title="…" />`.
+import VoiceBar from '../VoiceBar.astro';
+
+interface Props {
+  audioSrc: string;
+  durationSec: number;
+  /** Serif-italic title, e.g. "The full three-minute Morning Calm practice." */
+  title: string;
+  eyebrow?: string;
+  transcriptHref?: string;
+  captionsSrc?: string;
+}
+const {
+  audioSrc,
+  durationSec,
+  title,
+  eyebrow = 'Listen · Inner Explorer practice',
+  transcriptHref,
+  captionsSrc,
+}: Props = Astro.props;
+---
+
+<VoiceBar
+  audioSrc={audioSrc}
+  durationSec={durationSec}
+  title={title}
+  eyebrow={eyebrow}
+  transcriptHref={transcriptHref}
+  captionsSrc={captionsSrc}
+  tone="dark"
+  inset
+/>

@@ -14,8 +14,21 @@ const blog = defineCollection({
       description: z.string(),
       pubDate: z.coerce.date(),
       updatedDate: z.coerce.date().optional(),
+      // Attribution is the Inner Explorer brand, not a person (used for JSON-LD
+      // author = Organization). No visible personal byline on the article.
       author: z.string().default('Inner Explorer'),
+      // Article template fields (all optional — the page degrades gracefully when
+      // absent, so plain `.md` posts still render). `category` drives the hero pill
+      // + breadcrumb; `heroCaption` is the photo-credit pill overlaid on the hero
+      // image; `readingTime` overrides the value computed from the body word count.
+      // `titleHtml` is an optional headline with a serif-italic <em> fragment (the
+      // brand "duet" look); the plain `title` is still the source of truth for SEO.
+      titleHtml: z.string().optional(),
+      category: z.string().optional(),
       heroImage: image().optional(),
+      heroImageAlt: z.string().optional(),
+      heroCaption: z.string().optional(),
+      readingTime: z.string().optional(),
       tags: z.array(z.string()).default([]),
       draft: z.boolean().default(false),
     }),

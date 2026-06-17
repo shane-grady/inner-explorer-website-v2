@@ -1109,3 +1109,48 @@ dynamic route + shared data-driven blocks.
   with light-pinned page, no-JS content visible (reveal gated on data-js-ready),
   home/about/platform/districts/webb-school regression-clean. Not committed
   (commit/PR not requested).
+
+## 2026-06-17 — Blog "Article — long-form" detail template (Claude Design handoff)
+
+Rebuilt `src/pages/blog/[...slug].astro` as the Article variant from the Blog
+Variants Canvas handoff. CMS seam = **MDX**; in-article modules injected via
+`<Content components={…}>` so authors write `<Figure>`, `<StatRow>`,
+`<ResourceCard>`, `<AudioPractice>`, `<PullQuote>` with no imports. Decisions:
+no personal byline (author = Inner Explorer Org in JSON-LD), left outline only
+(sticky TOC + share), footer = GlowCTA + RelatedPosts + NewsletterSignup,
+dark-adaptive via tokens.
+
+### Reuse ledger
+
+- **Reused:** `Breadcrumb`, `GlowCTA` (footer CTA).
+- **Extended (global):** `Prose` (`variant="article"` → `.prose-article` in
+  global.css), `StatStrip` (`numStyle="sans"` + rAF-throttle fallback),
+  `VoiceBar` (`tone="dark"` + `inset`).
+- **New shared blocks:** `Figure`, `PullQuote`, `ResourceCard`,
+  `NewsletterSignup`, `RelatedPosts`.
+- **New blog blocks:** `blog/ArticleHeader`, `blog/ArticleToc` (scrollspy),
+  `blog/ShareRail`, `blog/ReadingProgress`, plus thin MDX wrappers
+  `blog/ArticleStats` + `blog/AudioPractice`.
+- Schema (`content.config.ts`): added optional `titleHtml`, `category`,
+  `heroImageAlt`, `heroCaption`, `readingTime` (else computed via
+  `lib/reading-time.ts`). Existing `.md` posts degrade gracefully (verified).
+
+### Verified
+
+`pnpm check` + `pnpm build` clean (54 pages). Browser: hero/duet headline,
+sticky TOC scrollspy, drop cap, pull quote, stat count-up (settles to 4.2×/81%/
+3 min), figure, resource card, dark audio bar, footer modules — light **and**
+dark, responsive ≤920 (single column, 2-up stats), content + TOC anchors render
+with JS off. Article ships ~13 KB vanilla JS, **no React**.
+
+### Stand-ins to replace before publishing
+
+- Sample post `morning-calm-twelve-thousand-classrooms.mdx`: copy + figures are
+  illustrative; hero/figure photos are **Unsplash stand-ins**
+  (`src/assets/images/blog/`).
+- `<AudioPractice>` points at `/audio/narrators/maya-hello.mp3` (placeholder) —
+  swap for the real practice clip; add a WebVTT `captionsSrc` + transcript.
+- `<ResourceCard href="#">` and the newsletter form are **not wired** to a
+  backend yet.
+- Resource / Announcement / PR content-type variants from the canvas are **not**
+  built (Article only); `ResourceCard` + schema leave room to add them.

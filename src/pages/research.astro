@@ -10,7 +10,6 @@ import ResearchEndorsers from '../components/blocks/research/ResearchEndorsers.a
 import ResearchVoices from '../components/blocks/research/ResearchVoices.astro';
 import ResearchCTA from '../components/blocks/research/ResearchCTA.astro';
 import BreathMeter from '../components/blocks/research/BreathMeter.astro';
-import heroImg from '../assets/images/research/hero-classroom.jpg';
 import type { Study } from '../components/blocks/research/ResearchReceipts.astro';
 import type { Outcome } from '../components/blocks/research/ResearchOutcomes.astro';
 
@@ -35,11 +34,8 @@ const hero = {
   ],
   subtitle:
     'Six independent controlled trials. Tens of thousands of classrooms. A daily five-minute practice, grounded in 40+ years of Mindfulness-Based Stress Reduction research.',
-  counterValue: '15',
-  counterLabel: 'Years of evidence',
   primaryCta: { label: 'See the receipts', href: '#receipts' },
   secondaryCta: { label: 'Book a demo', href: '/contact' },
-  imageAlt: 'A classroom of students settling into a quiet morning practice in calm window light',
 };
 
 const studies: Study[] = [
@@ -335,12 +331,8 @@ const researchLd = {
       eyebrow={hero.eyebrow}
       lines={hero.lines}
       subtitle={hero.subtitle}
-      counterValue={hero.counterValue}
-      counterLabel={hero.counterLabel}
       primaryCta={hero.primaryCta}
       secondaryCta={hero.secondaryCta}
-      image={heroImg}
-      imageAlt={hero.imageAlt}
     />
     <ResearchReceipts
       chapterLabel={receipts.chapterLabel}

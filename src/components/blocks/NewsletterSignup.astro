@@ -1,0 +1,219 @@
+---
+// Newsletter signup — the brand "quiet dispatch" block. Shared + reusable. Vanilla
+// progressive enhancement: the form is fully usable without JS (submits to `action`);
+// when JS loads, a same-page success state replaces the form. No backend is wired yet.
+import { randomUUID } from 'node:crypto';
+
+interface Props {
+  /** Headline parts: "{lead} {emphasis} {tail}" with `emphasis` in serif italic. */
+  lead?: string;
+  emphasis?: string;
+  tail?: string;
+  body?: string;
+  placeholder?: string;
+  cta?: string;
+  terms?: string;
+  /** Form action for the no-JS path (not wired to a backend yet). */
+  action?: string;
+}
+const {
+  lead = 'The',
+  emphasis = 'quiet',
+  tail = 'dispatch.',
+  body = 'One short email a month, hand-written by our team — classroom-tested mindfulness practices, plus what is working in districts like yours.',
+  placeholder = 'you@school.edu',
+  cta = 'Subscribe',
+  terms = 'No spam. One email a month. Unsubscribe anytime.',
+  action = '#',
+}: Props = Astro.props;
+const uid = `nl-${randomUUID().slice(0, 8)}`;
+---
+
+<section class="newsletter">
+  <div class="copy">
+    <h2 class="title">{lead} <em>{emphasis}</em> {tail}</h2>
+    <p class="lede">{body}</p>
+  </div>
+
+  <div class="signup" data-newsletter>
+    <form class="form" action={action} method="post">
+      <label class="vh" for={uid}>Email address</label>
+      <input
+        id={uid}
+        class="email"
+        type="email"
+        name="email"
+        placeholder={placeholder}
+        autocomplete="email"
+        required
+      />
+      <button class="submit" type="submit">{cta}</button>
+    </form>
+    <p class="terms">{terms}</p>
+
+    <div class="done" hidden role="status">
+      <span class="check" aria-hidden="true">
+        <svg
+          viewBox="0 0 24 24"
+          width="18"
+          height="18"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </span>
+      <div>
+        <strong>You're on the list.</strong>
+        <span>Look for a welcome note in your inbox.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .newsletter {
+    margin: 5rem 0 2.5rem;
+    padding: 56px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    align-items: center;
+    border-radius: var(--radius-2xl);
+    border: 1px solid var(--color-border);
+    background: var(--color-card);
+  }
+  .title {
+    margin: 0 0 12px;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--color-foreground);
+  }
+  .title em {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+  }
+  .lede {
+    margin: 0;
+    max-width: 380px;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--color-muted-foreground);
+  }
+  .form {
+    display: flex;
+    gap: 10px;
+  }
+  .email {
+    flex: 1;
+    min-width: 0;
+    height: 52px;
+    padding: 0 18px;
+    border-radius: 9999px;
+    border: 1px solid var(--color-border);
+    background: var(--color-background);
+    color: var(--color-foreground);
+    font: inherit;
+    font-size: 15px;
+    outline: none;
+    transition:
+      border-color var(--dur-fast) var(--ease-out),
+      background var(--dur-fast) var(--ease-out);
+  }
+  .email:focus-visible {
+    border-color: var(--color-brand);
+    background: var(--color-card);
+  }
+  .submit {
+    flex-shrink: 0;
+    height: 52px;
+    padding: 0 24px;
+    border: 0;
+    border-radius: 9999px;
+    background: var(--color-brand);
+    color: var(--color-brand-foreground);
+    font: inherit;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background var(--dur-fast) var(--ease-out);
+  }
+  .submit:hover {
+    background: var(--color-brand-emphasis);
+  }
+  .terms {
+    margin: 12px 0 0;
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--color-muted-foreground);
+  }
+  .done {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    color: var(--color-foreground);
+  }
+  .done .check {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-brand-subtle);
+    color: var(--color-brand-emphasis);
+  }
+  .done strong {
+    display: block;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  .done span {
+    font-size: 13px;
+    color: var(--color-muted-foreground);
+  }
+  .vh {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  @media (max-width: 800px) {
+    .newsletter {
+      grid-template-columns: 1fr;
+      gap: 28px;
+      padding: 36px;
+    }
+  }
+</style>
+
+<script>
+  // Progressive enhancement: intercept submit, show an inline success state. The
+  // native form still works without JS (it just navigates to `action`).
+  document.querySelectorAll<HTMLElement>('[data-newsletter]').forEach((root) => {
+    const form = root.querySelector<HTMLFormElement>('form');
+    const terms = root.querySelector<HTMLElement>('.terms');
+    const done = root.querySelector<HTMLElement>('.done');
+    if (!form || !done) return;
+    form.addEventListener('submit', (e) => {
+      if (!form.reportValidity()) return;
+      e.preventDefault();
+      form.hidden = true;
+      if (terms) terms.hidden = true;
+      done.hidden = false;
+    });
+  });
+</script>

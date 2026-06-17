@@ -43,17 +43,19 @@ const sorted = [...studies].sort((a, b) => a.year - b.year);
           const doctoral = s.tag.toLowerCase().includes('doctoral');
           return (
             <li class="row reveal" id={`r-${s.id}`}>
-              <div class="row-year">{s.year}</div>
-              <div class="row-mid">
-                <span class:list={['tag', { doctoral }]}>{s.tag}</span>
+              <div class="row-result">
+                <div class="row-result-stat">{s.leadStat}</div>
+                <p class="row-result-label">{s.leadLabel}</p>
+              </div>
+              <div class="row-body">
+                <p class="row-kicker">
+                  <span class:list={['tag', { doctoral }]}>{s.tag}</span>
+                  <span class="row-year">{s.year}</span>
+                </p>
                 <h3 class="row-title">{s.title}</h3>
                 <p class="row-meta">
                   <strong>{s.authors}</strong> · {s.institution} · <em>{s.journal}</em>
                 </p>
-              </div>
-              <div class="row-finding">
-                <div class="row-finding-stat">{s.leadStat}</div>
-                <div class="row-finding-label">{s.leadLabel}</div>
               </div>
             </li>
           );
@@ -151,10 +153,10 @@ const sorted = [...studies].sort((a, b) => a.year - b.year);
   }
   .row {
     display: grid;
-    grid-template-columns: 200px 1fr 320px;
-    gap: 40px;
+    grid-template-columns: minmax(220px, 300px) 1fr;
+    gap: 56px;
     align-items: center;
-    padding: 40px 0;
+    padding: 44px 0;
     border-top: 1px solid color-mix(in oklab, var(--editorial-ink) 12%, transparent);
     transition: background 400ms var(--ease-out);
   }
@@ -164,24 +166,54 @@ const sorted = [...studies].sort((a, b) => a.year - b.year);
   .row:hover {
     background: color-mix(in oklab, var(--editorial-ink) 3%, transparent);
   }
-  .row:hover .row-year {
-    color: var(--color-brand);
-    transform: translateX(-6px);
+  .row:hover .row-result-stat {
+    transform: translateX(-4px);
   }
-  .row-year {
+
+  /* Lead column — the result. The visual anchor of each row. */
+  .row-result {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .row-result-stat {
     font-family: var(--font-display);
     font-style: italic;
-    font-weight: 400;
-    font-size: clamp(72px, 9vw, 140px);
-    line-height: 0.9;
+    font-weight: 500;
+    font-size: clamp(56px, 6.5vw, 104px);
+    line-height: 0.92;
     letter-spacing: -0.03em;
-    color: var(--editorial-ink);
-    transition: all 400ms var(--ease-out);
+    color: var(--color-brand);
+    transition: transform 400ms var(--ease-out);
   }
-  .row-mid {
+  .row-result-label {
+    margin: 0;
+    max-width: 280px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.45;
+    color: var(--editorial-ink-muted);
+  }
+
+  /* Content column — title leads as the heading; the date is a quiet kicker. */
+  .row-body {
     display: flex;
     flex-direction: column;
     gap: 12px;
+  }
+  .row-kicker {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 0;
+  }
+  .row-year {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.16em;
+    color: var(--editorial-ink-muted);
+    font-variant-numeric: tabular-nums;
   }
   .tag {
     display: inline-flex;
@@ -214,13 +246,14 @@ const sorted = [...studies].sort((a, b) => a.year - b.year);
     font-family: var(--font-display);
     font-style: italic;
     font-weight: 500;
-    font-size: clamp(22px, 2.4vw, 32px);
-    line-height: 1.15;
+    font-size: clamp(24px, 2.6vw, 34px);
+    line-height: 1.12;
     letter-spacing: -0.01em;
     color: var(--editorial-ink);
+    text-wrap: balance;
   }
   .row-meta {
-    margin: 0;
+    margin: 2px 0 0;
     font-size: 13px;
     line-height: 1.45;
     color: var(--editorial-ink-muted);
@@ -228,46 +261,6 @@ const sorted = [...studies].sort((a, b) => a.year - b.year);
   .row-meta strong {
     color: var(--editorial-ink);
     font-weight: 500;
-  }
-
-  .row-finding {
-    position: relative;
-    padding: 18px 22px;
-    background: var(--editorial-ink);
-    color: var(--editorial-paper);
-    border-radius: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    overflow: hidden;
-  }
-  .row-finding::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(
-      circle at 90% 100%,
-      color-mix(in oklab, var(--editorial-glow) 20%, transparent),
-      transparent 60%
-    );
-    pointer-events: none;
-  }
-  .row-finding-stat {
-    position: relative;
-    font-family: var(--font-display);
-    font-style: italic;
-    font-weight: 500;
-    font-size: 44px;
-    line-height: 1;
-    letter-spacing: -0.02em;
-    color: var(--editorial-glow);
-  }
-  .row-finding-label {
-    position: relative;
-    font-size: 13px;
-    font-weight: 500;
-    line-height: 1.4;
-    color: color-mix(in oklab, var(--editorial-paper) 85%, transparent);
   }
 
   /* Reveal-on-scroll — content is fully visible by default. When JS is ready
@@ -292,11 +285,14 @@ const sorted = [...studies].sort((a, b) => a.year - b.year);
     }
     .row {
       grid-template-columns: 1fr;
-      gap: 18px;
-      padding: 28px 0;
+      gap: 16px;
+      padding: 32px 0;
     }
-    .row-year {
+    .row-result-stat {
       font-size: 64px;
+    }
+    .row-result-label {
+      max-width: none;
     }
   }
 </style>

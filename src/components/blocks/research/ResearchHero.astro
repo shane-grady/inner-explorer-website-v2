@@ -1,72 +1,63 @@
 ---
-import { Image } from 'astro:assets';
-import type { ImageMetadata } from 'astro';
-
 interface Cta {
   label: string;
   href: string;
 }
 interface Props {
   eyebrow: string;
-  /** Line objects: text + optional `face` ('sans' for the upright weight-300 line; default is italic display). `em` colors the line with the editorial glow. */
+  /** Line objects: text + optional `face` ('sans' for the upright weight-300 line; default is italic display). `em` colors the line with the brand accent. */
   lines: Array<{ text: string; face?: 'sans' | 'display'; em?: boolean }>;
   subtitle: string;
-  counterValue: string;
-  counterLabel: string;
   primaryCta: Cta;
   secondaryCta?: Cta;
-  image: ImageMetadata;
-  imageAlt: string;
 }
-const {
-  eyebrow,
-  lines,
-  subtitle,
-  counterValue,
-  counterLabel,
-  primaryCta,
-  secondaryCta,
-  image,
-  imageAlt,
-}: Props = Astro.props;
+const { eyebrow, lines, subtitle, primaryCta, secondaryCta }: Props = Astro.props;
+
+// Pre-split the headline into words and give each a slice of the pinned-scroll
+// progress (0–100). Words resolve in reading order, their windows overlapping so
+// the soft blur reads as a mask sweeping across the text. The scrub script reads
+// these data attributes — one source of truth.
+const REVEAL_FROM = 4; // first word starts here
+const LAST_START = 66; // last word starts here
+const WORD_LEN = 20; // each word's own fade length
+const totalWords = lines.reduce((n, l) => n + l.text.trim().split(/\s+/).length, 0);
+let gi = 0;
+const wordLines = lines.map((l) => {
+  const parts = l.text.trim().split(/\s+/);
+  const words = parts.map((t, i) => {
+    const frac = totalWords > 1 ? gi / (totalWords - 1) : 0;
+    const start = Math.round(REVEAL_FROM + frac * (LAST_START - REVEAL_FROM));
+    gi += 1;
+    return { t, start, end: start + WORD_LEN, last: i === parts.length - 1 };
+  });
+  return { face: l.face === 'sans' ? 'sans' : 'display', em: !!l.em, words };
+});
 ---
 
 <section class="hero" id="hero" data-screen-label="Hero">
-  <div class="hero-bg">
-    <Image
-      src={image}
-      alt={imageAlt}
-      widths={[768, 1280, 1800, 2400]}
-      sizes="100vw"
-      loading="eager"
-      fetchpriority="high"
-    />
-  </div>
-  <div class="hero-tint" aria-hidden="true"></div>
-
-  <div class="hero-corner" aria-hidden="true">
-    <strong>{counterValue}</strong>
-    <span>{counterLabel}</span>
-  </div>
-
-  <div class="hero-inner">
-    <span class="hero-eyebrow">
-      <span class="hero-eyebrow-rule" aria-hidden="true"></span>
-      {eyebrow}
-    </span>
-    <h1 class="hero-h">
-      {
-        lines.map((l) => (
-          <span class:list={['stk', l.face === 'sans' ? 'sans' : 'display', { em: l.em }]}>
-            {l.text}
-          </span>
-        ))
-      }
-    </h1>
-    <div class="hero-row">
+  <div class="hero-sticky">
+    <div class="hero-inner">
+      <span class="hero-eyebrow">
+        <span class="rule" aria-hidden="true"></span>
+        {eyebrow}
+        <span class="rule" aria-hidden="true"></span>
+      </span>
+      <h1 class="hero-h">
+        {
+          wordLines.map((l) => (
+            <span class:list={['stk', l.face, { em: l.em }]}>
+              {l.words.map((w) => (
+                <span class="word" data-s={w.start} data-e={w.end}>
+                  {w.last ? w.t : w.t + ' '}
+                </span>
+              ))}
+            </span>
+          ))
+        }
+      </h1>
       <p class="hero-sub">{subtitle}</p>
-      <div class="hero-cta-row">
-        <a href={primaryCta.href} class="btn btn-primary btn-lg">
+      <div class="hero-cta">
+        <a href={primaryCta.href} class="btn btn-solid-ink btn-lg">
           {primaryCta.label}
           <svg
             width="14"
@@ -85,7 +76,7 @@ const {
         </a>
         {
           secondaryCta && (
-            <a href={secondaryCta.href} class="btn btn-ghost-dark btn-lg">
+            <a href={secondaryCta.href} class="btn btn-ghost-paper btn-lg">
               {secondaryCta.label}
             </a>
           )
@@ -96,110 +87,54 @@ const {
 </section>
 
 <style>
+  /* Tall section → its inner content pins (sticky) while the headline resolves,
+     then releases into the receipts below. The reveal is scrubbed to the pinned
+     scroll distance by the script; CSS owns only the pin + the static fallbacks. */
   .hero {
     position: relative;
-    min-height: 100vh;
+    min-height: 200vh;
+    background: var(--editorial-paper);
+    color: var(--editorial-ink);
+  }
+  .hero-sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
     display: flex;
-    align-items: flex-end;
-    padding: 140px 0 80px;
-    overflow: hidden;
-    background: var(--editorial-night);
-    color: var(--editorial-paper);
+    align-items: center;
+    justify-content: center;
   }
-  .hero-bg {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-  }
-  .hero-bg :global(img) {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: brightness(0.85) saturate(1.05);
-    animation: heroKenburns 24s ease-in-out infinite alternate;
-  }
-  @keyframes heroKenburns {
-    0% {
-      transform: scale(1.05) translate(0, 0);
-    }
-    100% {
-      transform: scale(1.12) translate(-1%, -1.5%);
-    }
-  }
-  .hero-tint {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    background:
-      linear-gradient(
-        to top,
-        color-mix(in oklab, var(--editorial-night) 95%, transparent) 0%,
-        color-mix(in oklab, var(--editorial-night) 45%, transparent) 40%,
-        color-mix(in oklab, var(--editorial-night) 25%, transparent) 70%,
-        color-mix(in oklab, var(--editorial-night) 60%, transparent) 100%
-      ),
-      linear-gradient(
-        to right,
-        color-mix(in oklab, var(--editorial-night) 40%, transparent),
-        transparent 50%
-      );
-  }
-  .hero-corner {
-    position: absolute;
-    top: 130px;
-    right: 32px;
-    z-index: 2;
-    text-align: right;
-    font-size: 11px;
-    font-weight: 500;
-    line-height: 1.4;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: color-mix(in oklab, var(--editorial-paper) 85%, transparent);
-  }
-  .hero-corner strong {
-    display: block;
-    margin-bottom: 6px;
-    font-family: var(--font-display);
-    font-style: italic;
-    font-weight: 500;
-    font-size: 56px;
-    line-height: 1;
-    letter-spacing: -0.02em;
-    color: var(--editorial-glow);
-  }
-
   .hero-inner {
-    position: relative;
-    z-index: 1;
     width: 100%;
-    max-width: 1280px;
+    max-width: 900px;
     margin: 0 auto;
     padding: 0 32px;
+    text-align: center;
   }
+
   .hero-eyebrow {
     display: inline-flex;
     align-items: center;
     gap: 14px;
-    margin-bottom: 32px;
+    margin-bottom: 28px;
     font-size: 11px;
     font-weight: 500;
     line-height: 1;
     letter-spacing: 0.28em;
     text-transform: uppercase;
-    color: var(--editorial-glow);
+    color: var(--color-brand);
   }
-  .hero-eyebrow-rule {
+  .hero-eyebrow .rule {
     width: 28px;
     height: 1px;
-    background: color-mix(in oklab, var(--editorial-glow) 50%, transparent);
+    background: color-mix(in oklab, var(--color-brand) 50%, transparent);
   }
+
   .hero-h {
-    margin: 0 0 36px;
-    font-size: clamp(60px, 9.5vw, 156px);
-    line-height: 0.92;
-    letter-spacing: -0.025em;
-    color: var(--editorial-paper);
+    margin: 0 0 32px;
+    font-size: clamp(34px, 5vw, 72px);
+    line-height: 1.06;
+    letter-spacing: -0.02em;
     text-wrap: balance;
   }
   .stk {
@@ -214,29 +149,29 @@ const {
     font-family: var(--font-sans);
     font-style: normal;
     font-weight: 300;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.02em;
   }
   .em {
-    color: var(--editorial-glow);
+    color: var(--color-brand);
+  }
+  /* Each word resolves from a soft blur — the moving blur edge reads as a mask
+     sweeping across the line. (Opacity/blur are driven inline by the script.) */
+  .word {
+    display: inline;
+    will-change: filter, opacity;
   }
 
-  .hero-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    flex-wrap: wrap;
-    gap: 40px;
-  }
   .hero-sub {
-    margin: 0;
-    max-width: 500px;
+    margin: 0 auto 36px;
+    max-width: 540px;
     font-size: 18px;
     line-height: 1.55;
-    color: color-mix(in oklab, var(--editorial-paper) 78%, transparent);
+    color: var(--editorial-ink-muted);
   }
-  .hero-cta-row {
+  .hero-cta {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 12px;
   }
 
@@ -258,34 +193,106 @@ const {
     padding: 18px 30px;
     font-size: 15px;
   }
-  .btn-primary {
-    background: var(--editorial-glow);
-    color: var(--editorial-night);
-    box-shadow: 0 8px 24px color-mix(in oklab, var(--editorial-glow) 25%, transparent);
-  }
-  .btn-primary:hover {
-    background: var(--editorial-glow-soft);
-    transform: translateY(-2px);
-    box-shadow: 0 16px 36px color-mix(in oklab, var(--editorial-glow) 35%, transparent);
-  }
-  .btn-ghost-dark {
+  .btn-solid-ink {
+    background: var(--editorial-ink);
     color: var(--editorial-paper);
-    border: 1px solid color-mix(in oklab, var(--editorial-paper) 25%, transparent);
   }
-  .btn-ghost-dark:hover {
-    background: color-mix(in oklab, var(--editorial-paper) 8%, transparent);
+  .btn-solid-ink:hover {
+    background: color-mix(in oklab, var(--editorial-ink) 80%, var(--color-black));
+    transform: translateY(-2px);
+  }
+  .btn-ghost-paper {
+    color: var(--editorial-ink);
+    border: 1px solid color-mix(in oklab, var(--editorial-ink) 18%, transparent);
+  }
+  .btn-ghost-paper:hover {
+    background: color-mix(in oklab, var(--editorial-ink) 6%, transparent);
+  }
+
+  /* The script adds .hero--scrub (only when motion is allowed) and then drives
+     opacity/filter/transform inline. This rule sets the pre-scrub hidden state so
+     nothing flashes before the first frame. Without JS, text stays fully visible
+     (SEO / no-JS safe). */
+  @media (prefers-reduced-motion: no-preference) {
+    .hero--scrub .word {
+      opacity: 0.1;
+      filter: blur(10px);
+    }
+    .hero--scrub .hero-eyebrow,
+    .hero--scrub .hero-sub,
+    .hero--scrub .hero-cta {
+      opacity: 0;
+    }
+  }
+
+  /* Reduced motion → a normal, static, fully-visible centered hero (no pin). */
+  @media (prefers-reduced-motion: reduce) {
+    .hero {
+      min-height: 100vh;
+    }
+    .hero-sticky {
+      position: static;
+      height: auto;
+      min-height: 100vh;
+    }
   }
 
   @media (max-width: 768px) {
-    .hero-corner {
-      display: none;
+    .hero-inner {
+      padding: 0 24px;
     }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .hero-bg :global(img) {
-      animation: none;
-      transform: scale(1.05);
+    .hero-eyebrow {
+      margin-bottom: 22px;
     }
   }
 </style>
+
+<script>
+  const hero = document.getElementById('hero');
+  // Scrub the reveal to the pinned scroll distance. Skipped for reduced-motion
+  // readers, who keep the static, fully-resolved hero (no pin).
+  if (hero && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const words = Array.from(hero.querySelectorAll<HTMLElement>('.word'));
+    const blocks: Array<[HTMLElement | null, number, number]> = [
+      [hero.querySelector('.hero-eyebrow'), 0, 12],
+      [hero.querySelector('.hero-sub'), 82, 92],
+      [hero.querySelector('.hero-cta'), 88, 100],
+    ];
+    const clamp = (n: number) => Math.max(0, Math.min(1, n));
+    const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
+
+    let raf = 0;
+    const paint = () => {
+      raf = 0;
+      const vh = window.innerHeight;
+      const denom = Math.max(1, hero.offsetHeight - vh);
+      // Progress through the pinned range: 0 as the pin engages, 1 as it releases.
+      const p = clamp(-hero.getBoundingClientRect().top / denom) * 100;
+      words.forEach((el) => {
+        const s = Number(el.dataset.s);
+        const e = Number(el.dataset.e);
+        const t = easeOut(clamp((p - s) / (e - s)));
+        el.style.opacity = String(0.1 + 0.9 * t);
+        el.style.filter = `blur(${(1 - t) * 10}px)`;
+      });
+      blocks.forEach(([el, s, e]) => {
+        if (!el) return;
+        const t = easeOut(clamp((p - s) / (e - s)));
+        el.style.opacity = String(t);
+        el.style.filter = `blur(${(1 - t) * 6}px)`;
+        el.style.transform = `translateY(${(1 - t) * 12}px)`;
+      });
+    };
+    // Paint immediately on scroll (cheap — 12 elements) and also coalesce a
+    // trailing frame via rAF, mirroring the repo's passive-scroll idiom.
+    const onScroll = () => {
+      paint();
+      if (!raf) raf = requestAnimationFrame(paint);
+    };
+
+    hero.classList.add('hero--scrub');
+    paint();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+  }
+</script>
