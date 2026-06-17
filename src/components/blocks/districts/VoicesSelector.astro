@@ -26,7 +26,7 @@ const { eyebrow, title, intro, voices }: Props = Astro.props;
     <div class="vs-head">
       <div>
         <div class="eyebrow">{eyebrow}</div>
-        <h2 class="head-h">{title}</h2>
+        <h2 class="head-h" set:html={title} />
       </div>
       <p class="head-p">{intro}</p>
     </div>
@@ -161,15 +161,22 @@ const { eyebrow, title, intro, voices }: Props = Astro.props;
     opacity: 0.55;
   }
   .head-h {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-weight: 400;
+    font-family: var(--font-sans);
+    font-style: normal;
+    font-weight: 500;
     font-size: clamp(44px, 6vw, 88px);
     line-height: 0.98;
-    letter-spacing: -0.022em;
+    letter-spacing: -0.03em;
     color: var(--color-foreground);
     margin: 28px 0 0;
     text-wrap: balance;
+  }
+  .head-h :global(em) {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.022em;
+    color: var(--color-brand);
   }
   .head-p {
     font-family: var(--font-display);

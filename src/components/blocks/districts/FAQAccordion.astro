@@ -87,15 +87,20 @@ const { eyebrow, titleHtml, intro, items }: Props = Astro.props;
     opacity: 0.55;
   }
   .head-h {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-weight: 400;
+    font-family: var(--font-sans);
+    font-style: normal;
+    font-weight: 500;
     font-size: clamp(36px, 4.4vw, 56px);
     line-height: 1.05;
+    letter-spacing: -0.03em;
     margin: 16px 0 0;
     color: var(--color-foreground);
   }
   .head-h :global(em) {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.022em;
     color: var(--color-brand);
   }
   .head-p {
