@@ -42,7 +42,7 @@ const { eyebrow, title, intro, link, reports }: Props = Astro.props;
     <div class="fr-head">
       <div>
         <div class="eyebrow">{eyebrow}</div>
-        <h2 class="head-h">{title}</h2>
+        <h2 class="head-h" set:html={title} />
       </div>
       <p class="head-p">
         {intro}
@@ -182,15 +182,22 @@ const { eyebrow, title, intro, link, reports }: Props = Astro.props;
     opacity: 0.55;
   }
   .head-h {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-weight: 400;
+    font-family: var(--font-sans);
+    font-style: normal;
+    font-weight: 500;
     font-size: clamp(48px, 6vw, 88px);
     line-height: 0.98;
-    letter-spacing: -0.022em;
+    letter-spacing: -0.03em;
     color: var(--color-foreground);
     margin: 28px 0 0;
     text-wrap: balance;
+  }
+  .head-h :global(em) {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.022em;
+    color: var(--color-brand);
   }
   .head-p {
     font-size: 18px;
@@ -371,12 +378,12 @@ const { eyebrow, title, intro, link, reports }: Props = Astro.props;
     border-top: 1px solid var(--color-border);
   }
   .metric .val {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-weight: 400;
+    font-family: var(--font-sans);
+    font-style: normal;
+    font-weight: 700;
     font-size: clamp(40px, 4vw, 52px);
     line-height: 0.9;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.04em;
     color: var(--color-brand);
     font-variant-numeric: tabular-nums;
   }

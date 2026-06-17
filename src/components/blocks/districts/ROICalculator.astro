@@ -165,15 +165,20 @@ const fundingJson = JSON.stringify(funding);
     color: var(--color-brand);
   }
   .roi-h {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-weight: 400;
+    font-family: var(--font-sans);
+    font-style: normal;
+    font-weight: 500;
     font-size: 34px;
     line-height: 1.1;
+    letter-spacing: -0.025em;
     color: var(--color-foreground);
     margin: 12px 0 0;
   }
   .roi-h em {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.01em;
     color: var(--color-brand);
   }
   .roi-p {
@@ -212,10 +217,13 @@ const fundingJson = JSON.stringify(funding);
     color: var(--color-foreground);
   }
   .output {
-    font-family: var(--font-display);
-    font-style: italic;
+    font-family: var(--font-sans);
+    font-style: normal;
+    font-weight: 700;
     font-size: 24px;
+    letter-spacing: -0.02em;
     color: var(--color-foreground);
+    font-variant-numeric: tabular-nums;
   }
   input[type='range'] {
     -webkit-appearance: none;
@@ -304,7 +312,7 @@ const fundingJson = JSON.stringify(funding);
   }
   .big {
     font-family: var(--font-sans);
-    font-weight: 500;
+    font-weight: 700;
     font-size: 48px;
     line-height: 1;
     letter-spacing: -0.03em;
@@ -313,11 +321,11 @@ const fundingJson = JSON.stringify(funding);
     font-variant-numeric: tabular-nums;
   }
   .big.serif {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-weight: 400;
+    font-family: var(--font-sans);
+    font-style: normal;
+    font-weight: 700;
     color: var(--color-brand);
-    letter-spacing: -0.01em;
+    letter-spacing: -0.03em;
     font-size: 44px;
   }
   .bar {
@@ -372,7 +380,7 @@ const fundingJson = JSON.stringify(funding);
   }
   .gain-grid .num {
     font-family: var(--font-sans);
-    font-weight: 600;
+    font-weight: 700;
     font-size: 22px;
     line-height: 1;
     color: var(--color-foreground);

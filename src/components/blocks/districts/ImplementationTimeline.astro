@@ -74,17 +74,21 @@ const { eyebrow, titleHtml, intro, steps }: Props = Astro.props;
     opacity: 0.55;
   }
   .head-h {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-weight: 400;
+    font-family: var(--font-sans);
+    font-style: normal;
+    font-weight: 500;
     font-size: clamp(40px, 5vw, 64px);
     line-height: 1.02;
-    letter-spacing: -0.022em;
+    letter-spacing: -0.03em;
     color: var(--color-foreground);
     margin: 16px 0 0;
     text-wrap: balance;
   }
   .head-h :global(em) {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.022em;
     color: var(--color-brand);
   }
   .head-p {
