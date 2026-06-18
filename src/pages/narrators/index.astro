@@ -87,12 +87,20 @@ const narrators = entries
 const totalPractices = narrators.reduce((sum, n) => sum + (n.practiceCount ?? 0), 0);
 const distinctLangs = new Set(narrators.flatMap((n) => n.langs ?? []));
 const meta = [
-  { value: String(narrators.length), label: 'Narrators in residence' },
-  { value: 'EN · ES', label: 'Universal languages' },
-  { value: String(distinctLangs.size), label: 'Languages narrated total' },
-  { value: totalPractices.toLocaleString('en-US'), label: 'Practices on file' },
+  { value: String(narrators.length), label: 'Narrators in residence', sub: 'at our Boston studio' },
+  { value: 'EN · ES', label: 'Universal languages', sub: 'in every practice' },
+  {
+    value: String(distinctLangs.size),
+    label: 'Languages narrated total',
+    sub: 'across the full library',
+  },
+  {
+    value: totalPractices.toLocaleString('en-US'),
+    label: 'Practices on file',
+    sub: 'recorded and counting',
+  },
   // Schools listening — no data source yet, keep as stub copy (flagged in tasks/todo.md).
-  { value: '1,840', label: 'Schools listening weekly' },
+  { value: '1,840', label: 'Schools listening weekly', sub: 'K–12, nationwide' },
 ];
 
 // ── SEO ─────────────────────────────────────────────────────────────────────
