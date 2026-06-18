@@ -56,10 +56,15 @@ const hero = {
 };
 
 const stats = [
-  { value: '2.4M', sup: '+', label: 'Students who have practiced with Inner Explorer' },
-  { value: '35,000', sup: '+', label: 'Educators currently leading daily practices' },
-  { value: '487M', label: 'Mindful minutes delivered in 2025 alone' },
-  { value: '94', sup: '%', label: 'Of educators report calmer classrooms within 4 weeks' },
+  { value: '2.4M', sup: '+', label: 'Students who have practiced', sub: 'with us since 2011' },
+  {
+    value: '35,000',
+    sup: '+',
+    label: 'Educators leading daily practice',
+    sub: 'in classrooms nationwide',
+  },
+  { value: '487M', label: 'Mindful minutes delivered', sub: 'in 2025 alone' },
+  { value: '94', sup: '%', label: 'Report calmer classrooms', sub: 'within the first four weeks' },
 ];
 
 const mission = {
@@ -443,7 +448,7 @@ const aboutLd = {
       image={heroImg}
       imageAlt={hero.imageAlt}
     />
-    <StatStrip stats={stats} />
+    <StatStrip stats={stats} numStyle="bold-sans" />
     <MissionQuote mark={mark} quoteHtml={mission.quoteHtml} attribution={mission.attribution} />
     <OriginStory
       eyebrow={origin.eyebrow}

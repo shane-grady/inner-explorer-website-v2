@@ -9,6 +9,7 @@ import StatStrip from '../../components/blocks/StatStrip.astro';
 import StoryBlock from '../../components/blocks/case-study/StoryBlock.astro';
 import Timeline from '../../components/blocks/case-study/Timeline.astro';
 import ResultsBand from '../../components/blocks/case-study/ResultsBand.astro';
+import EditorialQuote from '../../components/blocks/EditorialQuote.astro';
 import CaseStudyVoices from '../../components/blocks/case-study/CaseStudyVoices.astro';
 import PhotoMosaic from '../../components/blocks/case-study/PhotoMosaic.astro';
 import CaseStudyExplore from '../../components/blocks/case-study/CaseStudyExplore.astro';
@@ -195,6 +196,19 @@ const exploreLinks = [
       heading={d.timeline.heading}
       phases={d.timeline.phases}
     />
+
+    {
+      d.editorialQuote && (
+        <div data-cs-reveal>
+          <EditorialQuote
+            quote={d.editorialQuote.quote}
+            name={d.editorialQuote.name}
+            role={d.editorialQuote.role}
+            org={d.editorialQuote.org}
+          />
+        </div>
+      )
+    }
 
     <CaseStudyVoices
       id="voices"

@@ -3,6 +3,8 @@ interface Stat {
   value: string; // e.g. "2.4M", "35,000", "487M", "94"
   sup?: string; // e.g. "+", "%"
   label: string;
+  /** Optional italic qualifier set beneath the label (e.g. "in 41 U.S. states"). */
+  sub?: string;
 }
 interface Props {
   stats: Stat[];
@@ -19,8 +21,10 @@ interface Props {
   size?: 'display' | 'compact';
   /** Number typeface. `serif` (default) is the brand's italic display figure;
    *  `sans` gives the in-article editorial treatment — a sans number with the
-   *  unit (`sup`) set in the serif italic (blog "Article" stat row). */
-  numStyle?: 'serif' | 'sans';
+   *  unit (`sup`) set in the serif italic (blog "Article" stat row);
+   *  `bold-sans` is the cinematic figure — a heavy Inter numeral with tight
+   *  tracking and tabular figures (About hero band, mirrors `CinematicHero`). */
+  numStyle?: 'serif' | 'sans' | 'bold-sans';
   ariaLabel?: string;
 }
 const {
@@ -37,7 +41,12 @@ const {
 <section
   class:list={[
     'stats',
-    { contained, compact: size === 'compact', 'num-sans': numStyle === 'sans' },
+    {
+      contained,
+      compact: size === 'compact',
+      'num-sans': numStyle === 'sans',
+      'num-bold': numStyle === 'bold-sans',
+    },
   ]}
   aria-label={ariaLabel}
   style={`--mw: ${maxWidth}; --cols: ${stats.length}`}
@@ -51,6 +60,7 @@ const {
             {s.sup && <sup>{s.sup}</sup>}
           </div>
           <div class:list={['lbl', { upper: labelCase === 'upper' }]}>{s.label}</div>
+          {s.sub && <div class="sub">{s.sub}</div>}
         </div>
       ))
     }
@@ -133,11 +143,37 @@ const {
     font-weight: 400;
     color: var(--color-foreground);
   }
+  /* Cinematic figure: heavy Inter numeral, tight tracking, tabular figures —
+     mirrors the `CinematicHero` stat band (About hero). */
+  .num-bold .num {
+    font-family: var(--font-sans);
+    font-style: normal;
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    font-variant-numeric: tabular-nums;
+  }
+  .num-bold .num sup {
+    font-weight: 600;
+  }
   .lbl {
     font-size: 14px;
     line-height: 1.4;
     color: var(--color-muted-foreground);
     max-width: 200px;
+  }
+  /* In the cinematic figure the label carries the weight and the sub recedes. */
+  .num-bold .lbl {
+    color: var(--color-foreground);
+    font-weight: 500;
+  }
+  .sub {
+    font-family: var(--font-sans);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--color-muted-foreground);
+    max-width: 220px;
   }
   .lbl.upper {
     font-size: 12px;
