@@ -41,7 +41,7 @@ const { eyebrow, title, intro, link, reports }: Props = Astro.props;
 <section class="fr" id="field-reports" aria-label="Field reports">
   <div class="fr-inner">
     <div class="fr-head">
-      <div>
+      <div class="head-title">
         <div class="eyebrow">{eyebrow}</div>
         <h2 class="head-h" set:html={title} />
       </div>
@@ -158,11 +158,15 @@ const { eyebrow, title, intro, link, reports }: Props = Astro.props;
     padding: 0 40px;
   }
   .fr-head {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 64px;
-    align-items: end;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 32px;
     margin-bottom: 88px;
+  }
+  .head-title {
+    width: 100%;
   }
   .eyebrow {
     font-size: 11px;
@@ -204,8 +208,7 @@ const { eyebrow, title, intro, link, reports }: Props = Astro.props;
     font-size: 18px;
     line-height: 1.65;
     color: var(--color-muted-foreground);
-    max-width: 460px;
-    justify-self: end;
+    max-width: 620px;
     margin: 0;
   }
   .head-link {
@@ -440,11 +443,7 @@ const { eyebrow, title, intro, link, reports }: Props = Astro.props;
 
   @media (max-width: 920px) {
     .fr-head {
-      grid-template-columns: 1fr;
       gap: 24px;
-    }
-    .head-p {
-      justify-self: start;
     }
     .fr-list {
       gap: 96px;
