@@ -7,7 +7,6 @@ import Breadcrumb from '../../components/primitives/Breadcrumb.astro';
 import CaseStudyHero from '../../components/blocks/case-study/CaseStudyHero.astro';
 import StatStrip from '../../components/blocks/StatStrip.astro';
 import StoryBlock from '../../components/blocks/case-study/StoryBlock.astro';
-import Pillars from '../../components/blocks/case-study/Pillars.astro';
 import Timeline from '../../components/blocks/case-study/Timeline.astro';
 import ResultsBand from '../../components/blocks/case-study/ResultsBand.astro';
 import CaseStudyVoices from '../../components/blocks/case-study/CaseStudyVoices.astro';
@@ -172,25 +171,29 @@ const exploreLinks = [
       image={d.intro.approach.image}
       imageAlt={d.intro.approach.imageAlt}
     />
-    {d.intro.approach.pillars.length > 0 && <Pillars items={d.intro.approach.pillars} />}
+
+    <StoryBlock
+      id="results"
+      eyebrow={d.metrics.eyebrow}
+      heading={d.metrics.heading}
+      body={d.metrics.note ? [d.metrics.note] : []}
+      image={d.metrics.image}
+      imageAlt={d.metrics.imageAlt}
+    />
+
+    <ResultsBand
+      featured={d.metrics.featured}
+      metrics={d.metrics.grid}
+      chart={d.chart}
+      charts={d.charts}
+      sources={d.sources}
+    />
 
     <Timeline
       id="timeline"
       eyebrow={d.timeline.eyebrow}
       heading={d.timeline.heading}
       phases={d.timeline.phases}
-    />
-
-    <ResultsBand
-      id="results"
-      eyebrow={d.metrics.eyebrow}
-      heading={d.metrics.heading}
-      note={d.metrics.note}
-      featured={d.metrics.featured}
-      metrics={d.metrics.grid}
-      chart={d.chart}
-      charts={d.charts}
-      sources={d.sources}
     />
 
     <CaseStudyVoices

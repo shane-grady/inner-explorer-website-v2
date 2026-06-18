@@ -186,17 +186,6 @@ const caseStudies = defineCollection({
           body: z.array(z.string()),
           image: image(),
           imageAlt: z.string(),
-          pillars: z
-            .array(
-              z.object({
-                icon: z
-                  .enum(['play', 'repeat', 'chart', 'calendar', 'palette', 'heart', 'compass'])
-                  .default('play'),
-                title: z.string(),
-                text: z.string(),
-              }),
-            )
-            .default([]),
         }),
       }),
 
@@ -213,10 +202,15 @@ const caseStudies = defineCollection({
         ),
       }),
 
+      // `eyebrow` + `heading` + `note` feed the narrative "Results" StoryBlock that
+      // leads into the green band (with `image`/`imageAlt` as its supporting photo);
+      // `featured` + `grid` + the chart(s) + `sources` render inside the band itself.
       metrics: z.object({
         eyebrow: z.string(),
         heading: z.string(),
         note: z.string().optional(),
+        image: image().optional(),
+        imageAlt: z.string().optional(),
         featured: metric,
         grid: z.array(metric).default([]),
       }),
