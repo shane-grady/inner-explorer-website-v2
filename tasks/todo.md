@@ -1,5 +1,57 @@
 # Tasks — Inner Explorer Website
 
+## Home v2 — new home page from Claude Design handoff (2026-06-22)
+
+Goal: replace the placeholder `src/pages/index.astro` with the art-directed
+"Inner Explorer Home v2" design (DesignSync project `399af73b…`). Reuse-first onto
+tokens + components. Plan: `~/.claude/plans/take-your-time-in-enchanted-quail.md`.
+
+Locked decisions: (1) **omit the splash/hero** — build sections below it + a commented
+seam + sr-only `<h1>`; (2) **global Header/Footer** via PageLayout (anchors → real
+routes); (3) **real audio** in the Listen section via `VoiceBar` + `maya-hello.mp3`.
+
+- [x] Add `--home-*` deep-forest surface tokens to `global.css` (raw layer).
+- [x] `blocks/home/LiveNow.astro` — dark; dot-field + rotating caption + 4 stats.
+- [x] `blocks/home/WhyNow.astro` — dark; scroll-lit manifesto + 3 stat-cards.
+- [x] `blocks/home/AudienceToggle.astro` — light; educator⇄district toggle + panels.
+- [x] `blocks/home/HowItWorks.astro` — light; 3 timestamped steps.
+- [x] `blocks/home/GradeBands.astro` — light; Pre-K/K-5/6-8/9-12 ramp.
+- [x] `blocks/home/Proof.astro` — light; monumental 60% count-up + trend + 3 stats + pills.
+- [x] `blocks/home/Stories.astro` — light; portrait canopy → CTA (reuse Button).
+- [x] `blocks/home/SampleListen.astro` — dark; wraps reused `VoiceBar` (tone=dark).
+- [x] `blocks/home/Funding.astro` — light; 4 funding-stream cards.
+- [x] `blocks/home/BringItCTA.astro` — light; photographic split CTA + trust pills.
+- [x] `index.astro` — structured data (CMS-ready) + composition, `.appearance-light`, sr-only h1.
+- [x] Verified: `pnpm check` 0 errors + `pnpm build` 58 pages (home JS = ClientRouter + ~150B vanilla, **no React**); Claude Preview every section, toggle (both ways), count-up→60%, audio 0:30, mobile 375 (0 overflow), dark mode (light-pin holds, chrome adapts), no-JS (all reveals opacity 1); /about /districts /research /styleguide 200 + /about renders + no console errors.
+
+### Review
+
+- Implemented as a reuse-first composition: **reused** PageLayout/Header/Footer/JsonLd, `VoiceBar` (tone=dark, real audio), `Button`/primitives, and `lib/intersect.ts`; **added** 10 data-driven `blocks/home/*` (the design's sections are genuinely one-of-a-kind, and `blocks/<page>/` is the established repo convention) + 4 `--home-*` tokens. No shared components modified → zero regression risk, confirmed.
+- Deviation from plan: built stats **inline** per section (dark + thin-Inter numerals StatStrip doesn't natively do) instead of reusing StatStrip; Funding is its own block (split header doesn't fit FeatureGrid's centered header). Both keep shared components untouched.
+- Drift guard green — all color via tokens / `color-mix(in oklab,…)`, geometry as plain CSS.
+
+### Update (2026-06-22) — Live-now mosaic
+
+- [x] Replaced the green dot-field in `LiveNow.astro` with a field of **circular "dots"**:
+      28 provided student/classroom photos (localized + downsampled to
+      `src/assets/images/home/mosaic/`, ~2 MB) clipped to circles and **fading in and out**
+      on staggered timers, woven with 12 brighter flashing green dots of the same size
+      (~30% dots, "mostly faces"). Irregular dot placement (period coprime with column
+      counts) so they scatter instead of forming a column on narrow layouts; centered
+      flex-wrap, radial vignette, lazy-loaded (text headline stays the LCP); reduced-motion
+      rests them visible. Verified: check/drift/build green, desktop + mobile (0 overflow),
+      no React added. These photos are the user's intended imagery (not stand-ins).
+
+### Stand-ins to replace before publish
+
+- [ ] Photos are repo stand-ins (educator card, ~7 Stories portraits from `narrators/`,
+      demo photo) — swap for verified home imagery.
+- [ ] Listen audio is the narrator hello (`maya-hello.mp3`) — swap for a real practice sample.
+- [ ] Splash/hero intentionally absent — drop in the real splash at the seam; move the
+      visible `<h1>` there and remove the sr-only placeholder.
+- [ ] CTA "Free for educators" / Header `/educators` + `/resources` have no routes yet
+      (pre-existing) — point at real routes when those pages land.
+
 ## Dwight Morrow case study transfer (2026-06-09)
 
 Goal: transfer legacy innerexplorer.com/case-study2 ("Empowering Student Leaders to

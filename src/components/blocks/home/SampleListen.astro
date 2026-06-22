@@ -1,0 +1,117 @@
+---
+import VoiceBar from '../VoiceBar.astro';
+
+// Listen — dark, centered section inviting visitors to hear a sample practice. The
+// player itself is the shared VoiceBar (tone="dark"): a real <audio> element with a
+// live waveform, captions track, and full no-JS fallback. Audio source is supplied by
+// the page (a real file in /public/audio).
+interface Props {
+  eyebrow: string;
+  headingLead: string;
+  headingAccent: string;
+  body: string;
+  disclaimer: string;
+  audioSrc: string;
+  captionsSrc?: string;
+  durationSec: number;
+  trackTitle: string;
+  trackEyebrow: string;
+}
+const {
+  eyebrow,
+  headingLead,
+  headingAccent,
+  body,
+  disclaimer,
+  audioSrc,
+  captionsSrc,
+  durationSec,
+  trackTitle,
+  trackEyebrow,
+}: Props = Astro.props;
+---
+
+<section id="sample" class="sample" aria-labelledby="sample-heading">
+  <div class="inner">
+    <p class="eyebrow" data-home-reveal>{eyebrow}</p>
+    <h2 id="sample-heading" class="h" data-home-reveal>
+      {headingLead}{' '}
+      <em>{headingAccent}</em>
+    </h2>
+    <p class="lead" data-home-reveal>{body}</p>
+
+    <div class="player" data-home-reveal>
+      <VoiceBar
+        tone="dark"
+        audioSrc={audioSrc}
+        captionsSrc={captionsSrc}
+        durationSec={durationSec}
+        title={trackTitle}
+        eyebrow={trackEyebrow}
+        maxWidth="640px"
+      />
+    </div>
+
+    <p class="disclaimer">{disclaimer}</p>
+  </div>
+</section>
+
+<style>
+  .sample {
+    position: relative;
+    padding: clamp(5rem, 4rem + 5vw, 7.5rem) clamp(20px, 5vw, 34px);
+    background: radial-gradient(
+      80% 90% at 50% 32%,
+      color-mix(in oklab, var(--brand-900) 38%, var(--home-veil)) 0%,
+      var(--home-veil) 70%
+    );
+    color: var(--color-white);
+    overflow: hidden;
+  }
+  .inner {
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .eyebrow {
+    margin: 0 0 18px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--brand-300);
+  }
+  .h {
+    margin: 0 0 16px;
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: clamp(32px, 4.4vw, 54px);
+    line-height: 1.04;
+    letter-spacing: -0.03em;
+    color: var(--color-white);
+  }
+  .h em {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--brand-200);
+  }
+  .lead {
+    margin: 0 auto 44px;
+    max-width: 460px;
+    font-size: 16px;
+    line-height: 1.62;
+    color: color-mix(in oklab, var(--color-white) 70%, transparent);
+  }
+  /* VoiceBar ships its own bottom padding; trim it so the disclaimer sits close. */
+  .player :global(.voice-wrap) {
+    padding-bottom: 0;
+  }
+  .disclaimer {
+    margin: 26px 0 0;
+    font-size: 13px;
+    color: color-mix(in oklab, var(--color-white) 45%, transparent);
+  }
+</style>

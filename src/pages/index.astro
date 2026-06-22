@@ -1,61 +1,435 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import Hero from '../components/blocks/Hero.astro';
-import FeatureGrid from '../components/blocks/FeatureGrid.astro';
-import Testimonials from '../components/blocks/Testimonials.astro';
-import CTABanner from '../components/blocks/CTABanner.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
 
-// Page content as structured data at the top of the file (not buried in markup),
-// so it lifts into a collection/CMS later with minimal rework.
-const features = [
-  {
-    title: 'Daily guided practice',
-    description: 'Short, audio-guided sessions for every morning — no prep required from teachers.',
+import LiveNow from '../components/blocks/home/LiveNow.astro';
+import WhyNow from '../components/blocks/home/WhyNow.astro';
+import AudienceToggle from '../components/blocks/home/AudienceToggle.astro';
+import HowItWorks from '../components/blocks/home/HowItWorks.astro';
+import GradeBands from '../components/blocks/home/GradeBands.astro';
+import Proof from '../components/blocks/home/Proof.astro';
+import Stories from '../components/blocks/home/Stories.astro';
+import SampleListen from '../components/blocks/home/SampleListen.astro';
+import Funding from '../components/blocks/home/Funding.astro';
+import BringItCTA from '../components/blocks/home/BringItCTA.astro';
+
+// Photography — repo stand-ins (see tasks/todo.md "stand-ins to replace"). The Stories
+// canopy is decorative (aria-hidden), so its portraits take empty alt.
+import practiceCard from '../assets/images/about/origin-classroom-practice.jpg';
+import demoPhoto from '../assets/images/about/impact-diverse-classroom.jpg';
+import portrait1 from '../assets/images/narrators/maya-castellanos.jpg';
+import portrait2 from '../assets/images/narrators/jamal-foster.jpg';
+import portrait3 from '../assets/images/narrators/leila-karimi.jpg';
+import portrait4 from '../assets/images/narrators/theo-park.jpg';
+import portrait5 from '../assets/images/narrators/camila-vega.jpg';
+import portrait6 from '../assets/images/narrators/samuel-mbeki.jpg';
+import portrait7 from '../assets/images/narrators/yuki-tanaka.jpg';
+import portrait8 from '../assets/images/narrators/aaliyah-williams.jpg';
+
+// ── Page content (structured data; CMS-ready) ────────────────────────────────
+
+const liveNow = {
+  eyebrow: 'Right now, somewhere',
+  headingLead: 'A class is taking a breath',
+  headingAccent: 'together.',
+  captions: [
+    '8:02 AM ET · a kindergarten in Broward County, FL settles in',
+    '7:48 AM CT · a middle school in Tulsa, OK takes a breath',
+    '8:14 AM MT · a 5th grade class in Mesa, AZ presses play',
+    '8:31 AM ET · a high school in Newark, NJ begins the morning',
+    '7:55 AM PT · a 2nd grade room in Sacramento, CA grows quiet',
+  ],
+  stats: [
+    { value: '2M', sup: '+', label: 'students who have practiced' },
+    { value: '10k', sup: '+', label: 'schools and classrooms' },
+    { value: '50', label: 'states, every time zone' },
+    { value: '5', sup: 'min', label: 'to change a morning' },
+  ],
+};
+
+const whyNow = {
+  eyebrow: 'Why this, why now',
+  manifesto:
+    "Children can't learn when they're overwhelmed. Inner Explorer gives every classroom one small, daily ritual — a few minutes of breath and quiet — that makes room for everything else the school day asks of them.",
+  stats: [
+    {
+      value: '1 in 3',
+      body: 'students carries stress or anxiety into the classroom — where it quietly erodes attention, memory, and the ability to learn.',
+    },
+    {
+      value: 'Hours',
+      body: 'lost each week to disruption and de-escalation — time pulled away from teaching, and from teachers who are running on empty.',
+    },
+    {
+      value: '44 states',
+      body: 'now require or encourage social-emotional learning — yet most schools still lack one daily practice simple enough to stick.',
+    },
+  ],
+};
+
+const audiences = {
+  eyebrow: 'Built for two',
+  headingLead: 'One practice.',
+  headingAccent: 'Two ways in.',
+  educator: {
+    heading: 'Press play, and lead.',
+    body: 'No prep. No training. No extra screen time for your students. A calm, recorded voice leads the practice — you simply breathe along with your class.',
+    points: [
+      'Ready-made daily practices, sequenced for you',
+      'Fits morning circle, transitions, or before a test',
+      'Guided journaling and milestones close each session',
+    ],
+    cta: { label: 'See how a practice runs', href: '/platform' },
+    card: {
+      title: 'A Calm Beginning',
+      meta: 'Grades K–5 · 5 min · Day 1',
+      image: practiceCard,
+      imageAlt: 'A classroom settling into a guided morning practice',
+    },
   },
-  {
-    title: 'Built for K-12',
-    description: 'Age-appropriate practices from early elementary through high school.',
+  district: {
+    heading: 'See every school, in one view.',
+    body: 'Adoption, engagement, and outcomes across your district — the reporting your board expects and the evidence that makes renewal easy.',
+    points: [
+      'District-wide adoption funnels and engagement',
+      'Impact and outcomes reporting, ready for the board',
+      'Maps to Title I, II, IV and ESSER funding',
+    ],
+    cta: { label: 'Request a district demo', href: '/contact' },
+    dashboard: {
+      title: 'Broward County · Fall 2026',
+      delta: '+12%',
+      funnelLabel: 'Adoption funnel',
+      rows: [
+        { label: 'Invited', value: '11,820', fill: 0.96 },
+        { label: 'Active', value: '9,210', fill: 0.74 },
+        { label: 'Weekly', value: '4,490', fill: 0.42 },
+      ],
+      stats: [
+        { value: '342', label: 'schools active' },
+        { value: '487k', label: 'mindful minutes' },
+      ],
+    },
   },
-  {
-    title: 'Evidence-informed',
-    description: 'Grounded in research on attention, self-regulation, and classroom climate.',
+};
+
+const howItWorks = {
+  eyebrow: 'A five-minute morning',
+  headingLead: 'Three steps.',
+  headingAccent: 'Then the day begins.',
+  steps: [
+    {
+      time: '8:00 AM',
+      n: '01',
+      title: 'Choose a practice',
+      body: "Pick the day's themed, grade-appropriate session. It's already sequenced into a series — no planning required.",
+      icon: 'choose',
+    },
+    {
+      time: '8:05 AM',
+      n: '02',
+      title: 'Press play',
+      body: 'A guided voice leads the class through breathing and focus. You listen along — the calmest five minutes of the day.',
+      icon: 'play',
+    },
+    {
+      time: '8:12 AM',
+      n: '03',
+      title: 'Reflect & track',
+      body: 'A short journal prompt closes the practice. Mindful minutes and progress log automatically for you and your district.',
+      icon: 'reflect',
+    },
+  ],
+};
+
+const gradeBands = {
+  eyebrow: 'Every grade band',
+  headingLead: 'From first words to',
+  headingAccent: 'final exams.',
+  bands: [
+    {
+      grade: 'Pre-K',
+      title: 'Early & playful',
+      body: 'Gentle, very short practices that introduce calm through story and breath.',
+      href: '/platform',
+      tone: 0,
+    },
+    {
+      grade: 'K–5',
+      title: 'Story-led calm',
+      body: 'Imaginative narrated journeys that settle a room before learning.',
+      href: '/platform',
+      tone: 1,
+    },
+    {
+      grade: '6–8',
+      title: 'Focus & regulation',
+      body: 'Practices that build attention and help students name what they feel.',
+      href: '/platform',
+      tone: 2,
+    },
+    {
+      grade: '9–12',
+      title: 'Stress & resilience',
+      body: 'Tools for test anxiety, pressure, and the weight older students carry.',
+      href: '/platform',
+      tone: 3,
+    },
+  ],
+};
+
+const proof = {
+  eyebrow: 'The evidence',
+  headingLead: 'The research is in.',
+  headingAccent: 'So are the results.',
+  intro:
+    'Built on Mindfulness-Based Stress Reduction — the most studied mindfulness method in the world — and validated by independent, peer-reviewed studies in real classrooms.',
+  hero: {
+    display: '60%',
+    count: 60,
+    suffix: '%',
+    caption: 'fewer behavioral issues and office referrals — calmer rooms, more time to teach.',
+    source: 'Independent district evaluation, elementary cohort',
   },
-  {
-    title: 'Whole-school ready',
-    description: 'Simple enough to roll out across an entire district with fidelity.',
+  trendLabel: 'Behavioral referrals over one semester',
+  trend: [100, 86, 72, 60, 50, 43, 40],
+  support: [
+    {
+      display: '28%',
+      count: 28,
+      suffix: '%',
+      caption: 'higher grades in reading, math, and science',
+    },
+    { display: '43%', count: 43, suffix: '%', caption: 'less reported stress among educators' },
+    {
+      display: '9,000+',
+      count: 9000,
+      suffix: '+',
+      caption: 'studies behind the MBSR method it’s built on',
+    },
+  ],
+  pills: [
+    { label: 'CASEL-aligned SEL competencies', icon: 'check' },
+    { label: 'BrainFutures Top 10 evidence-based program', icon: 'star' },
+    { label: 'Rooted in Mindfulness-Based Stress Reduction', icon: 'shield' },
+  ],
+};
+
+const stories = {
+  badge: 'From the field',
+  headlineTop: 'Trusted by educators',
+  headlineBottom: 'in classrooms everywhere',
+  body: 'Hear why teachers trust five mindful minutes to settle a room, steady their students, and keep coming back to it.',
+  cta: { label: 'Read their stories', href: '/case-studies/' },
+  portraits: [
+    { image: portrait1, alt: '' },
+    { image: portrait2, alt: '' },
+    { image: portrait3, alt: '' },
+    { image: portrait4, alt: '' },
+    { image: portrait5, alt: '' },
+    { image: portrait6, alt: '' },
+    { image: portrait7, alt: '' },
+    { image: portrait8, alt: '' },
+  ],
+  statCards: [
+    { value: '94%', label: 'of teachers keep it in their daily routine', tone: 'brand' },
+    { value: '27%', label: 'fewer classroom disruptions reported', tone: 'card' },
+    { value: '5 min', label: 'to settle a restless room', tone: 'brand' },
+    { value: '+11%', label: 'gain in on-task focus', tone: 'card' },
+  ],
+};
+
+const sample = {
+  eyebrow: 'Hear it for yourself',
+  headingLead: 'This is what your class',
+  headingAccent: 'hears.',
+  body: 'No sign-up. Press play for a sample of the morning practice.',
+  disclaimer:
+    'A short sample. Full practices feature professionally recorded, grade-specific narration.',
+  audioSrc: '/audio/narrators/maya-hello.mp3',
+  captionsSrc: '/audio/narrators/maya-hello.vtt',
+  durationSec: 30,
+  trackTitle: 'A moment of calm.',
+  trackEyebrow: 'Sample practice · any grade',
+};
+
+const funding = {
+  eyebrow: 'Bring it to your district',
+  headingLead: 'Funded more easily',
+  headingAccent: "than you'd think.",
+  intro:
+    'Most schools already hold the budget. Inner Explorer maps to common federal, state, and grant funding streams — and our team helps you build the case.',
+  cards: [
+    {
+      title: 'Title I, II & IV',
+      body: 'Federal funds for student support, educator development, and wellbeing.',
+    },
+    { title: 'ESSER & recovery', body: 'Funding earmarked for student mental health and SEL.' },
+    {
+      title: 'SEL & wellness grants',
+      body: 'State and foundation grants for social-emotional programs.',
+    },
+    {
+      title: 'School & PTA budgets',
+      body: 'Low per-student cost that fits existing site-level budgets.',
+    },
+  ],
+};
+
+const bringIt = {
+  eyebrow: 'Bring it to your school',
+  headingTop: 'Calmer mornings,',
+  headingBottom: 'every single day.',
+  body: 'Five guided minutes is all it takes to settle a room. See how it fits your classrooms in a twenty-minute walkthrough.',
+  primaryCta: { label: 'Request a demo', href: '/contact' },
+  secondaryCta: { label: 'Free for educators', href: '/contact' },
+  pills: ['No prep', '5 minutes a day', 'Research-backed'],
+  chip: { title: 'A Calm Beginning', sub: 'Now playing in 342 classrooms' },
+  image: demoPhoto,
+  imageAlt: 'A diverse classroom in calm shared practice',
+};
+
+const pageTitle = 'Inner Explorer — Daily mindfulness for K-12 schools';
+const pageDescription =
+  'Five minutes of guided audio mindfulness, every morning, in every classroom. Calmer rooms, fewer disruptions, and measurable gains — proven across two million students and ready for your whole district.';
+
+const base = new URL(Astro.site ?? 'https://www.innerexplorer.org').origin;
+const homeLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: pageTitle,
+  url: `${base}/`,
+  description: pageDescription,
+  about: {
+    '@type': 'Service',
+    name: 'Inner Explorer',
+    serviceType: 'Daily audio-guided mindfulness for K-12 schools',
+    provider: {
+      '@type': 'Organization',
+      name: 'Inner Explorer',
+      url: base,
+      logo: `${base}/logo.png`,
+    },
+    audience: { '@type': 'EducationalAudience', audienceType: 'K-12 schools and districts' },
   },
-  {
-    title: 'Measurable impact',
-    description: 'Track focus, behavior, and well-being trends across the school year.',
-  },
-  {
-    title: 'Support included',
-    description: 'Onboarding and resources help staff make practice a daily habit.',
-  },
-];
+};
 ---
 
-<PageLayout
-  title="Inner Explorer — Daily mindfulness for K-12 schools"
-  description="Daily audio-guided mindfulness practices that help students focus, self-regulate, and feel ready to learn."
->
-  <Hero
-    eyebrow="Mindfulness for schools"
-    title="A calmer, more focused school day"
-    subtitle="Daily audio-guided mindfulness practices that help K-12 students focus, self-regulate, and feel ready to learn."
-    primaryCta={{ label: 'Get a demo', href: '/contact' }}
-    secondaryCta={{ label: 'See the research', href: '/research' }}
-  />
-  <FeatureGrid
-    heading="Why schools choose Inner Explorer"
-    intro="Everything you need to make mindfulness a daily habit — for every student and teacher."
-    features={features}
-  />
-  <Testimonials />
-  <CTABanner
-    title="Bring mindfulness to your school"
-    subtitle="See how districts use daily practice to support student well-being and focus."
-    cta={{ label: 'Get a demo', href: '/contact' }}
-    secondaryCta={{ label: 'See real school results', href: '/case-studies/' }}
-  />
+<PageLayout title={pageTitle} description={pageDescription} flushTop>
+  <JsonLd slot="head" schema={homeLd} />
+
+  <div class="appearance-light">
+    {
+      /*
+      SPLASH SEAM — the hero/splash is intentionally NOT built yet (per direction).
+      Drop the real splash block here; it should carry the page's single visible <h1>.
+      Until then the sr-only <h1> below keeps the page valid + SEO-sound, and the page
+      opens on the "Live-now" section under the floating nav.
+    */
+    }
+    <h1 class="sr-only">Inner Explorer — daily audio-guided mindfulness for K-12 schools</h1>
+
+    <LiveNow
+      eyebrow={liveNow.eyebrow}
+      headingLead={liveNow.headingLead}
+      headingAccent={liveNow.headingAccent}
+      captions={liveNow.captions}
+      stats={liveNow.stats}
+    />
+    <WhyNow eyebrow={whyNow.eyebrow} manifesto={whyNow.manifesto} stats={whyNow.stats} />
+    <AudienceToggle
+      eyebrow={audiences.eyebrow}
+      headingLead={audiences.headingLead}
+      headingAccent={audiences.headingAccent}
+      educator={audiences.educator}
+      district={audiences.district}
+    />
+    <HowItWorks
+      eyebrow={howItWorks.eyebrow}
+      headingLead={howItWorks.headingLead}
+      headingAccent={howItWorks.headingAccent}
+      steps={howItWorks.steps}
+    />
+    <GradeBands
+      eyebrow={gradeBands.eyebrow}
+      headingLead={gradeBands.headingLead}
+      headingAccent={gradeBands.headingAccent}
+      bands={gradeBands.bands}
+    />
+    <Proof
+      eyebrow={proof.eyebrow}
+      headingLead={proof.headingLead}
+      headingAccent={proof.headingAccent}
+      intro={proof.intro}
+      hero={proof.hero}
+      trendLabel={proof.trendLabel}
+      trend={proof.trend}
+      support={proof.support}
+      pills={proof.pills}
+    />
+    <Stories
+      badge={stories.badge}
+      headlineTop={stories.headlineTop}
+      headlineBottom={stories.headlineBottom}
+      body={stories.body}
+      cta={stories.cta}
+      portraits={stories.portraits}
+      statCards={stories.statCards}
+    />
+    <SampleListen
+      eyebrow={sample.eyebrow}
+      headingLead={sample.headingLead}
+      headingAccent={sample.headingAccent}
+      body={sample.body}
+      disclaimer={sample.disclaimer}
+      audioSrc={sample.audioSrc}
+      captionsSrc={sample.captionsSrc}
+      durationSec={sample.durationSec}
+      trackTitle={sample.trackTitle}
+      trackEyebrow={sample.trackEyebrow}
+    />
+    <Funding
+      eyebrow={funding.eyebrow}
+      headingLead={funding.headingLead}
+      headingAccent={funding.headingAccent}
+      intro={funding.intro}
+      cards={funding.cards}
+    />
+    <BringItCTA
+      eyebrow={bringIt.eyebrow}
+      headingTop={bringIt.headingTop}
+      headingBottom={bringIt.headingBottom}
+      body={bringIt.body}
+      primaryCta={bringIt.primaryCta}
+      secondaryCta={bringIt.secondaryCta}
+      pills={bringIt.pills}
+      chip={bringIt.chip}
+      image={bringIt.image}
+      imageAlt={bringIt.imageAlt}
+    />
+  </div>
 </PageLayout>
+
+<style is:global>
+  /* Scroll-reveal (home). Opt-in only when JS is present (html[data-js-ready], set by
+     lib/intersect.ts) so no-JS/SEO readers see fully-rendered content. Honors
+     prefers-reduced-motion via the global rule in global.css. Per-element stagger via
+     an inline --reveal-delay. */
+  html[data-js-ready] [data-home-reveal] {
+    opacity: 0;
+    transform: translateY(26px);
+    transition:
+      opacity 0.7s var(--ease-out) var(--reveal-delay, 0ms),
+      transform 0.7s var(--ease-out) var(--reveal-delay, 0ms);
+    will-change: opacity, transform;
+  }
+  html[data-js-ready] [data-home-reveal].in {
+    opacity: 1;
+    transform: none;
+  }
+</style>
+
+<script>
+  import { observe } from '../lib/intersect';
+  observe('[data-home-reveal]', { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
+</script>
