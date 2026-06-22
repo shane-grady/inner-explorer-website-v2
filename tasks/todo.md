@@ -42,6 +42,21 @@ routes); (3) **real audio** in the Listen section via `VoiceBar` + `maya-hello.m
       rests them visible. Verified: check/drift/build green, desktop + mobile (0 overflow),
       no React added. These photos are the user's intended imagery (not stand-ins).
 
+### Second pass — fidelity fixes (2026-06-22)
+
+- [x] **Manifesto white-text animation was broken** (CSS specificity: the dim base rule
+      out-ranked the `.lit` active rule → words stuck faint, never lit). Fixed in
+      `WhyNow.astro` by gating the lit rule at the same level. See lessons.md.
+- [x] **Rebuilt the Listen / "experience" section** (`SampleListen.astro`) to match the
+      design: frosted-glass player (album art + Playing/Paused pill + 54-bar waveform +
+      progress bar with time + skip/play/skip transport) over a drifting bg photo, wired
+      to the real `maya-hello.mp3` via a vanilla `<audio>` controller. Replaced the plain
+      `VoiceBar` reuse. (Album art + bg are repo stand-ins — `series/practice-breathing`,
+      `about/hero-classroom-mindfulness`.)
+- [x] **Staggered entrance reveals** on the How-it-works steps + Funding cards.
+- [x] Verified: check/drift/build green, audio controller (play/pause/seek/skip), manifesto
+      reveal (dim→lit on scroll), mobile no-overflow.
+
 ### Stand-ins to replace before publish
 
 - [ ] Photos are repo stand-ins (educator card, ~7 Stories portraits from `narrators/`,

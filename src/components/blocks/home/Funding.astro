@@ -27,10 +27,10 @@ const { eyebrow, headingLead, headingAccent, intro, cards }: Props = Astro.props
       <p class="intro">{intro}</p>
     </header>
 
-    <div class="cards" data-home-reveal>
+    <div class="cards">
       {
-        cards.map((c) => (
-          <div class="card">
+        cards.map((c, i) => (
+          <div class="card" data-home-reveal style={`--reveal-delay:${i * 80}ms`}>
             <div class="card-title">{c.title}</div>
             <p class="card-body">{c.body}</p>
           </div>

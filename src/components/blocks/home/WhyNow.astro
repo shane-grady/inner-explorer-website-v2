@@ -68,10 +68,13 @@ const words = manifesto.split(' ');
   }
   /* Word-by-word reveal opts in only when JS is present — no-JS/SEO sees full text. */
   :global(html[data-js-ready]) .manifesto .w {
-    opacity: 0.18;
-    transition: opacity 0.4s var(--ease-out);
+    opacity: 0.16;
+    transition: opacity 0.45s var(--ease-out);
   }
-  .manifesto .w.lit {
+  /* Gate the lit rule at the same level as the dim rule so it WINS on specificity
+     (the dim rule's `html[data-js-ready]` prefix would otherwise out-rank a bare
+     `.w.lit`, leaving the words stuck faint — no visible reveal). */
+  :global(html[data-js-ready]) .manifesto .w.lit {
     opacity: 1;
   }
 

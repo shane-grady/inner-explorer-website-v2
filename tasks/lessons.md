@@ -461,3 +461,18 @@ html>"}`). Pull the real source out with `jq -r '.content' <blob> > /tmp/x.html`
   hidden tab** (`naturalWidth 0`). Confirm the asset is real by loading the resolved
   `currentSrc` into a fresh `new Image()` (or reassign `img.src = img.src`), then re-read
   `naturalWidth` — a raw 0 is a Preview artifact, not a broken asset.
+
+## 2026-06-22 — Home v2 second pass (reveal specificity footgun)
+
+- **A JS-gated "dim base / lit active" reveal must gate BOTH rules at the same level,
+  or the base wins on specificity and the element never lights.** WhyNow's manifesto
+  used `:global(html[data-js-ready]) .manifesto .w { opacity: .18 }` for the dim base but
+  a bare `.manifesto .w.lit { opacity: 1 }` for the active state. The `html[data-js-ready]`
+  prefix raised the base to (0,5,1) vs the lit rule's (0,5,0) — so lit words stayed faint
+  and the white-text animation never visibly ran (live since first ship). Fix: gate the
+  active rule too — `:global(html[data-js-ready]) .manifesto .w.lit { opacity: 1 }` — or
+  wrap the gate in `:where(...)` to zero its specificity in both. (The page-level
+  `[data-home-reveal]` reveal was fine because BOTH its rules carry the same gate.) The
+  Preview transition-freeze masked this twice: a frozen transition reported the START
+  value, so the words looked variously lit/dim depending on capture timing. Only
+  `transition:none` + toggling `.lit` and reading computed opacity exposed the truth.

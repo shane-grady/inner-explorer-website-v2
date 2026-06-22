@@ -29,10 +29,10 @@ const { eyebrow, headingLead, headingAccent, steps }: Props = Astro.props;
       </h2>
     </header>
 
-    <div class="steps" data-home-reveal>
+    <div class="steps">
       {
-        steps.map((s) => (
-          <div class="step">
+        steps.map((s, i) => (
+          <div class="step" data-home-reveal style={`--reveal-delay:${i * 100}ms`}>
             <div class="time">{s.time}</div>
             <div class="step-top">
               <span class="ord">{s.n}</span>

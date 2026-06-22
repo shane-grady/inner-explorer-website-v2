@@ -25,6 +25,8 @@ import portrait5 from '../assets/images/narrators/camila-vega.jpg';
 import portrait6 from '../assets/images/narrators/samuel-mbeki.jpg';
 import portrait7 from '../assets/images/narrators/yuki-tanaka.jpg';
 import portrait8 from '../assets/images/narrators/aaliyah-williams.jpg';
+import sampleArt from '../assets/images/series/practice-breathing.jpg';
+import sampleBg from '../assets/images/about/hero-classroom-mindfulness.png';
 
 // ── Page content (structured data; CMS-ready) ────────────────────────────────
 
@@ -249,8 +251,10 @@ const sample = {
   audioSrc: '/audio/narrators/maya-hello.mp3',
   captionsSrc: '/audio/narrators/maya-hello.vtt',
   durationSec: 30,
-  trackTitle: 'A moment of calm.',
-  trackEyebrow: 'Sample practice · any grade',
+  trackTitle: 'A Moment of Calm',
+  trackMeta: 'Sample practice · any grade',
+  albumImage: sampleArt,
+  bgImage: sampleBg,
 };
 
 const funding = {
@@ -386,7 +390,9 @@ const homeLd = {
       captionsSrc={sample.captionsSrc}
       durationSec={sample.durationSec}
       trackTitle={sample.trackTitle}
-      trackEyebrow={sample.trackEyebrow}
+      trackMeta={sample.trackMeta}
+      albumImage={sample.albumImage}
+      bgImage={sample.bgImage}
     />
     <Funding
       eyebrow={funding.eyebrow}

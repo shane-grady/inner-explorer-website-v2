@@ -1,10 +1,12 @@
 ---
-import VoiceBar from '../VoiceBar.astro';
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
 
-// Listen — dark, centered section inviting visitors to hear a sample practice. The
-// player itself is the shared VoiceBar (tone="dark"): a real <audio> element with a
-// live waveform, captions track, and full no-JS fallback. Audio source is supplied by
-// the page (a real file in /public/audio).
+// Listen — dark, centered "experience a practice" section. A frosted-glass audio player
+// over a drifting bg photo: album art + title + Playing/Paused pill, an animated waveform,
+// a progress bar with time labels, and skip / play / skip transport. Driven by a real
+// <audio> element via a tiny vanilla controller (progressive enhancement: the card is
+// fully visible without JS; the buttons activate once the script loads).
 interface Props {
   eyebrow: string;
   headingLead: string;
@@ -15,7 +17,9 @@ interface Props {
   captionsSrc?: string;
   durationSec: number;
   trackTitle: string;
-  trackEyebrow: string;
+  trackMeta: string;
+  albumImage: ImageMetadata;
+  bgImage: ImageMetadata;
 }
 const {
   eyebrow,
@@ -27,29 +31,123 @@ const {
   captionsSrc,
   durationSec,
   trackTitle,
-  trackEyebrow,
+  trackMeta,
+  albumImage,
+  bgImage,
 }: Props = Astro.props;
+
+// Deterministic speech-shaped waveform (build-time; stable across builds).
+const bars = Array.from({ length: 54 }, (_, i) => ({
+  h: 22 + Math.round(Math.abs(Math.sin(i * 1.7) * 0.6 + Math.sin(i * 0.5) * 0.4) * 78),
+  dur: (1.1 + (i % 5) * 0.18).toFixed(2),
+  delay: ((i % 7) * 0.09).toFixed(2),
+}));
+const fmt = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+const totalLabel = fmt(durationSec);
 ---
 
 <section id="sample" class="sample" aria-labelledby="sample-heading">
+  <Image
+    class="sample-bg"
+    src={bgImage}
+    alt=""
+    widths={[768, 1280, 1920]}
+    sizes="100vw"
+    loading="lazy"
+  />
+  <div class="sample-veil" aria-hidden="true"></div>
+
   <div class="inner">
     <p class="eyebrow" data-home-reveal>{eyebrow}</p>
-    <h2 id="sample-heading" class="h" data-home-reveal>
+    <h2 id="sample-heading" class="h" data-home-reveal style="--reveal-delay:80ms">
       {headingLead}{' '}
       <em>{headingAccent}</em>
     </h2>
-    <p class="lead" data-home-reveal>{body}</p>
+    <p class="lead" data-home-reveal style="--reveal-delay:140ms">{body}</p>
 
-    <div class="player" data-home-reveal>
-      <VoiceBar
-        tone="dark"
-        audioSrc={audioSrc}
-        captionsSrc={captionsSrc}
-        durationSec={durationSec}
-        title={trackTitle}
-        eyebrow={trackEyebrow}
-        maxWidth="640px"
-      />
+    <div class="card" data-home-reveal style="--reveal-delay:200ms" data-player>
+      <audio class="audio" preload="none" src={audioSrc} data-audio>
+        <track kind="captions" srclang="en" label="English" src={captionsSrc} default />
+      </audio>
+
+      <div class="card-head">
+        <div class="track">
+          <span class="art" aria-hidden="true">
+            <Image src={albumImage} alt="" widths={[112, 224]} sizes="56px" loading="lazy" />
+          </span>
+          <span class="track-meta">
+            <span class="track-title">{trackTitle}</span>
+            <span class="track-sub">{trackMeta}</span>
+          </span>
+        </div>
+        <span class="state-pill" data-state>Paused</span>
+      </div>
+
+      <div class="swave" aria-hidden="true">
+        {
+          bars.map((b) => (
+            <span class="swave-bar" style={`--h:${b.h}%;--dur:${b.dur}s;--delay:${b.delay}s`} />
+          ))
+        }
+      </div>
+
+      <div class="progress-row">
+        <span class="time cur" data-cur>0:00</span>
+        <div class="track-bar"><div class="track-fill" data-progress></div></div>
+        <span class="time tot" data-tot>{totalLabel}</span>
+      </div>
+
+      <div class="transport">
+        <button class="t-btn" type="button" aria-label="Skip back 10 seconds" data-skip-back>
+          <svg
+            viewBox="0 0 24 24"
+            width="22"
+            height="22"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="11 19 2 12 11 5 11 19"></polyline><polyline
+              points="22 19 13 12 22 5 22 19"></polyline>
+          </svg>
+        </button>
+        <button
+          class="play-btn"
+          type="button"
+          aria-label="Play sample practice"
+          aria-pressed="false"
+          data-play
+        >
+          <svg class="ic-play" viewBox="0 0 24 24" width="26" height="26" fill="currentColor"
+            ><path d="M8 5v14l11-7z"></path></svg
+          >
+          <svg class="ic-pause" viewBox="0 0 24 24" width="26" height="26" fill="currentColor"
+            ><rect x="6" y="5" width="4" height="14" rx="1"></rect><rect
+              x="14"
+              y="5"
+              width="4"
+              height="14"
+              rx="1"></rect></svg
+          >
+        </button>
+        <button class="t-btn" type="button" aria-label="Skip forward 10 seconds" data-skip-fwd>
+          <svg
+            viewBox="0 0 24 24"
+            width="22"
+            height="22"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="13 19 22 12 13 5 13 19"></polyline><polyline
+              points="2 19 11 12 2 5 2 19"></polyline>
+          </svg>
+        </button>
+      </div>
     </div>
 
     <p class="disclaimer">{disclaimer}</p>
@@ -60,17 +158,41 @@ const {
   .sample {
     position: relative;
     padding: clamp(5rem, 4rem + 5vw, 7.5rem) clamp(20px, 5vw, 34px);
-    background: radial-gradient(
-      80% 90% at 50% 32%,
-      color-mix(in oklab, var(--brand-900) 38%, var(--home-veil)) 0%,
-      var(--home-veil) 70%
-    );
+    background: var(--home-veil);
     color: var(--color-white);
     overflow: hidden;
   }
+  .sample-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.32;
+    animation: sample-drift 36s ease-in-out infinite;
+  }
+  .sample-veil {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      75% 90% at 50% 40%,
+      transparent 12%,
+      color-mix(in oklab, var(--home-veil) 92%, transparent) 100%
+    );
+  }
+  @keyframes sample-drift {
+    0%,
+    100% {
+      transform: scale(1) translate(0, 0);
+    }
+    50% {
+      transform: scale(1.07) translate(1%, -1%);
+    }
+  }
+
   .inner {
     position: relative;
-    z-index: 1;
+    z-index: 3;
     max-width: 720px;
     margin: 0 auto;
     text-align: center;
@@ -105,13 +227,264 @@ const {
     line-height: 1.62;
     color: color-mix(in oklab, var(--color-white) 70%, transparent);
   }
-  /* VoiceBar ships its own bottom padding; trim it so the disclaimer sits close. */
-  .player :global(.voice-wrap) {
-    padding-bottom: 0;
+
+  /* Frosted-glass player card */
+  .card {
+    text-align: left;
+    padding: 32px;
+    border-radius: var(--radius-2xl);
+    background: color-mix(in oklab, var(--color-white) 7%, transparent);
+    border: 1px solid color-mix(in oklab, var(--color-white) 16%, transparent);
+    -webkit-backdrop-filter: blur(22px);
+    backdrop-filter: blur(22px);
+    box-shadow:
+      0 24px 60px color-mix(in oklab, var(--color-black) 45%, transparent),
+      inset 0 1px 0 color-mix(in oklab, var(--color-white) 18%, transparent);
   }
+  .audio {
+    display: none;
+  }
+
+  .card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .track {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    min-width: 0;
+  }
+  .art {
+    position: relative;
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--brand-500), var(--brand-800));
+  }
+  .art :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.92;
+  }
+  .track-meta {
+    min-width: 0;
+  }
+  .track-title {
+    display: block;
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--color-white);
+  }
+  .track-sub {
+    display: block;
+    margin-top: 2px;
+    font-size: 13px;
+    color: color-mix(in oklab, var(--color-white) 60%, transparent);
+  }
+  .state-pill {
+    flex-shrink: 0;
+    padding: 7px 14px;
+    border-radius: 9999px;
+    background: color-mix(in oklab, var(--color-white) 10%, transparent);
+    border: 1px solid color-mix(in oklab, var(--color-white) 16%, transparent);
+    font-size: 12px;
+    font-weight: 500;
+    color: color-mix(in oklab, var(--color-white) 82%, transparent);
+  }
+
+  .swave {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    height: 60px;
+    margin-bottom: 18px;
+  }
+  .swave-bar {
+    flex: 1 1 auto;
+    min-width: 2px;
+    max-width: 6px;
+    height: var(--h);
+    border-radius: 3px;
+    transform-origin: center;
+    background: color-mix(in oklab, var(--color-white) 45%, transparent);
+    opacity: 0.5;
+    transition:
+      opacity 0.3s ease,
+      background 0.3s ease;
+  }
+  .swave-bar.on {
+    opacity: 1;
+    background: color-mix(in oklab, var(--color-white) 85%, transparent);
+    animation: sample-wave var(--dur) ease-in-out var(--delay) infinite;
+  }
+  @keyframes sample-wave {
+    0%,
+    100% {
+      transform: scaleY(0.22);
+    }
+    50% {
+      transform: scaleY(1);
+    }
+  }
+
+  .progress-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .time {
+    width: 42px;
+    font-size: 13px;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    color: color-mix(in oklab, var(--color-white) 70%, transparent);
+  }
+  .time.tot {
+    text-align: right;
+  }
+  .track-bar {
+    flex: 1;
+    height: 5px;
+    border-radius: 3px;
+    background: color-mix(in oklab, var(--color-white) 16%, transparent);
+    overflow: hidden;
+  }
+  .track-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 3px;
+    background: var(--brand-300);
+    transition: width 120ms linear;
+  }
+
+  .transport {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+  }
+  .t-btn {
+    padding: 8px;
+    border: 0;
+    background: none;
+    color: color-mix(in oklab, var(--color-white) 65%, transparent);
+    cursor: pointer;
+    transition: color var(--dur) var(--ease-out);
+  }
+  .t-btn:hover {
+    color: var(--color-white);
+  }
+  .play-btn {
+    width: 74px;
+    height: 74px;
+    border: 0;
+    border-radius: 50%;
+    background: var(--color-white);
+    color: var(--home-night);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 4px;
+    cursor: pointer;
+    box-shadow: 0 12px 30px color-mix(in oklab, var(--color-black) 40%, transparent);
+    transition: transform 0.2s var(--ease-out);
+  }
+  .play-btn:hover {
+    transform: scale(1.05);
+  }
+  .play-btn:active {
+    transform: scale(0.97);
+  }
+  .play-btn .ic-pause,
+  .play-btn.playing .ic-play {
+    display: none;
+  }
+  .play-btn.playing .ic-pause {
+    display: block;
+  }
+  .play-btn.playing {
+    padding-left: 0;
+  }
+
   .disclaimer {
     margin: 26px 0 0;
     font-size: 13px;
     color: color-mix(in oklab, var(--color-white) 45%, transparent);
   }
+
+  @media (max-width: 560px) {
+    .card {
+      padding: 24px 20px;
+    }
+    .transport {
+      gap: 22px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sample-bg,
+    .swave-bar.on {
+      animation: none;
+    }
+  }
 </style>
+
+<script>
+  // Vanilla audio controller — play/pause, progress + time, skip ±10s, waveform state.
+  const card = document.querySelector<HTMLElement>('[data-player]');
+  const audio = card?.querySelector<HTMLAudioElement>('[data-audio]');
+  const playBtn = card?.querySelector<HTMLButtonElement>('[data-play]');
+  if (card && audio && playBtn) {
+    const back = card.querySelector<HTMLButtonElement>('[data-skip-back]');
+    const fwd = card.querySelector<HTMLButtonElement>('[data-skip-fwd]');
+    const fill = card.querySelector<HTMLElement>('[data-progress]');
+    const cur = card.querySelector<HTMLElement>('[data-cur]');
+    const tot = card.querySelector<HTMLElement>('[data-tot]');
+    const pill = card.querySelector<HTMLElement>('[data-state]');
+    const bars = Array.from(card.querySelectorAll<HTMLElement>('.swave-bar'));
+    const fmt = (s: number) =>
+      `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+
+    const setPlaying = (playing: boolean) => {
+      playBtn.classList.toggle('playing', playing);
+      playBtn.setAttribute('aria-pressed', String(playing));
+      if (pill) pill.textContent = playing ? 'Playing' : 'Paused';
+      bars.forEach((b) => b.classList.toggle('on', playing));
+    };
+
+    playBtn.addEventListener('click', () => {
+      if (audio.paused) audio.play();
+      else audio.pause();
+    });
+    back?.addEventListener('click', () => {
+      audio.currentTime = Math.max(0, audio.currentTime - 10);
+    });
+    fwd?.addEventListener('click', () => {
+      audio.currentTime = Math.min(audio.duration || 0, audio.currentTime + 10);
+    });
+    audio.addEventListener('play', () => setPlaying(true));
+    audio.addEventListener('pause', () => setPlaying(false));
+    audio.addEventListener('loadedmetadata', () => {
+      if (tot && Number.isFinite(audio.duration)) tot.textContent = fmt(audio.duration);
+    });
+    audio.addEventListener('timeupdate', () => {
+      const dur = audio.duration || 0;
+      if (fill) fill.style.width = (dur ? (audio.currentTime / dur) * 100 : 0) + '%';
+      if (cur) cur.textContent = fmt(audio.currentTime);
+    });
+    audio.addEventListener('ended', () => {
+      setPlaying(false);
+      if (fill) fill.style.width = '0%';
+      if (cur) cur.textContent = fmt(0);
+    });
+  }
+</script>
