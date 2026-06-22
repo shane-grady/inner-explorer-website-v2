@@ -36,9 +36,6 @@ const photos = Object.keys(mosaic)
   .sort()
   .map((k) => mosaic[k].default);
 
-// Build the field: mostly student/classroom dots, with a flashing green dot woven in
-// after roughly every third photo. Each dot gets a staggered delay + varied duration so
-// the wall fades organically (deterministic — no Math.random, stable across builds).
 interface Cell {
   photo: ImageMetadata | null;
   delay: string;
