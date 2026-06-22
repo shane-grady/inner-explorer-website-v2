@@ -1,0 +1,361 @@
+---
+// Proof — the evidence section. A monumental headline figure (count-up) beside a
+// descending trend chart, a row of supporting stats, and provenance pills. Light
+// surface on the card elevation. The count-up animates on scroll-in; the
+// server-rendered text is the final value, so no-JS/SEO sees the real numbers.
+interface CountStat {
+  /** Final, formatted display value, e.g. "28%", "9,000+". Also what no-JS shows. */
+  display: string;
+  /** Numeric target for the count-up. */
+  count: number;
+  /** Suffix appended after the animated number, e.g. "%", "+". */
+  suffix?: string;
+  caption: string;
+}
+interface Pill {
+  label: string;
+  /** 'check' | 'star' | 'shield'. */
+  icon: string;
+}
+interface Props {
+  eyebrow: string;
+  headingLead: string;
+  headingAccent: string;
+  intro: string;
+  hero: CountStat & { source: string };
+  trendLabel: string;
+  /** Bar heights as percentages, high → low. The last bar is the "peak" (solid brand). */
+  trend: number[];
+  support: CountStat[];
+  pills: Pill[];
+}
+const { eyebrow, headingLead, headingAccent, intro, hero, trendLabel, trend, support, pills } =
+  Astro.props as Props;
+const lastTrend = trend.length - 1;
+---
+
+<section id="proof" class="proof" aria-labelledby="proof-heading">
+  <div class="inner">
+    <header class="head" data-home-reveal>
+      <div>
+        <p class="eyebrow">{eyebrow}</p>
+        <h2 id="proof-heading" class="h">
+          {headingLead}{' '}
+          <em>{headingAccent}</em>
+        </h2>
+      </div>
+      <p class="intro">{intro}</p>
+    </header>
+
+    <div class="mono" data-home-reveal>
+      <div>
+        <div class="mono-num" data-count={hero.count} data-suffix={hero.suffix ?? ''}>
+          {hero.display}
+        </div>
+        <p class="mono-cap">{hero.caption}</p>
+        <p class="mono-src">{hero.source}</p>
+      </div>
+      <div class="trend">
+        <div class="trend-label">{trendLabel}</div>
+        <div class="trend-bars" aria-hidden="true">
+          {
+            trend.map((h, i) => (
+              <div class="tcol">
+                <div
+                  class:list={['tbar', { peak: i === lastTrend }]}
+                  style={`--h:${h}%;--op:${18 + i * 5}%`}
+                />
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="support" data-home-reveal>
+      {
+        support.map((s) => (
+          <div class="scell">
+            <div class="snum" data-count={s.count} data-suffix={s.suffix ?? ''}>
+              {s.display}
+            </div>
+            <p class="slbl">{s.caption}</p>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="pills" data-home-reveal>
+      {
+        pills.map((p) => (
+          <span class="pill">
+            <span class="pill-ico" aria-hidden="true">
+              {p.icon === 'check' && (
+                <svg
+                  viewBox="0 0 24 24"
+                  width="16"
+                  height="16"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M9 11l3 3L22 4" />
+                  <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+                </svg>
+              )}
+              {p.icon === 'star' && (
+                <svg
+                  viewBox="0 0 24 24"
+                  width="16"
+                  height="16"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="m12 2 2.4 7.4H22l-6 4.6 2.3 7.4-6.3-4.6L5.7 21l2.3-7.4-6-4.6h7.6z" />
+                </svg>
+              )}
+              {p.icon === 'shield' && (
+                <svg
+                  viewBox="0 0 24 24"
+                  width="16"
+                  height="16"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                </svg>
+              )}
+            </span>
+            {p.label}
+          </span>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .proof {
+    padding: clamp(5rem, 4rem + 5vw, 7.25rem) clamp(20px, 5vw, 34px);
+    background: var(--color-card);
+    border-top: 1px solid var(--color-border);
+    color: var(--color-foreground);
+  }
+  .inner {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  .head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 56px;
+    align-items: end;
+    margin-bottom: 70px;
+  }
+  .eyebrow {
+    margin: 0 0 18px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-brand);
+  }
+  .h {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: clamp(30px, 4vw, 50px);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--color-foreground);
+  }
+  .h em {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+  }
+  .intro {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.62;
+    color: var(--color-muted-foreground);
+  }
+
+  .mono {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: 56px;
+    align-items: center;
+    margin-bottom: 64px;
+  }
+  .mono-num {
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: clamp(90px, 13vw, 180px);
+    line-height: 0.86;
+    letter-spacing: -0.05em;
+    color: var(--color-brand);
+  }
+  .mono-cap {
+    margin: 12px 0 0;
+    max-width: 420px;
+    font-size: clamp(18px, 1.8vw, 22px);
+    line-height: 1.4;
+    color: var(--color-foreground);
+  }
+  .mono-src {
+    margin: 14px 0 0;
+    font-size: 13px;
+    color: var(--color-muted-foreground);
+  }
+
+  .trend {
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-2xl);
+    padding: 28px;
+  }
+  .trend-label {
+    margin-bottom: 4px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-muted-foreground);
+  }
+  .trend-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    height: 140px;
+    margin-top: 20px;
+  }
+  .tcol {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    height: 100%;
+  }
+  .tbar {
+    width: 100%;
+    max-width: 30px;
+    height: var(--h);
+    border-radius: 6px 6px 3px 3px;
+    background: color-mix(in oklab, var(--color-brand) var(--op), transparent);
+  }
+  .tbar.peak {
+    background: var(--color-brand);
+  }
+
+  .support {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    border-top: 1px solid var(--color-border);
+  }
+  .scell {
+    padding: 36px 32px 10px;
+    border-right: 1px solid var(--color-border);
+  }
+  .scell:first-child {
+    padding-left: 0;
+  }
+  .scell:last-child {
+    padding-right: 0;
+    border-right: 0;
+  }
+  .snum {
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: clamp(48px, 5vw, 64px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--color-foreground);
+  }
+  .slbl {
+    margin: 14px 0 0;
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: var(--color-muted-foreground);
+  }
+
+  .pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 46px;
+  }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 11px 18px;
+    border-radius: 9999px;
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-foreground);
+  }
+  .pill-ico {
+    display: inline-flex;
+    color: var(--color-brand);
+  }
+
+  @media (max-width: 860px) {
+    .head,
+    .mono {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+    .scell {
+      padding: 28px 24px 10px 0;
+    }
+  }
+</style>
+
+<script>
+  // Count-up on scroll-in. Server text is already the final value, so reduced-motion
+  // and no-JS readers keep the real numbers; this only animates when allowed.
+  const root = document.querySelector<HTMLElement>('.proof');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (root && !reduce && typeof IntersectionObserver !== 'undefined') {
+    const fmt = (n: number) =>
+      n >= 1000 ? Math.round(n).toLocaleString('en-US') : String(Math.round(n));
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          root.querySelectorAll<HTMLElement>('[data-count]').forEach((el) => {
+            const target = parseFloat(el.dataset.count || '0');
+            const suffix = el.dataset.suffix || '';
+            const dur = 1500;
+            const start = performance.now();
+            const tick = (now: number) => {
+              const p = Math.min(1, (now - start) / dur);
+              const eased = 1 - Math.pow(1 - p, 3);
+              el.textContent = fmt(target * eased) + suffix;
+              if (p < 1) requestAnimationFrame(tick);
+              else el.textContent = fmt(target) + suffix;
+            };
+            requestAnimationFrame(tick);
+            // Guarantee the final value even if rAF is throttled/paused mid-run.
+            setTimeout(() => {
+              el.textContent = fmt(target) + suffix;
+            }, dur + 250);
+          });
+          io.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.3 },
+    );
+    io.observe(root);
+  }
+</script>

@@ -1,0 +1,145 @@
+---
+// Why-now — dark manifesto section. The lead paragraph lights word-by-word as it
+// scrolls into view (progressive enhancement: full opacity without JS), followed by a
+// three-column "why this matters now" stat grid.
+interface StatCard {
+  /** Brand-green figure, e.g. "1 in 3", "Hours", "44 states". */
+  value: string;
+  body: string;
+}
+interface Props {
+  eyebrow: string;
+  manifesto: string;
+  stats: StatCard[];
+}
+const { eyebrow, manifesto, stats }: Props = Astro.props;
+const words = manifesto.split(' ');
+---
+
+<section id="why" class="why" aria-labelledby="why-eyebrow">
+  <div class="inner">
+    <p id="why-eyebrow" class="eyebrow" data-home-reveal>{eyebrow}</p>
+
+    <p class="manifesto" data-manifesto>
+      {words.map((w) => <span class="w">{w + ' '}</span>)}
+    </p>
+
+    <div class="grid">
+      {
+        stats.map((s, i) => (
+          <div class="cell" data-home-reveal style={`--reveal-delay:${i * 100}ms`}>
+            <div class="num">{s.value}</div>
+            <p class="body">{s.body}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .why {
+    padding: clamp(5.5rem, 4rem + 6vw, 8.5rem) clamp(20px, 5vw, 34px);
+    background: var(--home-night);
+    color: var(--color-white);
+  }
+  .inner {
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+  .eyebrow {
+    margin: 0 0 36px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--brand-300);
+  }
+
+  .manifesto {
+    margin: 0 0 90px;
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: clamp(26px, 3.4vw, 46px);
+    line-height: 1.32;
+    letter-spacing: -0.02em;
+    color: var(--color-white);
+    text-wrap: pretty;
+  }
+  /* Word-by-word reveal opts in only when JS is present — no-JS/SEO sees full text. */
+  :global(html[data-js-ready]) .manifesto .w {
+    opacity: 0.18;
+    transition: opacity 0.4s var(--ease-out);
+  }
+  .manifesto .w.lit {
+    opacity: 1;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    border-top: 1px solid color-mix(in oklab, var(--color-white) 12%, transparent);
+  }
+  .cell {
+    padding: 40px 32px;
+    border-right: 1px solid color-mix(in oklab, var(--color-white) 12%, transparent);
+  }
+  .cell:first-child {
+    padding-left: 0;
+  }
+  .cell:last-child {
+    padding-right: 0;
+    border-right: 0;
+  }
+  .num {
+    margin-bottom: 16px;
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: clamp(34px, 3.6vw, 48px);
+    letter-spacing: -0.02em;
+    color: var(--brand-300);
+  }
+  .body {
+    margin: 0;
+    font-size: 15.5px;
+    line-height: 1.6;
+    color: color-mix(in oklab, var(--color-white) 70%, transparent);
+  }
+
+  @media (max-width: 720px) {
+    .cell,
+    .cell:first-child,
+    .cell:last-child {
+      padding: 28px 0;
+      border-right: 0;
+      border-bottom: 1px solid color-mix(in oklab, var(--color-white) 12%, transparent);
+    }
+    .cell:last-child {
+      border-bottom: 0;
+    }
+  }
+</style>
+
+<script>
+  // Light the manifesto word-by-word as it scrolls through the viewport. Reduced
+  // motion (and no JS) → all words fully lit.
+  const p = document.querySelector('[data-manifesto]');
+  if (p) {
+    const words = Array.from(p.querySelectorAll<HTMLElement>('.w'));
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce || words.length === 0) {
+      words.forEach((w) => w.classList.add('lit'));
+    } else {
+      const update = () => {
+        const h = window.innerHeight || document.documentElement.clientHeight;
+        const r = p.getBoundingClientRect();
+        const progress = (h - r.top) / (h * 0.62);
+        const lit = Math.floor(Math.max(0, Math.min(1, progress)) * words.length);
+        words.forEach((w, i) => w.classList.toggle('lit', i < lit));
+      };
+      window.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update, { passive: true });
+      update();
+    }
+  }
+</script>
