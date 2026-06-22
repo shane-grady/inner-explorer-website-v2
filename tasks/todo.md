@@ -56,6 +56,12 @@ routes); (3) **real audio** in the Listen section via `VoiceBar` + `maya-hello.m
 - [x] **Staggered entrance reveals** on the How-it-works steps + Funding cards.
 - [x] Verified: check/drift/build green, audio controller (play/pause/seek/skip), manifesto
       reveal (dim→lit on scroll), mobile no-overflow.
+- [x] **Live-now dots tuned for fidelity:** smaller circles (clamp 30→46px, was 58→88px),
+      denser field (56 tiles), and a clearly-random fade in/out (opacity 0.15↔1 + gentle
+      scale) with per-tile delays/durations from a seeded LCG (deterministic, no
+      Math.random) so green dots scatter — no column alignment at any width (the old
+      index-mod pattern stacked dots into a column on the 8-col mobile grid). Animation
+      moved onto the scoped `.tile-photo` (not the `:global(img)`).
 
 ### Stand-ins to replace before publish
 

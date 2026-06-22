@@ -44,35 +44,37 @@ interface Cell {
   delay: string;
   dur: string;
 }
-const SLOTS = 40;
+// A dense field of small circular "dots": mostly student photos (cycled to fill the
+// grid), with flashing green dots woven in on an irregular period (19 — coprime with
+// common column counts) so they scatter instead of lining up. Each dot gets a randomised
+// delay + duration (large coprime multipliers → pseudo-random, but deterministic — no
+// Math.random) so the faces fade in and out independently rather than in unison.
+const SLOTS = 56;
 const cells: Cell[] = [];
 let p = 0;
+// Seeded LCG → deterministic but statistically random (no Math.random, so builds stay
+// stable). Index-based modular patterns align the green dots into a column at some grid
+// widths (e.g. multiples of 8 on mobile); a pseudo-random stream scatters them — and
+// randomises each face's fade delay/duration — at any column count.
+let seed = 1337;
+const rand = () => {
+  seed = (seed * 1103515245 + 12345) & 0x7fffffff;
+  return seed / 0x7fffffff;
+};
 for (let s = 0; s < SLOTS; s++) {
-  // Irregular green-dot placement (period 19 — coprime with common column counts) so
-  // the dots scatter instead of lining up into a column on a 4-col / narrow layout.
-  const isDot = (s * 7 + 3) % 19 < 5 || p >= photos.length;
-  if (isDot) {
+  if (rand() < 0.26) {
     cells.push({
       photo: null,
-      delay: (((s * 11) % 30) / 10).toFixed(2),
-      dur: (2.8 + (s % 3) * 0.5).toFixed(1),
+      delay: (rand() * 3).toFixed(2),
+      dur: (2.6 + rand() * 1.6).toFixed(2),
     });
   } else {
     cells.push({
-      photo: photos[p++],
-      delay: (((s * 7) % 50) / 10).toFixed(2),
-      dur: (5 + (s % 6) * 0.6).toFixed(1),
+      photo: photos[p++ % photos.length],
+      delay: (rand() * 6).toFixed(2),
+      dur: (3.6 + rand() * 3.4).toFixed(2),
     });
   }
-}
-// Guarantee every photo appears even if the dot rule consumed too many slots.
-while (p < photos.length) {
-  const s = cells.length;
-  cells.push({
-    photo: photos[p++],
-    delay: (((s * 7) % 50) / 10).toFixed(2),
-    dur: (5 + (s % 6) * 0.6).toFixed(1),
-  });
 }
 
 const firstCaption = captions[0] ?? '';
@@ -98,7 +100,7 @@ const firstCaption = captions[0] ?? '';
         {
           cells.map((c) =>
             c.photo ? (
-              <div class="tile" style={`--d:${c.delay}s;--dur:${c.dur}s`}>
+              <div class="tile tile-photo" style={`--d:${c.delay}s;--dur:${c.dur}s`}>
                 <Image src={c.photo} alt="" widths={[120, 240]} sizes="96px" loading="lazy" />
               </div>
             ) : (
@@ -188,12 +190,12 @@ const firstCaption = captions[0] ?? '';
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 12px;
+    gap: 10px;
     padding: 8px;
   }
   .tile {
     flex: 0 0 auto;
-    width: clamp(58px, 7.6vw, 88px);
+    width: clamp(30px, 3.6vw, 46px);
     aspect-ratio: 1;
     border-radius: 50%;
     overflow: hidden;
@@ -203,14 +205,16 @@ const firstCaption = captions[0] ?? '';
     height: 100%;
     object-fit: cover;
     display: block;
-    opacity: 0.95;
-    animation: tile-fade var(--dur, 6s) ease-in-out var(--d, 0s) infinite;
+  }
+  /* Faces fade in and out independently. The animation sits on the tile (a scoped
+     selector), not the :global(img), so the scoped @keyframes name resolves cleanly. */
+  .tile-photo {
+    animation: tile-fade var(--dur, 5s) ease-in-out var(--d, 0s) infinite;
   }
   /* Green dot — same size as the face dots, brighter "flash", keeps the original motif. */
   .tile-dot {
     background: var(--brand-400);
-    box-shadow: 0 0 10px 1px color-mix(in oklab, var(--brand-400) 45%, transparent);
-    opacity: 1;
+    box-shadow: 0 0 8px 1px color-mix(in oklab, var(--brand-400) 45%, transparent);
     animation: dot-pulse var(--dur, 3s) ease-in-out var(--d, 0s) infinite;
   }
   .field-vignette {
@@ -219,23 +223,28 @@ const firstCaption = captions[0] ?? '';
     pointer-events: none;
     background: radial-gradient(75% 130% at 50% 50%, transparent 52%, var(--home-night-2) 100%);
   }
-  /* Photos fade in and out; rest at near-full so reduced-motion / no-anim shows them. */
+  /* Faces fade nearly out then back in (rest at full so reduced-motion / no-anim shows
+     them). A gentle scale adds the "in and out" feel. */
   @keyframes tile-fade {
     0%,
     100% {
-      opacity: 0.95;
+      opacity: 1;
+      transform: scale(1);
     }
     50% {
-      opacity: 0.32;
+      opacity: 0.15;
+      transform: scale(0.9);
     }
   }
   @keyframes dot-pulse {
     0%,
     100% {
       opacity: 1;
+      transform: scale(1);
     }
     50% {
-      opacity: 0.3;
+      opacity: 0.28;
+      transform: scale(0.72);
     }
   }
 
