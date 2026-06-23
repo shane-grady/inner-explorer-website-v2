@@ -1,0 +1,206 @@
+---
+import IntroStage from './IntroStage.astro';
+
+// Orchestrates the homepage scroll-intro as ONE combined pinned stage: as the user
+// scrolls, the wave line draws on + the green field fades in + the hero copy slides up
+// to reveal the circle (collapsed toggle) and the problem statement; the line meets the
+// circle; the circle expands into the BALANCE pill; the toggle switches off→on
+// (green→cream); then the pin releases. All under Lenis smooth scroll. Wrapped in
+// `.appearance-light` so the warm/light treatment holds regardless of the global theme
+// (same pattern as the light-only About page). Copy lives here as structured data.
+const headline = 'Calm Minds Learn Better';
+const lede =
+  'The daily audio-guided mindfulness program for PreK-12 classrooms. Reduce stress, improve focus, and foster well-being with just 5–10 minutes a day.';
+const cta = { label: 'Get Started', href: '/contact' };
+const imageAlt =
+  'A student sits quietly with lowered eyes during a calm moment in a busy elementary classroom.';
+
+const balanceLabel = 'Balance';
+const balanceOff = {
+  title: 'If only finding peace in your district was as simple as pressing play.',
+  body: 'Behavioral disruptions steal weeks of instructional time every single year.',
+};
+const balanceOn = {
+  title: 'It turns out, it actually is.',
+  body: 'We reduce those disruptions by 60% with zero prep work required.',
+};
+---
+
+<div class="intro appearance-light" data-intro>
+  <div class="top-blur" aria-hidden="true"></div>
+  <IntroStage
+    headline={headline}
+    lede={lede}
+    cta={cta}
+    imageAlt={imageAlt}
+    balanceLabel={balanceLabel}
+    off={balanceOff}
+    on={balanceOn}
+  />
+</div>
+
+<style>
+  .intro {
+    position: relative;
+    background: var(--surface-warm);
+  }
+
+  /* Fixed top blur — softens the scroll edge under the floating nav. Blur is
+     strongest at the very top and masked away downward. Sits below the nav (z 50). */
+  .top-blur {
+    position: fixed;
+    inset: 0 0 auto 0;
+    height: 120px;
+    z-index: 40;
+    pointer-events: none;
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    -webkit-mask-image: linear-gradient(var(--color-white) 0%, transparent 100%);
+    mask-image: linear-gradient(var(--color-white) 0%, transparent 100%);
+  }
+</style>
+
+<script>
+  import Lenis from 'lenis';
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Module state survives across ClientRouter navigations (window/document persist).
+  let lenis: Lenis | null = null;
+  let rafId = 0;
+  let offFns: Array<() => void> = [];
+
+  const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
+  const smooth = (x: number) => {
+    const t = clamp01(x);
+    return t * t * (3 - 2 * t);
+  };
+
+  function teardown() {
+    offFns.forEach((off) => off());
+    offFns = [];
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = 0;
+    lenis?.destroy();
+    lenis = null;
+    document.getElementById('site-nav')?.classList.remove('on-dark');
+  }
+
+  function init() {
+    teardown();
+    const intro = document.querySelector('[data-intro]');
+    const stage = document.querySelector<HTMLElement>('[data-stage]');
+    const stagePin = document.querySelector<HTMLElement>('.stage-pin');
+    const pin = document.querySelector<HTMLElement>('[data-pin]');
+    const hero = document.querySelector<HTMLElement>('[data-hero]');
+    const heroContent = document.querySelector<HTMLElement>('.hero-content');
+    const overlay = document.querySelector<HTMLElement>('.overlay');
+    const balance = document.querySelector<HTMLElement>('[data-balance]');
+    if (!intro || !stage || !stagePin || !pin || !hero || !heroContent || !overlay || !balance)
+      return; // not on the intro page
+
+    const lines = document.querySelector<SVGElement>('[data-hero-lines]');
+    const wavePaths = [...document.querySelectorAll<SVGPathElement>('[data-wave]')];
+    const switchBtn = document.querySelector<HTMLButtonElement>('[data-balance-switch]');
+    const navEl = document.getElementById('site-nav');
+
+    const lens = wavePaths.map((p) => {
+      try {
+        return p.getTotalLength();
+      } catch {
+        return 0;
+      }
+    });
+    wavePaths.forEach((p, i) => {
+      p.style.strokeDasharray = String(lens[i]);
+    });
+
+    const setState = (on: boolean) => {
+      pin.dataset.state = on ? 'on' : 'off';
+      switchBtn?.setAttribute('aria-checked', String(on));
+    };
+
+    const pinRange = () => Math.max(1, stage.offsetHeight - stagePin.offsetHeight);
+
+    // One progress value (0→1 across the pin) choreographs the whole stage:
+    // line draws (visible) → its end meets the rising pill (connect) → toggle switches
+    // (the button "animates") → line fades.
+    const apply = (p: number) => {
+      const vh = window.innerHeight;
+      // 1. Hero copy slides all the way up the page; fades as it clears the swirl.
+      heroContent.style.setProperty('--hero-up', `${p * vh * 1.4}px`);
+      heroContent.style.setProperty('--hero-fade', String(smooth((p - 0.36) / 0.18)));
+      hero.classList.toggle('is-faded', p > 0.55);
+      // 2. Line draws on (stays on-screen), finishing right as the pill arrives (~0.52).
+      const drawn = clamp01(0.06 + p * 1.78);
+      wavePaths.forEach((pa, i) => {
+        pa.style.strokeDashoffset = String(lens[i] * (1 - drawn));
+      });
+      // Holds while connected, then fades out as the toggle switches.
+      lines?.style.setProperty('--line-opacity', String(clamp01(1 - smooth((p - 0.6) / 0.14))));
+      // 3. Green overlay fades in over the photo.
+      overlay.style.setProperty('--field-in', String(smooth(p / 0.42)));
+      // 4. Balance rises UP FROM THE BOTTOM; the pill reaches the line's end (~p0.5).
+      const reveal = smooth(p / 0.5);
+      balance.style.setProperty('--balance-up', `${(1 - reveal) * vh * 0.45}px`);
+      balance.style.setProperty('--balance-in', String(smooth((p - 0.08) / 0.3)));
+      balance.classList.toggle('is-live', p > 0.5);
+      // 5. The toggle switches off→on (green→cream, problem→solution).
+      setState(p > 0.62);
+      // Nav reads on-dark only while the photo is prominent.
+      navEl?.classList.toggle('on-dark', p < 0.32);
+    };
+
+    const update = () => {
+      if (!reduce) apply(clamp01(window.scrollY / pinRange()));
+    };
+
+    if (reduce) {
+      // No pin/scrub (CSS unpins the stage): hero, then the Balance below it; line drawn
+      // + faint; overlay shown; toggle off but operable by click.
+      heroContent.style.setProperty('--hero-up', '0px');
+      heroContent.style.setProperty('--hero-fade', '0');
+      lines?.style.setProperty('--line-opacity', '0.3');
+      overlay.style.setProperty('--field-in', '1');
+      balance.style.setProperty('--balance-up', '0px');
+      balance.style.setProperty('--balance-in', '1');
+      balance.classList.add('is-live');
+      wavePaths.forEach((p) => {
+        p.style.strokeDashoffset = '0';
+      });
+      setState(false);
+    } else {
+      lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
+      const raf = (time: number) => {
+        lenis?.raf(time);
+        rafId = requestAnimationFrame(raf);
+      };
+      rafId = requestAnimationFrame(raf);
+      lenis.on('scroll', update);
+    }
+
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update, { passive: true });
+    offFns.push(() => window.removeEventListener('scroll', update));
+    offFns.push(() => window.removeEventListener('resize', update));
+
+    // Clicking the switch scrolls to the matching point so the scrub follows, with
+    // instant state feedback so the tap feels responsive.
+    const onClick = () => {
+      const goingOn = pin.dataset.state !== 'on';
+      setState(goingOn);
+      if (reduce || !lenis) return;
+      const stageTop = stage.getBoundingClientRect().top + window.scrollY;
+      lenis.scrollTo(stageTop + pinRange() * (goingOn ? 0.82 : 0.55), { duration: 1.1 });
+    };
+    switchBtn?.addEventListener('click', onClick);
+    offFns.push(() => switchBtn?.removeEventListener('click', onClick));
+
+    update();
+  }
+
+  // Init on initial load and after every ClientRouter navigation; tear down before
+  // each swap so Lenis/listeners never leak onto a stale document.
+  document.addEventListener('astro:page-load', init);
+  document.addEventListener('astro:before-swap', teardown);
+</script>

@@ -1,6 +1,7 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
+import IntroScroll from '../components/blocks/intro/IntroScroll.astro';
 
 import LiveNow from '../components/blocks/home/LiveNow.astro';
 import WhyNow from '../components/blocks/home/WhyNow.astro';
@@ -319,15 +320,8 @@ const homeLd = {
   <JsonLd slot="head" schema={homeLd} />
 
   <div class="appearance-light">
-    {
-      /*
-      SPLASH SEAM — the hero/splash is intentionally NOT built yet (per direction).
-      Drop the real splash block here; it should carry the page's single visible <h1>.
-      Until then the sr-only <h1> below keeps the page valid + SEO-sound, and the page
-      opens on the "Live-now" section under the floating nav.
-    */
-    }
-    <h1 class="sr-only">Inner Explorer — daily audio-guided mindfulness for K-12 schools</h1>
+    {/* SPLASH — the scroll-driven intro carries the page's single visible <h1>. */}
+    <IntroScroll />
 
     <LiveNow
       eyebrow={liveNow.eyebrow}
