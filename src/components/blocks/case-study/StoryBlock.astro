@@ -5,14 +5,15 @@ import type { ValueLabel } from './types';
 
 // Editorial narrative split: a text column (eyebrow + heading + paragraphs) beside a
 // tall photo with an optional glass stat chip. `reversed` flips the column order for
-// rhythm (Challenge left-text, Approach right-text). Broadly reusable for any
+// rhythm (Challenge left-text, Approach right-text). When no `image` is passed the
+// section renders as a single centered text column. Broadly reusable for any
 // "story + supporting image" section.
 interface Props {
   eyebrow: string;
   heading: string;
   body: string[];
-  image: ImageMetadata;
-  imageAlt: string;
+  image?: ImageMetadata;
+  imageAlt?: string;
   statChip?: ValueLabel;
   reversed?: boolean;
   id?: string;
@@ -31,30 +32,32 @@ const {
 
 <section class="story" id={id}>
   <div class="wrap">
-    <div class:list={['grid', { reversed }]}>
+    <div class:list={['grid', { reversed, solo: !image }]}>
       <div class="text" data-cs-reveal>
         <span class="eyebrow">{eyebrow}</span>
         <h2 class="h2">{heading}</h2>
         {body.map((p) => <p>{p}</p>)}
       </div>
-      <div class="media" data-cs-reveal>
-        <Image
-          class="img"
-          src={image}
-          alt={imageAlt}
-          widths={[560, 900, 1200]}
-          sizes="(max-width: 880px) 100vw, 560px"
-          loading="lazy"
-        />
-        {
-          statChip && (
-            <div class="chip">
-              <div class="v">{statChip.value}</div>
-              <div class="l">{statChip.label}</div>
-            </div>
-          )
-        }
-      </div>
+      {
+        image && (
+          <div class="media" data-cs-reveal>
+            <Image
+              class="img"
+              src={image}
+              alt={imageAlt ?? ''}
+              widths={[560, 900, 1200]}
+              sizes="(max-width: 880px) 100vw, 560px"
+              loading="lazy"
+            />
+            {statChip && (
+              <div class="chip">
+                <div class="v">{statChip.value}</div>
+                <div class="l">{statChip.label}</div>
+              </div>
+            )}
+          </div>
+        )
+      }
     </div>
   </div>
 </section>
@@ -76,6 +79,16 @@ const {
   }
   .grid.reversed .text {
     order: 2;
+  }
+  /* No image → a single centered text column (still on the editorial measure). */
+  .grid.solo {
+    grid-template-columns: 1fr;
+    max-width: 760px;
+    margin-inline: auto;
+    text-align: center;
+  }
+  .grid.solo .eyebrow {
+    justify-content: center;
   }
 
   .eyebrow {

@@ -130,33 +130,6 @@ intro:
         more calm and less reactive during the day.
     image: '../../assets/images/case-studies/goddard-middle-school/approach-doodling-while-listening.jpg'
     imageAlt: 'A middle school student doodling at a desk while listening to an audio-guided mindfulness practice'
-    # Card titles carry the source's own "Key Findings" — the four-item playbook the
-    # legacy case study offers any school community integrating MBSEL.
-    pillars:
-      - icon: 'heart'
-        title: 'Elect a champion'
-        text: >-
-          Put someone dedicated behind the program. At Goddard, counselors and school
-          leadership owned the rollout — from classroom practice to the family
-          presentation — and made its success their job.
-      - icon: 'repeat'
-        title: 'Complement what already works'
-        text: >-
-          Brainstorm how MBSEL can complement an existing program, such as SEL lessons.
-          Goddard ran its daily practice right before or after the SEL lesson, making
-          the transition easier for students and educators alike.
-      - icon: 'palette'
-        title: 'Adapt to your students'
-        text: >-
-          Meet the needs of the students within the community: a safe place to listen
-          for a student who is upset, and coloring or doodling for students who aren't
-          ready to sit still with their eyes closed.
-      - icon: 'compass'
-        title: 'Communicate the why and how'
-        text: >-
-          Goddard leadership held a presentation for staff and families on the research
-          and benefits behind MBSEL — and made sure every family had the opportunity to
-          ask questions.
 
 timeline:
   eyebrow: 'The Trajectory'
@@ -206,6 +179,10 @@ timeline:
 metrics:
   eyebrow: 'The Results'
   heading: 'Academic growth that made the state take notice'
+  # PLACEHOLDER: results photo — reusing an existing gallery image until a
+  # dedicated results photo is added (swap this one line per case study).
+  image: '../../assets/images/case-studies/goddard-middle-school/gallery-6-ready-classroom.jpg'
+  imageAlt: 'A calm, quiet middle school classroom ready for the day'
   # The first sentence is the page's canonical claim — keep it byte-identical
   # wherever this story is summarized (cards, anchors, social copy).
   note: >-
