@@ -140,35 +140,6 @@ intro:
         adopt, change, and model — made it stick.
     image: '../../assets/images/case-studies/kaiser-elementary/approach-small-group.jpg'
     imageAlt: 'A small group of young students practicing mindfulness with a school counselor'
-    # Card titles are descriptive takeaways (what skimming administrators retain);
-    # the source taxonomy — embed / champion / adopt / change / model — is named in
-    # the approach body paragraph above. "Change" and "Model" fold into the last card.
-    pillars:
-      - icon: 'calendar'
-        title: 'Embedded in the daily schedule'
-        text: >-
-          Principal Hardman allocated time in the daily curriculum and made the purpose
-          clear to staff: mindfulness was a priority. The entire school practiced
-          together every morning.
-      - icon: 'heart'
-        title: 'Champions built momentum'
-        text: >-
-          The school-based therapist and a lead teacher — both drawn to the approach —
-          were selected as champions, and built positive momentum throughout the
-          school.
-      - icon: 'repeat'
-        title: 'Adoption spread by what teachers saw'
-        text: >-
-          Early adopters noticed improvements in students' emotional regulation and
-          attention. Teachers who hadn't bought in watched the changes reach the
-          playground — and were grateful for the chance to join in.
-      - icon: 'compass'
-        title: 'A routine that became a culture'
-        text: >-
-          Once daily practice was part of the routine, students grew more self-aware,
-          regulated, focused, and collaborative — and the practice became a platform
-          for connection as students, faculty, and families practiced together every
-          day.
 
 timeline:
   eyebrow: 'The Turnaround'
@@ -194,6 +165,10 @@ timeline:
 metrics:
   eyebrow: 'The Results'
   heading: 'What ten minutes a day changed in one year'
+  # PLACEHOLDER: results photo — reusing an existing gallery image until a
+  # dedicated results photo is added (swap this one line per case study).
+  image: '../../assets/images/case-studies/kaiser-elementary/gallery-6-quiet-classroom.jpg'
+  imageAlt: 'A calm early-elementary classroom ready for the day'
   # The first sentence is the page's canonical claim — keep it byte-identical
   # wherever this story is summarized (cards, anchors, social copy).
   note: >-

@@ -121,38 +121,6 @@ intro:
         drastic decrease in the number of reported behavioral issues.
     image: '../../assets/images/case-studies/la-joya-isd/approach-press-play.jpg'
     imageAlt: 'A teacher starting an audio-guided mindfulness practice for her special education class'
-    # The four cards are the source case study's own best practices for using
-    # Inner Explorer in a special education classroom — kept under their themes.
-    pillars:
-      - icon: 'calendar'
-        title: 'A set time, twice a day'
-        text: >-
-          A predictable routine helps students know what to expect. Judith's
-          classroom practices twice a day — in the morning to prepare for academics,
-          and at the end of the school day before going home — with the lights dimmed
-          to reduce distractions and signal that it is time for mindfulness.
-      - icon: 'heart'
-        title: 'Adults practice too'
-        text: >-
-          Judith participates in every practice alongside her students. Practicing
-          together removes the stigma and helps students feel safe. Inner Explorer
-          reports improved well-being and 43% less stress among teachers who
-          practice mindfulness.
-      - icon: 'repeat'
-        title: "A reset, right when it's needed"
-        text: >-
-          The set times are the backbone, not the limit. "If we are in the middle of
-          a math lesson and they become overwhelmed and can't focus, I will offer to
-          do a session right then and there — or the students will ask me to play an
-          Inner Explorer practice," Judith says. The mid-lesson reset gives students
-          a self-regulation strategy for settling and refocusing on the task at hand.
-      - icon: 'palette'
-        title: 'Reflect, draw, share'
-        text: >-
-          Every practice includes time for independent reflection. Judith created a
-          corner display where students can hang their reflection drawings or journal
-          entries if they choose — encouraging self-expression and offering a window
-          into their lives beyond the classroom.
 
 timeline:
   eyebrow: 'The Turnaround'
@@ -184,6 +152,10 @@ timeline:
 metrics:
   eyebrow: 'The Results'
   heading: 'What a twice-daily practice changed'
+  # PLACEHOLDER: results photo — reusing an existing gallery image until a
+  # dedicated results photo is added (swap this one line per case study).
+  image: '../../assets/images/case-studies/la-joya-isd/gallery-5-finding-voice.jpg'
+  imageAlt: 'A student raising a hand to ask for what they need during class'
   # The first sentence is the page's canonical claim — keep it byte-identical
   # wherever this story is summarized (cards, anchors, social copy).
   note: >-

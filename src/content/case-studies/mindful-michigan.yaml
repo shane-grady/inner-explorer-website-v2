@@ -133,38 +133,6 @@ intro:
         to students taking deep breaths on their own.
     image: '../../assets/images/case-studies/mindful-michigan/approach-press-play.jpg'
     imageAlt: 'An educator starting the day’s audio-guided mindfulness practice for a classroom of students'
-    # Four pillar cards carry the model's four operating components; the remaining
-    # two (Inspired Innovation, Collaboration and Collective Impact) are named in
-    # the body paragraphs above with their concrete examples.
-    pillars:
-      - icon: 'play'
-        title: 'One daily practice, 180 days a year'
-        text: >-
-          Every setting starts from the same foundation: sequenced, 10-minute
-          audio-guided practices, every school day — a universal, Tier 1 support for
-          every student and educator, no screening or identification required. Easy
-          to use, with transition-responsive practices that together promote
-          wellbeing, academic achievement, and school safety.
-      - icon: 'chart'
-        title: 'Data-driven from day one'
-        text: >-
-          Real-time usage data and meaningful-impact evaluation guide decisions —
-          including data reviews with the initiative's biggest partners and a
-          statewide public-records analysis comparing Inner Explorer schools with
-          demographically matched peers.
-      - icon: 'heart'
-        title: 'Home and school practice together'
-        text: >-
-          The model links home and school for family engagement and transparency.
-          Southfield's growth came from students, staff, and families joining the same
-          daily practice — not from students practicing alone.
-      - icon: 'compass'
-        title: 'Equity by design'
-        text: >-
-          The model deliberately includes youth in juvenile detention centers,
-          foster-care group homes, early learning centers, out-of-school-time
-          programs, and children's hospitals — with practices available in English
-          and Spanish.
 
 timeline:
   eyebrow: 'The Rollout'
@@ -194,6 +162,10 @@ timeline:
 metrics:
   eyebrow: 'The Results'
   heading: 'What a statewide daily practice changed'
+  # PLACEHOLDER: results photo — reusing an existing gallery image until a
+  # dedicated results photo is added (swap this one line per case study).
+  image: '../../assets/images/case-studies/mindful-michigan/gallery-1-elementary-practice.jpg'
+  imageAlt: 'Young students sitting at their desks with eyes closed during the daily mindfulness practice'
   # The first sentence is the page's canonical claim — keep it byte-identical
   # wherever this story is summarized (cards, anchors, social copy).
   note: >-

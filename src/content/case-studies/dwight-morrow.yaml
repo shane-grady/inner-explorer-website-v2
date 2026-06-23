@@ -123,40 +123,6 @@ intro:
         resources, including MBSEL programs such as Inner Explorer.
     image: '../../assets/images/case-studies/dwight-morrow/approach-club-leaders.jpg'
     imageAlt: 'Student leaders running a Project Happiness Club meeting in a high school classroom'
-    # The four cards are the source case study's own "four key findings" for
-    # starting a youth well-being club — kept under their original names.
-    pillars:
-      - icon: 'heart'
-        title: 'Get student buy-in'
-        text: >-
-          Getting students to buy in starts with peers going first: students may feel
-          embarrassed or hesitant to talk about mental health, but when student leaders
-          step up and set an example, they create a safe space for their peers to
-          express themselves too. "The perception of mental health begins to change,"
-          shares Principal Suro — stigma reduction that opens the door to help-seeking.
-      - icon: 'palette'
-        title: 'Expand on student strengths'
-        text: >-
-          Every club member holds a role that develops a skill they already have. One
-          student artist creates an art piece illustrating a positive message of the
-          week, shared via the school announcements. Playing to their strengths gives
-          students purpose and fuels their passion behind the mission.
-      - icon: 'chart'
-        title: 'Make the case to administration'
-        text: >-
-          MBSEL provides a pathway to key skills like self-awareness and emotional
-          regulation, and daily practice has been shown to reduce stress and amplify
-          learning. In MTSS terms, daily practice is a Tier 1 universal support —
-          prevention for every student, not a referral-based service. Communicating
-          those benefits to school administration is the first step in bringing a
-          mental health club to your school.
-      - icon: 'compass'
-        title: 'Communicate the long-term impact'
-        text: >-
-          Students are used to instant gratification — "they have to understand the
-          'why' behind what they are doing, otherwise they will feel discouraged if
-          they do not see results right away," shares Mrs. Conceicao. Naming the
-          long-term impact from the get-go keeps students motivated.
 
 timeline:
   eyebrow: 'The Turnaround'
@@ -186,6 +152,10 @@ timeline:
 metrics:
   eyebrow: 'The Results'
   heading: 'What a student-led quest changed'
+  # PLACEHOLDER: results photo — reusing an existing gallery image until a
+  # dedicated results photo is added (swap this one line per case study).
+  image: '../../assets/images/case-studies/dwight-morrow/gallery-1-club-circle.jpg'
+  imageAlt: 'Club members sitting in a circle during a guided mindfulness practice'
   # The first sentence is the page's canonical claim — keep it byte-identical
   # wherever this story is summarized (cards, anchors, social copy).
   note: >-

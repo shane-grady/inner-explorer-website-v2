@@ -1,0 +1,112 @@
+---
+// Funding — a split header over a four-card row of funding streams. Light surface.
+interface Card {
+  title: string;
+  body: string;
+}
+interface Props {
+  eyebrow: string;
+  headingLead: string;
+  headingAccent: string;
+  intro: string;
+  cards: Card[];
+}
+const { eyebrow, headingLead, headingAccent, intro, cards }: Props = Astro.props;
+---
+
+<section id="bring" class="funding" aria-labelledby="funding-heading">
+  <div class="inner">
+    <header class="head" data-home-reveal>
+      <div>
+        <p class="eyebrow">{eyebrow}</p>
+        <h2 id="funding-heading" class="h">
+          {headingLead}{' '}
+          <em>{headingAccent}</em>
+        </h2>
+      </div>
+      <p class="intro">{intro}</p>
+    </header>
+
+    <div class="cards" data-home-reveal>
+      {
+        cards.map((c) => (
+          <div class="card">
+            <div class="card-title">{c.title}</div>
+            <p class="card-body">{c.body}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .funding {
+    padding: clamp(5rem, 4rem + 5vw, 7.5rem) clamp(20px, 5vw, 34px);
+    background: var(--color-background);
+    color: var(--color-foreground);
+  }
+  .inner {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  .head {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+    align-items: center;
+    margin-bottom: 50px;
+  }
+  .eyebrow {
+    margin: 0 0 16px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-brand);
+  }
+  .h {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: clamp(28px, 3.8vw, 46px);
+    line-height: 1.06;
+    letter-spacing: -0.03em;
+    color: var(--color-foreground);
+  }
+  .h em {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+  }
+  .intro {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.62;
+    color: var(--color-muted-foreground);
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+  }
+  .card {
+    padding: 28px 26px;
+    border-radius: var(--radius-xl);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+  }
+  .card-title {
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--color-foreground);
+  }
+  .card-body {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--color-muted-foreground);
+  }
+</style>

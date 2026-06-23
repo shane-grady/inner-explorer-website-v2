@@ -331,11 +331,17 @@ const {
     line-height: 1.6;
     margin: 0;
     max-width: 540px;
-    color: color-mix(in oklab, var(--color-white) 82%, transparent);
+    color: color-mix(in oklab, var(--color-white) 92%, transparent);
+    text-shadow:
+      0 1px 12px color-mix(in oklab, var(--color-black) 46%, transparent),
+      0 1px 3px color-mix(in oklab, var(--color-black) 36%, transparent);
   }
   .cin-lede :global(strong) {
     color: var(--color-white);
     font-weight: 600;
+    text-shadow:
+      0 1px 12px color-mix(in oklab, var(--color-black) 52%, transparent),
+      0 1px 3px color-mix(in oklab, var(--color-black) 40%, transparent);
   }
   .cin-ctas {
     display: flex;

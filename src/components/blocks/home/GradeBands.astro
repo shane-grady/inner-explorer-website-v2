@@ -1,0 +1,166 @@
+---
+// Grade spectrum — four grade-band tiles whose green deepens from Pre-K to 9–12.
+// Each tile links into the platform. Light surface.
+interface Band {
+  grade: string;
+  title: string;
+  body: string;
+  href: string;
+  /** 0 = lightest (Pre-K) → 3 = deepest (9–12). Drives the green ramp + text color. */
+  tone: number;
+}
+interface Props {
+  eyebrow: string;
+  headingLead: string;
+  headingAccent: string;
+  bands: Band[];
+}
+const { eyebrow, headingLead, headingAccent, bands }: Props = Astro.props;
+---
+
+<section id="grades" class="grades" aria-labelledby="grades-heading">
+  <div class="inner">
+    <header class="head" data-home-reveal>
+      <p class="eyebrow">{eyebrow}</p>
+      <h2 id="grades-heading" class="h">
+        {headingLead}{' '}
+        <em>{headingAccent}</em>
+      </h2>
+    </header>
+
+    <div class="bands" data-home-reveal>
+      {
+        bands.map((b) => (
+          <a class={`band band-${b.tone}`} href={b.href}>
+            <div class="grade">{b.grade}</div>
+            <div class="band-foot">
+              <div class="band-title">{b.title}</div>
+              <p class="band-body">{b.body}</p>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .grades {
+    padding: 0 clamp(20px, 5vw, 34px) clamp(4rem, 3rem + 5vw, 7.5rem);
+    background: var(--color-background);
+    color: var(--color-foreground);
+  }
+  .inner {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  .head {
+    margin-bottom: 40px;
+  }
+  .eyebrow {
+    margin: 0 0 14px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-brand);
+  }
+  .h {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: clamp(26px, 3.2vw, 40px);
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    color: var(--color-foreground);
+  }
+  .h em {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  .bands {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+    min-height: 220px;
+  }
+  .band {
+    padding: 30px 26px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 24px;
+    transition: transform 0.3s var(--ease-out);
+  }
+  .band:hover {
+    transform: translateY(-4px);
+  }
+  .grade {
+    font-weight: 600;
+    font-size: 22px;
+    letter-spacing: -0.01em;
+  }
+  .band-title {
+    margin-bottom: 6px;
+    font-weight: 600;
+    font-size: 15px;
+  }
+  .band-body {
+    margin: 0;
+    font-size: 13.5px;
+    line-height: 1.5;
+  }
+
+  /* Green ramp — light tiles carry ink text, deep tiles carry white. */
+  .band-0 {
+    background: var(--brand-100);
+  }
+  .band-1 {
+    background: var(--brand-200);
+  }
+  .band-0 .grade,
+  .band-1 .grade {
+    color: var(--brand-800);
+  }
+  .band-0 .band-title,
+  .band-1 .band-title {
+    color: var(--color-foreground);
+  }
+  .band-0 .band-body,
+  .band-1 .band-body {
+    color: color-mix(in oklab, var(--color-foreground) 72%, transparent);
+  }
+  .band-2 {
+    background: var(--brand-500);
+  }
+  .band-3 {
+    background: var(--brand-800);
+  }
+  .band-2 .grade,
+  .band-3 .grade,
+  .band-2 .band-title,
+  .band-3 .band-title {
+    color: var(--color-white);
+  }
+  .band-2 .band-body,
+  .band-3 .band-body {
+    color: color-mix(in oklab, var(--color-white) 85%, transparent);
+  }
+
+  @media (max-width: 760px) {
+    .bands {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .band {
+      transition: none;
+    }
+    .band:hover {
+      transform: none;
+    }
+  }
+</style>
