@@ -58,6 +58,100 @@ any correction or surprise.
   doesn't). `export interface` from frontmatter is fine; a multi-line union is not.
   Fix: put shared union types in a plain `.ts` module and import them
   (`import type { Cover } from './types'`). See `blocks/newsroom/types.ts`.
+- **`BaseLayout` ships `<ClientRouter />` (view transitions), so component `<script>`
+  tags run ONCE and do NOT re-execute on client-side navigation.** Any page-specific
+  script that wires listeners / instantiates libraries (Lenis, IntersectionObservers,
+  scroll controllers) silently dies after a soft-nav back to that page — the DOM is
+  re-rendered but the script never re-runs (verified: `html.lenis` absent after
+  home→about→home). Fix pattern: wrap setup in `init()`, bind on
+  `document.addEventListener('astro:page-load', init)` (fires on first load AND every
+  nav), and tear down `window`/`document` listeners + `lenis.destroy()` +
+  `cancelAnimationFrame` on `astro:before-swap` so nothing leaks onto a stale document.
+  `Header.astro` and `blocks/intro/IntroScroll.astro` both use this. Lenis also needs
+  its base CSS in `global.css` (incl. `.lenis.lenis-smooth { scroll-behavior: auto }`
+  to override the global smooth-scroll).
+
+## Homepage scroll-intro (Framer → Astro port, 2026-06)
+
+- **Extracting assets from a finished Framer site: a "sticky Image" layer can be a
+  BLURRED backdrop, not the sharp photo.** The visible classroom hero was a separate
+  `data-framer-name="Hero Image"` layer (`CRQ….png`); the layer named "Image" held a
+  blurred green gradient (`A6yz8….jpg`). Always read the `<img src>` inside EACH named
+  layer (`[data-framer-name]`) and eyeball the downloaded file before wiring it in —
+  don't trust the layer name. Framer DOM recon that worked: `document.querySelectorAll(
+'[data-framer-name]')` for the layer tree + per-layer `querySelector('img').src`.
+- **The wave line is a SCROLL-SCRUBBED SVG draw, not a static overlay.** First pass
+  rendered the line as a fixed full-screen layer that just faded — wrong. The source
+  ties `stroke-dashoffset` to scroll (measured live: offset `1343→0` over the first
+  ~800px = the stroke draws on as you scroll, into a halo around the student), then
+  fades opacity `1→0`. Recreate by: measure `path.getTotalLength()`, set
+  `strokeDasharray=len`, and per scroll frame set `strokeDashoffset = len*(1-drawn)`
+  where `drawn` is a function of pin progress. Drive `--line-opacity` + the CTA reveal
+  from the same progress value.
+- **The hero and the Balance toggle are ONE combined pinned stage, not two.** The
+  source gives the illusion they're a single continuous scene: a shared backdrop stays
+  pinned (measured: the blurred `Image` layer's `top` is 0 across the whole y=0→2500
+  sweep, as is the `Circles Container`) while the sharp hero scrolls/fades out and the
+  Balance content scrolls up + pins over it. Building them as two sequential `sticky`
+  scenes (hero pin → release → toggle pin) reads as a hard handoff and was the bug.
+  Rebuilt as a single `IntroStage.astro`: one tall section (`~340svh`) with ONE sticky
+  `.stage-pin` (100svh) holding layered, absolutely-positioned `.field` (green→cream
+  Balance, z1, behind) + `.hero` (photo + line + copy, z2, front). One scroll-progress
+  value (`scrollY / (stage.offsetHeight − pin.offsetHeight)`) drives every phase via CSS
+  vars: `--hero-out` (copy/photo slide up + fade), per-path `strokeDashoffset` +
+  `--line-opacity` (line draws then fades), `--field-in` (green field fades in),
+  `--toggle-expand` (the collapsed circle widens 32px→64px into the pill), and a
+  `data-state` flip (green→cream / problem→solution). Order matters: line draw + field
+  fade-in + hero fade-up overlap early; circle expand mid; toggle switch ~p0.68.
+- **In a pinned stage, simulate scroll with transforms — don't just fade.** First combined
+  pass faded the hero in place and centred the Balance, which read as static/abrupt. The
+  source actually MOVES the content over the pinned backdrop: the hero copy slides the
+  full viewport UP (`--hero-up` = `p * vh * 1.4` px) and fades only late (`p 0.5→0.72`),
+  while the Balance rises UP FROM THE BOTTOM (`--balance-up` from `~0.42*vh` px → 0). Two
+  layers (`.hero` z3, `.balance` z2) over a pinned photo (z0) + green/cream overlay (z1).
+- **Connecting a drawn SVG line to a target element — measure the END in SCREEN coords,
+  don't eyeball the bounding box.** The path's last-drawn point = `getPointAtLength(len -
+dashoffset)`; map it to the page with `getScreenCTM()` (`sx = a*x + c*y + e`,
+  `sy = b*x + d*y + f`). Compare THAT point to the target's rect, not the svg's bbox
+  (the bbox bottom ≠ the stroke's visual end). Two things made the connection land: (1)
+  the line must be sized so most of the swirl is ON-SCREEN while drawing — a small line
+  positioned with its body off-viewport reads as a stray tail, not an animating line;
+  (2) the target (here the BALANCE pill) must be CENTRED on the viewport so the centred
+  line-end lands inside it — the "BALANCE" label has to float `position:absolute` to the
+  pill's left (`right: calc(100% + 16px)`) instead of being an in-flow fl/`gap` sibling,
+  which had shoved the pill ~45px right of centre. Verified: end `(711,399)` inside pill
+  `688–752 × 398–430`. The pill is a CONSTANT-size toggle — it does not expand from a
+  circle (an earlier wrong guess); "the button animates" = the knob sliding on switch.
+  Sequence that reads right: line draws (visible) → completes as the rising pill reaches
+  it (~p0.52, connect) → toggle switches (~p0.62) → line fades (~p0.6→0.74).
+- **Tuning a scroll-scrubbed scene: jump Lenis to exact frames + verify in the
+  chrome-devtools browser, not `preview_screenshot`.** `lenis.scrollTo(y,{immediate:true})`
+  (via a temporary `window.__lenis` handle, removed before ship) plus `lenis.stop()` locks
+  a frame; wheel-scrubbing drifts via momentum. `mcp__Claude_Preview__preview_screenshot`
+  repeatedly returned BLANK even when `preview_eval` confirmed the right scroll/pin state —
+  load `http://localhost:<port>/` in the `chrome-devtools` MCP browser and screenshot
+  there for reliable full-res frames.
+- **Nav on-dark must be progress-driven, not `#hero`-presence-driven, for a combined
+  stage.** Since the pinned `#hero` stays in the viewport the whole time, keying nav
+  on-dark off its rect leaves white nav text on the cream "on" surface (unreadable).
+  The intro controller toggles `#site-nav.on-dark` only while `p < ~0.34` (photo
+  prominent) and clears it on teardown; `Header.astro` no longer touches it.
+- **Reduced motion for a pinned scrubbed stage:** unpin it. `@media
+(prefers-reduced-motion: reduce)` sets `.stage{height:auto}`, `.stage-pin{position:
+static}`, and the layers to `position:relative` so the hero and Balance read as two
+  normal stacked blocks; the toggle stays click-operable. The controller skips Lenis +
+  scrubbing and just sets the resolved static values.
+- **After deleting a component import (or any mid-edit SSR error like "X is not
+  defined"), the Astro/Vite dev server can wedge** — it kept serving a stale render
+  where the new component's scoped CSS didn't apply (`.hero-pin` computed `static`,
+  wrong section height) even after a hard browser reload. `pnpm check`/`build` were
+  clean. Fix: restart the dev server (`preview_stop` + `preview_start`) to clear Vite's
+  module cache; don't trust the browser after a transient SSR error.
+- **CSS mask for a bottom fade with no raw color (drift guard):**
+  `mask-image: linear-gradient(var(--color-white) 88%, transparent)` — white = opaque
+  alpha, `transparent` = alpha 0; the color is irrelevant to an alpha mask, so it stays
+  token-clean. The drift guard scans `.astro/.tsx` for raw hex / `rgb()` even inside
+  `<style>`, so never write `#000`/`rgba()` there; SVG path `d=` attrs are fine.
 
 ## ESLint (flat, v10)
 

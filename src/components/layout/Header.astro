@@ -130,6 +130,38 @@ const isActive = (rawHref: string) => {
     background: color-mix(in oklab, var(--color-card) 92%, transparent);
   }
 
+  /* On-dark variant — used while an immersive dark hero sits under the nav (e.g. the
+     homepage scroll-intro). Dark glass + white chrome for contrast; reverts to the
+     light glass pill once the page scrolls past the hero. Toggled by the script. */
+  .nav.on-dark {
+    background: color-mix(in oklab, var(--neutral-950) 44%, transparent);
+    border-color: color-mix(in oklab, var(--color-white) 22%, transparent);
+  }
+  .nav.on-dark .nav-brand span,
+  .nav.on-dark .nav-link,
+  .nav.on-dark .nav-signin,
+  .nav.on-dark .nav-burger {
+    color: var(--color-white);
+  }
+  .nav.on-dark .nav-brand em {
+    color: var(--brand-300);
+  }
+  .nav.on-dark .nav-link:hover,
+  .nav.on-dark .nav-link.on {
+    color: var(--color-white);
+    background: color-mix(in oklab, var(--color-white) 16%, transparent);
+  }
+  .nav.on-dark .nav-cta {
+    background: var(--color-white);
+    color: var(--neutral-950);
+  }
+  .nav.on-dark .nav-burger:hover {
+    background: color-mix(in oklab, var(--color-white) 16%, transparent);
+  }
+  .nav.on-dark :global(.theme-toggle) {
+    color: var(--color-white);
+  }
+
   .nav-brand {
     display: flex;
     align-items: center;
@@ -277,27 +309,48 @@ const isActive = (rawHref: string) => {
 </style>
 
 <script>
-  // Scrolled state — subtle opacity bump after a little scroll.
-  const nav = document.getElementById('site-nav');
-  const onScroll = () => nav?.classList.toggle('scrolled', window.scrollY > 40);
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
+  // Re-init on every page-load (initial + each ClientRouter navigation), since the
+  // nav DOM is re-rendered per page and module scripts don't otherwise re-run.
+  function initNav() {
+    // Scrolled state — subtle opacity bump after a little scroll. (The `.on-dark`
+    // variant over the homepage intro photo is driven by the intro controller, which
+    // knows the scroll progress and clears it once the green/cream field takes over.)
+    const nav = document.getElementById('site-nav');
+    const onScroll = () => {
+      nav?.classList.toggle('scrolled', window.scrollY > 40);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    onScroll();
 
-  // Accessible mobile menu (toggle + Escape to close).
-  const btn = document.getElementById('nav-toggle');
-  const menu = document.getElementById('nav-menu');
-  if (btn && menu) {
-    btn.addEventListener('click', () => {
-      const open = btn.getAttribute('aria-expanded') === 'true';
-      btn.setAttribute('aria-expanded', String(!open));
-      menu.toggleAttribute('hidden', open);
-    });
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true') {
+    // Accessible mobile menu (toggle + Escape to close).
+    const btn = document.getElementById('nav-toggle');
+    const menu = document.getElementById('nav-menu');
+    const onClick = () => {
+      const open = btn?.getAttribute('aria-expanded') === 'true';
+      btn?.setAttribute('aria-expanded', String(!open));
+      menu?.toggleAttribute('hidden', open);
+    };
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && btn?.getAttribute('aria-expanded') === 'true') {
         btn.setAttribute('aria-expanded', 'false');
-        menu.setAttribute('hidden', '');
+        menu?.setAttribute('hidden', '');
         btn.focus();
       }
-    });
+    };
+    btn?.addEventListener('click', onClick);
+    document.addEventListener('keydown', onKey);
+
+    // Detach window/document listeners before the next swap so they don't pile up
+    // or fire against stale (swapped-out) nodes.
+    const cleanup = () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      document.removeEventListener('keydown', onKey);
+      document.removeEventListener('astro:before-swap', cleanup);
+    };
+    document.addEventListener('astro:before-swap', cleanup);
   }
+
+  document.addEventListener('astro:page-load', initNav);
 </script>

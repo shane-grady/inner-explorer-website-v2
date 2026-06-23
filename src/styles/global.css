@@ -328,6 +328,20 @@
   --viz-purple: #8b5cf6;
   --viz-amber: #e0922f;
   --insights-wash: linear-gradient(118deg, #c8a87b 0%, #a9b48c 52%, #83a59f 100%);
+
+  /* Homepage scroll-intro surfaces ("Calm Minds" / Balance toggle). Page-context,
+     consumed via var() in scoped <style> only (raw stops fine here — .css isn't
+     drift-scanned). The Balance toggle flips a busy green→amber "chaos" wash to a
+     calm cream, mirroring the brand's stress→peace metaphor. */
+  --surface-warm: #ecebe4; /* calm cream — intro base + Balance "on" surface */
+  --balance-off: /* "chaos" wash — soft, muted green→amber */
+    radial-gradient(at 72% 6%, #e7dcb2 0%, transparent 46%),
+    radial-gradient(at 30% 26%, #a3bca0 0%, transparent 52%),
+    radial-gradient(at 62% 86%, #cdbf8f 0%, transparent 44%),
+    radial-gradient(at 14% 80%, #6f9079 0%, transparent 54%),
+    linear-gradient(150deg, #8ba58a 0%, #5f7e6d 100%);
+  --balance-track-on: #8fae97; /* sage track when toggled on */
+  --balance-ink: #2e3231; /* dark forest text (Balance "on") */
 }
 
 /* 2. Semantic tokens — LIGHT. `.appearance-light` re-asserts these so a subtree
@@ -773,4 +787,24 @@
     mix-blend-mode: soft-light;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
   }
+}
+
+/* Lenis smooth scroll (homepage scroll-intro). Required base styles so Lenis can
+   drive the scroll position; overrides the global `scroll-behavior: smooth` while
+   active so programmatic + inertial scrolling don't fight. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
 }

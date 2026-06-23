@@ -1,5 +1,6 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import IntroScroll from '../components/blocks/intro/IntroScroll.astro';
 import Hero from '../components/blocks/Hero.astro';
 import FeatureGrid from '../components/blocks/FeatureGrid.astro';
 import Testimonials from '../components/blocks/Testimonials.astro';
@@ -38,7 +39,9 @@ const features = [
 <PageLayout
   title="Inner Explorer — Daily mindfulness for K-12 schools"
   description="Daily audio-guided mindfulness practices that help students focus, self-regulate, and feel ready to learn."
+  flushTop
 >
+  <IntroScroll />
   <Hero
     eyebrow="Mindfulness for schools"
     title="A calmer, more focused school day"

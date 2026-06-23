@@ -1,0 +1,526 @@
+---
+import { Image } from 'astro:assets';
+import heroImage from '../../../assets/intro/hero-classroom.png';
+
+// The homepage intro as ONE combined pinned stage. A single scroll progress (0→1,
+// from the controller in IntroScroll.astro) choreographs, over a PINNED photo backdrop:
+//   1. the wave line draws on + the green overlay fades in over the photo
+//   2. the hero copy ("Calm Minds Learn Better") slides all the way UP the page (and
+//      fades only late), while the Balance content rises UP FROM THE BOTTOM
+//   3. the drawn line connects to the circle (the collapsed toggle) that has risen into
+//      place above the problem statement
+//   4. the circle expands into the BALANCE pill; the toggle switches off→on
+//      (problem→solution, green→cream)
+//   5. the pin releases
+//
+// Layers (back→front): photo backdrop (z0, pinned) · green/cream overlay (z1, fades
+// in) · Balance content — toggle + texts (z2, rises from bottom) · hero copy + line
+// (z3, slides up). `data-state` on the pin crossfades the overlay + Balance together.
+const PATH_STRONG =
+  'M 568.5 0 C -446.766 669.726 420.757 754.867 688 543.5 C 955.243 332.133 149.225 460.324 381 1140';
+const PATH_FAINT =
+  'M 555 0 C -514.95 653.314 502.942 726.558 720 509.5 C 937.058 292.442 174.231 575.033 381 1140';
+
+interface Cta {
+  label: string;
+  href: string;
+}
+interface State {
+  title: string;
+  body: string;
+}
+interface Props {
+  headline: string;
+  lede: string;
+  cta: Cta;
+  imageAlt: string;
+  balanceLabel: string;
+  off: State;
+  on: State;
+}
+const { headline, lede, cta, imageAlt, balanceLabel, off, on }: Props = Astro.props;
+---
+
+<section class="stage" data-stage>
+  <div class="stage-pin" data-pin data-state="off">
+    <!-- z0: pinned photo backdrop -->
+    <div class="photo" aria-hidden="true">
+      <Image
+        src={heroImage}
+        alt={imageAlt}
+        widths={[768, 1024, 1404]}
+        sizes="100vw"
+        loading="eager"
+        fetchpriority="high"
+      />
+      <div class="photo-tint"></div>
+    </div>
+
+    <!-- z1: green → cream overlay (fades in over the photo) -->
+    <div class="overlay" aria-hidden="true">
+      <div class="overlay-bg overlay-bg--off">
+        <span class="ring--a ring"></span>
+        <span class="ring--b ring"></span>
+        <span class="grain"></span>
+      </div>
+      <div class="overlay-bg overlay-bg--on"></div>
+    </div>
+
+    <!-- z2: Balance content — rises up from the bottom -->
+    <div class="balance" data-balance>
+      <div class="switch-row">
+        <span class="balance-label">{balanceLabel}</span>
+        <button
+          type="button"
+          class="balance-switch"
+          data-balance-switch
+          role="switch"
+          aria-checked="false"
+          aria-label={`Toggle ${balanceLabel}`}
+        >
+          <span class="knob"></span>
+        </button>
+      </div>
+      <div class="states">
+        <div class="state state--off">
+          <h2 class="state-title">{off.title}</h2>
+          <p class="state-body">{off.body}</p>
+        </div>
+        <div class="state state--on" aria-hidden="true">
+          <h2 class="state-title">{on.title}</h2>
+          <p class="state-body">{on.body}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- z3: hero copy + line — copy slides all the way up -->
+    <div class="hero" id="hero" data-hero>
+      <svg
+        class="hero-lines"
+        data-hero-lines
+        viewBox="0 0 780 1140"
+        fill="none"
+        preserveAspectRatio="xMidYMid meet"
+        aria-hidden="true"
+      >
+        <path class="wave wave--faint" data-wave d={PATH_FAINT}></path>
+        <path class="wave wave--strong" data-wave d={PATH_STRONG}></path>
+      </svg>
+      <div class="hero-content">
+        <div class="hero-inner">
+          <h1 class="hero-title">{headline}</h1>
+          <div class="hero-aside">
+            <p class="hero-lede">{lede}</p>
+            <a class="hero-cta" href={cta.href}>
+              <span>{cta.label}</span>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14"></path>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Tall section → the sticky stage holds while the whole sequence plays. */
+  .stage {
+    position: relative;
+    height: 360svh;
+    z-index: 0;
+  }
+  .stage-pin {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    overflow: hidden;
+    color: var(--color-white);
+  }
+  .photo,
+  .overlay,
+  .balance,
+  .hero {
+    position: absolute;
+    inset: 0;
+  }
+
+  /* z0 — pinned photo backdrop */
+  .photo {
+    z-index: 0;
+  }
+  .photo :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 42%;
+  }
+  .photo-tint {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        to bottom,
+        color-mix(in oklab, var(--neutral-950) 22%, transparent) 0%,
+        transparent 26%,
+        transparent 50%,
+        color-mix(in oklab, var(--neutral-950) 62%, transparent) 100%
+      ),
+      radial-gradient(
+        90% 62% at 26% 90%,
+        color-mix(in oklab, var(--brand-950) 40%, transparent),
+        transparent 62%
+      );
+  }
+
+  /* z1 — green → cream overlay; controller fades it in via --field-in */
+  .overlay {
+    z-index: 1;
+    opacity: var(--field-in, 0);
+  }
+  .overlay-bg {
+    position: absolute;
+    inset: 0;
+    transition: opacity var(--dur-slow) var(--ease-in-out);
+  }
+  .overlay-bg--off {
+    background: var(--balance-off);
+    opacity: 1;
+  }
+  .overlay-bg--on {
+    background: var(--surface-warm);
+    opacity: 0;
+  }
+  [data-state='on'] .overlay-bg--off {
+    opacity: 0;
+  }
+  [data-state='on'] .overlay-bg--on {
+    opacity: 1;
+  }
+  .overlay-bg .grain {
+    opacity: 0.22;
+  }
+  .ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid color-mix(in oklab, var(--color-white) 22%, transparent);
+  }
+  .ring--a {
+    width: 96vh;
+    height: 96vh;
+    left: -22vh;
+    bottom: -34vh;
+  }
+  .ring--b {
+    width: 70vh;
+    height: 70vh;
+    right: -14vh;
+    bottom: -10vh;
+  }
+
+  /* z2 — Balance content; controller raises it (--balance-up) + fades it (--balance-in).
+     The pill (switch-row) is centred so the line's drawn end lands on it; the text sits
+     just below. */
+  .balance {
+    z-index: 2;
+    opacity: var(--balance-in, 0);
+    transform: translateY(var(--balance-up, 45vh));
+    pointer-events: none;
+  }
+  .balance.is-live {
+    pointer-events: auto;
+  }
+  /* The PILL is centred on the viewport (so the line's centred end lands on it); the
+     "BALANCE" label floats to its left without shifting it off-centre. */
+  .switch-row {
+    position: absolute;
+    top: 46%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: inline-flex;
+  }
+  .balance-label {
+    position: absolute;
+    right: calc(100% + 16px);
+    top: 50%;
+    transform: translateY(-50%);
+    white-space: nowrap;
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: color-mix(in oklab, var(--color-white) 78%, transparent);
+    transition: color var(--dur-slow) var(--ease-in-out);
+  }
+  [data-state='on'] .balance-label {
+    color: color-mix(in oklab, var(--balance-ink) 70%, transparent);
+  }
+  .balance-switch {
+    position: relative;
+    width: 64px;
+    height: 32px;
+    padding: 0;
+    border: 0;
+    border-radius: 9999px;
+    cursor: pointer;
+    background: color-mix(in oklab, var(--neutral-950) 32%, transparent);
+    transition: background var(--dur-slow) var(--ease-in-out);
+  }
+  [data-state='on'] .balance-switch {
+    background: var(--balance-track-on);
+  }
+  .knob {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--color-white);
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--dur-slow) var(--ease-in-out);
+  }
+  [data-state='on'] .knob {
+    transform: translateX(32px);
+  }
+  .states {
+    position: absolute;
+    top: 54%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: grid;
+    width: 100%;
+    max-width: 920px;
+    padding: 0 32px;
+    text-align: center;
+  }
+  .state {
+    grid-area: 1 / 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    transition:
+      opacity var(--dur-slow) var(--ease-in-out),
+      transform var(--dur-slow) var(--ease-in-out);
+  }
+  .state--off {
+    opacity: 1;
+  }
+  .state--on {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  [data-state='on'] .state--off {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  [data-state='on'] .state--on {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .state-title {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: clamp(2rem, 4.4vw, 2.75rem);
+    line-height: 1.12;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+    color: var(--color-white);
+    transition: color var(--dur-slow) var(--ease-in-out);
+  }
+  .state-body {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 30rem;
+    color: color-mix(in oklab, var(--color-white) 82%, transparent);
+    transition: color var(--dur-slow) var(--ease-in-out);
+  }
+  .state--on .state-title {
+    color: var(--balance-ink);
+  }
+  .state--on .state-body {
+    color: color-mix(in oklab, var(--balance-ink) 64%, transparent);
+  }
+
+  /* z3 — hero: the line connects to the circle; the copy slides all the way up */
+  .hero {
+    z-index: 3;
+  }
+  .hero.is-faded {
+    pointer-events: none;
+  }
+  /* Line sized so most of the swirl is on-screen while it draws, and positioned so its
+     drawn END (bottom-centre of the viewBox) lands on the pill (~46% from top), where
+     the rising toggle meets it. */
+  .hero-lines {
+    position: absolute;
+    left: 50%;
+    bottom: 54%;
+    height: 56svh;
+    width: auto;
+    transform: translate(-50%, 0);
+    opacity: var(--line-opacity, 0);
+    pointer-events: none;
+  }
+  .wave {
+    fill: none;
+    stroke: var(--color-white);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+  }
+  .wave--strong {
+    stroke-opacity: 0.68;
+  }
+  .wave--faint {
+    stroke-opacity: 0.3;
+  }
+  .hero-content {
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    /* Slides all the way up (--hero-up px) and fades only late (--hero-fade). */
+    opacity: calc(1 - var(--hero-fade, 0));
+    transform: translateY(calc(var(--hero-up, 0px) * -1));
+  }
+  .hero-inner {
+    width: 100%;
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 0 40px 72px;
+    display: grid;
+    grid-template-columns: 1.3fr 0.7fr;
+    align-items: end;
+    gap: 48px;
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(3rem, 8.5vw, 8.25rem);
+    line-height: 0.92;
+    letter-spacing: -0.01em;
+    margin: 0;
+    text-wrap: balance;
+  }
+  .hero-aside {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+    padding-bottom: 10px;
+  }
+  .hero-lede {
+    margin: 0;
+    font-size: clamp(1rem, 1.1vw, 1.1875rem);
+    line-height: 1.55;
+    color: color-mix(in oklab, var(--color-white) 88%, transparent);
+    max-width: 38ch;
+  }
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 48px;
+    padding: 0 24px;
+    border-radius: var(--radius-sm);
+    background: var(--color-white);
+    color: var(--brand-900);
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    line-height: 1;
+    box-shadow: var(--shadow-md);
+    transition:
+      gap var(--dur) var(--ease-out),
+      background var(--dur) var(--ease-out);
+  }
+  .hero-cta svg {
+    width: 16px;
+    height: 16px;
+    transition: transform var(--dur) var(--ease-out);
+  }
+  .hero-cta:hover {
+    gap: 14px;
+    background: color-mix(in oklab, var(--color-white) 92%, var(--brand-200));
+  }
+  .hero-cta:hover svg {
+    transform: translateX(2px);
+  }
+
+  @media (max-width: 1023px) {
+    .hero-inner {
+      grid-template-columns: 1fr;
+      gap: 28px;
+      padding: 0 24px 56px;
+    }
+    .hero-lede {
+      max-width: 46ch;
+    }
+    .hero-lines {
+      display: none;
+    }
+    .balance {
+      padding: 0 24px;
+    }
+    .ring--a,
+    .ring--b {
+      opacity: 0.6;
+    }
+  }
+
+  /* Reduced motion: don't pin or scrub. The hero and Balance become two normal stacked
+     100svh blocks (over the green overlay); the toggle stays operable by click. */
+  @media (prefers-reduced-motion: reduce) {
+    .stage {
+      height: auto;
+    }
+    .stage-pin {
+      position: static;
+      height: auto;
+      overflow: visible;
+    }
+    .hero,
+    .balance {
+      position: relative;
+      inset: auto;
+      min-height: 100svh;
+    }
+    .photo,
+    .overlay {
+      position: absolute;
+      inset: 0;
+    }
+    .overlay {
+      opacity: 1;
+    }
+    .balance {
+      opacity: 1;
+      transform: none;
+      pointer-events: auto;
+    }
+    .hero-content {
+      opacity: 1;
+      transform: none;
+    }
+    .hero-lines {
+      opacity: 0.3;
+    }
+  }
+</style>
