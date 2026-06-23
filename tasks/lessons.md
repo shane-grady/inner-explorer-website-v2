@@ -73,6 +73,14 @@ any correction or surprise.
 
 ## Homepage scroll-intro (Framer → Astro port, 2026-06)
 
+- **DECISION (final): the animated wave line was removed entirely.** After several
+  rounds chasing "draw on → connect to the button → fade," the scroll-scrubbed SVG line
+  proved too fragile/fiddly to land reliably, so per the user we dropped it (and the
+  faint background ring outlines) for a clean, cohesive crossfade: photo hero → soft
+  green field fades in while the hero copy slides up and the Balance rises from the
+  bottom → toggle switches green→cream. The line-specific lessons below are kept for
+  context, but the shipped intro has NO lines. If revisiting line work, prefer a simpler
+  always-on-screen motif over a precise endpoint→target connection.
 - **Extracting assets from a finished Framer site: a "sticky Image" layer can be a
   BLURRED backdrop, not the sharp photo.** The visible classroom hero was a separate
   `data-framer-name="Hero Image"` layer (`CRQ….png`); the layer named "Image" held a

@@ -4,23 +4,15 @@ import heroImage from '../../../assets/intro/hero-classroom.png';
 
 // The homepage intro as ONE combined pinned stage. A single scroll progress (0→1,
 // from the controller in IntroScroll.astro) choreographs, over a PINNED photo backdrop:
-//   1. the wave line draws on + the green overlay fades in over the photo
-//   2. the hero copy ("Calm Minds Learn Better") slides all the way UP the page (and
-//      fades only late), while the Balance content rises UP FROM THE BOTTOM
-//   3. the drawn line connects to the circle (the collapsed toggle) that has risen into
-//      place above the problem statement
-//   4. the circle expands into the BALANCE pill; the toggle switches off→on
-//      (problem→solution, green→cream)
-//   5. the pin releases
+//   1. the green overlay gently fades in over the photo
+//   2. the hero copy ("Calm Minds Learn Better") slides up and fades, while the Balance
+//      content rises up from the bottom and settles centred
+//   3. the toggle switches off→on (problem→solution, green→cream)
+//   4. the pin releases
 //
 // Layers (back→front): photo backdrop (z0, pinned) · green/cream overlay (z1, fades
-// in) · Balance content — toggle + texts (z2, rises from bottom) · hero copy + line
-// (z3, slides up). `data-state` on the pin crossfades the overlay + Balance together.
-const PATH_STRONG =
-  'M 568.5 0 C -446.766 669.726 420.757 754.867 688 543.5 C 955.243 332.133 149.225 460.324 381 1140';
-const PATH_FAINT =
-  'M 555 0 C -514.95 653.314 502.942 726.558 720 509.5 C 937.058 292.442 174.231 575.033 381 1140';
-
+// in) · Balance content — toggle + texts (z2, rises from bottom) · hero copy (z3,
+// slides up). `data-state` on the pin crossfades the overlay + Balance together.
 interface Cta {
   label: string;
   href: string;
@@ -59,8 +51,6 @@ const { headline, lede, cta, imageAlt, balanceLabel, off, on }: Props = Astro.pr
     <!-- z1: green → cream overlay (fades in over the photo) -->
     <div class="overlay" aria-hidden="true">
       <div class="overlay-bg overlay-bg--off">
-        <span class="ring--a ring"></span>
-        <span class="ring--b ring"></span>
         <span class="grain"></span>
       </div>
       <div class="overlay-bg overlay-bg--on"></div>
@@ -93,19 +83,8 @@ const { headline, lede, cta, imageAlt, balanceLabel, off, on }: Props = Astro.pr
       </div>
     </div>
 
-    <!-- z3: hero copy + line — copy slides all the way up -->
+    <!-- z3: hero copy — slides up and fades to reveal the Balance field -->
     <div class="hero" id="hero" data-hero>
-      <svg
-        class="hero-lines"
-        data-hero-lines
-        viewBox="0 0 780 1140"
-        fill="none"
-        preserveAspectRatio="xMidYMid meet"
-        aria-hidden="true"
-      >
-        <path class="wave wave--faint" data-wave d={PATH_FAINT}></path>
-        <path class="wave wave--strong" data-wave d={PATH_STRONG}></path>
-      </svg>
       <div class="hero-content">
         <div class="hero-inner">
           <h1 class="hero-title">{headline}</h1>
@@ -137,7 +116,7 @@ const { headline, lede, cta, imageAlt, balanceLabel, off, on }: Props = Astro.pr
   /* Tall section → the sticky stage holds while the whole sequence plays. */
   .stage {
     position: relative;
-    height: 360svh;
+    height: 300svh;
     z-index: 0;
   }
   .stage-pin {
@@ -208,31 +187,19 @@ const { headline, lede, cta, imageAlt, balanceLabel, off, on }: Props = Astro.pr
     opacity: 1;
   }
   .overlay-bg .grain {
-    opacity: 0.22;
-  }
-  .ring {
-    position: absolute;
-    border-radius: 50%;
-    border: 1px solid color-mix(in oklab, var(--color-white) 22%, transparent);
-  }
-  .ring--a {
-    width: 96vh;
-    height: 96vh;
-    left: -22vh;
-    bottom: -34vh;
-  }
-  .ring--b {
-    width: 70vh;
-    height: 70vh;
-    right: -14vh;
-    bottom: -10vh;
+    opacity: 0.18;
   }
 
   /* z2 — Balance content; controller raises it (--balance-up) + fades it (--balance-in).
-     The pill (switch-row) is centred so the line's drawn end lands on it; the text sits
-     just below. */
+     Centred toggle pill with the problem/solution text just below. */
   .balance {
     z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 32px;
     opacity: var(--balance-in, 0);
     transform: translateY(var(--balance-up, 45vh));
     pointer-events: none;
@@ -240,21 +207,13 @@ const { headline, lede, cta, imageAlt, balanceLabel, off, on }: Props = Astro.pr
   .balance.is-live {
     pointer-events: auto;
   }
-  /* The PILL is centred on the viewport (so the line's centred end lands on it); the
-     "BALANCE" label floats to its left without shifting it off-centre. */
   .switch-row {
-    position: absolute;
-    top: 46%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 40px;
   }
   .balance-label {
-    position: absolute;
-    right: calc(100% + 16px);
-    top: 50%;
-    transform: translateY(-50%);
-    white-space: nowrap;
     font-family: var(--font-sans);
     font-size: 0.75rem;
     font-weight: 600;
@@ -295,15 +254,10 @@ const { headline, lede, cta, imageAlt, balanceLabel, off, on }: Props = Astro.pr
     transform: translateX(32px);
   }
   .states {
-    position: absolute;
-    top: 54%;
-    left: 50%;
-    transform: translateX(-50%);
+    position: relative;
     display: grid;
     width: 100%;
     max-width: 920px;
-    padding: 0 32px;
-    text-align: center;
   }
   .state {
     grid-area: 1 / 1;
@@ -357,39 +311,12 @@ const { headline, lede, cta, imageAlt, balanceLabel, off, on }: Props = Astro.pr
     color: color-mix(in oklab, var(--balance-ink) 64%, transparent);
   }
 
-  /* z3 — hero: the line connects to the circle; the copy slides all the way up */
+  /* z3 — hero: the copy slides up and fades to reveal the Balance field */
   .hero {
     z-index: 3;
   }
   .hero.is-faded {
     pointer-events: none;
-  }
-  /* Line sized so most of the swirl is on-screen while it draws, and positioned so its
-     drawn END (bottom-centre of the viewBox) lands on the pill (~46% from top), where
-     the rising toggle meets it. */
-  .hero-lines {
-    position: absolute;
-    left: 50%;
-    bottom: 54%;
-    height: 56svh;
-    width: auto;
-    transform: translate(-50%, 0);
-    opacity: var(--line-opacity, 0);
-    pointer-events: none;
-  }
-  .wave {
-    fill: none;
-    stroke: var(--color-white);
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    vector-effect: non-scaling-stroke;
-  }
-  .wave--strong {
-    stroke-opacity: 0.68;
-  }
-  .wave--faint {
-    stroke-opacity: 0.3;
   }
   .hero-content {
     position: relative;
@@ -473,15 +400,8 @@ const { headline, lede, cta, imageAlt, balanceLabel, off, on }: Props = Astro.pr
     .hero-lede {
       max-width: 46ch;
     }
-    .hero-lines {
-      display: none;
-    }
     .balance {
       padding: 0 24px;
-    }
-    .ring--a,
-    .ring--b {
-      opacity: 0.6;
     }
   }
 
@@ -518,9 +438,6 @@ const { headline, lede, cta, imageAlt, balanceLabel, off, on }: Props = Astro.pr
     .hero-content {
       opacity: 1;
       transform: none;
-    }
-    .hero-lines {
-      opacity: 0.3;
     }
   }
 </style>
