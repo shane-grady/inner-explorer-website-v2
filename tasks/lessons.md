@@ -527,3 +527,31 @@ src/content/case-studies/*.yaml` for duplicates and renumber.
   `position: sticky` rail. DOM/computed-style checks (`preview_inspect`,
   `preview_eval`) are reliable there; for a visual, use a tall viewport so the
   target sits at scroll 0.
+
+## 2026-06-22 — Home v2 build (Claude Design connector)
+
+- **Importing a Claude Design _project_ uses the `DesignSync` connector, not
+  WebFetch.** A `claude.ai/design/p/<uuid>?file=<name>` URL 403s on WebFetch (it's
+  auth-gated, and not the `claude.ai/code/artifact` exception). The skill's signed-
+  `api.anthropic.com/v1/design/h/...` handoff flow is a _different_ entry point. For a
+  project URL: `DesignSync({method:'list_files', projectId:<uuid-from-url>})` then
+  `get_file` per path (the `.dc.html` target + `colors_and_type.css` + `support.js`).
+  Read methods need claude.ai design scopes — if the session token can't carry them the
+  tool errors and instructs **`/design-login`** (works even with a provider/API-key
+  token; the user runs it, then retry). `support.js` is just the dc-runtime React
+  preview shim — ignore it; the `.dc.html` uses `ref=`/`sc-if`/`{{ }}` templating, so
+  reproduce intent, don't transliterate.
+- **`get_file` returns big files as a persisted JSON blob** (`{"content":"<escaped
+html>"}`). Pull the real source out with `jq -r '.content' <blob> > /tmp/x.html`
+  (or python `json.load`) before reading — the raw blob is unreadable escaped-newline
+  JSON.
+- **The hidden-Preview IntersectionObserver freeze hits count-ups too, not just
+  reveals.** A scroll-triggered count-up never fires on the page's own scroll in the
+  Preview; it only kicked off when I `position:fixed`-pinned the section to the top
+  (forcing an intersection), and the screenshot then caught it mid-count ("3%" → settles
+  to "60%"). Verify the FINAL value via `preview_eval` (text content) + trust the
+  `setTimeout` snap guard; don't read a pinned screenshot as the resting state.
+- **Lazy `<Image>` also won't load for a pinned-but-never-scrolled section in the
+  hidden tab** (`naturalWidth 0`). Confirm the asset is real by loading the resolved
+  `currentSrc` into a fresh `new Image()` (or reassign `img.src = img.src`), then re-read
+  `naturalWidth` — a raw 0 is a Preview artifact, not a broken asset.

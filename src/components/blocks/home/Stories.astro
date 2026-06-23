@@ -1,0 +1,341 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Button from '../../primitives/Button.astro';
+
+// Stories — a scattered "canopy" of student/teacher portraits interleaved with stat
+// cards, dissolving downward into a centered headline + CTA. The canopy is decorative
+// (aria-hidden) and collapses on small screens. Slot positions live here (geometry);
+// the page supplies the images, stat cards, and copy.
+interface StatCard {
+  value: string;
+  label: string;
+  /** 'brand' (filled green) or 'card' (white). */
+  tone: string;
+}
+interface Props {
+  badge: string;
+  /** Bold-sans first line of the headline. */
+  headlineTop: string;
+  /** Serif-italic second line. */
+  headlineBottom: string;
+  body: string;
+  cta: { label: string; href: string };
+  /** Portrait photos, in canopy slot order (up to 8 used). */
+  portraits: { image: ImageMetadata; alt: string }[];
+  /** Stat cards, in slot order (up to 4 used). */
+  statCards: StatCard[];
+}
+const { badge, headlineTop, headlineBottom, body, cta, portraits, statCards } =
+  Astro.props as Props;
+const slotPortraits = portraits.slice(0, 8);
+const slotStats = statCards.slice(0, 4);
+---
+
+<section id="stories" class="stories" aria-labelledby="stories-heading">
+  <div class="inner">
+    <div class="canopy" aria-hidden="true">
+      <span class="ghost g1"></span>
+      <span class="ghost g2"></span>
+      <span class="ghost g3"></span>
+      <span class="ghost g4"></span>
+
+      {
+        slotPortraits.map((p, i) => (
+          <div class={`pcard p${i + 1}`}>
+            <Image src={p.image} alt={p.alt} widths={[160, 320]} sizes="140px" loading="lazy" />
+          </div>
+        ))
+      }
+
+      {
+        slotStats.map((s, i) => (
+          <div class={`scard s${i + 1} tone-${s.tone}`}>
+            <div class="scard-val">{s.value}</div>
+            <div class="scard-lbl">{s.label}</div>
+          </div>
+        ))
+      }
+
+      <div class="canopy-fade"></div>
+    </div>
+
+    <div class="text" data-home-reveal>
+      <span class="badge">{badge}</span>
+      <h2 id="stories-heading" class="h">
+        <span class="h-top">{headlineTop}</span>
+        <span class="h-bottom">{headlineBottom}</span>
+      </h2>
+      <p class="body">{body}</p>
+      <Button href={cta.href} tone="neutral" shape="pill" size="lg" class="cta">
+        {cta.label}
+        <svg
+          viewBox="0 0 24 24"
+          width="18"
+          height="18"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path>
+        </svg>
+      </Button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .stories {
+    padding: clamp(3.5rem, 3rem + 3vw, 5rem) clamp(20px, 5vw, 34px) clamp(4rem, 3rem + 4vw, 6.25rem);
+    background: var(--color-background);
+    color: var(--color-foreground);
+  }
+  .inner {
+    max-width: 1340px;
+    margin: 0 auto;
+    padding-bottom: 60px;
+  }
+
+  /* Canopy — absolutely-positioned cards on a fixed-height stage. */
+  .canopy {
+    position: relative;
+    height: 660px;
+  }
+  .pcard,
+  .scard {
+    position: absolute;
+    width: 126px;
+    aspect-ratio: 3 / 4;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow:
+      0 18px 40px -18px color-mix(in oklab, var(--brand-900) 35%, transparent),
+      0 2px 8px color-mix(in oklab, var(--color-black) 6%, transparent);
+  }
+  .pcard :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Ghost placeholders add depth behind the real cards. */
+  .ghost {
+    position: absolute;
+    width: 120px;
+    height: 156px;
+    border-radius: 20px;
+    background: color-mix(in oklab, var(--brand-900) 5%, transparent);
+  }
+  .g1 {
+    left: 9%;
+    top: 105px;
+  }
+  .g2 {
+    left: 29%;
+    top: 150px;
+  }
+  .g3 {
+    left: 49%;
+    top: 118px;
+  }
+  .g4 {
+    left: 67%;
+    top: 150px;
+  }
+
+  /* Portrait slots. */
+  .p1 {
+    left: 4%;
+    top: 478px;
+    transform: rotate(-2deg);
+  }
+  .p2 {
+    left: 14%;
+    top: 90px;
+    width: 130px;
+    transform: rotate(1deg);
+  }
+  .p3 {
+    left: 15%;
+    top: 432px;
+    width: 128px;
+    transform: rotate(-2deg);
+  }
+  .p4 {
+    left: 26%;
+    top: 210px;
+    width: 118px;
+  }
+  .p5 {
+    left: 46%;
+    top: 165px;
+    width: 128px;
+  }
+  .p6 {
+    left: 57%;
+    top: 95px;
+  }
+  .p7 {
+    left: 73%;
+    top: 95px;
+    width: 128px;
+  }
+  .p8 {
+    left: 85%;
+    top: 478px;
+    width: 122px;
+  }
+
+  /* Stat-card slots. */
+  .scard {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 16px;
+  }
+  .scard-val {
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: 32px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .scard-lbl {
+    margin-top: 8px;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.32;
+  }
+  .tone-brand {
+    background: var(--color-brand);
+    color: var(--color-white);
+  }
+  .tone-brand .scard-lbl {
+    color: color-mix(in oklab, var(--color-white) 90%, transparent);
+  }
+  .tone-card {
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+  }
+  .tone-card .scard-val {
+    color: var(--brand-700);
+  }
+  .tone-card .scard-lbl {
+    color: var(--color-muted-foreground);
+  }
+  .s1 {
+    left: 3%;
+    top: 150px;
+    transform: rotate(-4deg);
+  }
+  .s2 {
+    left: 35%;
+    top: 120px;
+    width: 132px;
+  }
+  .s3 {
+    left: 63%;
+    top: 230px;
+    transform: rotate(2deg);
+  }
+  .s4 {
+    left: 84%;
+    top: 165px;
+    width: 120px;
+    transform: rotate(-3deg);
+  }
+
+  .canopy-fade {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      to bottom,
+      transparent 50%,
+      color-mix(in oklab, var(--color-background) 60%, transparent) 74%,
+      var(--color-background) 100%
+    );
+  }
+
+  /* Centered text — pulled up over the dissolving canopy. */
+  .text {
+    position: relative;
+    z-index: 5;
+    margin: -120px auto 0;
+    max-width: 720px;
+    text-align: center;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 9px 20px;
+    border-radius: 9999px;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-foreground);
+  }
+  .h {
+    margin: 0 0 26px;
+  }
+  .h-top {
+    display: block;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: clamp(38px, 5.4vw, 70px);
+    line-height: 1;
+    letter-spacing: -0.035em;
+    color: var(--color-foreground);
+  }
+  .h-bottom {
+    display: block;
+    margin-top: 2px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(40px, 5.6vw, 74px);
+    line-height: 1.04;
+    letter-spacing: -0.01em;
+    color: var(--color-muted-foreground);
+  }
+  .body {
+    margin: 0 auto 44px;
+    max-width: 480px;
+    font-size: clamp(17px, 1.5vw, 20px);
+    line-height: 1.55;
+    color: var(--color-foreground);
+  }
+  .cta {
+    gap: 12px;
+  }
+
+  @media (max-width: 920px) {
+    .canopy {
+      height: 480px;
+    }
+    .p1,
+    .p8,
+    .s1,
+    .s4 {
+      display: none;
+    }
+    .text {
+      margin-top: -90px;
+    }
+  }
+  @media (max-width: 640px) {
+    .canopy {
+      display: none;
+    }
+    .text {
+      margin-top: 0;
+    }
+  }
+</style>

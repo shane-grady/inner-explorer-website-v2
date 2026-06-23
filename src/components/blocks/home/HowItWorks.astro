@@ -1,0 +1,183 @@
+---
+// How it works — the five-minute morning as three timestamped steps, joined into one
+// bordered card. Light surface.
+interface Step {
+  time: string;
+  /** Display ordinal, e.g. "01". */
+  n: string;
+  title: string;
+  body: string;
+  /** 'choose' | 'play' | 'reflect'. */
+  icon: string;
+}
+interface Props {
+  eyebrow: string;
+  headingLead: string;
+  headingAccent: string;
+  steps: Step[];
+}
+const { eyebrow, headingLead, headingAccent, steps }: Props = Astro.props;
+---
+
+<section id="how" class="how" aria-labelledby="how-heading">
+  <div class="inner">
+    <header class="head" data-home-reveal>
+      <p class="eyebrow">{eyebrow}</p>
+      <h2 id="how-heading" class="h">
+        {headingLead}{' '}
+        <em>{headingAccent}</em>
+      </h2>
+    </header>
+
+    <div class="steps" data-home-reveal>
+      {
+        steps.map((s) => (
+          <div class="step">
+            <div class="time">{s.time}</div>
+            <div class="step-top">
+              <span class="ord">{s.n}</span>
+              <span class:list={['icon', { filled: s.icon === 'play' }]} aria-hidden="true">
+                {s.icon === 'choose' && (
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="21"
+                    height="21"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                  </svg>
+                )}
+                {s.icon === 'play' && (
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                )}
+                {s.icon === 'reflect' && (
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="21"
+                    height="21"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M12 20h9" />
+                    <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z" />
+                  </svg>
+                )}
+              </span>
+            </div>
+            <h3 class="step-title">{s.title}</h3>
+            <p class="step-body">{s.body}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .how {
+    padding: clamp(4rem, 3rem + 5vw, 6.5rem) clamp(20px, 5vw, 34px);
+    background: var(--color-background);
+    color: var(--color-foreground);
+  }
+  .inner {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  .head {
+    margin-bottom: 56px;
+  }
+  .eyebrow {
+    margin: 0 0 16px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-brand);
+  }
+  .h {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: clamp(28px, 3.6vw, 44px);
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    color: var(--color-foreground);
+  }
+  .h em {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1px;
+    background: var(--color-border);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+  }
+  .step {
+    background: var(--color-card);
+    padding: 38px 34px;
+  }
+  .time {
+    margin-bottom: 26px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: var(--color-brand);
+  }
+  .step-top {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+  .ord {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 1;
+    color: var(--color-muted-foreground);
+  }
+  .icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: color-mix(in oklab, var(--color-brand) 10%, transparent);
+    color: var(--color-brand);
+  }
+  .icon.filled {
+    background: var(--color-brand);
+    color: var(--color-brand-foreground);
+  }
+  .step-title {
+    margin: 0 0 10px;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 20px;
+    color: var(--color-foreground);
+  }
+  .step-body {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--color-muted-foreground);
+  }
+</style>

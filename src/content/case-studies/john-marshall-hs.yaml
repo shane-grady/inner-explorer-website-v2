@@ -121,35 +121,6 @@ intro:
         Grady.
     image: '../../assets/images/case-studies/john-marshall-hs/approach-daily-practice.jpg'
     imageAlt: 'High school students at their desks practicing an audio-guided mindfulness exercise at the start of the school day'
-    # Card titles are descriptive takeaways (what skimming administrators retain);
-    # the source material's own initiatives — daily practice, the Advisory, the
-    # Wellness Room, the community rituals — are each named verbatim in the text.
-    pillars:
-      - icon: 'calendar'
-        title: 'The day starts with practice'
-        text: >-
-          Students practice mindfulness with Inner Explorer at the beginning of each
-          school day — 5–10 minutes, audio-guided, nothing for educators to prepare.
-          The routine came first; the movement grew out of it.
-      - icon: 'heart'
-        title: 'Student-led from the start'
-        text: >-
-          The Wellness Advisory is created and run by students. Members carry the
-          skills onto campus — checking in on classmates, modeling a moment of
-          mindfulness — and every Advisory meeting begins with an Inner Explorer
-          practice.
-      - icon: 'compass'
-        title: 'A dedicated Wellness Room'
-        text: >-
-          Students opened a dedicated Wellness Room at John Marshall High School — a
-          safe space to practice mindfulness and hold Advisory meetings, and a
-          permanent, visible home for well-being on campus.
-      - icon: 'palette'
-        title: 'Rituals that build belonging'
-        text: >-
-          "Say Hey" Days encourage students and staff to greet people they have never
-          talked to before or eat lunch with them; the "You Have a Friend" effort sent
-          letters to elderly neighbors isolated during the pandemic.
 
 timeline:
   eyebrow: 'The Movement'
@@ -182,6 +153,10 @@ timeline:
 metrics:
   eyebrow: 'The Results'
   heading: 'What changed at John Marshall after the daily practice took hold'
+  # PLACEHOLDER: results photo — reusing an existing gallery image until a
+  # dedicated results photo is added (swap this one line per case study).
+  image: '../../assets/images/case-studies/john-marshall-hs/gallery-5-advisory-meeting.jpg'
+  imageAlt: 'A student leading a wellness club meeting in a circle of classmates'
   # The first sentence is the page's canonical claim — keep it byte-identical
   # wherever this story is summarized (cards, anchors, social copy). The LAUSD
   # figure is deliberately time-anchored ("roughly 1,100 at the time"): NCES counts

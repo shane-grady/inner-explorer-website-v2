@@ -1,8 +1,11 @@
 ---
 import type { TimelinePhase } from './types';
 
-// The rollout journey: a vertical rail with brand dots and date · tag · title · text
-// per phase. Data-driven and reusable for any chronological "journey" section.
+// The rollout journey: a horizontal scroll-snap rail of phase cards riding a
+// brand spine, with a progress fill and prev/next controls. Each card shows
+// date · tag · title · text. Data-driven and reusable for any chronological
+// "journey" section. Pure Astro + one small vanilla script (no React island);
+// natively scrollable + fully readable with no JS.
 interface Props {
   eyebrow: string;
   heading: string;
@@ -12,37 +15,71 @@ interface Props {
 const { eyebrow, heading, phases, id }: Props = Astro.props;
 ---
 
-<section class="timeline" id={id}>
+<section class="timeline" id={id} data-cs-timeline>
   <div class="wrap">
     <div class="head" data-cs-reveal>
-      <span class="eyebrow">{eyebrow}</span>
-      <h2 class="h2">{heading}</h2>
+      <div class="head-text">
+        <span class="eyebrow">{eyebrow}</span>
+        <h2 class="h2">{heading}</h2>
+      </div>
+      <div class="controls">
+        <button type="button" class="ctrl" data-prev aria-label="Previous phase">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path
+              d="M15 6l-6 6 6 6"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+        </button>
+        <button type="button" class="ctrl" data-next aria-label="Next phase">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path
+              d="M9 6l6 6-6 6"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+        </button>
+      </div>
     </div>
 
-    <ol class="rail">
-      {
-        phases.map((p) => (
-          <li class="item" data-cs-reveal>
-            <span class="dot" aria-hidden="true">
-              <span />
-            </span>
-            <div class="body">
-              <div class="row">
-                <span class="date">{p.date}</span>
-                <span class="tag">{p.tag}</span>
+    <div class="rail-frame" data-cs-reveal>
+      <span class="rail-line rail-spine" aria-hidden="true"></span>
+      <span class="rail-line rail-fill" aria-hidden="true"></span>
+
+      <ol class="rail" aria-label={`${heading} timeline`}>
+        {
+          phases.map((p) => (
+            <li class="item">
+              <span class="dot" aria-hidden="true">
+                <span />
+              </span>
+              <div class="card">
+                <div class="row">
+                  <span class="date">{p.date}</span>
+                  <span class="tag">{p.tag}</span>
+                </div>
+                <h3 class="title">{p.title}</h3>
+                <p class="text">{p.text}</p>
               </div>
-              <h3 class="title">{p.title}</h3>
-              <p class="text">{p.text}</p>
-            </div>
-          </li>
-        ))
-      }
-    </ol>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
   </div>
 </section>
 
 <style>
   .timeline {
+    --dot: 38px;
+    --rail-pt: 6px;
+    --gap: clamp(16px, 2.4vw, 28px);
     padding-top: clamp(72px, 9vw, 132px);
   }
   .wrap {
@@ -50,7 +87,17 @@ const { eyebrow, heading, phases, id }: Props = Astro.props;
     margin: 0 auto;
     padding-inline: clamp(20px, 5vw, 64px);
   }
+
+  /* Head: text block on the left, scroll controls on the right (wraps below
+     on narrow screens). */
   .head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px 28px;
+    flex-wrap: wrap;
+  }
+  .head-text {
     max-width: 720px;
   }
   .eyebrow {
@@ -81,52 +128,157 @@ const { eyebrow, heading, phases, id }: Props = Astro.props;
     text-wrap: balance;
   }
 
-  .rail {
-    position: relative;
-    margin: clamp(40px, 5vw, 64px) 0 0;
-    padding: 0;
-    list-style: none;
+  /* Prev/next controls — progressive enhancement: hidden until the script
+     marks the section ready, and never shown when the rail doesn't overflow. */
+  .controls {
+    display: none;
+    gap: 10px;
   }
-  /* The vertical spine, aligned to the dot centers. */
-  .rail::before {
-    content: '';
-    position: absolute;
-    left: 19px;
-    top: 8px;
-    bottom: 8px;
-    width: 2px;
-    background: linear-gradient(var(--brand-200), var(--brand-200) 60%, transparent);
+  .timeline[data-ready]:not([data-static]) .controls {
+    display: inline-flex;
   }
-  .item {
-    position: relative;
-    display: grid;
-    grid-template-columns: 40px 1fr;
-    gap: 26px;
-    padding-bottom: 38px;
-  }
-  .item:last-child {
-    padding-bottom: 0;
-  }
-  .dot {
-    z-index: 1;
-    display: grid;
+  .ctrl {
+    display: inline-grid;
     place-items: center;
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     border-radius: 9999px;
     background: var(--color-card);
-    border: 2px solid var(--color-brand);
+    border: 1px solid var(--color-border);
+    color: var(--color-foreground);
+    cursor: pointer;
+    transition:
+      color var(--dur-fast) var(--ease-out),
+      border-color var(--dur-fast) var(--ease-out),
+      background var(--dur-fast) var(--ease-out),
+      box-shadow var(--dur-fast) var(--ease-out);
+  }
+  .ctrl svg {
+    width: 20px;
+    height: 20px;
+  }
+  .ctrl:hover:not(:disabled) {
+    color: var(--color-brand-emphasis);
+    border-color: var(--color-brand);
+    box-shadow: var(--shadow-sm);
+  }
+  .ctrl:focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+  }
+  .ctrl:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+
+  /* Rail frame: non-scrolling wrapper that owns the spine + fill so their
+     geometry is viewport-space (never tied to scrollWidth). */
+  .rail-frame {
+    position: relative;
+    margin-top: clamp(36px, 5vw, 56px);
+  }
+  .rail-line {
+    position: absolute;
+    top: calc(var(--rail-pt) + var(--dot) / 2);
+    left: calc(var(--dot) / 2);
+    right: 0;
+    height: 2px;
+    transform: translateY(-50%);
+    border-radius: 9999px;
+    pointer-events: none;
+  }
+  .rail-spine {
+    background: var(--brand-200);
+  }
+  .rail-fill {
+    right: auto;
+    width: 0;
+    background: var(--color-brand);
+    transition: width 80ms linear;
+  }
+
+  /* The scroller IS the flex list — a labeled <ol> the prev/next buttons drive.
+     Flex items overflow it directly, so it scrolls reliably (a block wrapper
+     around a max-content flex child does not). Touch/mouse scroll natively;
+     keyboard users navigate via the buttons. */
+  .rail {
+    display: flex;
+    gap: var(--gap);
+    align-items: stretch;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 0;
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    /* vertical room so card shadows aren't clipped by the scroller */
+    padding-block: var(--rail-pt) 8px;
+  }
+
+  .item {
+    flex: 0 0 min(360px, 82vw);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    scroll-snap-align: start;
+  }
+
+  /* Marker dot — rides the spine. Card background fills the circle so the
+     spine reads as passing behind it. Lights to brand once "passed". */
+  .dot {
+    display: grid;
+    place-items: center;
+    width: var(--dot);
+    height: var(--dot);
+    border-radius: 9999px;
+    background: var(--color-card);
+    border: 2px solid var(--brand-200);
+    transition:
+      border-color var(--dur) var(--ease-out),
+      transform var(--dur) var(--ease-out);
   }
   .dot span {
-    width: 12px;
-    height: 12px;
+    width: 11px;
+    height: 11px;
     border-radius: 9999px;
+    background: var(--brand-200);
+    transition: background var(--dur) var(--ease-out);
+  }
+  .dot.active {
+    border-color: var(--color-brand);
+    transform: scale(1.06);
+  }
+  .dot.active span {
     background: var(--color-brand);
+  }
+
+  /* Content card */
+  .card {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: clamp(18px, 1.6vw, 24px);
+    transition:
+      transform var(--dur) var(--ease-out),
+      border-color var(--dur) var(--ease-out),
+      box-shadow var(--dur) var(--ease-out);
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    border-color: var(--brand-200);
+    box-shadow: var(--shadow-md);
   }
   .row {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 12px;
     flex-wrap: wrap;
   }
   .date {
@@ -148,18 +300,82 @@ const { eyebrow, heading, phases, id }: Props = Astro.props;
     letter-spacing: 0.1em;
   }
   .title {
-    margin: 10px 0 0;
+    margin: 14px 0 0;
     font-family: var(--font-sans);
     font-weight: 600;
-    font-size: 20px;
+    font-size: 19px;
     line-height: 1.3;
     color: var(--color-foreground);
+    text-wrap: balance;
   }
   .text {
-    margin: 7px 0 0;
-    font-size: 15.5px;
+    margin: 8px 0 0;
+    font-size: 15px;
     line-height: 1.6;
     color: var(--color-muted-foreground);
-    max-width: 58ch;
+    max-width: 42ch;
   }
 </style>
+
+<script>
+  // Light interactivity for the horizontal rollout rail. Mirrors the
+  // about/Timeline pattern: a single passive scroll handler updates the
+  // progress fill, active dots, and control state; reduced-motion-aware.
+  function initTimeline(root: HTMLElement) {
+    const rail = root.querySelector<HTMLElement>('.rail');
+    const fill = root.querySelector<HTMLElement>('.rail-fill');
+    const spine = root.querySelector<HTMLElement>('.rail-spine');
+    const prev = root.querySelector<HTMLButtonElement>('[data-prev]');
+    const next = root.querySelector<HTMLButtonElement>('[data-next]');
+    const dots = Array.from(root.querySelectorAll<HTMLElement>('.dot'));
+    if (!rail || !fill || !spine) return;
+
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let isStatic = false;
+
+    const cardStep = () => {
+      const first = rail.querySelector<HTMLElement>('.item');
+      if (!first) return rail.clientWidth * 0.8;
+      const gap = parseFloat(getComputedStyle(rail).columnGap || '0') || 0;
+      return first.offsetWidth + gap;
+    };
+
+    // When the cards already fit, drop the controls (nothing to scroll to).
+    const measure = () => {
+      isStatic = rail.scrollWidth <= rail.clientWidth + 1;
+      root.toggleAttribute('data-static', isStatic);
+    };
+
+    const update = () => {
+      const max = rail.scrollWidth - rail.clientWidth;
+      const progress = max > 1 ? rail.scrollLeft / max : 1;
+      fill.style.width = progress * spine.getBoundingClientRect().width + 'px';
+
+      // Light dots up to the progress point so they track the fill (all lit at the end).
+      const reached = isStatic ? dots.length - 1 : Math.round(progress * (dots.length - 1));
+      dots.forEach((d, i) => d.classList.toggle('active', i <= reached));
+
+      if (prev) prev.disabled = isStatic || rail.scrollLeft <= 1;
+      if (next) next.disabled = isStatic || rail.scrollLeft >= max - 1;
+    };
+
+    prev?.addEventListener('click', () =>
+      rail.scrollBy({ left: -cardStep(), behavior: reduce ? 'auto' : 'smooth' }),
+    );
+    next?.addEventListener('click', () =>
+      rail.scrollBy({ left: cardStep(), behavior: reduce ? 'auto' : 'smooth' }),
+    );
+
+    rail.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', () => {
+      measure();
+      update();
+    });
+
+    measure();
+    update();
+    root.setAttribute('data-ready', '');
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-cs-timeline]').forEach(initTimeline);
+</script>

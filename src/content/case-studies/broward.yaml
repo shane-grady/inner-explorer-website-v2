@@ -69,16 +69,6 @@ intro:
         standard, woven into the start of the school day.
     image: '../../assets/images/case-studies/broward/approach-student-desk.jpg'
     imageAlt: 'A student working at a desk with the teacher nearby'
-    pillars:
-      - icon: 'play'
-        title: "Press play, that's it"
-        text: 'Daily 5–10 minute audio practices any teacher can lead, with zero prep.'
-      - icon: 'repeat'
-        title: 'Built for the habit'
-        text: 'Themed multi-day series turn one good morning into a year-long routine.'
-      - icon: 'chart'
-        title: 'Visible from the top'
-        text: 'The District Dashboard turns adoption and engagement into reportable data.'
 
 timeline:
   eyebrow: 'The Rollout'
@@ -108,6 +98,10 @@ timeline:
 metrics:
   eyebrow: 'The Results'
   heading: 'What four years of daily practice produced'
+  # PLACEHOLDER: results photo — reusing an existing gallery image until a
+  # dedicated results photo is added (swap this one line per case study).
+  image: '../../assets/images/case-studies/broward/gallery-2-smiling-students.jpg'
+  imageAlt: 'A group of smiling students'
   note: >-
     Outcomes compare partner schools against district baselines and matched comparison sites.
     Figures are representative of Inner Explorer's published district reporting and

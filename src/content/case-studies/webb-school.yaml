@@ -98,36 +98,6 @@ intro:
         adaptation, support, and application — made it stick.
     image: '../../assets/images/case-studies/webb-school/approach-drawing-while-listening.jpg'
     imageAlt: 'A student drawing at a desk while listening to an audio-guided mindfulness practice'
-    # Card titles are descriptive takeaways (what skimming administrators retain);
-    # the source taxonomy — structure / adaptation / support / application — is named
-    # in the approach body paragraph above.
-    pillars:
-      - icon: 'calendar'
-        title: 'A predictable daily routine'
-        text: >-
-          The practice happens at the same time each day, in every classroom, with
-          students and teachers practicing together. That predictability is what turns
-          5–10 minutes of mindfulness into a school-wide habit — and sets the stage for a
-          productive day of learning.
-      - icon: 'palette'
-        title: 'Accommodations, not exemptions'
-        text: >-
-          Students who find it hard to sit still with their thoughts can draw or color
-          while they listen. Participation over perfection — the accommodation keeps
-          students in the practice instead of opting out.
-      - icon: 'heart'
-        title: 'Buy-in before compliance'
-        text: >-
-          When a student resists the practice, educators work to understand the
-          underlying reason rather than insisting. Building the "why" is what helps the
-          exercises make sense — and stick.
-      - icon: 'compass'
-        title: 'Skills that transfer'
-        text: >-
-          The day's technique goes on the board — belly breathing, a body scan — so
-          students can de-escalate hard moments with a tool they already know. Older
-          students practice independently on their own devices whenever they feel
-          anxious, stressed, or overwhelmed.
 
 timeline:
   eyebrow: 'The Turnaround'
@@ -157,6 +127,10 @@ timeline:
 metrics:
   eyebrow: 'The Results'
   heading: 'What daily practice changed — and what it prevented'
+  # PLACEHOLDER: results photo — reusing an existing gallery image until a
+  # dedicated results photo is added (swap this one line per case study).
+  image: '../../assets/images/case-studies/webb-school/gallery-5-calm-hallway.jpg'
+  imageAlt: 'Two students walking calmly down a sunlit school hallway'
   # The first sentence is the page's canonical claim — keep it byte-identical
   # wherever this story is summarized (cards, anchors, social copy).
   note: >-

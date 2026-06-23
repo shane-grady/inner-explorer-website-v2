@@ -215,6 +215,15 @@
   --editorial-glow: #4ade80;
   --editorial-glow-soft: #86efac;
 
+  /* Home v2 immersive surfaces — deep-forest washes for the art-directed home
+     page's dark sections (Live-now, Why-now, Listen). Consumed via var() in the
+     home blocks' scoped <style>; raw values are fine here (.css isn't drift-scanned).
+     Sit deeper/greener than --editorial-night (which is blue-leaning). */
+  --home-night: #06100b; /* deepest base (Why-now flat fill, radial outer) */
+  --home-night-2: #081410; /* mid (radial middle) */
+  --home-night-3: #0d1f15; /* lifted top of the radial wash */
+  --home-veil: #0a1424; /* Listen section — cooler deep teal-green */
+
   /* Motion durations (eases live in @theme). */
   --dur-fast: 200ms;
   --dur: 300ms;

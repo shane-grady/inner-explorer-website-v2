@@ -92,7 +92,19 @@ const { eyebrow, headlineTop, headlineBottom, subtitle, meta, image, imageAlt }:
   .hero-tint {
     position: absolute;
     inset: 0;
-    background: var(--hero-tint);
+    /* Readability darkening for the headline + subhead. A single full-bleed radial
+       (sized larger than the hero, biased toward the text on the left) so its falloff
+       is spread across the whole viewport — no hard edges or "box". Layered ON TOP of
+       the shared --hero-tint; the global token is untouched. Keeps the right side of
+       the photo brighter. */
+    background:
+      radial-gradient(
+        128% 104% at 40% 48%,
+        color-mix(in oklab, var(--neutral-950) 58%, transparent) 0%,
+        color-mix(in oklab, var(--neutral-950) 38%, transparent) 44%,
+        transparent 78%
+      ),
+      var(--hero-tint);
   }
   .hero-grain {
     position: absolute;
@@ -144,6 +156,9 @@ const { eyebrow, headlineTop, headlineBottom, subtitle, meta, image, imageAlt }:
     letter-spacing: -0.025em;
     margin: 0;
     text-wrap: balance;
+    text-shadow:
+      0 2px 24px color-mix(in oklab, var(--color-black) 34%, transparent),
+      0 1px 4px color-mix(in oklab, var(--color-black) 28%, transparent);
   }
   .hero-headline .sans {
     font-family: var(--font-sans);
@@ -162,7 +177,8 @@ const { eyebrow, headlineTop, headlineBottom, subtitle, meta, image, imageAlt }:
     max-width: 540px;
     font-size: 18px;
     line-height: 1.55;
-    color: color-mix(in oklab, var(--color-white) 82%, transparent);
+    color: var(--color-white);
+    text-shadow: 0 1px 3px color-mix(in oklab, var(--color-black) 34%, transparent);
   }
   .hero-foot {
     display: flex;

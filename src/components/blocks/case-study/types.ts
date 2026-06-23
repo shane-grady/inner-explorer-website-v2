@@ -1,6 +1,6 @@
 import type { ImageMetadata } from 'astro';
 
-// Shared types for the case-study blocks (CaseStudyHero / StoryBlock / Pillars /
+// Shared types for the case-study blocks (CaseStudyHero / StoryBlock /
 // Timeline / ResultsBand / CaseStudyVoices / PhotoMosaic) and the
 // `case-studies/[slug]` route. The "at a glance" stats band beneath the hero reuses
 // the shared `StatStrip` (the About-page stats component), fed `district.snapshot`
@@ -16,14 +16,6 @@ import type { ImageMetadata } from 'astro';
 export interface ValueLabel {
   value: string;
   label: string;
-}
-
-/** Approach "pillar" — a crafted card with an iconed chip + serif index. */
-export type PillarIcon = 'play' | 'repeat' | 'chart' | 'calendar' | 'palette' | 'heart' | 'compass';
-export interface Pillar {
-  icon: PillarIcon;
-  title: string;
-  text: string;
 }
 
 /** Bar-chart tones map to tokens, not data: muted = baseline bars, brand = outcome
