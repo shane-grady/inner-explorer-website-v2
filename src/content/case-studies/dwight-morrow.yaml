@@ -64,6 +64,18 @@ district:
     - { value: '300+', label: 'Thank-you notes written to school staff' }
     - { value: '6', label: 'Sustainable happiness skills guiding club projects' }
 
+# Scannable TLDR shown beneath the "at a glance" stat band.
+keyInsights:
+  items:
+    - label: 'Challenge'
+      text: "A worsening youth mental-health crisis adults couldn't solve alone — 1 in 6 U.S. youth experiences a mental health disorder each year."
+    - label: 'Approach'
+      text: "One teacher's classroom practice grew into the student-run Project Happiness Club, which promoted Inner Explorer's 21-Day Quest."
+    - label: 'Outcome'
+      text: "Participants' engagement with the daily practice rose 371% on average — active usage climbing from 14% to 53%."
+    - label: 'Habit'
+      text: 'Practice frequency grew from about once a week to three or four times, and club members planned a second year of initiatives.'
+
 intro:
   challenge:
     eyebrow: 'The Challenge'

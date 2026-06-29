@@ -72,6 +72,18 @@ district:
     - { value: '5–10 min', label: 'Daily guided mindfulness practice' }
     - { value: '$0', label: 'Cost to the school — LG-funded' }
 
+# Scannable TLDR shown beneath the "at a glance" stat band.
+keyInsights:
+  items:
+    - label: 'Background'
+      text: "One school carried the district's highest shares of special-education, trauma-affected, and free-lunch students."
+    - label: 'Approach'
+      text: 'A daily 5–10 minute MBSEL practice in every classroom — run before or after SEL lessons, adapted for trauma, and at no cost.'
+    - label: 'Outcome'
+      text: "In two years, academic gains ran 3X the state's average in English language arts and math, and 5X in science."
+    - label: 'Recognition'
+      text: 'The gains were large enough that the Colorado Department of Education called to ask what the school was doing.'
+
 intro:
   challenge:
     eyebrow: 'The Background'

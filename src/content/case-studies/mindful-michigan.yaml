@@ -71,6 +71,18 @@ district:
     - { value: '19.7%', label: 'One-year academic growth — matched peers grew 0.01%' }
     - { value: '1st', label: 'Statewide mindful systems-change model' }
 
+# Scannable TLDR shown beneath the "at a glance" stat band.
+keyInsights:
+  items:
+    - label: 'Challenge'
+      text: 'Stress blocks thinking and learning — and no single school can fix that alone; reaching a whole state takes a model, not just a program.'
+    - label: 'Approach'
+      text: 'A six-part statewide model built on one daily 10-minute practice, backed by funders, training partners, and data.'
+    - label: 'Outcome'
+      text: 'Schools using Inner Explorer grew proficiency 19.7% in a year vs. 0.01% for matched peers — and attendance improved faster too.'
+    - label: 'Scale'
+      text: "202 schools and ~58,000 students in year one — and Southfield became the nation's first required-practice district."
+
 intro:
   challenge:
     eyebrow: 'The Challenge'

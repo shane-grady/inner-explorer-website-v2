@@ -65,6 +65,18 @@ district:
     - { value: 'Anytime', label: 'On-demand resets, often requested by students' }
     - { value: '0', label: 'Prep required — educators press play' }
 
+# Scannable TLDR shown beneath the "at a glance" stat band.
+keyInsights:
+  items:
+    - label: 'Challenge'
+      text: "Students with disabilities often can't put distress into words, so it surfaces as behavior — and a stressed brain can't learn."
+    - label: 'Approach'
+      text: 'An audio-guided practice runs twice a day, in English and Spanish, with the teacher practicing right alongside her students.'
+    - label: 'Outcome'
+      text: 'Reported behavior issues in the special education classrooms fell 85%.'
+    - label: 'Beyond class'
+      text: 'Once-shy students learned to ask for what they need, and families practice along through the Inner Explorer HOME app.'
+
 intro:
   challenge:
     eyebrow: 'The Challenge'

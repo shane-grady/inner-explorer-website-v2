@@ -53,6 +53,18 @@ district:
     - { value: '2018', label: 'Pilot year' }
     - { value: '$0', label: 'Pilot cost — grant-funded' }
 
+# Scannable TLDR shown beneath the "at a glance" stat band.
+keyInsights:
+  items:
+    - label: 'Challenge'
+      text: "Point-and-level systems couldn't reach what students carried inside — restraints and seclusions hit 180 in a single year."
+    - label: 'Approach'
+      text: 'One consistent 5–10 minute audio-guided mindfulness practice, daily, in every classroom — a universal Tier 1 support, not a pull-out.'
+    - label: 'Outcome'
+      text: 'Restraints and seclusions fell 65% in the first year — from 180 to 62 — with zero prep required from educators.'
+    - label: 'Durability'
+      text: 'Incidents held near pilot-year lows the next two years, including through COVID-19 and remote learning.'
+
 intro:
   challenge:
     eyebrow: 'The Challenge'

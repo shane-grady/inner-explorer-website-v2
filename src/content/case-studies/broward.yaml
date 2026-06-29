@@ -36,6 +36,18 @@ district:
     - { value: 'PreK–12', label: 'Grade bands' }
     - { value: '4 yrs', label: 'In partnership' }
 
+# Scannable TLDR shown beneath the "at a glance" stat band.
+keyInsights:
+  items:
+    - label: 'Challenge'
+      text: 'Rising behavioral referrals and record teacher burnout — and existing SEL was uneven and hard to measure across 250,000 students.'
+    - label: 'Approach'
+      text: 'A five-minute, audio-guided morning practice any teacher can press play on — piloted in 12 schools and tracked on a district dashboard.'
+    - label: 'Outcome'
+      text: 'Behavioral outbursts fell 65% and office referrals 27%, alongside gains in attendance, reading growth, and teacher well-being.'
+    - label: 'Durability'
+      text: 'Four years on, daily practice is district-wide PreK–12 — a culture, not a program.'
+
 intro:
   challenge:
     eyebrow: 'The Challenge'

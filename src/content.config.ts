@@ -171,6 +171,17 @@ const caseStudies = defineCollection({
         snapshot: z.array(valueLabel).default([]),
       }),
 
+      // Scannable TLDR shown beneath the "at a glance" stat band. Each item is a
+      // tracked-caps label (Challenge / Approach / Outcome / Durability) + a one-
+      // sentence takeaway drawn from the story below — narrative, not numbers.
+      keyInsights: z.object({
+        eyebrow: z.string().default('Key Insights'),
+        items: z
+          .array(z.object({ label: z.string(), text: z.string() }))
+          .min(3)
+          .max(5),
+      }),
+
       intro: z.object({
         challenge: z.object({
           eyebrow: z.string(),
