@@ -64,6 +64,18 @@ district:
     - { value: '1,100', label: 'LAUSD schools when the district signed up' }
     - { value: '$0', label: 'Cost to the school — LG grant-funded' }
 
+# Scannable TLDR shown beneath the "at a glance" stat band.
+keyInsights:
+  items:
+    - label: 'Challenge'
+      text: '70% of teens saw anxiety and depression as a major problem among their peers — far fewer knew how to cope.'
+    - label: 'Approach'
+      text: 'A daily practice introduced by one educator grew into the student-led Wellness Advisory, built on six sustainable happiness skills.'
+    - label: 'Outcome'
+      text: '91% of students voted to keep practicing, and more students exceeded expectations in English (+15%) and math (+19%).'
+    - label: 'Scale'
+      text: 'LAUSD signed up to provide Inner Explorer access in every one of its schools — roughly 1,100 at the time.'
+
 intro:
   challenge:
     eyebrow: 'The Challenge'

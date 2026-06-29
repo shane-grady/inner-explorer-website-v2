@@ -1,0 +1,99 @@
+---
+// Scannable TLDR for a case study: a short list of labeled takeaway rows shown
+// beneath the "at a glance" stat band. Each row pairs a tracked-caps label
+// (Challenge / Approach / Outcome / Durability) with a one-sentence takeaway
+// synthesized from the story below — narrative, not numbers. Zero JS.
+interface Insight {
+  label: string;
+  text: string;
+}
+interface Props {
+  eyebrow?: string;
+  items: Insight[];
+  id?: string;
+}
+const { eyebrow = 'Key Insights', items, id }: Props = Astro.props;
+---
+
+<section class="ki" id={id} aria-label={eyebrow}>
+  <div class="wrap">
+    <span class="eyebrow">{eyebrow}</span>
+    <dl class="rows">
+      {
+        items.map((it) => (
+          <div class="row">
+            <dt class="label">{it.label}</dt>
+            <dd class="text">{it.text}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+</section>
+
+<style>
+  .wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding-inline: clamp(20px, 5vw, 64px);
+  }
+
+  /* Section eyebrow — matches StoryBlock's treatment (22px brand-emphasis lead +
+     tracked caps) so it reads as a peer of every other case-study section. */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--color-brand-emphasis);
+  }
+  .eyebrow::before {
+    content: '';
+    width: 22px;
+    height: 1.5px;
+    background: var(--color-brand-emphasis);
+  }
+
+  .rows {
+    margin: 22px 0 0;
+  }
+  .row {
+    display: grid;
+    grid-template-columns: clamp(110px, 14vw, 160px) 1fr;
+    gap: clamp(16px, 3vw, 40px);
+    align-items: baseline;
+    padding: 20px 0;
+    border-top: 1px solid var(--color-border);
+  }
+  .row:last-child {
+    border-bottom: 1px solid var(--color-border);
+  }
+  .label {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.3;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--color-brand-emphasis);
+  }
+  .text {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--color-foreground);
+    text-wrap: pretty;
+  }
+
+  /* Stack the label above its takeaway on small screens. */
+  @media (max-width: 640px) {
+    .row {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+  }
+</style>

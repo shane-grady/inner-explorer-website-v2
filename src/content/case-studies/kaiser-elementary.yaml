@@ -77,6 +77,18 @@ district:
     - { value: '17% → 48%', label: 'Students reading at grade level' }
     - { value: '$0', label: 'Program cost — LG Electronics grant' }
 
+# Scannable TLDR shown beneath the "at a glance" stat band.
+keyInsights:
+  items:
+    - label: 'Challenge'
+      text: "The opioid crisis followed students into class in the nation's hardest-hit state — chronic stress left kids unready to learn."
+    - label: 'Approach'
+      text: 'The whole school — students and staff — practiced 10 audio-guided minutes every morning, woven into its existing PBIS tiers.'
+    - label: 'Outcome'
+      text: 'In one year, discipline events fell 77% (82 → 19), and grade-level reading nearly tripled, from 17% to 48%.'
+    - label: 'Savings'
+      text: 'The school saved an estimated $22,600 a year as fewer students needed reading and math interventions.'
+
 intro:
   challenge:
     eyebrow: 'The Challenge'
