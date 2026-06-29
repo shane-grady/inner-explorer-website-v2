@@ -89,7 +89,7 @@ const {
     display: grid;
     /* Column count follows the data — 4-up for About, 5-up for a case-study snapshot. */
     grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr));
-    align-items: end;
+    align-items: start;
   }
   .stat-cell {
     padding: 56px 32px;
@@ -159,7 +159,7 @@ const {
     font-size: 14px;
     line-height: 1.4;
     color: var(--color-muted-foreground);
-    max-width: 200px;
+    white-space: nowrap;
   }
   /* In the cinematic figure the label carries the weight and the sub recedes. */
   .num-bold .lbl {
