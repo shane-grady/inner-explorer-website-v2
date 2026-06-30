@@ -1,0 +1,428 @@
+---
+// The Help Center docs frame: a sticky left article-nav sidebar, the content column
+// (default slot), and an optional sticky right rail (`toc` slot). Normal page scroll;
+// the rails are position:sticky. Lives inside PageLayout + a light-pinned wrapper.
+//
+// A small vanilla script powers the search: it filters the sidebar nav AND (on the
+// home page) the article cards by title/blurb/keywords, mirrors the two search inputs,
+// and shows an empty state. Content is fully visible without JS (progressive enhancement).
+import type { HelpGroupTree } from '../../../lib/help';
+
+interface Props {
+  groups: HelpGroupTree[];
+  activeSlug?: string;
+  showToc?: boolean;
+}
+const { groups, activeSlug, showToc = false }: Props = Astro.props;
+---
+
+<div class:list={['help', { 'has-toc': showToc }]}>
+  <div class="help-grid">
+    <aside class="help-side" data-help-sidebar>
+      <div class="help-side-inner">
+        <p class="help-eyebrow">Help Center</p>
+
+        <search class="help-search">
+          <label class="sr-only" for="help-search-side">Search the help center</label>
+          <svg
+            class="help-search-icon"
+            width="17"
+            height="17"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.3-4.3"></path>
+          </svg>
+          <input
+            id="help-search-side"
+            class="help-search-input"
+            type="search"
+            placeholder="Search the help center"
+            autocomplete="off"
+            data-help-search
+          />
+        </search>
+
+        <!-- `open` by default so the nav is visible without JS (desktop has no trigger);
+             a small script collapses it on mobile, where the trigger toggles it. -->
+        <details class="help-disclosure" data-help-disclosure open>
+          <summary class="help-disclosure-trigger">
+            <span>Browse all guides</span>
+            <svg
+              class="help-disclosure-chev"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </summary>
+
+          <nav class="help-nav" aria-label="Help topics">
+            {
+              groups.map((g) => (
+                <div class="help-nav-group" data-nav-group>
+                  <p class="help-nav-label">{g.label}</p>
+                  {g.items.map((it) => (
+                    <a
+                      href={it.href}
+                      class:list={['help-nav-link', { on: it.slug === activeSlug }]}
+                      aria-current={it.slug === activeSlug ? 'page' : undefined}
+                      data-nav-item
+                      data-search={`${it.title} ${it.blurb} ${it.keywords.join(' ')}`.toLowerCase()}
+                    >
+                      {it.title}
+                    </a>
+                  ))}
+                </div>
+              ))
+            }
+            <p class="help-nav-empty" data-nav-empty hidden>No matching guides.</p>
+          </nav>
+        </details>
+
+        <div class="help-support-card">
+          <p class="help-support-title">Still need help?</p>
+          <p class="help-support-text">Our team replies within one school day.</p>
+          <a class="help-support-btn" href="mailto:support@innerexplorer.org">
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+            </svg>
+            Contact support
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <div class="help-main"><slot /></div>
+
+    {
+      showToc && (
+        <aside class="help-toc" data-help-toc>
+          <div class="help-toc-inner">
+            <slot name="toc" />
+          </div>
+        </aside>
+      )
+    }
+  </div>
+</div>
+
+<style>
+  .help-grid {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 8px 32px 96px;
+    display: grid;
+    grid-template-columns: 264px minmax(0, 1fr);
+    gap: 52px;
+    align-items: start;
+  }
+  .help.has-toc .help-grid {
+    grid-template-columns: 264px minmax(0, 1fr) 200px;
+  }
+
+  /* Sticky rails — sit just below the floating glass nav. */
+  .help-side-inner,
+  .help-toc-inner {
+    position: sticky;
+    top: 88px;
+    max-height: calc(100vh - 104px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .help-toc-inner {
+    padding-top: 4px;
+  }
+
+  .help-eyebrow {
+    margin: 0 0 14px;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--color-muted-foreground);
+  }
+
+  /* Search */
+  .help-search {
+    position: relative;
+    display: block;
+  }
+  .help-search-icon {
+    position: absolute;
+    left: 13px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-muted-foreground);
+    pointer-events: none;
+  }
+  .help-search-input {
+    width: 100%;
+    padding: 10px 12px 10px 38px;
+    border: 1px solid var(--color-input);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--color-foreground);
+    background: color-mix(in oklab, var(--color-muted) 55%, var(--color-card));
+    outline: none;
+    transition:
+      border-color var(--dur-fast) var(--ease-out),
+      background var(--dur-fast) var(--ease-out);
+  }
+  .help-search-input:focus {
+    border-color: var(--color-brand);
+    background: var(--color-card);
+  }
+
+  /* Disclosure (summary visible only on mobile) */
+  .help-disclosure {
+    margin-top: 14px;
+  }
+  .help-disclosure-trigger {
+    display: none;
+    list-style: none;
+    cursor: pointer;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 11px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-foreground);
+    background: var(--color-card);
+  }
+  .help-disclosure-trigger::-webkit-details-marker {
+    display: none;
+  }
+  .help-disclosure-chev {
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+  .help-disclosure[open] .help-disclosure-chev {
+    transform: rotate(180deg);
+  }
+
+  /* Nav */
+  .help-nav {
+    margin-top: 2px;
+  }
+  .help-nav-group {
+    margin-bottom: 14px;
+  }
+  .help-nav-label {
+    margin: 0;
+    padding: 10px 12px 6px;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-muted-foreground);
+  }
+  .help-nav-link {
+    display: block;
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.35;
+    color: var(--color-foreground);
+    text-decoration: none;
+    transition:
+      background var(--dur-fast) var(--ease-out),
+      color var(--dur-fast) var(--ease-out);
+  }
+  .help-nav-link:hover {
+    background: var(--color-muted);
+  }
+  .help-nav-link.on {
+    font-weight: 600;
+    color: var(--color-brand-emphasis);
+    background: var(--color-brand-subtle);
+  }
+  .help-nav-empty {
+    padding: 14px 12px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--color-muted-foreground);
+  }
+
+  /* Support card */
+  .help-support-card {
+    margin-top: 18px;
+    padding: 16px 16px 14px;
+    background: var(--color-brand-subtle);
+    border: 1px solid color-mix(in oklab, var(--color-brand) 24%, transparent);
+    border-radius: var(--radius-md);
+  }
+  .help-support-title {
+    margin: 0;
+    font-size: 14.5px;
+    font-weight: 600;
+    line-height: 1.35;
+    color: var(--color-foreground);
+  }
+  .help-support-text {
+    margin: 4px 0 0;
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: var(--color-muted-foreground);
+  }
+  .help-support-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 12px;
+    padding: 10px 14px;
+    border-radius: 9999px;
+    background: var(--color-brand);
+    color: var(--color-brand-foreground);
+    font-size: 13.5px;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+    transition: background var(--dur-fast) var(--ease-out);
+  }
+  .help-support-btn:hover {
+    background: var(--color-brand-emphasis);
+  }
+
+  /* Content column */
+  .help-main {
+    min-width: 0;
+  }
+
+  /* ≤1100px — drop the right TOC rail. */
+  @media (max-width: 1100px) {
+    .help.has-toc .help-grid {
+      grid-template-columns: 240px minmax(0, 1fr);
+    }
+    .help-toc {
+      display: none;
+    }
+  }
+
+  /* Desktop: the trigger stays hidden (base rule) and the <details> stays `open`, so
+     the nav is always visible. Modern UAs skip rendering closed-<details> content via
+     `::details-content`, so visibility is driven by the `open` state (set in markup +
+     kept in sync by the script on resize), not by a CSS display override.
+
+     ≤880px — single column. Sidebar stacks on top, stops being sticky, and its nav
+     collapses behind the disclosure trigger. */
+  @media (max-width: 880px) {
+    .help-grid {
+      grid-template-columns: 1fr;
+      gap: 24px;
+      padding: 8px 20px 64px;
+    }
+    .help.has-toc .help-grid {
+      grid-template-columns: 1fr;
+    }
+    .help-side-inner {
+      position: static;
+      max-height: none;
+      overflow: visible;
+    }
+    .help-disclosure-trigger {
+      display: flex;
+    }
+  }
+</style>
+
+<script>
+  function initHelpSearch() {
+    const inputs = Array.from(document.querySelectorAll<HTMLInputElement>('[data-help-search]'));
+    if (!inputs.length) return;
+
+    const navGroups = Array.from(document.querySelectorAll<HTMLElement>('[data-nav-group]'));
+    const navEmpty = document.querySelector<HTMLElement>('[data-nav-empty]');
+    const cardGroups = Array.from(document.querySelectorAll<HTMLElement>('[data-card-group]'));
+    const cardsEmpty = document.querySelector<HTMLElement>('[data-cards-empty]');
+    const disclosure = document.querySelector<HTMLDetailsElement>('[data-help-disclosure]');
+
+    const filterSet = (
+      groups: HTMLElement[],
+      itemSel: string,
+      empty: HTMLElement | null,
+      q: string,
+    ): void => {
+      let visible = 0;
+      groups.forEach((group) => {
+        let groupVisible = 0;
+        group.querySelectorAll<HTMLElement>(itemSel).forEach((item) => {
+          const match = !q || (item.dataset.search ?? '').includes(q);
+          item.hidden = !match;
+          if (match) groupVisible++;
+        });
+        group.hidden = groupVisible === 0;
+        visible += groupVisible;
+      });
+      if (empty) empty.hidden = !(q.length > 0 && visible === 0);
+    };
+
+    const apply = (raw: string): void => {
+      const q = raw.trim().toLowerCase();
+      filterSet(navGroups, '[data-nav-item]', navEmpty, q);
+      filterSet(cardGroups, '[data-card]', cardsEmpty, q);
+      if (disclosure && q) disclosure.open = true;
+    };
+
+    inputs.forEach((input) => {
+      input.addEventListener('input', () => {
+        const q = input.value;
+        inputs.forEach((other) => {
+          if (other !== input) other.value = q;
+        });
+        apply(q);
+      });
+    });
+  }
+
+  // Keep the nav <details> expanded on desktop (the trigger is hidden there, so it
+  // must stay open) and collapsed on mobile, where the trigger toggles it. The markup
+  // ships `open` so no-JS still shows the nav on desktop.
+  function initHelpDisclosure() {
+    const det = document.querySelector<HTMLDetailsElement>('[data-help-disclosure]');
+    if (!det) return;
+    const mq = window.matchMedia('(max-width: 880px)');
+    const sync = () => {
+      det.open = !mq.matches;
+    };
+    sync();
+    mq.addEventListener('change', sync);
+  }
+
+  document.addEventListener('astro:page-load', () => {
+    initHelpSearch();
+    initHelpDisclosure();
+  });
+</script>

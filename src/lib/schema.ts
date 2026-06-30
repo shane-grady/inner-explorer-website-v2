@@ -72,6 +72,31 @@ export function personSchema(site: URL | string | undefined, person: PersonInput
   };
 }
 
+/** FAQPage rich-result schema. `a` should be plain text (strip any inline HTML). */
+export function faqPageSchema(
+  site: URL | string | undefined,
+  page: {
+    path: string;
+    name: string;
+    description?: string;
+    questions: { q: string; a: string }[];
+  },
+) {
+  const base = origin(site);
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    url: `${base}${page.path}`,
+    name: page.name,
+    ...(page.description ? { description: page.description } : {}),
+    mainEntity: page.questions.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  };
+}
+
 export function breadcrumbSchema(
   site: URL | string | undefined,
   items: { name: string; path: string }[],

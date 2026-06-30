@@ -15,6 +15,7 @@ const navLinks = [
   { label: 'Narrators', href: '/narrators' },
   { label: 'About', href: '/about' },
   { label: 'Resources', href: '/resources' },
+  { label: 'Help', href: '/help' },
 ];
 
 const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
@@ -293,10 +294,10 @@ const isActive = (rawHref: string) => {
     color: var(--color-background) !important;
   }
 
-  /* Collapse to the burger early enough that the full link row never crams. The
-     8-item nav's intrinsic width is ~1209px (fits at a ~1243px viewport), so the
-     full row shows on 1280px+ and the mobile menu carries the links below ~1260px. */
-  @media (max-width: 1260px) {
+  /* Collapse to the burger early enough that the full link row never crams. With the
+     9-item nav (Help added) the link row is wider, so the full row shows on ~1380px+
+     and the mobile menu carries the links below 1360px. */
+  @media (max-width: 1360px) {
     .nav-links,
     .nav-signin,
     .nav-cta {

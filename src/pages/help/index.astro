@@ -1,0 +1,342 @@
+---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import PageLayout from '../../layouts/PageLayout.astro';
+import JsonLd from '../../components/seo/JsonLd.astro';
+import HelpShell from '../../components/blocks/help/HelpShell.astro';
+import HelpFigure from '../../components/blocks/help/HelpFigure.astro';
+import { buildHelpNav, helpGroups } from '../../lib/help';
+import { readingTime } from '../../lib/reading-time';
+import { breadcrumbSchema } from '../../lib/schema';
+import mark from '../../assets/brand/inner-explorer-mark.png';
+import heroImg from '../../assets/images/research/hero-classroom.jpg';
+
+const entries = await getCollection('help', ({ data }) => !data.draft);
+const nav = buildHelpNav(entries);
+
+// Home card sections — mirror the nav grouping, but each card also carries a reading
+// time and a search blob (title + blurb + keywords) the client search filters on.
+const sections = helpGroups
+  .map((g) => ({
+    label: g.label,
+    cards: entries
+      .filter((e) => e.data.group === g.id)
+      .sort((a, b) => a.data.order - b.data.order || a.data.title.localeCompare(b.data.title))
+      .map((e) => ({
+        title: e.data.title,
+        blurb: e.data.blurb,
+        href: `/help/${e.id}/`,
+        read: e.data.readingTime ?? readingTime(e.body),
+        search: `${e.data.title} ${e.data.blurb} ${e.data.keywords.join(' ')}`.toLowerCase(),
+      })),
+  }))
+  .filter((s) => s.cards.length > 0);
+
+const pageTitle = 'Help Center — Inner Explorer';
+const pageDescription =
+  'Guides, best practices, and answers for everyone who uses Inner Explorer — educators leading the daily practice, administrators rolling it out, and families bringing it home.';
+
+const schema = breadcrumbSchema(Astro.site, [
+  { name: 'Home', path: '/' },
+  { name: 'Help Center', path: '/help/' },
+]);
+---
+
+<PageLayout title={pageTitle} description={pageDescription}>
+  <JsonLd schema={schema} slot="head" />
+
+  <div class="appearance-light">
+    <HelpShell groups={nav}>
+      <div class="help-home">
+        <p class="help-home-eyebrow">Inner Explorer Help Center</p>
+        <h1 class="help-home-title">How can we help<br />you explore today?</h1>
+        <p class="help-home-intro">
+          Guides, best practices, and answers for everyone who uses Inner Explorer — educators
+          leading the daily practice, administrators rolling it out, and families bringing it home.
+        </p>
+
+        <search class="help-home-search">
+          <label class="sr-only" for="help-search-home">Search the help center</label>
+          <svg
+            class="help-home-search-icon"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.3-4.3"></path>
+          </svg>
+          <input
+            id="help-search-home"
+            class="help-home-search-input"
+            type="search"
+            placeholder="Search for a topic, e.g. signing in"
+            autocomplete="off"
+            data-help-search
+          />
+        </search>
+
+        <HelpFigure
+          src={heroImg}
+          alt="A class settling into a few quiet minutes of guided mindfulness practice"
+          ratio="16 / 6"
+          label="Classroom photo"
+        />
+
+        <div class="help-home-empty" data-cards-empty hidden>
+          No guides matched your search. Try a different word, or browse the sections in the menu.
+        </div>
+
+        {
+          sections.map((section) => (
+            <section class="help-home-section" data-card-group>
+              <h2 class="help-home-h2">{section.label}</h2>
+              <div class="help-home-cards">
+                {section.cards.map((c) => (
+                  <a class="help-home-card" href={c.href} data-card data-search={c.search}>
+                    <span class="help-home-card-top">
+                      <span class="help-home-card-title">{c.title}</span>
+                      <svg
+                        width="17"
+                        height="17"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                      >
+                        <path d="M5 12h14" />
+                        <path d="m12 5 7 7-7 7" />
+                      </svg>
+                    </span>
+                    <span class="help-home-card-blurb">{c.blurb}</span>
+                    <span class="help-home-card-read">{c.read} read</span>
+                  </a>
+                ))}
+              </div>
+            </section>
+          ))
+        }
+
+        <aside class="help-home-banner">
+          <Image src={mark} alt="" width={46} height={46} />
+          <div>
+            <p class="help-home-banner-title">Still need a hand?</p>
+            <p class="help-home-banner-text">
+              Reach our support team at{' '}
+              <a href="mailto:support@innerexplorer.org">support@innerexplorer.org</a> — we typically
+              reply within one school day.
+            </p>
+          </div>
+        </aside>
+      </div>
+    </HelpShell>
+  </div>
+</PageLayout>
+
+<style>
+  .help-home {
+    max-width: 760px;
+    animation: helpFade 0.4s var(--ease-out) both;
+  }
+  @keyframes helpFade {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .help-home-eyebrow {
+    margin: 0 0 16px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-brand);
+  }
+  .help-home-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(2.4rem, 1.9rem + 2.4vw, 3.25rem);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: var(--color-foreground);
+  }
+  .help-home-intro {
+    margin: 18px 0 0;
+    max-width: 560px;
+    font-size: 1.125rem;
+    line-height: 1.65;
+    color: var(--color-muted-foreground);
+  }
+
+  /* Hero search — larger than the sidebar's. */
+  .help-home-search {
+    position: relative;
+    display: block;
+    max-width: 560px;
+    margin: 26px 0 8px;
+  }
+  .help-home-search-icon {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-muted-foreground);
+    pointer-events: none;
+  }
+  .help-home-search-input {
+    width: 100%;
+    padding: 16px 18px 16px 50px;
+    border: 1px solid var(--color-input);
+    border-radius: var(--radius-md);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.4;
+    color: var(--color-foreground);
+    background: var(--color-card);
+    box-shadow: var(--shadow-sm);
+    outline: none;
+    transition: border-color var(--dur-fast) var(--ease-out);
+  }
+  .help-home-search-input:focus {
+    border-color: var(--color-brand);
+  }
+
+  .help-home-empty {
+    margin-top: 40px;
+    padding: 40px;
+    text-align: center;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--color-muted-foreground);
+  }
+
+  .help-home-section {
+    margin-top: 48px;
+  }
+  .help-home-h2 {
+    margin: 0 0 16px;
+    font-family: var(--font-sans);
+    font-size: 1.3125rem;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    color: var(--color-foreground);
+  }
+  .help-home-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .help-home-card {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    padding: 18px 20px;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition:
+      border-color var(--dur-fast) var(--ease-out),
+      box-shadow var(--dur-fast) var(--ease-out),
+      transform var(--dur-fast) var(--ease-out);
+  }
+  .help-home-card:hover {
+    border-color: color-mix(in oklab, var(--color-brand) 45%, transparent);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+  .help-home-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .help-home-card-title {
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.35;
+    color: var(--color-foreground);
+  }
+  .help-home-card-top svg {
+    flex: 0 0 auto;
+    color: var(--color-brand);
+  }
+  .help-home-card-blurb {
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--color-muted-foreground);
+  }
+  .help-home-card-read {
+    margin-top: 2px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--color-muted-foreground);
+  }
+
+  .help-home-banner {
+    margin-top: 48px;
+    padding: 26px 28px;
+    background: var(--color-brand-subtle);
+    border: 1px solid color-mix(in oklab, var(--color-brand) 24%, transparent);
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .help-home-banner :global(img) {
+    flex: 0 0 auto;
+  }
+  .help-home-banner > div {
+    flex: 1;
+    min-width: 220px;
+  }
+  .help-home-banner-title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--color-foreground);
+  }
+  .help-home-banner-text {
+    margin: 2px 0 0;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--color-muted-foreground);
+  }
+  .help-home-banner-text a {
+    color: var(--color-brand-emphasis);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .help-home-banner-text a:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 560px) {
+    .help-home-cards {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

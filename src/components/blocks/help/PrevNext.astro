@@ -1,0 +1,84 @@
+---
+// Previous / next guide links at the foot of an article, following the flat reading
+// order across all groups. Either side may be absent (first / last guide).
+interface Link {
+  title: string;
+  href: string;
+}
+interface Props {
+  prev?: Link;
+  next?: Link;
+}
+const { prev, next }: Props = Astro.props;
+---
+
+{
+  (prev || next) && (
+    <nav class="help-prevnext" aria-label="More guides">
+      {prev && (
+        <a class="help-pn help-pn--prev" href={prev.href}>
+          <span class="help-pn-dir">Previous</span>
+          <span class="help-pn-title">{prev.title}</span>
+        </a>
+      )}
+      {next && (
+        <a class="help-pn help-pn--next" href={next.href}>
+          <span class="help-pn-dir">Next</span>
+          <span class="help-pn-title">{next.title}</span>
+        </a>
+      )}
+    </nav>
+  )
+}
+
+<style>
+  .help-prevnext {
+    margin-top: 52px;
+    padding-top: 32px;
+    border-top: 1px solid var(--color-border);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .help-pn {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 16px 20px;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: border-color var(--dur-fast) var(--ease-out);
+  }
+  .help-pn:hover {
+    border-color: color-mix(in oklab, var(--color-brand) 45%, transparent);
+  }
+  .help-pn--next {
+    grid-column: 2;
+    text-align: right;
+  }
+  .help-pn-dir {
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--color-muted-foreground);
+  }
+  .help-pn-title {
+    font-size: 15.5px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--color-foreground);
+  }
+  @media (max-width: 560px) {
+    .help-prevnext {
+      grid-template-columns: 1fr;
+    }
+    .help-pn--next {
+      grid-column: 1;
+      text-align: left;
+    }
+  }
+</style>

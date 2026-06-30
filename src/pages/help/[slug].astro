@@ -1,0 +1,188 @@
+---
+import { getCollection, render } from 'astro:content';
+import PageLayout from '../../layouts/PageLayout.astro';
+import JsonLd from '../../components/seo/JsonLd.astro';
+import HelpShell from '../../components/blocks/help/HelpShell.astro';
+import ArticleToc from '../../components/blocks/blog/ArticleToc.astro';
+import Breadcrumb from '../../components/primitives/Breadcrumb.astro';
+import HelpActions from '../../components/blocks/help/HelpActions.astro';
+import PrevNext from '../../components/blocks/help/PrevNext.astro';
+// In-article MDX modules — passed to <Content> so authors use them without imports.
+import Callout from '../../components/blocks/help/Callout.astro';
+import Steps from '../../components/blocks/help/Steps.astro';
+import Step from '../../components/blocks/help/Step.astro';
+import CardGrid from '../../components/blocks/help/CardGrid.astro';
+import Card from '../../components/blocks/help/Card.astro';
+import LinkCards from '../../components/blocks/help/LinkCards.astro';
+import Accordion from '../../components/blocks/help/Accordion.astro';
+import HelpFigure from '../../components/blocks/help/HelpFigure.astro';
+import Button from '../../components/primitives/Button.astro';
+import { buildHelpNav, flatHelpOrder, groupLabel } from '../../lib/help';
+import { readingTime } from '../../lib/reading-time';
+import { breadcrumbSchema, organizationSchema } from '../../lib/schema';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('help', ({ data }) => !data.draft);
+  const nav = buildHelpNav(entries);
+  const order = flatHelpOrder(entries);
+  return entries.map((entry) => {
+    const i = order.findIndex((o) => o.slug === entry.id);
+    return {
+      params: { slug: entry.id },
+      props: {
+        entry,
+        nav,
+        prev: i > 0 ? order[i - 1] : undefined,
+        next: i >= 0 && i < order.length - 1 ? order[i + 1] : undefined,
+      },
+    };
+  });
+}
+
+const { entry, nav, prev, next } = Astro.props;
+const { Content, headings } = await render(entry);
+const d = entry.data;
+
+const tocItems = headings.filter((h) => h.depth === 2).map((h) => ({ slug: h.slug, text: h.text }));
+const reading = d.readingTime ?? readingTime(entry.body);
+const groupName = groupLabel(d.group);
+
+const pageTitle = d.seoTitle ?? `${d.title} — Help Center — Inner Explorer`;
+const pageDescription = d.seoDescription ?? d.blurb;
+
+const base = new URL(Astro.site ?? 'https://www.innerexplorer.org').origin;
+const path = `/help/${entry.id}/`;
+
+// Breadcrumb stays two-level (Help Center / page); the section is shown by the green
+// eyebrow below, so repeating it as a non-clickable crumb would just be redundant.
+const crumbs = [{ label: 'Help Center', href: '/help' }, { label: d.title }];
+
+const articleLd = {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: d.title,
+  description: pageDescription,
+  inLanguage: 'en-US',
+  mainEntityOfPage: `${base}${path}`,
+  isPartOf: { '@type': 'WebSite', name: 'Inner Explorer Help Center', url: `${base}/help/` },
+  publisher: organizationSchema(Astro.site),
+};
+const crumbLd = breadcrumbSchema(Astro.site, [
+  { name: 'Home', path: '/' },
+  { name: 'Help Center', path: '/help/' },
+  { name: d.title, path },
+]);
+---
+
+<PageLayout title={pageTitle} description={pageDescription} type="article">
+  <JsonLd schema={articleLd} slot="head" />
+  <JsonLd schema={crumbLd} slot="head" />
+
+  <div class="appearance-light">
+    <HelpShell groups={nav} activeSlug={entry.id} showToc={tocItems.length > 0}>
+      <article class="help-article">
+        <Breadcrumb items={crumbs} class="help-article-crumb" />
+        <p class="help-article-eyebrow">{groupName}</p>
+        <h1 class="help-article-title">{d.title}</h1>
+        <p class="help-article-meta">{reading} read</p>
+        <div class="help-article-divider"></div>
+
+        <div class="prose-help">
+          <Content
+            components={{
+              Callout,
+              Steps,
+              Step,
+              CardGrid,
+              Card,
+              LinkCards,
+              Accordion,
+              HelpFigure,
+              Button,
+            }}
+          />
+        </div>
+
+        <PrevNext prev={prev} next={next} />
+      </article>
+
+      <Fragment slot="toc">
+        <ArticleToc items={tocItems} label="On this page" numbered={false} />
+        <HelpActions />
+      </Fragment>
+    </HelpShell>
+  </div>
+</PageLayout>
+
+<style>
+  .help-article {
+    animation: helpArticleFade 0.4s var(--ease-out) both;
+  }
+  @keyframes helpArticleFade {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  /* `:global` because the class lands on the Breadcrumb component's root node, which
+     doesn't carry this page's scope attribute — a plain `.help-article-crumb` selector
+     wouldn't match it (so the gap would collapse). */
+  :global(.help-article-crumb) {
+    margin-bottom: 26px;
+  }
+  .help-article-eyebrow {
+    margin: 0 0 14px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-brand);
+  }
+  .help-article-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(2.1rem, 1.7rem + 2vw, 2.875rem);
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+    color: var(--color-foreground);
+  }
+  .help-article-meta {
+    margin: 18px 0 0;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--color-muted-foreground);
+  }
+  .help-article-divider {
+    height: 1px;
+    margin-top: 30px;
+    background: var(--color-border);
+  }
+</style>
+
+<!-- Print: strip the site + docs chrome so the article prints (and "Save as PDF") cleanly. -->
+<style is:global>
+  @media print {
+    .nav-wrap,
+    footer,
+    [data-help-sidebar],
+    [data-help-toc] {
+      display: none !important;
+    }
+    .help-grid {
+      display: block !important;
+      max-width: none !important;
+      padding: 0 !important;
+    }
+    .help-main {
+      max-width: none !important;
+    }
+  }
+</style>

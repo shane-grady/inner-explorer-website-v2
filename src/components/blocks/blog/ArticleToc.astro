@@ -9,13 +9,15 @@ interface TocItem {
 interface Props {
   items: TocItem[];
   label?: string;
+  /** Show leading-zero counters (blog outline). Pass false for a plain list (help). */
+  numbered?: boolean;
 }
-const { items, label = 'In this article' }: Props = Astro.props;
+const { items, label = 'In this article', numbered = true }: Props = Astro.props;
 ---
 
 {
   items.length > 0 && (
-    <nav class="toc" data-toc aria-label="Table of contents">
+    <nav class:list={['toc', { plain: !numbered }]} data-toc aria-label="Table of contents">
       <p class="label">{label}</p>
       <ol>
         {items.map((it) => (
@@ -86,39 +88,63 @@ const { items, label = 'In this article' }: Props = Astro.props;
     color: var(--color-brand);
     opacity: 1;
   }
+
+  /* Plain variant (help center) — no leading-zero counters. */
+  .toc.plain a {
+    gap: 0;
+  }
+  .toc.plain a::before {
+    display: none;
+  }
 </style>
 
 <script>
-  document.querySelectorAll<HTMLElement>('[data-toc]').forEach((toc) => {
-    const links = Array.from(toc.querySelectorAll<HTMLAnchorElement>('a[data-slug]'));
-    const map = new Map<string, HTMLAnchorElement>();
-    const targets: HTMLElement[] = [];
-    links.forEach((link) => {
-      const slug = link.dataset.slug;
-      if (!slug) return;
-      map.set(slug, link);
-      const el = document.getElementById(slug);
-      if (el) targets.push(el);
+  // Re-init on every page-load (initial + each ClientRouter navigation), since the
+  // TOC DOM is re-rendered per page; disconnect observers before the swap so they
+  // don't pile up or fire against stale nodes.
+  const tocObservers: IntersectionObserver[] = [];
+
+  function initTocSpy() {
+    document.querySelectorAll<HTMLElement>('[data-toc]').forEach((toc) => {
+      const links = Array.from(toc.querySelectorAll<HTMLAnchorElement>('a[data-slug]'));
+      const map = new Map<string, HTMLAnchorElement>();
+      const targets: HTMLElement[] = [];
+      links.forEach((link) => {
+        const slug = link.dataset.slug;
+        if (!slug) return;
+        map.set(slug, link);
+        const el = document.getElementById(slug);
+        if (el) targets.push(el);
+      });
+      if (!targets.length) return;
+
+      let active = '';
+      const setActive = (id: string) => {
+        if (id === active) return;
+        if (active) map.get(active)?.classList.remove('on');
+        map.get(id)?.classList.add('on');
+        active = id;
+      };
+
+      const io = new IntersectionObserver(
+        (entries) => {
+          const visible = entries
+            .filter((e) => e.isIntersecting)
+            .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+          if (visible[0]) setActive(visible[0].target.id);
+        },
+        { rootMargin: '-100px 0px -70% 0px', threshold: 0 },
+      );
+      targets.forEach((t) => io.observe(t));
+      tocObservers.push(io);
     });
-    if (!targets.length) return;
+  }
 
-    let active = '';
-    const setActive = (id: string) => {
-      if (id === active) return;
-      if (active) map.get(active)?.classList.remove('on');
-      map.get(id)?.classList.add('on');
-      active = id;
-    };
+  function teardownTocSpy() {
+    tocObservers.forEach((o) => o.disconnect());
+    tocObservers.length = 0;
+  }
 
-    const io = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-        if (visible[0]) setActive(visible[0].target.id);
-      },
-      { rootMargin: '-100px 0px -70% 0px', threshold: 0 },
-    );
-    targets.forEach((t) => io.observe(t));
-  });
+  document.addEventListener('astro:page-load', initTocSpy);
+  document.addEventListener('astro:before-swap', teardownTocSpy);
 </script>

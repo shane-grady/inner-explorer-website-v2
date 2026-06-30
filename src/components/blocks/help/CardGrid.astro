@@ -1,0 +1,30 @@
+---
+// A responsive grid of info <Card>s — used for option grids (e.g. "Ways to sign in")
+// and numbered trios (e.g. Choose / Press play / Reflect). `columns` is the desktop
+// column count; it collapses to one column on narrow screens.
+interface Props {
+  columns?: 2 | 3;
+}
+const { columns = 2 }: Props = Astro.props;
+---
+
+<div class="help-cards" data-columns={columns}><slot /></div>
+
+<style>
+  .help-cards {
+    margin: 1.75rem 0;
+    display: grid;
+    gap: 14px;
+  }
+  .help-cards[data-columns='2'] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .help-cards[data-columns='3'] {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  @media (max-width: 560px) {
+    .help-cards {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
