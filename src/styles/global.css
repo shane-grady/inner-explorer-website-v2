@@ -747,6 +747,99 @@
     color: var(--color-brand-emphasis);
   }
 
+  /* Help Center article body — a calm, documentation-style treatment (distinct from
+     the editorial `.prose-article`: sans headings, no drop cap, tighter measure). Used
+     by /help/<slug>. In-article modules (Callout, Steps, CardGrid, LinkCards, Accordion,
+     HelpFigure) carry their own scoped styles + block margins, so this styles only the
+     raw prose elements — list decorations are scoped to `:not([class])` so module lists
+     are untouched. Token-driven, so it stays AA and is dark-mode-ready. */
+  .prose-help {
+    max-width: 760px;
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.72;
+    color: var(--color-foreground);
+    text-wrap: pretty;
+  }
+  .prose-help > :first-child {
+    margin-top: 0;
+  }
+  .prose-help p {
+    margin: 1.15em 0 0;
+  }
+  /* Opening paragraph reads as a softer lede. */
+  .prose-help > p:first-of-type {
+    font-size: 1.1875rem;
+    line-height: 1.62;
+    color: color-mix(in oklab, var(--color-foreground) 80%, transparent);
+  }
+  .prose-help h2 {
+    margin: 2.1em 0 0.2em;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 1.4375rem;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    color: var(--color-foreground);
+    scroll-margin-top: 120px;
+  }
+  .prose-help h3 {
+    margin: 1.7em 0 0.2em;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 1.125rem;
+    line-height: 1.35;
+    color: var(--color-foreground);
+  }
+  /* Scope link styling to classless (markdown) links so module links — Button pills,
+     LinkCards, Accordion answers — keep their own treatment. */
+  .prose-help a:not([class]) {
+    color: var(--color-brand-emphasis);
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1px solid color-mix(in oklab, var(--color-brand) 35%, transparent);
+    transition: border-color var(--dur-fast) var(--ease-out);
+  }
+  .prose-help a:not([class]):hover {
+    border-bottom-color: var(--color-brand-emphasis);
+  }
+  .prose-help strong {
+    font-weight: 600;
+    color: var(--color-foreground);
+  }
+  .prose-help ul:not([class]) {
+    margin: 1.15em 0 0;
+    padding-left: 0;
+    list-style: none;
+  }
+  .prose-help ul:not([class]) li {
+    position: relative;
+    margin-top: 0.5em;
+    padding-left: 26px;
+  }
+  .prose-help ul:not([class]) li::before {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 0.62em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-brand);
+  }
+  .prose-help ol:not([class]) {
+    margin: 1.15em 0 0;
+    padding-left: 1.2em;
+  }
+  .prose-help ol:not([class]) li {
+    margin-top: 0.5em;
+    padding-left: 4px;
+  }
+  .prose-help ol:not([class]) li::marker {
+    color: var(--color-muted-foreground);
+    font-variant-numeric: tabular-nums;
+  }
+
   /* Honor reduced-motion preference everywhere. */
   @media (prefers-reduced-motion: reduce) {
     *,

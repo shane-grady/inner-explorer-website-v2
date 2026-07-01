@@ -1,0 +1,53 @@
+---
+// Help-article callout — a brand-tinted aside for tips, notes, and "good to know"
+// asides. Body comes from the slot so it can carry inline markdown/links. Used as an
+// in-article MDX module on /help/<slug>.
+type CalloutType = 'tip' | 'note' | 'good';
+interface Props {
+  type?: CalloutType;
+  /** Override the auto label (defaults from `type`). */
+  label?: string;
+}
+const labels: Record<CalloutType, string> = {
+  tip: 'Tip',
+  note: 'Note',
+  good: 'Good to know',
+};
+const { type = 'tip', label }: Props = Astro.props;
+---
+
+<aside class="callout">
+  <div class="callout-label">{label ?? labels[type]}</div>
+  <div class="callout-body"><slot /></div>
+</aside>
+
+<style>
+  .callout {
+    margin: 1.75rem 0;
+    padding: 18px 20px;
+    background: var(--color-brand-subtle);
+    border: 1px solid color-mix(in oklab, var(--color-brand) 24%, transparent);
+    border-radius: var(--radius-md);
+  }
+  .callout-label {
+    margin-bottom: 7px;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-brand-emphasis);
+  }
+  .callout-body {
+    font-size: 15.5px;
+    line-height: 1.65;
+    color: var(--color-foreground);
+  }
+  /* The slot wraps prose in <p>; flatten the first/last margins so padding controls it. */
+  .callout-body :global(p) {
+    margin: 0;
+  }
+  .callout-body :global(p + p) {
+    margin-top: 0.7em;
+  }
+</style>

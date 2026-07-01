@@ -6,6 +6,15 @@
 [build.environment]
   NODE_VERSION = "24"
 
+# The /support FAQ moved to /faq (the Help Center now owns guided how-to docs).
+# 301 so existing links + search indexing carry over. `force` wins over the static
+# redirect page Astro also emits for /support.
+[[redirects]]
+  from = "/support"
+  to = "/faq"
+  status = 301
+  force = true
+
 # Long-cache Astro's content-hashed assets; they never change for a given hash.
 [[headers]]
   for = "/_astro/*"

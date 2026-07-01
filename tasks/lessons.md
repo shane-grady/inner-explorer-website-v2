@@ -555,3 +555,33 @@ html>"}`). Pull the real source out with `jq -r '.content' <blob> > /tmp/x.html`
   hidden tab** (`naturalWidth 0`). Confirm the asset is real by loading the resolved
   `currentSrc` into a fresh `new Image()` (or reassign `img.src = img.src`), then re-read
   `naturalWidth` — a raw 0 is a Preview artifact, not a broken asset.
+
+## 2026-06-30 — Help Center (docs hub) build
+
+- **A closed `<details>` can't be force-shown with CSS `display:block` in modern
+  Chromium.** It now renders closed content through `::details-content` with
+  `content-visibility: hidden`, which skips layout regardless of the child's `display`
+  (the child reports a 0×0 box even with `display:block`). So a "collapse on mobile,
+  always-open on desktop" sidebar can't rely on a desktop `display` override. Fix:
+  ship the `<details open>` in markup (no-JS friendly) and toggle `open` by breakpoint
+  in JS (`matchMedia('(max-width:880px)')` → `det.open = !mq.matches`); hide the
+  `<summary>` on desktop so it can't be closed. Fingerprint: an element whose
+  `getComputedStyle(...).display` is `block` yet `getBoundingClientRect()` is all zeros,
+  and which only renders once the details is `open`.
+- **Author MDX bodies + a small set of shared doc components beat one big page.** Help
+  articles live in a `help` content collection (MDX); the article route passes the doc
+  modules via `<Content components={{Callout, Steps, Step, CardGrid, Card, LinkCards,
+Accordion, HelpFigure, Button}} />` (same seam as the blog). Reading time reuses
+  `lib/reading-time`, the TOC reuses `blog/ArticleToc` (added a `numbered={false}`
+  variant for the plain help list), breadcrumbs reuse the `Breadcrumb` primitive.
+- **Scope a prose body's link styling to `a:not([class])`.** `.prose-help a {…}` would
+  otherwise paint border-bottoms under component links (Button pills, LinkCards,
+  Accordion answers) that live inside the prose wrapper. `:not([class])` hits only
+  markdown links; module links keep their own treatment.
+- **CSS counters cross Astro component scopes.** `<Steps>` sets `counter-reset` on its
+  `<ol>` and `<Step>` does `counter-increment` + `content: counter(help-step)` in a
+  separate scoped `<style>` — the counter name is global, so step numbers stay correct
+  without threading an index prop.
+- **Content-config changes need a dev restart**, but the build picks them up fine. The
+  `/support`→`/faq` move uses Astro `redirects` (dev/preview) + a netlify.toml 301
+  (prod, `force = true` to beat the static redirect page Astro also emits for `/support`).

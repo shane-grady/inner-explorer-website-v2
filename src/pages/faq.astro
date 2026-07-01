@@ -426,7 +426,8 @@ const sections: Section[] = [
       },
       {
         q: 'Is there a help center?',
-        a: 'Yes. Our help center has searchable articles, short walkthrough videos, and a built-in chat with our partner success team. Most questions are answered the same business day.',
+        aHtml:
+          'Yes. Our <a href="/help">Help Center</a> has searchable step-by-step guides for getting started, leading the daily practice, rolling out across a district, and practicing at home. You can also reach our partner success team, who answer most questions the same business day.',
       },
       {
         q: 'How do I reach a real person?',
@@ -568,7 +569,7 @@ const closer = {
 
 // ── SEO ─────────────────────────────────────────────────────────────────────
 
-const pageTitle = 'Help & Support — Inner Explorer';
+const pageTitle = 'FAQ — Inner Explorer';
 const pageDescription =
   'Answers to the questions teachers, leaders, and families ask us most about Inner Explorer’s daily K–12 audio-guided mindfulness practice.';
 
@@ -579,7 +580,7 @@ const stripTags = (html: string): string => html.replace(/<[^>]*>/g, '');
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
-  url: `${base}/support`,
+  url: `${base}/faq`,
   name: pageTitle,
   description: pageDescription,
   mainEntity: sections.flatMap((sec) =>
