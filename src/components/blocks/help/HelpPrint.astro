@@ -1,0 +1,298 @@
+---
+// Print layer for Help Center articles — owns everything about how /help/<slug>
+// prints ("Save as PDF" included), in one place:
+//
+//   1. A print-only masthead (wordmark + section + source URL + printed date) so the
+//      output reads as an intentional Inner Explorer document, not a webpage dump.
+//   2. The article print stylesheet: @page margins, fixed pt type (the on-screen
+//      title is vw-fluid, which resolves against paper width and prints at a random
+//      size), exact color printing for badges/callouts, and page-break control.
+//   3. A tiny script that force-opens <Accordion> disclosures around printing so
+//      collapsed answers aren't dropped from the PDF (plus a CSS fallback via
+//      ::details-content for engines that don't fire beforeprint, e.g. headless).
+//
+// Rendered as the first child of the article; invisible on screen.
+interface Props {
+  /** Canonical URL of the article, shown in the masthead. */
+  url: string;
+  /** Section (group) label, e.g. "Getting started". */
+  section: string;
+}
+const { url, section }: Props = Astro.props;
+---
+
+<div class="help-print-head">
+  <div class="help-print-row">
+    <span class="help-print-brand">inner<em>Explorer</em></span>
+    <span class="help-print-section">Help Center · {section}</span>
+  </div>
+  <p class="help-print-meta">
+    <span>{url}</span>
+    <span data-print-date></span>
+  </p>
+</div>
+
+<style is:global>
+  /* Screen: the masthead doesn't exist. */
+  .help-print-head {
+    display: none;
+  }
+
+  @media print {
+    /* Consistent paper margins; size stays auto so the reader's Letter/A4 choice wins. */
+    @page {
+      margin: 14mm;
+    }
+
+    /* Print on a white sheet (`.appearance-light` paints the on-screen gray surface,
+       which color-adjust would otherwise faithfully print) and keep the brand tints
+       (step badges, callouts) that browsers strip. Shadows print as muddy gray. */
+    html,
+    body,
+    .appearance-light {
+      background: var(--color-white) !important;
+    }
+    * {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+      box-shadow: none !important;
+    }
+
+    /* Hide the site + docs chrome, on-screen-only affordances, and screenshot
+       placeholders (a real <HelpFigure src> still prints; an empty gray box doesn't). */
+    .nav-wrap,
+    footer,
+    [data-help-sidebar],
+    [data-help-toc],
+    [data-help-actions],
+    .help-prevnext,
+    .help-article-crumb,
+    .help-article-eyebrow,
+    .help-acc-icon,
+    .help-figure:has(.help-figure-ph) {
+      display: none !important;
+    }
+
+    /* Collapse the docs grid to a single flowing column; the @page margins now
+       define the measure. */
+    main {
+      padding-top: 0 !important;
+    }
+    .help-grid {
+      display: block !important;
+      max-width: none !important;
+      padding: 0 !important;
+    }
+    .help-main,
+    .prose-help {
+      max-width: none !important;
+    }
+    .help-article {
+      animation: none !important;
+    }
+
+    /* Masthead — brand row, then source URL + print date, over a brand rule. */
+    .help-print-head {
+      display: block;
+      margin: 0 0 12pt;
+      padding-bottom: 7pt;
+      border-bottom: 2pt solid var(--color-brand);
+    }
+    .help-print-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12pt;
+    }
+    .help-print-brand {
+      font-family: var(--font-sans);
+      font-size: 13pt;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--color-foreground);
+    }
+    .help-print-brand em {
+      font-style: normal;
+      color: var(--color-brand);
+    }
+    .help-print-section {
+      font-family: var(--font-sans);
+      font-size: 8.5pt;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-brand-emphasis);
+    }
+    .help-print-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 12pt;
+      margin: 5pt 0 0;
+      font-size: 8.5pt;
+      line-height: 1.4;
+      color: var(--color-muted-foreground);
+    }
+
+    /* Document type scale in absolute pt (overrides the vw-fluid screen title) and a
+       denser print rhythm — the airy screen spacing would otherwise spill a sliver of
+       content onto a mostly-blank final page instead of filling each sheet. */
+    .help-article-title {
+      font-size: 21pt !important;
+      line-height: 1.12 !important;
+    }
+    .help-article-meta {
+      margin-top: 5pt !important;
+    }
+    .help-article-divider {
+      margin-top: 8pt !important;
+    }
+    .prose-help {
+      font-size: 10pt !important;
+      line-height: 1.45 !important;
+    }
+    /* Direct children only — module bodies (Step/Callout text) manage their own p margins. */
+    .prose-help > p {
+      margin-top: 0.75em !important;
+    }
+    .prose-help > p:first-of-type {
+      font-size: 11pt !important;
+      line-height: 1.5 !important;
+    }
+    .prose-help h2 {
+      font-size: 13.5pt !important;
+      margin: 10pt 0 3pt !important;
+    }
+    .prose-help h3 {
+      font-size: 11.5pt !important;
+      margin: 8pt 0 2pt !important;
+    }
+    .prose-help p,
+    .prose-help li {
+      orphans: 3;
+      widows: 3;
+    }
+
+    /* In-article modules: halve their vertical footprint on paper. */
+    .callout,
+    .help-cards,
+    .help-steps,
+    .help-linkcards,
+    .help-accordion,
+    .help-figure {
+      margin-top: 8pt !important;
+      margin-bottom: 8pt !important;
+    }
+    /* Flex/grid module containers can't fragment across pages in Chrome — the whole
+       group jumps to the next sheet, stranding a gap. Print them as plain blocks so
+       breaks can fall between items (each item still keeps break-inside: avoid). */
+    .help-accordion,
+    .help-steps,
+    .help-linkcards,
+    .help-cards {
+      display: block !important;
+    }
+    .help-step + .help-step,
+    .help-acc-item + .help-acc-item,
+    .help-linkcard + .help-linkcard,
+    .help-card + .help-card {
+      margin-top: 7pt !important;
+    }
+    .help-step-body {
+      padding-top: 0 !important;
+    }
+    .callout {
+      padding: 9pt 12pt !important;
+    }
+    .help-acc-summary {
+      padding: 8pt 0 !important;
+    }
+    .help-acc-a {
+      margin-bottom: 9pt !important;
+    }
+
+    /* Normalize module text to the document scale — on screen it's sized for
+       comfortable reading at arm's length, which prints larger than the body prose. */
+    .help-acc-q,
+    .help-step-title,
+    .help-card-title,
+    .help-linkcard-title {
+      font-size: 11pt !important;
+      line-height: 1.3 !important;
+    }
+    .help-acc-a,
+    .callout-body,
+    .help-step-text,
+    .help-card-text,
+    .help-linkcard-sub {
+      font-size: 10pt !important;
+      line-height: 1.45 !important;
+    }
+
+    /* Button pills (classed links) at document scale. Tailwind's `rounded-full` is
+       `calc(infinity * 1px)`, which Chrome's PDF backend can mis-paint — pin a finite
+       radius (identical look) and drop the touch-target height. */
+    .prose-help a[class] {
+      height: auto !important;
+      padding: 5pt 11pt !important;
+      font-size: 10pt !important;
+      border-radius: 9999px !important;
+    }
+
+    /* Keep self-contained blocks on one page, and headings with what follows them. */
+    .callout,
+    .help-card,
+    .help-step,
+    .help-linkcard,
+    .help-acc-item,
+    .help-figure,
+    figure,
+    blockquote,
+    table {
+      break-inside: avoid;
+    }
+    .help-article-title,
+    .prose-help h2,
+    .prose-help h3 {
+      break-after: avoid;
+    }
+
+    /* Fallback for print paths that skip beforeprint (headless print-to-pdf):
+       reveal collapsed accordion answers via ::details-content. */
+    .help-accordion details:not([open])::details-content {
+      content-visibility: visible;
+      display: block;
+    }
+  }
+</style>
+
+<script>
+  // Stamp the print date and force <Accordion> items open while printing, so
+  // "Save as PDF" captures every answer. Runs once per visit (module script);
+  // handlers re-query the DOM, so ClientRouter page swaps are covered.
+  const stampDate = () => {
+    const date = new Date().toLocaleDateString(undefined, {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+    document.querySelectorAll<HTMLElement>('[data-print-date]').forEach((el) => {
+      el.textContent = `Printed ${date}`;
+    });
+  };
+
+  let opened: HTMLDetailsElement[] = [];
+  window.addEventListener('beforeprint', () => {
+    stampDate();
+    opened = Array.from(
+      document.querySelectorAll<HTMLDetailsElement>('.help-accordion details:not([open])'),
+    );
+    opened.forEach((d) => (d.open = true));
+  });
+  window.addEventListener('afterprint', () => {
+    opened.forEach((d) => (d.open = false));
+    opened = [];
+  });
+
+  stampDate();
+  document.addEventListener('astro:page-load', stampDate);
+</script>

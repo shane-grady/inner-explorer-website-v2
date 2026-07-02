@@ -1244,3 +1244,33 @@ Implemented `Help Center.dc.html` as a real docs hub on the token system.
   `.appearance-light` pin is dropped). Light-pinned today to match the design.
 - Pre-existing dead nav/footer links (`/resources`, `/educators`, `/pricing`, `/app`,
   `/donate`, `/signin`, `/newsletter`, …) remain out of scope.
+
+## 2026-07-02 — Help Center print / "Save as PDF" overhaul
+
+- [x] New `src/components/blocks/help/HelpPrint.astro` — owns ALL print behavior for
+      `/help/<slug>` in one place: print-only masthead (wordmark · section · URL ·
+      printed date), the full `@media print` stylesheet, and a `beforeprint`/`afterprint`
+      script that force-opens `<Accordion>` items (plus a `::details-content` CSS
+      fallback for headless print paths).
+- [x] `[slug].astro`: renders `<HelpPrint>` first in the article; old ad-hoc global
+      print `<style>` removed (superseded).
+
+**Review.** Root causes fixed: no `@page` (random margins) → `16mm/14mm`; vw-fluid H1
+printed at paper-relative size → fixed `24pt` doc scale (body `11pt`); backgrounds
+stripped → `print-color-adjust: exact` + white sheet (`.appearance-light` had to be
+whitened too — it paints the gray surface); blocks split across pages → `break-inside:
+avoid` + `break-after: avoid` on headings + orphans/widows; collapsed accordion answers
+dropped → forced open around print; screen-only UI (buttons, prev/next, crumb, eyebrow,
+accordion icons, figure _placeholders_) hidden. Verified by generating real PDFs via
+headless Chrome (`family-faq`, `first-practice`) and reading them; screen layout
+unchanged; `pnpm check` green.
+
+### Follow-up (same day): page-fill density pass
+
+User feedback: content stranded slivers on mostly-blank pages. Fixes, all inside
+`HelpPrint.astro`'s print block: document density (10pt/1.45 body, tighter h2/module
+margins, 14mm page margins); flex/grid module containers (`Accordion`, `Steps`,
+`CardGrid`, `LinkCards`) print as blocks so Chrome can break _between_ items instead of
+bumping whole groups; module text normalized to the document scale; prose `Button` pills
+pinned to a finite radius (TW `rounded-full` = infinity px, mis-painted by the PDF
+backend). Result: 7 of 11 guides fit one page; the rest fill page 1 completely.

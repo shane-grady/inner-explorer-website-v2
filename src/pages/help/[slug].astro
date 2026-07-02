@@ -6,6 +6,7 @@ import HelpShell from '../../components/blocks/help/HelpShell.astro';
 import ArticleToc from '../../components/blocks/blog/ArticleToc.astro';
 import Breadcrumb from '../../components/primitives/Breadcrumb.astro';
 import HelpActions from '../../components/blocks/help/HelpActions.astro';
+import HelpPrint from '../../components/blocks/help/HelpPrint.astro';
 import PrevNext from '../../components/blocks/help/PrevNext.astro';
 // In-article MDX modules — passed to <Content> so authors use them without imports.
 import Callout from '../../components/blocks/help/Callout.astro';
@@ -81,6 +82,7 @@ const crumbLd = breadcrumbSchema(Astro.site, [
   <div class="appearance-light">
     <HelpShell groups={nav} activeSlug={entry.id} showToc={tocItems.length > 0}>
       <article class="help-article">
+        <HelpPrint url={`${base}${path}`} section={groupName} />
         <Breadcrumb items={crumbs} class="help-article-crumb" />
         <p class="help-article-eyebrow">{groupName}</p>
         <h1 class="help-article-title">{d.title}</h1>
@@ -164,25 +166,5 @@ const crumbLd = breadcrumbSchema(Astro.site, [
     height: 1px;
     margin-top: 30px;
     background: var(--color-border);
-  }
-</style>
-
-<!-- Print: strip the site + docs chrome so the article prints (and "Save as PDF") cleanly. -->
-<style is:global>
-  @media print {
-    .nav-wrap,
-    footer,
-    [data-help-sidebar],
-    [data-help-toc] {
-      display: none !important;
-    }
-    .help-grid {
-      display: block !important;
-      max-width: none !important;
-      padding: 0 !important;
-    }
-    .help-main {
-      max-width: none !important;
-    }
   }
 </style>
