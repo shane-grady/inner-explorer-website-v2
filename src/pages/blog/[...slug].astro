@@ -164,7 +164,9 @@ const faqSchema = d.faq
     margin: 0 auto;
     padding: 56px 32px 0;
   }
-  .crumb {
+  /* Breadcrumb renders inside a child component, so pierce the style scope to
+     space it from the header pills below. */
+  .article-page :global(.crumb) {
     margin-bottom: 32px;
   }
   .article-grid {
