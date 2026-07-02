@@ -1,319 +1,94 @@
 ---
+import { getCollection } from 'astro:content';
 import PageLayout from '../layouts/PageLayout.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import EditorialMasthead from '../components/blocks/EditorialMasthead.astro';
 import NewsroomFilters from '../components/blocks/newsroom/NewsroomFilters.astro';
 import StoryGrid from '../components/blocks/newsroom/StoryGrid.astro';
 import GlowCTA from '../components/blocks/GlowCTA.astro';
-import type { Story } from '../components/blocks/newsroom/types';
+import { readingTime } from '../lib/reading-time';
+import type { Category, Cover, Story } from '../components/blocks/newsroom/types';
 
-// Localized stand-in classroom photography (Unsplash placeholders — swap for real
-// Inner Explorer imagery before publish; see tasks/todo.md).
-import broward from '../assets/images/newsroom/broward.jpg';
-import webbSchool from '../assets/images/newsroom/webb-school.jpg';
-import dwightMorrow from '../assets/images/newsroom/dwight-morrow.jpg';
-import mindfulMichigan from '../assets/images/newsroom/mindful-michigan.jpg';
-import laJoyaIsd from '../assets/images/newsroom/la-joya-isd.jpg';
-import kaiserElementary from '../assets/images/newsroom/kaiser-elementary.jpg';
-import johnMarshall from '../assets/images/newsroom/john-marshall-hs.jpg';
-import goddard from '../assets/images/newsroom/goddard-middle-school.jpg';
-import morningCircle from '../assets/images/newsroom/morning-circle.jpg';
-import lincoln from '../assets/images/newsroom/lincoln.jpg';
-import bigFeelings from '../assets/images/newsroom/big-feelings.jpg';
-import principal from '../assets/images/newsroom/principal.jpg';
-
-// ── Page content (structured data; the CMS-ready seam) ──────────────────────
-// Placeholder copy carried from the Claude Design handoff — flagged for review.
+// ── Newsroom stories — sourced from the content collections, never hardcoded ────
+// Every card links to a real, published page: the district/school case studies and
+// the blog articles. Add a case study or a post and it shows up here automatically
+// (the collections are the CMS seam), so the newsroom can't drift from what exists.
 
 const pageTitle = 'Newsroom — Inner Explorer';
 const pageDescription =
   'The latest research, announcements, and lessons from the Inner Explorer community.';
 
-const categories = [
-  { id: 'all', label: 'All' },
-  { id: 'case-study', label: 'Case studies' },
-  { id: 'announcement', label: 'Announcements' },
-  { id: 'article', label: 'Articles' },
-  { id: 'research', label: 'Research' },
-  { id: 'press', label: 'Press releases' },
-] as const;
+const isoDate = (d: Date) => d.toISOString().slice(0, 10);
+const toMinutes = (value: string) => parseInt(value, 10) || 5;
 
-const stories: Story[] = [
-  {
-    id: 23,
+// "Popular" has no analytics behind it yet, so it stands in for editorial
+// prominence: flagship case studies rank above articles, newest first within each.
+// ("Newest" sorts by the real publish date, independently.)
+const DAY_MS = 86_400_000;
+const prominence = (cat: Category, date: Date) =>
+  Math.round(date.getTime() / DAY_MS) + (cat === 'case-study' ? 100_000 : 0);
+
+const caseStudies = await getCollection('caseStudies', ({ data }) => !data.draft);
+const caseStudyStories: Story[] = caseStudies.map((cs) => {
+  const date = cs.data.publishedDate ?? cs.data.updatedDate ?? new Date();
+  return {
+    id: `case-study/${cs.id}`,
     cat: 'case-study',
     catLabel: 'Case study',
-    title:
-      'Michigan schools using Inner Explorer grew academic achievement 19.7% in one year — peers stayed flat',
-    excerpt:
-      'Inside Mindful Michigan, the first statewide model for daily mindfulness — 202 schools and centers, 58,000 students, and the nation’s first required-practice district.',
-    date: '2026-06-10',
-    read: 7,
-    pop: 92,
-    href: '/case-studies/mindful-michigan/',
-    cover: { kind: 'photo', photo: mindfulMichigan },
-  },
-  {
-    id: 22,
-    cat: 'case-study',
-    catLabel: 'Case study',
-    title:
-      "La Joya ISD's special education classrooms cut reported behavior issues 85% — with daily mindfulness in English and Spanish",
-    excerpt:
-      'Inside the Texas classrooms where a twice-daily practice in English and Spanish helped the shyest students learn to ask for what they need.',
-    date: '2026-06-10',
-    read: 6,
-    pop: 88,
-    href: '/case-studies/la-joya-isd/',
-    cover: { kind: 'photo', photo: laJoyaIsd },
-  },
-  {
-    id: 21,
-    cat: 'case-study',
-    catLabel: 'Case study',
-    title: 'Dwight Morrow students raised mindfulness engagement 371% — by leading it themselves',
-    excerpt:
-      'Inside the student-run Project Happiness Club whose 21-Day Quest push got classmates practicing three to four times a week — up from once.',
-    date: '2026-06-10',
-    read: 6,
-    pop: 90,
-    href: '/case-studies/dwight-morrow/',
-    cover: { kind: 'photo', photo: dwightMorrow },
-  },
-  {
-    id: 19,
-    cat: 'case-study',
-    catLabel: 'Case study',
-    title:
-      'Goddard Middle School outpaced the state’s academic gains 3X — the state called to ask how',
-    excerpt:
-      'A Colorado middle school with the district’s highest concentrations of student need made daily mindfulness its edge.',
-    date: '2026-06-10',
-    read: 7,
-    pop: 90,
-    href: '/case-studies/goddard-middle-school/',
-    cover: { kind: 'photo', photo: goddard },
-  },
-  {
-    id: 20,
-    cat: 'case-study',
-    catLabel: 'Case study',
-    title: '91% of John Marshall High students voted to keep daily mindfulness',
-    excerpt:
-      'How a student-led Wellness Advisory turned one classroom’s daily practice into a movement — and LAUSD signed up to provide Inner Explorer access in every school.',
-    date: '2026-06-09',
-    read: 7,
-    pop: 95,
-    href: '/case-studies/john-marshall-hs/',
-    cover: { kind: 'photo', photo: johnMarshall },
-  },
-  {
-    id: 18,
-    cat: 'case-study',
-    catLabel: 'Case study',
-    title: 'Henry J. Kaiser Elementary cut discipline events 77% amid the opioid crisis',
-    excerpt:
-      'In the West Virginia town The Nation profiled, a ten-minute daily practice rebuilt readiness to learn — and nearly tripled grade-level reading.',
-    date: '2026-06-09',
-    read: 7,
-    pop: 90,
-    href: '/case-studies/kaiser-elementary/',
-    cover: { kind: 'photo', photo: kaiserElementary },
-  },
-  {
-    id: 17,
-    cat: 'case-study',
-    catLabel: 'Case study',
-    title: 'The Webb School cut restraints and seclusions 65% — here’s how',
-    excerpt:
-      'Inside a therapeutic school where a daily mindfulness practice replaced points and levels with self-regulation.',
-    date: '2026-06-09',
-    read: 7,
-    pop: 92,
-    href: '/case-studies/webb-school/',
-    cover: { kind: 'photo', photo: webbSchool },
-  },
-  {
-    id: 1,
-    cat: 'case-study',
-    catLabel: 'Case study',
-    title: 'How Broward County brought calm to 340 schools',
-    excerpt:
-      'Inside the largest district rollout of daily mindfulness — and the morning circle that changed everything.',
-    date: '2026-05-28',
-    read: 8,
-    pop: 98,
-    href: '/case-studies/broward/',
-    cover: { kind: 'photo', photo: broward },
-  },
-  {
-    id: 2,
-    cat: 'announcement',
-    catLabel: 'Announcement',
-    title: 'Introducing Daily Mindful Minutes for middle school',
-    excerpt:
-      'A new series built for grades 6–8, with practices that meet older students where they are.',
-    date: '2026-05-21',
-    read: 4,
-    pop: 86,
-    cover: { kind: 'mesh', tone: 'a', eyebrow: 'New series' },
-  },
-  {
-    id: 3,
-    cat: 'research',
-    catLabel: 'Research',
-    title: 'New study: a 30% drop in disciplinary referrals after one semester',
-    excerpt: 'Peer-reviewed findings from a year-long study across 12 Title I elementary schools.',
-    date: '2026-05-14',
-    read: 6,
-    pop: 94,
-    cover: { kind: 'stat', value: '30%', unit: 'fewer referrals', tone: 'b' },
-  },
-  {
-    id: 4,
-    cat: 'press',
-    catLabel: 'Press release',
-    title: 'Inner Explorer partners with the State of Florida',
-    excerpt:
-      'Bringing free daily mindfulness to every public school student in the state by fall 2026.',
-    date: '2026-05-09',
-    read: 3,
-    pop: 71,
-    cover: { kind: 'compass', eyebrow: 'Partnership' },
-  },
-  {
-    id: 5,
+    title: `${cs.data.meta.titleLead} ${cs.data.meta.titleEmphasis}`,
+    excerpt: cs.data.meta.dek,
+    date: isoDate(date),
+    read: toMinutes(cs.data.meta.readingTime ?? ''),
+    pop: prominence('case-study', date),
+    href: `/case-studies/${cs.id}/`,
+    cover: { kind: 'photo', photo: cs.data.meta.heroImage },
+  };
+});
+
+const posts = await getCollection('blog', ({ data }) => !data.draft);
+const articleStories: Story[] = posts.map((post, i) => {
+  const { data, body } = post;
+  // Posts with a hero image use it; the rest get an on-brand generative cover
+  // tagged with the post's own category.
+  const cover: Cover = data.heroImage
+    ? { kind: 'photo', photo: data.heroImage }
+    : { kind: 'mesh', tone: (['a', 'b', 'c'] as const)[i % 3], eyebrow: data.category };
+  return {
+    id: `blog/${post.id}`,
     cat: 'article',
     catLabel: 'Article',
-    title: 'Five two-minute practices for the morning circle',
-    excerpt: 'Short, teacher-tested ways to settle a classroom before the day begins.',
-    date: '2026-05-02',
-    read: 5,
-    pop: 88,
-    cover: { kind: 'photo', photo: morningCircle },
-  },
-  {
-    id: 6,
-    cat: 'announcement',
-    catLabel: 'Announcement',
-    title: 'The 2026 Mindful Schools Award winners',
-    excerpt: 'Celebrating the educators and districts who made calm a daily habit this year.',
-    date: '2026-04-24',
-    read: 4,
-    pop: 79,
-    cover: { kind: 'award', year: '2026' },
-  },
-  {
-    id: 7,
-    cat: 'case-study',
-    catLabel: 'Case study',
-    title: "A Title I school's year of calm: Lincoln Elementary",
-    excerpt: 'How one under-resourced school used three minutes a day to transform its mornings.',
-    date: '2026-04-17',
-    read: 7,
-    pop: 82,
-    cover: { kind: 'photo', photo: lincoln },
-  },
-  {
-    id: 8,
-    cat: 'article',
-    catLabel: 'Article',
-    title: 'Why morning matters: the science of starting calm',
-    excerpt: "What happens in a child's nervous system in the first ten minutes of the school day.",
-    date: '2026-04-10',
-    read: 6,
-    pop: 76,
-    cover: { kind: 'quote', quote: 'A calm brain is a brain that can learn.', tone: 'a' },
-  },
-  {
-    id: 9,
-    cat: 'research',
-    catLabel: 'Research',
-    title: 'The Inner Explorer Impact Report 2025',
-    excerpt: 'A full-year look at engagement, wellbeing, and academic outcomes across the network.',
-    date: '2026-04-03',
-    read: 12,
-    pop: 90,
-    cover: { kind: 'report', label: 'Impact Report', year: '2025' },
-  },
-  {
-    id: 10,
-    cat: 'announcement',
-    catLabel: 'Announcement',
-    title: 'Now in Spanish: practices for dual-language classrooms',
-    excerpt: 'Every core series, fully translated and recorded by native-speaking guides.',
-    date: '2026-03-27',
-    read: 3,
-    pop: 68,
-    cover: { kind: 'mesh', tone: 'c', eyebrow: 'Localization' },
-  },
-  {
-    id: 11,
-    cat: 'article',
-    catLabel: 'Article',
-    title: 'Helping students name their big feelings',
-    excerpt: "A simple vocabulary that gives kids language for what's happening inside.",
-    date: '2026-03-20',
-    read: 5,
-    pop: 73,
-    cover: { kind: 'photo', photo: bigFeelings },
-  },
-  {
-    id: 12,
-    cat: 'press',
-    catLabel: 'Press release',
-    title: 'Inner Explorer surpasses 10 million mindful minutes',
-    excerpt: 'A milestone made of three-minute moments, one classroom at a time.',
-    date: '2026-03-13',
-    read: 3,
-    pop: 84,
-    cover: { kind: 'stat', value: '10M', unit: 'mindful minutes', tone: 'a' },
-  },
-  {
-    id: 13,
-    cat: 'case-study',
-    catLabel: 'Case study',
-    title: "From chaos to calm: a principal's story",
-    excerpt: "Principal Dana Ruiz on rebuilding her school's climate with a daily practice.",
-    date: '2026-03-06',
-    read: 9,
-    pop: 77,
-    cover: { kind: 'photo', photo: principal },
-  },
-  {
-    id: 14,
-    cat: 'research',
-    catLabel: 'Research',
-    title: 'Educator wellbeing: a two-year look',
-    excerpt: 'Teachers who practice alongside students report measurably lower burnout.',
-    date: '2026-02-27',
-    read: 7,
-    pop: 70,
-    cover: { kind: 'report', label: 'Wellbeing Study', year: '2024–26' },
-  },
-  {
-    id: 15,
-    cat: 'article',
-    catLabel: 'Article',
-    title: 'Building a schoolwide mindfulness routine',
-    excerpt: 'A practical playbook for going from one classroom to every classroom.',
-    date: '2026-02-20',
-    read: 6,
-    pop: 65,
-    cover: { kind: 'quote', quote: 'Start small. Start daily. Start tomorrow.', tone: 'b' },
-  },
-  {
-    id: 16,
-    cat: 'announcement',
-    catLabel: 'Announcement',
-    title: 'Meet the redesigned educator app',
-    excerpt:
-      'A calmer classroom picker, a smarter player, and journaling that finally feels effortless.',
-    date: '2026-02-13',
-    read: 4,
-    pop: 81,
-    cover: { kind: 'mesh', tone: 'b', eyebrow: 'Product update' },
-  },
+    title: data.title,
+    excerpt: data.description,
+    date: isoDate(data.pubDate),
+    read: toMinutes(data.readingTime ?? readingTime(body ?? '')),
+    pop: prominence('article', data.pubDate),
+    href: `/blog/${post.id}/`,
+    cover,
+  };
+});
+
+// Newest first for the default (unfiltered, "Newest") view.
+const stories: Story[] = [...caseStudyStories, ...articleStories].sort((a, b) =>
+  b.date.localeCompare(a.date),
+);
+
+// Filter tabs: "All" plus only the content types that actually have stories, so no
+// empty tab ever renders.
+const CATEGORY_LABELS: Record<Category, string> = {
+  'case-study': 'Case studies',
+  article: 'Articles',
+  announcement: 'Announcements',
+  research: 'Research',
+  press: 'Press releases',
+};
+const CATEGORY_ORDER: Category[] = ['case-study', 'article', 'announcement', 'research', 'press'];
+const present = new Set(stories.map((s) => s.cat));
+const categories = [
+  { id: 'all' as const, label: 'All' },
+  ...CATEGORY_ORDER.filter((c) => present.has(c)).map((c) => ({
+    id: c,
+    label: CATEGORY_LABELS[c],
+  })),
 ];
 
 // ── SEO — CollectionPage + ItemList (mirrors /narrators) ────────────────────
@@ -349,7 +124,7 @@ const collectionLd = {
       intro="The latest research, announcements, and lessons from the Inner Explorer community."
     />
 
-    <NewsroomFilters categories={[...categories]} total={stories.length} />
+    <NewsroomFilters categories={categories} total={stories.length} />
 
     <StoryGrid stories={stories} cols={4} initial={12} step={8} />
 
