@@ -14,9 +14,12 @@ const blog = defineCollection({
       description: z.string(),
       pubDate: z.coerce.date(),
       updatedDate: z.coerce.date().optional(),
-      // Attribution is the Inner Explorer brand, not a person (used for JSON-LD
-      // author = Organization). No visible personal byline on the article.
+      // Attribution defaults to the Inner Explorer brand (JSON-LD author =
+      // Organization). Supply `authorRole` to attribute a named person instead —
+      // this surfaces a visible byline and upgrades the JSON-LD author to a Person.
       author: z.string().default('Inner Explorer'),
+      authorRole: z.string().optional(),
+      authorImage: image().optional(),
       // Article template fields (all optional — the page degrades gracefully when
       // absent, so plain `.md` posts still render). `category` drives the hero pill
       // + breadcrumb; `heroCaption` is the photo-credit pill overlaid on the hero
@@ -24,12 +27,30 @@ const blog = defineCollection({
       // `titleHtml` is an optional headline with a serif-italic <em> fragment (the
       // brand "duet" look); the plain `title` is still the source of truth for SEO.
       titleHtml: z.string().optional(),
+      // SEO overrides — let the <title>/meta description differ from the visible
+      // H1/dek when the search-optimized phrasing isn't the on-page phrasing.
+      metaTitle: z.string().optional(),
+      metaDescription: z.string().optional(),
       category: z.string().optional(),
       heroImage: image().optional(),
       heroImageAlt: z.string().optional(),
       heroCaption: z.string().optional(),
       readingTime: z.string().optional(),
       tags: z.array(z.string()).default([]),
+      // Scannable TLDR shown above the article body — a summary for readers who
+      // skim and for search/AI extraction. Rendered by QuickRead.astro.
+      quickRead: z
+        .object({ eyebrow: z.string().default('The Quick Read'), text: z.string() })
+        .optional(),
+      // Optional FAQ rendered after the body (shared FAQSection) + emits FAQPage
+      // structured data. Plain-text answers only.
+      faq: z
+        .object({
+          eyebrow: z.string().default('FAQ'),
+          title: z.string().default('Frequently asked questions'),
+          items: z.array(z.object({ q: z.string(), a: z.string() })).min(1),
+        })
+        .optional(),
       draft: z.boolean().default(false),
     }),
 });

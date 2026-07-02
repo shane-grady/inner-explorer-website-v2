@@ -6,6 +6,8 @@ import Prose from '../../components/primitives/Prose.astro';
 import JsonLd from '../../components/seo/JsonLd.astro';
 import ArticleHeader from '../../components/blocks/blog/ArticleHeader.astro';
 import ArticleToc from '../../components/blocks/blog/ArticleToc.astro';
+import QuickRead from '../../components/blocks/blog/QuickRead.astro';
+import FAQSection from '../../components/blocks/FAQSection.astro';
 import ShareRail from '../../components/blocks/blog/ShareRail.astro';
 import ReadingProgress from '../../components/blocks/blog/ReadingProgress.astro';
 import GlowCTA from '../../components/blocks/GlowCTA.astro';
@@ -17,7 +19,7 @@ import PullQuote from '../../components/blocks/PullQuote.astro';
 import ResourceCard from '../../components/blocks/ResourceCard.astro';
 import StatRow from '../../components/blocks/blog/ArticleStats.astro';
 import AudioPractice from '../../components/blocks/blog/AudioPractice.astro';
-import { articleSchema } from '../../lib/schema';
+import { articleSchema, faqPageSchema } from '../../lib/schema';
 import { readingTime } from '../../lib/reading-time';
 
 export async function getStaticPaths() {
@@ -51,20 +53,36 @@ const related = (await getCollection('blog', ({ data }) => !data.draft))
     imageAlt: p.data.heroImageAlt ?? '',
   }));
 
-// Attribution is the Inner Explorer brand (Organization), not a person.
+// SEO title/description can differ from the visible H1/dek.
+const metaTitle = d.metaTitle ?? `${d.title} — Inner Explorer`;
+const metaDescription = d.metaDescription ?? d.description;
+
+// A named author (author + role) is attributed as a Person; otherwise the
+// attribution stays the Inner Explorer brand (Organization).
 const schema = articleSchema(Astro.site, {
   title: d.title,
-  description: d.description,
+  description: metaDescription,
   author: d.author,
+  ...(d.authorRole ? { authorType: 'Person' as const, authorJobTitle: d.authorRole } : {}),
   pubDate: d.pubDate,
   updatedDate: d.updatedDate,
   path: `/blog/${post.id}/`,
   image: d.heroImage ? [new URL(d.heroImage.src, Astro.site).toString()] : undefined,
 });
+
+const faqSchema = d.faq
+  ? faqPageSchema(Astro.site, {
+      path: `/blog/${post.id}/`,
+      title: d.faq.title,
+      description: metaDescription,
+      items: d.faq.items,
+    })
+  : null;
 ---
 
-<PageLayout title={`${d.title} — Inner Explorer`} description={d.description} type="article">
+<PageLayout title={metaTitle} description={metaDescription} type="article">
   <JsonLd schema={schema} slot="head" />
+  {faqSchema && <JsonLd schema={faqSchema} slot="head" />}
   <ReadingProgress />
 
   <article class="article-page">
@@ -78,6 +96,9 @@ const schema = articleSchema(Astro.site, {
       dek={d.description}
       pubDate={d.pubDate}
       tags={d.tags}
+      author={d.author}
+      authorRole={d.authorRole}
+      authorImage={d.authorImage}
       heroImage={d.heroImage}
       heroImageAlt={d.heroImageAlt}
       heroCaption={d.heroCaption}
@@ -96,9 +117,19 @@ const schema = articleSchema(Astro.site, {
       }
 
       <div class="article-main">
+        {d.quickRead && <QuickRead eyebrow={d.quickRead.eyebrow} text={d.quickRead.text} />}
+
         <Prose variant="article">
           <Content components={{ Figure, PullQuote, ResourceCard, StatRow, AudioPractice }} />
         </Prose>
+
+        {
+          d.faq && (
+            <div class="article-faq">
+              <FAQSection id="faq" title={d.faq.title} items={d.faq.items} />
+            </div>
+          )
+        }
       </div>
     </div>
   </article>
@@ -141,6 +172,14 @@ const schema = articleSchema(Astro.site, {
     grid-template-columns: 264px minmax(0, 1fr);
     gap: 56px;
     margin-top: 48px;
+  }
+  /* Quick Read sits at the top of the content column, above the prose. */
+  .article-main :global(.quick-read) {
+    margin-bottom: 40px;
+  }
+  .article-faq {
+    margin-top: 56px;
+    max-width: 700px;
   }
   .article-grid[data-has-toc='false'] {
     grid-template-columns: minmax(0, 1fr);

@@ -21,6 +21,10 @@ interface ArticleInput {
   title: string;
   description: string;
   author: string;
+  /** Author entity type — defaults to the Inner Explorer brand (Organization). */
+  authorType?: 'Organization' | 'Person';
+  /** Author's job title — only used when `authorType` is 'Person'. */
+  authorJobTitle?: string;
   pubDate: Date;
   updatedDate?: Date;
   path: string;
@@ -34,13 +38,22 @@ interface ArticleInput {
 
 export function articleSchema(site: URL | string | undefined, article: ArticleInput) {
   const base = origin(site);
+  const author =
+    article.authorType === 'Person'
+      ? {
+          '@type': 'Person',
+          name: article.author,
+          ...(article.authorJobTitle ? { jobTitle: article.authorJobTitle } : {}),
+          worksFor: { '@type': 'Organization', name: 'Inner Explorer', url: base },
+        }
+      : { '@type': 'Organization', name: article.author };
   return {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: article.title,
     description: article.description,
     ...(article.image?.length ? { image: article.image } : {}),
-    author: { '@type': 'Organization', name: article.author },
+    author,
     datePublished: article.pubDate.toISOString(),
     ...(article.updatedDate ? { dateModified: article.updatedDate.toISOString() } : {}),
     ...(article.about ? { about: article.about } : {}),
@@ -69,6 +82,31 @@ export function personSchema(site: URL | string | undefined, person: PersonInput
     ...(person.image ? { image: `${base}${person.image}` } : {}),
     url: `${base}${person.path}`,
     worksFor: { '@type': 'Organization', name: 'Inner Explorer', url: base },
+  };
+}
+
+interface FaqPageInput {
+  path: string;
+  title: string;
+  description: string;
+  items: { q: string; a: string }[];
+}
+
+/** FAQPage structured data — one Question/acceptedAnswer per item. */
+export function faqPageSchema(site: URL | string | undefined, faq: FaqPageInput) {
+  const base = origin(site);
+  const stripTags = (html: string): string => html.replace(/<[^>]*>/g, '');
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    url: `${base}${faq.path}`,
+    name: faq.title,
+    description: faq.description,
+    mainEntity: faq.items.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: stripTags(item.a) },
+    })),
   };
 }
 

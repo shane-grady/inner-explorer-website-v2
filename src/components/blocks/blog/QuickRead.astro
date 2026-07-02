@@ -1,0 +1,59 @@
+---
+// Quick Read — a scannable TLDR shown above the article body. A short summary for
+// readers who skim and for search/AI extraction. Mirrors the eyebrow treatment of
+// the case-study KeyInsights block (tracked-caps brand-emphasis label + rule), but
+// renders a single prose paragraph rather than a label/value grid. Zero JS.
+interface Props {
+  eyebrow?: string;
+  text: string;
+}
+const { eyebrow = 'The Quick Read', text }: Props = Astro.props;
+---
+
+<section class="quick-read" aria-label={eyebrow}>
+  <span class="eyebrow">{eyebrow}</span>
+  <p class="text">{text}</p>
+</section>
+
+<style>
+  .quick-read {
+    max-width: 700px;
+    padding: 24px 28px;
+    border-radius: var(--radius-xl);
+    background: var(--color-brand-subtle);
+    border: 1px solid color-mix(in oklab, var(--color-brand) 18%, transparent);
+  }
+
+  /* Eyebrow — matches KeyInsights (12px tracked caps, brand-emphasis, leading rule). */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--color-brand-emphasis);
+  }
+  .eyebrow::before {
+    content: '';
+    width: 22px;
+    height: 1.5px;
+    background: var(--color-brand-emphasis);
+  }
+
+  .text {
+    margin: 14px 0 0;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--color-foreground);
+    text-wrap: pretty;
+  }
+
+  @media (max-width: 640px) {
+    .quick-read {
+      padding: 20px 20px;
+    }
+  }
+</style>
