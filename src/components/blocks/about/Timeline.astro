@@ -101,7 +101,7 @@ const { eyebrow, headingHtml, lede, railYears, entries }: Props = Astro.props;
   }
   .display-h {
     font-family: var(--font-display);
-    font-style: italic;
+    font-style: normal;
     font-weight: 400;
     font-size: clamp(40px, 5vw, 72px);
     line-height: 1.05;
@@ -112,7 +112,7 @@ const { eyebrow, headingHtml, lede, railYears, entries }: Props = Astro.props;
     text-wrap: balance;
   }
   .display-h :global(.accent) {
-    color: var(--color-brand);
+    color: var(--color-brand-emphasis);
   }
   .lede {
     font-size: 19px;
@@ -325,7 +325,7 @@ const { eyebrow, headingHtml, lede, railYears, entries }: Props = Astro.props;
   }
   .tl-card h3 {
     font-family: var(--font-display);
-    font-style: italic;
+    font-style: normal;
     font-weight: 500;
     font-size: 32px;
     line-height: 1.15;
