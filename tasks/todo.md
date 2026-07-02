@@ -1206,3 +1206,41 @@ with JS off. Article ships ~13 KB vanilla JS, **no React**.
   backend yet.
 - Resource / Announcement / PR content-type variants from the canvas are **not**
   built (Article only); `ResourceCard` + schema leave room to add them.
+
+## 2026-06-30 — Help Center documentation hub (Claude Design handoff)
+
+Implemented `Help Center.dc.html` as a real docs hub on the token system.
+
+- **New routes:** `/help` (index) + `/help/<slug>` (11 articles). Renders within site
+  chrome (`PageLayout` + light-pinned `.appearance-light`) as a 3-column docs layout:
+  sticky left article-nav sidebar + content + sticky right "On this page" TOC.
+- **Content:** `help` content collection (`src/content/help/*.mdx`, 11 files across 4
+  audience groups). Nav model + ordering in `src/lib/help.ts`.
+- **Components** (`src/components/blocks/help/`): `HelpShell` (sidebar + search +
+  support card + rails), `Callout`, `Steps`/`Step`, `CardGrid`/`Card`, `LinkCards`,
+  `Accordion`, `HelpFigure`, `HelpActions` (Save-as-PDF/Print), `PrevNext`. Reused +
+  extended `blog/ArticleToc` (`numbered` prop), `Breadcrumb`, `Button`,
+  `lib/reading-time`, `lib/schema` (+ `faqPageSchema`). Added `.prose-help` to global.css.
+- **Search:** vanilla, client-side; filters sidebar nav + home cards, mirrors the two
+  inputs, shows an empty state. ~0KB framework JS (no React).
+- **`/support` → `/faq`:** page moved + retitled; 301 via netlify.toml + Astro
+  `redirects`; FAQ cross-links the Help Center; Footer + Header (added "Help") updated.
+- **Verified:** `pnpm check` + `pnpm build` clean; browser (light/dark, desktop/mobile,
+  search, TOC scrollspy, accordions, prev/next, redirect) all pass; blog TOC un-regressed.
+
+### Follow-ups
+
+- **Replace `HelpFigure` placeholders with real product screenshots** before publishing
+  (sign-in screen, player, dashboard, schools view, classroom photos, etc.). They render
+  as labelled placeholders today; `HelpFigure` accepts a real `src` image when ready.
+- **Confirm `support@innerexplorer.org`** is the correct contact (used in the sidebar
+  card + home banner).
+- **FAQPage schema on help articles — deliberately skipped.** Help articles emit
+  `TechArticle` + `BreadcrumbList`; the canonical `FAQPage` rich result stays on `/faq`.
+  Emitting `FAQPage` for `family-faq` would mean duplicating its Accordion Q&A into
+  frontmatter (drift risk), so it was left out. Easy to add via a frontmatter `faqs`
+  array + `faqPageSchema` if the SEO value is wanted.
+- **Optional:** dark-mode support for the Help Center (tokens make it nearly free if the
+  `.appearance-light` pin is dropped). Light-pinned today to match the design.
+- Pre-existing dead nav/footer links (`/resources`, `/educators`, `/pricing`, `/app`,
+  `/donate`, `/signin`, `/newsletter`, …) remain out of scope.

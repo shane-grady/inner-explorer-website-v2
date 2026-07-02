@@ -73,9 +73,9 @@ const schema = articleSchema(Astro.site, {
 const faqSchema = d.faq
   ? faqPageSchema(Astro.site, {
       path: `/blog/${post.id}/`,
-      title: d.faq.title,
+      name: d.faq.title,
       description: metaDescription,
-      items: d.faq.items,
+      questions: d.faq.items,
     })
   : null;
 ---

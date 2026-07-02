@@ -1,0 +1,94 @@
+---
+title: Signing in to your account
+group: start
+order: 1
+blurb: Email, Google, ClassLink and Clever — plus what to do when sign-in fails.
+readingTime: 5 min
+keywords: [login, sign in, password, sso, google, classlink, clever, reset, access, invitation]
+---
+
+Inner Explorer supports a few ways to sign in, depending on how your school set up access. This page covers all of them, then walks through your first sign-in and what to do if something goes wrong.
+
+## Ways to sign in
+
+Most schools use a single sign-on provider so you can get in with the account you already use every day. If you’re not sure which applies to you, ask your school administrator.
+
+<CardGrid columns={2}>
+  <Card title="Email & password">
+    Use the email your school registered and the password you set when you accepted your invitation.
+  </Card>
+  <Card title="Google">
+    Sign in with your school Google Workspace account in one click — no separate password.
+  </Card>
+  <Card title="ClassLink">
+    Launch Inner Explorer from your ClassLink LaunchPad and you’re signed in automatically.
+  </Card>
+  <Card title="Clever">
+    Open Inner Explorer from your Clever Portal to sign in with your district credentials.
+  </Card>
+</CardGrid>
+
+<HelpFigure
+  label="Sign-in screen"
+  ratio="16 / 10"
+  caption="The sign-in screen, with email and single sign-on options."
+/>
+
+## Signing in for the first time
+
+If you received an email invitation to join your school, follow these steps to set up your account.
+
+<Steps>
+  <Step title="Open your invitation email">
+    Look for a message from Inner Explorer and select **Accept invitation**. Check your spam folder
+    if you don’t see it.
+  </Step>
+  <Step title="Create your password">
+    Choose a password of at least eight characters. If your school uses Google, ClassLink, or
+    Clever, you can skip this and use that button instead.
+  </Step>
+  <Step title="Confirm your name and role">
+    Check that your name and your role (educator, administrator, or family) are correct, then
+    continue.
+  </Step>
+  <Step title="Press play">
+    You’ll land on your home screen, ready to choose a classroom and start your first practice.
+  </Step>
+</Steps>
+
+<Callout type="good">
+  Didn’t get an invitation? Your school may provision accounts automatically through a roster sync.
+  In that case, just use the Google, ClassLink, or Clever button — no invitation needed.
+</Callout>
+
+## Single sign-on
+
+Single sign-on (SSO) lets you reach Inner Explorer with the same account you use for the rest of your school tools. There’s no extra password to remember, and access is added or removed automatically as your roster changes.
+
+On the sign-in screen, choose the button that matches your school — Google, ClassLink, or Clever — and you’ll be brought straight to your home screen. Administrators can read how to enable SSO in [Connect rostering &amp; single sign-on](/help/rostering-sso).
+
+## Trouble signing in
+
+A few common situations and how to resolve them.
+
+<Accordion
+  items={[
+    {
+      q: 'I forgot my password',
+      aHtml:
+        'On the sign-in screen, select <strong>Forgot password</strong> and enter your email. We’ll send a reset link that’s valid for one hour. If you sign in with Google, ClassLink, or Clever, you don’t have a password — use that button instead.',
+    },
+    {
+      q: 'It says my account can’t be found',
+      a: 'This usually means you’re signing in with a different email than the one your school registered. Try your school email address, or ask your administrator which account is on file for you.',
+    },
+    {
+      q: 'Single sign-on keeps looping back',
+      a: 'Make sure you’re launching Inner Explorer from inside your ClassLink or Clever portal rather than going to the site directly. Clearing your browser cache or trying a private window also resolves most loops.',
+    },
+    {
+      q: 'I never received an invitation',
+      a: 'Check your spam and promotions folders first. If it still hasn’t arrived, your administrator can resend the invitation from their dashboard, or confirm that your account is provisioned through your district’s roster sync.',
+    },
+  ]}
+/>

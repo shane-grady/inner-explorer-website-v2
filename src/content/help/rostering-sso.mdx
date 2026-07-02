@@ -1,0 +1,70 @@
+---
+title: Connect rostering & single sign-on
+group: admins
+order: 1
+blurb: Sync rosters and enable one-click sign-in with ClassLink, Clever or Google.
+readingTime: 7 min
+keywords:
+  [rostering, sso, single sign on, classlink, clever, google, sync, provisioning, oneroster, csv]
+---
+
+Connecting a roster means accounts are created automatically and stay current as staff and students change — and everyone can sign in with one click. This page covers your options and how to set each one up.
+
+## Rostering options
+
+Inner Explorer connects with the providers most districts already use. Pick the one your district has in place — you generally won’t need more than one.
+
+<CardGrid columns={2}>
+  <Card title="ClassLink">Roster sync plus one-click launch from the ClassLink LaunchPad.</Card>
+  <Card title="Clever">Secure sync and sign-in through the Clever Portal.</Card>
+  <Card title="Google">Single sign-on with your school Google Workspace accounts.</Card>
+  <Card title="CSV upload">
+    No provider? Upload a roster file and refresh it whenever you need.
+  </Card>
+</CardGrid>
+
+<HelpFigure
+  label="Rostering connection"
+  ratio="16 / 10"
+  caption="Connecting a rostering provider from your admin settings."
+/>
+
+## ClassLink
+
+Add Inner Explorer from the ClassLink application library, then approve the roster share from your ClassLink Management Console. Once approved, your schools, staff, and rosters flow in automatically and staff can launch straight from their LaunchPad.
+
+## Clever
+
+Search for Inner Explorer in your Clever dashboard and share the schools you want to include. After you authorize the connection, accounts are provisioned automatically and users sign in through the Clever Portal.
+
+## Google
+
+Enable Google single sign-on so staff can use their school Workspace accounts. Google handles authentication only — you’ll still add schools and assign roles, or pair Google with one of the rostering options above for automatic provisioning.
+
+## How syncing works
+
+Once connected, your roster refreshes on a regular schedule. New staff and students appear automatically, and people who leave lose access without any manual cleanup. You can trigger a manual sync at any time if you’ve just made changes on the provider side.
+
+<Callout type="good">
+  Inner Explorer only requests the roster data it needs to create classes and accounts. You control
+  exactly which schools are shared from your provider.
+</Callout>
+
+## Rostering FAQ
+
+<Accordion
+  items={[
+    {
+      q: 'How often does the roster sync?',
+      a: 'Rosters refresh automatically on a daily schedule. You can also run a manual sync from your dashboard whenever you’ve just made changes with your provider.',
+    },
+    {
+      q: 'Can I roster only some schools?',
+      a: 'Yes. You choose exactly which schools to share from ClassLink or Clever, so you can start with a pilot site and expand later.',
+    },
+    {
+      q: 'What if we don’t use a rostering provider?',
+      a: 'You can upload a CSV roster instead, or simply invite staff by email. Both work well for smaller deployments.',
+    },
+  ]}
+/>

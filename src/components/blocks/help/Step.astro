@@ -1,0 +1,64 @@
+---
+// A single step inside <Steps>. The number badge is filled by the parent's CSS
+// counter (counter name `help-step`), so steps stay correctly numbered with no manual
+// index. Body comes from the slot (keeps inline markdown/links).
+interface Props {
+  title: string;
+}
+const { title }: Props = Astro.props;
+---
+
+<li class="help-step">
+  <span class="help-step-num" aria-hidden="true"></span>
+  <div class="help-step-body">
+    <p class="help-step-title">{title}</p>
+    <div class="help-step-text"><slot /></div>
+  </div>
+</li>
+
+<style>
+  .help-step {
+    counter-increment: help-step;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .help-step-num {
+    flex: 0 0 30px;
+    width: 30px;
+    height: 30px;
+    border-radius: 9999px;
+    background: var(--color-brand);
+    color: var(--color-brand-foreground);
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 30px;
+    text-align: center;
+  }
+  .help-step-num::before {
+    content: counter(help-step);
+  }
+  .help-step-body {
+    flex: 1;
+    padding-top: 3px;
+    min-width: 0;
+  }
+  .help-step-title {
+    margin: 0 0 3px;
+    font-size: 16.5px;
+    font-weight: 600;
+    line-height: 1.45;
+    color: var(--color-foreground);
+  }
+  .help-step-text {
+    font-size: 15.5px;
+    line-height: 1.65;
+    color: var(--color-foreground);
+  }
+  .help-step-text :global(p) {
+    margin: 0;
+  }
+  .help-step-text :global(p + p) {
+    margin-top: 0.6em;
+  }
+</style>

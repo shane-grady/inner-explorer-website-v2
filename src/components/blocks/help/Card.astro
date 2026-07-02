@@ -1,0 +1,47 @@
+---
+// A single info card inside <CardGrid>. Optional `badge` (e.g. "01") renders as a
+// small brand label above the title; body text comes from the slot.
+interface Props {
+  title: string;
+  badge?: string;
+}
+const { title, badge }: Props = Astro.props;
+---
+
+<div class="help-card">
+  {badge && <div class="help-card-badge">{badge}</div>}
+  <p class="help-card-title">{title}</p>
+  <div class="help-card-text"><slot /></div>
+</div>
+
+<style>
+  .help-card {
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 18px 20px;
+  }
+  .help-card-badge {
+    margin-bottom: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.1em;
+    color: var(--color-brand);
+  }
+  .help-card-title {
+    margin: 0 0 4px;
+    font-size: 15.5px;
+    font-weight: 600;
+    line-height: 1.35;
+    color: var(--color-foreground);
+  }
+  .help-card-text {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--color-muted-foreground);
+  }
+  .help-card-text :global(p) {
+    margin: 0;
+  }
+</style>

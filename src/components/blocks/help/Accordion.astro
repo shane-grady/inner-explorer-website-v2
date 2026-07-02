@@ -1,0 +1,93 @@
+---
+// In-article FAQ accordion — a list of native <details> so it works without JS.
+// Answers are plain text (`a`) or, when inline formatting is needed, trusted HTML
+// (`aHtml`). Used for the FAQ groups inside help articles (family FAQ, rostering FAQ).
+export interface AccordionItem {
+  q: string;
+  a?: string;
+  aHtml?: string;
+}
+interface Props {
+  items: AccordionItem[];
+}
+const { items }: Props = Astro.props;
+---
+
+<div class="help-accordion">
+  {
+    items.map((it) => (
+      <details class="help-acc-item">
+        <summary class="help-acc-summary">
+          <span class="help-acc-q">{it.q}</span>
+          <span class="help-acc-icon" aria-hidden="true">
+            +
+          </span>
+        </summary>
+        {it.aHtml ? <p class="help-acc-a" set:html={it.aHtml} /> : <p class="help-acc-a">{it.a}</p>}
+      </details>
+    ))
+  }
+</div>
+
+<style>
+  .help-accordion {
+    margin: 1.75rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .help-acc-item {
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 2px 18px;
+  }
+  .help-acc-summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 15px 0;
+  }
+  .help-acc-summary::-webkit-details-marker {
+    display: none;
+  }
+  .help-acc-q {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--color-foreground);
+  }
+  .help-acc-icon {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    font-size: 21px;
+    line-height: 1;
+    color: var(--color-muted-foreground);
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+  .help-acc-item[open] .help-acc-icon {
+    transform: rotate(45deg);
+  }
+  .help-acc-a {
+    margin: 0 0 16px;
+    font-size: 15.5px;
+    line-height: 1.7;
+    color: var(--color-foreground);
+  }
+  .help-acc-a :global(a) {
+    color: var(--color-brand-emphasis);
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1px solid color-mix(in oklab, var(--color-brand) 35%, transparent);
+  }
+  .help-acc-a :global(strong) {
+    font-weight: 600;
+  }
+</style>

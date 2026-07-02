@@ -90,6 +90,12 @@
       "runtimeExecutable": "pnpm",
       "runtimeArgs": ["exec", "astro", "dev", "--port", "4442"],
       "port": 4442
+    },
+    {
+      "name": "ie-dev-help",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["exec", "astro", "dev", "--port", "4452"],
+      "port": 4452
     }
   ]
 }

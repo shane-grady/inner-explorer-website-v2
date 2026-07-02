@@ -85,27 +85,27 @@ export function personSchema(site: URL | string | undefined, person: PersonInput
   };
 }
 
-interface FaqPageInput {
-  path: string;
-  title: string;
-  description: string;
-  items: { q: string; a: string }[];
-}
-
-/** FAQPage structured data — one Question/acceptedAnswer per item. */
-export function faqPageSchema(site: URL | string | undefined, faq: FaqPageInput) {
+/** FAQPage rich-result schema. `a` should be plain text (strip any inline HTML). */
+export function faqPageSchema(
+  site: URL | string | undefined,
+  page: {
+    path: string;
+    name: string;
+    description?: string;
+    questions: { q: string; a: string }[];
+  },
+) {
   const base = origin(site);
-  const stripTags = (html: string): string => html.replace(/<[^>]*>/g, '');
   return {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    url: `${base}${faq.path}`,
-    name: faq.title,
-    description: faq.description,
-    mainEntity: faq.items.map((item) => ({
+    url: `${base}${page.path}`,
+    name: page.name,
+    ...(page.description ? { description: page.description } : {}),
+    mainEntity: page.questions.map((item) => ({
       '@type': 'Question',
       name: item.q,
-      acceptedAnswer: { '@type': 'Answer', text: stripTags(item.a) },
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
     })),
   };
 }
