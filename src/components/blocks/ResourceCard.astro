@@ -11,8 +11,17 @@ interface Props {
   href?: string;
   eyebrow?: string;
   cta?: string;
+  /** Open the download in a new tab (for external/hosted files). */
+  newTab?: boolean;
 }
-const { title, meta, href = '#', eyebrow = 'Free resource', cta = 'Download' }: Props = Astro.props;
+const {
+  title,
+  meta,
+  href = '#',
+  eyebrow = 'Free resource',
+  cta = 'Download',
+  newTab = false,
+}: Props = Astro.props;
 ---
 
 <aside class="ie-resource">
@@ -27,7 +36,14 @@ const { title, meta, href = '#', eyebrow = 'Free resource', cta = 'Download' }: 
     <h4>{title}</h4>
     {meta && <p class="meta">{meta}</p>}
   </div>
-  <Button href={href} tone="brand" shape="pill" class="dl">
+  <Button
+    href={href}
+    tone="brand"
+    shape="pill"
+    class="dl"
+    target={newTab ? '_blank' : undefined}
+    rel={newTab ? 'noopener noreferrer' : undefined}
+  >
     <svg
       viewBox="0 0 24 24"
       width="16"
