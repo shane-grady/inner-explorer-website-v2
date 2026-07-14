@@ -495,7 +495,7 @@ cta:
     for your students — in one building or across a district. We'll walk you through
     how Goddard made the practice stick with a high-need population, and how a pilot
     could work in your classrooms.
-  primary: { label: 'Book a demo', href: '/contact' }
+  primary: { label: 'Contact us', href: '/contact' }
   secondary:
     {
       label: 'Download the original case study (PDF)',

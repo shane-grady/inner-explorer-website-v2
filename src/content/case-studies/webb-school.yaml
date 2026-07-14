@@ -374,7 +374,7 @@ cta:
     for your students — in a therapeutic school, a special-education program, or across a
     whole district. We'll walk you through how the Webb School made the practice stick,
     and how a pilot could work in your classrooms.
-  primary: { label: 'Book a demo', href: '/contact' }
+  primary: { label: 'Contact us', href: '/contact' }
   secondary:
     {
       label: 'Download the original case study (PDF)',

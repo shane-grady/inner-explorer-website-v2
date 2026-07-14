@@ -269,5 +269,5 @@ cta:
   body: >-
     See how a five-minute daily practice can change the way your schools begin the day. We'll
     walk you through the rollout playbook Broward used — and what it could look like for you.
-  primary: { label: 'Book a demo', href: '/contact' }
+  primary: { label: 'Contact us', href: '/contact' }
   secondary: { label: 'Download the full report (PDF)', href: '/contact' }

@@ -413,7 +413,7 @@ cta:
     Guerra puts it, the tools students learn through MBSEL are tools they can take
     with them for their entire lives. We'll walk you through how La Joya educators
     made the practice stick.
-  primary: { label: 'Book a demo', href: '/contact' }
+  primary: { label: 'Contact us', href: '/contact' }
   secondary:
     {
       label: 'Download the original case study (PDF)',

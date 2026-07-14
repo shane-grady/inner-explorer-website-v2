@@ -451,7 +451,7 @@ cta:
     could look like for your students — in a single elementary school or across a whole
     district. We'll walk you through how Henry J. Kaiser Elementary made the practice
     stick, and how a pilot could work in your classrooms.
-  primary: { label: 'Book a demo', href: '/contact' }
+  primary: { label: 'Contact us', href: '/contact' }
   secondary:
     {
       label: 'Download the original case study (PDF)',
