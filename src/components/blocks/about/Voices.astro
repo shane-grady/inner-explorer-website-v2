@@ -109,7 +109,7 @@ const { eyebrow, headingHtml, meta, voices }: Props = Astro.props;
   }
   .display-h {
     font-family: var(--font-display);
-    font-style: italic;
+    font-style: normal;
     font-weight: 400;
     font-size: clamp(40px, 5vw, 72px);
     line-height: 1.05;
@@ -119,7 +119,7 @@ const { eyebrow, headingHtml, meta, voices }: Props = Astro.props;
     text-wrap: balance;
   }
   .display-h :global(.accent) {
-    color: var(--color-brand);
+    color: var(--color-brand-emphasis);
   }
   .voices-head .meta {
     text-align: right;

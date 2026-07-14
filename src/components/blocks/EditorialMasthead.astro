@@ -124,13 +124,13 @@ const {
   [data-layout='stacked'] .serif {
     display: block;
     margin-top: 4px;
-    font-family: var(--font-display);
-    font-style: italic;
+    font-family: var(--font-sans);
+    font-style: normal;
     font-weight: 500;
     font-size: clamp(56px, 11vw, 128px);
     line-height: 0.95;
     letter-spacing: -0.025em;
-    color: var(--color-foreground);
+    color: var(--color-brand-emphasis);
   }
 
   /* Inline: one sentence on a single line, serif word painted brand-green. */
@@ -146,10 +146,10 @@ const {
     color: var(--color-foreground);
   }
   [data-layout='inline'] .serif {
-    font-family: var(--font-display);
-    font-style: italic;
+    font-family: var(--font-sans);
+    font-style: normal;
     font-weight: 700;
-    color: var(--color-brand);
+    color: var(--color-brand-emphasis);
   }
   /* Inline `lg` — the oversized Newsroom hero scale; lead reads lighter. */
   [data-layout='inline'][data-size='lg'] .display {
@@ -165,7 +165,7 @@ const {
   [data-layout='display'] .serif {
     display: block;
     font-family: var(--font-display);
-    font-style: italic;
+    font-style: normal;
     font-weight: 400;
     font-size: clamp(56px, 9vw, 120px);
     line-height: 0.95;
