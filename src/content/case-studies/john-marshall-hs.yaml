@@ -412,7 +412,7 @@ cta:
     We'll walk you through how John Marshall students made the practice their own — the
     same daily practice now used in about 3,000 schools nationwide, as NPR reported in
     2024 — and how a pilot could work in your schools.
-  primary: { label: 'Book a demo', href: '/contact' }
+  primary: { label: 'Contact us', href: '/contact' }
   secondary:
     {
       label: 'Download the original case study (PDF)',

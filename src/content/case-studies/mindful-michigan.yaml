@@ -473,7 +473,7 @@ cta:
     schools sustain it, moving from grant-funded, no-cost starts to programs embedded
     in their own budgets. We'll walk you through how districts like Southfield made
     the practice stick, and what a pilot could look like in your schools.
-  primary: { label: 'Book a demo', href: '/contact' }
+  primary: { label: 'Contact us', href: '/contact' }
   secondary:
     {
       label: 'Download the original report (PDF)',

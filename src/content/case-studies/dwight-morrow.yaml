@@ -404,7 +404,7 @@ cta:
     in your high school — and how a student-run club can carry it further than any
     adult-led program alone. We'll walk you through how Dwight Morrow's students got
     their classmates practicing, and how a 21-Day Quest could work in your classrooms.
-  primary: { label: 'Book a demo', href: '/contact' }
+  primary: { label: 'Contact us', href: '/contact' }
   secondary:
     {
       label: 'Download the original case study (PDF)',
