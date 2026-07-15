@@ -1318,3 +1318,13 @@ output, Git history, and Netlify deployment pipeline.
 Node 24 with pnpm 11. The testing domain renders the full homepage without browser
 errors, and the MTSS article loads inside the Visual Editor instead of showing “Site
 not built.”
+
+### Full Visual Editor verification
+
+- [x] Inventory every generated route and every collection entry with a preview URL.
+- [x] Verify all 72 generated HTML routes return real rendered pages on the testing domain.
+- [x] Reproduce and diagnose the shared `site-header` Visual Editor render failure.
+- [ ] Deploy the renderer-safe header and styled-headline fixes to CloudCannon.
+- [ ] Verify all 57 collection entries render without red component/region errors.
+- [ ] Crawl every hosted page reference and resolve real internal failures.
+- [ ] Record the final route-by-route and entry-by-entry audit evidence.

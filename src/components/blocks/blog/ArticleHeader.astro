@@ -67,13 +67,17 @@ if (tags.length) metaParts.push({ icon: 'tag', text: tags.join(' · ') });
     )
   }
 
-  <h1
-    class="display"
-    set:html={titleHtml ?? title}
-    data-editable="text"
-    data-type={titleHtml ? 'text' : 'span'}
-    data-prop={titleHtml ? 'titleHtml' : 'title'}
-  />
+  {
+    titleHtml ? (
+      // CloudCannon's HTML input remains editable in the sidebar. It cannot be
+      // bound to a plain-text visual region without losing its inline markup.
+      <h1 class="display" set:html={titleHtml} />
+    ) : (
+      <h1 class="display" data-editable="text" data-prop="title">
+        {title}
+      </h1>
+    )
+  }
 
   {
     dek && (

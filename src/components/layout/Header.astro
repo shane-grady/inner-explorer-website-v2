@@ -26,7 +26,10 @@ const {
   mobileMenuLabel = navigation.mobileMenuLabel,
 }: Props = Astro.props;
 
-const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
+// CloudCannon's client-side Astro renderer provides Astro.request but not
+// Astro.url. Reading the request URL keeps this component compatible with both
+// Astro's build renderer and CloudCannon's Visual Editor.
+const path = new URL(Astro.request.url).pathname.replace(/\/+$/, '') || '/';
 const isActive = (rawHref: string) => {
   const href = rawHref.replace(/\/+$/, '') || '/';
   return path === href || (href !== '/' && path.startsWith(href + '/'));

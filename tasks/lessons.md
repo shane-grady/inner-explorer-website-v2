@@ -591,3 +591,15 @@ Accordion, HelpFigure, Button}} />` (same seam as the blog). Reading time reuses
 - **Content-config changes need a dev restart**, but the build picks them up fine. The
   `/support`→`/faq` move uses Astro `redirects` (dev/preview) + a netlify.toml 301
   (prod, `force = true` to beat the static redirect page Astro also emits for `/support`).
+
+## 2026-07-14 — CloudCannon live verification
+
+- **A successful CloudCannon build is not proof that Visual Editing works.** Registered
+  Astro components are rendered again in the browser and can fail on server-only globals.
+  Test every collection entry in the actual Visual Editor and scan for both component
+  and editable-region error cards before calling a migration complete.
+- **Use `Astro.request.url` inside registered components, not `Astro.url`.** CloudCannon's
+  Astro client renderer provides the request shim but does not provide `Astro.url`.
+- **Do not bind an HTML input to a plain-text editable region.** Keep structured/styled
+  HTML editable in the sidebar, and expose a visual text region only when the backing
+  value is guaranteed to be a string with matching semantics.
