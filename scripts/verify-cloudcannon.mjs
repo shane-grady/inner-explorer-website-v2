@@ -3,12 +3,17 @@
 import { readdirSync } from 'node:fs';
 import { extname, join, relative, sep } from 'node:path';
 
-const rawBaseUrl = process.argv[2] ?? process.env.CLOUDCANNON_URL;
-const outputDirectory = process.argv[3] ?? 'dist';
+const arguments_ = process.argv.slice(2);
+const rawBaseUrl = arguments_[0] ?? process.env.CLOUDCANNON_URL;
+const outputDirectory =
+  arguments_.slice(1).find((argument) => !argument.startsWith('--')) ?? 'dist';
+const pagesOnly = arguments_.includes('--pages-only');
 const concurrency = 2;
 
 if (!rawBaseUrl) {
-  console.error('Usage: node scripts/verify-cloudcannon.mjs <cloudcannon-url> [output-directory]');
+  console.error(
+    'Usage: node scripts/verify-cloudcannon.mjs <cloudcannon-url> [output-directory] [--pages-only]',
+  );
   process.exit(1);
 }
 
@@ -130,7 +135,7 @@ for (const { path, body } of pageResults) {
   }
 }
 
-const referencePaths = [...references.keys()].sort();
+const referencePaths = pagesOnly ? [] : [...references.keys()].sort();
 const referenceResults = await mapWithConcurrency(referencePaths, async (path) => ({
   ...(await fetchResult(path)),
   sources: [...references.get(path)].sort(),
@@ -142,6 +147,7 @@ const referenceFailures = referenceResults.filter(
 const report = {
   baseUrl: baseUrl.origin,
   pagesTested: pageResults.length,
+  pagesOnly,
   referencesTested: referenceResults.length,
   pageFailures: pageFailures.map(({ body: _body, ...result }) => result),
   referenceFailures: referenceFailures.map(({ body: _body, ...result }) => result),

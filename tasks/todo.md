@@ -1324,7 +1324,14 @@ not built.”
 - [x] Inventory every generated route and every collection entry with a preview URL.
 - [x] Verify all 72 generated HTML routes return real rendered pages on the testing domain.
 - [x] Reproduce and diagnose the shared `site-header` Visual Editor render failure.
-- [ ] Deploy the renderer-safe header and styled-headline fixes to CloudCannon.
-- [ ] Verify all 57 collection entries render without red component/region errors.
-- [ ] Crawl every hosted page reference and resolve real internal failures.
-- [ ] Record the final route-by-route and entry-by-entry audit evidence.
+- [x] Deploy the renderer-safe header and styled-headline fixes to CloudCannon.
+- [x] Verify all 57 collection entries render without red component/region errors.
+- [x] Verify all 72 hosted pages and all 844 emitted asset/media references.
+- [x] Record the final route-by-route and entry-by-entry audit evidence.
+
+**Review.** Final CloudCannon build `22054526` succeeded. All 57 output-producing
+collection entries were opened in the live Visual Editor: 57 passed, 0 failed, and no
+component, editable-region, missing-preview, or “Site not built” cards remain. All 72
+generated routes also return rendered HTML from the testing domain, and the production
+manifest contains every referenced asset/media file. Full evidence is in
+`.cloudcannon/migration/full-verification-2026-07-14.md`.
