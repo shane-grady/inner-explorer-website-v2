@@ -1741,11 +1741,7 @@ _snippets:
   figure:
     template: mdx_component
     inline: false
-    view: gallery
     preview:
-      gallery:
-        image: [{ key: src }]
-        fit: contain
       text: [{ key: alt }, Figure]
       icon: image
     picker_preview:
@@ -1878,11 +1874,7 @@ _snippets:
   help_figure:
     template: mdx_component
     inline: false
-    view: gallery
     preview:
-      gallery:
-        image: [{ key: src }]
-        fit: contain
       text: [{ key: label }, Help figure]
       icon: image
     picker_preview:
