@@ -59,7 +59,7 @@ if (tags.length) metaParts.push({ icon: 'tag', text: tags.join(' · ') });
         {category && (
           <span class="pill tone-green">
             <span class="dot" aria-hidden="true" />
-            {category}
+            <editable-text data-prop="category">{category}</editable-text>
           </span>
         )}
         {readingTime && <span class="pill">{readingTime} read</span>}
@@ -67,9 +67,21 @@ if (tags.length) metaParts.push({ icon: 'tag', text: tags.join(' · ') });
     )
   }
 
-  <h1 class="display" set:html={titleHtml ?? title} />
+  <h1
+    class="display"
+    set:html={titleHtml ?? title}
+    data-editable="text"
+    data-type={titleHtml ? 'text' : 'span'}
+    data-prop={titleHtml ? 'titleHtml' : 'title'}
+  />
 
-  {dek && <p class="dek">{dek}</p>}
+  {
+    dek && (
+      <p class="dek" data-editable="text" data-prop="description">
+        {dek}
+      </p>
+    )
+  }
 
   {
     hasByline && (
@@ -79,8 +91,12 @@ if (tags.length) metaParts.push({ icon: 'tag', text: tags.join(' · ') });
           <Image class="avatar" src={authorImage} alt="" width={44} height={44} />
         )}
         <span class="byline-text">
-          <span class="byline-name">By {author}</span>
-          <span class="byline-role">{authorRole}</span>
+          <span class="byline-name">
+            By <editable-text data-prop="author">{author}</editable-text>
+          </span>
+          <span class="byline-role" data-editable="text" data-prop="authorRole">
+            {authorRole}
+          </span>
         </span>
       </div>
     )
@@ -135,7 +151,12 @@ if (tags.length) metaParts.push({ icon: 'tag', text: tags.join(' · ') });
 
 {
   heroImage && (
-    <div class="hero-image">
+    <div
+      class="hero-image"
+      data-editable="image"
+      data-prop-src="heroImage"
+      data-prop-alt="heroImageAlt"
+    >
       <Image
         src={heroImage}
         alt={heroImageAlt}
@@ -144,7 +165,11 @@ if (tags.length) metaParts.push({ icon: 'tag', text: tags.join(' · ') });
         loading="eager"
         fetchpriority="high"
       />
-      {heroCaption && <span class="cap">{heroCaption}</span>}
+      {heroCaption && (
+        <span class="cap" data-editable="text" data-prop="heroCaption">
+          {heroCaption}
+        </span>
+      )}
     </div>
   )
 }

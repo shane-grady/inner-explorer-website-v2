@@ -1,6 +1,20 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
 
+/* CloudCannon swaps registered component DOM after edits. Scroll-reveal scripts
+   only initialize on page load, so editor re-renders must always remain visible. */
+body.cms-editor-active [data-home-reveal],
+body.cms-editor-active [data-cs-reveal],
+body.cms-editor-active [data-sr],
+body.cms-editor-active .reveal,
+body.cms-editor-active [data-anim] {
+  visibility: visible !important;
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+}
+
 /*
   Inner Explorer — design tokens (single source of truth).
   ----------------------------------------------------------------------------

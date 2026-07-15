@@ -2,39 +2,36 @@
 import { Image } from 'astro:assets';
 import Container from '../primitives/Container.astro';
 import mark from '../../assets/brand/inner-explorer-mark.png';
+import footer from '../../data/footer.json';
 
+interface FooterLink {
+  label: string;
+  href: string;
+}
+
+interface FooterGroup {
+  heading: string;
+  links: FooterLink[];
+}
+
+interface Props {
+  tagline?: string;
+  groups?: FooterGroup[];
+  legalStartYear?: number;
+  legalName?: string;
+  nonprofitLabel?: string;
+  closing?: string;
+}
+
+const {
+  tagline = footer.tagline,
+  groups = footer.groups,
+  legalStartYear = footer.legalStartYear,
+  legalName = footer.legalName,
+  nonprofitLabel = footer.nonprofitLabel,
+  closing = footer.closing,
+}: Props = Astro.props;
 const year = new Date().getFullYear();
-
-const groups = [
-  {
-    heading: 'Product',
-    links: [
-      { label: 'For educators', href: '/educators' },
-      { label: 'For districts', href: '/districts' },
-      { label: 'Pricing', href: '/pricing' },
-      { label: 'Mobile app', href: '/app' },
-    ],
-  },
-  {
-    heading: 'Company',
-    links: [
-      { label: 'About', href: '/about' },
-      { label: 'Research', href: '/research' },
-      { label: 'Newsroom', href: '/newsroom' },
-      { label: 'Careers', href: '/careers' },
-    ],
-  },
-  {
-    heading: 'Get in touch',
-    links: [
-      { label: 'Contact us', href: '/contact' },
-      { label: 'Help Center', href: '/help' },
-      { label: 'FAQ', href: '/faq' },
-      { label: 'Donate', href: '/donate' },
-      { label: 'Newsletter', href: '/newsletter' },
-    ],
-  },
-];
 ---
 
 <footer class="border-t border-border bg-card">
@@ -42,37 +39,43 @@ const groups = [
     <div class="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr]">
       <div>
         <Image src={mark} alt="" width={36} height={36} class="mb-4" />
-        <p class="max-w-xs text-sm text-muted-foreground">
-          Daily audio-guided mindfulness for K-12 schools. A 501(c)(3) nonprofit, founded 2011.
+        <p class="max-w-xs text-sm text-muted-foreground" data-editable="text" data-prop="tagline">
+          {tagline}
         </p>
       </div>
-      {
-        groups.map((group) => (
-          <nav aria-label={group.heading}>
-            <h2 class="text-xs font-medium tracking-wider text-muted-foreground uppercase">
-              {group.heading}
-            </h2>
-            <ul class="mt-4 space-y-3">
-              {group.links.map((link) => (
-                <li>
-                  <a
-                    href={link.href}
-                    class="text-sm text-foreground transition-colors hover:text-brand"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        ))
-      }
+      <div class="contents" data-editable="array" data-prop="groups">
+        {
+          groups.map((group) => (
+            <nav aria-label={group.heading} data-editable="array-item">
+              <h2 class="text-xs font-medium tracking-wider text-muted-foreground uppercase">
+                <editable-text data-prop="heading">{group.heading}</editable-text>
+              </h2>
+              <ul class="mt-4 space-y-3" data-editable="array" data-prop="links">
+                {group.links.map((link) => (
+                  <li data-editable="array-item">
+                    <a
+                      href={link.href}
+                      class="text-sm text-foreground transition-colors hover:text-brand"
+                    >
+                      <editable-text data-prop="label">{link.label}</editable-text>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ))
+        }
+      </div>
     </div>
     <div
       class="mt-12 flex flex-col gap-3 border-t border-border pt-6 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between"
     >
-      <span>&copy; 2011&ndash;{year} Inner Explorer, Inc. &middot; A 501(c)(3) nonprofit</span>
-      <span>Made with quiet, in Boston and Chicago.</span>
+      <span>
+        &copy; {legalStartYear}&ndash;{year}{' '}
+        <editable-text data-prop="legalName">{legalName}</editable-text> &middot;{' '}
+        <editable-text data-prop="nonprofitLabel">{nonprofitLabel}</editable-text>
+      </span>
+      <span data-editable="text" data-prop="closing">{closing}</span>
     </div>
   </Container>
 </footer>

@@ -9,7 +9,18 @@ import globals from 'globals';
 
 export default tseslint.config(
   {
-    ignores: ['dist/', '.astro/', 'node_modules/', '.netlify/', 'public/', 'pnpm-lock.yaml'],
+    ignores: [
+      'dist/',
+      '.astro/',
+      'node_modules/',
+      '.netlify/',
+      'public/',
+      '.agents/',
+      '.claude/',
+      'agent/',
+      '.cloudcannon/migration/*.schema.json',
+      'pnpm-lock.yaml',
+    ],
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,
@@ -24,6 +35,11 @@ export default tseslint.config(
   {
     languageOptions: {
       globals: { ...globals.browser, ...globals.node },
+      parserOptions: {
+        // Agent-managed worktrees may contain their own tsconfig files. Keep the
+        // parser anchored to this repository instead of auto-selecting a sibling.
+        tsconfigRootDir: import.meta.dirname,
+      },
     },
     rules: {
       // Intentional placeholders may be prefixed with _.

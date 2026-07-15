@@ -1,0 +1,16 @@
+{
+  "items": [
+    { "label": "Platform", "href": "/platform" },
+    { "label": "Educators", "href": "/educators" },
+    { "label": "Districts", "href": "/districts" },
+    { "label": "Case studies", "href": "/case-studies/" },
+    { "label": "Research", "href": "/research" },
+    { "label": "Narrators", "href": "/narrators" },
+    { "label": "About", "href": "/about" },
+    { "label": "Newsroom", "href": "/newsroom" },
+    { "label": "Help", "href": "/help" }
+  ],
+  "signIn": { "label": "Sign in", "href": "/signin" },
+  "primaryCta": { "label": "Contact us", "href": "/contact" },
+  "mobileMenuLabel": "Open main menu"
+}

@@ -1,0 +1,37 @@
+{
+  "tagline": "Daily audio-guided mindfulness for K-12 schools. A 501(c)(3) nonprofit, founded 2011.",
+  "groups": [
+    {
+      "heading": "Product",
+      "links": [
+        { "label": "For educators", "href": "/educators" },
+        { "label": "For districts", "href": "/districts" },
+        { "label": "Pricing", "href": "/pricing" },
+        { "label": "Mobile app", "href": "/app" }
+      ]
+    },
+    {
+      "heading": "Company",
+      "links": [
+        { "label": "About", "href": "/about" },
+        { "label": "Research", "href": "/research" },
+        { "label": "Newsroom", "href": "/newsroom" },
+        { "label": "Careers", "href": "/careers" }
+      ]
+    },
+    {
+      "heading": "Get in touch",
+      "links": [
+        { "label": "Contact us", "href": "/contact" },
+        { "label": "Help Center", "href": "/help" },
+        { "label": "FAQ", "href": "/faq" },
+        { "label": "Donate", "href": "/donate" },
+        { "label": "Newsletter", "href": "/newsletter" }
+      ]
+    }
+  ],
+  "legalStartYear": 2011,
+  "legalName": "Inner Explorer, Inc.",
+  "nonprofitLabel": "A 501(c)(3) nonprofit",
+  "closing": "Made with quiet, in Boston and Chicago."
+}

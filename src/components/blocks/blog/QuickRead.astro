@@ -6,13 +6,27 @@
 interface Props {
   eyebrow?: string;
   text: string;
+  /** Frontmatter object path when rendered from an editor-backed article. */
+  editablePrefix?: string;
 }
-const { eyebrow = 'The Quick Read', text }: Props = Astro.props;
+const { eyebrow = 'The Quick Read', text, editablePrefix }: Props = Astro.props;
 ---
 
 <section class="quick-read" aria-label={eyebrow}>
-  <span class="eyebrow">{eyebrow}</span>
-  <p class="text">{text}</p>
+  <span
+    class="eyebrow"
+    data-editable={editablePrefix ? 'text' : undefined}
+    data-prop={editablePrefix ? `${editablePrefix}.eyebrow` : undefined}
+  >
+    {eyebrow}
+  </span>
+  <p
+    class="text"
+    data-editable={editablePrefix ? 'text' : undefined}
+    data-prop={editablePrefix ? `${editablePrefix}.text` : undefined}
+  >
+    {text}
+  </p>
 </section>
 
 <style>

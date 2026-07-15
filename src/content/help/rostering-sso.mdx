@@ -6,6 +6,7 @@ blurb: Sync rosters and enable one-click sign-in with ClassLink, Clever or Googl
 readingTime: 7 min
 keywords:
   [rostering, sso, single sign on, classlink, clever, google, sync, provisioning, oneroster, csv]
+draft: false
 ---
 
 Connecting a roster means accounts are created automatically and stay current as staff and students change — and everyone can sign in with one click. This page covers your options and how to set each one up.
@@ -14,14 +15,24 @@ Connecting a roster means accounts are created automatically and stay current as
 
 Inner Explorer connects with the providers most districts already use. Pick the one your district has in place — you generally won’t need more than one.
 
-<CardGrid columns={2}>
-  <Card title="ClassLink">Roster sync plus one-click launch from the ClassLink LaunchPad.</Card>
-  <Card title="Clever">Secure sync and sign-in through the Clever Portal.</Card>
-  <Card title="Google">Single sign-on with your school Google Workspace accounts.</Card>
-  <Card title="CSV upload">
-    No provider? Upload a roster file and refresh it whenever you need.
-  </Card>
-</CardGrid>
+<CardGrid
+  columns={2}
+  items={[
+    {
+      title: 'ClassLink',
+      content: 'Roster sync plus one-click launch from the ClassLink LaunchPad.',
+    },
+    { title: 'Clever', content: 'Secure sync and sign-in through the Clever Portal.' },
+    {
+      title: 'Google',
+      content: 'Single sign-on with your school Google Workspace accounts.',
+    },
+    {
+      title: 'CSV upload',
+      content: 'No provider? Upload a roster file and refresh it whenever you need.',
+    },
+  ]}
+/>
 
 <HelpFigure
   label="Rostering connection"

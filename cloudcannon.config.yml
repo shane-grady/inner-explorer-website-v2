@@ -1,0 +1,2022 @@
+version: latest
+timezone: America/New_York
+
+paths:
+  static: public
+  uploads: public/images
+
+markdown:
+  engine: commonmark
+  options:
+    gfm: true
+    escape_snippets_in_code_blocks: true
+
+collection_groups:
+  - heading: Pages and stories
+    collections:
+      - blog
+      - caseStudies
+      - help
+  - heading: Program content
+    collections:
+      - narrators
+      - series
+  - heading: Shared content
+    collections:
+      - testimonials
+      - data
+
+collections_config:
+  blog:
+    path: src/content/blog
+    name: Blog
+    singular_name: Blog post
+    description: Articles, research stories, and practical resources.
+    icon: post_add
+    url: /blog/[slug]/
+    _enabled_editors:
+      - visual
+      - content
+      - data
+    schemas:
+      default:
+        path: .cloudcannon/schemas/blog-post.md
+        name: Blog post
+        new_preview_url: /blog/inner-explorer-mtss-tiers/
+    add_options:
+      - name: Blog post
+        schema: default
+        icon: post_add
+        editor: content
+    _inputs:
+      titleHtml:
+        type: html
+        label: Styled headline
+        comment: Optional display headline. Keep the plain title as the SEO source of truth.
+        options: &inline_html_options
+          styles: .cloudcannon/styles/editor.css
+          allow_custom_markup: true
+          bold: true
+          italic: true
+          underline: false
+          strike: false
+          subscript: false
+          superscript: false
+          link: false
+          removeformat: true
+          undo: true
+          redo: true
+      category:
+        type: select
+        options:
+          allow_create: true
+          values: _select_data.blog_categories
+      tags:
+        type: multiselect
+        options:
+          allow_create: true
+          values: _select_data.blog_tags
+      quickRead:
+        type: object
+        options:
+          structures: _structures.quick_read
+          preview:
+            icon: article
+      faq:
+        type: object
+        options:
+          structures: _structures.article_faq
+          preview:
+            icon: help
+
+  caseStudies:
+    path: src/content/case-studies
+    name: Case studies
+    singular_name: Case study
+    description: District and school success stories.
+    icon: school
+    url: /case-studies/[slug]/
+    _enabled_editors:
+      - visual
+      - data
+    schemas:
+      default:
+        path: .cloudcannon/schemas/case-study.yml
+        name: Case study
+        new_preview_url: /case-studies/broward/
+    add_options:
+      - name: Case study
+        schema: default
+        icon: school
+        editor: data
+    _inputs:
+      meta:
+        type: object
+        options:
+          structures: _structures.case_meta
+          preview:
+            icon: article
+      district:
+        type: object
+        options:
+          structures: _structures.district
+          preview:
+            icon: school
+      keyInsights:
+        type: object
+        options:
+          structures: _structures.key_insights
+          preview:
+            icon: lightbulb
+      intro:
+        type: object
+        options:
+          structures: _structures.case_intro
+          preview:
+            icon: article
+      timeline:
+        type: object
+        options:
+          structures: _structures.timeline
+          preview:
+            icon: event_available
+      metrics:
+        type: object
+        options:
+          structures: _structures.metrics
+          preview:
+            icon: monitoring
+      chart:
+        type: object
+        options:
+          structures: _structures.chart
+          preview:
+            icon: monitoring
+      charts:
+        type: array
+        options:
+          structures: _structures.chart_items
+      sources:
+        type: array
+        options:
+          structures: _structures.sources
+      editorialQuote:
+        type: object
+        options:
+          structures: _structures.editorial_quote
+          preview:
+            icon: format_quote
+      voicesIntro:
+        type: object
+        options:
+          structures: _structures.voices_intro
+          preview:
+            icon: record_voice_over
+      voices:
+        type: array
+        options:
+          structures: _structures.voices
+      gallery:
+        type: object
+        options:
+          structures: _structures.gallery
+          preview:
+            icon: image
+      faq:
+        type: object
+        options:
+          structures: _structures.case_faq
+          preview:
+            icon: help
+      cta:
+        type: object
+        options:
+          structures: _structures.case_cta
+          preview:
+            icon: ads_click
+
+  help:
+    path: src/content/help
+    name: Help center
+    singular_name: Help article
+    description: Guided instructions for educators, administrators, and families.
+    icon: help
+    url: /help/[slug]/
+    _enabled_editors:
+      - visual
+      - content
+      - data
+    schemas:
+      default:
+        path: .cloudcannon/schemas/help-article.md
+        name: Help article
+        new_preview_url: /help/welcome/
+    add_options:
+      - name: Help article
+        schema: default
+        icon: help
+        editor: content
+    _inputs:
+      group:
+        type: select
+        options:
+          value_key: id
+          preview:
+            text:
+              - key: name
+          values: _select_data.help_groups
+      keywords:
+        type: multiselect
+        options:
+          allow_create: true
+          values: []
+
+  narrators:
+    path: src/content/narrators
+    name: Narrators
+    singular_name: Narrator
+    description: The voices who guide Inner Explorer practices.
+    icon: record_voice_over
+    url: /narrators/[slug]/
+    _enabled_editors:
+      - visual
+      - data
+    schemas:
+      default:
+        path: .cloudcannon/schemas/narrator.yml
+        name: Narrator
+        new_preview_url: /narrators/maya-castellanos/
+    add_options:
+      - name: Narrator
+        schema: default
+        icon: record_voice_over
+        editor: data
+    _inputs:
+      quote:
+        type: object
+        options:
+          structures: _structures.narrator_quote
+          preview:
+            icon: format_quote
+      voiceIntro:
+        type: object
+        options:
+          structures: _structures.voice_intro
+          preview:
+            icon: headphones
+      facts:
+        type: array
+        options:
+          structures: _structures.value_labels
+      qa:
+        type: array
+        options:
+          structures: _structures.narrator_qa
+      practices:
+        type: array
+        options:
+          structures: _structures.narrator_practices
+      langs:
+        type: multiselect
+        options:
+          allow_create: true
+          values: _select_data.languages
+
+  series:
+    path: src/content/series
+    name: Practice series
+    singular_name: Practice series
+    description: Supplemental mindfulness series and their practice details.
+    icon: menu_book
+    url: /series/[slug]/
+    _enabled_editors:
+      - visual
+      - data
+    schemas:
+      default:
+        path: .cloudcannon/schemas/series.yml
+        name: Practice series
+        new_preview_url: /series/educator-wellbeing/
+    add_options:
+      - name: Practice series
+        schema: default
+        icon: menu_book
+        editor: data
+    _inputs:
+      tone:
+        type: select
+        options:
+          values:
+            - sage
+            - teal
+            - slate
+            - gold
+      hero:
+        type: object
+        options:
+          structures: _structures.series_hero
+          preview:
+            icon: image
+      glance:
+        type: array
+        options:
+          structures: _structures.series_glance
+      audience:
+        type: object
+        options:
+          structures: _structures.series_audience
+          preview:
+            icon: groups
+      stats:
+        type: object
+        options:
+          structures: _structures.series_stats
+          preview:
+            icon: monitoring
+      practices:
+        type: object
+        options:
+          structures: _structures.series_practices
+          preview:
+            icon: menu_book
+      how:
+        type: object
+        options:
+          structures: _structures.series_how
+          preview:
+            icon: list
+      benefits:
+        type: object
+        options:
+          structures: _structures.series_benefits
+          preview:
+            icon: favorite
+      sample:
+        type: object
+        options:
+          structures: _structures.series_sample
+          preview:
+            icon: play_circle
+      testimonial:
+        type: object
+        options:
+          structures: _structures.series_testimonial
+          preview:
+            icon: format_quote
+      cta:
+        type: object
+        options:
+          structures: _structures.series_cta
+          preview:
+            icon: ads_click
+
+  testimonials:
+    path: src/content/testimonials
+    name: Testimonials
+    singular_name: Testimonial
+    description: Reusable quotes shown across the site.
+    icon: format_quote
+    disable_url: true
+    _enabled_editors:
+      - data
+    schemas:
+      default:
+        path: .cloudcannon/schemas/testimonial.yml
+        name: Testimonial
+    add_options:
+      - name: Testimonial
+        schema: default
+        icon: format_quote
+        editor: data
+
+  data:
+    path: src/data
+    name: Site settings
+    singular_name: Settings file
+    description: Navigation, footer, and other shared site content.
+    glob:
+      - navigation.json
+      - footer.json
+    icon: settings
+    disable_add: true
+    disable_url: true
+    _enabled_editors:
+      - data
+
+data_config:
+  navigation:
+    path: src/data/navigation.json
+  footer:
+    path: src/data/footer.json
+
+file_config:
+  - glob: src/data/navigation.json
+    _inputs:
+      $:
+        type: object
+        options:
+          preview:
+            icon: menu
+      items:
+        type: array
+        options:
+          structures: _structures.navigation_items
+      signIn:
+        type: object
+        options:
+          structures: _structures.link_object
+          preview:
+            icon: link
+      primaryCta:
+        type: object
+        options:
+          structures: _structures.link_object
+          preview:
+            icon: ads_click
+      mobileMenuLabel:
+        type: text
+  - glob: src/data/footer.json
+    _inputs:
+      $:
+        type: object
+        options:
+          preview:
+            icon: list
+      tagline:
+        type: textarea
+      groups:
+        type: array
+        options:
+          structures: _structures.footer_groups
+      legalStartYear:
+        type: number
+      legalName:
+        type: text
+      nonprofitLabel:
+        type: text
+      closing:
+        type: text
+
+_select_data:
+  blog_categories:
+    - Research
+    - Practice
+    - News
+    - Resources
+  blog_tags:
+    - Administrators
+    - Districts
+    - Educators
+    - Mental Health
+    - Mindfulness
+    - Research
+    - SEL
+  help_groups:
+    - name: Start here
+      id: start
+    - name: Educators
+      id: educators
+    - name: Administrators
+      id: admins
+    - name: Families
+      id: families
+  languages:
+    - English
+    - Spanish
+    - Portuguese
+
+_inputs:
+  _schema:
+    hidden: true
+  draft:
+    type: switch
+    comment: Draft items are not published to the live site.
+  order:
+    type: number
+  practiceCount:
+    type: number
+  since:
+    type: number
+  isNew:
+    type: switch
+  pubDate:
+    type: datetime
+  updatedDate:
+    type: datetime
+  publishedDate:
+    type: datetime
+  title:
+    type: text
+  name:
+    type: text
+  shortName:
+    type: text
+  role:
+    type: text
+  org:
+    type: text
+  location:
+    type: text
+  author:
+    type: text
+  authorRole:
+    type: text
+  readingTime:
+    type: text
+  metaTitle:
+    type: text
+  seoTitle:
+    type: text
+  description:
+    type: textarea
+  metaDescription:
+    type: textarea
+  seoDescription:
+    type: textarea
+  blurb:
+    type: textarea
+  dek:
+    type: textarea
+  intro:
+    type: textarea
+  body:
+    type: textarea
+  text:
+    type: textarea
+  quote:
+    type: textarea
+  answer:
+    type: textarea
+  href:
+    type: url
+  audioSrc:
+    type: url
+  transcriptHref:
+    type: url
+  captionsSrc:
+    type: url
+  durationSec:
+    type: number
+  heroImage: &optimized_image
+    type: image
+    options:
+      paths:
+        uploads: /src/assets/images
+        static: ''
+        uploads_use_relative_path: true
+  image: *optimized_image
+  src: *optimized_image
+  authorImage: *optimized_image
+  photo: *optimized_image
+  photoWide: *optimized_image
+  portrait: *optimized_image
+  seal: *optimized_image
+  heroImageAlt:
+    type: text
+  imageAlt:
+    type: text
+  photoAlt:
+    type: text
+  portraitAlt:
+    type: text
+  alt:
+    type: text
+  heroCaption:
+    type: text
+  titleHtml:
+    type: html
+    options: *inline_html_options
+  aHtml:
+    type: html
+    options: *inline_html_options
+
+_editables:
+  content:
+    blockquote: true
+    bold: true
+    bulletedlist: true
+    code_inline: true
+    format: p h2 h3 h4
+    horizontalrule: true
+    image: false
+    italic: true
+    link: true
+    numberedlist: true
+    removeformat: true
+    snippet: true
+    table: true
+
+_structures:
+  navigation_items:
+    style: modal
+    values:
+      - label: Navigation link
+        icon: link
+        picker_preview:
+          text: [Navigation link]
+          icon: [link]
+        preview:
+          text: [{ key: label }, Navigation link]
+          subtext: [{ key: href }]
+          icon: [link]
+        value:
+          label: ''
+          href: ''
+  footer_groups:
+    style: modal
+    values:
+      - label: Footer column
+        icon: list
+        picker_preview:
+          text: [Footer column]
+          icon: [list]
+        preview:
+          text: [{ key: heading }, Footer column]
+          icon: [list]
+        value:
+          heading: ''
+          links: []
+        _inputs:
+          links:
+            type: array
+            options:
+              structures: _structures.navigation_items
+  quick_read:
+    style: modal
+    values:
+      - label: Quick read
+        icon: article
+        picker_preview:
+          text: [Quick read]
+          icon: [article]
+        preview:
+          text: [{ key: eyebrow }, Quick read]
+          icon: [article]
+        value:
+          eyebrow: The Quick Read
+          text: ''
+        _inputs:
+          text:
+            type: textarea
+  article_faq:
+    style: modal
+    values:
+      - label: Article FAQ
+        icon: help
+        picker_preview:
+          text: [Article FAQ]
+          icon: [help]
+        preview:
+          text: [{ key: title }, Article FAQ]
+          icon: [help]
+        value:
+          eyebrow: FAQ
+          title: Frequently asked questions
+          items: []
+        _inputs:
+          items:
+            type: array
+            options:
+              structures: _structures.faq_items
+  faq_items:
+    style: modal
+    values:
+      - label: Question and answer
+        icon: help
+        picker_preview:
+          text: [Question and answer]
+          icon: [help]
+        preview:
+          text: [{ key: q }, Question]
+          icon: [help]
+        value:
+          q: ''
+          a: ''
+        _inputs:
+          a:
+            type: textarea
+  value_labels:
+    style: modal
+    values:
+      - label: Value and label
+        icon: monitoring
+        picker_preview:
+          text: [Value and label]
+          icon: [monitoring]
+        preview:
+          text: [{ key: value }, Value]
+          subtext: [{ key: label }]
+          icon: [monitoring]
+        value:
+          value: ''
+          label: ''
+  narrator_quote:
+    style: modal
+    values:
+      - label: Narrator quote
+        icon: format_quote
+        picker_preview:
+          text: [Narrator quote]
+          icon: [format_quote]
+        preview:
+          text: [{ key: attrib }, Quote]
+          icon: [format_quote]
+        value:
+          text: ''
+          attrib: ''
+        _inputs:
+          text:
+            type: textarea
+  voice_intro:
+    style: modal
+    values:
+      - label: Voice introduction
+        icon: headphones
+        picker_preview:
+          text: [Voice introduction]
+          icon: [headphones]
+        preview:
+          text: [{ key: title }, Voice introduction]
+          icon: [headphones]
+        value:
+          audioSrc: ''
+          durationSec: 0
+          title: ''
+          transcriptHref: ''
+          captionsSrc: ''
+  narrator_qa:
+    style: modal
+    values:
+      - label: Interview answer
+        icon: forum
+        picker_preview:
+          text: [Interview answer]
+          icon: [forum]
+        preview:
+          text: [{ key: question }, Interview answer]
+          icon: [forum]
+        value:
+          n: ''
+          question: ''
+          answer: ''
+          tag: ''
+        _inputs:
+          answer:
+            type: textarea
+  narrator_practices:
+    style: modal
+    values:
+      - label: Practice
+        icon: menu_book
+        picker_preview:
+          text: [Practice]
+          icon: [menu_book]
+        preview:
+          text: [{ key: title }, Practice]
+          image: [{ key: image }]
+          icon: [menu_book]
+        value:
+          title: ''
+          meta: ''
+          image: ''
+  links:
+    style: modal
+    values:
+      - label: Link
+        icon: link
+        picker_preview:
+          text: [Link]
+          icon: [link]
+        preview:
+          text: [{ key: label }, Link]
+          subtext: [{ key: href }]
+          icon: [link]
+        value:
+          label: ''
+          href: ''
+  key_insight_items:
+    style: modal
+    values:
+      - label: Key insight
+        icon: lightbulb
+        picker_preview:
+          text: [Key insight]
+          icon: [lightbulb]
+        preview:
+          text: [{ key: label }, Key insight]
+          icon: [lightbulb]
+        value:
+          label: ''
+          text: ''
+        _inputs:
+          text:
+            type: textarea
+  key_insights:
+    style: modal
+    values:
+      - label: Key insights
+        icon: lightbulb
+        picker_preview:
+          text: [Key insights]
+          icon: [lightbulb]
+        preview:
+          text: [{ key: eyebrow }, Key insights]
+          icon: [lightbulb]
+        value:
+          eyebrow: Key Insights
+          items: []
+        _inputs:
+          items:
+            type: array
+            options:
+              structures: _structures.key_insight_items
+  case_meta:
+    style: modal
+    values:
+      - label: Story header
+        icon: article
+        picker_preview:
+          text: [Story header]
+          icon: [article]
+        preview:
+          text: [{ key: titleLead }, Story header]
+          image: [{ key: heroImage }]
+          icon: [article]
+        value:
+          kicker: ''
+          titleLead: ''
+          titleEmphasis: ''
+          dek: ''
+          readingTime: ''
+          published: ''
+          heroImage: ''
+          heroImageAlt: ''
+  district:
+    style: modal
+    values:
+      - label: District details
+        icon: school
+        picker_preview:
+          text: [District details]
+          icon: [school]
+        preview:
+          text: [{ key: name }, District]
+          subtext: [{ key: location }]
+          image: [{ key: seal }]
+          icon: [school]
+        value:
+          name: ''
+          shortName: ''
+          location: ''
+          seal: ''
+          partnerSince: ''
+          snapshot: []
+        _inputs:
+          snapshot:
+            type: array
+            options:
+              structures: _structures.value_labels
+  story_section:
+    style: modal
+    values:
+      - label: Story section
+        icon: article
+        picker_preview:
+          text: [Story section]
+          icon: [article]
+        preview:
+          text: [{ key: heading }, Story section]
+          image: [{ key: image }]
+          icon: [article]
+        value:
+          eyebrow: ''
+          heading: ''
+          body: []
+          image: ''
+          imageAlt: ''
+          stat:
+            value: ''
+            label: ''
+        _inputs:
+          body:
+            type: array
+            options:
+              structures: _structures.paragraphs
+          stat:
+            type: object
+            options:
+              structures: _structures.value_label_object
+              preview:
+                icon: monitoring
+  paragraphs:
+    style: modal
+    values:
+      - label: Paragraph
+        icon: article
+        picker_preview:
+          text: [Paragraph]
+          icon: [article]
+        preview:
+          text: [{ key: $ }, Paragraph]
+          icon: [article]
+        value: ''
+  value_label_object:
+    style: modal
+    values:
+      - label: Value and label
+        icon: monitoring
+        picker_preview:
+          text: [Value and label]
+          icon: [monitoring]
+        preview:
+          text: [{ key: value }, Value]
+          icon: [monitoring]
+        value:
+          value: ''
+          label: ''
+  case_intro:
+    style: modal
+    values:
+      - label: Introduction
+        icon: article
+        picker_preview:
+          text: [Introduction]
+          icon: [article]
+        preview:
+          text: [Introduction]
+          icon: [article]
+        value:
+          challenge:
+            eyebrow: ''
+            heading: ''
+            body: []
+            image: ''
+            imageAlt: ''
+            stat:
+              value: ''
+              label: ''
+          approach:
+            eyebrow: ''
+            heading: ''
+            body: []
+            image: ''
+            imageAlt: ''
+        _inputs:
+          challenge:
+            type: object
+            options:
+              structures: _structures.story_section
+              preview:
+                icon: article
+          approach:
+            type: object
+            options:
+              structures: _structures.story_section
+              preview:
+                icon: article
+  timeline_phases:
+    style: modal
+    values:
+      - label: Timeline phase
+        icon: event_available
+        picker_preview:
+          text: [Timeline phase]
+          icon: [event_available]
+        preview:
+          text: [{ key: title }, Timeline phase]
+          subtext: [{ key: date }]
+          icon: [event_available]
+        value:
+          date: ''
+          tag: ''
+          title: ''
+          text: ''
+  timeline:
+    style: modal
+    values:
+      - label: Timeline
+        icon: event_available
+        picker_preview:
+          text: [Timeline]
+          icon: [event_available]
+        preview:
+          text: [{ key: heading }, Timeline]
+          icon: [event_available]
+        value:
+          eyebrow: ''
+          heading: ''
+          phases: []
+        _inputs:
+          phases:
+            type: array
+            options:
+              structures: _structures.timeline_phases
+  metric_items:
+    style: modal
+    values:
+      - label: Metric
+        icon: monitoring
+        picker_preview:
+          text: [Metric]
+          icon: [monitoring]
+        preview:
+          text: [{ key: value }, Metric]
+          subtext: [{ key: label }]
+          icon: [monitoring]
+        value:
+          value: ''
+          unit: ''
+          label: ''
+          trend: ''
+          sourceId: 0
+        _inputs:
+          trend:
+            type: select
+            options:
+              allow_empty: true
+              values: [up-good, down-good]
+  metrics:
+    style: modal
+    values:
+      - label: Results metrics
+        icon: monitoring
+        picker_preview:
+          text: [Results metrics]
+          icon: [monitoring]
+        preview:
+          text: [{ key: heading }, Results metrics]
+          icon: [monitoring]
+        value:
+          eyebrow: ''
+          heading: ''
+          note: ''
+          image: ''
+          imageAlt: ''
+          featured:
+            value: ''
+            unit: ''
+            label: ''
+            trend: ''
+            sourceId: 0
+          grid: []
+        _inputs:
+          featured:
+            type: object
+            options:
+              structures: _structures.metric_items
+              preview:
+                icon: monitoring
+          grid:
+            type: array
+            options:
+              structures: _structures.metric_items
+  chart_bars:
+    style: modal
+    values:
+      - label: Chart bar
+        icon: monitoring
+        picker_preview:
+          text: [Chart bar]
+          icon: [monitoring]
+        preview:
+          text: [{ key: label }, Chart bar]
+          icon: [monitoring]
+        value:
+          label: ''
+          value: 0
+  chart_groups:
+    style: modal
+    values:
+      - label: Chart group
+        icon: monitoring
+        picker_preview:
+          text: [Chart group]
+          icon: [monitoring]
+        preview:
+          text: [{ key: label }, Chart group]
+          icon: [monitoring]
+        value:
+          label: ''
+          tone: brand
+          bars: []
+        _inputs:
+          tone:
+            type: select
+            options:
+              values: [muted, brand, accent]
+          bars:
+            type: array
+            options:
+              structures: _structures.chart_bars
+  chart:
+    style: modal
+    values:
+      - &chart_structure
+        label: Chart
+        icon: monitoring
+        picker_preview:
+          text: [Chart]
+          icon: [monitoring]
+        preview:
+          text: [{ key: title }, Chart]
+          icon: [monitoring]
+        value:
+          title: ''
+          subtitle: ''
+          foot: ''
+          sourceId: 0
+          valueSuffix: ''
+          groups: []
+        _inputs:
+          groups:
+            type: array
+            options:
+              structures: _structures.chart_groups
+  chart_items:
+    style: modal
+    values:
+      - *chart_structure
+  sources:
+    style: modal
+    values:
+      - label: Source
+        icon: link
+        picker_preview:
+          text: [Source]
+          icon: [link]
+        preview:
+          text: [{ key: text }, Source]
+          subtext: [{ key: href }]
+          icon: [link]
+        value:
+          id: 0
+          text: ''
+          href: ''
+  editorial_quote:
+    style: modal
+    values:
+      - label: Editorial quote
+        icon: format_quote
+        picker_preview:
+          text: [Editorial quote]
+          icon: [format_quote]
+        preview:
+          text: [{ key: name }, Editorial quote]
+          icon: [format_quote]
+        value:
+          quote: ''
+          name: ''
+          role: ''
+          org: ''
+  voices_intro:
+    style: modal
+    values:
+      - label: Voices introduction
+        icon: record_voice_over
+        picker_preview:
+          text: [Voices introduction]
+          icon: [record_voice_over]
+        preview:
+          text: [{ key: headingLead }, Voices introduction]
+          icon: [record_voice_over]
+        value:
+          eyebrow: ''
+          headingLead: ''
+          headingEmphasis: ''
+          trustRating: ''
+          trustLine: ''
+          studentsLabel: ''
+  voices:
+    style: modal
+    values:
+      - label: Voice
+        icon: record_voice_over
+        picker_preview:
+          text: [Voice]
+          icon: [record_voice_over]
+        preview:
+          text: [{ key: name }, Voice]
+          subtext: [{ key: role }]
+          image: [{ key: portrait }]
+          icon: [record_voice_over]
+        value:
+          kind: ''
+          quote: ''
+          name: ''
+          role: ''
+          org: ''
+          portrait: ''
+          portraitAlt: ''
+          stat:
+            value: ''
+            label: ''
+        _inputs:
+          stat:
+            type: object
+            options:
+              structures: _structures.value_label_object
+              preview:
+                icon: monitoring
+  gallery_images:
+    style: modal
+    values:
+      - label: Gallery image
+        icon: image
+        picker_preview:
+          text: [Gallery image]
+          icon: [image]
+        preview:
+          text: [{ key: alt }, Gallery image]
+          image: [{ key: src }]
+          icon: [image]
+        value:
+          src: ''
+          alt: ''
+  gallery:
+    style: modal
+    values:
+      - label: Gallery
+        icon: image
+        picker_preview:
+          text: [Gallery]
+          icon: [image]
+        preview:
+          text: [{ key: heading }, Gallery]
+          icon: [image]
+        value:
+          eyebrow: ''
+          heading: ''
+          images: []
+          note: ''
+        _inputs:
+          images:
+            type: array
+            options:
+              structures: _structures.gallery_images
+  case_faq:
+    style: modal
+    values:
+      - label: Case study FAQ
+        icon: help
+        picker_preview:
+          text: [Case study FAQ]
+          icon: [help]
+        preview:
+          text: [{ key: titleHtml }, Case study FAQ]
+          icon: [help]
+        value:
+          eyebrow: FAQ
+          titleHtml: ''
+          intro: ''
+          items: []
+        _inputs:
+          titleHtml:
+            type: html
+            options: *inline_html_options
+          items:
+            type: array
+            options:
+              structures: _structures.faq_items
+  case_cta:
+    style: modal
+    values:
+      - label: Call to action
+        icon: ads_click
+        picker_preview:
+          text: [Call to action]
+          icon: [ads_click]
+        preview:
+          text: [{ key: heading }, Call to action]
+          icon: [ads_click]
+        value:
+          heading: ''
+          headingEmphasis: ''
+          body: ''
+          primary:
+            label: ''
+            href: ''
+          secondary:
+            label: ''
+            href: ''
+        _inputs:
+          primary:
+            type: object
+            options:
+              structures: _structures.link_object
+              preview:
+                icon: link
+          secondary:
+            type: object
+            options:
+              structures: _structures.link_object
+              preview:
+                icon: link
+  link_object:
+    style: modal
+    values:
+      - label: Link
+        icon: link
+        picker_preview:
+          text: [Link]
+          icon: [link]
+        preview:
+          text: [{ key: label }, Link]
+          icon: [link]
+        value:
+          label: ''
+          href: ''
+  series_icons: &series_icons
+    style: modal
+    values:
+      - label: Icon card
+        icon: article
+        picker_preview:
+          text: [Icon card]
+          icon: [article]
+        preview:
+          text: [{ key: title }, Icon card]
+          icon: [article]
+        value:
+          icon: sparkles
+          title: ''
+          body: ''
+  series_glance:
+    style: modal
+    values:
+      - label: At-a-glance item
+        icon: article
+        picker_preview:
+          text: [At-a-glance item]
+          icon: [article]
+        preview:
+          text: [{ key: label }, At-a-glance item]
+          icon: [article]
+        value:
+          icon: clock
+          label: ''
+          value: ''
+  series_hero:
+    style: modal
+    values:
+      - label: Series hero
+        icon: image
+        picker_preview:
+          text: [Series hero]
+          icon: [image]
+        preview:
+          text: [{ key: duetTop }, Series hero]
+          image: [{ key: image }]
+          icon: [image]
+        value:
+          duetTop: ''
+          duetBottom: ''
+          lede: ''
+          image: ''
+          imageAlt: ''
+          primaryCta:
+            label: ''
+            href: ''
+          secondaryCta:
+            label: ''
+            href: ''
+        _inputs:
+          primaryCta:
+            type: object
+            options:
+              structures: _structures.link_object
+              preview:
+                icon: link
+          secondaryCta:
+            type: object
+            options:
+              structures: _structures.link_object
+              preview:
+                icon: link
+  series_audience:
+    style: modal
+    values:
+      - label: Audience
+        icon: groups
+        picker_preview:
+          text: [Audience]
+          icon: [groups]
+        preview:
+          text: [{ key: heading }, Audience]
+          icon: [groups]
+        value:
+          eyebrow: Who it's for
+          heading: ''
+          intro: ''
+          cards: []
+        _inputs:
+          cards:
+            type: array
+            options:
+              structures: _structures.series_icons
+  series_stat_items:
+    style: modal
+    values:
+      - label: Statistic
+        icon: monitoring
+        picker_preview:
+          text: [Statistic]
+          icon: [monitoring]
+        preview:
+          text: [{ key: value }, Statistic]
+          icon: [monitoring]
+        value:
+          value: ''
+          label: ''
+  series_stats:
+    style: modal
+    values:
+      - label: Statistics
+        icon: monitoring
+        picker_preview:
+          text: [Statistics]
+          icon: [monitoring]
+        preview:
+          text: [{ key: heading }, Statistics]
+          icon: [monitoring]
+        value:
+          eyebrow: Why it matters
+          heading: ''
+          intro: ''
+          items: []
+          footnote: ''
+        _inputs:
+          items:
+            type: array
+            options:
+              structures: _structures.series_stat_items
+  series_practice_items:
+    style: modal
+    values:
+      - label: Practice
+        icon: menu_book
+        picker_preview:
+          text: [Practice]
+          icon: [menu_book]
+        preview:
+          text: [{ key: title }, Practice]
+          image: [{ key: image }]
+          icon: [menu_book]
+        value:
+          title: ''
+          theme: ''
+          duration: ''
+          image: ''
+          blurb: ''
+  series_practices:
+    style: modal
+    values:
+      - label: Practices
+        icon: menu_book
+        picker_preview:
+          text: [Practices]
+          icon: [menu_book]
+        preview:
+          text: [{ key: heading }, Practices]
+          icon: [menu_book]
+        value:
+          eyebrow: Inside the series
+          heading: ''
+          intro: ''
+          items: []
+        _inputs:
+          items:
+            type: array
+            options:
+              structures: _structures.series_practice_items
+  series_how:
+    style: modal
+    values:
+      - label: How it works
+        icon: list
+        picker_preview:
+          text: [How it works]
+          icon: [list]
+        preview:
+          text: [{ key: heading }, How it works]
+          icon: [list]
+        value:
+          eyebrow: How it works
+          heading: ''
+          steps: []
+        _inputs:
+          steps:
+            type: array
+            options:
+              structures: _structures.series_icons
+  series_benefits:
+    style: modal
+    values:
+      - label: Benefits
+        icon: favorite
+        picker_preview:
+          text: [Benefits]
+          icon: [favorite]
+        preview:
+          text: [{ key: heading }, Benefits]
+          icon: [favorite]
+        value:
+          eyebrow: The benefit
+          heading: ''
+          items: []
+        _inputs:
+          items:
+            type: array
+            options:
+              structures: _structures.series_icons
+  series_sample:
+    style: modal
+    values:
+      - label: Sample practice
+        icon: play_circle
+        picker_preview:
+          text: [Sample practice]
+          icon: [play_circle]
+        preview:
+          text: [{ key: title }, Sample practice]
+          image: [{ key: image }]
+          icon: [play_circle]
+        value:
+          eyebrow: Try it now
+          title: ''
+          theme: ''
+          duration: ''
+          narrator: ''
+          description: ''
+          image: ''
+  series_testimonial:
+    style: modal
+    values:
+      - label: Testimonial
+        icon: format_quote
+        picker_preview:
+          text: [Testimonial]
+          icon: [format_quote]
+        preview:
+          text: [{ key: name }, Testimonial]
+          icon: [format_quote]
+        value:
+          quote: ''
+          name: ''
+          role: ''
+          place: ''
+  series_cta:
+    style: modal
+    values:
+      - label: Call to action
+        icon: ads_click
+        picker_preview:
+          text: [Call to action]
+          icon: [ads_click]
+        preview:
+          text: [{ key: duetTop }, Call to action]
+          icon: [ads_click]
+        value:
+          duetTop: ''
+          duetBottom: ''
+          body: ''
+          primary:
+            label: ''
+            href: ''
+          secondary:
+            label: ''
+            href: ''
+        _inputs:
+          primary:
+            type: object
+            options:
+              structures: _structures.link_object
+              preview:
+                icon: link
+          secondary:
+            type: object
+            options:
+              structures: _structures.link_object
+              preview:
+                icon: link
+
+  # Snippet-only structures. They live at root so both snippets and collections
+  # use the same complete value shapes and previews.
+  stat_row_items:
+    style: modal
+    values:
+      - label: Statistic
+        icon: monitoring
+        picker_preview:
+          text: [Statistic]
+          icon: [monitoring]
+        preview:
+          text: [{ key: value }, Statistic]
+          subtext: [{ key: label }]
+          icon: [monitoring]
+        value:
+          value: ''
+          sup: ''
+          label: ''
+  link_card_items:
+    style: modal
+    values:
+      - label: Link card
+        icon: link
+        picker_preview:
+          text: [Link card]
+          icon: [link]
+        preview:
+          text: [{ key: title }, Link card]
+          subtext: [{ key: href }]
+          icon: [link]
+        value:
+          title: ''
+          sub: ''
+          href: ''
+  accordion_items:
+    style: modal
+    values:
+      - label: Accordion item
+        icon: help
+        picker_preview:
+          text: [Accordion item]
+          icon: [help]
+        preview:
+          text: [{ key: q }, Accordion item]
+          icon: [help]
+        value:
+          q: ''
+          a: ''
+          aHtml: ''
+        _inputs:
+          a:
+            type: textarea
+          aHtml:
+            type: html
+            options: *inline_html_options
+  action_link_items:
+    style: modal
+    values:
+      - label: Action link
+        icon: ads_click
+        picker_preview:
+          text: [Action link]
+          icon: [ads_click]
+        preview:
+          text: [{ key: label }, Action link]
+          subtext: [{ key: href }]
+          icon: [ads_click]
+        value:
+          label: ''
+          href: ''
+          variant: solid
+          tone: brand
+        _inputs:
+          variant:
+            type: select
+            options:
+              values: [solid, outline, ghost, link]
+          tone:
+            type: select
+            options:
+              values: [brand, accent, neutral, light]
+  step_items:
+    style: modal
+    values:
+      - label: Step
+        icon: list
+        picker_preview:
+          text: [Step]
+          icon: [list]
+        preview:
+          text: [{ key: title }, Step]
+          icon: [list]
+        value:
+          title: ''
+          content: ''
+          contentHtml: ''
+        _inputs:
+          content:
+            type: textarea
+          contentHtml:
+            type: html
+            options: *inline_html_options
+  card_items:
+    style: modal
+    values:
+      - label: Card
+        icon: article
+        picker_preview:
+          text: [Card]
+          icon: [article]
+        preview:
+          text: [{ key: title }, Card]
+          icon: [article]
+        value:
+          badge: ''
+          title: ''
+          content: ''
+        _inputs:
+          content:
+            type: textarea
+
+_snippets:
+  pull_quote:
+    template: mdx_paired_component
+    inline: false
+    preview:
+      text: [{ key: cite }, Pull quote]
+      icon: format_quote
+    picker_preview:
+      text: [Pull quote]
+      icon: [format_quote]
+    definitions:
+      component_name: PullQuote
+      content_key: quote_text
+      named_args:
+        - editor_key: cite
+          type: string
+          optional: true
+          remove_empty: true
+  figure:
+    template: mdx_component
+    inline: false
+    view: gallery
+    preview:
+      gallery:
+        image: [{ key: src }]
+        fit: contain
+      text: [{ key: alt }, Figure]
+      icon: image
+    picker_preview:
+      text: [Figure]
+      icon: [image]
+    definitions:
+      component_name: Figure
+      named_args:
+        - editor_key: src
+          type: string
+        - editor_key: alt
+          type: string
+        - editor_key: caption
+          type: string
+          optional: true
+          remove_empty: true
+    _inputs:
+      src: *optimized_image
+      caption:
+        type: textarea
+  stat_row:
+    template: mdx_component
+    inline: false
+    preview:
+      text: [Statistics]
+      icon: monitoring
+    picker_preview:
+      text: [Statistics]
+      icon: [monitoring]
+    definitions:
+      component_name: StatRow
+      named_args:
+        - editor_key: stats
+          type: array
+        - editor_key: ariaLabel
+          type: string
+          optional: true
+          remove_empty: true
+    _inputs:
+      stats:
+        type: array
+        options:
+          structures: _structures.stat_row_items
+  resource_card:
+    template: mdx_component
+    inline: false
+    preview:
+      text: [{ key: title }, Resource]
+      icon: article
+    picker_preview:
+      text: [Resource card]
+      icon: [article]
+    definitions:
+      component_name: ResourceCard
+      named_args:
+        - editor_key: title
+          type: string
+        - editor_key: meta
+          type: string
+          optional: true
+          remove_empty: true
+        - editor_key: href
+          type: string
+          optional: true
+          remove_empty: true
+        - editor_key: eyebrow
+          type: string
+          optional: true
+          remove_empty: true
+        - editor_key: cta
+          type: string
+          optional: true
+          remove_empty: true
+  audio_practice:
+    template: mdx_component
+    inline: false
+    preview:
+      text: [{ key: title }, Audio practice]
+      icon: headphones
+    picker_preview:
+      text: [Audio practice]
+      icon: [headphones]
+    definitions:
+      component_name: AudioPractice
+      named_args:
+        - editor_key: audioSrc
+          type: string
+        - editor_key: durationSec
+          type: number
+        - editor_key: title
+          type: string
+        - editor_key: eyebrow
+          type: string
+          optional: true
+          remove_empty: true
+        - editor_key: transcriptHref
+          type: string
+          optional: true
+          remove_empty: true
+        - editor_key: captionsSrc
+          type: string
+          optional: true
+          remove_empty: true
+  callout:
+    template: mdx_paired_component
+    inline: false
+    preview:
+      text: [{ key: label }, Callout]
+      icon: info
+    picker_preview:
+      text: [Callout]
+      icon: [info]
+    definitions:
+      component_name: Callout
+      content_key: callout_content
+      named_args:
+        - editor_key: type
+          type: string
+          default: tip
+          allowed_values: [tip, note, good]
+        - editor_key: label
+          type: string
+          optional: true
+          remove_empty: true
+    _inputs:
+      type:
+        type: select
+        options:
+          values: [tip, note, good]
+  help_figure:
+    template: mdx_component
+    inline: false
+    view: gallery
+    preview:
+      gallery:
+        image: [{ key: src }]
+        fit: contain
+      text: [{ key: label }, Help figure]
+      icon: image
+    picker_preview:
+      text: [Help figure]
+      icon: [image]
+    definitions:
+      component_name: HelpFigure
+      named_args:
+        - editor_key: label
+          type: string
+        - editor_key: caption
+          type: string
+          optional: true
+          remove_empty: true
+        - editor_key: ratio
+          type: string
+          optional: true
+          default: 16 / 9
+          remove_empty: true
+        - editor_key: src
+          type: string
+          optional: true
+          remove_empty: true
+        - editor_key: alt
+          type: string
+          optional: true
+          remove_empty: true
+    _inputs:
+      src: *optimized_image
+      ratio:
+        type: select
+        options:
+          values: [16 / 9, 4 / 3, 1 / 1]
+  link_cards:
+    template: mdx_component
+    inline: false
+    preview:
+      text: [Link cards]
+      icon: link
+    picker_preview:
+      text: [Link cards]
+      icon: [link]
+    definitions:
+      component_name: LinkCards
+      named_args:
+        - editor_key: items
+          type: array
+    _inputs:
+      items:
+        type: array
+        options:
+          structures: _structures.link_card_items
+  accordion:
+    template: mdx_component
+    inline: false
+    preview:
+      text: [Accordion]
+      icon: help
+    picker_preview:
+      text: [Accordion]
+      icon: [help]
+    definitions:
+      component_name: Accordion
+      named_args:
+        - editor_key: items
+          type: array
+    _inputs:
+      items:
+        type: array
+        options:
+          structures: _structures.accordion_items
+  action_links:
+    template: mdx_component
+    inline: false
+    preview:
+      text: [Action links]
+      icon: ads_click
+    picker_preview:
+      text: [Action links]
+      icon: [ads_click]
+    definitions:
+      component_name: ActionLinks
+      named_args:
+        - editor_key: items
+          type: array
+    _inputs:
+      items:
+        type: array
+        options:
+          structures: _structures.action_link_items
+  steps:
+    template: mdx_component
+    inline: false
+    preview:
+      text: [Steps]
+      icon: list
+    picker_preview:
+      text: [Steps]
+      icon: [list]
+    definitions:
+      component_name: Steps
+      named_args:
+        - editor_key: items
+          type: array
+    _inputs:
+      items:
+        type: array
+        options:
+          structures: _structures.step_items
+  card_grid:
+    template: mdx_component
+    inline: false
+    preview:
+      text: [Card grid]
+      icon: dashboard
+    picker_preview:
+      text: [Card grid]
+      icon: [dashboard]
+    definitions:
+      component_name: CardGrid
+      named_args:
+        - editor_key: columns
+          type: number
+          default: 2
+          allowed_values: [2, 3]
+        - editor_key: items
+          type: array
+    _inputs:
+      columns:
+        type: number
+        options:
+          min: 2
+          max: 3
+      items:
+        type: array
+        options:
+          structures: _structures.card_items

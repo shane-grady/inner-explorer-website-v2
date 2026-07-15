@@ -1,9 +1,24 @@
 ---
-// Ordered, numbered how-to steps. Wraps <Step> children in an <ol>; the green circle
-// badges auto-number via a CSS counter, so authors just list <Step title="…"> blocks.
+// Ordered, numbered how-to steps. The structured `items` prop gives CloudCannon a
+// reliable array editor; the slot remains for backwards-compatible composition.
+import Step from './Step.astro';
+
+interface StepItem {
+  title: string;
+  content?: string;
+  contentHtml?: string;
+}
+
+interface Props {
+  items?: StepItem[];
+}
+
+const { items }: Props = Astro.props;
 ---
 
-<ol class="help-steps"><slot /></ol>
+<ol class="help-steps">
+  {items?.length ? items.map((item) => <Step {...item} />) : <slot />}
+</ol>
 
 <style>
   .help-steps {

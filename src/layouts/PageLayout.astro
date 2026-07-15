@@ -44,9 +44,13 @@ const {
   >
     Skip to content
   </a>
-  <Header />
+  <editable-component data-component="site-header" data-prop="@data[navigation]">
+    <Header />
+  </editable-component>
   <main id="main" class:list={[{ 'pt-24': !flushTop }]}>
     <slot />
   </main>
-  <Footer />
+  <editable-component data-component="site-footer" data-prop="@data[footer]">
+    <Footer />
+  </editable-component>
 </BaseLayout>

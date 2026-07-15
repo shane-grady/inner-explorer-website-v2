@@ -4,6 +4,7 @@
 // labelled with what the screenshot will show (real screenshots are a follow-up).
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
+import { resolveContentImage } from '../../../lib/content-images';
 
 interface Props {
   /** Placeholder label / a11y description of the eventual screenshot. */
@@ -13,18 +14,19 @@ interface Props {
   /** Aspect ratio, e.g. "16 / 9". */
   ratio?: string;
   /** Optional real image — when set, replaces the placeholder. */
-  src?: ImageMetadata;
+  src?: ImageMetadata | string;
   alt?: string;
 }
 const { label, caption, ratio = '16 / 9', src, alt }: Props = Astro.props;
+const image = src ? await resolveContentImage(src) : undefined;
 ---
 
 <figure class="help-figure">
   {
-    src ? (
+    image ? (
       <Image
         class="help-figure-img"
-        src={src}
+        src={image}
         alt={alt ?? label}
         widths={[480, 768, 1024]}
         sizes="(max-width: 820px) 92vw, 760px"

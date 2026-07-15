@@ -1,0 +1,60 @@
+draft: true
+order: 0
+name: New practice series
+shortName: New series
+category: Supplemental Series
+tone: sage
+hero:
+  duetTop: A new
+  duetBottom: practice series.
+  lede: Add a short description of the series.
+  image: ../../assets/images/series/hero-educator.jpg
+  imageAlt: ''
+  primaryCta:
+    label: Contact us
+    href: /contact
+glance: []
+audience:
+  eyebrow: Who it's for
+  heading: Who this series supports
+  intro: ''
+  cards: []
+stats:
+  eyebrow: Why it matters
+  heading: Why this series matters
+  intro: ''
+  items: []
+  footnote: ''
+practices:
+  eyebrow: Inside the series
+  heading: What participants will practice
+  intro: ''
+  items: []
+how:
+  eyebrow: How it works
+  heading: A simple daily rhythm
+  steps: []
+benefits:
+  eyebrow: The benefit
+  heading: What the series supports
+  items: []
+sample:
+  eyebrow: Try it now
+  title: Sample practice
+  theme: ''
+  duration: 3 min
+  narrator: Inner Explorer
+  description: Add the sample-practice description.
+  image: ../../assets/images/series/sample-educator.jpg
+testimonial:
+  quote: Add a testimonial.
+  name: Person name
+  role: Role
+  place: ''
+cta:
+  duetTop: Bring this series to
+  duetBottom: your community.
+  body: Contact Inner Explorer to learn more.
+  primary:
+    label: Contact us
+    href: /contact

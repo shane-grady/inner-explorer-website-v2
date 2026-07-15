@@ -5,6 +5,7 @@ order: 0
 blurb: What the platform is, how the daily practice works, and where to begin.
 readingTime: 3 min
 keywords: [overview, about, intro, what is, daily, mindfulness, practice, begin, start]
+draft: false
 ---
 
 Inner Explorer brings a few quiet minutes of guided mindfulness into the school day. This page explains what the platform does and how to begin — no prior experience with mindfulness required.
@@ -30,17 +31,22 @@ Practices are organized into themed series that build gently week over week, mov
 
 A typical session follows the same calm rhythm every day, which is exactly what makes it a habit.
 
-<CardGrid columns={3}>
-  <Card badge="01" title="Choose">
-    Pick today’s practice from your themed series.
-  </Card>
-  <Card badge="02" title="Press play">
-    The guide leads everyone through a few minutes of breathing.
-  </Card>
-  <Card badge="03" title="Reflect">
-    Close with an optional journal prompt or a quiet moment.
-  </Card>
-</CardGrid>
+<CardGrid
+  columns={3}
+  items={[
+    { badge: '01', title: 'Choose', content: 'Pick today’s practice from your themed series.' },
+    {
+      badge: '02',
+      title: 'Press play',
+      content: 'The guide leads everyone through a few minutes of breathing.',
+    },
+    {
+      badge: '03',
+      title: 'Reflect',
+      content: 'Close with an optional journal prompt or a quiet moment.',
+    },
+  ]}
+/>
 
 ## Who it’s for
 
@@ -66,11 +72,9 @@ Inner Explorer serves the whole school community. Pick the path that fits you.
 
 New here? Start by getting into your account, then take a quick tour of the platform.
 
-<div class="mt-7 flex flex-wrap gap-3">
-  <Button href="/help/signing-in" shape="pill" size="sm" tone="brand">
-    Signing in
-  </Button>
-  <Button href="/help/navigating" shape="pill" size="sm" variant="outline" tone="neutral">
-    Take a tour
-  </Button>
-</div>
+<ActionLinks
+  items={[
+    { label: 'Signing in', href: '/help/signing-in' },
+    { label: 'Take a tour', href: '/help/navigating', variant: 'outline', tone: 'neutral' },
+  ]}
+/>

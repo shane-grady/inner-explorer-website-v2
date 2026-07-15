@@ -1242,7 +1242,7 @@ Implemented `Help Center.dc.html` as a real docs hub on the token system.
   array + `faqPageSchema` if the SEO value is wanted.
 - **Optional:** dark-mode support for the Help Center (tokens make it nearly free if the
   `.appearance-light` pin is dropped). Light-pinned today to match the design.
-- Pre-existing dead nav/footer links (`/resources`, `/educators`, `/pricing`, `/app`,
+- Pre-existing dead nav/footer links (`/educators`, `/pricing`, `/app`,
   `/donate`, `/signin`, `/newsletter`, …) remain out of scope.
 
 ## 2026-07-02 — Help Center print / "Save as PDF" overhaul
@@ -1274,3 +1274,34 @@ margins, 14mm page margins); flex/grid module containers (`Accordion`, `Steps`,
 bumping whole groups; module text normalized to the document scale; prose `Button` pills
 pinned to a finite radius (TW `rounded-full` = infinity px, mis-painted by the PDF
 backend). Result: 7 of 11 guides fit one page; the rest fill page 1 completely.
+
+## 2026-07-14 — CloudCannon CMS migration
+
+Goal: migrate the existing static Astro site to CloudCannon using the installed
+`migrating-to-cloudcannon` skill, preserving the token/component system, static
+output, Git history, and Netlify deployment pipeline.
+
+- [x] Phase 1 — audit SSG, collections, routes, components, images, and build pipeline.
+- [x] Phase 1 — classify every non-collection page and record migration sizing.
+- [x] Phase 2 — generate and validate `cloudcannon.config.yml` for every collection/data source.
+- [x] Phase 2 — configure friendly MDX snippets for every blog/help content component.
+- [x] Phase 3 — move editorial collection/shared-UI copy and media references into CMS-safe structures.
+- [x] Phase 4 — install and wire CloudCannon editable regions across representative page types.
+- [x] Phase 5 — run `pnpm check`, `pnpm build`, and inspect generated output.
+- [ ] Follow-on — convert the bespoke static marketing routes to a registered `pages` page builder.
+- [x] Review exact Git scope, commit intentionally, and push `main` for CloudCannon sync.
+
+### Review
+
+- Installed the requested CloudCannon skill set and followed the Astro migration,
+  configuration, snippets, and visual-editing runbooks. The CMS now owns all six
+  existing collections plus shared navigation/footer data; article MDX is import-free
+  and backed by twelve structured snippets.
+- Visual editing is live for shared chrome and the high-priority blog/Help workflows:
+  sentence edits, article metadata, hero-image replacement, and structured MDX body
+  changes. Complex structured collections are fully editable in the sidebar.
+- Local gates are green: CloudCannon config validation, `pnpm check`, clean production
+  build (71 pages / 843 image variants), generated-region inspection, and browser
+  smoke tests with zero console warnings or layout overflow.
+- The unique marketing pages are intentionally documented as a page-builder follow-on;
+  no fragile source-editable or shared-passcode shortcut was introduced.

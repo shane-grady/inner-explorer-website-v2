@@ -2,6 +2,8 @@
 dist/
 # generated types
 .astro/
+# generated CloudCannon configuration schemas (migration reference only)
+.cloudcannon/migration/*.schema.json
 # netlify
 .netlify/
 # test artifacts

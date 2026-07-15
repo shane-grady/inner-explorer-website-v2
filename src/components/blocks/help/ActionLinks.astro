@@ -1,0 +1,44 @@
+---
+import Button from '../../primitives/Button.astro';
+
+type ActionVariant = 'solid' | 'outline' | 'ghost' | 'link';
+type ActionTone = 'brand' | 'accent' | 'neutral' | 'light';
+
+interface Action {
+  label: string;
+  href: string;
+  variant?: ActionVariant;
+  tone?: ActionTone;
+}
+
+interface Props {
+  items: Action[];
+}
+
+const { items }: Props = Astro.props;
+---
+
+<div class="help-action-links">
+  {
+    items.map((item) => (
+      <Button
+        href={item.href}
+        shape="pill"
+        size="sm"
+        variant={item.variant ?? 'solid'}
+        tone={item.tone ?? 'brand'}
+      >
+        {item.label}
+      </Button>
+    ))
+  }
+</div>
+
+<style>
+  .help-action-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 28px;
+  }
+</style>

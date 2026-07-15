@@ -4,11 +4,16 @@
 // column count; it collapses to one column on narrow screens.
 interface Props {
   columns?: 2 | 3;
+  items?: Array<{ title: string; badge?: string; content: string }>;
 }
-const { columns = 2 }: Props = Astro.props;
+import Card from './Card.astro';
+
+const { columns = 2, items }: Props = Astro.props;
 ---
 
-<div class="help-cards" data-columns={columns}><slot /></div>
+<div class="help-cards" data-columns={columns}>
+  {items?.length ? items.map((item) => <Card {...item} />) : <slot />}
+</div>
 
 <style>
   .help-cards {

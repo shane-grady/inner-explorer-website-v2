@@ -8,16 +8,6 @@ import Breadcrumb from '../../components/primitives/Breadcrumb.astro';
 import HelpActions from '../../components/blocks/help/HelpActions.astro';
 import HelpPrint from '../../components/blocks/help/HelpPrint.astro';
 import PrevNext from '../../components/blocks/help/PrevNext.astro';
-// In-article MDX modules — passed to <Content> so authors use them without imports.
-import Callout from '../../components/blocks/help/Callout.astro';
-import Steps from '../../components/blocks/help/Steps.astro';
-import Step from '../../components/blocks/help/Step.astro';
-import CardGrid from '../../components/blocks/help/CardGrid.astro';
-import Card from '../../components/blocks/help/Card.astro';
-import LinkCards from '../../components/blocks/help/LinkCards.astro';
-import Accordion from '../../components/blocks/help/Accordion.astro';
-import HelpFigure from '../../components/blocks/help/HelpFigure.astro';
-import Button from '../../components/primitives/Button.astro';
 import { buildHelpNav, flatHelpOrder, groupLabel } from '../../lib/help';
 import { readingTime } from '../../lib/reading-time';
 import { breadcrumbSchema, organizationSchema } from '../../lib/schema';
@@ -85,24 +75,12 @@ const crumbLd = breadcrumbSchema(Astro.site, [
         <HelpPrint url={`${base}${path}`} section={groupName} />
         <Breadcrumb items={crumbs} class="help-article-crumb" />
         <p class="help-article-eyebrow">{groupName}</p>
-        <h1 class="help-article-title">{d.title}</h1>
+        <h1 class="help-article-title" data-editable="text" data-prop="title">{d.title}</h1>
         <p class="help-article-meta">{reading} read</p>
         <div class="help-article-divider"></div>
 
-        <div class="prose-help">
-          <Content
-            components={{
-              Callout,
-              Steps,
-              Step,
-              CardGrid,
-              Card,
-              LinkCards,
-              Accordion,
-              HelpFigure,
-              Button,
-            }}
-          />
+        <div class="prose-help" data-editable="text" data-type="block" data-prop="@content">
+          <Content />
         </div>
 
         <PrevNext prev={prev} next={next} />

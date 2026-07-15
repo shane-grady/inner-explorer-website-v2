@@ -66,5 +66,14 @@ const org = organizationSchema(Astro.site);
   </head>
   <body class="min-h-dvh bg-background text-foreground antialiased">
     <slot />
+    <script>
+      // Component renderers add no production bundle work beyond this tiny guard:
+      // the heavier registration module is fetched only by CloudCannon's iframe.
+      if ('inEditorMode' in window && window.inEditorMode) {
+        import('../cloudcannon/registerComponents').catch((error) => {
+          console.warn('Failed to load CloudCannon component registration:', error);
+        });
+      }
+    </script>
   </body>
 </html>

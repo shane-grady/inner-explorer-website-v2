@@ -1,22 +1,30 @@
 ---
 import { Image } from 'astro:assets';
 import mark from '../../assets/brand/inner-explorer-mark.png';
+import navigation from '../../data/navigation.json';
 import ThemeToggle from './ThemeToggle.astro';
+
+interface NavLink {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  items?: NavLink[];
+  signIn?: NavLink;
+  primaryCta?: NavLink;
+  mobileMenuLabel?: string;
+}
 
 // Brand glass pill nav. Theme-aware (glass derives from the `card` token via
 // color-mix, so it reads correctly in light AND dark). Marketing chrome ships
 // ~0KB framework JS — a tiny vanilla script handles the scrolled state + mobile menu.
-const navLinks = [
-  { label: 'Platform', href: '/platform' },
-  { label: 'Educators', href: '/educators' },
-  { label: 'Districts', href: '/districts' },
-  { label: 'Case studies', href: '/case-studies/' },
-  { label: 'Research', href: '/research' },
-  { label: 'Narrators', href: '/narrators' },
-  { label: 'About', href: '/about' },
-  { label: 'Newsroom', href: '/newsroom' },
-  { label: 'Help', href: '/help' },
-];
+const {
+  items: navLinks = navigation.items,
+  signIn = navigation.signIn,
+  primaryCta = navigation.primaryCta,
+  mobileMenuLabel = navigation.mobileMenuLabel,
+}: Props = Astro.props;
 
 const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
 const isActive = (rawHref: string) => {
@@ -32,25 +40,28 @@ const isActive = (rawHref: string) => {
       <span>inner<em>Explorer</em></span>
     </a>
 
-    <div class="nav-links">
+    <div class="nav-links" data-editable="array" data-prop="items">
       {
         navLinks.map((l) => (
           <a
             href={l.href}
             class:list={['nav-link', { on: isActive(l.href) }]}
             aria-current={isActive(l.href) ? 'page' : undefined}
+            data-editable="array-item"
           >
-            {l.label}
+            <editable-text data-prop="label">{l.label}</editable-text>
           </a>
         ))
       }
     </div>
 
     <div class="nav-right">
-      <a class="nav-signin" href="/signin">Sign in</a>
+      <a class="nav-signin" href={signIn.href}>
+        <editable-text data-prop="signIn.label">{signIn.label}</editable-text>
+      </a>
       <ThemeToggle />
-      <a class="nav-cta" href="/contact">
-        Contact us
+      <a class="nav-cta" href={primaryCta.href}>
+        <editable-text data-prop="primaryCta.label">{primaryCta.label}</editable-text>
         <svg
           width="14"
           height="14"
@@ -73,7 +84,9 @@ const isActive = (rawHref: string) => {
         aria-expanded="false"
         aria-controls="nav-menu"
       >
-        <span class="sr-only">Open main menu</span>
+        <span class="sr-only" data-editable="text" data-prop="mobileMenuLabel">
+          {mobileMenuLabel}
+        </span>
         <svg
           width="22"
           height="22"
@@ -90,7 +103,7 @@ const isActive = (rawHref: string) => {
     </div>
   </nav>
 
-  <div class="nav-menu" id="nav-menu" hidden>
+  <div class="nav-menu" id="nav-menu" hidden data-cloudcannon-ignore>
     <nav aria-label="Mobile" class="nav-menu-inner">
       {
         navLinks.map((l) => (
@@ -99,8 +112,10 @@ const isActive = (rawHref: string) => {
           </a>
         ))
       }
-      <a class="nav-menu-signin" href="/signin">Sign in</a>
-      <a class="nav-menu-cta" href="/contact">Contact us</a>
+      <a class="nav-menu-signin" href={signIn.href}>{signIn.label}</a>
+      <a class="nav-menu-cta" href={primaryCta.href}>
+        {primaryCta.label}
+      </a>
     </nav>
   </div>
 </header>

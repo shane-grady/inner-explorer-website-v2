@@ -1,0 +1,75 @@
+draft: true
+order: 0
+meta:
+  kicker: Case study
+  titleLead: District name
+  titleEmphasis: story headline
+  dek: Add a concise summary of the story.
+  readingTime: 8 min
+  published: ''
+  heroImage: ../../assets/images/research/hero-classroom.jpg
+  heroImageAlt: ''
+district:
+  name: District name
+  shortName: District
+  location: City, State
+  partnerSince: ''
+  snapshot: []
+keyInsights:
+  eyebrow: Key Insights
+  items:
+    - label: Challenge
+      text: Add the challenge takeaway.
+    - label: Approach
+      text: Add the approach takeaway.
+    - label: Outcome
+      text: Add the outcome takeaway.
+intro:
+  challenge:
+    eyebrow: The challenge
+    heading: Describe the challenge
+    body:
+      - Add the challenge story.
+    image: ../../assets/images/research/hero-classroom.jpg
+    imageAlt: ''
+  approach:
+    eyebrow: The approach
+    heading: Describe the approach
+    body:
+      - Add the implementation story.
+    image: ../../assets/images/research/hero-classroom.jpg
+    imageAlt: ''
+timeline:
+  eyebrow: The rollout
+  heading: How implementation unfolded
+  phases: []
+metrics:
+  eyebrow: The results
+  heading: What changed
+  note: ''
+  featured:
+    value: '0'
+    unit: ''
+    label: Add the featured result
+  grid: []
+sources: []
+voicesIntro:
+  eyebrow: Community voices
+  headingLead: What the community
+  headingEmphasis: experienced
+  trustRating: ''
+  trustLine: ''
+  studentsLabel: ''
+voices: []
+gallery:
+  eyebrow: In the community
+  heading: A closer look
+  images: []
+  note: ''
+cta:
+  heading: Bring Inner Explorer to
+  headingEmphasis: your community.
+  body: See how a thoughtful rollout could work in your schools.
+  primary:
+    label: Contact us
+    href: /contact

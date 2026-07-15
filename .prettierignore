@@ -4,3 +4,8 @@ node_modules/
 .netlify/
 public/
 pnpm-lock.yaml
+.agents/
+.claude/
+agent/
+.cloudcannon/migration/*.schema.json
+skills-lock.json

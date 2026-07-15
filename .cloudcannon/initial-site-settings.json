@@ -1,0 +1,9 @@
+{
+  "ssg": "astro",
+  "build": {
+    "install_command": "pnpm install --frozen-lockfile",
+    "build_command": "pnpm build",
+    "output_path": "dist",
+    "node_version": "file"
+  }
+}

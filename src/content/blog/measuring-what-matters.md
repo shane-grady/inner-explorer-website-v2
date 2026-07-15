@@ -1,10 +1,11 @@
 ---
 title: 'Measuring what matters'
 description: 'The research behind daily mindfulness — and how schools track its impact on focus, behavior, and well-being.'
-pubDate: 2026-05-06
+pubDate: 2026-05-06T00:00:00Z
 author: 'Inner Explorer'
 category: 'Research'
 tags: ['research', 'impact']
+draft: false
 ---
 
 Schools are accountable for outcomes, and mindfulness should be no exception. The

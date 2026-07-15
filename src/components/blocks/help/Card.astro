@@ -4,14 +4,15 @@
 interface Props {
   title: string;
   badge?: string;
+  content?: string;
 }
-const { title, badge }: Props = Astro.props;
+const { title, badge, content }: Props = Astro.props;
 ---
 
 <div class="help-card">
   {badge && <div class="help-card-badge">{badge}</div>}
   <p class="help-card-title">{title}</p>
-  <div class="help-card-text"><slot /></div>
+  <div class="help-card-text">{content ?? <slot />}</div>
 </div>
 
 <style>

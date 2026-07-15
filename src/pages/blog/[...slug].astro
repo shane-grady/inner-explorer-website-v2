@@ -13,12 +13,6 @@ import ReadingProgress from '../../components/blocks/blog/ReadingProgress.astro'
 import GlowCTA from '../../components/blocks/GlowCTA.astro';
 import RelatedPosts from '../../components/blocks/RelatedPosts.astro';
 import NewsletterSignup from '../../components/blocks/NewsletterSignup.astro';
-// In-article MDX modules (passed to <Content> so authors use them without imports).
-import Figure from '../../components/blocks/Figure.astro';
-import PullQuote from '../../components/blocks/PullQuote.astro';
-import ResourceCard from '../../components/blocks/ResourceCard.astro';
-import StatRow from '../../components/blocks/blog/ArticleStats.astro';
-import AudioPractice from '../../components/blocks/blog/AudioPractice.astro';
 import { articleSchema, faqPageSchema } from '../../lib/schema';
 import { readingTime } from '../../lib/reading-time';
 
@@ -117,11 +111,21 @@ const faqSchema = d.faq
       }
 
       <div class="article-main">
-        {d.quickRead && <QuickRead eyebrow={d.quickRead.eyebrow} text={d.quickRead.text} />}
+        {
+          d.quickRead && (
+            <QuickRead
+              eyebrow={d.quickRead.eyebrow}
+              text={d.quickRead.text}
+              editablePrefix="quickRead"
+            />
+          )
+        }
 
-        <Prose variant="article">
-          <Content components={{ Figure, PullQuote, ResourceCard, StatRow, AudioPractice }} />
-        </Prose>
+        <div data-editable="text" data-type="block" data-prop="@content">
+          <Prose variant="article">
+            <Content />
+          </Prose>
+        </div>
 
         {
           d.faq && (

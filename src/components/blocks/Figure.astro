@@ -4,19 +4,21 @@
 // Takes an imported image so Astro optimizes + serves responsive sources.
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
+import { resolveContentImage } from '../../lib/content-images';
 
 interface Props {
-  src: ImageMetadata;
+  src: ImageMetadata | string;
   alt: string;
   /** Subheading / credit shown beneath the image. */
   caption?: string;
 }
 const { src, alt, caption }: Props = Astro.props;
+const image = await resolveContentImage(src);
 ---
 
 <figure class="ie-figure">
   <Image
-    src={src}
+    src={image}
     alt={alt}
     widths={[480, 768, 1024]}
     sizes="(max-width: 760px) 92vw, 700px"

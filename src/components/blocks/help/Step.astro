@@ -4,15 +4,19 @@
 // index. Body comes from the slot (keeps inline markdown/links).
 interface Props {
   title: string;
+  content?: string;
+  contentHtml?: string;
 }
-const { title }: Props = Astro.props;
+const { title, content, contentHtml }: Props = Astro.props;
 ---
 
 <li class="help-step">
   <span class="help-step-num" aria-hidden="true"></span>
   <div class="help-step-body">
     <p class="help-step-title">{title}</p>
-    <div class="help-step-text"><slot /></div>
+    <div class="help-step-text">
+      {contentHtml ? <Fragment set:html={contentHtml} /> : content ? content : <slot />}
+    </div>
   </div>
 </li>
 
