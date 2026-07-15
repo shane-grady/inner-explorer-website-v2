@@ -22,6 +22,12 @@ any correction or surprise.
 
 ## Toolchain (pnpm / Node)
 
+- **CloudCannon's `.cloudcannon/initial-site-settings.json` only applies when a Site is
+  first created.** Adding it to a repository that is already connected does not update
+  the live Site's build configuration. For an existing Site, explicitly set the install
+  command, build command, output path, and Node version in **Site Settings > Builds >
+  Configuration** (or with `cloudcannon sites update-build-config`), then trigger and
+  inspect a real CloudCannon build before calling the migration live.
 - **pnpm 11 moved build-script approval** out of `package.json`. Put it in
   `pnpm-workspace.yaml` as `allowBuilds: { esbuild: true, sharp: true, '@tailwindcss/oxide': true }`.
   The `package.json` "pnpm" field is ignored (warns).

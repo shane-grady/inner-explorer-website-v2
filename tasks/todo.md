@@ -1305,3 +1305,16 @@ output, Git history, and Netlify deployment pipeline.
   smoke tests with zero console warnings or layout overflow.
 - The unique marketing pages are intentionally documented as a page-builder follow-on;
   no fragile source-editable or shared-passcode shortcut was introduced.
+
+### Live CloudCannon activation recovery
+
+- [x] Authenticate the CloudCannon CLI against the Inner Explorer organization.
+- [x] Confirm the existing Site had an empty build configuration and builds were locked.
+- [x] Configure Astro, Node from `.nvmrc`, frozen pnpm install, `pnpm build`, and `dist`.
+- [x] Unlock builds and trigger the CloudCannon hosted pipeline.
+- [x] Verify both queued builds succeeded and the Visual Editor renders a real blog page.
+
+**Review.** CloudCannon Site `inner-explorer-website-v2` now builds successfully on
+Node 24 with pnpm 11. The testing domain renders the full homepage without browser
+errors, and the MTSS article loads inside the Visual Editor instead of showing “Site
+not built.”
