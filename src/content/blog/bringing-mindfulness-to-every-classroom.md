@@ -1,13 +1,17 @@
 ---
-title: 'Bringing mindfulness to every classroom'
-description: 'How a few minutes of daily audio-guided practice helps students focus, self-regulate, and feel ready to learn.'
+_schema: default
+title: Bringing mindfulness to every class
+description: >-
+  How a few minutes of daily audio-guided practice helps students focus,
+  self-regulate, and feel ready to learn.
 pubDate: 2026-05-20T00:00:00Z
-author: 'Inner Explorer'
-category: 'Practice'
-tags: ['classroom', 'practice']
+author: Inner Explorer
+category: Practice
+tags:
+  - classroom
+  - practice
 draft: false
 ---
-
 Mindfulness works best as a daily habit, not a one-time event. When students begin
 the day with a short, guided practice, they arrive at learning calmer and more
 focused — and teachers get a few minutes of calm too.
