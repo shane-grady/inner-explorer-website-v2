@@ -12,6 +12,7 @@ tags:
   - practice
 draft: false
 ---
+
 Mindfulness works best as a daily habit, not a one-time event. When students begin
 the day with a short, guided practice, they arrive at learning calmer and more
 focused — and teachers get a few minutes of calm too.

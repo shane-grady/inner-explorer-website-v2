@@ -5,6 +5,7 @@ import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
 import SEO from '../components/seo/SEO.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
+import Analytics from '../components/seo/Analytics.astro';
 import { organizationSchema } from '../lib/schema';
 
 interface Props {
@@ -30,6 +31,13 @@ const {
   noindex = false,
 }: Props = Astro.props;
 const org = organizationSchema(Astro.site);
+
+// GA4 ships only for the real production build: skips `pnpm dev` and Netlify's
+// deploy-preview/branch-deploy contexts entirely (the script tag never renders for
+// those). See src/components/seo/Analytics.astro for the *.netlify.app runtime guard.
+const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
+const isProductionBuild =
+  import.meta.env.PROD && (!import.meta.env.CONTEXT || import.meta.env.CONTEXT === 'production');
 ---
 
 <!doctype html>
@@ -37,6 +45,7 @@ const org = organizationSchema(Astro.site);
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {isProductionBuild && gaMeasurementId && <Analytics measurementId={gaMeasurementId} />}
     {/* No-flash theme init: set .dark before first paint (system pref unless overridden). */}
     <script is:inline>
       (() => {
