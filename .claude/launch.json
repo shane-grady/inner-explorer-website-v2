@@ -96,6 +96,12 @@
       "runtimeExecutable": "pnpm",
       "runtimeArgs": ["exec", "astro", "dev", "--port", "4452"],
       "port": 4452
+    },
+    {
+      "name": "ie-dev-amplitude",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["exec", "astro", "dev", "--port", "4461"],
+      "port": 4461
     }
   ]
 }

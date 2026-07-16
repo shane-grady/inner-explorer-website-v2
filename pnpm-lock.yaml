@@ -8,9 +8,12 @@ importers:
 
   .:
     dependencies:
+      '@amplitude/unified':
+        specifier: ^1.1.24
+        version: 1.1.24(@amplitude/rrweb@2.1.3)(rollup@4.60.4)
       '@astrojs/mdx':
         specifier: ^5.0.6
-        version: 5.0.6(astro@6.3.8(@types/node@24.12.4)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.60.4)(yaml@2.9.0))
+        version: 5.0.6(astro@6.3.8(@types/node@24.12.4)(idb-keyval@6.3.0)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.60.4)(yaml@2.9.0))
       '@astrojs/react':
         specifier: ^5.0.5
         version: 5.0.5(@types/node@24.12.4)(@types/react-dom@19.2.3(@types/react@19.2.15))(@types/react@19.2.15)(jiti@2.7.0)(lightningcss@1.32.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(yaml@2.9.0)
@@ -31,10 +34,10 @@ importers:
         version: 19.2.3(@types/react@19.2.15)
       astro:
         specifier: ^6.3.8
-        version: 6.3.8(@types/node@24.12.4)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.60.4)(yaml@2.9.0)
+        version: 6.3.8(@types/node@24.12.4)(idb-keyval@6.3.0)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.60.4)(yaml@2.9.0)
       astro-auto-import:
         specifier: 0.5.1
-        version: 0.5.1(astro@6.3.8(@types/node@24.12.4)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.60.4)(yaml@2.9.0))
+        version: 0.5.1(astro@6.3.8(@types/node@24.12.4)(idb-keyval@6.3.0)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.60.4)(yaml@2.9.0))
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -104,6 +107,110 @@ importers:
         version: 8.60.0(eslint@10.4.0(jiti@2.7.0))(typescript@6.0.3)
 
 packages:
+
+  '@amplitude/analytics-browser@2.45.1':
+    resolution: {integrity: sha512-3BwUABBw1qmYXw8au6bvV8i/mDgOwUaSNIVAcaVzY4znXghZw+5Oo5/wRLVbAn6RvshMMStQraU3w5/9Jfaahw==}
+
+  '@amplitude/analytics-client-common@2.4.55':
+    resolution: {integrity: sha512-m/JoWu/YrKgMRN+4AdmnwknN775pbhPI8AeXsQM3QdjKVjQlHulGKweyF85Snb0nCpjv/Te4JdXwF5MkW2Ex/Q==}
+
+  '@amplitude/analytics-connector@1.6.5':
+    resolution: {integrity: sha512-EcDT+E4vliT7WAeOCbyE4rNkTUdLMR9dGCETX+36U7gAROr8jARG6ObhW7TTWdoYDlUe25IllZnRKdXHRKlWJQ==}
+
+  '@amplitude/analytics-core@2.53.0':
+    resolution: {integrity: sha512-nbRghVXDZMRgfXcA/zsVsuLcu8j1ce/1AaCXILXM3b5GUpVSoAxrOYuW3mRMsTA5iZwRUp+l934J1S4HNgxgYg==}
+
+  '@amplitude/analytics-types@1.4.0':
+    resolution: {integrity: sha512-RiMPHBqdrJ8ktTqG+Wzj2htnN/PCG9jGZG0SXtTFnWwVvcAJYbYm55/nrP1TTyrx1OlLhvF2VG3lVUP/xGAU8w==}
+
+  '@amplitude/analytics-types@2.11.1':
+    resolution: {integrity: sha512-wFEgb0t99ly2uJKm5oZ28Lti0Kh5RecR5XBkwfUpDzn84IoCIZ8GJTsMw/nThu8FZFc7xFDA4UAt76zhZKrs9A==}
+
+  '@amplitude/element-selector@0.2.1':
+    resolution: {integrity: sha512-QZYvhO2cyaw6B7gFWu95QrE/l2a5oSCHgYR2S6DqZ6/NVDWIzbBtEjwLcxZFPXbO+DM1Rng6GUNljMNFtdlFDw==}
+
+  '@amplitude/engagement-browser@1.0.11':
+    resolution: {integrity: sha512-hGO0ArhnO+jqYyerLmHT21+PQ957sqsJtmNgO+55tpeU80Jl6nsjc0icAelLGKK01m5Z4QzWQ3rzh1Ocxlq+/w==}
+
+  '@amplitude/experiment-core@0.13.3':
+    resolution: {integrity: sha512-iBFaiTr5BYiUAe8NcAnJ39pe1vqPHq3638E6FTYocoRIh5zryzYQvfqE7mhDNcCj7OUm4IJ3DFq8EVNqqlcnUw==}
+
+  '@amplitude/experiment-core@0.7.2':
+    resolution: {integrity: sha512-Wc2NWvgQ+bLJLeF0A9wBSPIaw0XuqqgkPKsoNFQrmS7r5Djd56um75In05tqmVntPJZRvGKU46pAp8o5tdf4mA==}
+
+  '@amplitude/experiment-js-client@1.21.3':
+    resolution: {integrity: sha512-YAw6K2GR4d18fdRLrNiEnuH0+5bTV9cIn/b04MA4GfxUHnbOI0ZmQTtqj6AfU4myiBjTBLPRH7+rlMRMnLe8iQ==}
+
+  '@amplitude/plugin-autocapture-browser@1.28.6':
+    resolution: {integrity: sha512-Ek4aUaeQXISuh79og4uRGEBZzWYB7DiMbgMGj796d/vVXPVAcGwkDMA0HC+9z3gAV//+A9L4/ZRITEwXdPyEvg==}
+
+  '@amplitude/plugin-custom-enrichment-browser@0.1.16':
+    resolution: {integrity: sha512-ulpPMQZAHRZdDzhM0OmSwKW5NiyQk6DNYAocRceXqcDNWw6GqVqzV9Dbkns0d1UjT+x4Vpv8rjViYaxlJfTf9w==}
+
+  '@amplitude/plugin-event-property-attribution-browser@0.2.8':
+    resolution: {integrity: sha512-BjGl9jkzUdtmrFMqS0lnICWZWiZ1XJF/uOCXBkblCqCtMJZb4kncAKbd1K9OYGPrX6ssegWgeRGj4eXrBycUHw==}
+
+  '@amplitude/plugin-experiment-browser@1.0.0-beta.35':
+    resolution: {integrity: sha512-8ERnR1DnZifNOnJdNuMCN5WytZLICnSXRA9pLqeb6HQiJa2Hr3M56hIwhkJysb2p61AikF+8/mLSW993lBjVXQ==}
+
+  '@amplitude/plugin-network-capture-browser@1.10.8':
+    resolution: {integrity: sha512-A7ZOzvRpK0VYW44YQXzWuPHFq5x1lBZ70G0IDEH3I6GHk7hRpuhcERNWZbsL7r6tEcyER/RLr5PVqb7BqU2nQw==}
+
+  '@amplitude/plugin-page-url-enrichment-browser@0.7.18':
+    resolution: {integrity: sha512-aTCLtVPNYyPCtk3rvN4QbQ/EVKjF2oCZDTcOKWITaZSXCfe7vk92U5llXr8JtxgcAnRJaDUlf3UvBiIdXCHI0A==}
+
+  '@amplitude/plugin-page-view-tracking-browser@2.11.8':
+    resolution: {integrity: sha512-KPmFuFS8qxWP4IDWC+bRjk134giynhtjA/MoNtk65Me4wKY9vfhYPCZNSHoZaaba14gGdcvFYY9/Ol0Loe3uvA==}
+
+  '@amplitude/plugin-session-replay-browser@1.33.3':
+    resolution: {integrity: sha512-vlURxorh3krS1mSDvw7hV/LDG3VKFYoIwDqPuMKcOnW5KyYbw8uqEnmXU7IkieEF2C/aWAh+8OtevBcE5fISXw==}
+
+  '@amplitude/plugin-web-vitals-browser@1.1.40':
+    resolution: {integrity: sha512-7+uu7fLnQK2rUcYmrNiLXkTbTlU1n3dr3xzKveJ292+1DsuZdSEPisbVwuaXUMbfbcVvSgOp6B45Til//Vk8kg==}
+
+  '@amplitude/rrdom@2.1.2':
+    resolution: {integrity: sha512-jIjDnuZGW7f4Nb7jxbQG7wz4bcS6rIkHeneLgF5EFj5o7O2kJu7tw0z7PND9eo982nSswiHb56mkAfGcue911Q==}
+
+  '@amplitude/rrweb-packer@2.0.0-alpha.40':
+    resolution: {integrity: sha512-Btb6b9pS1IvDMbvyYxpUdTk9NRJugSoJjRCl7R6jP/iSlPWXoveJIwHaNFAS9ZmWUEK7HhyBJ8bKGFN3giUsDg==}
+
+  '@amplitude/rrweb-plugin-console-record@2.0.0-alpha.40':
+    resolution: {integrity: sha512-vtY7T/kGFl62nC1u7ZUXQvU7ulB70cZGVHPRN/SO9fzVfsY7y6rCmBfoc2jS5KmISdlgkVzMjY2r/EE2Gk9AQA==}
+    peerDependencies:
+      '@amplitude/rrweb': ^2.0.0-alpha.40
+
+  '@amplitude/rrweb-record@2.0.0-alpha.40':
+    resolution: {integrity: sha512-5cJhQwzhymJWX5/XOtpWK0h2NLq9+t2YiO6ub0cdZ9F5AZizaRbsVH88int07DfX0YiXTKWbISezVuduCLqgSQ==}
+
+  '@amplitude/rrweb-snapshot@2.1.2':
+    resolution: {integrity: sha512-xdASm3wP2hHnEZL6Y0+uFO7rBCRYadKIRLwVJewpln+BHj+F96GGfw2JmsZx4J/5a+kXRFgtajp9mEboy3dyxw==}
+
+  '@amplitude/rrweb-types@2.0.0-alpha.40':
+    resolution: {integrity: sha512-rP7CBDkzXupxOA7ukvC+zDYLuCtsz54TuJKC4+5O72Jsz4YdokLznKZRG34P6zXozfhGU0261qckk87lLY6mKQ==}
+
+  '@amplitude/rrweb-types@2.1.2':
+    resolution: {integrity: sha512-HvzZpWGigXGXmtGntyDoNbk6i2YO89wrFV1tkILns7R4ECntsNsXzwP72oyWYVpONvU/x0xM5oe6/rzv4L29BQ==}
+
+  '@amplitude/rrweb-utils@2.0.0-alpha.40':
+    resolution: {integrity: sha512-i1CCt6MCjlqoeNc+1Hse5bz+ZbASaWaIJ0WdJZvnQjUCHH29Xy/QFouyOuor73RZ+UWX4s2tYSrUIdmBepXk3w==}
+
+  '@amplitude/rrweb-utils@2.1.2':
+    resolution: {integrity: sha512-FRiJj7h1ziiWqW9hbmr1PfQoCgpX7zxhqVdlVaFE9NkqzXlePmStjOgkBLNnz/WbBD0A4pZp26o9Cy0he47Qwg==}
+
+  '@amplitude/rrweb@2.1.3':
+    resolution: {integrity: sha512-K/+ob14aDZ3tYhW/PAz4mQp+Ikr8H7qvepGgNRPhm4bG3sztsdnWhz+eK7xEcx05l+RIo0MYAp3+GXE5mDYM9w==}
+
+  '@amplitude/session-replay-browser@1.47.3':
+    resolution: {integrity: sha512-Ru2ua+rtr8CeD1IfAFRoa/45EJ7I9ZERdEJxoBw85QdWJtuBi4u8/kDM1zKo/PdH6K2IcK8woPiuzo9HuGupdg==}
+
+  '@amplitude/targeting@0.3.5':
+    resolution: {integrity: sha512-ppg/z9q0JSx8Oc17I6uRKro92rxnqRR+l3mzy8xzEYxiPWhC3ayulScxxhWSBpH7J+eSI/JdS/NmP+pGohW8CQ==}
+
+  '@amplitude/ua-parser-js@0.7.33':
+    resolution: {integrity: sha512-wKEtVR4vXuPT9cVEIJkYWnlF++Gx3BdLatPBM+SZ1ztVIvnhdGBZR/mn9x/PzyrMcRlZmyi6L56I2J3doVBnjA==}
+
+  '@amplitude/unified@1.1.24':
+    resolution: {integrity: sha512-etSaqc1d5i4MDRSIDm9iY+HC8Akfu7t5ZrOIaPGfvrGuHHjlilPRuTmGeXkvw/irvLxqgMc54cq/6sMVQMk9Vw==}
 
   '@astrojs/check@0.9.9':
     resolution: {integrity: sha512-A5UW8uIuErLWEoRQvzgXpO1gTjUFtK8r7nU2Z7GewAMxUb7bPvpk11qaKKgxqXlHJWlAvaaxy+Xg28A6bmQ1Tg==}
@@ -854,6 +961,15 @@ packages:
   '@rolldown/pluginutils@1.0.0-rc.3':
     resolution: {integrity: sha512-eybk3TjzzzV97Dlj5c+XrBFW57eTNhzod66y9HrBlzJ6NsCrWCp/2kaPS3K9wJmurBC0Tdw4yPjXKZqlznim3Q==}
 
+  '@rollup/plugin-replace@6.0.3':
+    resolution: {integrity: sha512-J4RZarRvQAm5IF0/LwUUg+obsm+xZhYnbMXmXROyoSE1ATJe3oXSb9L5MMppdxP2ylNSjv6zFBwKYjcKMucVfA==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+
   '@rollup/pluginutils@5.3.0':
     resolution: {integrity: sha512-5EdhGZtnu3V88ces7s53hhfK5KSASnJZv8Lulpc04cWO3REESroJXg73DFsOmgbU2BhwV0E20bu2IDZb3VKW4Q==}
     engines: {node: '>=14.0.0'}
@@ -1143,6 +1259,9 @@ packages:
   '@types/babel__traverse@7.28.0':
     resolution: {integrity: sha512-8PvcXf70gTDZBgt9ptxJ8elBeBjcLOAcOtoO/mPJjtji1+CdGbHgm77om1GrsPxsiE+uXIpNSK64UYaIwQXd4Q==}
 
+  '@types/css-font-loading-module@0.0.7':
+    resolution: {integrity: sha512-nl09VhutdjINdWyXxHWN/w9zlNCfr60JUqJbd24YXUuCwgeL0TpFSdElCwb6cxfB6ybE19Gjj4g0jsgkXxKv1Q==}
+
   '@types/debug@4.1.13':
     resolution: {integrity: sha512-KSVgmQmzMwPlmtljOomayoR89W4FynCAi3E8PPs7vmDVPe84hT+vGPKkJfThkmXs0x0jAaa9U8uW8bbfyS2fWw==}
 
@@ -1195,6 +1314,9 @@ packages:
 
   '@types/unist@3.0.3':
     resolution: {integrity: sha512-ko/gIFJRv177XgZsZcBwnqJN5x/Gien8qNOn0D5bQU/zAzVf9Zt3BlcUiLqhV9y4ARk0GbT3tnUiPNgnTXzc/Q==}
+
+  '@types/zen-observable@0.8.3':
+    resolution: {integrity: sha512-fbF6oTd4sGGy0xjHPKAt+eS2CrxJ3+6gQ3FGcBoIJR2TLAyCkCyI8JqZNy+FeON0AhVgNJoUumVoZQjBFUqHkw==}
 
   '@typescript-eslint/eslint-plugin@8.60.0':
     resolution: {integrity: sha512-QYb/sa74/s7OKMbACMjrYnGspj9Hs5YI5aaffSL65UfeBUzVzBJfVo3oWSpbzPurvm7yaCCo2Lk7lVj610HqKw==}
@@ -1289,6 +1411,9 @@ packages:
 
   '@vscode/l10n@0.0.18':
     resolution: {integrity: sha512-KYSIHVmslkaCDyw013pphY+d7x1qV8IZupYfeIfzNA+nsaWHbn5uPuQRvdRFsa9zFzGeudPuoGoZ1Op4jrJXIQ==}
+
+  '@xstate/fsm@1.6.5':
+    resolution: {integrity: sha512-b5o1I6aLNeYlU/3CPlj/Z91ybk1gUsKT+5NAJI+2W4UjvS5KLG28K9v5UvNoFVjHV8PajVZ00RH3vnjyQO7ZAw==}
 
   acorn-jsx@5.3.2:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
@@ -1412,6 +1537,13 @@ packages:
   balanced-match@4.0.4:
     resolution: {integrity: sha512-BLrgEcRTwX2o6gGxGOCNyMvGSp35YofuYzw9h1IMTRmKqttAZZVU67bdb9Pr2vUHA8+j3i2tJfjO6C6+4myGTA==}
     engines: {node: 18 || 20 || >=22}
+
+  base64-arraybuffer@1.0.2:
+    resolution: {integrity: sha512-I3yl4r9QB5ZRY3XuJVEPfc2XhZO6YweFPI+UovAzn+8/hb3oJ6lnysaFcjVpkCPfVWFUDvoZ8kmVDP7WyRtYtQ==}
+    engines: {node: '>= 0.6.0'}
+
+  base64-js@1.5.1:
+    resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
 
   baseline-browser-mapping@2.10.32:
     resolution: {integrity: sha512-wbPvpyjJPC0zdfdKXxqEL3Ea+bOMD/87X4lftiJkkaBiuG6ALQy1SLmEd7BSmVCuwCQsBrCamgBoLyfFDD1EPg==}
@@ -1864,6 +1996,9 @@ packages:
       picomatch:
         optional: true
 
+  fflate@0.4.8:
+    resolution: {integrity: sha512-FJqqoDBR00Mdj9ppamLa/Y7vxm+PRmNWA67N846RvsoYVMKB4q3y/de5PA7gUmRMYK/8CMz2GDZQmCRN1wBcWA==}
+
   file-entry-cache@8.0.0:
     resolution: {integrity: sha512-XXTUwCvisa5oacNGRP9SfNtYBNAMi+RPwBFmblZEF7N7swHYQS6/Zfk7SRwx4D5j3CH211YNRco1DEMNVfZCnQ==}
     engines: {node: '>=16.0.0'}
@@ -2042,6 +2177,12 @@ packages:
   http-cache-semantics@4.2.0:
     resolution: {integrity: sha512-dTxcvPXqPvXBQpq5dUr6mEMJX4oIEFv6bwom3FDwKRDsuIjjJGANqhBuoAn9c1RQJIdAKav33ED65E2ys+87QQ==}
 
+  idb-keyval@6.3.0:
+    resolution: {integrity: sha512-um+2dgAWmYsu615EXpWVwSmapJhON0G43t3Ka/EVaohzPQXSMqKEqeDK/oIW3Ow+BXaF2PvSc+oBTFp793A5Ow==}
+
+  idb@8.0.0:
+    resolution: {integrity: sha512-l//qvlAKGmQO31Qn7xdzagVPPaHTxXx199MhrAFuVBTPqydcPYBWjkrbv4Y0ktB+GmWOiwHl237UUOrLmQxLvw==}
+
   ignore@5.3.2:
     resolution: {integrity: sha512-hsBTNUqQTDwkWtcdYI2i06Y/nUBEsNEDJKjWdigLvegy8kDuJAS8uRlpkkcQpyEXL0Z/pjDy5HBmMjRCJ2gq+g==}
     engines: {node: '>= 4'}
@@ -2208,6 +2349,9 @@ packages:
   jiti@2.7.0:
     resolution: {integrity: sha512-AC/7JofJvZGrrneWNaEnJeOLUx+JlGt7tNa0wZiRPT4MY1wmfKjt2+6O2p2uz2+skll8OZZmJMNqeke7kKbNgQ==}
     hasBin: true
+
+  js-base64@3.9.1:
+    resolution: {integrity: sha512-U73qptcvf/HIOauFOmqT3a0mDUp0MYlfd15oqoe9kqZt5XhiXVb+HG09sLvI9PQ9tZIBFS4nlErai8zbWazP0g==}
 
   js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
@@ -2561,6 +2705,9 @@ packages:
 
   minimatch@3.1.5:
     resolution: {integrity: sha512-VgjWUsnnT6n+NUk6eZq77zeFdpW2LWDzP6zFGrCbHXiYNul5Dzqk2HHQ5uFH2DNW5Xbp8+jVzaeNt94ssEEl4w==}
+
+  mitt@3.0.1:
+    resolution: {integrity: sha512-vKivATfr97l2/QBCYAkXYDbrIWPM2IIKEl7YPhjCvKlG3kE2gm+uBo6nEXK3M5/Ffh/FLpKExzOQ3JJoJGFKBw==}
 
   mrmime@2.0.1:
     resolution: {integrity: sha512-Y3wQdFg2Va6etvQ5I82yUhGdsKrcYox6p7FfL1LbK2J4V01F9TGlepTIhnK24t7koZibmg82KGglhA1XK5IsLQ==}
@@ -2939,6 +3086,9 @@ packages:
     resolution: {integrity: sha512-wtZlHyOje6OZTGqAoaDKxFkgRtkF9CnHAVnCHKfuj200wAgL+bSJhdsCD2l0Qx/2ekEXjPWcyKkfGb5CPboslg==}
     engines: {node: '>=0.4'}
 
+  safe-json-stringify@1.2.0:
+    resolution: {integrity: sha512-gH8eh2nZudPQO6TytOvbxnuhYBOvDBBLW52tz5q6X58lJcd/tkmqFR+5Z9adS8aJtURSXWThWy/xJtJwixErvg==}
+
   safe-push-apply@1.0.0:
     resolution: {integrity: sha512-iKE9w/Z7xCzUMIZqdBsp6pEQvwuEebH4vdpjcDWnyzaI6yl6O9FHvVpmGelvEHNsoY6wGblkxR6Zty/h00WiSA==}
     engines: {node: '>= 0.4'}
@@ -3192,6 +3342,9 @@ packages:
 
   undici-types@7.16.0:
     resolution: {integrity: sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==}
+
+  unfetch@4.1.0:
+    resolution: {integrity: sha512-crP/n3eAPUJxZXM9T80/yv0YhkTEx2K1D3h7D1AJM6fzsWZrxdyRuLN0JH/dkZh1LNH8LxCnBzoPFCPbb2iGpg==}
 
   unified@11.0.5:
     resolution: {integrity: sha512-xKvGhPWw3k84Qjh8bI3ZeJjqnyadK+GEFtazSfZv/rKeTkTjOJho6mFqh2SM96iIcZokxiOpg78GazTSg8+KHA==}
@@ -3455,6 +3608,9 @@ packages:
   web-namespaces@2.0.1:
     resolution: {integrity: sha512-bKr1DkiNa2krS7qxNtdrtHAmzuYGFQLiQ13TsorsdT6ULTkPLKuu5+GsFpDlg6JFjUTwX2DyhMPG2be8uPrqsQ==}
 
+  web-vitals@5.1.0:
+    resolution: {integrity: sha512-ArI3kx5jI0atlTtmV0fWU3fjpLmq/nD3Zr1iFFlJLaqa5wLBkUSzINwBPySCX/8jRyjlmy1Volw1kz1g9XE4Jg==}
+
   which-boxed-primitive@1.1.1:
     resolution: {integrity: sha512-TbX3mj8n0odCBFVlY8AxkqcHASw3L60jIuF8jFP78az3C2YhmGvqbHBpAjTRH2/xqYunrJ9g1jSyjCjpoWzIAA==}
     engines: {node: '>= 0.4'}
@@ -3532,6 +3688,9 @@ packages:
     resolution: {integrity: sha512-4LCcse/U2MHZ63HAJVE+v71o7yOdIe4cZ70Wpf8D/IyjDKYQLV5GD46B+hSTjJsvV5PztjvHoU580EftxjDZFQ==}
     engines: {node: '>=12.20'}
 
+  zen-observable@0.10.0:
+    resolution: {integrity: sha512-iI3lT0iojZhKwT5DaFy2Ce42n3yFcLdFyOh01G7H0flMY60P8MJuVFEoJoNwXlmAyQ45GrjL6AcZmmlv8A5rbw==}
+
   zod@4.4.3:
     resolution: {integrity: sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ==}
 
@@ -3539,6 +3698,201 @@ packages:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
 
 snapshots:
+
+  '@amplitude/analytics-browser@2.45.1':
+    dependencies:
+      '@amplitude/analytics-core': 2.53.0
+      '@amplitude/plugin-autocapture-browser': 1.28.6
+      '@amplitude/plugin-custom-enrichment-browser': 0.1.16
+      '@amplitude/plugin-event-property-attribution-browser': 0.2.8
+      '@amplitude/plugin-network-capture-browser': 1.10.8
+      '@amplitude/plugin-page-url-enrichment-browser': 0.7.18
+      '@amplitude/plugin-page-view-tracking-browser': 2.11.8
+      '@amplitude/plugin-web-vitals-browser': 1.1.40
+      tslib: 2.8.1
+
+  '@amplitude/analytics-client-common@2.4.55':
+    dependencies:
+      '@amplitude/analytics-connector': 1.6.5
+      '@amplitude/analytics-core': 2.53.0
+      '@amplitude/analytics-types': 2.11.1
+      tslib: 2.8.1
+
+  '@amplitude/analytics-connector@1.6.5': {}
+
+  '@amplitude/analytics-core@2.53.0':
+    dependencies:
+      '@amplitude/analytics-connector': 1.6.5
+      '@types/zen-observable': 0.8.3
+      safe-json-stringify: 1.2.0
+      tslib: 2.8.1
+      zen-observable: 0.10.0
+
+  '@amplitude/analytics-types@1.4.0': {}
+
+  '@amplitude/analytics-types@2.11.1': {}
+
+  '@amplitude/element-selector@0.2.1':
+    dependencies:
+      tslib: 2.8.1
+
+  '@amplitude/engagement-browser@1.0.11':
+    dependencies:
+      '@amplitude/analytics-types': 1.4.0
+
+  '@amplitude/experiment-core@0.13.3':
+    dependencies:
+      js-base64: 3.9.1
+
+  '@amplitude/experiment-core@0.7.2':
+    dependencies:
+      js-base64: 3.9.1
+
+  '@amplitude/experiment-js-client@1.21.3':
+    dependencies:
+      '@amplitude/analytics-connector': 1.6.5
+      '@amplitude/experiment-core': 0.13.3
+      '@amplitude/ua-parser-js': 0.7.33
+      base64-js: 1.5.1
+      unfetch: 4.1.0
+
+  '@amplitude/plugin-autocapture-browser@1.28.6':
+    dependencies:
+      '@amplitude/analytics-core': 2.53.0
+      '@amplitude/element-selector': 0.2.1
+      tslib: 2.8.1
+
+  '@amplitude/plugin-custom-enrichment-browser@0.1.16':
+    dependencies:
+      '@amplitude/analytics-core': 2.53.0
+      tslib: 2.8.1
+
+  '@amplitude/plugin-event-property-attribution-browser@0.2.8':
+    dependencies:
+      '@amplitude/analytics-core': 2.53.0
+      tslib: 2.8.1
+
+  '@amplitude/plugin-experiment-browser@1.0.0-beta.35':
+    dependencies:
+      '@amplitude/analytics-core': 2.53.0
+      '@amplitude/experiment-js-client': 1.21.3
+
+  '@amplitude/plugin-network-capture-browser@1.10.8':
+    dependencies:
+      '@amplitude/analytics-core': 2.53.0
+      tslib: 2.8.1
+
+  '@amplitude/plugin-page-url-enrichment-browser@0.7.18':
+    dependencies:
+      '@amplitude/analytics-core': 2.53.0
+      tslib: 2.8.1
+
+  '@amplitude/plugin-page-view-tracking-browser@2.11.8':
+    dependencies:
+      '@amplitude/analytics-core': 2.53.0
+      tslib: 2.8.1
+
+  '@amplitude/plugin-session-replay-browser@1.33.3(@amplitude/rrweb@2.1.3)(rollup@4.60.4)':
+    dependencies:
+      '@amplitude/analytics-client-common': 2.4.55
+      '@amplitude/analytics-core': 2.53.0
+      '@amplitude/analytics-types': 2.11.1
+      '@amplitude/rrweb-plugin-console-record': 2.0.0-alpha.40(@amplitude/rrweb@2.1.3)
+      '@amplitude/rrweb-record': 2.0.0-alpha.40
+      '@amplitude/session-replay-browser': 1.47.3(@amplitude/rrweb@2.1.3)(rollup@4.60.4)
+      idb-keyval: 6.3.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - '@amplitude/rrweb'
+      - rollup
+
+  '@amplitude/plugin-web-vitals-browser@1.1.40':
+    dependencies:
+      '@amplitude/analytics-core': 2.53.0
+      tslib: 2.8.1
+      web-vitals: 5.1.0
+
+  '@amplitude/rrdom@2.1.2':
+    dependencies:
+      '@amplitude/rrweb-snapshot': 2.1.2
+
+  '@amplitude/rrweb-packer@2.0.0-alpha.40':
+    dependencies:
+      '@amplitude/rrweb-types': 2.0.0-alpha.40
+      fflate: 0.4.8
+
+  '@amplitude/rrweb-plugin-console-record@2.0.0-alpha.40(@amplitude/rrweb@2.1.3)':
+    dependencies:
+      '@amplitude/rrweb': 2.1.3
+
+  '@amplitude/rrweb-record@2.0.0-alpha.40':
+    dependencies:
+      '@amplitude/rrweb': 2.1.3
+      '@amplitude/rrweb-types': 2.1.2
+
+  '@amplitude/rrweb-snapshot@2.1.2':
+    dependencies:
+      postcss: 8.5.15
+
+  '@amplitude/rrweb-types@2.0.0-alpha.40': {}
+
+  '@amplitude/rrweb-types@2.1.2': {}
+
+  '@amplitude/rrweb-utils@2.0.0-alpha.40': {}
+
+  '@amplitude/rrweb-utils@2.1.2': {}
+
+  '@amplitude/rrweb@2.1.3':
+    dependencies:
+      '@amplitude/rrdom': 2.1.2
+      '@amplitude/rrweb-snapshot': 2.1.2
+      '@amplitude/rrweb-types': 2.1.2
+      '@amplitude/rrweb-utils': 2.1.2
+      '@types/css-font-loading-module': 0.0.7
+      '@xstate/fsm': 1.6.5
+      base64-arraybuffer: 1.0.2
+      mitt: 3.0.1
+
+  '@amplitude/session-replay-browser@1.47.3(@amplitude/rrweb@2.1.3)(rollup@4.60.4)':
+    dependencies:
+      '@amplitude/analytics-client-common': 2.4.55
+      '@amplitude/analytics-core': 2.53.0
+      '@amplitude/analytics-types': 2.11.1
+      '@amplitude/experiment-core': 0.7.2
+      '@amplitude/rrweb-packer': 2.0.0-alpha.40
+      '@amplitude/rrweb-plugin-console-record': 2.0.0-alpha.40(@amplitude/rrweb@2.1.3)
+      '@amplitude/rrweb-record': 2.0.0-alpha.40
+      '@amplitude/rrweb-types': 2.0.0-alpha.40
+      '@amplitude/rrweb-utils': 2.0.0-alpha.40
+      '@amplitude/targeting': 0.3.5
+      '@rollup/plugin-replace': 6.0.3(rollup@4.60.4)
+      idb: 8.0.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - '@amplitude/rrweb'
+      - rollup
+
+  '@amplitude/targeting@0.3.5':
+    dependencies:
+      '@amplitude/analytics-client-common': 2.4.55
+      '@amplitude/analytics-core': 2.53.0
+      '@amplitude/analytics-types': 2.11.1
+      '@amplitude/experiment-core': 0.7.2
+      idb: 8.0.0
+      tslib: 2.8.1
+
+  '@amplitude/ua-parser-js@0.7.33': {}
+
+  '@amplitude/unified@1.1.24(@amplitude/rrweb@2.1.3)(rollup@4.60.4)':
+    dependencies:
+      '@amplitude/analytics-browser': 2.45.1
+      '@amplitude/analytics-core': 2.53.0
+      '@amplitude/engagement-browser': 1.0.11
+      '@amplitude/plugin-experiment-browser': 1.0.0-beta.35
+      '@amplitude/plugin-session-replay-browser': 1.33.3(@amplitude/rrweb@2.1.3)(rollup@4.60.4)
+    transitivePeerDependencies:
+      - '@amplitude/rrweb'
+      - rollup
 
   '@astrojs/check@0.9.9(prettier-plugin-astro@0.14.1)(prettier@3.8.3)(typescript@6.0.3)':
     dependencies:
@@ -3613,12 +3967,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@astrojs/mdx@5.0.6(astro@6.3.8(@types/node@24.12.4)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.60.4)(yaml@2.9.0))':
+  '@astrojs/mdx@5.0.6(astro@6.3.8(@types/node@24.12.4)(idb-keyval@6.3.0)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.60.4)(yaml@2.9.0))':
     dependencies:
       '@astrojs/markdown-remark': 7.1.2
       '@mdx-js/mdx': 3.1.1
       acorn: 8.16.0
-      astro: 6.3.8(@types/node@24.12.4)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.60.4)(yaml@2.9.0)
+      astro: 6.3.8(@types/node@24.12.4)(idb-keyval@6.3.0)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.60.4)(yaml@2.9.0)
       es-module-lexer: 2.1.0
       estree-util-visit: 2.0.0
       hast-util-to-html: 9.0.5
@@ -4208,6 +4562,13 @@ snapshots:
 
   '@rolldown/pluginutils@1.0.0-rc.3': {}
 
+  '@rollup/plugin-replace@6.0.3(rollup@4.60.4)':
+    dependencies:
+      '@rollup/pluginutils': 5.3.0(rollup@4.60.4)
+      magic-string: 0.30.21
+    optionalDependencies:
+      rollup: 4.60.4
+
   '@rollup/pluginutils@5.3.0(rollup@4.60.4)':
     dependencies:
       '@types/estree': 1.0.9
@@ -4425,6 +4786,8 @@ snapshots:
     dependencies:
       '@babel/types': 7.29.7
 
+  '@types/css-font-loading-module@0.0.7': {}
+
   '@types/debug@4.1.13':
     dependencies:
       '@types/ms': 2.1.0
@@ -4476,6 +4839,8 @@ snapshots:
   '@types/unist@2.0.11': {}
 
   '@types/unist@3.0.3': {}
+
+  '@types/zen-observable@0.8.3': {}
 
   '@typescript-eslint/eslint-plugin@8.60.0(@typescript-eslint/parser@8.60.0(eslint@10.4.0(jiti@2.7.0))(typescript@6.0.3))(eslint@10.4.0(jiti@2.7.0))(typescript@6.0.3)':
     dependencies:
@@ -4632,6 +4997,8 @@ snapshots:
 
   '@vscode/l10n@0.0.18': {}
 
+  '@xstate/fsm@1.6.5': {}
+
   acorn-jsx@5.3.2(acorn@8.16.0):
     dependencies:
       acorn: 8.16.0
@@ -4719,10 +5086,10 @@ snapshots:
 
   astring@1.9.0: {}
 
-  astro-auto-import@0.5.1(astro@6.3.8(@types/node@24.12.4)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.60.4)(yaml@2.9.0)):
+  astro-auto-import@0.5.1(astro@6.3.8(@types/node@24.12.4)(idb-keyval@6.3.0)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.60.4)(yaml@2.9.0)):
     dependencies:
       acorn: 8.16.0
-      astro: 6.3.8(@types/node@24.12.4)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.60.4)(yaml@2.9.0)
+      astro: 6.3.8(@types/node@24.12.4)(idb-keyval@6.3.0)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.60.4)(yaml@2.9.0)
 
   astro-eslint-parser@1.4.0:
     dependencies:
@@ -4741,7 +5108,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  astro@6.3.8(@types/node@24.12.4)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.60.4)(yaml@2.9.0):
+  astro@6.3.8(@types/node@24.12.4)(idb-keyval@6.3.0)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.60.4)(yaml@2.9.0):
     dependencies:
       '@astrojs/compiler': 4.0.0
       '@astrojs/internal-helpers': 0.9.1
@@ -4791,7 +5158,7 @@ snapshots:
       ultrahtml: 1.6.0
       unifont: 0.7.4
       unist-util-visit: 5.1.0
-      unstorage: 1.17.5
+      unstorage: 1.17.5(idb-keyval@6.3.0)
       vfile: 6.0.3
       vite: 7.3.3(@types/node@24.12.4)(jiti@2.7.0)(lightningcss@1.32.0)(yaml@2.9.0)
       vitefu: 1.1.3(vite@7.3.3(@types/node@24.12.4)(jiti@2.7.0)(lightningcss@1.32.0)(yaml@2.9.0))
@@ -4854,6 +5221,10 @@ snapshots:
   balanced-match@1.0.2: {}
 
   balanced-match@4.0.4: {}
+
+  base64-arraybuffer@1.0.2: {}
+
+  base64-js@1.5.1: {}
 
   baseline-browser-mapping@2.10.32: {}
 
@@ -5445,6 +5816,8 @@ snapshots:
     optionalDependencies:
       picomatch: 4.0.4
 
+  fflate@0.4.8: {}
+
   file-entry-cache@8.0.0:
     dependencies:
       flat-cache: 4.0.1
@@ -5718,6 +6091,10 @@ snapshots:
 
   http-cache-semantics@4.2.0: {}
 
+  idb-keyval@6.3.0: {}
+
+  idb@8.0.0: {}
+
   ignore@5.3.2: {}
 
   ignore@7.0.5: {}
@@ -5870,6 +6247,8 @@ snapshots:
   isexe@2.0.0: {}
 
   jiti@2.7.0: {}
+
+  js-base64@3.9.1: {}
 
   js-tokens@4.0.0: {}
 
@@ -6450,6 +6829,8 @@ snapshots:
     dependencies:
       brace-expansion: 1.1.15
 
+  mitt@3.0.1: {}
+
   mrmime@2.0.1: {}
 
   ms@2.1.3: {}
@@ -6875,6 +7256,8 @@ snapshots:
       has-symbols: 1.1.0
       isarray: 2.0.5
 
+  safe-json-stringify@1.2.0: {}
+
   safe-push-apply@1.0.0:
     dependencies:
       es-errors: 1.3.0
@@ -7125,8 +7508,7 @@ snapshots:
     dependencies:
       typescript: 6.0.3
 
-  tslib@2.8.1:
-    optional: true
+  tslib@2.8.1: {}
 
   type-check@0.4.0:
     dependencies:
@@ -7199,6 +7581,8 @@ snapshots:
 
   undici-types@7.16.0: {}
 
+  unfetch@4.1.0: {}
+
   unified@11.0.5:
     dependencies:
       '@types/unist': 3.0.3
@@ -7261,7 +7645,7 @@ snapshots:
       unist-util-is: 6.0.1
       unist-util-visit-parents: 6.0.2
 
-  unstorage@1.17.5:
+  unstorage@1.17.5(idb-keyval@6.3.0):
     dependencies:
       anymatch: 3.1.3
       chokidar: 5.0.0
@@ -7271,6 +7655,8 @@ snapshots:
       node-fetch-native: 1.6.7
       ofetch: 1.5.1
       ufo: 1.6.4
+    optionalDependencies:
+      idb-keyval: 6.3.0
 
   update-browserslist-db@1.2.3(browserslist@4.28.2):
     dependencies:
@@ -7417,6 +7803,8 @@ snapshots:
 
   web-namespaces@2.0.1: {}
 
+  web-vitals@5.1.0: {}
+
   which-boxed-primitive@1.1.1:
     dependencies:
       is-bigint: 1.1.0
@@ -7513,6 +7901,8 @@ snapshots:
   yocto-queue@0.1.0: {}
 
   yocto-queue@1.2.2: {}
+
+  zen-observable@0.10.0: {}
 
   zod@4.4.3: {}
 
