@@ -1,0 +1,48 @@
+---
+// GA4 (gtag.js). Rendered once in BaseLayout <head>, only when the caller has
+// already decided this is a real production request — see BaseLayout for the
+// PUBLIC_GA_MEASUREMENT_ID / build-context gating.
+//
+// Two deliberate deviations from Google's raw snippet, both required by this
+// site's Astro ClientRouter (view transitions):
+//
+// 1. `send_page_view: false` + a manual `astro:page-load` listener. Client-side
+//    navigation swaps the DOM without a full reload, and GA's automatic pageview
+//    detection relies on monkey-patching history.pushState/replaceState — Astro
+//    caches bound references to those methods before GA's patch can attach, so it
+//    never sees the navigation (https://github.com/withastro/astro/issues/14282).
+//    Firing page_view manually from Astro's own lifecycle event sidesteps that bug
+//    entirely and covers both the first load and every later swap, with no double count.
+// 2. window.dataLayer/gtag are assigned explicitly. Astro processes scripts using
+//    define:vars as modules, and top-level declarations in a module aren't
+//    implicitly global — other components need `window.gtag` to log their own events.
+//
+// The netlify.app check below guards against the *.netlify.app staging mirror,
+// which serves this exact same production build (see
+// netlify/edge-functions/noindex-netlify-host.ts) and shouldn't count as real
+// traffic any more than it should be indexed.
+interface Props {
+  measurementId: string;
+}
+const { measurementId } = Astro.props;
+---
+
+<script async src={`https://www.googletagmanager.com/gtag/js?id=${measurementId}`}></script>
+<script define:vars={{ measurementId }}>
+  if (location.hostname.endsWith('.netlify.app')) return;
+
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function (...args) {
+    window.dataLayer.push(args);
+  };
+  window.gtag('js', new Date());
+  window.gtag('config', measurementId, { send_page_view: false });
+
+  document.addEventListener('astro:page-load', () => {
+    window.gtag('event', 'page_view', {
+      page_location: location.href,
+      page_path: location.pathname,
+      page_title: document.title,
+    });
+  });
+</script>
