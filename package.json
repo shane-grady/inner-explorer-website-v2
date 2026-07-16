@@ -21,6 +21,7 @@
     "check": "pnpm typecheck && pnpm lint && pnpm lint:drift && pnpm format:check"
   },
   "dependencies": {
+    "@amplitude/unified": "^1.1.24",
     "@astrojs/mdx": "^5.0.6",
     "@astrojs/react": "^5.0.5",
     "@astrojs/sitemap": "^3.7.3",
