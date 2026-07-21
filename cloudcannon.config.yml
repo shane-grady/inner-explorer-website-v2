@@ -1908,6 +1908,44 @@ _snippets:
         type: select
         options:
           values: [16 / 9, 4 / 3, 1 / 1]
+  help_video:
+    template: mdx_component
+    inline: false
+    preview:
+      text: [{ key: label }, Help video]
+      icon: play_circle
+    picker_preview:
+      text: [Help video]
+      icon: [play_circle]
+    definitions:
+      component_name: HelpVideo
+      named_args:
+        - editor_key: label
+          type: string
+        - editor_key: caption
+          type: string
+          optional: true
+          remove_empty: true
+        - editor_key: ratio
+          type: string
+          optional: true
+          default: 16 / 9
+          remove_empty: true
+        - editor_key: src
+          type: string
+        - editor_key: webmSrc
+          type: string
+          optional: true
+          remove_empty: true
+        - editor_key: poster
+          type: string
+          optional: true
+          remove_empty: true
+    _inputs:
+      ratio:
+        type: select
+        options:
+          values: [16 / 9, 16 / 10, 4 / 3, 1 / 1]
   link_cards:
     template: mdx_component
     inline: false

@@ -1,0 +1,69 @@
+---
+// A captioned, GIF-style screen recording for help articles. Sources are static
+// files under /public/videos/ (compressed MP4, plus an optional smaller WebM).
+// Autoplays muted-and-looping only for visitors who allow motion; the controls
+// stay visible either way so playback can always be paused (WCAG 2.2.2).
+interface Props {
+  /** Accessible description of what the recording shows. */
+  label: string;
+  /** Caption shown beneath the video. */
+  caption?: string;
+  /** Aspect ratio, e.g. "16 / 10". */
+  ratio?: string;
+  /** Public path to the MP4 source, e.g. "/videos/help/demo.mp4". */
+  src: string;
+  /** Optional WebM source, offered to browsers first (smaller). */
+  webmSrc?: string;
+  /** Public path to the poster frame shown before playback. */
+  poster?: string;
+}
+const { label, caption, ratio = '16 / 9', src, webmSrc, poster }: Props = Astro.props;
+---
+
+<figure class="help-video">
+  <video
+    class="help-video-player"
+    style={`aspect-ratio:${ratio}`}
+    controls
+    loop
+    muted
+    playsinline
+    preload="metadata"
+    poster={poster}
+    aria-label={label}
+  >
+    {webmSrc && <source src={webmSrc} type="video/webm" />}
+    <source src={src} type="video/mp4" />
+  </video>
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<script>
+  // Start playback from JS rather than an `autoplay` attribute so reduced-motion
+  // visitors (and no-JS visitors) get a still poster with controls instead.
+  if (window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+    document.querySelectorAll<HTMLVideoElement>('.help-video-player').forEach((video) => {
+      void video.play().catch(() => {});
+    });
+  }
+</script>
+
+<style>
+  .help-video {
+    margin: 1.75rem 0;
+  }
+  .help-video-player {
+    display: block;
+    width: 100%;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    background: var(--color-muted);
+    box-shadow: var(--shadow-md);
+  }
+  .help-video figcaption {
+    margin-top: 12px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--color-muted-foreground);
+  }
+</style>
