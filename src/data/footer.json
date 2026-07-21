@@ -23,7 +23,7 @@
       "heading": "Get in touch",
       "links": [
         { "label": "Contact us", "href": "/contact" },
-        { "label": "Help Center", "href": "/help" },
+        { "label": "Help Center", "href": "https://help.innerexplorer.com/" },
         { "label": "FAQ", "href": "/faq" },
         { "label": "Donate", "href": "/donate" },
         { "label": "Newsletter", "href": "/newsletter" }

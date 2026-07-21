@@ -1,20 +1,38 @@
 // @ts-check
+// Main marketing site. The Help Center is a SECOND build from this repo
+// (astro.help.config.mjs) served at help.innerexplorer.com — shared integrations
+// live in astro.config.shared.mjs so the two builds cannot drift.
 import { defineConfig } from 'astro/config';
-
-import react from '@astrojs/react';
-import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
-import mdx from '@astrojs/mdx';
-import AutoImport from 'astro-auto-import';
-import editableRegions from '@cloudcannon/editable-regions/astro-integration';
+import { MAIN_SITE } from './src/lib/site';
+import { sharedIntegrations, sharedPrefetch, sharedVite } from './astro.config.shared.mjs';
+
+// CloudCannon editing builds only: the production main build excludes the Help
+// Center (it lives on help.innerexplorer.com), but editors still preview help
+// articles inside this site at /help/… — so inject those routes when CloudCannon
+// builds (it sets CLOUDCANNON_BUILD). HELP_LINK_PREFIX keeps in-editor article
+// links navigable at /help/…; the standalone help build omits it (root-level URLs).
+/** @returns {import('astro').AstroIntegration} */
+function cloudCannonHelpRoutes() {
+  return {
+    name: 'cloudcannon-help-routes',
+    hooks: {
+      'astro:config:setup': ({ injectRoute }) => {
+        if (!process.env.CLOUDCANNON_BUILD) return;
+        process.env.HELP_LINK_PREFIX = '/help';
+        injectRoute({ pattern: '/help', entrypoint: './src-help/pages/index.astro' });
+        injectRoute({ pattern: '/help/[slug]', entrypoint: './src-help/pages/[slug].astro' });
+      },
+    },
+  };
+}
 
 // https://astro.build/config
 export default defineConfig({
-  // TODO: confirm production domain. Drives canonical URLs + sitemap.
-  site: 'https://www.innerexplorer.org',
+  // Production domain (confirmed 2026-07). Drives canonical URLs + sitemap.
+  site: MAIN_SITE,
 
-  // Snappier marketing navigation; prefetch on link hover.
-  prefetch: { prefetchAll: true, defaultStrategy: 'hover' },
+  prefetch: sharedPrefetch,
 
   // The /support FAQ moved to /faq (the Help Center now owns guided how-to docs).
   // Netlify serves a true 301 (netlify.toml); this keeps dev + preview in sync.
@@ -22,34 +40,10 @@ export default defineConfig({
 
   // Keep the internal styleguide out of the sitemap (it also carries noindex).
   integrations: [
-    editableRegions(),
-    react(),
+    ...sharedIntegrations(),
     sitemap({ filter: (page) => !page.includes('/styleguide') }),
-    // CloudCannon's Content Editor should never expose source-level imports. Keep
-    // every component authors can insert available to MDX at build time instead.
-    AutoImport({
-      imports: [
-        './src/components/blocks/Figure.astro',
-        './src/components/blocks/PullQuote.astro',
-        './src/components/blocks/ResourceCard.astro',
-        {
-          './src/components/blocks/blog/ArticleStats.astro': [['default', 'StatRow']],
-        },
-        './src/components/blocks/blog/AudioPractice.astro',
-        './src/components/blocks/help/Accordion.astro',
-        './src/components/blocks/help/ActionLinks.astro',
-        './src/components/blocks/help/Callout.astro',
-        './src/components/blocks/help/CardGrid.astro',
-        './src/components/blocks/help/HelpFigure.astro',
-        './src/components/blocks/help/HelpVideo.astro',
-        './src/components/blocks/help/LinkCards.astro',
-        './src/components/blocks/help/Steps.astro',
-      ],
-    }),
-    mdx(),
+    cloudCannonHelpRoutes(),
   ],
 
-  vite: {
-    plugins: [tailwindcss()],
-  },
+  vite: sharedVite,
 });

@@ -12,7 +12,7 @@
 import { readFileSync, readdirSync } from 'node:fs';
 import { join, extname } from 'node:path';
 
-const SCAN_DIRS = ['src'];
+const SCAN_DIRS = ['src', 'src-help'];
 const EXTS = new Set(['.astro', '.tsx', '.jsx']);
 const IGNORE = 'drift-ignore-next-line';
 

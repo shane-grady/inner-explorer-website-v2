@@ -1,16 +1,23 @@
 ---
 import { getCollection, render } from 'astro:content';
-import PageLayout from '../../layouts/PageLayout.astro';
-import JsonLd from '../../components/seo/JsonLd.astro';
-import HelpShell from '../../components/blocks/help/HelpShell.astro';
-import ArticleToc from '../../components/blocks/blog/ArticleToc.astro';
-import Breadcrumb from '../../components/primitives/Breadcrumb.astro';
-import HelpActions from '../../components/blocks/help/HelpActions.astro';
-import HelpPrint from '../../components/blocks/help/HelpPrint.astro';
-import PrevNext from '../../components/blocks/help/PrevNext.astro';
-import { buildHelpNav, flatHelpOrder, groupLabel } from '../../lib/help';
-import { readingTime } from '../../lib/reading-time';
-import { breadcrumbSchema, organizationSchema } from '../../lib/schema';
+import HelpSiteLayout from '../layouts/HelpSiteLayout.astro';
+import JsonLd from '../../src/components/seo/JsonLd.astro';
+import HelpShell from '../../src/components/blocks/help/HelpShell.astro';
+import ArticleToc from '../../src/components/blocks/blog/ArticleToc.astro';
+import Breadcrumb from '../../src/components/primitives/Breadcrumb.astro';
+import HelpActions from '../../src/components/blocks/help/HelpActions.astro';
+import HelpPrint from '../../src/components/blocks/help/HelpPrint.astro';
+import PrevNext from '../../src/components/blocks/help/PrevNext.astro';
+import {
+  buildHelpNav,
+  flatHelpOrder,
+  groupLabel,
+  helpHref,
+  helpRootHref,
+} from '../../src/lib/help';
+import { readingTime } from '../../src/lib/reading-time';
+import { organizationSchema } from '../../src/lib/schema';
+import { HELP_SITE, MAIN_SITE } from '../../src/lib/site';
 
 export async function getStaticPaths() {
   const entries = await getCollection('help', ({ data }) => !data.draft);
@@ -41,12 +48,14 @@ const groupName = groupLabel(d.group);
 const pageTitle = d.seoTitle ?? `${d.title} — Help Center — Inner Explorer`;
 const pageDescription = d.seoDescription ?? d.blurb;
 
-const base = new URL(Astro.site ?? 'https://www.innerexplorer.org').origin;
-const path = `/help/${entry.id}/`;
+// Articles live at the root of the help subdomain; "Home" in the structured data
+// is the marketing site on the apex domain.
+const base = new URL(Astro.site ?? HELP_SITE).origin;
+const path = helpHref(entry.id);
 
 // Breadcrumb stays two-level (Help Center / page); the section is shown by the green
 // eyebrow below, so repeating it as a non-clickable crumb would just be redundant.
-const crumbs = [{ label: 'Help Center', href: '/help' }, { label: d.title }];
+const crumbs = [{ label: 'Help Center', href: helpRootHref }, { label: d.title }];
 
 const articleLd = {
   '@context': 'https://schema.org',
@@ -55,17 +64,21 @@ const articleLd = {
   description: pageDescription,
   inLanguage: 'en-US',
   mainEntityOfPage: `${base}${path}`,
-  isPartOf: { '@type': 'WebSite', name: 'Inner Explorer Help Center', url: `${base}/help/` },
-  publisher: organizationSchema(Astro.site),
+  isPartOf: { '@type': 'WebSite', name: 'Inner Explorer Help Center', url: `${base}/` },
+  publisher: organizationSchema(MAIN_SITE),
 };
-const crumbLd = breadcrumbSchema(Astro.site, [
-  { name: 'Home', path: '/' },
-  { name: 'Help Center', path: '/help/' },
-  { name: d.title, path },
-]);
+const crumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${MAIN_SITE}/` },
+    { '@type': 'ListItem', position: 2, name: 'Help Center', item: `${base}/` },
+    { '@type': 'ListItem', position: 3, name: d.title, item: `${base}${path}` },
+  ],
+};
 ---
 
-<PageLayout title={pageTitle} description={pageDescription} type="article">
+<HelpSiteLayout title={pageTitle} description={pageDescription} type="article">
   <JsonLd schema={articleLd} slot="head" />
   <JsonLd schema={crumbLd} slot="head" />
 
@@ -92,7 +105,7 @@ const crumbLd = breadcrumbSchema(Astro.site, [
       </Fragment>
     </HelpShell>
   </div>
-</PageLayout>
+</HelpSiteLayout>
 
 <style>
   .help-article {

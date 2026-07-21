@@ -1,0 +1,73 @@
+---
+// Slim chrome for the standalone Help Center site (help.innerexplorer.com).
+// Reuses the shared BaseLayout (SEO, analytics, theme, global styles, JSON-LD)
+// but swaps the full marketing Header/Footer for a minimal bar: those components
+// link with root-relative hrefs (/pricing, /about, …) that would 404 on this
+// subdomain — and slim chrome is the standard help-center pattern anyway.
+import { Image } from 'astro:assets';
+import BaseLayout from '../../src/layouts/BaseLayout.astro';
+import { MAIN_SITE } from '../../src/lib/site';
+import { helpRootHref } from '../../src/lib/help';
+import mark from '../../src/assets/brand/inner-explorer-mark.png';
+
+interface Props {
+  title: string;
+  description?: string;
+  type?: 'website' | 'article';
+  noindex?: boolean;
+}
+const { title, description, type = 'website', noindex }: Props = Astro.props;
+
+// Display form of the marketing-site link (no protocol noise in the UI).
+const mainSiteLabel = new URL(MAIN_SITE).host.replace(/^www\./, '');
+---
+
+<BaseLayout title={title} description={description} type={type} noindex={noindex}>
+  <slot name="head" slot="head" />
+  <div class="appearance-light flex min-h-screen flex-col bg-background">
+    <a
+      href="#main"
+      class="sr-only rounded-md focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:bg-card focus:px-4 focus:py-2 focus:text-foreground focus:shadow-md"
+    >
+      Skip to content
+    </a>
+
+    <header class="border-b border-border bg-card">
+      <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-4">
+        <a href={helpRootHref} class="flex items-center gap-3 no-underline">
+          <Image src={mark} alt="" width={32} height={32} />
+          <span class="text-base font-semibold text-foreground">
+            Inner Explorer <span class="font-normal text-muted-foreground">Help Center</span>
+          </span>
+        </a>
+        <a
+          href={MAIN_SITE}
+          class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+        >
+          {mainSiteLabel} &rarr;
+        </a>
+      </div>
+    </header>
+
+    <main id="main" class="flex-1">
+      <slot />
+    </main>
+
+    <footer class="border-t border-border bg-card">
+      <div
+        class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-6 py-6 text-sm text-muted-foreground"
+      >
+        <p class="m-0">&copy; {new Date().getFullYear()} Inner Explorer, Inc.</p>
+        <p class="m-0 flex flex-wrap gap-6">
+          <a class="transition-colors hover:text-foreground" href={MAIN_SITE}>{mainSiteLabel}</a>
+          <a
+            class="transition-colors hover:text-foreground"
+            href="mailto:support@innerexplorer.org"
+          >
+            support@innerexplorer.org
+          </a>
+        </p>
+      </div>
+    </footer>
+  </div>
+</BaseLayout>

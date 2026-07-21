@@ -1,0 +1,29 @@
+# Netlify config for the HELP CENTER site (help.innerexplorer.com) — a second
+# Netlify site on this same repo. Set the site's "base directory" to `sites/help`
+# in the Netlify UI so this file (not the repo-root netlify.toml) governs it.
+# Paths below are relative to that base.
+[build]
+  command = "cd ../.. && pnpm install && pnpm build:help"
+  publish = "../../dist-help"
+
+[build.environment]
+  NODE_VERSION = "24"
+
+# Long-cache Astro's content-hashed assets; they never change for a given hash.
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Baseline security headers for all responses.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "SAMEORIGIN"
+
+# X-Robots-Tag: noindex for *.netlify.app hosts is added per-request by
+# sites/help/netlify/edge-functions/noindex-netlify-host.ts (a copy of the root
+# one — with a base directory set, Netlify only discovers edge functions under
+# <base>/netlify/edge-functions).
