@@ -45,6 +45,16 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     X-Frame-Options = "SAMEORIGIN"
 
+# PRE-LAUNCH: noindex EVERY host (including the production custom domain) until the
+# site launches. DELETE this block at launch — the netlify.app-only edge function
+# below keeps staging/previews noindexed permanently, so removing this re-opens
+# indexing for the production domain only.
+# robots.txt must keep `Allow: /` so crawlers can fetch pages and see this header.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Robots-Tag = "noindex"
+
 # X-Robots-Tag: noindex for *.netlify.app hosts (staging / previews / branch deploys)
 # is added per-request by netlify/edge-functions/noindex-netlify-host.ts (declared
 # inline via its `config` export). [[headers]] here can't condition on Host, and the
