@@ -11,6 +11,7 @@ export default tseslint.config(
   {
     ignores: [
       'dist/',
+      'dist-help/',
       '.astro/',
       'node_modules/',
       '.netlify/',

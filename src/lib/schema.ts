@@ -1,7 +1,8 @@
 // schema.org structured-data builders. Keep output minimal and accurate.
+import { MAIN_SITE } from './site';
 
 function origin(site: URL | string | undefined): string {
-  return site ? new URL(site).origin : 'https://www.innerexplorer.org';
+  return site ? new URL(site).origin : MAIN_SITE;
 }
 
 export function organizationSchema(site: URL | string | undefined) {

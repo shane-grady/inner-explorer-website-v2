@@ -1,15 +1,15 @@
 ---
 import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
-import PageLayout from '../../layouts/PageLayout.astro';
-import JsonLd from '../../components/seo/JsonLd.astro';
-import HelpShell from '../../components/blocks/help/HelpShell.astro';
-import HelpFigure from '../../components/blocks/help/HelpFigure.astro';
-import { buildHelpNav, helpGroups } from '../../lib/help';
-import { readingTime } from '../../lib/reading-time';
-import { breadcrumbSchema } from '../../lib/schema';
-import mark from '../../assets/brand/inner-explorer-mark.png';
-import heroImg from '../../assets/images/research/hero-classroom.jpg';
+import HelpSiteLayout from '../layouts/HelpSiteLayout.astro';
+import JsonLd from '../../src/components/seo/JsonLd.astro';
+import HelpShell from '../../src/components/blocks/help/HelpShell.astro';
+import HelpFigure from '../../src/components/blocks/help/HelpFigure.astro';
+import { buildHelpNav, helpGroups, helpHref } from '../../src/lib/help';
+import { readingTime } from '../../src/lib/reading-time';
+import { HELP_SITE, MAIN_SITE } from '../../src/lib/site';
+import mark from '../../src/assets/brand/inner-explorer-mark.png';
+import heroImg from '../../src/assets/images/research/hero-classroom.jpg';
 
 const entries = await getCollection('help', ({ data }) => !data.draft);
 const nav = buildHelpNav(entries);
@@ -25,7 +25,7 @@ const sections = helpGroups
       .map((e) => ({
         title: e.data.title,
         blurb: e.data.blurb,
-        href: `/help/${e.id}/`,
+        href: helpHref(e.id),
         read: e.data.readingTime ?? readingTime(e.body),
         search: `${e.data.title} ${e.data.blurb} ${e.data.keywords.join(' ')}`.toLowerCase(),
       })),
@@ -36,13 +36,19 @@ const pageTitle = 'Help Center — Inner Explorer';
 const pageDescription =
   'Guides, best practices, and answers for everyone who uses Inner Explorer — educators leading the daily practice, administrators rolling it out, and families bringing it home.';
 
-const schema = breadcrumbSchema(Astro.site, [
-  { name: 'Home', path: '/' },
-  { name: 'Help Center', path: '/help/' },
-]);
+// "Home" is the marketing site on the apex domain; this subdomain is the Help Center.
+const base = new URL(Astro.site ?? HELP_SITE).origin;
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${MAIN_SITE}/` },
+    { '@type': 'ListItem', position: 2, name: 'Help Center', item: `${base}/` },
+  ],
+};
 ---
 
-<PageLayout title={pageTitle} description={pageDescription}>
+<HelpSiteLayout title={pageTitle} description={pageDescription}>
   <JsonLd schema={schema} slot="head" />
 
   <div class="appearance-light">
@@ -140,7 +146,7 @@ const schema = breadcrumbSchema(Astro.site, [
       </div>
     </HelpShell>
   </div>
-</PageLayout>
+</HelpSiteLayout>
 
 <style>
   .help-home {

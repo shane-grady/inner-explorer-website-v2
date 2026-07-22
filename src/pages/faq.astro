@@ -427,7 +427,7 @@ const sections: Section[] = [
       {
         q: 'Is there a help center?',
         aHtml:
-          'Yes. Our <a href="/help">Help Center</a> has searchable step-by-step guides for getting started, leading the daily practice, rolling out across a district, and practicing at home. You can also reach our partner success team, who answer most questions the same business day.',
+          'Yes. Our <a href="https://help.innerexplorer.com/">Help Center</a> has searchable step-by-step guides for getting started, leading the daily practice, rolling out across a district, and practicing at home. You can also reach our partner success team, who answer most questions the same business day.',
       },
       {
         q: 'How do I reach a real person?',
@@ -573,7 +573,7 @@ const pageTitle = 'FAQ — Inner Explorer';
 const pageDescription =
   'Answers to the questions teachers, leaders, and families ask us most about Inner Explorer’s daily K–12 audio-guided mindfulness practice.';
 
-const base = new URL(Astro.site ?? 'https://www.innerexplorer.org').origin;
+const base = new URL(Astro.site ?? 'https://www.innerexplorer.com').origin;
 
 const stripTags = (html: string): string => html.replace(/<[^>]*>/g, '');
 

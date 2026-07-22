@@ -11,6 +11,9 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "dev:help": "astro dev --config astro.help.config.mjs --port 4322",
+    "build:help": "astro build --config astro.help.config.mjs",
+    "preview:help": "astro preview --config astro.help.config.mjs --port 4322",
     "astro": "astro",
     "typecheck": "astro check",
     "lint": "eslint .",
@@ -18,7 +21,8 @@
     "lint:drift": "node scripts/check-drift.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "check": "pnpm typecheck && pnpm lint && pnpm lint:drift && pnpm format:check"
+    "check": "pnpm typecheck && pnpm lint && pnpm lint:drift && pnpm format:check",
+    "build:all": "pnpm build && pnpm build:help"
   },
   "dependencies": {
     "@amplitude/unified": "^1.1.24",

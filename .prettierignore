@@ -1,4 +1,5 @@
 dist/
+dist-help/
 .astro/
 node_modules/
 .netlify/

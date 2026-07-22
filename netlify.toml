@@ -6,6 +6,22 @@
 [build.environment]
   NODE_VERSION = "24"
 
+# The Help Center moved to its own subdomain (second Netlify site built from this
+# repo — see sites/help/netlify.toml). 301 every old /help URL to its new home so
+# links + search indexing carry over; article slugs are unchanged, only the prefix
+# drops (/help/classroom-setup/ → help.innerexplorer.com/classroom-setup/).
+[[redirects]]
+  from = "/help"
+  to = "https://help.innerexplorer.com/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/help/*"
+  to = "https://help.innerexplorer.com/:splat"
+  status = 301
+  force = true
+
 # The /support FAQ moved to /faq (the Help Center now owns guided how-to docs).
 # 301 so existing links + search indexing carry over. `force` wins over the static
 # redirect page Astro also emits for /support.

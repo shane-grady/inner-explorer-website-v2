@@ -1,5 +1,6 @@
-# build output
+# build output (dist-help = the Help Center subdomain build, astro.help.config.mjs)
 dist/
+dist-help/
 # generated types
 .astro/
 # generated CloudCannon configuration schemas (migration reference only)

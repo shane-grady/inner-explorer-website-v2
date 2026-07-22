@@ -467,30 +467,11 @@ const series = defineCollection({
   },
 });
 
-// Help Center — guided how-to documentation. ONE MDX file per article
-// (src/content/help/<slug>.mdx) drives a `/help/<slug>` page; frontmatter carries
-// the metadata that builds the sidebar nav, home cards, search index, and prev/next.
-// Article bodies are MDX authored with the shared doc components (Callout, Steps,
-// CardGrid, LinkCards, Accordion, HelpFigure). `group` ties an article to one of the
-// audience sections defined in src/lib/help.ts. This is the CMS seam.
-const help = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/help' }),
-  schema: z.object({
-    title: z.string(),
-    group: z.enum(['start', 'educators', 'admins', 'families']),
-    // Card description on the home grid + sidebar context.
-    blurb: z.string(),
-    // Sort order within the group (sidebar + home + prev/next sequencing).
-    order: z.number().default(0),
-    // Extra search terms beyond title/blurb (synonyms, feature names).
-    keywords: z.array(z.string()).default([]),
-    // Optional manual reading-time override (else computed from the body).
-    readingTime: z.string().optional(),
-    // SEO (optional — falls back to title + blurb).
-    seoTitle: z.string().optional(),
-    seoDescription: z.string().optional(),
-    draft: z.boolean().default(false),
-  }),
-});
+// Help Center articles render on the help.innerexplorer.com build (see
+// astro.help.config.mjs), but the collection stays registered here too: the
+// shared definition lives in src/lib/help-collection.ts, and keeping it in this
+// config gives CloudCannon editing builds (which inject /help/… preview routes)
+// and `astro check` the `help` collection types.
+import { helpCollection as help } from './lib/help-collection';
 
 export const collections = { blog, testimonials, narrators, caseStudies, series, help };

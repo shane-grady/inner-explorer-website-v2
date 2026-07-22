@@ -102,6 +102,26 @@
       "runtimeExecutable": "pnpm",
       "runtimeArgs": ["exec", "astro", "dev", "--port", "4461"],
       "port": 4461
+    },
+    {
+      "name": "ie-help-subdomain",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "exec",
+        "astro",
+        "dev",
+        "--config",
+        "astro.help.config.mjs",
+        "--port",
+        "4470"
+      ],
+      "port": 4470
+    },
+    {
+      "name": "ie-main-postsplit",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["exec", "astro", "dev", "--port", "4471"],
+      "port": 4471
     }
   ]
 }
