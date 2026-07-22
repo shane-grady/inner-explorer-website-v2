@@ -8,6 +8,9 @@
 
 [build.environment]
   NODE_VERSION = "24"
+  # pnpm is normally auto-detected from a pnpm-lock.yaml in the BASE directory —
+  # ours lives at the repo root, so opt in explicitly or `pnpm` won't be installed.
+  NETLIFY_USE_PNPM = "true"
 
 # Long-cache Astro's content-hashed assets; they never change for a given hash.
 [[headers]]
