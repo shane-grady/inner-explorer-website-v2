@@ -135,7 +135,7 @@ const { groups, activeSlug, showToc = false }: Props = Astro.props;
   .help-grid {
     max-width: 1280px;
     margin: 0 auto;
-    padding: 8px 32px 96px;
+    padding: 56px 32px 96px;
     display: grid;
     grid-template-columns: 264px minmax(0, 1fr);
     gap: 52px;
@@ -145,12 +145,13 @@ const { groups, activeSlug, showToc = false }: Props = Astro.props;
     grid-template-columns: 264px minmax(0, 1fr) 200px;
   }
 
-  /* Sticky rails — sit just below the floating glass nav. */
+  /* Sticky rails — the help-site header scrolls away, so a modest offset from the
+     viewport top keeps the rails breathing without a phantom nav-height gap. */
   .help-side-inner,
   .help-toc-inner {
     position: sticky;
-    top: 88px;
-    max-height: calc(100vh - 104px);
+    top: 32px;
+    max-height: calc(100vh - 48px);
     overflow-y: auto;
     overscroll-behavior: contain;
   }
@@ -342,7 +343,7 @@ const { groups, activeSlug, showToc = false }: Props = Astro.props;
     .help-grid {
       grid-template-columns: 1fr;
       gap: 24px;
-      padding: 8px 20px 64px;
+      padding: 32px 20px 64px;
     }
     .help.has-toc .help-grid {
       grid-template-columns: 1fr;
