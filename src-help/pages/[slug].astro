@@ -45,7 +45,7 @@ const tocItems = headings.filter((h) => h.depth === 2).map((h) => ({ slug: h.slu
 const reading = d.readingTime ?? readingTime(entry.body);
 const groupName = groupLabel(d.group);
 
-const pageTitle = d.seoTitle ?? `${d.title} — Help Center — Inner Explorer`;
+const pageTitle = d.seoTitle ?? `${d.title} | Help Center | Inner Explorer`;
 const pageDescription = d.seoDescription ?? d.blurb;
 
 // Articles live at the root of the help subdomain; "Home" in the structured data

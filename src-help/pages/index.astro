@@ -32,9 +32,9 @@ const sections = helpGroups
   }))
   .filter((s) => s.cards.length > 0);
 
-const pageTitle = 'Help Center — Inner Explorer';
+const pageTitle = 'Help Center | Inner Explorer';
 const pageDescription =
-  'Guides, best practices, and answers for everyone who uses Inner Explorer — educators leading the daily practice, administrators rolling it out, and families bringing it home.';
+  'Guides, best practices, and answers for everyone who uses Inner Explorer: educators leading the daily practice, administrators rolling it out, and families bringing it home.';
 
 // "Home" is the marketing site on the apex domain; this subdomain is the Help Center.
 const base = new URL(Astro.site ?? HELP_SITE).origin;
@@ -57,7 +57,7 @@ const schema = {
         <p class="help-home-eyebrow">Inner Explorer Help Center</p>
         <h1 class="help-home-title">How can we help<br />you explore today?</h1>
         <p class="help-home-intro">
-          Guides, best practices, and answers for everyone who uses Inner Explorer — educators
+          Guides, best practices, and answers for everyone who uses Inner Explorer: educators
           leading the daily practice, administrators rolling it out, and families bringing it home.
         </p>
 
@@ -138,7 +138,7 @@ const schema = {
             <p class="help-home-banner-title">Still need a hand?</p>
             <p class="help-home-banner-text">
               Reach our support team at{' '}
-              <a href="mailto:support@innerexplorer.org">support@innerexplorer.org</a> — we typically
+              <a href="mailto:support@innerexplorer.org">support@innerexplorer.org</a>; we typically
               reply within one school day.
             </p>
           </div>
