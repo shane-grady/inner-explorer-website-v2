@@ -34,7 +34,7 @@ const sections = helpGroups
 
 const pageTitle = 'Help Center | Inner Explorer';
 const pageDescription =
-  'Guides, best practices, and answers for everyone who uses Inner Explorer: educators leading the daily practice, administrators rolling it out, and families bringing it home.';
+  'Guides, best practices, and answers for everyone who uses Inner Explorer: educators practicing alongside their students, administrators rolling it out, and families bringing it home.';
 
 // "Home" is the marketing site on the apex domain; this subdomain is the Help Center.
 const base = new URL(Astro.site ?? HELP_SITE).origin;
@@ -58,7 +58,8 @@ const schema = {
         <h1 class="help-home-title">How can we help<br />you explore today?</h1>
         <p class="help-home-intro">
           Guides, best practices, and answers for everyone who uses Inner Explorer: educators
-          leading the daily practice, administrators rolling it out, and families bringing it home.
+          practicing alongside their students, administrators rolling it out, and families bringing
+          it home.
         </p>
 
         <search class="help-home-search">
