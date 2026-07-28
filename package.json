@@ -19,9 +19,10 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "lint:drift": "node scripts/check-drift.mjs",
+    "lint:mirrors": "node scripts/check-mirrors.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "check": "pnpm typecheck && pnpm lint && pnpm lint:drift && pnpm format:check",
+    "check": "pnpm typecheck && pnpm lint && pnpm lint:drift && pnpm lint:mirrors && pnpm format:check",
     "build:all": "pnpm build && pnpm build:help"
   },
   "dependencies": {

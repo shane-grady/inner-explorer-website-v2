@@ -5,6 +5,16 @@
 [build]
   command = "cd ../.. && pnpm install && pnpm build:help"
   publish = "../../dist-help"
+  # ALWAYS build. Netlify's default for a site with a base directory is to cancel the
+  # build when nothing under that base changed ("no content change") — which is wrong
+  # here: this directory holds only config, while the build's real inputs are the whole
+  # repo (src/, src-help/, astro.help.config.mjs, astro.config.shared.mjs, package.json,
+  # the lockfile). That default silently dropped the Help Center copy changes in PRs #57
+  # and #58 on 2026-07-23. An `ignore` command cancels on exit 0 and builds on non-zero,
+  # so `exit 1` opts out of the heuristic entirely. Do not "optimize" this into a scoped
+  # git diff — the input list is the repo, and a stale list fails silently (no build, no
+  # error, just old content live).
+  ignore = "exit 1"
 
 [build.environment]
   NODE_VERSION = "24"
