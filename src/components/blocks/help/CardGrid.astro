@@ -24,9 +24,9 @@ const { columns = 2, items }: Props = Astro.props;
   .help-cards[data-columns='2'] {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  /* With an odd number of cards, let the last one span both columns so the
-     grid ends flush instead of with a dangling half-width card. */
-  .help-cards[data-columns='2'] > :global(:last-child:nth-child(odd)) {
+  /* With an odd number of cards, let the first one span both columns so the
+     grid stays flush instead of leaving a dangling half-width card. */
+  .help-cards[data-columns='2'] > :global(:first-child:nth-last-child(odd)) {
     grid-column: 1 / -1;
   }
   .help-cards[data-columns='3'] {
