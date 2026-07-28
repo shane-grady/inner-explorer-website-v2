@@ -19,5 +19,8 @@ jobs:
       - run: pnpm typecheck
       - run: pnpm lint
       - run: pnpm lint:drift
+      - run: pnpm lint:mirrors
       - run: pnpm format:check
-      - run: pnpm build
+      # Both sites, so a change that breaks the Help Center build (shared components,
+      # help content schema, src-help routes) fails the PR instead of the deploy.
+      - run: pnpm build:all
