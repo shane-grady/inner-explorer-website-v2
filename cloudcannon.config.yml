@@ -480,6 +480,8 @@ _select_data:
       id: admins
     - name: Families
       id: families
+    - name: Policies
+      id: policies
   languages:
     - English
     - Spanish
@@ -1908,6 +1910,23 @@ _snippets:
         type: select
         options:
           values: [16 / 9, 4 / 3, 1 / 1]
+  help_table:
+    template: mdx_paired_component
+    inline: false
+    preview:
+      text: [{ key: label }, Help table]
+      icon: table_chart
+    picker_preview:
+      text: [Help table]
+      icon: [table_chart]
+    definitions:
+      component_name: HelpTable
+      content_key: table_markdown
+      named_args:
+        - editor_key: label
+          type: string
+          optional: true
+          remove_empty: true
   help_video:
     template: mdx_component
     inline: false

@@ -1335,3 +1335,28 @@ component, editable-region, missing-preview, or “Site not built” cards remai
 generated routes also return rendered HTML from the testing domain, and the production
 manifest contains every referenced asset/media file. Full evidence is in
 `.cloudcannon/migration/full-verification-2026-07-14.md`.
+
+## Help Center privacy policy page (2026-08-07)
+
+Goal: publish the copy from the Google Doc `Inner_Explorer_Privacy_Policy_UPDATED_DRAFT_2026`
+(effective August 6, 2026) as a Help Center article.
+
+- [x] Add a `policies` help group (`lib/help.ts` + `help-collection.ts` enum + CloudCannon
+      `_select_data.help_groups`) so reference documents sit outside the audience sections.
+- [x] Add `blocks/help/HelpTable.astro` — `.prose-help` had no table treatment, and the
+      policy has two. Token-driven, `overflow-x` scroll region, registered in the shared
+      AutoImport list + a `help_table` CloudCannon snippet.
+- [x] `src/content/help/privacy-policy.mdx` — full policy, 18 `##` sections, the "we do not
+      collect student information" box as a `Callout`, both source tables as `HelpTable`.
+- [x] Verified: `pnpm check` 0 errors/0 warnings, drift check passed, `pnpm build:help`
+      emits `/privacy-policy/`; page renders with the Policies sidebar group, an 18-item
+      TOC, both real `<table>` elements; at 375px the wide table scrolls inside its own
+      container with no sideways page scroll.
+
+**Review.** Copy is verbatim from the source doc apart from three deliberate changes:
+the two em dashes were rewritten as sentence breaks / commas per house style, and the
+explicit enumerations (use purposes, access/correction/deletion rights) render as lists
+instead of semicolon runs. Open question left for Juliana: the callout keeps the doc's
+legal phrase "educator-led, whole-classroom program", which reads against the house rule
+that the audio guide leads the practice — flagged rather than silently reworded, since it
+is the legal characterization of who operates the product.
