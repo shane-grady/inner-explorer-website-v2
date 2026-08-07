@@ -5,14 +5,17 @@
 // truth for ordering: group order (below) → then each article's `order` frontmatter.
 import type { CollectionEntry } from 'astro:content';
 
-export type HelpGroupId = 'start' | 'educators' | 'admins' | 'families';
+export type HelpGroupId = 'start' | 'educators' | 'admins' | 'families' | 'policies';
 
-/** Audience sections, in display order. `label` shows in the sidebar + home headings. */
+/** Audience sections, in display order. `label` shows in the sidebar + home headings.
+ *  `policies` is not an audience: it holds the reference documents (privacy, terms)
+ *  every audience may need, so it sits last. */
 export const helpGroups: { id: HelpGroupId; label: string }[] = [
   { id: 'start', label: 'Getting started' },
   { id: 'educators', label: 'For educators' },
   { id: 'admins', label: 'For administrators' },
   { id: 'families', label: 'For families' },
+  { id: 'policies', label: 'Policies' },
 ];
 
 const groupOrder = new Map(helpGroups.map((g, i) => [g.id, i]));

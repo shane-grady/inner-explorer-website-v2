@@ -18,7 +18,7 @@ export const helpCollection = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/help' }),
   schema: z.object({
     title: z.string(),
-    group: z.enum(['start', 'educators', 'admins', 'families']),
+    group: z.enum(['start', 'educators', 'admins', 'families', 'policies']),
     // Card description on the home grid + sidebar context.
     blurb: z.string(),
     // Sort order within the group (sidebar + home + prev/next sequencing).

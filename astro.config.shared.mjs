@@ -28,6 +28,7 @@ export const autoImportConfig = {
     './src/components/blocks/help/Callout.astro',
     './src/components/blocks/help/CardGrid.astro',
     './src/components/blocks/help/HelpFigure.astro',
+    './src/components/blocks/help/HelpTable.astro',
     './src/components/blocks/help/HelpVideo.astro',
     './src/components/blocks/help/LinkCards.astro',
     './src/components/blocks/help/Steps.astro',
