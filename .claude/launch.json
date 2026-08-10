@@ -118,6 +118,21 @@
       "port": 4470
     },
     {
+      "_comment": "Same help subdomain app as ie-help-subdomain, on a second port so it can run alongside another worktree's copy (4470 is often already taken). astro dev ignores the PORT env var, so autoPort does not work here — the port must be passed as a flag.",
+      "name": "ie-help-subdomain-4473",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "exec",
+        "astro",
+        "dev",
+        "--config",
+        "astro.help.config.mjs",
+        "--port",
+        "4473"
+      ],
+      "port": 4473
+    },
+    {
       "name": "ie-main-postsplit",
       "runtimeExecutable": "pnpm",
       "runtimeArgs": ["exec", "astro", "dev", "--port", "4471"],
