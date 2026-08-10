@@ -7,17 +7,30 @@ interface Props {
   type?: CalloutType;
   /** Override the auto label (defaults from `type`). */
   label?: string;
+  /**
+   * Promotes the aside from a quiet note to a signposted one: renders a
+   * sentence-case heading in place of the micro eyebrow. Use when the callout
+   * answers a question readers arrive with (and usually pair it with an
+   * `<ActionLinks>` in the body).
+   */
+  heading?: string;
 }
 const labels: Record<CalloutType, string> = {
   tip: 'Tip',
   note: 'Note',
   good: 'Good to know',
 };
-const { type = 'tip', label }: Props = Astro.props;
+const { type = 'tip', label, heading }: Props = Astro.props;
 ---
 
 <aside class="callout">
-  <div class="callout-label">{label ?? labels[type]}</div>
+  {
+    heading ? (
+      <p class="callout-heading">{heading}</p>
+    ) : (
+      <div class="callout-label">{label ?? labels[type]}</div>
+    )
+  }
   <div class="callout-body"><slot /></div>
 </aside>
 
@@ -38,6 +51,14 @@ const { type = 'tip', label }: Props = Astro.props;
     text-transform: uppercase;
     color: var(--color-brand-emphasis);
   }
+  .callout-heading {
+    margin: 0 0 6px;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.005em;
+    color: var(--color-brand-emphasis);
+  }
   .callout-body {
     font-size: 15.5px;
     line-height: 1.65;
@@ -49,5 +70,10 @@ const { type = 'tip', label }: Props = Astro.props;
   }
   .callout-body :global(p + p) {
     margin-top: 0.7em;
+  }
+  /* ActionLinks sets its own margin for standalone use in prose; inside the tighter
+     callout padding that reads as a gap, so pull it in. */
+  .callout-body :global(.help-action-links) {
+    margin-top: 16px;
   }
 </style>
