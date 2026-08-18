@@ -40,3 +40,19 @@
 # sites/help/netlify/edge-functions/noindex-netlify-host.ts (a copy of the root
 # one — with a base directory set, Netlify only discovers edge functions under
 # <base>/netlify/edge-functions).
+
+# PRE-LAUNCH: noindex EVERY host (including help.innerexplorer.com) until the Help
+# Center is ready to be indexed. DELETE this block to launch it — the netlify.app-only
+# edge function noted above keeps staging/previews noindexed permanently, so removing
+# this re-opens indexing for the custom domain only.
+#
+# Mirrors the same block in the repo-root netlify.toml, deliberately: without it the
+# custom domain would be fully indexable the moment it is attached, because the edge
+# function only matches hosts ending in `.netlify.app`.
+#
+# robots.txt must keep `Allow: /` so crawlers can fetch pages and see this header — a
+# Disallow would hide the noindex, and Google can index an uncrawled URL from links.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Robots-Tag = "noindex"
