@@ -6,15 +6,20 @@ import satori from 'satori';
 import sharp from 'sharp';
 import { decompress } from 'wawoff2';
 
-// Colors mirror the light-theme tokens in src/styles/global.css (satori cannot read
-// CSS variables; the drift guard does not scan .ts). Keep in sync manually:
-//   BRAND = --brand-600, BRAND_TINT = --brand-50, INK = --neutral-900 (foreground),
-//   MUTED = --neutral-500 (muted-foreground), BORDER = --neutral-300 (border).
-const BRAND = '#1a9a59';
-const BRAND_TINT = '#f0fbf4';
-const INK = 'hsl(220, 20%, 16%)';
-const MUTED = 'hsl(220, 10%, 50%)';
-const BORDER = 'hsl(220, 14%, 88%)';
+// The card uses the site's dark brand surface so shared links read as unmistakably
+// Inner Explorer in a feed of white cards: deep calm green, warm cream serif type,
+// and concentric rings echoing the ring-of-leaves mark (and a breath rippling out).
+// Colors mirror tokens in src/styles/global.css (satori cannot read CSS variables;
+// the drift guard does not scan .ts). Keep in sync manually:
+//   SURFACE_FROM/TO = --voice-featured-bg gradient stops, CREAM = --cream-50,
+//   EYEBROW = --brand-300, GLOW = --brand-600.
+const SURFACE_FROM = '#1a2e1f';
+const SURFACE_TO = '#0e1d14';
+const CREAM = 'hsl(38, 40%, 97%)';
+const EYEBROW = '#86e29e';
+const GLOW = '#1a9a59';
+const MUTED = 'rgba(255, 255, 255, 0.62)';
+const HAIRLINE = 'rgba(255, 255, 255, 0.16)';
 
 /** URL of one article's generated share card (route: pages/open-graph/[slug].png.ts). */
 export const ogImageHref = (slug: string) => `/open-graph/${slug}.png`;
@@ -81,14 +86,61 @@ const el = (type: string, style: Record<string, unknown>, children?: Node[] | st
   props: { style, ...(children !== undefined ? { children } : {}) },
 });
 
+// Concentric rings anchored past the right edge — the ring-of-leaves mark's geometry
+// as a background motif, rippling outward like a breath. Painted before the content
+// so text always sits on top; the root's overflow hidden clips the bleed.
+function rings(): Node[] {
+  const cx = 1005;
+  const cy = 315;
+  return [
+    { d: 380, a: 0.11 },
+    { d: 560, a: 0.085 },
+    { d: 740, a: 0.06 },
+    { d: 920, a: 0.04 },
+  ].map(({ d, a }) =>
+    el('div', {
+      position: 'absolute',
+      left: `${cx - d / 2}px`,
+      top: `${cy - d / 2}px`,
+      width: `${d}px`,
+      height: `${d}px`,
+      borderRadius: '9999px',
+      border: `2px solid rgba(255, 255, 255, ${a})`,
+    }),
+  );
+}
+
 export async function renderOgCard({ eyebrow, title, subtitle }: OgCardInput): Promise<Buffer> {
   const { fonts, markSrc } = await loadAssets();
 
-  // Identity row — mirrors the live site header (mark + semibold / muted wordmark).
-  const identity = el('div', { display: 'flex', alignItems: 'center', gap: '20px' }, [
-    { type: 'img', props: { src: markSrc, width: 56, height: 56 } },
-    el('div', { display: 'flex', alignItems: 'baseline', gap: '12px', fontSize: '28px' }, [
-      el('span', { fontWeight: 600, color: INK }, 'Inner Explorer'),
+  // Soft brand-green glow rising from where the rings originate.
+  const glow = el('div', {
+    position: 'absolute',
+    right: '-160px',
+    top: '35px',
+    width: '760px',
+    height: '560px',
+    backgroundImage: `radial-gradient(circle at center, ${GLOW}2e 0%, ${GLOW}14 45%, ${SURFACE_TO}00 70%)`,
+  });
+
+  // Identity row — the mark on a cream circular chip (it's drawn for light surfaces),
+  // then the site header's semibold / muted wordmark pairing.
+  const identity = el('div', { display: 'flex', alignItems: 'center', gap: '22px' }, [
+    el(
+      'div',
+      {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '64px',
+        height: '64px',
+        borderRadius: '9999px',
+        backgroundColor: CREAM,
+      },
+      [{ type: 'img', props: { src: markSrc, width: 42, height: 42 } }],
+    ),
+    el('div', { display: 'flex', alignItems: 'baseline', gap: '13px', fontSize: '28px' }, [
+      el('span', { fontWeight: 600, color: CREAM }, 'Inner Explorer'),
       el('span', { fontWeight: 500, color: MUTED }, 'Help Center'),
     ]),
   ]);
@@ -104,12 +156,12 @@ export async function renderOgCard({ eyebrow, title, subtitle }: OgCardInput): P
             el(
               'div',
               {
-                fontSize: '22px',
+                fontSize: '21px',
                 fontWeight: 600,
-                letterSpacing: '3px',
+                letterSpacing: '3.5px',
                 textTransform: 'uppercase',
-                color: BRAND,
-                marginBottom: '22px',
+                color: EYEBROW,
+                marginBottom: '24px',
               },
               eyebrow,
             ),
@@ -120,11 +172,11 @@ export async function renderOgCard({ eyebrow, title, subtitle }: OgCardInput): P
         {
           fontFamily: 'Libre Caslon Condensed',
           fontWeight: 400,
-          fontSize: '80px',
-          lineHeight: 1.08,
+          fontSize: '84px',
+          lineHeight: 1.06,
           letterSpacing: '-1px',
-          color: INK,
-          maxWidth: '1020px',
+          color: CREAM,
+          maxWidth: '1000px',
           // satori-specific safety net; current titles wrap to at most 2 lines.
           lineClamp: 3,
         },
@@ -135,12 +187,12 @@ export async function renderOgCard({ eyebrow, title, subtitle }: OgCardInput): P
             el(
               'div',
               {
-                marginTop: '26px',
+                marginTop: '28px',
                 fontSize: '29px',
                 fontWeight: 500,
                 lineHeight: 1.4,
                 color: MUTED,
-                maxWidth: '880px',
+                maxWidth: '860px',
               },
               subtitle,
             ),
@@ -154,20 +206,11 @@ export async function renderOgCard({ eyebrow, title, subtitle }: OgCardInput): P
     {
       display: 'flex',
       alignItems: 'center',
-      borderTop: `1px solid ${BORDER}`,
+      borderTop: `1px solid ${HAIRLINE}`,
       paddingTop: '26px',
     },
     [el('div', { fontSize: '24px', fontWeight: 500, color: MUTED }, 'help.innerexplorer.com')],
   );
-
-  const baselineBar = el('div', {
-    position: 'absolute',
-    left: 0,
-    bottom: 0,
-    width: '1200px',
-    height: '10px',
-    backgroundColor: BRAND,
-  });
 
   const card = el(
     'div',
@@ -177,12 +220,13 @@ export async function renderOgCard({ eyebrow, title, subtitle }: OgCardInput): P
       display: 'flex',
       flexDirection: 'column',
       position: 'relative',
+      overflow: 'hidden',
       padding: '64px 80px 52px',
-      backgroundColor: '#ffffff',
-      backgroundImage: `linear-gradient(135deg, #ffffff 55%, ${BRAND_TINT} 100%)`,
+      backgroundColor: SURFACE_TO,
+      backgroundImage: `linear-gradient(165deg, ${SURFACE_FROM} 0%, ${SURFACE_TO} 100%)`,
       fontFamily: 'Inter',
     },
-    [identity, middle, footer, baselineBar],
+    [glow, ...rings(), identity, middle, footer],
   );
 
   // satori's types say ReactNode, but it documents (and works with) plain
@@ -192,5 +236,6 @@ export async function renderOgCard({ eyebrow, title, subtitle }: OgCardInput): P
     height: 630,
     fonts,
   });
-  return sharp(Buffer.from(svg)).png({ compressionLevel: 9, palette: true }).toBuffer();
+  // Full-color PNG: palette quantization visibly bands the dark gradient + glow.
+  return sharp(Buffer.from(svg)).png({ compressionLevel: 9 }).toBuffer();
 }
