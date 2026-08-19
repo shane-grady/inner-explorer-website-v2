@@ -20,6 +20,8 @@ const EYEBROW = '#86e29e';
 const GLOW = '#1a9a59';
 const MUTED = 'rgba(255, 255, 255, 0.62)';
 const HAIRLINE = 'rgba(255, 255, 255, 0.16)';
+// "Explorer" in the logo lockup — --brand-400, bright enough to read on the dark surface.
+const LOGO_GREEN = '#4ecb7f';
 
 /** URL of one article's generated share card (route: pages/open-graph/[slug].png.ts). */
 export const ogImageHref = (slug: string) => `/open-graph/${slug}.png`;
@@ -37,36 +39,56 @@ async function loadFont(file: string): Promise<Buffer> {
 interface Assets {
   fonts: { name: string; data: Buffer; weight: 400 | 500 | 600; style: 'normal' }[];
   markSrc: string;
+  /** The mark with a radial alpha fade baked in — the ghosted ring-center watermark. */
+  markGhostSrc: string;
+}
+
+// Soften the mark's painted edge with a radial alpha fade (solid to 55%, then out to
+// transparent) so the ghosted watermark melts into the card instead of sitting on it.
+async function ghostMark(mark: Buffer): Promise<Buffer> {
+  const fade = Buffer.from(
+    '<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg">' +
+      '<defs><radialGradient id="g" cx="50%" cy="50%" r="50%">' +
+      '<stop offset="40%" stop-color="#fff" stop-opacity="1"/>' +
+      '<stop offset="100%" stop-color="#fff" stop-opacity="0"/>' +
+      '</radialGradient></defs><rect width="512" height="512" fill="url(#g)"/></svg>',
+  );
+  return sharp(mark)
+    .composite([{ input: fade, blend: 'dest-in' }])
+    .png()
+    .toBuffer();
 }
 
 // Loaded once per build, shared across all card renders.
 let assetsPromise: Promise<Assets> | undefined;
 function loadAssets(): Promise<Assets> {
-  assetsPromise ??= (async () => ({
-    fonts: [
-      {
-        name: 'Libre Caslon Condensed',
-        data: await loadFont('LibreCaslonCondensed-Regular.woff2'),
-        weight: 400 as const,
-        style: 'normal' as const,
-      },
-      {
-        name: 'Inter',
-        data: await loadFont('Inter-Medium.woff2'),
-        weight: 500 as const,
-        style: 'normal' as const,
-      },
-      {
-        name: 'Inter',
-        data: await loadFont('Inter-SemiBold.woff2'),
-        weight: 600 as const,
-        style: 'normal' as const,
-      },
-    ],
-    markSrc: `data:image/png;base64,${(
-      await readFile('src/assets/brand/inner-explorer-mark.png')
-    ).toString('base64')}`,
-  }))();
+  assetsPromise ??= (async () => {
+    const mark = await readFile('src/assets/brand/inner-explorer-mark.png');
+    return {
+      fonts: [
+        {
+          name: 'Libre Caslon Condensed',
+          data: await loadFont('LibreCaslonCondensed-Regular.woff2'),
+          weight: 400 as const,
+          style: 'normal' as const,
+        },
+        {
+          name: 'Inter',
+          data: await loadFont('Inter-Medium.woff2'),
+          weight: 500 as const,
+          style: 'normal' as const,
+        },
+        {
+          name: 'Inter',
+          data: await loadFont('Inter-SemiBold.woff2'),
+          weight: 600 as const,
+          style: 'normal' as const,
+        },
+      ],
+      markSrc: `data:image/png;base64,${mark.toString('base64')}`,
+      markGhostSrc: `data:image/png;base64,${(await ghostMark(mark)).toString('base64')}`,
+    };
+  })();
   return assetsPromise;
 }
 
@@ -111,7 +133,7 @@ function rings(): Node[] {
 }
 
 export async function renderOgCard({ eyebrow, title, subtitle }: OgCardInput): Promise<Buffer> {
-  const { fonts, markSrc } = await loadAssets();
+  const { fonts, markSrc, markGhostSrc } = await loadAssets();
 
   // Soft brand-green glow rising from where the rings originate.
   const glow = el('div', {
@@ -123,26 +145,32 @@ export async function renderOgCard({ eyebrow, title, subtitle }: OgCardInput): P
     backgroundImage: `radial-gradient(circle at center, ${GLOW}2e 0%, ${GLOW}14 45%, ${SURFACE_TO}00 70%)`,
   });
 
-  // Identity row — the mark on a cream circular chip (it's drawn for light surfaces),
-  // then the site header's semibold / muted wordmark pairing.
-  const identity = el('div', { display: 'flex', alignItems: 'center', gap: '22px' }, [
-    el(
-      'div',
-      {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '64px',
-        height: '64px',
-        borderRadius: '9999px',
-        backgroundColor: CREAM,
-      },
-      [{ type: 'img', props: { src: markSrc, width: 42, height: 42 } }],
-    ),
-    el('div', { display: 'flex', alignItems: 'baseline', gap: '13px', fontSize: '28px' }, [
-      el('span', { fontWeight: 600, color: CREAM }, 'Inner Explorer'),
-      el('span', { fontWeight: 500, color: MUTED }, 'Help Center'),
+  // The mark ghosted into the rings' center — filling most of the innermost ring,
+  // radially faded (see ghostMark) and near-transparent, like a watermark.
+  const ghost = {
+    type: 'img',
+    props: {
+      src: markGhostSrc,
+      width: 344,
+      height: 344,
+      style: { position: 'absolute', left: '833px', top: '143px', opacity: 0.09 },
+    },
+  };
+
+  // Identity — the full logo lockup in the top-left corner: the compass mark (its own
+  // painted ring needs no backing) beside the innerExplorer wordmark, then a quiet
+  // Help Center tag.
+  const identity = el('div', { display: 'flex', alignItems: 'center', gap: '18px' }, [
+    { type: 'img', props: { src: markSrc, width: 58, height: 58 } },
+    el('div', { display: 'flex', alignItems: 'baseline', fontSize: '33px' }, [
+      el('span', { fontWeight: 600, color: CREAM }, 'inner'),
+      el('span', { fontWeight: 600, color: LOGO_GREEN }, 'Explorer'),
     ]),
+    el(
+      'span',
+      { fontSize: '26px', fontWeight: 500, color: MUTED, marginLeft: '4px' },
+      'Help Center',
+    ),
   ]);
 
   // Middle block — vertically centered eyebrow + title (+ optional subtitle). The
@@ -226,7 +254,7 @@ export async function renderOgCard({ eyebrow, title, subtitle }: OgCardInput): P
       backgroundImage: `linear-gradient(165deg, ${SURFACE_FROM} 0%, ${SURFACE_TO} 100%)`,
       fontFamily: 'Inter',
     },
-    [glow, ...rings(), identity, middle, footer],
+    [glow, ...rings(), ghost, identity, middle, footer],
   );
 
   // satori's types say ReactNode, but it documents (and works with) plain
