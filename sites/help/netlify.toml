@@ -22,6 +22,21 @@
   # ours lives at the repo root, so opt in explicitly or `pnpm` won't be installed.
   NETLIFY_USE_PNPM = "true"
 
+# One public address: send the Netlify default domain to the real one. Netlify sets
+# help.innerexplorer.com as this site's primary domain but does NOT redirect
+# inner-explorer-help.netlify.app to it, so the same content answered on two hosts.
+#
+# The `from` names that ONE host explicitly rather than a wildcard, so deploy previews
+# (deploy-preview-N--inner-explorer-help.netlify.app) and branch deploys
+# (main--inner-explorer-help.netlify.app) keep serving normally — you need those to
+# review changes. `force` is required to win over the static file that would otherwise
+# be served.
+[[redirects]]
+  from = "https://inner-explorer-help.netlify.app/*"
+  to = "https://help.innerexplorer.com/:splat"
+  status = 301
+  force = true
+
 # Long-cache Astro's content-hashed assets; they never change for a given hash.
 [[headers]]
   for = "/_astro/*"
