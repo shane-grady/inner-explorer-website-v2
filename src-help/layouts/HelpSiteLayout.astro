@@ -26,6 +26,11 @@ const { title, description, type = 'website', image, imageAlt, noindex }: Props 
 const mainSiteLabel = new URL(MAIN_SITE).host.replace(/^www\./, '');
 ---
 
+{
+  /* surface="Help Center" tags every Intercom chat started here, so Help Center
+questions are distinguishable from marketing-site and in-platform chats in the
+shared inbox. See src/components/integrations/Intercom.astro. */
+}
 <BaseLayout
   title={title}
   description={description}
@@ -33,6 +38,7 @@ const mainSiteLabel = new URL(MAIN_SITE).host.replace(/^www\./, '');
   image={image}
   imageAlt={imageAlt}
   noindex={noindex}
+  surface="Help Center"
 >
   <slot name="head" slot="head" />
   <div class="appearance-light flex min-h-screen flex-col bg-background">
