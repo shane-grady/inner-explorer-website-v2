@@ -7,6 +7,7 @@ import HelpShell from '../../src/components/blocks/help/HelpShell.astro';
 import HelpFigure from '../../src/components/blocks/help/HelpFigure.astro';
 import { buildHelpNav, helpGroups, helpHref } from '../../src/lib/help';
 import { readingTime } from '../../src/lib/reading-time';
+import { OG_HOME_IMAGE } from '../lib/og-card';
 import { HELP_SITE, MAIN_SITE } from '../../src/lib/site';
 import mark from '../../src/assets/brand/inner-explorer-mark.png';
 import heroImg from '../../src/assets/images/research/hero-classroom.jpg';
@@ -32,7 +33,7 @@ const sections = helpGroups
   }))
   .filter((s) => s.cards.length > 0);
 
-const pageTitle = 'Help Center | Inner Explorer';
+const pageTitle = 'Inner Explorer Help Center';
 const pageDescription =
   'Guides, best practices, and answers for everyone who uses Inner Explorer: educators practicing alongside their students, administrators rolling it out, and families bringing it home.';
 
@@ -48,7 +49,12 @@ const schema = {
 };
 ---
 
-<HelpSiteLayout title={pageTitle} description={pageDescription}>
+<HelpSiteLayout
+  title={pageTitle}
+  description={pageDescription}
+  image={OG_HOME_IMAGE}
+  imageAlt="Inner Explorer Help Center — guides and answers for educators, administrators, and families"
+>
   <JsonLd schema={schema} slot="head" />
 
   <div class="appearance-light">

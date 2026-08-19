@@ -16,6 +16,7 @@ import {
   helpRootHref,
 } from '../../src/lib/help';
 import { readingTime } from '../../src/lib/reading-time';
+import { ogImageHref } from '../lib/og-card';
 import { organizationSchema } from '../../src/lib/schema';
 import { HELP_SITE, MAIN_SITE } from '../../src/lib/site';
 
@@ -47,6 +48,8 @@ const groupName = groupLabel(d.group);
 
 const pageTitle = d.seoTitle ?? `${d.title} | Help Center | Inner Explorer`;
 const pageDescription = d.seoDescription ?? d.blurb;
+const ogImage = ogImageHref(entry.id);
+const ogImageAlt = `Inner Explorer Help Center: ${d.title}`;
 
 // Articles live at the root of the help subdomain; "Home" in the structured data
 // is the marketing site on the apex domain.
@@ -62,6 +65,7 @@ const articleLd = {
   '@type': 'TechArticle',
   headline: d.title,
   description: pageDescription,
+  image: `${base}${ogImage}`,
   inLanguage: 'en-US',
   mainEntityOfPage: `${base}${path}`,
   isPartOf: { '@type': 'WebSite', name: 'Inner Explorer Help Center', url: `${base}/` },
@@ -78,7 +82,13 @@ const crumbLd = {
 };
 ---
 
-<HelpSiteLayout title={pageTitle} description={pageDescription} type="article">
+<HelpSiteLayout
+  title={pageTitle}
+  description={pageDescription}
+  type="article"
+  image={ogImage}
+  imageAlt={ogImageAlt}
+>
   <JsonLd schema={articleLd} slot="head" />
   <JsonLd schema={crumbLd} slot="head" />
 
