@@ -6,6 +6,7 @@
 // subdomain — and slim chrome is the standard help-center pattern anyway.
 import { Image } from 'astro:assets';
 import BaseLayout from '../../src/layouts/BaseLayout.astro';
+import TempCmsOverlay from '../components/TempCmsOverlay.astro';
 import { MAIN_SITE } from '../../src/lib/site';
 import { helpRootHref } from '../../src/lib/help';
 import mark from '../../src/assets/brand/inner-explorer-mark.png';
@@ -86,5 +87,8 @@ shared inbox. See src/components/integrations/Intercom.astro. */
         </p>
       </div>
     </footer>
+
+    {/* TEMP CMS (temp-cms branch only): the click-to-edit layer. See TEMP-CMS.md. */}
+    <TempCmsOverlay />
   </div>
 </BaseLayout>

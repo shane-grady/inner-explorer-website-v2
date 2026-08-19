@@ -93,22 +93,11 @@ const intercomAppId = import.meta.env.PUBLIC_INTERCOM_APP_ID;
   </head>
   <body class="min-h-dvh bg-background text-foreground antialiased">
     <slot />
-    <script>
-      // Amplitude Analytics + Session Replay. Bundled module scripts run in the
-      // browser only and execute once per hard load (modules are cached across
-      // ClientRouter navigations); the window guard makes the init-once
-      // invariant explicit.
-      import * as amplitude from '@amplitude/unified';
-
-      const w = window as Window & { __amplitudeInitialized?: boolean };
-      if (!w.__amplitudeInitialized) {
-        w.__amplitudeInitialized = true;
-        amplitude.initAll('9eb782590a25fba8c96b5de6fd50bd73', {
-          analytics: { autocapture: true },
-          sessionReplay: { sampleRate: 1 },
-        });
-      }
-    </script>
+    {
+      /* TEMP CMS (temp-cms branch only): the Amplitude Analytics + Session Replay
+        script that ships on main is removed here so internal copy-editing sessions
+        are never recorded into product analytics. See TEMP-CMS.md. */
+    }
     <script>
       // Component renderers add no production bundle work beyond this tiny guard:
       // the heavier registration module is fetched only by CloudCannon's iframe.

@@ -1,0 +1,898 @@
+---
+// TEMP CMS (see TEMP-CMS.md) — the click-to-edit layer for the copy-editing replica.
+//
+// This component exists ONLY on the throwaway `temp-cms` branch. It turns every text
+// block in the Help Center content column into an inline-editable region, autosaves
+// each change to /api/edits (Netlify Blobs), re-applies saved edits on load so the
+// whole team sees the same draft, and offers a site-wide "Review edits" drawer with
+// per-block revert. Derived text (nav labels, reading times, prev/next titles,
+// breadcrumbs) is deliberately NOT editable — its source of truth is edited elsewhere.
+---
+
+<div class="tc-banner" data-tc-ui hidden>
+  <span class="tc-dot" aria-hidden="true"></span>
+  <p class="tc-text">
+    <strong>Internal copy-edit mode.</strong>
+    Click any text to edit — changes save automatically and never touch the live site.
+  </p>
+  <span class="tc-status" data-tc-status role="status"></span>
+  <button type="button" class="tc-btn" data-tc-open>
+    Review edits <span class="tc-count" data-tc-count hidden></span>
+  </button>
+</div>
+
+<div class="tc-panel" data-tc-ui data-tc-panel hidden>
+  <div class="tc-panel-head">
+    <p class="tc-panel-title">Copy edits</p>
+    <button type="button" class="tc-btn" data-tc-close>Close</button>
+  </div>
+  <p class="tc-panel-hint">
+    Every saved edit across the site, newest last. Revert removes an edit and restores the original
+    copy.
+  </p>
+  <div class="tc-panel-body" data-tc-list></div>
+</div>
+
+<button type="button" class="tc-linkbtn" data-tc-ui data-tc-linkbtn hidden>Edit link</button>
+
+<div class="tc-linkpop" data-tc-ui data-tc-linkpop hidden>
+  <p class="tc-linkpop-title">Change where this link points</p>
+  <p class="tc-linkpop-label" data-tc-linkpop-label></p>
+  <label class="sr-only" for="tc-linkpop-input">Link destination</label>
+  <input
+    id="tc-linkpop-input"
+    class="tc-linkpop-input"
+    data-tc-linkpop-input
+    type="text"
+    spellcheck="false"
+    autocomplete="off"
+    placeholder="/signing-in/ or https://…"
+  />
+  <div class="tc-linkpop-actions">
+    <button type="button" class="tc-btn" data-tc-linkpop-save>Save link</button>
+    <button type="button" class="tc-revert" data-tc-linkpop-cancel>Cancel</button>
+  </div>
+</div>
+
+<style is:global>
+  /* All selectors are tc- prefixed or data-tc scoped; global so JS-created panel
+     entries are styled too. Tokens only (drift guard applies). */
+  body {
+    padding-bottom: 64px; /* room for the fixed banner */
+  }
+
+  .tc-banner {
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: 9990;
+    display: flex;
+    flex-wrap: wrap; /* narrow windows: status/button drop to a second row */
+    align-items: center;
+    gap: 8px 14px;
+    padding: 11px 18px;
+    background: var(--color-foreground);
+    color: var(--color-background);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    line-height: 1.45;
+  }
+  .tc-dot {
+    flex: none;
+    width: 9px;
+    height: 9px;
+    border-radius: 9999px;
+    background: var(--color-warning);
+  }
+  .tc-text {
+    margin: 0;
+    flex: 1 1 260px; /* keeps the message readable before the row wraps */
+    min-width: 0;
+  }
+  .tc-status {
+    flex: 0 1 auto;
+    min-width: 0;
+    font-weight: 600;
+    color: color-mix(in oklab, var(--color-background) 72%, transparent);
+  }
+  .tc-btn {
+    flex: none;
+    padding: 7px 14px;
+    border: 0;
+    border-radius: 9999px;
+    background: var(--color-brand);
+    color: var(--color-brand-foreground);
+    font-family: var(--font-sans);
+    font-size: 12.5px;
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .tc-btn:hover {
+    background: var(--color-brand-emphasis);
+  }
+  .tc-count {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 2px 7px;
+    border-radius: 9999px;
+    background: var(--color-brand-foreground);
+    color: var(--color-brand);
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  /* Editable affordances */
+  [data-tc-key] {
+    cursor: text;
+    border-radius: 3px;
+    outline: 1px dashed transparent;
+    outline-offset: 4px;
+    transition: outline-color var(--dur-fast) var(--ease-out);
+  }
+  [data-tc-key]:hover {
+    outline-color: color-mix(in oklab, var(--color-brand) 50%, transparent);
+  }
+  [data-tc-key]:focus {
+    outline: 2px solid var(--color-brand);
+    background: color-mix(in oklab, var(--color-brand) 7%, transparent);
+  }
+  [data-tc-edited='1'] {
+    background: color-mix(in oklab, var(--color-warning) 16%, transparent);
+    box-shadow: -3px 0 0 0 var(--color-warning);
+  }
+
+  /* Review drawer */
+  .tc-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 64px;
+    z-index: 9995;
+    width: min(440px, 92vw);
+    display: flex;
+    flex-direction: column;
+    background: var(--color-card);
+    border-left: 1px solid var(--color-border);
+    box-shadow: var(--shadow-lg, none);
+    font-family: var(--font-sans);
+  }
+  .tc-panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px 18px 10px;
+  }
+  .tc-panel-title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--color-foreground);
+  }
+  .tc-panel-hint {
+    margin: 0;
+    padding: 0 18px 12px;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--color-muted-foreground);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .tc-panel-body {
+    overflow-y: auto;
+    padding: 6px 18px 18px;
+    flex: 1;
+  }
+  .tc-page {
+    margin: 14px 0 6px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-muted-foreground);
+  }
+  .tc-entry {
+    margin: 10px 0;
+    padding: 10px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-background);
+  }
+  .tc-entry del,
+  .tc-entry ins {
+    display: block;
+    text-decoration: none;
+    font-size: 13px;
+    line-height: 1.5;
+    border-radius: 3px;
+    padding: 4px 6px;
+    margin: 3px 0;
+  }
+  .tc-entry del {
+    background: color-mix(in oklab, var(--color-danger) 10%, transparent);
+    color: var(--color-muted-foreground);
+  }
+  .tc-entry ins {
+    background: color-mix(in oklab, var(--color-success) 12%, transparent);
+    color: var(--color-foreground);
+  }
+  .tc-entry-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 6px;
+    font-size: 11.5px;
+    color: var(--color-muted-foreground);
+  }
+  .tc-revert {
+    margin-left: auto;
+    padding: 4px 10px;
+    border: 1px solid var(--color-border);
+    border-radius: 9999px;
+    background: var(--color-card);
+    color: var(--color-foreground);
+    font-size: 11.5px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .tc-revert:hover {
+    border-color: var(--color-danger);
+    color: var(--color-danger);
+  }
+  .tc-empty {
+    margin: 18px 0;
+    font-size: 13px;
+    color: var(--color-muted-foreground);
+  }
+
+  /* Hover chip + popover for changing a link's destination */
+  .tc-linkbtn {
+    position: absolute;
+    z-index: 9992;
+    padding: 5px 11px;
+    border: 0;
+    border-radius: 9999px;
+    background: var(--color-foreground);
+    color: var(--color-background);
+    font-family: var(--font-sans);
+    font-size: 11.5px;
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .tc-linkbtn:hover {
+    background: var(--color-brand);
+    color: var(--color-brand-foreground);
+  }
+  .tc-linkpop {
+    position: absolute;
+    z-index: 9996;
+    width: min(360px, 90vw);
+    padding: 14px 16px;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-sans);
+    box-shadow: var(--shadow-lg, none);
+  }
+  .tc-linkpop-title {
+    margin: 0;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--color-foreground);
+  }
+  .tc-linkpop-label {
+    margin: 4px 0 10px;
+    font-size: 12px;
+    line-height: 1.45;
+    color: var(--color-muted-foreground);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .tc-linkpop-input {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid var(--color-input);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--color-foreground);
+    background: var(--color-background);
+    outline: none;
+  }
+  .tc-linkpop-input:focus {
+    border-color: var(--color-brand);
+  }
+  .tc-linkpop-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .tc-entry-href {
+    margin-top: 4px;
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--color-muted-foreground);
+    word-break: break-all;
+  }
+
+  @media print {
+    .tc-banner,
+    .tc-panel,
+    .tc-linkbtn,
+    .tc-linkpop {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // Absolute URL via location.origin: if someone opens a shared link with embedded
+  // credentials (https://user:pass@…), relative fetch URLs would inherit those
+  // credentials and fetch() rejects such URLs. location.origin is credential-free.
+  const api = (qs = ''): string => `${window.location.origin}/api/edits${qs}`;
+  const BLOCK_TAGS = 'h1,h2,h3,h4,h5,h6,p,li,td,th,figcaption,blockquote,dt,dd';
+  const EXTRA_BLOCKS = [
+    '.help-step-title',
+    '.help-step-text', // Step bodies render string content straight into a div
+    '.callout-heading',
+    '.help-card-title',
+    '.help-card-text',
+    '.help-card-badge',
+    '.help-home-empty',
+    '.help-acc-q',
+    '.help-linkcard-title',
+    '.help-linkcard-sub',
+    '.help-home-card-title',
+    '.help-home-card-blurb',
+    '.help-home-banner-title',
+    '.help-home-banner-text',
+  ].join(',');
+  // Derived text whose real source is edited elsewhere (frontmatter titles drive nav +
+  // prev/next; reading times are computed; the eyebrow/callout-label are shared strings).
+  const EXCLUDE =
+    'nav, .help-print-head, .help-article-meta, .help-article-eyebrow, ' +
+    '.help-home-card-read, .callout-label, [data-tc-ui]';
+
+  interface Snapshot {
+    text: string;
+    html: string;
+  }
+  interface BlockEdit {
+    path: string;
+    key: string;
+    tag: string;
+    pageTitle?: string;
+    originalText: string;
+    originalHtml: string;
+    newText: string;
+    newHtml: string;
+    /** 'link' = an href change on a standalone anchor (text fields carry the label). */
+    kind?: string;
+    originalHref?: string;
+    newHref?: string;
+    editor?: string;
+    updatedAt?: string;
+  }
+
+  let pristine = new Map<string, Snapshot>();
+  let savedHtml = new Map<string, string>();
+  let pristineHref = new Map<string, string>();
+  let savedHref = new Map<string, string>();
+  let pagePath = '';
+  let pageTitle = '';
+  let statusTimer: number | undefined;
+
+  const q = <T extends HTMLElement>(sel: string): T | null => document.querySelector<T>(sel);
+
+  function setStatus(kind: 'idle' | 'saving' | 'saved' | 'error'): void {
+    const el = q('[data-tc-status]');
+    if (!el) return;
+    window.clearTimeout(statusTimer);
+    if (kind === 'saving') el.textContent = 'Saving…';
+    else if (kind === 'saved') {
+      el.textContent = 'Saved ✓';
+      statusTimer = window.setTimeout(() => setStatus('idle'), 2500);
+    } else if (kind === 'error') el.textContent = '⚠ Not saved — check connection and retry';
+    else el.textContent = '';
+  }
+
+  function updateCount(): void {
+    const badge = q('[data-tc-count]');
+    if (!badge) return;
+    const n = document.querySelectorAll('[data-tc-edited="1"]').length;
+    badge.textContent = String(n);
+    badge.hidden = n === 0;
+  }
+
+  let askedForName = false;
+  function editorName(): string {
+    const stored = localStorage.getItem('tc-editor') ?? '';
+    if (stored) return stored;
+    if (askedForName) return 'Unknown';
+    askedForName = true;
+    let entered: string;
+    try {
+      // prompt() can throw in embedded browsers; a name is nice-to-have, not required.
+      entered = (window.prompt('Your name (shown next to your edits):') ?? '').trim();
+    } catch {
+      entered = '';
+    }
+    if (entered) localStorage.setItem('tc-editor', entered);
+    return entered || 'Unknown';
+  }
+
+  function collectBlocks(root: HTMLElement): HTMLElement[] {
+    const all = Array.from(
+      root.querySelectorAll<HTMLElement>(`${BLOCK_TAGS},${EXTRA_BLOCKS}`),
+    ).filter((el) => !el.closest(EXCLUDE) && (el.textContent ?? '').trim().length > 0);
+    // Innermost blocks only: a container whose text lives in a smaller candidate
+    // (e.g. <li> wrapping a Step's title <p>) must not itself become editable.
+    return all.filter((el) => !all.some((other) => other !== el && el.contains(other)));
+  }
+
+  // Links whose destination is real page content (MDX props like ActionLinks/LinkCards,
+  // or inline links in prose). Home-card hrefs derive from article slugs, so they're
+  // excluded along with the nav chrome. Anchors nested inside an editable text block
+  // ride that block's saved HTML instead of getting their own record.
+  const LINK_EXCLUDE = `${EXCLUDE}, .help-home-card`;
+  function collectLinks(root: HTMLElement): HTMLAnchorElement[] {
+    return Array.from(root.querySelectorAll<HTMLAnchorElement>('a[href]')).filter((a) => {
+      if (a.closest(LINK_EXCLUDE)) return false;
+      const block = a.closest<HTMLElement>('[data-tc-key]');
+      return !block || block === a;
+    });
+  }
+
+  async function applyServerEdits(): Promise<void> {
+    try {
+      const res = await fetch(api(`?path=${encodeURIComponent(pagePath)}`), {
+        cache: 'no-store',
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      const doc = (await res.json()) as { blocks: Record<string, BlockEdit> };
+      for (const [key, block] of Object.entries(doc.blocks)) {
+        if (block.kind === 'link') {
+          const a = document.querySelector<HTMLAnchorElement>(`[data-tc-link="${key}"]`);
+          if (!a || typeof block.newHref !== 'string') continue;
+          a.setAttribute('href', block.newHref);
+          savedHref.set(key, block.newHref);
+          a.dataset.tcEdited = '1';
+          continue;
+        }
+        const el = document.querySelector<HTMLElement>(`[data-tc-key="${key}"]`);
+        if (!el) continue;
+        el.innerHTML = block.newHtml;
+        savedHtml.set(key, block.newHtml);
+        el.dataset.tcEdited = '1';
+      }
+    } catch {
+      const el = q('[data-tc-status]');
+      if (el) el.textContent = '⚠ Couldn’t load saved edits — reload the page';
+    }
+    updateCount();
+  }
+
+  function buildPayload(el: HTMLElement): BlockEdit | null {
+    const key = el.dataset.tcKey;
+    const base = key ? pristine.get(key) : undefined;
+    if (!key || !base) return null;
+    return {
+      path: pagePath,
+      key,
+      tag: el.tagName.toLowerCase(),
+      pageTitle,
+      originalText: base.text,
+      originalHtml: base.html,
+      newText: (el.textContent ?? '').trim(),
+      newHtml: el.innerHTML,
+      editor: editorName(),
+    };
+  }
+
+  async function commit(el: HTMLElement): Promise<void> {
+    const key = el.dataset.tcKey;
+    const base = key ? pristine.get(key) : undefined;
+    if (!key || !base) return;
+    const lastSaved = savedHtml.get(key) ?? base.html;
+    if (el.innerHTML === lastSaved) return;
+
+    const payload = buildPayload(el);
+    if (!payload) return;
+    setStatus('saving');
+    try {
+      const res = await fetch(api(), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        keepalive: true,
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      const out = (await res.json()) as { reverted: boolean };
+      if (out.reverted) {
+        savedHtml.delete(key);
+        delete el.dataset.tcEdited;
+      } else {
+        savedHtml.set(key, el.innerHTML);
+        el.dataset.tcEdited = '1';
+      }
+      setStatus('saved');
+    } catch {
+      setStatus('error');
+    }
+    updateCount();
+  }
+
+  // ——— Link editing: hover chip + "change link" popover ———
+
+  let linkHideTimer: number | undefined;
+  let chipAnchor: HTMLAnchorElement | null = null; // link the hover chip points at
+  let popAnchor: HTMLAnchorElement | null = null; // link the open popover is editing
+
+  function hideLinkUi(): void {
+    const btn = q('[data-tc-linkbtn]');
+    const pop = q('[data-tc-linkpop]');
+    if (btn) btn.hidden = true;
+    if (pop) pop.hidden = true;
+    chipAnchor = null;
+    popAnchor = null;
+  }
+
+  function placeAbove(el: HTMLElement, anchor: HTMLElement): void {
+    const r = anchor.getBoundingClientRect();
+    // Above the link; flip below it when the window is too short, and keep the
+    // element inside the viewport horizontally (it can be wider than the link).
+    const fitsAbove = r.top - el.offsetHeight - 6 >= 8;
+    const top = fitsAbove ? r.top - el.offsetHeight - 6 : r.bottom + 6;
+    const clampedTop = Math.max(8, Math.min(top, window.innerHeight - el.offsetHeight - 8));
+    const maxLeft = window.innerWidth - el.offsetWidth - 8;
+    el.style.top = `${window.scrollY + clampedTop}px`;
+    el.style.left = `${window.scrollX + Math.max(8, Math.min(r.left, maxLeft))}px`;
+  }
+
+  function isEditableLink(a: HTMLAnchorElement): boolean {
+    if (a.dataset.tcLink) return true;
+    const block = a.closest<HTMLElement>('[data-tc-key]');
+    return !!block && block !== a && !a.closest(LINK_EXCLUDE);
+  }
+
+  function showLinkChip(a: HTMLAnchorElement): void {
+    const btn = q('[data-tc-linkbtn]');
+    if (!btn || popAnchor) return; // never fight an open popover
+    chipAnchor = a;
+    btn.hidden = false;
+    placeAbove(btn, a);
+  }
+
+  function openLinkPopover(): void {
+    const pop = q('[data-tc-linkpop]');
+    const input = q<HTMLInputElement>('[data-tc-linkpop-input]');
+    const label = q('[data-tc-linkpop-label]');
+    const btn = q('[data-tc-linkbtn]');
+    if (!pop || !input || !label || !chipAnchor) return;
+    popAnchor = chipAnchor;
+    label.textContent = `“${(popAnchor.textContent ?? '').trim().slice(0, 80)}”`;
+    input.value = popAnchor.getAttribute('href') ?? '';
+    pop.hidden = false;
+    placeAbove(pop, popAnchor);
+    if (btn) btn.hidden = true;
+    input.focus();
+    input.select();
+  }
+
+  async function saveLinkEdit(): Promise<void> {
+    const input = q<HTMLInputElement>('[data-tc-linkpop-input]');
+    const a = popAnchor;
+    if (!input || !a) return;
+    const href = input.value.trim();
+    if (!href) {
+      input.focus();
+      return;
+    }
+    a.setAttribute('href', href);
+    hideLinkUi();
+
+    // Anchors inside an editable text block: the href lives in that block's HTML,
+    // so the ordinary block save carries it (and the panel shows the link diff).
+    const block = a.closest<HTMLElement>('[data-tc-key]');
+    if (block && block !== a) {
+      void commit(block);
+      return;
+    }
+
+    const key = a.dataset.tcLink;
+    const orig = key ? pristineHref.get(key) : undefined;
+    if (!key || orig === undefined) return;
+    if (href === (savedHref.get(key) ?? orig)) return;
+    const text = (a.textContent ?? '').trim();
+    const payload: BlockEdit = {
+      path: pagePath,
+      key,
+      tag: 'a',
+      kind: 'link',
+      pageTitle,
+      originalText: text,
+      originalHtml: '',
+      newText: text,
+      newHtml: '',
+      originalHref: orig,
+      newHref: href,
+      editor: editorName(),
+    };
+    setStatus('saving');
+    try {
+      const res = await fetch(api(), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        keepalive: true,
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      const out = (await res.json()) as { reverted: boolean };
+      if (out.reverted) {
+        savedHref.delete(key);
+        delete a.dataset.tcEdited;
+      } else {
+        savedHref.set(key, href);
+        a.dataset.tcEdited = '1';
+      }
+      setStatus('saved');
+    } catch {
+      setStatus('error');
+    }
+    updateCount();
+  }
+
+  async function revertEdit(b: BlockEdit): Promise<void> {
+    await fetch(api(`?path=${encodeURIComponent(b.path)}&key=${encodeURIComponent(b.key)}`), {
+      method: 'DELETE',
+    });
+    if (b.path === pagePath) {
+      if (b.kind === 'link') {
+        const a = document.querySelector<HTMLAnchorElement>(`[data-tc-link="${b.key}"]`);
+        const orig = pristineHref.get(b.key);
+        if (a && orig !== undefined) {
+          a.setAttribute('href', orig);
+          delete a.dataset.tcEdited;
+        }
+        savedHref.delete(b.key);
+      } else {
+        const el = document.querySelector<HTMLElement>(`[data-tc-key="${b.key}"]`);
+        const base = pristine.get(b.key);
+        if (el && base) {
+          el.innerHTML = base.html;
+          delete el.dataset.tcEdited;
+        }
+        savedHtml.delete(b.key);
+      }
+    }
+    updateCount();
+  }
+
+  function hrefsIn(html: string): string[] {
+    const div = document.createElement('div');
+    div.innerHTML = html;
+    return Array.from(div.querySelectorAll('a')).map((x) => x.getAttribute('href') ?? '');
+  }
+
+  async function renderPanel(): Promise<void> {
+    const list = q('[data-tc-list]');
+    if (!list) return;
+    list.textContent = 'Loading…';
+    let data: { pages: Record<string, Record<string, BlockEdit>> };
+    try {
+      const res = await fetch(api('?export=1'), { cache: 'no-store' });
+      data = (await res.json()) as typeof data;
+    } catch {
+      list.textContent = 'Could not load edits. Check your connection and reopen.';
+      return;
+    }
+    list.textContent = '';
+    const paths = Object.keys(data.pages).sort();
+    if (paths.length === 0) {
+      const p = document.createElement('p');
+      p.className = 'tc-empty';
+      p.textContent = 'No edits saved yet. Click any text on a page to start.';
+      list.append(p);
+      return;
+    }
+    for (const path of paths) {
+      const blocks = Object.values(data.pages[path]);
+      if (blocks.length === 0) continue;
+      const head = document.createElement('p');
+      head.className = 'tc-page';
+      head.textContent = blocks[0]?.pageTitle ? `${blocks[0].pageTitle} — ${path}` : path;
+      list.append(head);
+      for (const b of blocks) {
+        const isLink = b.kind === 'link';
+        const entry = document.createElement('div');
+        entry.className = 'tc-entry';
+        const del = document.createElement('del');
+        del.textContent = isLink ? (b.originalHref ?? '') : b.originalText;
+        const ins = document.createElement('ins');
+        ins.textContent = isLink ? (b.newHref ?? '') : b.newText;
+        const meta = document.createElement('div');
+        meta.className = 'tc-entry-meta';
+        const who = document.createElement('span');
+        const when = b.updatedAt ? new Date(b.updatedAt).toLocaleString() : '';
+        const label = isLink ? `link · “${b.newText}”` : b.tag;
+        who.textContent = `${label} · ${b.editor ?? 'Unknown'}${when ? ` · ${when}` : ''}`;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'tc-revert';
+        btn.textContent = 'Revert';
+        btn.addEventListener('click', () => {
+          void revertEdit(b).then(renderPanel);
+        });
+        meta.append(who, btn);
+        entry.append(del, ins);
+        if (!isLink) {
+          // Surface destination changes on links living inside the block's HTML —
+          // the text diff alone can look identical when only an href changed.
+          const oldHrefs = hrefsIn(b.originalHtml);
+          const newHrefs = hrefsIn(b.newHtml);
+          oldHrefs.forEach((oh, idx) => {
+            const nh = newHrefs[idx];
+            if (nh !== undefined && nh !== oh) {
+              const d = document.createElement('div');
+              d.className = 'tc-entry-href';
+              d.textContent = `link: ${oh} → ${nh}`;
+              entry.append(d);
+            }
+          });
+        }
+        entry.append(meta);
+        list.append(entry);
+      }
+    }
+  }
+
+  function initPage(): void {
+    const root = document.querySelector<HTMLElement>('.help-main');
+    const banner = q('.tc-banner');
+    if (!root || !banner) return;
+    banner.hidden = false;
+
+    pristine = new Map();
+    savedHtml = new Map();
+    pristineHref = new Map();
+    savedHref = new Map();
+    pagePath = window.location.pathname;
+    pageTitle =
+      document.querySelector('.help-article-title, .help-home-title')?.textContent?.trim() ?? '';
+
+    collectBlocks(root).forEach((el, i) => {
+      const key = `${el.tagName.toLowerCase()}:${i}`;
+      el.dataset.tcKey = key;
+      pristine.set(key, { text: (el.textContent ?? '').trim(), html: el.innerHTML });
+      try {
+        el.contentEditable = 'plaintext-only';
+      } catch {
+        el.contentEditable = 'true';
+      }
+    });
+
+    // After blocks are keyed (collectLinks skips anchors nested inside them).
+    collectLinks(root).forEach((a, i) => {
+      const key = `a:${i}`;
+      a.dataset.tcLink = key;
+      pristineHref.set(key, a.getAttribute('href') ?? '');
+    });
+
+    hideLinkUi();
+    setStatus('idle');
+    void applyServerEdits();
+  }
+
+  // Document-level listeners register once (module scope survives ClientRouter swaps);
+  // per-page state is rebuilt in initPage on every astro:page-load.
+  document.addEventListener('astro:page-load', initPage);
+
+  document.addEventListener('focusout', (e) => {
+    const el =
+      e.target instanceof HTMLElement ? e.target.closest<HTMLElement>('[data-tc-key]') : null;
+    if (el) void commit(el);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.target instanceof HTMLElement && e.target.closest('[data-tc-linkpop]')) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        void saveLinkEdit();
+      } else if (e.key === 'Escape') {
+        hideLinkUi();
+      }
+      return;
+    }
+    if (e.key === 'Escape' && popAnchor) {
+      hideLinkUi();
+      return;
+    }
+    const el =
+      e.target instanceof HTMLElement ? e.target.closest<HTMLElement>('[data-tc-key]') : null;
+    if (!el) return;
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      el.blur();
+    } else if (e.key === 'Escape') {
+      const key = el.dataset.tcKey ?? '';
+      el.innerHTML = savedHtml.get(key) ?? pristine.get(key)?.html ?? el.innerHTML;
+      el.blur();
+    }
+  });
+
+  // Hover chip: appears over any link whose destination is editable content.
+  document.addEventListener('mouseover', (e) => {
+    const t = e.target instanceof Element ? e.target : null;
+    if (!t) return;
+    if (t.closest('[data-tc-linkbtn], [data-tc-linkpop]')) {
+      window.clearTimeout(linkHideTimer);
+      return;
+    }
+    const a = t.closest('a');
+    if (a instanceof HTMLAnchorElement && isEditableLink(a)) {
+      window.clearTimeout(linkHideTimer);
+      showLinkChip(a);
+    } else if (chipAnchor && !popAnchor) {
+      window.clearTimeout(linkHideTimer);
+      linkHideTimer = window.setTimeout(() => {
+        if (!popAnchor) hideLinkUi();
+      }, 350);
+    }
+  });
+
+  // Text inside cards/link-lists sits within <a> elements; keep clicks editing
+  // instead of navigating. (Sidebar navigation is untouched — it's not editable.)
+  document.addEventListener(
+    'click',
+    (e) => {
+      const target = e.target instanceof HTMLElement ? e.target : null;
+      if (!target) return;
+      if (target.closest('[data-tc-linkbtn]')) {
+        e.preventDefault();
+        openLinkPopover();
+        return;
+      }
+      if (target.closest('[data-tc-linkpop-save]')) {
+        void saveLinkEdit();
+        return;
+      }
+      if (target.closest('[data-tc-linkpop-cancel]')) {
+        hideLinkUi();
+        return;
+      }
+      if (target.closest('[data-tc-linkpop]')) return;
+      if (target.closest('[data-tc-key]') && target.closest('a')) e.preventDefault();
+      if (target.closest('[data-tc-open]')) {
+        const panel = q('[data-tc-panel]');
+        if (panel) {
+          panel.hidden = false;
+          void renderPanel();
+        }
+      }
+      if (target.closest('[data-tc-close]')) {
+        const panel = q('[data-tc-panel]');
+        if (panel) panel.hidden = true;
+      }
+    },
+    true,
+  );
+
+  // Best-effort save if the tab closes mid-edit (blur commits handle in-site nav).
+  window.addEventListener('pagehide', () => {
+    const active = document.activeElement;
+    const el = active instanceof HTMLElement ? active.closest<HTMLElement>('[data-tc-key]') : null;
+    if (!el) return;
+    const key = el.dataset.tcKey ?? '';
+    if (el.innerHTML === (savedHtml.get(key) ?? pristine.get(key)?.html)) return;
+    const payload = buildPayload(el);
+    if (payload) {
+      navigator.sendBeacon(
+        api(),
+        new Blob([JSON.stringify(payload)], { type: 'application/json' }),
+      );
+    }
+  });
+</script>
