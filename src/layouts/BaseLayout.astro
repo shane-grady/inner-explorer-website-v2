@@ -6,6 +6,7 @@ import { ClientRouter } from 'astro:transitions';
 import SEO from '../components/seo/SEO.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import Analytics from '../components/seo/Analytics.astro';
+import Intercom from '../components/integrations/Intercom.astro';
 import { organizationSchema } from '../lib/schema';
 
 interface Props {
@@ -19,6 +20,13 @@ interface Props {
   imageAlt?: string;
   /** Hide the page from search engines (e.g. the internal styleguide). */
   noindex?: boolean;
+  /**
+   * Which Inner Explorer surface this page belongs to. Stamped on the Intercom visitor
+   * so support can tell website chats from Help Center chats (and from the platform's
+   * own Messenger) in one shared inbox. Defaults to the marketing site; the Help Center
+   * build overrides it in src-help/layouts/HelpSiteLayout.astro.
+   */
+  surface?: 'Website' | 'Help Center';
 }
 
 const {
@@ -29,6 +37,7 @@ const {
   image,
   imageAlt,
   noindex = false,
+  surface = 'Website',
 }: Props = Astro.props;
 const org = organizationSchema(Astro.site);
 
@@ -38,6 +47,13 @@ const org = organizationSchema(Astro.site);
 const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
 const isProductionBuild =
   import.meta.env.PROD && (!import.meta.env.CONTEXT || import.meta.env.CONTEXT === 'production');
+
+// Intercom Messenger ships on the same terms as GA4: real production builds only, so
+// `pnpm dev` and Netlify's deploy-preview / branch-deploy contexts never open a live
+// support channel. The env var is set per Netlify site, so each site (marketing + Help
+// Center) opts in independently. Unlike GA there is no *.netlify.app runtime guard —
+// see src/components/integrations/Intercom.astro for why.
+const intercomAppId = import.meta.env.PUBLIC_INTERCOM_APP_ID;
 ---
 
 <!doctype html>
@@ -46,6 +62,7 @@ const isProductionBuild =
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     {isProductionBuild && gaMeasurementId && <Analytics measurementId={gaMeasurementId} />}
+    {isProductionBuild && intercomAppId && <Intercom appId={intercomAppId} surface={surface} />}
     {/* No-flash theme init: set .dark before first paint (system pref unless overridden). */}
     <script is:inline>
       (() => {
