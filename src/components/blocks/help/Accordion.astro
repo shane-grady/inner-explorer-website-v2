@@ -1,7 +1,8 @@
 ---
 // In-article FAQ accordion — a list of native <details> so it works without JS.
-// Answers are plain text (`a`) or, when inline formatting is needed, trusted HTML
-// (`aHtml`). Used for the FAQ groups inside help articles (family FAQ, rostering FAQ).
+// Answers are plain text (`a`) or, when formatting is needed, trusted HTML (`aHtml`).
+// `aHtml` renders into a <div> rather than a <p> so a long answer can carry several
+// paragraphs and lists. Used for the FAQ groups inside help articles.
 export interface AccordionItem {
   q: string;
   a?: string;
@@ -23,7 +24,11 @@ const { items }: Props = Astro.props;
             +
           </span>
         </summary>
-        {it.aHtml ? <p class="help-acc-a" set:html={it.aHtml} /> : <p class="help-acc-a">{it.a}</p>}
+        {it.aHtml ? (
+          <div class="help-acc-a" set:html={it.aHtml} />
+        ) : (
+          <p class="help-acc-a">{it.a}</p>
+        )}
       </details>
     ))
   }
@@ -89,5 +94,16 @@ const { items }: Props = Astro.props;
   }
   .help-acc-a :global(strong) {
     font-weight: 600;
+  }
+  /* An `aHtml` answer is a <div>, so its block children need their own rhythm. Lists
+     keep the article's own treatment (green dots, decimal markers) — only spacing is
+     set here, and the last child never adds to the div's own bottom margin. */
+  .help-acc-a :global(p),
+  .help-acc-a :global(ul),
+  .help-acc-a :global(ol) {
+    margin: 0 0 0.85em;
+  }
+  .help-acc-a :global(> :last-child) {
+    margin-bottom: 0;
   }
 </style>

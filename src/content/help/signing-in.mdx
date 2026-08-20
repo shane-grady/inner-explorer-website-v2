@@ -2,59 +2,69 @@
 title: Signing in to your account
 group: start
 order: 1
-blurb: Email, Google, ClassLink, Clever and Schoology, plus what to do when sign-in fails.
+blurb: Email, Google, ClassLink and Clever, plus your first sign-in and single sign-on.
 readingTime: 5 min
 keywords:
-  [login, sign in, password, sso, google, classlink, clever, schoology, reset, access, invitation]
-seoDescription: 'Every way to sign in to Inner Explorer: email, Google, ClassLink, Clever, and
-  Schoology, plus first sign-in steps and what to do when sign-in fails.'
+  [
+    login,
+    sign in,
+    password,
+    sso,
+    single sign on,
+    google,
+    classlink,
+    clever,
+    reset,
+    access,
+    invitation,
+    new user,
+  ]
+seoDescription: 'Every way to sign in to Inner Explorer: email and password, Google, ClassLink, and
+  Clever, plus first sign-in steps for new users and how single sign-on gets set up.'
 draft: false
 ---
 
-Inner Explorer supports a few ways to sign in, depending on how your school set up access. This page covers all of them, then walks through your first sign-in and what to do if something goes wrong.
+Inner Explorer supports a few ways to sign in, depending on how your school set up access. This page covers all of them, then walks through your first sign-in.
+
+Brand new user? Skip to [signing in for the first time](#new-users-signing-in-for-the-first-time).
 
 ## Ways to sign in
 
-Most schools use a single sign-on provider so you can get in with the account you already use every day. If you’re not sure which applies to you, ask your school administrator.
+**If you are an existing user of Inner Explorer, welcome back!** You can use your existing email and password to log in below. **We recommend using the email and password method to get started this year.**
 
-<CardGrid
-  columns={2}
-  items={[
-    {
-      title: 'Email & password',
-      content:
-        'Use the email your school registered and the password you set when you accepted your invitation.',
-    },
-    {
-      title: 'Google',
-      content:
-        'Sign in with your school Google Workspace account in one click, with no separate password.',
-    },
-    {
-      title: 'ClassLink',
-      content:
-        'Launch Inner Explorer from your ClassLink LaunchPad and you’re signed in automatically.',
-    },
-    {
-      title: 'Clever',
-      content:
-        'Open Inner Explorer from your Clever Portal to sign in with your district credentials.',
-    },
-    {
-      title: 'Schoology',
-      content:
-        'Select the Schoology button on the sign-in screen and use the same credentials as your school’s Schoology account.',
-    },
-  ]}
-/>
+Many schools use a single sign-on provider so you can get in with the account you already use every day. If your single sign-on is not working, or if Inner Explorer does not appear in your available apps, your administrator may not have connected it yet.
 
-<HelpFigure
-  label="Sign-in screen"
-  ratio="16 / 10"
-  caption="The sign-in screen, with email and single sign-on options."
-/>
+<CardGrid columns={2}>
+  <Card title="Email & password">
+    Go to [app.innerexplorer.com](http://app.innerexplorer.com). Use the email your school registered
+    and your password to sign in. Select **Forgot your password** to reset it if necessary.
+  </Card>
+  <Card title="Google">
+    Go to [app.innerexplorer.com](http://app.innerexplorer.com). Sign in with your school Google
+    Workspace account in one click, with no separate password.
+  </Card>
+  <Card title="ClassLink">
+    There are two ways to sign in with ClassLink:
 
-## Signing in for the first time
+    1. Go to [app.innerexplorer.com](http://app.innerexplorer.com) and choose **Continue with
+       ClassLink**. Sign in to ClassLink and follow the steps to set up your profile.
+    2. If available, log in to ClassLink with your school’s single sign-on. Launch Inner Explorer
+       from your ClassLink LaunchPad and you’re signed in automatically. Follow the steps to set up
+       your profile.
+
+  </Card>
+  <Card title="Clever">
+    There are two ways to sign in with Clever:
+
+    1. Go to [app.innerexplorer.com](http://app.innerexplorer.com) and choose **Continue with
+       Clever**. Sign in to Clever and follow the steps to set up your profile.
+    2. If available, log in to your Clever Portal with your school’s single sign-on. Add the app to
+       your app tiles, select the Inner Explorer tile, and follow the steps to set up your profile.
+
+  </Card>
+</CardGrid>
+
+## New users: Signing in for the first time
 
 If you received an email invitation to join your school, follow these steps to set up your account.
 
@@ -63,12 +73,12 @@ If you received an email invitation to join your school, follow these steps to s
     {
       title: 'Open your invitation email',
       contentHtml:
-        'Look for a message from Inner Explorer and select <strong>Accept invitation</strong>. Check your spam folder if you don’t see it.',
+        '<strong>District administrators:</strong> look for an email from Inner Explorer and select <strong>Accept invitation</strong>.<br /><strong>School administrators:</strong> look for an email from Inner Explorer and select the link to accept the invitation.<br /><strong>Educators:</strong> look for a message from Inner Explorer or your administrator and select the link to accept the invitation.<br />Check your spam folder if you don’t see it.',
     },
     {
       title: 'Create your account',
       content:
-        'Choose a password of at least eight characters. If your school uses Google, ClassLink, Clever, or Schoology, select that button instead and you won’t need a password.',
+        'Use your school registered email address and choose a password of at least eight characters. If your school uses Google, ClassLink, or Clever and you prefer to sign in that way, select your preferred method.',
     },
     {
       title: 'Confirm your name and role',
@@ -78,7 +88,7 @@ If you received an email invitation to join your school, follow these steps to s
     {
       title: 'Set up your first classroom',
       contentHtml:
-        'If you signed up as an educator, you’ll be asked to create a classroom before you reach your home screen. Name it, tell us roughly how many students you have, then choose your language and the experience that fits your group. It takes about a minute; <a href="/classroom-setup/">Set up your classroom</a> walks through every option.',
+        'If you signed up as an educator, you’ll be asked to create a classroom before you reach your home screen. Name it, tell us roughly how many students you have, then choose your language and the grade level that fits your class. <a href="/classroom-setup/">Set up your classroom</a> walks you through it in more detail. If you signed up as an administrator, see <a href="/district-setup/">Set up your district or school account</a> for further instruction.',
     },
     {
       title: 'Press play',
@@ -89,8 +99,9 @@ If you received an email invitation to join your school, follow these steps to s
 
 <Callout heading="Didn’t get an invitation?">
   You may not need one. Many schools provision accounts automatically through a roster sync, so
-  there is no invitation email to wait for. Sign in with the Google, ClassLink, Clever, or Schoology
-  button instead, using the account you already use at school.
+  there is no invitation email to wait for. Sign in with the Google, ClassLink, or Clever button
+  instead, using the account you already use at school. If that doesn’t work, try creating an
+  account; your email may already be registered.
 
   <ActionLinks items={[{ label: 'See your single sign-on options', href: '#ways-to-sign-in' }]} />
 </Callout>
@@ -99,30 +110,4 @@ If you received an email invitation to join your school, follow these steps to s
 
 Administrators set this up once for the whole school. Single sign-on lets your staff reach Inner Explorer with the accounts they already use for the rest of your school tools, so there is no extra password for anyone to remember, and access is added or removed automatically as your roster changes.
 
-If you don’t see your school’s button on the sign-in screen, single sign-on hasn’t been connected yet. Administrators can turn it on in [Connect rostering &amp; single sign-on](/rostering-sso/). Educators and families should ask their school administrator to enable it.
-
-## Trouble signing in
-
-A few common situations and how to resolve them.
-
-<Accordion
-  items={[
-    {
-      q: 'I forgot my password',
-      aHtml:
-        'On the sign-in screen, select <strong>Forgot password</strong> and enter your email. We’ll send a reset link that’s valid for one hour. If you sign in with Google, ClassLink, Clever, or Schoology, you don’t have a password; use that button instead.',
-    },
-    {
-      q: 'It says my account can’t be found',
-      a: 'This usually means you’re signing in with a different email than the one your school registered. Try your school email address, or ask your administrator which account is on file for you.',
-    },
-    {
-      q: 'Single sign-on keeps looping back',
-      a: 'Make sure you’re launching Inner Explorer from inside your ClassLink or Clever portal rather than going to the site directly. Clearing your browser cache or trying a private window also resolves most loops.',
-    },
-    {
-      q: 'I never received an invitation',
-      a: 'Check your spam and promotions folders first. If it still hasn’t arrived, your administrator can resend the invitation from their dashboard, or confirm that your account is provisioned through your district’s roster sync.',
-    },
-  ]}
-/>
+If Inner Explorer does not appear in your Clever, ClassLink, or Canvas account, it has not been connected yet. Administrators can turn it on in [Connect rostering and single sign-on](/rostering-sso/). Educators and families should ask their school administrator to enable it.
