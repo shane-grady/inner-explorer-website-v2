@@ -4,13 +4,11 @@ import { Image } from 'astro:assets';
 import HelpSiteLayout from '../layouts/HelpSiteLayout.astro';
 import JsonLd from '../../src/components/seo/JsonLd.astro';
 import HelpShell from '../../src/components/blocks/help/HelpShell.astro';
-import HelpFigure from '../../src/components/blocks/help/HelpFigure.astro';
 import { buildHelpNav, helpGroups, helpHref } from '../../src/lib/help';
 import { readingTime } from '../../src/lib/reading-time';
 import { OG_HOME_IMAGE } from '../lib/og-card';
 import { HELP_SITE, MAIN_SITE } from '../../src/lib/site';
 import mark from '../../src/assets/brand/inner-explorer-mark.png';
-import heroImg from '../../src/assets/images/research/hero-classroom.jpg';
 
 const entries = await getCollection('help', ({ data }) => !data.draft);
 const nav = buildHelpNav(entries);
@@ -94,13 +92,6 @@ const schema = {
             data-help-search
           />
         </search>
-
-        <HelpFigure
-          src={heroImg}
-          alt="A class settling into a few quiet minutes of guided mindfulness practice"
-          ratio="16 / 6"
-          label="Classroom photo"
-        />
 
         <div class="help-home-empty" data-cards-empty hidden>
           No guides matched your search. Try a different word, or browse the sections in the menu.

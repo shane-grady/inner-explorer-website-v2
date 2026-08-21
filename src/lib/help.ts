@@ -13,7 +13,7 @@ export type HelpGroupId = 'start' | 'educators' | 'counselors' | 'admins' | 'fam
 export const helpGroups: { id: HelpGroupId; label: string }[] = [
   { id: 'start', label: 'Getting started' },
   { id: 'educators', label: 'For educators' },
-  { id: 'counselors', label: 'For counselors' },
+  { id: 'counselors', label: 'For support staff' },
   { id: 'admins', label: 'For administrators' },
   { id: 'families', label: 'For families' },
   { id: 'policies', label: 'Policies' },

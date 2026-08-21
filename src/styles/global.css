@@ -844,6 +844,9 @@ body.cms-editor-active [data-anim] {
   .prose-help ol:not([class]) {
     margin: 1.15em 0 0;
     padding-left: 1.2em;
+    /* Preflight resets `list-style` on ol; restore it so the ::marker rule below
+       actually has a marker to style. */
+    list-style: decimal;
   }
   .prose-help ol:not([class]) li {
     margin-top: 0.5em;
