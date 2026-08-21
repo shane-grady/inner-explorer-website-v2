@@ -65,4 +65,14 @@ const { title, content, contentHtml }: Props = Astro.props;
   .help-step-text :global(p + p) {
     margin-top: 0.6em;
   }
+  /* A step body can carry its own bullets (e.g. instructions that differ by role).
+     `.prose-help` supplies the green-dot markers; these only set the spacing, which
+     has to live here: those rules sit in @layer base, so they lose to the unlayered
+     `p` reset above no matter how specific they are. */
+  .help-step-text :global(ul) {
+    margin-top: 0.35em;
+  }
+  .help-step-text :global(ul + p) {
+    margin-top: 0.7em;
+  }
 </style>
