@@ -184,4 +184,12 @@ const {
   [data-layout='inline'] .intro {
     margin-top: 22px;
   }
+
+  /* Narrow viewports: let the inline headline wrap rather than run past the
+     container. `nowrap` only holds while the sentence still fits on one line. */
+  @media (max-width: 720px) {
+    [data-layout='inline'] .display {
+      white-space: normal;
+    }
+  }
 </style>
