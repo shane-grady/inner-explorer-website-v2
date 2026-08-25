@@ -49,6 +49,20 @@ const crumbLd = breadcrumbSchema(Astro.site, [
 ]);
 
 const practicesHeading = `<span class="serif">The practices</span><span class="sans"> ${firstName} guides in classrooms.</span>`;
+
+// CloudCannon Visual Editor: this page IS a `narrators` collection entry, so every
+// `data-prop` resolves against src/content/narrators/<slug>.json and the prefixes are
+// the entry's own field paths ('' is the entry root).
+//
+// Most narrators carry wall data only, so almost every editorial field is optional —
+// each region below is bound ONLY when its field is really in the file. Two rules do
+// the heavy lifting: a value the page COMPOSES is never bound (a region writes back
+// exactly what the element holds, so binding `Meet` or `${name}.` would push the
+// literal or the trailing period into a field), and a value the page FALLS BACK to is
+// bound to whichever field actually supplied it.
+const introKey = d.intro ? 'intro' : null;
+const heroImageProp = d.photoWide ? 'photoWide' : 'photo';
+const heroAltProp = d.photoAlt ? 'photoAlt' : undefined;
 ---
 
 <PageLayout title={`${d.name} — Inner Explorer`} description={intro}>
@@ -60,7 +74,17 @@ const practicesHeading = `<span class="serif">The practices</span><span class="s
       <Breadcrumb items={[{ label: 'Narrators', href: '/narrators/' }, { label: d.name }]} />
     </div>
 
-    <EditorialMasthead eyebrow={d.role} lead="Meet" display={`${d.name}.`} intro={intro} />
+    <EditorialMasthead
+      eyebrow={d.role}
+      lead="Meet"
+      display={`${d.name}.`}
+      intro={intro}
+      editablePrefix=""
+      eyebrowKey="role"
+      leadKey={null}
+      displayKey={null}
+      introKey={introKey}
+    />
 
     {
       d.quote && (
@@ -71,6 +95,10 @@ const practicesHeading = `<span class="serif">The practices</span><span class="s
           cornerEnd={d.location}
           quote={d.quote}
           eager
+          quotePrefix="quote"
+          imageSrcProp={heroImageProp}
+          imageAltProp={heroAltProp}
+          cornerEndProp="location"
         />
       )
     }
@@ -83,6 +111,7 @@ const practicesHeading = `<span class="serif">The practices</span><span class="s
           title={d.voiceIntro.title}
           transcriptHref={d.voiceIntro.transcriptHref}
           captionsSrc={d.voiceIntro.captionsSrc}
+          editablePrefix="voiceIntro"
         />
       )
     }
@@ -95,6 +124,8 @@ const practicesHeading = `<span class="serif">The practices</span><span class="s
           contained
           maxWidth="1200px"
           ariaLabel={`Facts about ${d.name}`}
+          editablePrefix=""
+          statsKey="facts"
         />
       )
     }
@@ -105,6 +136,8 @@ const practicesHeading = `<span class="serif">The practices</span><span class="s
           eyebrow={`Get to know ${firstName}`}
           headingHtml='<span class="serif">Five questions,</span><span class="sans"> on the practice.</span>'
           items={d.qa}
+          editablePrefix=""
+          itemsKey="qa"
         />
       )
     }
@@ -115,11 +148,15 @@ const practicesHeading = `<span class="serif">The practices</span><span class="s
           eyebrow={`${firstName}'s library`}
           headingHtml={practicesHeading}
           rows={d.practices}
+          editablePrefix=""
+          rowsKey="practices"
         />
       )
     }
 
     {
+      /* The studio rail lists OTHER narrators — data derived from sibling entries,
+         not fields of this file, so it carries no editable regions. */
       others.length > 0 && (
         <TeamGrid
           eyebrow="From the studio"

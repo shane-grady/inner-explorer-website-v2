@@ -1,5 +1,13 @@
 ---
 import LinkArrow from './LinkArrow.astro';
+import {
+  childPrefix,
+  editableArray,
+  editableItem,
+  editableText,
+  itemPrefix,
+  type EditablePrefix,
+} from '../../../lib/editable';
 
 // Research "Outcomes Explorer": four sourced outcomes as selectable tabs, an honest
 // animated before/after comparison (typical classroom indexed to 100 vs. Inner
@@ -28,8 +36,18 @@ export interface OutcomesExplorerProps {
   outcomes: Outcome[];
   provenance: string[];
 }
-type Props = OutcomesExplorerProps;
-const { eyebrow, headingHtml, desc, egress, outcomes, provenance }: Props = Astro.props;
+type Props = OutcomesExplorerProps & {
+  /** CloudCannon path prefix for this block's fields (e.g. 'research'). Omit on
+   *  routes not backed by a `pages` collection entry. See lib/editable.ts.
+   *
+   *  The claim + citation panel is swapped client-side from the tab data attributes,
+   *  so binding it would fight the script; `provenance` rows are HTML strings inside
+   *  a plain string array. Both stay sidebar-only. */
+  editablePrefix?: EditablePrefix;
+};
+const { eyebrow, headingHtml, desc, egress, outcomes, provenance, editablePrefix }: Props =
+  Astro.props;
+const tabPrefix = itemPrefix(editablePrefix);
 
 const first = outcomes[0];
 const max0 = Math.max(first.typ, first.ie);
@@ -41,17 +59,27 @@ const ieH0 = `${(first.ie / max0) * 100}%`;
   <div class="pwrap">
     <div class="research-head">
       <div class="left">
-        <span class="eyebrow up">{eyebrow}</span>
+        <span class="eyebrow up" {...editableText(editablePrefix, 'eyebrow')}>{eyebrow}</span>
         <h2 set:html={headingHtml} />
       </div>
       <div class="right">
-        <p class="desc">{desc}</p>
-        <LinkArrow label={egress.label} href={egress.href} class="rx-head-link" />
+        <p class="desc" {...editableText(editablePrefix, 'desc', 'text')}>{desc}</p>
+        <LinkArrow
+          label={egress.label}
+          href={egress.href}
+          class="rx-head-link"
+          editablePrefix={childPrefix(editablePrefix, 'egress')}
+        />
       </div>
     </div>
 
     <div class="rx">
-      <div class="rx-tabs" role="tablist" aria-label="Outcomes">
+      <div
+        class="rx-tabs"
+        role="tablist"
+        aria-label="Outcomes"
+        {...editableArray(editablePrefix, 'outcomes')}
+      >
         {
           outcomes.map((o, i) => (
             <button
@@ -67,10 +95,17 @@ const ieH0 = `${(first.ie / max0) * 100}%`;
               data-dir={o.dir}
               data-claim={o.claimHtml}
               data-src={o.src}
+              {...editableItem(editablePrefix)}
             >
-              <span class="rl">{o.label}</span>
-              <span class="rv">{o.statValue}</span>
-              <span class="rk">{o.kicker}</span>
+              <span class="rl" {...editableText(tabPrefix, 'label')}>
+                {o.label}
+              </span>
+              <span class="rv" {...editableText(tabPrefix, 'statValue')}>
+                {o.statValue}
+              </span>
+              <span class="rk" {...editableText(tabPrefix, 'kicker')}>
+                {o.kicker}
+              </span>
             </button>
           ))
         }

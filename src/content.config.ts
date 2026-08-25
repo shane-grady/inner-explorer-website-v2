@@ -467,6 +467,26 @@ const series = defineCollection({
   },
 });
 
+// ── Pages — copy for the bespoke marketing routes ────────────────────────────
+// One file per route (src/content/pages/<route>.yml). The route keeps its
+// art-directed layout, animation, and imported assets in .astro; ONLY the copy moves
+// here, so CloudCannon can read and write it and the Visual Editor has a real file to
+// bind `data-prop` paths against.
+//
+// Each page's shape lives in its own module under src/lib/page-schemas/ — the pages
+// differ enough that one shared schema would be a soup of optional fields, and
+// separate modules keep each route's contract readable on its own.
+//
+// This is a discriminatedUnion on `_schema`, not a plain union: a plain union lets an
+// earlier member with many optional fields "win" and silently drop the real page's
+// fields.
+import { pageSchemas } from './lib/page-schemas';
+
+const pages = defineCollection({
+  loader: glob({ pattern: '**/*.{json,yaml,yml}', base: './src/content/pages' }),
+  schema: (ctx) => z.discriminatedUnion('_schema', pageSchemas(ctx)),
+});
+
 // Help Center articles render on the help.innerexplorer.com build (see
 // astro.help.config.mjs), but the collection stays registered here too: the
 // shared definition lives in src/lib/help-collection.ts, and keeping it in this
@@ -474,4 +494,4 @@ const series = defineCollection({
 // and `astro check` the `help` collection types.
 import { helpCollection as help } from './lib/help-collection';
 
-export const collections = { blog, testimonials, narrators, caseStudies, series, help };
+export const collections = { blog, pages, testimonials, narrators, caseStudies, series, help };

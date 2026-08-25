@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
+import { editableText, editableImage, type EditablePrefix } from '../../lib/editable';
 
 // Wide editorial photo with a tint overlay, glass corner labels, and a
 // serif-italic pull-quote. Reusable for narrator heroes and featured voices.
@@ -15,6 +16,17 @@ interface Props {
   /** Set for the LCP hero so the image loads eagerly. */
   eager?: boolean;
   maxWidth?: string;
+  /** CloudCannon path prefix for the `quote` object (e.g. 'quote'). Omit on call sites
+   *  not backed by a collection entry — see lib/editable.ts. */
+  quotePrefix?: EditablePrefix;
+  /** Entry-root paths for the photo. The page picks them because it also picks the
+   *  photo (a narrator falls back from `photoWide` to `photo`, and `photoAlt` is
+   *  optional — an alt region bound to a missing field is an editor error card). */
+  imageSrcProp?: string;
+  imageAltProp?: string;
+  /** Entry-root path behind the top-right corner label (a narrator's `location`).
+   *  `cornerStart` is a fixed label, never content, so it is never bound. */
+  cornerEndProp?: string;
 }
 const {
   image,
@@ -24,6 +36,10 @@ const {
   quote,
   eager = false,
   maxWidth = '1200px',
+  quotePrefix,
+  imageSrcProp,
+  imageAltProp,
+  cornerEndProp,
 }: Props = Astro.props;
 ---
 
@@ -39,6 +55,7 @@ const {
           sizes="(max-width: 1264px) 100vw, 1136px"
           loading={eager ? 'eager' : 'lazy'}
           fetchpriority={eager ? 'high' : 'auto'}
+          {...(imageSrcProp ? editableImage('', imageSrcProp, imageAltProp) : {})}
         />
       ) : (
         <div class="photo-fallback" role="img" aria-label={imageAlt} />
@@ -54,12 +71,28 @@ const {
         </div>
       )
     }
-    {cornerEnd && <div class="corner end">{cornerEnd}</div>}
+    {
+      cornerEnd && (
+        <div class="corner end" {...(cornerEndProp ? editableText('', cornerEndProp) : {})}>
+          {cornerEnd}
+        </div>
+      )
+    }
 
+    {
+      /* The caption is a SIBLING of the image region, never a descendant — a prop
+        nested inside an image region resolves against its {src, alt} value. */
+    }
     <figcaption class="quote">
       <span class="mark" aria-hidden="true">&ldquo;</span>
-      <p>{quote.text}</p>
-      {quote.attrib && <span class="attrib">{quote.attrib}</span>}
+      <p {...editableText(quotePrefix, 'text', 'text')}>{quote.text}</p>
+      {
+        quote.attrib && (
+          <span class="attrib" {...editableText(quotePrefix, 'attrib')}>
+            {quote.attrib}
+          </span>
+        )
+      }
     </figcaption>
   </figure>
 </section>

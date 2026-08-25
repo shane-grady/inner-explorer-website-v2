@@ -2,6 +2,7 @@
 import SectionHead from './SectionHead.astro';
 import LinkArrow from './LinkArrow.astro';
 import PhoneMock from './PhoneMock.astro';
+import { childPrefix, editableText, type EditablePrefix } from '../../../lib/editable';
 
 // "One foundation → three platforms" — the moment the story narrows to Classroom,
 // District, and Home, each with a small live-feeling mockup. Captions are data;
@@ -18,22 +19,46 @@ export interface PlatformTrioProps {
   egress: { label: string; href: string };
   cards: [CardCopy, CardCopy, CardCopy];
 }
-type Props = PlatformTrioProps;
-const { eyebrow, headingHtml, desc, egress, cards }: Props = Astro.props;
+type Props = PlatformTrioProps & {
+  /** CloudCannon path prefix for this block's fields (e.g. 'trio'). Omit on routes
+   *  not backed by a `pages` collection entry. See lib/editable.ts.
+   *
+   *  `cards` is bound with indexed paths rather than an editable array: each slot
+   *  carries its own bespoke mockup, so add/remove controls would offer an editor a
+   *  fourth card with nowhere to render. */
+  editablePrefix?: EditablePrefix;
+};
+const { eyebrow, headingHtml, desc, egress, cards, editablePrefix }: Props = Astro.props;
 ---
 
 <section class="platforms">
   <div class="pwrap">
-    <SectionHead eyebrow={eyebrow} eyebrowUp headingHtml={headingHtml} desc={desc} wide>
-      <LinkArrow label={egress.label} href={egress.href} />
+    <SectionHead
+      eyebrow={eyebrow}
+      eyebrowUp
+      headingHtml={headingHtml}
+      desc={desc}
+      wide
+      editablePrefix={editablePrefix}
+    >
+      <LinkArrow
+        label={egress.label}
+        href={egress.href}
+        editablePrefix={childPrefix(editablePrefix, 'egress')}
+      />
     </SectionHead>
 
     <div class="plat-grid">
       {/* Classroom */}
       <article class="plat-card">
         <div class="cap">
-          <p class="nm"><span class="pdot" aria-hidden="true"></span> {cards[0].name}</p>
-          <p class="ds">{cards[0].desc}</p>
+          <p class="nm">
+            <span class="pdot" aria-hidden="true"></span>
+            <span {...editableText(editablePrefix, 'cards.0.name')}>{cards[0].name}</span>
+          </p>
+          <p class="ds" {...editableText(editablePrefix, 'cards.0.desc', 'text')}>
+            {cards[0].desc}
+          </p>
         </div>
         <div class="plat-shot">
           <div class="mock-classroom" aria-hidden="true">
@@ -63,8 +88,13 @@ const { eyebrow, headingHtml, desc, egress, cards }: Props = Astro.props;
       {/* District */}
       <article class="plat-card">
         <div class="cap">
-          <p class="nm"><span class="pdot" aria-hidden="true"></span> {cards[1].name}</p>
-          <p class="ds">{cards[1].desc}</p>
+          <p class="nm">
+            <span class="pdot" aria-hidden="true"></span>
+            <span {...editableText(editablePrefix, 'cards.1.name')}>{cards[1].name}</span>
+          </p>
+          <p class="ds" {...editableText(editablePrefix, 'cards.1.desc', 'text')}>
+            {cards[1].desc}
+          </p>
         </div>
         <div class="plat-shot">
           <div class="mock-district" aria-hidden="true">
@@ -94,8 +124,13 @@ const { eyebrow, headingHtml, desc, egress, cards }: Props = Astro.props;
       {/* Home */}
       <article class="plat-card">
         <div class="cap">
-          <p class="nm"><span class="pdot" aria-hidden="true"></span> {cards[2].name}</p>
-          <p class="ds">{cards[2].desc}</p>
+          <p class="nm">
+            <span class="pdot" aria-hidden="true"></span>
+            <span {...editableText(editablePrefix, 'cards.2.name')}>{cards[2].name}</span>
+          </p>
+          <p class="ds" {...editableText(editablePrefix, 'cards.2.desc', 'text')}>
+            {cards[2].desc}
+          </p>
         </div>
         <div class="plat-shot">
           <PhoneMock theme="dusk" eyebrow="Bedtime" title="Wind down together" />

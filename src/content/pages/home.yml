@@ -1,0 +1,266 @@
+_schema: home
+permalink: /
+pageTitle: Inner Explorer — Daily mindfulness for K-12 schools
+pageDescription: Five minutes of guided audio mindfulness, every morning, in every classroom. Calmer rooms, fewer disruptions, and measurable gains — proven across two million students and ready for your whole district.
+intro:
+  headline: Calm Minds Learn Better
+  lede: The daily audio-guided mindfulness program for PreK-12 classrooms. Reduce stress, improve focus, and foster well-being with just 5–10 minutes a day.
+  cta:
+    label: Get Started
+    href: /contact
+  imageAlt: A student sits quietly with lowered eyes during a calm moment in a busy elementary classroom.
+  balanceLabel: Balance
+  problem:
+    title: If only finding peace in your district was as simple as pressing play.
+    body: Behavioral disruptions steal weeks of instructional time every single year.
+  solution:
+    title: It turns out, it actually is.
+    body: We reduce those disruptions by 60% with zero prep work required.
+liveNow:
+  eyebrow: Right now, somewhere
+  headingLead: A class is taking a breath
+  headingAccent: together.
+  captions:
+    - 8:02 AM ET · a kindergarten in Broward County, FL settles in
+    - 7:48 AM CT · a middle school in Tulsa, OK takes a breath
+    - 8:14 AM MT · a 5th grade class in Mesa, AZ presses play
+    - 8:31 AM ET · a high school in Newark, NJ begins the morning
+    - 7:55 AM PT · a 2nd grade room in Sacramento, CA grows quiet
+  stats:
+    - value: 2M
+      sup: +
+      label: students who have practiced
+    - value: 10k
+      sup: +
+      label: schools and classrooms
+    - value: '50'
+      label: states, every time zone
+    - value: '5'
+      sup: min
+      label: to change a morning
+whyNow:
+  eyebrow: Why this, why now
+  manifesto: Children can't learn when they're overwhelmed. Inner Explorer gives every classroom one small, daily ritual — a few minutes of breath and quiet — that makes room for everything else the school day asks of them.
+  stats:
+    - value: 1 in 3
+      body: students carries stress or anxiety into the classroom — where it quietly erodes attention, memory, and the ability to learn.
+    - value: Hours
+      body: lost each week to disruption and de-escalation — time pulled away from teaching, and from teachers who are running on empty.
+    - value: 44 states
+      body: now require or encourage social-emotional learning — yet most schools still lack one daily practice simple enough to stick.
+audiences:
+  eyebrow: Built for two
+  headingLead: One practice.
+  headingAccent: Two ways in.
+  educator:
+    heading: Press play, and lead.
+    body: No prep. No training. No extra screen time for your students. A calm, recorded voice leads the practice — you simply breathe along with your class.
+    points:
+      - Ready-made daily practices, sequenced for you
+      - Fits morning circle, transitions, or before a test
+      - Guided journaling and milestones close each session
+    cta:
+      label: See how a practice runs
+      href: /platform
+    card:
+      title: A Calm Beginning
+      meta: Grades K–5 · 5 min · Day 1
+      image: ../../assets/images/about/origin-classroom-practice.jpg
+      imageAlt: A classroom settling into a guided morning practice
+  district:
+    heading: See every school, in one view.
+    body: Adoption, engagement, and outcomes across your district — the reporting your board expects and the evidence that makes renewal easy.
+    points:
+      - District-wide adoption funnels and engagement
+      - Impact and outcomes reporting, ready for the board
+      - Maps to Title I, II, IV and ESSER funding
+    cta:
+      label: Contact us
+      href: /contact
+    dashboard:
+      title: Broward County · Fall 2026
+      delta: +12%
+      funnelLabel: Adoption funnel
+      rows:
+        - label: Invited
+          value: 11,820
+          fill: 0.96
+        - label: Active
+          value: 9,210
+          fill: 0.74
+        - label: Weekly
+          value: 4,490
+          fill: 0.42
+      stats:
+        - value: '342'
+          label: schools active
+        - value: 487k
+          label: mindful minutes
+howItWorks:
+  eyebrow: A five-minute morning
+  headingLead: Three steps.
+  headingAccent: Then the day begins.
+  steps:
+    - time: 8:00 AM
+      n: '01'
+      title: Choose a practice
+      body: Pick the day's themed, grade-appropriate session. It's already sequenced into a series — no planning required.
+      icon: choose
+    - time: 8:05 AM
+      n: '02'
+      title: Press play
+      body: A guided voice leads the class through breathing and focus. You listen along — the calmest five minutes of the day.
+      icon: play
+    - time: 8:12 AM
+      n: '03'
+      title: Reflect & track
+      body: A short journal prompt closes the practice. Mindful minutes and progress log automatically for you and your district.
+      icon: reflect
+gradeBands:
+  eyebrow: Every grade band
+  headingLead: From first words to
+  headingAccent: final exams.
+  bands:
+    - grade: Pre-K
+      title: Early & playful
+      body: Gentle, very short practices that introduce calm through story and breath.
+      href: /platform
+      tone: 0
+    - grade: K–5
+      title: Story-led calm
+      body: Imaginative narrated journeys that settle a room before learning.
+      href: /platform
+      tone: 1
+    - grade: 6–8
+      title: Focus & regulation
+      body: Practices that build attention and help students name what they feel.
+      href: /platform
+      tone: 2
+    - grade: 9–12
+      title: Stress & resilience
+      body: Tools for test anxiety, pressure, and the weight older students carry.
+      href: /platform
+      tone: 3
+proof:
+  eyebrow: The evidence
+  headingLead: The research is in.
+  headingAccent: So are the results.
+  intro: Built on Mindfulness-Based Stress Reduction — the most studied mindfulness method in the world — and validated by independent, peer-reviewed studies in real classrooms.
+  hero:
+    display: 60%
+    count: 60
+    suffix: '%'
+    caption: fewer behavioral issues and office referrals — calmer rooms, more time to teach.
+    source: Independent district evaluation, elementary cohort
+  trendLabel: Behavioral referrals over one semester
+  trend:
+    - 100
+    - 86
+    - 72
+    - 60
+    - 50
+    - 43
+    - 40
+  support:
+    - display: 28%
+      count: 28
+      suffix: '%'
+      caption: higher grades in reading, math, and science
+    - display: 43%
+      count: 43
+      suffix: '%'
+      caption: less reported stress among educators
+    - display: 9,000+
+      count: 9000
+      suffix: +
+      caption: studies behind the MBSR method it’s built on
+  pills:
+    - label: CASEL-aligned SEL competencies
+      icon: check
+    - label: BrainFutures Top 10 evidence-based program
+      icon: star
+    - label: Rooted in Mindfulness-Based Stress Reduction
+      icon: shield
+stories:
+  badge: From the field
+  headlineTop: Trusted by educators
+  headlineBottom: in classrooms everywhere
+  body: Hear why teachers trust five mindful minutes to settle a room, steady their students, and keep coming back to it.
+  cta:
+    label: Read their stories
+    href: /case-studies/
+  portraits:
+    - image: ../../assets/images/narrators/maya-castellanos.jpg
+      alt: ''
+    - image: ../../assets/images/narrators/jamal-foster.jpg
+      alt: ''
+    - image: ../../assets/images/narrators/leila-karimi.jpg
+      alt: ''
+    - image: ../../assets/images/narrators/theo-park.jpg
+      alt: ''
+    - image: ../../assets/images/narrators/camila-vega.jpg
+      alt: ''
+    - image: ../../assets/images/narrators/samuel-mbeki.jpg
+      alt: ''
+    - image: ../../assets/images/narrators/yuki-tanaka.jpg
+      alt: ''
+    - image: ../../assets/images/narrators/aaliyah-williams.jpg
+      alt: ''
+  statCards:
+    - value: 94%
+      label: of teachers keep it in their daily routine
+      tone: brand
+    - value: 27%
+      label: fewer classroom disruptions reported
+      tone: card
+    - value: 5 min
+      label: to settle a restless room
+      tone: brand
+    - value: +11%
+      label: gain in on-task focus
+      tone: card
+sample:
+  eyebrow: Hear it for yourself
+  headingLead: This is what your class
+  headingAccent: hears.
+  body: No sign-up. Press play for a sample of the morning practice.
+  disclaimer: A short sample. Full practices feature professionally recorded, grade-specific narration.
+  audioSrc: /audio/narrators/maya-hello.mp3
+  captionsSrc: /audio/narrators/maya-hello.vtt
+  durationSec: 30
+  trackTitle: A moment of calm.
+  trackEyebrow: Sample practice · any grade
+funding:
+  eyebrow: Bring it to your district
+  headingLead: Funded more easily
+  headingAccent: than you'd think.
+  intro: Most schools already hold the budget. Inner Explorer maps to common federal, state, and grant funding streams — and our team helps you build the case.
+  cards:
+    - title: Title I, II & IV
+      body: Federal funds for student support, educator development, and wellbeing.
+    - title: ESSER & recovery
+      body: Funding earmarked for student mental health and SEL.
+    - title: SEL & wellness grants
+      body: State and foundation grants for social-emotional programs.
+    - title: School & PTA budgets
+      body: Low per-student cost that fits existing site-level budgets.
+bringIt:
+  eyebrow: Bring it to your school
+  headingTop: Calmer mornings,
+  headingBottom: every single day.
+  body: Five guided minutes is all it takes to settle a room. See how it fits your classrooms in a twenty-minute walkthrough.
+  primaryCta:
+    label: Contact us
+    href: /contact
+  secondaryCta:
+    label: Free for educators
+    href: /contact
+  pills:
+    - No prep
+    - 5 minutes a day
+    - Research-backed
+  chip:
+    title: A Calm Beginning
+    sub: Now playing in 342 classrooms
+  image: ../../assets/images/about/impact-diverse-classroom.jpg
+  imageAlt: A diverse classroom in calm shared practice

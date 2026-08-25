@@ -1,4 +1,12 @@
 ---
+import {
+  editableText,
+  editableArray,
+  editableItem,
+  type EditablePrefix,
+  itemPrefix,
+} from '../../../lib/editable';
+
 interface StatItem {
   n: string;
   l: string;
@@ -15,37 +23,55 @@ interface Props {
   lede: string;
   stats: StatItem[];
   studies: Study[];
+  /** CloudCannon path prefix for this block's fields (e.g. 'pioneer'). Omit on routes
+   *  that are not backed by a `pages` collection entry. See lib/editable.ts.
+   *
+   *  `headingHtml` and each study's `findHtml` render through `set:html`; a text
+   *  region would strip their inline <b>, so they stay sidebar-only. */
+  editablePrefix?: EditablePrefix;
 }
-const { eyebrow, headingHtml, lede, stats, studies }: Props = Astro.props;
+const { eyebrow, headingHtml, lede, stats, studies, editablePrefix }: Props = Astro.props;
+/** Inside an array row, paths are relative to the row — hence ''. */
+const rowPrefix = itemPrefix(editablePrefix);
 ---
 
 <section class="pioneer">
   <div class="pioneer-grid">
     <div class="pioneer-left">
-      <span class="eyebrow">{eyebrow}</span>
+      <span class="eyebrow" {...editableText(editablePrefix, 'eyebrow')}>{eyebrow}</span>
       <h2 class="display-h" set:html={headingHtml} />
-      <p class="lede">{lede}</p>
-      <dl class="pioneer-stats">
+      <p class="lede" {...editableText(editablePrefix, 'lede', 'text')}>{lede}</p>
+      {/* Container holds ONLY array rows, as CloudCannon's array regions require. */}
+      <dl class="pioneer-stats" {...editableArray(editablePrefix, 'stats')}>
         {
           stats.map((s) => (
-            <div class="item">
-              <dt class="n">{s.n}</dt>
-              <dd class="l">{s.l}</dd>
+            <div class="item" {...editableItem(editablePrefix)}>
+              <dt class="n" {...editableText(rowPrefix, 'n')}>
+                {s.n}
+              </dt>
+              <dd class="l" {...editableText(rowPrefix, 'l')}>
+                {s.l}
+              </dd>
             </div>
           ))
         }
       </dl>
     </div>
 
-    <div class="pioneer-right">
+    {/* Container holds ONLY array rows, as CloudCannon's array regions require. */}
+    <div class="pioneer-right" {...editableArray(editablePrefix, 'studies')}>
       {
         studies.map((s) => (
-          <article class="study">
+          <article class="study" {...editableItem(editablePrefix)}>
             <div class="head">
-              <span class="yr">{s.yr}</span>
-              <span class="pub">{s.pub}</span>
+              <span class="yr" {...editableText(rowPrefix, 'yr')}>
+                {s.yr}
+              </span>
+              <span class="pub" {...editableText(rowPrefix, 'pub')}>
+                {s.pub}
+              </span>
             </div>
-            <h3>{s.title}</h3>
+            <h3 {...editableText(rowPrefix, 'title')}>{s.title}</h3>
             <p class="find" set:html={s.findHtml} />
           </article>
         ))

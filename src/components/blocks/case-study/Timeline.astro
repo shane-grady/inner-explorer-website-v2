@@ -1,5 +1,12 @@
 ---
 import type { TimelinePhase } from './types';
+import {
+  editableText,
+  editableArray,
+  editableItem,
+  itemPrefix,
+  type EditablePrefix,
+} from '../../../lib/editable';
 
 // The rollout journey: a horizontal scroll-snap rail of phase cards riding a
 // brand spine, with a progress fill and prev/next controls. Each card shows
@@ -11,16 +18,20 @@ interface Props {
   heading: string;
   phases: TimelinePhase[];
   id?: string;
+  /** CloudCannon path prefix for this block's object (e.g. 'timeline'). Omit on call
+   *  sites not backed by a collection entry — see lib/editable.ts. */
+  editablePrefix?: EditablePrefix;
 }
-const { eyebrow, heading, phases, id }: Props = Astro.props;
+const { eyebrow, heading, phases, id, editablePrefix }: Props = Astro.props;
+const rowPrefix = itemPrefix(editablePrefix);
 ---
 
 <section class="timeline" id={id} data-cs-timeline>
   <div class="wrap">
     <div class="head" data-cs-reveal>
       <div class="head-text">
-        <span class="eyebrow">{eyebrow}</span>
-        <h2 class="h2">{heading}</h2>
+        <span class="eyebrow" {...editableText(editablePrefix, 'eyebrow')}>{eyebrow}</span>
+        <h2 class="h2" {...editableText(editablePrefix, 'heading')}>{heading}</h2>
       </div>
       <div class="controls">
         <button type="button" class="ctrl" data-prev aria-label="Previous phase">
@@ -52,20 +63,33 @@ const { eyebrow, heading, phases, id }: Props = Astro.props;
       <span class="rail-line rail-spine" aria-hidden="true"></span>
       <span class="rail-line rail-fill" aria-hidden="true"></span>
 
-      <ol class="rail" aria-label={`${heading} timeline`}>
+      {/* The rail holds ONLY phase rows; the spine/fill rules are its siblings. */}
+      <ol
+        class="rail"
+        aria-label={`${heading} timeline`}
+        {...editableArray(editablePrefix, 'phases')}
+      >
         {
           phases.map((p) => (
-            <li class="item">
+            <li class="item" {...editableItem(editablePrefix)}>
               <span class="dot" aria-hidden="true">
                 <span />
               </span>
               <div class="card">
                 <div class="row">
-                  <span class="date">{p.date}</span>
-                  <span class="tag">{p.tag}</span>
+                  <span class="date" {...editableText(rowPrefix, 'date')}>
+                    {p.date}
+                  </span>
+                  <span class="tag" {...editableText(rowPrefix, 'tag')}>
+                    {p.tag}
+                  </span>
                 </div>
-                <h3 class="title">{p.title}</h3>
-                <p class="text">{p.text}</p>
+                <h3 class="title" {...editableText(rowPrefix, 'title')}>
+                  {p.title}
+                </h3>
+                <p class="text" {...editableText(rowPrefix, 'text', 'text')}>
+                  {p.text}
+                </p>
               </div>
             </li>
           ))

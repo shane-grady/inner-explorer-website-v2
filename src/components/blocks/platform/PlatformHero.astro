@@ -1,6 +1,7 @@
 ---
 import Button from '../../primitives/Button.astro';
 import PlatformIcon from './PlatformIcon.astro';
+import { childPrefix, editableText, type EditablePrefix } from '../../../lib/editable';
 
 // Platform hero: a two-column intro (duet headline + right-aligned subhead + CTAs)
 // over a showcase panel that previews each platform — the Classroom practice arc,
@@ -19,25 +20,41 @@ interface Props {
   subtitle: string;
   primaryCta: Cta;
   secondaryCta: Cta;
+  /** CloudCannon path prefix for this block's fields (e.g. 'hero'). Omit on routes
+   *  not backed by a `pages` collection entry. See lib/editable.ts.
+   *
+   *  Nothing inside the showcase below is editable: those panels are `aria-hidden`
+   *  product mockups, and their figures are illustrative, not page copy. */
+  editablePrefix?: EditablePrefix;
 }
-const { titleLine1, titleLine2, subtitle, primaryCta, secondaryCta }: Props = Astro.props;
+const { titleLine1, titleLine2, subtitle, primaryCta, secondaryCta, editablePrefix }: Props =
+  Astro.props;
 ---
 
 <section class="phero">
   <div class="phero-inner">
     <div class="hero-top">
       <div class="hero-lead">
-        <h1>{titleLine1}<br /><span class="l2">{titleLine2}</span></h1>
-        <div class="hero-actions">
-          <Button href={primaryCta.href} tone="brand" shape="pill" size="sm"
-            >{primaryCta.label}</Button
+        <h1>
+          <span {...editableText(editablePrefix, 'titleLine1')}>{titleLine1}</span><br /><span
+            class="l2"
+            {...editableText(editablePrefix, 'titleLine2')}>{titleLine2}</span
           >
+        </h1>
+        <div class="hero-actions">
+          <Button href={primaryCta.href} tone="brand" shape="pill" size="sm">
+            <span {...editableText(childPrefix(editablePrefix, 'primaryCta'), 'label')}>
+              {primaryCta.label}
+            </span>
+          </Button>
           <Button href={secondaryCta.href} variant="outline" tone="neutral" shape="pill" size="sm">
-            {secondaryCta.label}
+            <span {...editableText(childPrefix(editablePrefix, 'secondaryCta'), 'label')}>
+              {secondaryCta.label}
+            </span>
           </Button>
         </div>
       </div>
-      <p class="hero-sub">{subtitle}</p>
+      <p class="hero-sub" {...editableText(editablePrefix, 'subtitle', 'text')}>{subtitle}</p>
     </div>
 
     <div class="showcase">

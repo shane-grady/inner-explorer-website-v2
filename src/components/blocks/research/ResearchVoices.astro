@@ -1,4 +1,12 @@
 ---
+import {
+  editableArray,
+  editableItem,
+  editableText,
+  itemPrefix,
+  type EditablePrefix,
+} from '../../../lib/editable';
+
 interface Voice {
   quote: string;
   author: string;
@@ -7,25 +15,37 @@ interface Voice {
 interface Props {
   voices: Voice[];
   intervalMs?: number;
+  /** CloudCannon path prefix for the OBJECT holding `voices` — '' when the array is
+   *  at the file root. Omit on routes not backed by a `pages` collection entry.
+   *  See lib/editable.ts. */
+  editablePrefix?: EditablePrefix;
 }
-const { voices, intervalMs = 7000 }: Props = Astro.props;
+const { voices, intervalMs = 7000, editablePrefix }: Props = Astro.props;
+const cardPrefix = itemPrefix(editablePrefix);
 ---
 
 <section class="voices" id="voices" data-screen-label="Voices" aria-label="Testimonials">
   <div class="wrap">
     <div class="mark" aria-hidden="true">&ldquo;</div>
-    <div class="quotes" data-interval={intervalMs}>
+    <div class="quotes" data-interval={intervalMs} {...editableArray(editablePrefix, 'voices')}>
       {
         voices.map((v, i) => (
           <figure
             class:list={['quote-card', { on: i === 0 }]}
             data-index={i}
             aria-hidden={i === 0 ? 'false' : 'true'}
+            {...editableItem(editablePrefix)}
           >
-            <blockquote class="quote">{v.quote}</blockquote>
+            <blockquote class="quote" {...editableText(cardPrefix, 'quote', 'text')}>
+              {v.quote}
+            </blockquote>
             <figcaption>
-              <div class="author">{v.author}</div>
-              <div class="where">{v.where}</div>
+              <div class="author" {...editableText(cardPrefix, 'author')}>
+                {v.author}
+              </div>
+              <div class="where" {...editableText(cardPrefix, 'where')}>
+                {v.where}
+              </div>
             </figcaption>
           </figure>
         ))

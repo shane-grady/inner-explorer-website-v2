@@ -1,6 +1,13 @@
 ---
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
+import {
+  editableArray,
+  editableItem,
+  editableText,
+  itemPrefix,
+  type EditablePrefix,
+} from '../../../lib/editable';
 
 // Live-now — the immersive dark "scale" section. A field of circular "dots" — most are
 // students mid-practice (photos clipped to circles, gently fading in and out on
@@ -24,8 +31,12 @@ interface Props {
   /** Rotating "right now, somewhere" captions; the first is server-rendered. */
   captions: string[];
   stats: Stat[];
+  /** CloudCannon path prefix for this block's fields (e.g. 'liveNow'). Omit on routes
+   *  that are not backed by a `pages` collection entry. See lib/editable.ts. */
+  editablePrefix?: EditablePrefix;
 }
-const { eyebrow, headingLead, headingAccent, captions, stats }: Props = Astro.props;
+const { eyebrow, headingLead, headingAccent, captions, stats, editablePrefix }: Props = Astro.props;
+const rowPrefix = itemPrefix(editablePrefix);
 
 // Student/classroom photos for the field (all of src/assets/images/home/mosaic).
 const mosaic = import.meta.glob<{ default: ImageMetadata }>(
@@ -86,10 +97,10 @@ const firstCaption = captions[0] ?? '';
 >
   <div class="inner">
     <header class="head">
-      <p class="eyebrow">{eyebrow}</p>
+      <p class="eyebrow" {...editableText(editablePrefix, 'eyebrow')}>{eyebrow}</p>
       <h2 id="live-heading" class="h">
-        {headingLead}{' '}
-        <em>{headingAccent}</em>
+        <span {...editableText(editablePrefix, 'headingLead')}>{headingLead}</span>{' '}
+        <em {...editableText(editablePrefix, 'headingAccent')}>{headingAccent}</em>
       </h2>
     </header>
 
@@ -115,15 +126,22 @@ const firstCaption = captions[0] ?? '';
       <span class="caption-text" data-live-caption>{firstCaption}</span>
     </p>
 
-    <div class="stats" data-home-reveal>
+    {/* Array container: holds ONLY the mapped stat rows. */}
+    <div class="stats" data-home-reveal {...editableArray(editablePrefix, 'stats')}>
       {
         stats.map((s) => (
-          <div class="stat">
+          <div class="stat" {...editableItem(editablePrefix)}>
             <div class="stat-num">
-              {s.value}
-              {s.sup && <span class="sup">{s.sup}</span>}
+              <span {...editableText(rowPrefix, 'value')}>{s.value}</span>
+              {s.sup && (
+                <span class="sup" {...editableText(rowPrefix, 'sup')}>
+                  {s.sup}
+                </span>
+              )}
             </div>
-            <div class="stat-lbl">{s.label}</div>
+            <div class="stat-lbl" {...editableText(rowPrefix, 'label')}>
+              {s.label}
+            </div>
           </div>
         ))
       }

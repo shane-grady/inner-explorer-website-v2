@@ -1,5 +1,12 @@
 ---
 import SeriesIcon from './SeriesIcon.astro';
+import {
+  editableText,
+  editableArray,
+  editableItem,
+  itemPrefix,
+  type EditablePrefix,
+} from '../../../lib/editable';
 
 // "How it works" — three numbered steps: icon chip + serif-italic number word,
 // title, and supporting copy.
@@ -11,23 +18,33 @@ interface Step {
 }
 interface Props {
   steps: Step[];
+  /** CloudCannon path prefix for the object that OWNS the steps array (e.g. 'how').
+   *  Omit on call sites not backed by a collection entry. */
+  editablePrefix?: EditablePrefix;
+  /** Name of the array field within `editablePrefix`. */
+  stepsKey?: string;
 }
-const { steps }: Props = Astro.props;
+const { steps, editablePrefix, stepsKey = 'steps' }: Props = Astro.props;
+const stepPrefix = itemPrefix(editablePrefix);
 const NUMS = ['One', 'Two', 'Three', 'Four'];
 ---
 
-<ol class="how">
+{
+  /* Container holds ONLY steps. The number word is derived from position, and
+    `icon` is a token name — neither is editable text. */
+}
+<ol class="how" {...editableArray(editablePrefix, stepsKey)}>
   {
     steps.map((st, i) => (
-      <li class="step" data-sr data-sr-delay={`${i + 1}`}>
+      <li class="step" data-sr data-sr-delay={`${i + 1}`} {...editableItem(editablePrefix)}>
         <div class="n">
           <span class="ic">
             <SeriesIcon name={st.icon} />
           </span>
           <span class="word">{NUMS[i] ?? i + 1}</span>
         </div>
-        <h3>{st.title}</h3>
-        <p>{st.body}</p>
+        <h3 {...editableText(stepPrefix, 'title')}>{st.title}</h3>
+        <p {...editableText(stepPrefix, 'body', 'text')}>{st.body}</p>
       </li>
     ))
   }

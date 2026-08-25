@@ -5,6 +5,13 @@ import DialChart, { type DialDatum } from './charts/DialChart.astro';
 import LineChart, { type LineDatum } from './charts/LineChart.astro';
 import CompetenciesChart, { type CompDatum } from './charts/CompetenciesChart.astro';
 import type { Study } from './ResearchReceipts.astro';
+import {
+  editableArray,
+  editableItem,
+  editableText,
+  itemPrefix,
+  type EditablePrefix,
+} from '../../../lib/editable';
 
 export type ChartKind = 'bars' | 'before-after' | 'dial' | 'line' | 'competencies';
 
@@ -33,9 +40,28 @@ interface Props {
   jumpLabel: string;
   outcomes: Outcome[];
   studies: Study[];
+  /** CloudCannon path prefix for the chapter head (e.g. 'outcomesHead'). Omit on
+   *  routes not backed by a `pages` collection entry. See lib/editable.ts.
+   *
+   *  `headingHtml` carries inline markup and stays sidebar-only, as do `statValue`
+   *  (split into sign + figure for display) and the chart rows. */
+  editablePrefix?: EditablePrefix;
+  /** Path prefix for the OBJECT holding `outcomes` — '' when the array is at the
+   *  file root. Separate from `editablePrefix`: the chapter head and the outcome
+   *  list live under different keys. */
+  outcomesPrefix?: EditablePrefix;
 }
-const { chapterLabel, chapterNumber, headingHtml, jumpLabel, outcomes, studies }: Props =
-  Astro.props;
+const {
+  chapterLabel,
+  chapterNumber,
+  headingHtml,
+  jumpLabel,
+  outcomes,
+  studies,
+  editablePrefix,
+  outcomesPrefix,
+}: Props = Astro.props;
+const spreadPrefix = itemPrefix(outcomesPrefix);
 
 const studyShort = (sid: string) => {
   const s = studies.find((x) => x.id === sid);
@@ -62,22 +88,27 @@ const splitStat = (value: string) => {
 >
   <div class="wrap">
     <div class="chap-mark reveal">
-      <span class="chap-num">{chapterNumber}</span>
+      <span class="chap-num" {...editableText(editablePrefix, 'chapterNumber')}>
+        {chapterNumber}
+      </span>
       <span class="chap-rule" aria-hidden="true"></span>
-      <span class="chap-label">{chapterLabel}</span>
+      <span class="chap-label" {...editableText(editablePrefix, 'chapterLabel')}>
+        {chapterLabel}
+      </span>
     </div>
     <h2 class="chap-title reveal" id="outcomes-heading" set:html={headingHtml} />
   </div>
 
   <nav class="outcome-nav" aria-label="Outcomes">
     <div class="outcome-nav-inner">
-      <span class="jump-label">{jumpLabel}</span>
+      <span class="jump-label" {...editableText(editablePrefix, 'jumpLabel')}>{jumpLabel}</span>
       {
         outcomes.map((o, i) => (
           <a
             href={`#spread-${o.id}`}
             class:list={['jump', { on: i === 0 }]}
             data-target={`spread-${o.id}`}
+            {...editableText(outcomesPrefix, `outcomes.${i}.label`)}
           >
             {o.label}
           </a>
@@ -86,25 +117,40 @@ const splitStat = (value: string) => {
     </div>
   </nav>
 
-  <div class="wrap">
+  <div class="wrap" {...editableArray(outcomesPrefix, 'outcomes')}>
     {
       outcomes.map((o, i) => {
         const flip = i % 2 === 1;
         const { sign, rest } = splitStat(o.statValue);
         return (
-          <article id={`spread-${o.id}`} class:list={['spread', { flip }]} data-spread-id={o.id}>
+          <article
+            id={`spread-${o.id}`}
+            class:list={['spread', { flip }]}
+            data-spread-id={o.id}
+            {...editableItem(outcomesPrefix)}
+          >
             <div class="spread-copy">
-              <span class="spread-eyebrow">{o.eyebrow}</span>
+              <span class="spread-eyebrow" {...editableText(spreadPrefix, 'eyebrow')}>
+                {o.eyebrow}
+              </span>
               <div class="spread-stat">
                 <span class="stat-value">
                   {sign && <span class="stat-sign">{sign}</span>}
                   {rest}
                 </span>
-                <span class="stat-unit">{o.statUnit}</span>
+                <span class="stat-unit" {...editableText(spreadPrefix, 'statUnit')}>
+                  {o.statUnit}
+                </span>
               </div>
-              <p class="stat-caption">{o.statCaption}</p>
-              <h3 class="spread-h">{o.headline}</h3>
-              <p class="spread-body">{o.copy}</p>
+              <p class="stat-caption" {...editableText(spreadPrefix, 'statCaption')}>
+                {o.statCaption}
+              </p>
+              <h3 class="spread-h" {...editableText(spreadPrefix, 'headline')}>
+                {o.headline}
+              </h3>
+              <p class="spread-body" {...editableText(spreadPrefix, 'copy', 'text')}>
+                {o.copy}
+              </p>
               {o.studyIds.length > 0 && (
                 <div class="cites">
                   {o.studyIds.map((sid) => (

@@ -1,5 +1,6 @@
 ---
 import Button from '../primitives/Button.astro';
+import { editableText, childPrefix, type EditablePrefix } from '../../lib/editable';
 
 // Centered closing CTA: a two-line "duet" headline (bold sans over serif-italic
 // brand line) on a soft brand glow rising from the bottom edge, with a primary +
@@ -20,29 +21,82 @@ interface Props {
   secondary?: Cta;
   /** Small reassurance line under the buttons. */
   trust?: string;
+  /** CloudCannon path prefix for this block's fields (e.g. 'cta'). Omit on routes
+   *  that are not backed by a `pages` collection entry. See lib/editable.ts. */
+  editablePrefix?: EditablePrefix;
+  /** Field names for the headline/subtitle within `editablePrefix`, for entries that
+   *  name them differently (a case study's `cta` object is heading / headingEmphasis /
+   *  body). `primary.label` / `secondary.label` are already shared vocabulary. */
+  sansKey?: string;
+  serifKey?: string;
+  subtitleKey?: string;
 }
-const { sans, serif, subtitle, primary, secondary, trust }: Props = Astro.props;
+const {
+  sans,
+  serif,
+  subtitle,
+  primary,
+  secondary,
+  trust,
+  editablePrefix,
+  sansKey = 'sans',
+  serifKey = 'serif',
+  subtitleKey = 'subtitle',
+}: Props = Astro.props;
+const primaryPrefix = childPrefix(editablePrefix, 'primary');
+const secondaryPrefix = childPrefix(editablePrefix, 'secondary');
 ---
 
 <section class="glow-cta">
   <div class="glow" aria-hidden="true"></div>
   <div class="inner">
     <h2 class="title">
-      <span class="sans">{sans}</span>
-      <span class="serif">{serif}</span>
+      <span class="sans" {...editableText(editablePrefix, sansKey)}>{sans}</span>
+      <span class="serif" {...editableText(editablePrefix, serifKey)}>{serif}</span>
     </h2>
-    {subtitle && <p class="sub">{subtitle}</p>}
+    {
+      subtitle && (
+        <p class="sub" {...editableText(editablePrefix, subtitleKey, 'text')}>
+          {subtitle}
+        </p>
+      )
+    }
     <div class="actions">
-      <Button href={primary.href} size="lg" shape="pill" tone="neutral">{primary.label}</Button>
+      {
+        /* The button's only content is its label, so the region can sit on the
+          <a> itself — no extra wrapper element, so non-CMS call sites are unchanged. */
+      }
+      <Button
+        href={primary.href}
+        size="lg"
+        shape="pill"
+        tone="neutral"
+        {...editableText(primaryPrefix, 'label')}
+      >
+        {primary.label}
+      </Button>
       {
         secondary && (
-          <Button href={secondary.href} size="lg" shape="pill" variant="outline" tone="neutral">
+          <Button
+            href={secondary.href}
+            size="lg"
+            shape="pill"
+            variant="outline"
+            tone="neutral"
+            {...editableText(secondaryPrefix, 'label')}
+          >
             {secondary.label}
           </Button>
         )
       }
     </div>
-    {trust && <p class="trust">{trust}</p>}
+    {
+      trust && (
+        <p class="trust" {...editableText(editablePrefix, 'trust')}>
+          {trust}
+        </p>
+      )
+    }
   </div>
 </section>
 

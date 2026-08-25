@@ -1,0 +1,68 @@
+_schema: narrators-index
+permalink: /narrators/
+pageTitle: Narrators — Inner Explorer
+pageDescription: Meet the thirty narrators in residence at the Inner Explorer studio in Boston — teachers, counselors, and classroom-trained mindfulness instructors whose voices guide every practice in the library.
+hero:
+  eyebrow: Inner Explorer · the studio · 2026
+  cornerLabel: Vol. IX · Spring 2026
+  headlineSans: Meet the people
+  headlineSerif: behind the voice.
+  subtitleHtml: Thirty narrators in residence at our Boston studio — real teachers, counselors, and classroom-trained mindfulness instructors. <em>Every practice in the library is read by one of them.</em>
+  primary:
+    label: Listen to the studio
+    href: '#wall'
+  secondary:
+    label: Read our voice guide
+    href: /voice-guide
+metaStrip:
+  ariaLabel: Studio at a glance
+  narrators:
+    label: Narrators in residence
+    sub: at our Boston studio
+  universalLangs:
+    value: EN · ES
+    label: Universal languages
+    sub: in every practice
+  totalLangs:
+    label: Languages narrated total
+    sub: across the full library
+  practices:
+    label: Practices on file
+    sub: recorded and counting
+  schools:
+    value: 1,840
+    label: Schools listening weekly
+    sub: K–12, nationwide
+toolbar:
+  headingHtml: Every voice in the studio. <span class="sans">No order. No hierarchy.</span>
+  searchLabel: Search by name or language
+  filterLabel: Filter
+momentsRail:
+  headingHtml: From the studio. <span class="sans">Behind the recordings.</span>
+  lede: The room, the script, the youth panel. Glimpses of what goes into a single thirty-second practice.
+  moments:
+    - img: ../../assets/images/narrators/moments/studio-a-boston.jpg
+      label: Studio A · Boston
+      title: Recording day, every Tuesday morning.
+      alt: A microphone in soft daylight inside the Inner Explorer recording studio
+    - img: ../../assets/images/narrators/moments/youth-panel.jpg
+      label: Youth Panel · Spring 2026
+      title: Twenty students, one blind audition.
+      alt: Students sitting around a table during a youth-panel listening session
+    - img: ../../assets/images/narrators/moments/script-room.jpg
+      label: From the script room
+      title: Each script is rehearsed for unhurried pace.
+      alt: A pair of hands annotating a printed practice script with a pencil
+coda:
+  eyebrow: How we choose them
+  quoteHtml: The ones we pick aren't trying to sound calm — they <em>are</em> calm. The microphone hears the difference.
+  attribution: From the youth panel · Spring 2026
+  attributionStrong: Eleven students, grades 4 to 11
+  cardHeading: Apply to narrate.
+  cardBody: We hold blind voice auditions every spring, and run an open application year-round for underrepresented languages and mindfulness traditions.
+  primary:
+    label: Apply
+    href: /apply
+  secondary:
+    label: Read the voice guide
+    href: /voice-guide

@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import brandMark from '../../../assets/brand/inner-explorer-mark.png';
 import Button from '../../primitives/Button.astro';
+import { editableText, editableImage, type EditablePrefix } from '../../../lib/editable';
 
 // Case-study opener: a light editorial split — meta row, "duet" headline (sans lead +
 // serif-italic emphasis), dek, and a primary/secondary CTA pair on the left; a tall
@@ -31,6 +32,14 @@ interface Props {
   primary?: Cta;
   secondary?: Cta;
   district: District;
+  /** CloudCannon path prefix for the headline/meta fields (the entry's `meta` object).
+   *  Omit on call sites that are not backed by a collection entry — see lib/editable.ts. */
+  editablePrefix?: EditablePrefix;
+  /** Prefix for the `district` object (its own branch of the entry). */
+  districtPrefix?: EditablePrefix;
+  /** Prefix for the primary CTA object. The secondary CTA is page chrome ("See the
+   *  results" jumps to #results), so it is deliberately never bound. */
+  primaryPrefix?: EditablePrefix;
 }
 const {
   kicker,
@@ -44,9 +53,10 @@ const {
   primary,
   secondary,
   district,
+  editablePrefix,
+  districtPrefix,
+  primaryPrefix,
 }: Props = Astro.props;
-
-const meta = [readingTime, published].filter(Boolean) as string[];
 ---
 
 <header class="hero" id="top">
@@ -54,28 +64,54 @@ const meta = [readingTime, published].filter(Boolean) as string[];
     <div class="grid">
       <div class="text">
         <div class="kicker">
-          <span class="eyebrow">{kicker}</span>
+          <span class="eyebrow" {...editableText(editablePrefix, 'kicker')}>{kicker}</span>
           {
-            meta.map((m) => (
+            /* Written out per field rather than mapped over a filtered array: each
+               region has to name its own key, and a filtered array loses that. */
+          }
+          {
+            readingTime && (
               <>
                 <span class="dot" aria-hidden="true">
                   •
                 </span>
-                <span class="metatext">{m}</span>
+                <span class="metatext" {...editableText(editablePrefix, 'readingTime')}>
+                  {readingTime}
+                </span>
               </>
-            ))
+            )
+          }
+          {
+            published && (
+              <>
+                <span class="dot" aria-hidden="true">
+                  •
+                </span>
+                <span class="metatext" {...editableText(editablePrefix, 'published')}>
+                  {published}
+                </span>
+              </>
+            )
           }
         </div>
         <h1 class="title">
-          <span class="lead">{titleLead}</span>
-          <span class="emph">{titleEmphasis}</span>
+          <span class="lead" {...editableText(editablePrefix, 'titleLead')}>{titleLead}</span>
+          <span class="emph" {...editableText(editablePrefix, 'titleEmphasis')}>
+            {titleEmphasis}
+          </span>
         </h1>
-        <p class="dek">{dek}</p>
+        <p class="dek" {...editableText(editablePrefix, 'dek', 'text')}>{dek}</p>
         {
           (primary || secondary) && (
             <div class="actions">
               {primary && (
-                <Button href={primary.href} size="lg" shape="pill" tone="brand">
+                <Button
+                  href={primary.href}
+                  size="lg"
+                  shape="pill"
+                  tone="brand"
+                  {...editableText(primaryPrefix, 'label')}
+                >
                   {primary.label}
                 </Button>
               )}
@@ -104,14 +140,48 @@ const meta = [readingTime, published].filter(Boolean) as string[];
           sizes="(max-width: 940px) 100vw, 600px"
           loading="eager"
           fetchpriority="high"
+          {...editableImage(editablePrefix, 'heroImage', 'heroImageAlt')}
         />
         <div class="badge">
-          <Image class="seal" src={district.seal ?? brandMark} alt="" width={46} height={46} />
+          {
+            /* Only a real `seal` is editable — the brand mark is a code fallback, and a
+              region pointed at an absent field renders an error card in the editor. */
+          }
+          <Image
+            class="seal"
+            src={district.seal ?? brandMark}
+            alt=""
+            width={46}
+            height={46}
+            {...district.seal ? editableImage(districtPrefix, 'seal') : {}}
+          />
           <div>
-            <div class="b-name">{district.name}</div>
+            <div class="b-name" {...editableText(districtPrefix, 'name')}>{district.name}</div>
             <div class="b-loc">
-              {district.location}
-              {district.partnerSince ? ` · Partner since ${district.partnerSince}` : ''}
+              {
+                /* The "Partner since" run-in is a sibling of both fields, so each value
+                  needs its own host; the wrappers appear only in editable mode. */
+              }
+              {
+                districtPrefix === undefined ? (
+                  district.location
+                ) : (
+                  <span {...editableText(districtPrefix, 'location')}>{district.location}</span>
+                )
+              }
+              {
+                district.partnerSince &&
+                  (districtPrefix === undefined ? (
+                    ` · Partner since ${district.partnerSince}`
+                  ) : (
+                    <>
+                      {' · Partner since '}
+                      <span {...editableText(districtPrefix, 'partnerSince')}>
+                        {district.partnerSince}
+                      </span>
+                    </>
+                  ))
+              }
             </div>
           </div>
         </div>

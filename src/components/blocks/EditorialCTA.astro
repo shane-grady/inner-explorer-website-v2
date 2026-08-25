@@ -1,6 +1,15 @@
 ---
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
+import {
+  childPrefix,
+  editableArray,
+  editableImage,
+  editableItem,
+  editableText,
+  itemPrefix,
+  type EditablePrefix,
+} from '../../lib/editable';
 
 // Shared cinematic closing CTA: full-bleed dark photo bg + mixed-style headline +
 // lede + button row, with an optional "What you'll leave with" side card listing
@@ -32,6 +41,9 @@ interface Props {
   assurances?: AssuranceItem[];
   // Optional side card; if omitted, the headline column spans wider (Research CTA).
   sideCard?: SideCard;
+  /** CloudCannon path prefix for this block's fields (e.g. 'cta'). Omit on routes
+   *  that are not backed by a `pages` collection entry. See lib/editable.ts. */
+  editablePrefix?: EditablePrefix;
 }
 
 const {
@@ -44,7 +56,12 @@ const {
   imageAlt,
   assurances,
   sideCard,
+  editablePrefix,
 }: Props = Astro.props;
+const linePrefix = itemPrefix(editablePrefix);
+const assurancePrefix = itemPrefix(editablePrefix);
+const sidePrefix = childPrefix(editablePrefix, 'sideCard');
+const sideItemPrefix = itemPrefix(sidePrefix);
 ---
 
 <section class:list={['ed-cta', { 'has-side': !!sideCard }]}>
@@ -55,29 +72,43 @@ const {
       widths={[768, 1280, 1800, 2000]}
       sizes="100vw"
       loading="lazy"
+      {...editableImage(editablePrefix, 'image', 'imageAlt')}
     />
   </div>
   <div class="ed-tint" aria-hidden="true"></div>
 
   <div class="ed-inner">
     <div class="ed-body">
-      <span class="ed-eyebrow">{eyebrow}</span>
-      <h2 class="ed-headline">
+      <span class="ed-eyebrow" {...editableText(editablePrefix, 'eyebrow')}>{eyebrow}</span>
+      {/* Container holds ONLY array rows, as CloudCannon's array regions require. */}
+      <h2 class="ed-headline" {...editableArray(editablePrefix, 'headlineLines')}>
         {
           headlineLines.map((line) => (
-            <span class:list={['stk', line.kind, { accent: line.tone === 'accent' }]}>
-              {line.text}
+            <span
+              class:list={['stk', line.kind, { accent: line.tone === 'accent' }]}
+              {...editableItem(editablePrefix)}
+            >
+              {/* Inside an array row, paths are relative to the row. */}
+              <span {...editableText(linePrefix, 'text')}>{line.text}</span>
             </span>
           ))
         }
       </h2>
-      {lede && <p class="ed-lede">{lede}</p>}
+      {
+        lede && (
+          <p class="ed-lede" {...editableText(editablePrefix, 'lede', 'text')}>
+            {lede}
+          </p>
+        )
+      }
       {
         (primaryCta || secondaryCta) && (
           <div class="ed-ctas">
             {primaryCta && (
               <a class="btn btn-primary" href={primaryCta.href}>
-                {primaryCta.label}
+                <span {...editableText(childPrefix(editablePrefix, 'primaryCta'), 'label')}>
+                  {primaryCta.label}
+                </span>
                 <svg
                   width="14"
                   height="14"
@@ -96,7 +127,9 @@ const {
             )}
             {secondaryCta && (
               <a class="btn btn-ghost" href={secondaryCta.href}>
-                {secondaryCta.label}
+                <span {...editableText(childPrefix(editablePrefix, 'secondaryCta'), 'label')}>
+                  {secondaryCta.label}
+                </span>
               </a>
             )}
           </div>
@@ -104,9 +137,9 @@ const {
       }
       {
         assurances && assurances.length > 0 && (
-          <ul class="ed-assurances">
+          <ul class="ed-assurances" {...editableArray(editablePrefix, 'assurances')}>
             {assurances.map((a) => (
-              <li>
+              <li {...editableItem(editablePrefix)}>
                 <svg
                   width="14"
                   height="14"
@@ -120,7 +153,7 @@ const {
                 >
                   <polyline points="20 6 9 17 4 12" />
                 </svg>
-                <span>{a.text}</span>
+                <span {...editableText(assurancePrefix, 'text')}>{a.text}</span>
               </li>
             ))}
           </ul>
@@ -132,14 +165,23 @@ const {
       sideCard && (
         <aside class="ed-side">
           <div class="ed-side-head">
-            <span class="ed-side-eyebrow">{sideCard.eyebrow}</span>
-            {sideCard.serial && <span class="ed-side-serial">{sideCard.serial}</span>}
+            <span class="ed-side-eyebrow" {...editableText(sidePrefix, 'eyebrow')}>
+              {sideCard.eyebrow}
+            </span>
+            {sideCard.serial && (
+              <span class="ed-side-serial" {...editableText(sidePrefix, 'serial')}>
+                {sideCard.serial}
+              </span>
+            )}
           </div>
-          <ol class="ed-side-list">
+          <ol class="ed-side-list" {...editableArray(sidePrefix, 'items')}>
             {sideCard.items.map((item, i) => (
-              <li>
+              <li {...editableItem(sidePrefix)}>
+                {/* Derived counter — no region of its own. */}
                 <span class="num">0{i + 1}</span>
-                <span class="text">{item}</span>
+                <span class="text" {...editableText(sideItemPrefix, '')}>
+                  {item}
+                </span>
               </li>
             ))}
           </ol>

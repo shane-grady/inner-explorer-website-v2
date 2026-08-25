@@ -14,6 +14,7 @@
 // repeat reads better as an editorial rhythm anyway.
 
 import type { Plan } from './PlanCards.astro';
+import { editableText, type EditablePrefix } from '../../../lib/editable';
 
 /** A priced add-on cell: the figure plus an optional license note. */
 export interface PriceCell {
@@ -42,8 +43,16 @@ interface Props {
   groups: readonly Group[];
   /** Footnote under the table (funding, taxes, quotes). */
   footnote?: string;
+  /** CloudCannon path prefix for this block's fields (e.g. 'compare'). Omit on
+   *  routes that are not backed by a `pages` collection entry. See lib/editable.ts.
+   *
+   *  `groups` is bound with INDEXED paths, not `editableArray`: an array container
+   *  may hold only its own rows, and neither the <table> (which also holds
+   *  <thead>/<tfoot>) nor a <tbody> (which also holds its group banner) qualifies.
+   *  Text editing works; add/remove stays in the sidebar. */
+  editablePrefix?: EditablePrefix;
 }
-const { eyebrow, titleHtml, intro, plans, groups, footnote }: Props = Astro.props;
+const { eyebrow, titleHtml, intro, plans, groups, footnote, editablePrefix }: Props = Astro.props;
 
 function isPrice(v: Cell): v is PriceCell {
   return typeof v === 'object' && v !== null && 'price' in v;
@@ -53,9 +62,10 @@ function isPrice(v: Cell): v is PriceCell {
 <section class="cmp" id="compare" aria-labelledby="compare-head">
   <div class="cmp-inner">
     <div class="cmp-head">
-      <div class="eyebrow">{eyebrow}</div>
+      <div class="eyebrow" {...editableText(editablePrefix, 'eyebrow')}>{eyebrow}</div>
+      {/* An HTML field cannot back a plain-text region — it stays sidebar-editable. */}
       <h2 id="compare-head" class="head-h" set:html={titleHtml} />
-      <p class="head-p">{intro}</p>
+      <p class="head-p" {...editableText(editablePrefix, 'intro', 'text')}>{intro}</p>
     </div>
 
     <div class="cmp-card">
@@ -80,7 +90,9 @@ function isPrice(v: Cell): v is PriceCell {
             groups.map((g, gi) => (
               <tbody>
                 <tr class="grp">
-                  <th scope="colgroup">{g.title}</th>
+                  <th scope="colgroup" {...editableText(editablePrefix, `groups.${gi}.title`)}>
+                    {g.title}
+                  </th>
                   {plans.map((p) => (
                     <td class:list={['grp-col', { hl: p.highlight }]} aria-hidden="true">
                       {/* The first group sits directly under the real <thead>, so the
@@ -89,11 +101,23 @@ function isPrice(v: Cell): v is PriceCell {
                     </td>
                   ))}
                 </tr>
-                {g.rows.map((r) => (
+                {g.rows.map((r, ri) => (
                   <tr>
                     <th scope="row" class="td-feat">
-                      <span class="feat-name">{r.feat}</span>
-                      {r.note && <span class="feat-note">{r.note}</span>}
+                      <span
+                        class="feat-name"
+                        {...editableText(editablePrefix, `groups.${gi}.rows.${ri}.feat`)}
+                      >
+                        {r.feat}
+                      </span>
+                      {r.note && (
+                        <span
+                          class="feat-note"
+                          {...editableText(editablePrefix, `groups.${gi}.rows.${ri}.note`)}
+                        >
+                          {r.note}
+                        </span>
+                      )}
                     </th>
                     {r.cells.map((v, i) => (
                       <td class:list={['td-cell', { hl: plans[i]?.highlight }]}>
@@ -128,8 +152,18 @@ function isPrice(v: Cell): v is PriceCell {
                             {v.note && <span class="addon-note">{v.note}</span>}
                           </span>
                         )}
+                        {/* Only the free-text branch resolves to a string an editor
+                            should retype. The 'yes'/'no'/'na' tokens render as glyphs
+                            and the priced add-on is an object — both would be wrong
+                            (or an error card) as text regions, so they stay in the
+                            sidebar. */}
                         {typeof v === 'string' && !['yes', 'no', 'na'].includes(v) && (
-                          <span class="text">{v}</span>
+                          <span
+                            class="text"
+                            {...editableText(editablePrefix, `groups.${gi}.rows.${ri}.cells.${i}`)}
+                          >
+                            {v}
+                          </span>
                         )}
                       </td>
                     ))}
@@ -157,7 +191,13 @@ function isPrice(v: Cell): v is PriceCell {
       </div>
     </div>
 
-    {footnote && <p class="footnote">{footnote}</p>}
+    {
+      footnote && (
+        <p class="footnote" {...editableText(editablePrefix, 'footnote', 'text')}>
+          {footnote}
+        </p>
+      )
+    }
   </div>
 </section>
 

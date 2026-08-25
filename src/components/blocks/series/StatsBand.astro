@@ -1,6 +1,13 @@
 ---
 import SeriesSectionHead from './SeriesSectionHead.astro';
 import SeriesIcon from './SeriesIcon.astro';
+import {
+  editableText,
+  editableArray,
+  editableItem,
+  itemPrefix,
+  type EditablePrefix,
+} from '../../../lib/editable';
 
 // "Why it matters" band — a tinted gradient panel holding the section head,
 // three glass stat cards, and an optional research footnote with a flask chip.
@@ -16,19 +23,44 @@ interface Props {
   items: Stat[];
   footnote?: string;
   id?: string;
+  /** CloudCannon path prefix for this band's object (e.g. 'stats'). Omit on call sites
+   *  not backed by a collection entry — see lib/editable.ts. */
+  editablePrefix?: EditablePrefix;
+  /** Name of the array field within `editablePrefix`. */
+  itemsKey?: string;
 }
-const { eyebrow, heading, intro, items, footnote, id }: Props = Astro.props;
+const {
+  eyebrow,
+  heading,
+  intro,
+  items,
+  footnote,
+  id,
+  editablePrefix,
+  itemsKey = 'items',
+}: Props = Astro.props;
+const statPrefix = itemPrefix(editablePrefix);
 ---
 
 <section class="band" id={id} data-sr>
   <div class="inner">
-    <SeriesSectionHead eyebrow={eyebrow} heading={heading} intro={intro} />
-    <div class="grid">
+    <SeriesSectionHead
+      eyebrow={eyebrow}
+      heading={heading}
+      intro={intro}
+      editablePrefix={editablePrefix}
+    />
+    {/* Container holds ONLY stat cards — the head and footnote are its siblings. */}
+    <div class="grid" {...editableArray(editablePrefix, itemsKey)}>
       {
         items.map((it, i) => (
-          <div class="stat" data-sr data-sr-delay={`${i + 1}`}>
-            <div class="sv">{it.value}</div>
-            <div class="sl">{it.label}</div>
+          <div class="stat" data-sr data-sr-delay={`${i + 1}`} {...editableItem(editablePrefix)}>
+            <div class="sv" {...editableText(statPrefix, 'value')}>
+              {it.value}
+            </div>
+            <div class="sl" {...editableText(statPrefix, 'label')}>
+              {it.label}
+            </div>
           </div>
         ))
       }
@@ -39,7 +71,7 @@ const { eyebrow, heading, intro, items, footnote, id }: Props = Astro.props;
           <span class="ffl">
             <SeriesIcon name="flask" />
           </span>
-          <p>{footnote}</p>
+          <p {...editableText(editablePrefix, 'footnote', 'text')}>{footnote}</p>
         </div>
       )
     }

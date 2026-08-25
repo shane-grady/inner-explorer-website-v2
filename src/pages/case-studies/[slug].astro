@@ -81,6 +81,14 @@ const crumbLd = breadcrumbSchema(Astro.site, [
   { name: d.district.name, path },
 ]);
 
+// CloudCannon Visual Editor: this page IS a `caseStudies` collection entry, so every
+// `data-prop` below resolves against src/content/case-studies/<slug>.yaml and the
+// prefixes are the entry's own field paths ('' is the entry root). Paragraph arrays
+// are string[] — arrays of SCALARS — which cannot use the array/array-item/field
+// nesting, so each paragraph binds by its own indexed path (see StoryBlock).
+const challengeBodyProps = d.intro.challenge.body.map((_, i) => `intro.challenge.body.${i}`);
+const approachBodyProps = d.intro.approach.body.map((_, i) => `intro.approach.body.${i}`);
+
 // Contextual outbound links (SEO: descriptive anchors to the pages that close deals).
 const exploreLinks = [
   {
@@ -137,6 +145,9 @@ const exploreLinks = [
         partnerSince: d.district.partnerSince,
         seal: d.district.seal,
       }}
+      editablePrefix="meta"
+      districtPrefix="district"
+      primaryPrefix="cta.primary"
     />
 
     {
@@ -149,13 +160,24 @@ const exploreLinks = [
             size="compact"
             maxWidth="1180px"
             ariaLabel={`${d.district.shortName} at a glance`}
+            editablePrefix=""
+            statsKey="district.snapshot"
           />
         </div>
       )
     }
 
     <div class="ki" data-cs-reveal>
-      <KeyInsights id="key-insights" eyebrow={d.keyInsights.eyebrow} items={d.keyInsights.items} />
+      {
+        /* `keyInsights.eyebrow` is a schema default that no entry file writes, so it
+          stays sidebar-editable — a region on it could not resolve. */
+      }
+      <KeyInsights
+        id="key-insights"
+        eyebrow={d.keyInsights.eyebrow}
+        items={d.keyInsights.items}
+        editablePrefix="keyInsights"
+      />
     </div>
 
     <StoryBlock
@@ -166,6 +188,9 @@ const exploreLinks = [
       image={d.intro.challenge.image}
       imageAlt={d.intro.challenge.imageAlt}
       statChip={d.intro.challenge.stat}
+      editablePrefix="intro.challenge"
+      bodyProps={challengeBodyProps}
+      imageAltKey="imageAlt"
     />
 
     <StoryBlock
@@ -176,8 +201,15 @@ const exploreLinks = [
       body={d.intro.approach.body}
       image={d.intro.approach.image}
       imageAlt={d.intro.approach.imageAlt}
+      editablePrefix="intro.approach"
+      bodyProps={approachBodyProps}
+      imageAltKey="imageAlt"
     />
 
+    {
+      /* The results lead-in's single paragraph is the scalar `metrics.note`, not an
+        array member — hence a one-element path list rather than an indexed one. */
+    }
     <StoryBlock
       id="results"
       eyebrow={d.metrics.eyebrow}
@@ -185,6 +217,9 @@ const exploreLinks = [
       body={d.metrics.note ? [d.metrics.note] : []}
       image={d.metrics.image}
       imageAlt={d.metrics.imageAlt}
+      editablePrefix="metrics"
+      bodyProps={d.metrics.note ? ['metrics.note'] : []}
+      imageAltKey={d.metrics.imageAlt ? 'imageAlt' : undefined}
     />
 
     <ResultsBand
@@ -193,6 +228,8 @@ const exploreLinks = [
       chart={d.chart}
       charts={d.charts}
       sources={d.sources}
+      editablePrefix="metrics"
+      siblingsPrefix=""
     />
 
     <Timeline
@@ -200,6 +237,7 @@ const exploreLinks = [
       eyebrow={d.timeline.eyebrow}
       heading={d.timeline.heading}
       phases={d.timeline.phases}
+      editablePrefix="timeline"
     />
 
     {
@@ -210,6 +248,7 @@ const exploreLinks = [
             name={d.editorialQuote.name}
             role={d.editorialQuote.role}
             org={d.editorialQuote.org}
+            editablePrefix="editorialQuote"
           />
         </div>
       )
@@ -225,6 +264,9 @@ const exploreLinks = [
       studentsLabel={d.voicesIntro.studentsLabel}
       voices={d.voices}
       district={d.district.shortName}
+      editablePrefix="voicesIntro"
+      voicesPrefix="voices"
+      districtPrefix="district"
     />
 
     {
@@ -235,6 +277,7 @@ const exploreLinks = [
           heading={d.gallery.heading}
           images={d.gallery.images}
           note={d.gallery.note}
+          editablePrefix="gallery"
         />
       )
     }
@@ -246,6 +289,7 @@ const exploreLinks = [
           titleHtml={d.faq.titleHtml}
           intro={d.faq.intro}
           items={d.faq.items}
+          editablePrefix="faq"
         />
       )
     }
@@ -258,6 +302,10 @@ const exploreLinks = [
       subtitle={d.cta.body}
       primary={d.cta.primary}
       secondary={d.cta.secondary}
+      editablePrefix="cta"
+      sansKey="heading"
+      serifKey="headingEmphasis"
+      subtitleKey="body"
     />
   </div>
 </PageLayout>

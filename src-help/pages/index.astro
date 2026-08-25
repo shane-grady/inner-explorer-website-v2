@@ -9,6 +9,11 @@ import { readingTime } from '../../src/lib/reading-time';
 import { OG_HOME_IMAGE } from '../lib/og-card';
 import { HELP_SITE, MAIN_SITE } from '../../src/lib/site';
 import mark from '../../src/assets/brand/inner-explorer-mark.png';
+// Shared Help Center UI copy (same mechanism as navigation.json/footer.json on the
+// marketing site). This route is NOT a collection entry, so every region below binds
+// an ABSOLUTE `@data[help-ui]…` path — a relative path has no file to resolve against
+// and would render a red error card in the Visual Editor.
+import helpUi from '../../src/data/help-ui.json';
 
 const entries = await getCollection('help', ({ data }) => !data.draft);
 const nav = buildHelpNav(entries);
@@ -31,9 +36,8 @@ const sections = helpGroups
   }))
   .filter((s) => s.cards.length > 0);
 
-const pageTitle = 'Inner Explorer Help Center';
-const pageDescription =
-  'Guides, best practices, and answers for everyone who uses Inner Explorer: educators practicing alongside their students, administrators rolling it out, and families bringing it home.';
+const pageTitle = helpUi.home.seoTitle;
+const pageDescription = helpUi.home.seoDescription;
 
 // "Home" is the marketing site on the apex domain; this subdomain is the Help Center.
 const base = new URL(Astro.site ?? HELP_SITE).origin;
@@ -51,23 +55,30 @@ const schema = {
   title={pageTitle}
   description={pageDescription}
   image={OG_HOME_IMAGE}
-  imageAlt="Inner Explorer Help Center — guides and answers for educators, administrators, and families"
+  imageAlt={helpUi.home.shareImageAlt}
 >
   <JsonLd schema={schema} slot="head" />
 
   <div class="appearance-light">
     <HelpShell groups={nav}>
       <div class="help-home">
-        <p class="help-home-eyebrow">Inner Explorer Help Center</p>
-        <h1 class="help-home-title">How can we help<br />you explore today?</h1>
-        <p class="help-home-intro">
-          Guides, best practices, and answers for everyone who uses Inner Explorer: educators
-          practicing alongside their students, administrators rolling it out, and families bringing
-          it home.
+        <p class="help-home-eyebrow" data-editable="text" data-prop="@data[help-ui].home.eyebrow">
+          {helpUi.home.eyebrow}
+        </p>
+        {/* Two fields, not one: the display headline keeps its hard line break. */}
+        <h1 class="help-home-title">
+          <editable-text data-prop="@data[help-ui].home.titleLine1"
+            >{helpUi.home.titleLine1}</editable-text
+          ><br /><editable-text data-prop="@data[help-ui].home.titleLine2"
+            >{helpUi.home.titleLine2}</editable-text
+          >
+        </h1>
+        <p class="help-home-intro" data-editable="text" data-prop="@data[help-ui].home.intro">
+          {helpUi.home.intro}
         </p>
 
         <search class="help-home-search">
-          <label class="sr-only" for="help-search-home">Search the help center</label>
+          <label class="sr-only" for="help-search-home">{helpUi.search.label}</label>
           <svg
             class="help-home-search-icon"
             width="20"
@@ -87,14 +98,20 @@ const schema = {
             id="help-search-home"
             class="help-home-search-input"
             type="search"
-            placeholder="Search for a topic, e.g. signing in"
+            placeholder={helpUi.search.placeholder}
             autocomplete="off"
             data-help-search
           />
         </search>
 
-        <div class="help-home-empty" data-cards-empty hidden>
-          No guides matched your search. Try a different word, or browse the sections in the menu.
+        <div
+          class="help-home-empty"
+          data-cards-empty
+          hidden
+          data-editable="text"
+          data-prop="@data[help-ui].search.empty"
+        >
+          {helpUi.search.empty}
         </div>
 
         {
@@ -133,11 +150,27 @@ const schema = {
         <aside class="help-home-banner">
           <Image src={mark} alt="" width={46} height={46} />
           <div>
-            <p class="help-home-banner-title">Still need a hand?</p>
+            <p
+              class="help-home-banner-title"
+              data-editable="text"
+              data-prop="@data[help-ui].support.title"
+            >
+              {helpUi.support.title}
+            </p>
+            {
+              /* Split around the mailto link: a text region must resolve to one string,
+            so the sentence is three fields rather than one HTML blob. */
+            }
             <p class="help-home-banner-text">
-              Reach our support team at{' '}
-              <a href="mailto:support@innerexplorer.org">support@innerexplorer.org</a>; we typically
-              reply within one school day.
+              <editable-text data-prop="@data[help-ui].support.textBefore"
+                >{helpUi.support.textBefore}</editable-text
+              >{' '}<a href={`mailto:${helpUi.chrome.supportEmail}`}
+                ><editable-text data-prop="@data[help-ui].chrome.supportEmail"
+                  >{helpUi.chrome.supportEmail}</editable-text
+                ></a
+              ><editable-text data-prop="@data[help-ui].support.textAfter"
+                >{helpUi.support.textAfter}</editable-text
+              >
             </p>
           </div>
         </aside>

@@ -626,3 +626,70 @@ Related: `text-align: center` does not centre content wider than its line box. T
 browser aligns overflow to the start edge, so over-wide centred text always spills
 right in LTR, never symmetrically. Any `nowrap` headline is one copy change away from
 this. Prefer wrapping and size the container, rather than pinning `nowrap`.
+
+### 2026-08-25 — CloudCannon: making every page editable
+
+- **The red "Failed to render text editable region" card has exactly THREE causes**, all
+  in `nodes/editable-text.ts` of `@cloudcannon/editable-regions`: a missing `data-prop`,
+  a `data-type` outside `span|text|block`, or a value that is not a string (`undefined`
+  is the common one). Because all three are deterministic, they are **statically
+  checkable** — you do not need the hosted editor to find them. `scripts/check-editables.mjs`
+  replays the package's own resolver (`Editable.setupListeners` →
+  `lookupPathAndContext` → `EditableText.validateValue`) over the built HTML and the
+  backing content files. Use it instead of clicking through pages.
+- **A relative `data-prop` binds to the nearest editable ANCESTOR, not to the file.**
+  This is the subtle one. `ArticleHeader.astro` had the hero caption nested inside the
+  `data-editable="image"` div, so `data-prop="heroCaption"` resolved against that
+  region's `{src, alt}` value → `undefined` → red card on every post with a caption.
+  Fix: keep sibling fields OUTSIDE the region. Here `.hero-image` stayed the positioned
+  frame and the image region moved to an inner `.hero-image-media` wrapper, so the
+  absolutely-positioned caption still anchors to the frame and the layout is unchanged.
+- **CloudCannon template strings: data placeholders use `{braces}`, fixed placeholders
+  use `[brackets]`.** `url: '{permalink}'` reads a front-matter key; `[slug]` is
+  CloudCannon-defined. This is what lets a `pages` collection put the homepage at `/`
+  instead of `/index/` — `url: /[slug]/` would give `/index/`.
+- **Array inputs use `min_items` / `max_items`, NOT `min` / `max`.** `min`/`max` are
+  number-input keys. The configuration skill's warning is accurate — training data
+  hallucinates these keys. Download the schema and query it before writing any key:
+  `curl -sL https://github.com/cloudcannon/configuration-types/releases/latest/download/cloudcannon-config.latest.schema.json`
+  then resolve `$ref`s through `allOf`/`anyOf` to get the real key list. `.gitignore`
+  already excludes `.cloudcannon/migration/*.schema.json`.
+- **`@cloudcannon/cli validate` catches invalid config keys locally** and is now in CI.
+  It needs Node ≥24; it warns but still runs on 22.
+- **The two builds' URL spaces COLLIDE.** `/faq/` is the marketing FAQ in `dist/` AND a
+  help article (`src/content/help/faq.mdx`) at the subdomain root in `dist-help/`. Any
+  tool that maps URL → content file must key by build root, or it validates one page
+  against the other's file. `scripts/check-editables.mjs` keeps two maps for this.
+- **`/help/*` routes only exist when `CLOUDCANNON_BUILD` is set** (the `injectRoute`
+  guard in `astro.config.mjs`). A plain `pnpm build` produces 61 pages; the
+  CloudCannon-shaped build produces 76. Verify editable regions against the
+  CloudCannon-shaped build, or help previews go unchecked.
+- **Adding a dependency wedges the running Vite dev server** with `504 (Outdated
+Optimize Dep)` on every module. Restart the dev server after `pnpm add` — the same
+  class of wedge already recorded above for mid-edit SSR errors.
+- **`Heading.astro` / `Text.astro` could not carry `data-editable`** — their Props were
+  `{as, id, class}` only. Extended to `VariantProps<…> & HTMLAttributes<…>` with
+  `{...rest}`, the pattern `Container.astro` already used. Do this before wiring blocks,
+  not after.
+- Editables must be **opt-in per call site** (`editablePrefix`), because blocks are
+  shared between converted and unconverted routes. Emitting `data-prop` unconditionally
+  gives every unconverted page a red card. Note `undefined` (emit nothing) vs `''`
+  (relative to the enclosing array row) cannot be a truthiness check.
+- **Astro's content-layer cache ignores schema changes.** Only a content FILE's digest
+  invalidates it, so filling in a collection schema leaves `getEntry` serving the old
+  parsed shape and the route throws "Cannot read properties of undefined". Delete
+  `node_modules/.astro/data-store.json` — NOT `.astro/data-store.json`, which does not
+  exist in Astro 6.
+- **CloudCannon `_inputs` match by key NAME at any depth, not by path.** A name used
+  twice in one file with different shapes therefore cannot be declared without
+  mis-typing one use — `about.yml` has `stats` as both `{value,sup,label,sub}` and
+  `{n,l}`; `home.yml` has three `stats` shapes; `districts.yml` has three `items`
+  shapes. Structure-level `_inputs` are scoped and exempt. `scripts/check-editables.mjs`
+  now fails the build on an ambiguous declaration.
+- **YAML 1.1 booleans eat comparison tables.** `yes`/`no`/`on`/`off` cells dump as bare
+  scalars and re-parse as booleans, silently destroying a pricing matrix. Force-quote
+  them when generating YAML and assert they survive the round trip.
+- **Concurrent agents sharing one worktree race on `dist/`.** Parallel `pnpm build` runs
+  produce torn output and phantom failures on pages nobody touched. Give agents disjoint
+  FILES (that part works well), but treat any build-output check as unreliable while
+  others are building — rebuild before believing an error.

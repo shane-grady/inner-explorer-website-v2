@@ -7,6 +7,15 @@
 // color-mix(in oklab) underline tint). Pass the headline as text + a slug for the
 // phrase to highlight, OR as raw HTML via `headlineHtml`.
 
+import {
+  editableText,
+  editableArray,
+  editableItem,
+  childPrefix,
+  type EditablePrefix,
+  itemPrefix,
+} from '../../lib/editable';
+
 export interface PricingPlan {
   /** Small uppercase pill above the plan title (e.g. "For individual educators"). */
   pill?: string;
@@ -32,34 +41,69 @@ interface Props {
   sub?: string;
   plan: PricingPlan;
   features: string[];
+  /** CloudCannon path prefix for this block's fields (e.g. 'pricing'). */
+  editablePrefix?: EditablePrefix;
 }
 
-const { eyebrow, headline, headlineHtml, sub, plan, features }: Props = Astro.props;
+const { eyebrow, headline, headlineHtml, sub, plan, features, editablePrefix }: Props = Astro.props;
+const planPrefix = childPrefix(editablePrefix, 'plan');
 ---
 
 <section class="pricing" aria-labelledby="pricing-headline">
   <div class="pricing-inner">
-    {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+    {
+      eyebrow && (
+        <span class="eyebrow" {...editableText(editablePrefix, 'eyebrow')}>
+          {eyebrow}
+        </span>
+      )
+    }
     <h2 id="pricing-headline" class="head">
       {headlineHtml ? <Fragment set:html={headlineHtml} /> : headline}
     </h2>
-    {sub && <p class="sub">{sub}</p>}
+    {
+      sub && (
+        <p class="sub" {...editableText(editablePrefix, 'sub', 'text')}>
+          {sub}
+        </p>
+      )
+    }
 
     <div class="card">
       <div class="card-left">
-        {plan.pill && <span class="pill">{plan.pill}</span>}
-        <div class="plan-title">{plan.title}</div>
+        {
+          plan.pill && (
+            <span class="pill" {...editableText(planPrefix, 'pill')}>
+              {plan.pill}
+            </span>
+          )
+        }
+        <div class="plan-title" {...editableText(planPrefix, 'title')}>{plan.title}</div>
         <div class="price-row">
-          <span class="price">{plan.price}</span>
-          {plan.per && <span class="per">{plan.per}</span>}
+          <span class="price" {...editableText(planPrefix, 'price')}>{plan.price}</span>
+          {
+            plan.per && (
+              <span class="per" {...editableText(planPrefix, 'per')}>
+                {plan.per}
+              </span>
+            )
+          }
         </div>
-        {plan.charged && <p class="charged">{plan.charged}</p>}
-        <a class="cta" href={plan.ctaHref}>{plan.ctaLabel}</a>
+        {
+          plan.charged && (
+            <p class="charged" {...editableText(planPrefix, 'charged')}>
+              {plan.charged}
+            </p>
+          )
+        }
+        <a class="cta" href={plan.ctaHref}>
+          <span {...editableText(planPrefix, 'ctaLabel')}>{plan.ctaLabel}</span>
+        </a>
       </div>
-      <ul class="features">
+      <ul class="features" {...editableArray(editablePrefix, 'features')}>
         {
           features.map((feature) => (
-            <li>
+            <li {...editableItem(editablePrefix)}>
               <span class="check" aria-hidden="true">
                 <svg
                   viewBox="0 0 24 24"
@@ -72,7 +116,7 @@ const { eyebrow, headline, headlineHtml, sub, plan, features }: Props = Astro.pr
                   <polyline points="20 6 9 17 4 12" />
                 </svg>
               </span>
-              <span>{feature}</span>
+              <span {...editableText(itemPrefix(editablePrefix), '')}>{feature}</span>
             </li>
           ))
         }

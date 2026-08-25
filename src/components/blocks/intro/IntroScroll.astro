@@ -1,5 +1,6 @@
 ---
 import IntroStage from './IntroStage.astro';
+import type { EditablePrefix } from '../../../lib/editable';
 
 // Orchestrates the homepage scroll-intro as ONE combined pinned stage: as the user
 // scrolls, the wave line draws on + the green field fades in + the hero copy slides up
@@ -7,23 +8,33 @@ import IntroStage from './IntroStage.astro';
 // circle; the circle expands into the BALANCE pill; the toggle switches off→on
 // (green→cream); then the pin releases. All under Lenis smooth scroll. Wrapped in
 // `.appearance-light` so the warm/light treatment holds regardless of the global theme
-// (same pattern as the light-only About page). Copy lives here as structured data.
-const headline = 'Calm Minds Learn Better';
-const lede =
-  'The daily audio-guided mindfulness program for PreK-12 classrooms. Reduce stress, improve focus, and foster well-being with just 5–10 minutes a day.';
-const cta = { label: 'Get Started', href: '/contact' };
-const imageAlt =
-  'A student sits quietly with lowered eyes during a calm moment in a busy elementary classroom.';
-
-const balanceLabel = 'Balance';
-const balanceOff = {
-  title: 'If only finding peace in your district was as simple as pressing play.',
-  body: 'Behavioral disruptions steal weeks of instructional time every single year.',
-};
-const balanceOn = {
-  title: 'It turns out, it actually is.',
-  body: 'We reduce those disruptions by 60% with zero prep work required.',
-};
+// (same pattern as the light-only About page).
+//
+// The copy is supplied by the page (src/content/pages/home.yml), so CloudCannon can
+// edit it; the scroll choreography below is untouched by that. `problem`/`solution` are
+// the Balance toggle's off/on states — NOT named `off`/`on` because YAML 1.1 parsers
+// read those keys as booleans.
+interface Cta {
+  label: string;
+  href: string;
+}
+interface State {
+  title: string;
+  body: string;
+}
+interface Props {
+  headline: string;
+  lede: string;
+  cta: Cta;
+  imageAlt: string;
+  balanceLabel: string;
+  problem: State;
+  solution: State;
+  /** CloudCannon path prefix for the intro's copy (e.g. 'intro'). */
+  editablePrefix?: EditablePrefix;
+}
+const { headline, lede, cta, imageAlt, balanceLabel, problem, solution, editablePrefix }: Props =
+  Astro.props;
 ---
 
 <div class="intro appearance-light" data-intro>
@@ -34,8 +45,9 @@ const balanceOn = {
     cta={cta}
     imageAlt={imageAlt}
     balanceLabel={balanceLabel}
-    off={balanceOff}
-    on={balanceOn}
+    off={problem}
+    on={solution}
+    editablePrefix={editablePrefix}
   />
 </div>
 

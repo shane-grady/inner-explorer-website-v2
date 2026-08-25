@@ -1,6 +1,10 @@
-# build output (dist-help = the Help Center subdomain build, astro.help.config.mjs)
+# build output (dist-help = the Help Center subdomain build, astro.help.config.mjs).
+# The glob also covers scratch comparison builds (dist-help-baseline/ etc.) — those
+# otherwise get typechecked by `astro check`, which OOMs on minified bundles.
 dist/
-dist-help/
+dist-*/
+# transient extraction/scratch dirs used when diffing builds
+.tmp-*/
 # generated types
 .astro/
 # generated CloudCannon configuration schemas (migration reference only)

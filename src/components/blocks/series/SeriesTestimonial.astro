@@ -1,5 +1,6 @@
 ---
 import SeriesIcon from './SeriesIcon.astro';
+import { editableText, type EditablePrefix } from '../../../lib/editable';
 
 // Featured single testimonial — centered serif pull-quote with a quote chip and
 // an initials avatar. (Distinct from the collection-driven 3-up `Testimonials`
@@ -10,8 +11,11 @@ interface Props {
   name: string;
   role: string;
   place?: string;
+  /** CloudCannon path prefix for this quote's object (e.g. 'testimonial'). Omit on
+   *  call sites not backed by a collection entry — see lib/editable.ts. */
+  editablePrefix?: EditablePrefix;
 }
-const { quote, name, role, place }: Props = Astro.props;
+const { quote, name, role, place, editablePrefix }: Props = Astro.props;
 const initials = name
   .split(/\s+/)
   .map((w) => w[0])
@@ -24,12 +28,32 @@ const initials = name
   <span class="tq">
     <SeriesIcon name="quote" />
   </span>
-  <blockquote>{quote}</blockquote>
+  <blockquote {...editableText(editablePrefix, 'quote', 'text')}>{quote}</blockquote>
   <figcaption class="ta">
+    {/* The avatar shows derived initials, not a field. */}
     <span class="av" aria-hidden="true">{initials}</span>
     <span class="tn">
-      <b>{name}</b>
-      <span>{role}{place ? ` · ${place}` : ''}</span>
+      <b {...editableText(editablePrefix, 'name')}>{name}</b>
+      <span>
+        {
+          editablePrefix === undefined ? (
+            role
+          ) : (
+            <span {...editableText(editablePrefix, 'role')}>{role}</span>
+          )
+        }
+        {
+          place &&
+            (editablePrefix === undefined ? (
+              ` · ${place}`
+            ) : (
+              <>
+                {' · '}
+                <span {...editableText(editablePrefix, 'place')}>{place}</span>
+              </>
+            ))
+        }
+      </span>
     </span>
   </figcaption>
 </figure>

@@ -1,5 +1,5 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import PageLayout from '../layouts/PageLayout.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import EditorialMasthead from '../components/blocks/EditorialMasthead.astro';
@@ -9,14 +9,24 @@ import GlowCTA from '../components/blocks/GlowCTA.astro';
 import { readingTime } from '../lib/reading-time';
 import type { Category, Cover, Story } from '../components/blocks/newsroom/types';
 
+// ── Page content ────────────────────────────────────────────────────────────
+//
+// Only the page's own copy — the masthead and the closing CTA — lives in
+// src/content/pages/newsroom.yml. Everything below it is DERIVED and stays here:
+// the stories themselves come from the `caseStudies` and `blog` collections, so a
+// new case study or post publishes itself. `editablePrefix` threads each block's
+// data path down to its fields; see src/lib/editable.ts.
+
+const entry = await getEntry('pages', 'newsroom');
+if (!entry || entry.data._schema !== 'newsroom') {
+  throw new Error('Missing or malformed src/content/pages/newsroom.yml');
+}
+const { hero, cta, pageTitle, pageDescription } = entry.data;
+
 // ── Newsroom stories — sourced from the content collections, never hardcoded ────
 // Every card links to a real, published page: the district/school case studies and
 // the blog articles. Add a case study or a post and it shows up here automatically
 // (the collections are the CMS seam), so the newsroom can't drift from what exists.
-
-const pageTitle = 'Newsroom — Inner Explorer';
-const pageDescription =
-  'The latest research, announcements, and lessons from the Inner Explorer community.';
 
 const isoDate = (d: Date) => d.toISOString().slice(0, 10);
 const toMinutes = (value: string) => parseInt(value, 10) || 5;
@@ -119,9 +129,10 @@ const collectionLd = {
       layout="inline"
       size="lg"
       glow
-      lead="Our"
-      display="Newsroom"
-      intro="The latest research, announcements, and lessons from the Inner Explorer community."
+      lead={hero.lead}
+      display={hero.display}
+      intro={hero.intro}
+      editablePrefix="hero"
     />
 
     <NewsroomFilters categories={categories} total={stories.length} />
@@ -129,12 +140,13 @@ const collectionLd = {
     <StoryGrid stories={stories} cols={4} initial={12} step={8} />
 
     <GlowCTA
-      sans="Calm classrooms"
-      serif="start with you"
-      subtitle="Bring daily, research-backed mindfulness to every student in your school."
-      primary={{ label: 'Contact us', href: '/contact' }}
-      secondary={{ label: 'Take a tour', href: '/educators' }}
-      trust="Trusted by 50,000+ educators across 8,000 schools"
+      sans={cta.sans}
+      serif={cta.serif}
+      subtitle={cta.subtitle}
+      primary={cta.primary}
+      secondary={cta.secondary}
+      trust={cta.trust}
+      editablePrefix="cta"
     />
   </div>
 </PageLayout>

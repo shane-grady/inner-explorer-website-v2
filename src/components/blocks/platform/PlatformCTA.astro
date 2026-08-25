@@ -1,5 +1,6 @@
 ---
 import Button from '../../primitives/Button.astro';
+import { childPrefix, editableText, type EditablePrefix } from '../../../lib/editable';
 
 // Closing CTA card: headline + two CTAs, then a tabbed strip of practice categories
 // that swaps a feature trio. All panels render server-side (the first is shown), so
@@ -20,8 +21,16 @@ export interface PlatformCTAProps {
   secondaryCta: { label: string; href: string };
   categories: Category[];
 }
-type Props = PlatformCTAProps;
-const { headingHtml, primaryCta, secondaryCta, categories }: Props = Astro.props;
+type Props = PlatformCTAProps & {
+  /** CloudCannon path prefix for this block's fields (e.g. 'cta'). Omit on routes not
+   *  backed by a `pages` collection entry. See lib/editable.ts.
+   *
+   *  Each category's tab and its panel render in two separate places, so the copy is
+   *  bound with indexed paths — an editable array could only ever wrap one of them,
+   *  and the trio of features per category is fixed. */
+  editablePrefix?: EditablePrefix;
+};
+const { headingHtml, primaryCta, secondaryCta, categories, editablePrefix }: Props = Astro.props;
 ---
 
 <section class="cta">
@@ -31,11 +40,15 @@ const { headingHtml, primaryCta, secondaryCta, categories }: Props = Astro.props
         <h2 set:html={headingHtml} />
         <div class="cta-actions">
           <Button href={secondaryCta.href} variant="outline" tone="neutral" shape="pill" size="sm">
-            {secondaryCta.label}
+            <span {...editableText(childPrefix(editablePrefix, 'secondaryCta'), 'label')}>
+              {secondaryCta.label}
+            </span>
           </Button>
-          <Button href={primaryCta.href} tone="brand" shape="pill" size="sm"
-            >{primaryCta.label}</Button
-          >
+          <Button href={primaryCta.href} tone="brand" shape="pill" size="sm">
+            <span {...editableText(childPrefix(editablePrefix, 'primaryCta'), 'label')}>
+              {primaryCta.label}
+            </span>
+          </Button>
         </div>
       </div>
       <div class="cta-show">
@@ -49,6 +62,7 @@ const { headingHtml, primaryCta, secondaryCta, categories }: Props = Astro.props
                 aria-selected={i === 0 ? 'true' : 'false'}
                 aria-controls={`cta-${c.id}`}
                 data-cta-tab={c.id}
+                {...editableText(editablePrefix, `categories.${i}.label`)}
               >
                 {c.label}
               </button>
@@ -64,10 +78,20 @@ const { headingHtml, primaryCta, secondaryCta, categories }: Props = Astro.props
               aria-label={c.label}
               data-cta-panel={c.id}
             >
-              {c.features.map((f) => (
+              {c.features.map((f, j) => (
                 <div class="cta-feat">
-                  <div class="nm">{f.name}</div>
-                  <div class="tx">{f.text}</div>
+                  <div
+                    class="nm"
+                    {...editableText(editablePrefix, `categories.${i}.features.${j}.name`)}
+                  >
+                    {f.name}
+                  </div>
+                  <div
+                    class="tx"
+                    {...editableText(editablePrefix, `categories.${i}.features.${j}.text`)}
+                  >
+                    {f.text}
+                  </div>
                 </div>
               ))}
             </div>

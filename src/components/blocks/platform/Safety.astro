@@ -1,6 +1,14 @@
 ---
 import LinkArrow from './LinkArrow.astro';
 import PlatformIcon from './PlatformIcon.astro';
+import {
+  childPrefix,
+  editableArray,
+  editableItem,
+  editableText,
+  itemPrefix,
+  type EditablePrefix,
+} from '../../../lib/editable';
 
 // "Safety, built in" — a connected three-cell grid of trust commitments with large,
 // quiet line icons.
@@ -13,25 +21,37 @@ interface Props {
   heading: string;
   egress: { label: string; href: string };
   cells: Cell[];
+  /** CloudCannon path prefix for this block's fields (e.g. 'safety'). Omit on routes
+   *  not backed by a `pages` collection entry. See lib/editable.ts. */
+  editablePrefix?: EditablePrefix;
 }
-const { heading, egress, cells }: Props = Astro.props;
+const { heading, egress, cells, editablePrefix }: Props = Astro.props;
+const cellPrefix = itemPrefix(editablePrefix);
 ---
 
 <section class="safety">
   <div class="pwrap">
     <div class="safety-head">
-      <h2>{heading}</h2>
-      <LinkArrow label={egress.label} href={egress.href} />
+      <h2 {...editableText(editablePrefix, 'heading')}>{heading}</h2>
+      <LinkArrow
+        label={egress.label}
+        href={egress.href}
+        editablePrefix={childPrefix(editablePrefix, 'egress')}
+      />
     </div>
-    <div class="safety-grid">
+    <div class="safety-grid" {...editableArray(editablePrefix, 'cells')}>
       {
         cells.map((c) => (
-          <div class="safety-cell">
+          <div class="safety-cell" {...editableItem(editablePrefix)}>
             <div class="art">
               <PlatformIcon name={c.icon} strokeWidth={1.4} />
             </div>
-            <p class="ti">{c.title}</p>
-            <p class="tx">{c.text}</p>
+            <p class="ti" {...editableText(cellPrefix, 'title')}>
+              {c.title}
+            </p>
+            <p class="tx" {...editableText(cellPrefix, 'text', 'text')}>
+              {c.text}
+            </p>
           </div>
         ))
       }

@@ -5,20 +5,28 @@
 // sub-line. This is the page's <h1>; the immersive hero's duet below is a
 // styled paragraph, keeping one h1 per page.
 
+import { editableText, type EditablePrefix } from '../../../lib/editable';
+
 interface Props {
   /** Masthead centerpiece — the series short name (e.g. "Educator Well-Being"). */
   name: string;
   /** Tracked sub-line, e.g. "Inner Explorer · Supplemental Series". */
   subline: string;
+  /** CloudCannon path prefix for the object holding the name. Omit on call sites not
+   *  backed by a collection entry — see lib/editable.ts. `subline` is composed by the
+   *  page from a literal plus `category`, so it stays sidebar-editable. */
+  editablePrefix?: EditablePrefix;
+  /** Field the centerpiece comes from (a series calls it `shortName`). */
+  nameKey?: string;
 }
-const { name, subline }: Props = Astro.props;
+const { name, subline, editablePrefix, nameKey = 'name' }: Props = Astro.props;
 ---
 
 <header class="splash">
   <div class="wrap">
     <h1 class="title">
       <span class="sans">The</span>
-      <span class="serif">{name}</span>
+      <span class="serif" {...editableText(editablePrefix, nameKey)}>{name}</span>
       <span class="sans">Series</span>
     </h1>
     <p class="sub">{subline}</p>

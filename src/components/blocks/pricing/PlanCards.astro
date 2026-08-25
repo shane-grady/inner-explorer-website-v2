@@ -6,6 +6,14 @@
 //
 // Shares its Plan type with PricingTable so the page declares each plan once.
 
+import {
+  editableArray,
+  editableItem,
+  editableText,
+  itemPrefix,
+  type EditablePrefix,
+} from '../../../lib/editable';
+
 export interface Plan {
   /** Machine id — also used to key the comparison table's columns. */
   id: string;
@@ -27,24 +35,39 @@ interface Props {
   plans: readonly Plan[];
   /** Small reassurance line under the row of cards. */
   note?: string;
+  /** CloudCannon path prefix for the object holding `{ note, items }` (e.g.
+   *  'plans'). Omit on routes that are not backed by a `pages` collection entry.
+   *  See lib/editable.ts. */
+  editablePrefix?: EditablePrefix;
 }
-const { plans, note }: Props = Astro.props;
+const { plans, note, editablePrefix }: Props = Astro.props;
+const cardPrefix = itemPrefix(editablePrefix);
 ---
 
 <section class="plans" aria-label="Subscription plans">
   <div class="plans-inner">
-    <ul class="grid">
+    {/* Container holds ONLY array rows, as CloudCannon's array regions require. */}
+    <ul class="grid" {...editableArray(editablePrefix, 'items')}>
       {
         plans.map((p) => (
-          <li class:list={['card', { hl: p.highlight }]}>
-            <div class="name">{p.name}</div>
-            <div class="price-row">
-              <span class="price">{p.price}</span>
+          <li class:list={['card', { hl: p.highlight }]} {...editableItem(editablePrefix)}>
+            {/* Inside an array row, paths are relative to the row. */}
+            <div class="name" {...editableText(cardPrefix, 'name')}>
+              {p.name}
             </div>
-            <div class="unit">{p.unit}</div>
-            <p class="blurb">{p.blurb}</p>
+            <div class="price-row">
+              <span class="price" {...editableText(cardPrefix, 'price')}>
+                {p.price}
+              </span>
+            </div>
+            <div class="unit" {...editableText(cardPrefix, 'unit')}>
+              {p.unit}
+            </div>
+            <p class="blurb" {...editableText(cardPrefix, 'blurb', 'text')}>
+              {p.blurb}
+            </p>
             <a class:list={['cta', { solid: p.highlight }]} href={p.ctaHref}>
-              <span>{p.ctaLabel}</span>
+              <span {...editableText(cardPrefix, 'ctaLabel')}>{p.ctaLabel}</span>
               <svg
                 viewBox="0 0 24 24"
                 width="15"
@@ -64,7 +87,13 @@ const { plans, note }: Props = Astro.props;
         ))
       }
     </ul>
-    {note && <p class="note">{note}</p>}
+    {
+      note && (
+        <p class="note" {...editableText(editablePrefix, 'note', 'text')}>
+          {note}
+        </p>
+      )
+    }
   </div>
 </section>
 

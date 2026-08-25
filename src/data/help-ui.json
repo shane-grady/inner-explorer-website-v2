@@ -1,0 +1,45 @@
+{
+  "chrome": {
+    "brandName": "Inner Explorer",
+    "brandLabel": "Help Center",
+    "legalName": "Inner Explorer, Inc.",
+    "supportEmail": "support@innerexplorer.com"
+  },
+  "sidebar": {
+    "eyebrow": "Help Center",
+    "searchLabel": "Search the help center",
+    "searchPlaceholder": "Search the help center",
+    "browseLabel": "Browse all guides",
+    "navEmpty": "No matching guides.",
+    "supportTitle": "Still need help?",
+    "supportText": "Our team replies within one school day.",
+    "supportCta": "Contact support"
+  },
+  "home": {
+    "seoTitle": "Inner Explorer Help Center",
+    "seoDescription": "Guides, best practices, and answers for everyone who uses Inner Explorer: educators practicing alongside their students, administrators rolling it out, and families bringing it home.",
+    "shareImageAlt": "Inner Explorer Help Center — guides and answers for educators, administrators, and families",
+    "eyebrow": "Inner Explorer Help Center",
+    "titleLine1": "How can we help",
+    "titleLine2": "you explore today?",
+    "intro": "Guides, best practices, and answers for everyone who uses Inner Explorer: educators practicing alongside their students, administrators rolling it out, and families bringing it home."
+  },
+  "search": {
+    "label": "Search the help center",
+    "placeholder": "Search for a topic, e.g. signing in",
+    "empty": "No guides matched your search. Try a different word, or browse the sections in the menu."
+  },
+  "support": {
+    "title": "Still need a hand?",
+    "textBefore": "Reach our support team at",
+    "textAfter": "; we typically reply within one school day."
+  },
+  "notFound": {
+    "seoTitle": "Page not found | Help Center | Inner Explorer",
+    "seoDescription": "We can't find that guide. Take a breath. Your way back is right here.",
+    "eyebrow": "Page not found · Error 404",
+    "title": "This guide slipped beyond our map.",
+    "body": "Take a breath. The guide you're looking for may have moved. Browse the Help Center home, or head back to the main site.",
+    "homeLink": "Help Center home"
+  }
+}

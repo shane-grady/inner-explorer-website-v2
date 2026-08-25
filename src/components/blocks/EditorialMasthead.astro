@@ -15,6 +15,8 @@
 //                       a mixed grey/green headline read as an accident.
 //
 // Carries the page's single <h1>.
+import { editableText, type EditablePrefix, type EditableTextType } from '../../lib/editable';
+
 interface Props {
   /** Optional centered eyebrow text between the two hairline rules. */
   eyebrow?: string;
@@ -33,6 +35,18 @@ interface Props {
   size?: 'md' | 'lg';
   /** Render a soft brand halo behind the headline (Newsroom hero). */
   glow?: boolean;
+  /** CloudCannon path prefix for this masthead's fields (e.g. 'hero'). Omit on
+   *  routes that are not backed by a `pages` collection entry. See lib/editable.ts. */
+  editablePrefix?: EditablePrefix;
+  /** Field name overrides within `editablePrefix`, for entries whose schema names a
+   *  line differently (a narrator's eyebrow IS its `role`). `null` suppresses one
+   *  line's region — required when the page composes the value rather than printing a
+   *  field verbatim, since a text region writes back exactly what the element holds
+   *  (narrators' `lead` is the literal "Meet" and `display` is `${name}.`). */
+  eyebrowKey?: string | null;
+  leadKey?: string | null;
+  displayKey?: string | null;
+  introKey?: string | null;
 }
 const {
   eyebrow,
@@ -43,7 +57,16 @@ const {
   layout = 'stacked',
   size = 'md',
   glow = false,
+  editablePrefix,
+  eyebrowKey = 'eyebrow',
+  leadKey = 'lead',
+  displayKey = 'display',
+  introKey = 'intro',
 }: Props = Astro.props;
+
+/** Region attrs for one line, honouring a `null` key (= not editable here). */
+const region = (key: string | null, type?: EditableTextType) =>
+  key === null ? {} : editableText(editablePrefix, key, type);
 ---
 
 <section class="masthead" data-layout={layout} data-size={size} style={`--mw: ${maxWidth}`}>
@@ -53,16 +76,30 @@ const {
       eyebrow && (
         <div class="eb">
           <span class="rule" aria-hidden="true" />
-          <span class="eb-text">{eyebrow}</span>
+          <span class="eb-text" {...region(eyebrowKey)}>
+            {eyebrow}
+          </span>
           <span class="rule" aria-hidden="true" />
         </div>
       )
     }
     <h1 class="display">
-      {lead && <span class="lead">{lead}</span>}
-      <span class="serif">{display}</span>
+      {
+        lead && (
+          <span class="lead" {...region(leadKey)}>
+            {lead}
+          </span>
+        )
+      }
+      <span class="serif" {...region(displayKey)}>{display}</span>
     </h1>
-    {intro && <p class="intro">{intro}</p>}
+    {
+      intro && (
+        <p class="intro" {...region(introKey, 'text')}>
+          {intro}
+        </p>
+      )
+    }
   </div>
 </section>
 

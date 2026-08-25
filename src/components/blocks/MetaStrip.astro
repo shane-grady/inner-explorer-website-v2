@@ -5,11 +5,21 @@
 //   - `feature` — large italic serif numerals (~56px), used as per-narrator quick
 //                 facts on the detail page.
 
+import { editableText, type EditablePrefix } from '../../lib/editable';
+
 interface MetaItem {
   value: string;
   label: string;
   /** Optional italic qualifier set beneath the label (e.g. "at our Boston studio"). */
   sub?: string;
+  /** CloudCannon path of THIS row's object (e.g. 'metaStrip.narrators'). Per-row
+   *  rather than per-block because a strip legitimately mixes authored rows with
+   *  rows whose figure is computed at build time — those have no field to bind.
+   *  Omit to leave the row untouched. See lib/editable.ts. */
+  editablePrefix?: EditablePrefix;
+  /** Bind `value` too. Only for rows whose figure is authored copy: a derived figure
+   *  has no field behind it, and the region would fail to resolve. */
+  valueEditable?: boolean;
 }
 interface Props {
   items: MetaItem[];
@@ -25,9 +35,21 @@ const { items, cols = 5, size = 'dense', ariaLabel }: Props = Astro.props;
     {
       items.map((it) => (
         <li class="meta-item">
-          <b class="num">{it.value}</b>
-          <span class="lbl">{it.label}</span>
-          {it.sub && <span class="sub">{it.sub}</span>}
+          {it.valueEditable ? (
+            <b class="num" {...editableText(it.editablePrefix, 'value')}>
+              {it.value}
+            </b>
+          ) : (
+            <b class="num">{it.value}</b>
+          )}
+          <span class="lbl" {...editableText(it.editablePrefix, 'label')}>
+            {it.label}
+          </span>
+          {it.sub && (
+            <span class="sub" {...editableText(it.editablePrefix, 'sub')}>
+              {it.sub}
+            </span>
+          )}
         </li>
       ))
     }

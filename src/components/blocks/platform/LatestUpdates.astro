@@ -2,6 +2,7 @@
 import Button from '../../primitives/Button.astro';
 import StoryCard from '../newsroom/StoryCard.astro';
 import type { Story } from '../newsroom/types';
+import { childPrefix, editableText, type EditablePrefix } from '../../../lib/editable';
 
 // "Latest updates" — reuses the newsroom StoryCard (mesh covers) so this preview
 // reads exactly like the newsroom it links to. Three stories in a simple grid.
@@ -9,17 +10,24 @@ interface Props {
   heading: string;
   cta: { label: string; href: string };
   stories: Story[];
+  /** CloudCannon path prefix for this block's fields (e.g. 'updates'). Omit on routes
+   *  not backed by a `pages` collection entry. See lib/editable.ts.
+   *
+   *  The story cards are not editable here: StoryCard is the newsroom's component and
+   *  also renders on /newsroom/, which is not CMS-backed yet. Edit the stories from
+   *  the sidebar until that route is converted too. */
+  editablePrefix?: EditablePrefix;
 }
-const { heading, cta, stories }: Props = Astro.props;
+const { heading, cta, stories, editablePrefix }: Props = Astro.props;
 ---
 
 <section class="updates">
   <div class="pwrap">
     <div class="updates-head">
-      <h2>{heading}</h2>
-      <Button href={cta.href} variant="outline" tone="neutral" shape="pill" size="sm"
-        >{cta.label}</Button
-      >
+      <h2 {...editableText(editablePrefix, 'heading')}>{heading}</h2>
+      <Button href={cta.href} variant="outline" tone="neutral" shape="pill" size="sm">
+        <span {...editableText(childPrefix(editablePrefix, 'cta'), 'label')}>{cta.label}</span>
+      </Button>
     </div>
     <div class="up-grid">
       {stories.map((story) => <StoryCard story={story} />)}

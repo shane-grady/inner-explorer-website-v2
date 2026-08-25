@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import brainStressed from '../../../assets/images/research/brain-stressed.webp';
 import brainMindful from '../../../assets/images/research/brain-mindful.webp';
+import { editableText, type EditablePrefix } from '../../../lib/editable';
 
 interface Props {
   chapterLabel: string;
@@ -11,6 +12,12 @@ interface Props {
   pullQuoteHtml: string;
   toggleStressedLabel?: string;
   toggleMindfulLabel?: string;
+  /** CloudCannon path prefix for this block's fields (e.g. 'brain'). Omit on routes
+   *  not backed by a `pages` collection entry. See lib/editable.ts.
+   *
+   *  `headingHtml`, `paragraphs` and `pullQuoteHtml` all render through `set:html`;
+   *  a text region would strip their inline markup, so they stay sidebar-only. */
+  editablePrefix?: EditablePrefix;
 }
 const {
   chapterLabel,
@@ -20,15 +27,20 @@ const {
   pullQuoteHtml,
   toggleStressedLabel = 'Stressed',
   toggleMindfulLabel = 'Mindful',
+  editablePrefix,
 }: Props = Astro.props;
 ---
 
 <section class="brain" id="brain" data-screen-label={chapterLabel} aria-labelledby="brain-heading">
   <div class="wrap">
     <div class="chap-mark reveal">
-      <span class="chap-num">{chapterNumber}</span>
+      <span class="chap-num" {...editableText(editablePrefix, 'chapterNumber')}>
+        {chapterNumber}
+      </span>
       <span class="chap-rule" aria-hidden="true"></span>
-      <span class="chap-label">{chapterLabel}</span>
+      <span class="chap-label" {...editableText(editablePrefix, 'chapterLabel')}>
+        {chapterLabel}
+      </span>
     </div>
     <h2 class="chap-title reveal" id="brain-heading" set:html={headingHtml} />
 

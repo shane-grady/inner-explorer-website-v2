@@ -1,5 +1,8 @@
 dist/
-dist-help/
+# dist-* also covers scratch comparison builds (dist-help-baseline/ etc.)
+dist-*/
+# transient extraction/scratch dirs
+.tmp-*/
 .astro/
 node_modules/
 .netlify/

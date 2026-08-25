@@ -6,33 +6,49 @@ interface Step {
   title: string;
   body: string;
 }
+import { editableText, type EditablePrefix } from '../../../lib/editable';
+
 interface Props {
   eyebrow: string;
   titleHtml: string;
   intro: string;
   steps: Step[];
+  /** CloudCannon path prefix for this block's fields (e.g. 'implementation'). Omit
+   *  on routes that are not backed by a `pages` collection entry. See
+   *  lib/editable.ts.
+   *
+   *  `steps` is bound with INDEXED paths, not `editableArray`: the grid also holds
+   *  the timeline rail, and an array container may hold only its own rows. */
+  editablePrefix?: EditablePrefix;
 }
-const { eyebrow, titleHtml, intro, steps }: Props = Astro.props;
+const { eyebrow, titleHtml, intro, steps, editablePrefix }: Props = Astro.props;
 ---
 
 <section class="impl" id="implementation" aria-label="Implementation and onboarding">
   <div class="impl-inner">
     <div class="impl-head">
-      <div class="eyebrow">{eyebrow}</div>
+      <div class="eyebrow" {...editableText(editablePrefix, 'eyebrow')}>{eyebrow}</div>
+      {/* An HTML field cannot back a plain-text region — it stays sidebar-editable. */}
       <h2 class="head-h" set:html={titleHtml} />
-      <p class="head-p">{intro}</p>
+      <p class="head-p" {...editableText(editablePrefix, 'intro', 'text')}>{intro}</p>
     </div>
 
     <div class="impl-grid">
       <div class="rail" aria-hidden="true"></div>
       {
-        steps.map((s) => (
+        steps.map((s, i) => (
           <div class="row">
-            <div class="when">{s.week}</div>
+            <div class="when" {...editableText(editablePrefix, `steps.${i}.week`)}>
+              {s.week}
+            </div>
             <div class="step">
               <span class="dot" aria-hidden="true" />
-              <h4 class="step-h">{s.title}</h4>
-              <p class="step-p">{s.body}</p>
+              <h4 class="step-h" {...editableText(editablePrefix, `steps.${i}.title`)}>
+                {s.title}
+              </h4>
+              <p class="step-p" {...editableText(editablePrefix, `steps.${i}.body`, 'text')}>
+                {s.body}
+              </p>
             </div>
           </div>
         ))

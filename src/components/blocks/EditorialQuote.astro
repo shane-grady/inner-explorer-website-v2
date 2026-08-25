@@ -4,6 +4,8 @@
 // "pull-quote" that breaks up a story (used on case-study pages).
 // Distinct from `PullQuote` (the in-article blog blockquote with a left rule),
 // `QuoteRow` (3 quote cards) and `PhotoQuote` (photo banner).
+import { editableText, type EditablePrefix } from '../../lib/editable';
+
 interface Props {
   quote: string;
   /** Attributed speaker, e.g. "Dr. Marisol Vega". */
@@ -13,22 +15,39 @@ interface Props {
   /** Organization, e.g. "Broward County Public Schools". */
   org?: string;
   id?: string;
+  /** CloudCannon path prefix for this quote's object (e.g. 'editorialQuote'). Omit on
+   *  call sites not backed by a collection entry — see lib/editable.ts. */
+  editablePrefix?: EditablePrefix;
 }
-const { quote, name, role, org, id }: Props = Astro.props;
+const { quote, name, role, org, id, editablePrefix }: Props = Astro.props;
 ---
 
 <section class="eq" id={id}>
   <figure class="eq-inner">
     <span class="mark" aria-hidden="true">&ldquo;</span>
-    <blockquote class="quote">{quote}</blockquote>
+    <blockquote class="quote" {...editableText(editablePrefix, 'quote', 'text')}>
+      {quote}
+    </blockquote>
     <figcaption class="by">
-      <span class="nm">{name}</span>
+      <span class="nm" {...editableText(editablePrefix, 'name')}>{name}</span>
       {
         (role || org) && (
           <span class="rl">
-            {role}
+            {/* Role, separator and org share one line, so each value needs its own
+                host element; the wrappers appear only in editable mode. */}
+            {role &&
+              (editablePrefix === undefined ? (
+                role
+              ) : (
+                <span {...editableText(editablePrefix, 'role')}>{role}</span>
+              ))}
             {role && org ? ' · ' : ''}
-            {org}
+            {org &&
+              (editablePrefix === undefined ? (
+                org
+              ) : (
+                <span {...editableText(editablePrefix, 'org')}>{org}</span>
+              ))}
           </span>
         )
       }

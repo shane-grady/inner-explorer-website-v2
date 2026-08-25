@@ -1,6 +1,14 @@
 ---
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
+import {
+  editableText,
+  editableImage,
+  editableArray,
+  editableItem,
+  itemPrefix,
+  type EditablePrefix,
+} from '../../lib/editable';
 
 // Photo-led editorial list rows (e.g. a narrator's practices). `headingHtml` carries
 // the serif+sans duet head. Each row links to its target; play/arrow are decorative.
@@ -15,8 +23,22 @@ interface Props {
   headingHtml: string;
   rows: Row[];
   maxWidth?: string;
+  /** CloudCannon path prefix for the object that OWNS the rows array. Omit on call
+   *  sites not backed by a collection entry — see lib/editable.ts. The eyebrow and
+   *  `headingHtml` are composed page chrome, so neither is bound here. */
+  editablePrefix?: EditablePrefix;
+  /** Name of the array field within `editablePrefix` (a narrator calls it `practices`). */
+  rowsKey?: string;
 }
-const { eyebrow, headingHtml, rows, maxWidth = '1200px' }: Props = Astro.props;
+const {
+  eyebrow,
+  headingHtml,
+  rows,
+  maxWidth = '1200px',
+  editablePrefix,
+  rowsKey = 'rows',
+}: Props = Astro.props;
+const rowPrefix = itemPrefix(editablePrefix);
 ---
 
 <section class="media" style={`--mw: ${maxWidth}`}>
@@ -26,24 +48,37 @@ const { eyebrow, headingHtml, rows, maxWidth = '1200px' }: Props = Astro.props;
       <h2 set:html={headingHtml} />
     </div>
 
-    <div class="rows">
+    {/* Container holds ONLY rows — the head is its sibling. */}
+    <div class="rows" {...editableArray(editablePrefix, rowsKey)}>
       {
         rows.map((row, i) => {
           const Tag = row.href ? 'a' : 'div';
           const num = String(i + 1).padStart(2, '0');
           return (
-            <Tag class="row" href={row.href}>
+            <Tag class="row" href={row.href} {...editableItem(editablePrefix)}>
+              {/* The row number is derived from position, not a field. */}
               <span class="num">{num}</span>
               <div class="thumb">
                 {row.image ? (
-                  <Image src={row.image} alt="" widths={[200, 400]} sizes="200px" loading="lazy" />
+                  <Image
+                    src={row.image}
+                    alt=""
+                    widths={[200, 400]}
+                    sizes="200px"
+                    loading="lazy"
+                    {...editableImage(rowPrefix, 'image')}
+                  />
                 ) : (
                   <span class="thumb-fallback" aria-hidden="true" />
                 )}
               </div>
               <div class="body">
-                <h3 class="title">{row.title}</h3>
-                <span class="meta">{row.meta}</span>
+                <h3 class="title" {...editableText(rowPrefix, 'title')}>
+                  {row.title}
+                </h3>
+                <span class="meta" {...editableText(rowPrefix, 'meta')}>
+                  {row.meta}
+                </span>
               </div>
               <span class="play" aria-hidden="true">
                 <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">

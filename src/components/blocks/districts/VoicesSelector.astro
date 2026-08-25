@@ -1,6 +1,14 @@
 ---
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
+import {
+  editableArray,
+  editableImage,
+  editableItem,
+  editableText,
+  itemPrefix,
+  type EditablePrefix,
+} from '../../../lib/editable';
 
 // Part Four — District Voices. Large 4:5 active portrait + quote/attribution +
 // three-item selector list. Vanilla script swaps active state.
@@ -17,18 +25,30 @@ interface Props {
   title: string;
   intro: string;
   voices: Voice[];
+  /** CloudCannon path prefix for this block's fields (e.g. 'voices'). Omit on routes
+   *  that are not backed by a `pages` collection entry. See lib/editable.ts.
+   *
+   *  `voices` is rendered THREE times — the portrait stack, the quote slides, and the
+   *  selector list. Only the quote slides are the array container: two live regions
+   *  writing one path would let an editor see a stale copy of their own edit. The
+   *  portraits carry image regions on INDEXED paths (an image region is not a second
+   *  array), and the selector list, whose labels are derived from `role`, carries
+   *  none. */
+  editablePrefix?: EditablePrefix;
 }
-const { eyebrow, title, intro, voices }: Props = Astro.props;
+const { eyebrow, title, intro, voices, editablePrefix }: Props = Astro.props;
+const slidePrefix = itemPrefix(editablePrefix);
 ---
 
 <section class="vs" id="voices" aria-label="District voices" data-voices>
   <div class="vs-inner">
     <div class="vs-head">
       <div>
-        <div class="eyebrow">{eyebrow}</div>
+        <div class="eyebrow" {...editableText(editablePrefix, 'eyebrow')}>{eyebrow}</div>
+        {/* An HTML field cannot back a plain-text region — it stays sidebar-editable. */}
         <h2 class="head-h" set:html={title} />
       </div>
-      <p class="head-p">{intro}</p>
+      <p class="head-p" {...editableText(editablePrefix, 'intro', 'text')}>{intro}</p>
     </div>
 
     <div class="vs-body">
@@ -42,6 +62,7 @@ const { eyebrow, title, intro, voices }: Props = Astro.props;
                 widths={[480, 900, 1200]}
                 sizes="(max-width: 920px) 100vw, 40vw"
                 loading="lazy"
+                {...editableImage(editablePrefix, `voices.${i}.photo`, `voices.${i}.photoAlt`)}
               />
               <div class="cap">
                 {v.who} · {v.role.split(',').pop()?.trim()}
@@ -65,16 +86,28 @@ const { eyebrow, title, intro, voices }: Props = Astro.props;
           ></path>
         </svg>
 
-        <div class="quote-track">
+        {/* Container holds ONLY array rows, as CloudCannon's array regions require. */}
+        <div class="quote-track" {...editableArray(editablePrefix, 'voices')}>
           {
             voices.map((v, i) => (
-              <div class:list={['slide', { on: i === 0 }]} data-i={i}>
-                <blockquote class="quote">{v.quote}</blockquote>
+              <div
+                class:list={['slide', { on: i === 0 }]}
+                data-i={i}
+                {...editableItem(editablePrefix)}
+              >
+                {/* Inside an array row, paths are relative to the row. */}
+                <blockquote class="quote" {...editableText(slidePrefix, 'quote', 'text')}>
+                  {v.quote}
+                </blockquote>
                 <div class="attribution">
                   <span class="rule" />
                   <div>
-                    <div class="who">{v.who}</div>
-                    <div class="role">{v.role}</div>
+                    <div class="who" {...editableText(slidePrefix, 'who')}>
+                      {v.who}
+                    </div>
+                    <div class="role" {...editableText(slidePrefix, 'role')}>
+                      {v.role}
+                    </div>
                   </div>
                 </div>
               </div>

@@ -1,4 +1,13 @@
 ---
+import {
+  childPrefix,
+  editableArray,
+  editableItem,
+  editableText,
+  itemPrefix,
+  type EditablePrefix,
+} from '../../../lib/editable';
+
 // Proof — the evidence section. A monumental headline figure (count-up) beside a
 // descending trend chart, a row of supporting stats, and provenance pills. Light
 // surface on the card elevation. The count-up animates on scroll-in; the
@@ -28,23 +37,38 @@ interface Props {
   trend: number[];
   support: CountStat[];
   pills: Pill[];
+  /** CloudCannon path prefix for this block's fields (e.g. 'proof'). Omit on routes
+   *  that are not backed by a `pages` collection entry. See lib/editable.ts. */
+  editablePrefix?: EditablePrefix;
 }
-const { eyebrow, headingLead, headingAccent, intro, hero, trendLabel, trend, support, pills } =
-  Astro.props as Props;
+const {
+  eyebrow,
+  headingLead,
+  headingAccent,
+  intro,
+  hero,
+  trendLabel,
+  trend,
+  support,
+  pills,
+  editablePrefix,
+} = Astro.props as Props;
 const lastTrend = trend.length - 1;
+const heroPrefix = childPrefix(editablePrefix, 'hero');
+const rowPrefix = itemPrefix(editablePrefix);
 ---
 
 <section id="proof" class="proof" aria-labelledby="proof-heading">
   <div class="inner">
     <header class="head" data-home-reveal>
       <div>
-        <p class="eyebrow">{eyebrow}</p>
+        <p class="eyebrow" {...editableText(editablePrefix, 'eyebrow')}>{eyebrow}</p>
         <h2 id="proof-heading" class="h">
-          {headingLead}{' '}
-          <em>{headingAccent}</em>
+          <span {...editableText(editablePrefix, 'headingLead')}>{headingLead}</span>{' '}
+          <em {...editableText(editablePrefix, 'headingAccent')}>{headingAccent}</em>
         </h2>
       </div>
-      <p class="intro">{intro}</p>
+      <p class="intro" {...editableText(editablePrefix, 'intro', 'text')}>{intro}</p>
     </header>
 
     <div class="mono" data-home-reveal>
@@ -52,11 +76,13 @@ const lastTrend = trend.length - 1;
         <div class="mono-num" data-count={hero.count} data-suffix={hero.suffix ?? ''}>
           {hero.display}
         </div>
-        <p class="mono-cap">{hero.caption}</p>
-        <p class="mono-src">{hero.source}</p>
+        <p class="mono-cap" {...editableText(heroPrefix, 'caption', 'text')}>{hero.caption}</p>
+        <p class="mono-src" {...editableText(heroPrefix, 'source')}>{hero.source}</p>
       </div>
       <div class="trend">
-        <div class="trend-label">{trendLabel}</div>
+        <div class="trend-label" {...editableText(editablePrefix, 'trendLabel')}>
+          {trendLabel}
+        </div>
         <div class="trend-bars" aria-hidden="true">
           {
             trend.map((h, i) => (
@@ -72,23 +98,27 @@ const lastTrend = trend.length - 1;
       </div>
     </div>
 
-    <div class="support" data-home-reveal>
+    {/* Array container: holds ONLY the mapped support cells. */}
+    <div class="support" data-home-reveal {...editableArray(editablePrefix, 'support')}>
       {
         support.map((s) => (
-          <div class="scell">
+          <div class="scell" {...editableItem(editablePrefix)}>
             <div class="snum" data-count={s.count} data-suffix={s.suffix ?? ''}>
               {s.display}
             </div>
-            <p class="slbl">{s.caption}</p>
+            <p class="slbl" {...editableText(rowPrefix, 'caption', 'text')}>
+              {s.caption}
+            </p>
           </div>
         ))
       }
     </div>
 
-    <div class="pills" data-home-reveal>
+    {/* Array container: holds ONLY the mapped provenance pills. */}
+    <div class="pills" data-home-reveal {...editableArray(editablePrefix, 'pills')}>
       {
         pills.map((p) => (
-          <span class="pill">
+          <span class="pill" {...editableItem(editablePrefix)}>
             <span class="pill-ico" aria-hidden="true">
               {p.icon === 'check' && (
                 <svg
@@ -134,7 +164,7 @@ const lastTrend = trend.length - 1;
                 </svg>
               )}
             </span>
-            {p.label}
+            <span {...editableText(rowPrefix, 'label')}>{p.label}</span>
           </span>
         ))
       }

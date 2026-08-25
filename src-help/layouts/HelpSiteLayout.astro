@@ -9,6 +9,12 @@ import BaseLayout from '../../src/layouts/BaseLayout.astro';
 import { MAIN_SITE } from '../../src/lib/site';
 import { helpRootHref } from '../../src/lib/help';
 import mark from '../../src/assets/brand/inner-explorer-mark.png';
+// Shared Help Center UI copy. Same mechanism as the marketing header/footer
+// (src/data/navigation.json + footer.json): the JSON is the build-time default AND
+// the CloudCannon dataset the editable regions below write back to. Bindings use
+// ABSOLUTE `@data[help-ui]...` paths because help pages other than articles have no
+// backing collection entry — a relative path would render a red error card there.
+import helpUi from '../../src/data/help-ui.json';
 
 interface Props {
   title: string;
@@ -54,7 +60,14 @@ shared inbox. See src/components/integrations/Intercom.astro. */
         <a href={helpRootHref} class="flex items-center gap-3 no-underline">
           <Image src={mark} alt="" width={32} height={32} />
           <span class="text-base font-semibold text-foreground">
-            Inner Explorer <span class="font-normal text-muted-foreground">Help Center</span>
+            <editable-text data-prop="@data[help-ui].chrome.brandName"
+              >{helpUi.chrome.brandName}</editable-text
+            >{' '}
+            <span class="font-normal text-muted-foreground">
+              <editable-text data-prop="@data[help-ui].chrome.brandLabel"
+                >{helpUi.chrome.brandLabel}</editable-text
+              >
+            </span>
           </span>
         </a>
         <a
@@ -74,14 +87,21 @@ shared inbox. See src/components/integrations/Intercom.astro. */
       <div
         class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-6 py-6 text-sm text-muted-foreground"
       >
-        <p class="m-0">&copy; {new Date().getFullYear()} Inner Explorer, Inc.</p>
+        <p class="m-0">
+          &copy; {new Date().getFullYear()}{' '}
+          <editable-text data-prop="@data[help-ui].chrome.legalName"
+            >{helpUi.chrome.legalName}</editable-text
+          >
+        </p>
         <p class="m-0 flex flex-wrap gap-6">
           <a class="transition-colors hover:text-foreground" href={MAIN_SITE}>{mainSiteLabel}</a>
           <a
             class="transition-colors hover:text-foreground"
-            href="mailto:support@innerexplorer.org"
+            href={`mailto:${helpUi.chrome.supportEmail}`}
           >
-            support@innerexplorer.org
+            <editable-text data-prop="@data[help-ui].chrome.supportEmail"
+              >{helpUi.chrome.supportEmail}</editable-text
+            >
           </a>
         </p>
       </div>

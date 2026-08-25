@@ -5,6 +5,14 @@
 // copy-to-clipboard icon button picked up by the page-level toast handler.
 // An optional default slot renders a note underneath the rows.
 
+import {
+  editableArray,
+  editableItem,
+  editableText,
+  itemPrefix,
+  type EditablePrefix,
+} from '../../../lib/editable';
+
 interface EmailItem {
   label: string;
   email: string;
@@ -12,19 +20,31 @@ interface EmailItem {
 }
 interface Props {
   emails: EmailItem[];
+  /** CloudCannon path prefix for the OBJECT holding the list (e.g. 'email'), not the
+   *  list itself — the array key is appended here. Omit on routes not backed by a
+   *  `pages` collection entry. See lib/editable.ts.
+   *
+   *  The address itself is not an editable region: its text and the `mailto:` href
+   *  come from one field, and editing only the text would silently desync them. */
+  editablePrefix?: EditablePrefix;
 }
-const { emails }: Props = Astro.props;
+const { emails, editablePrefix }: Props = Astro.props;
+const rowPrefix = itemPrefix(editablePrefix);
 ---
 
-<ul class="email-list">
+<ul class="email-list" {...editableArray(editablePrefix, 'items')}>
   {
     emails.map((it) => (
-      <li class="email-item">
-        <span class="row-label">{it.label}</span>
+      <li class="email-item" {...editableItem(editablePrefix)}>
+        <span class="row-label" {...editableText(rowPrefix, 'label')}>
+          {it.label}
+        </span>
         <a class="row-email" href={`mailto:${it.email}`}>
           {it.email}
         </a>
-        <span class="row-desc">· {it.description}</span>
+        <span class="row-desc">
+          · <span {...editableText(rowPrefix, 'description')}>{it.description}</span>
+        </span>
         <button
           type="button"
           class="row-copy"

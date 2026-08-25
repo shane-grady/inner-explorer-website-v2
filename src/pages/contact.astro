@@ -1,4 +1,5 @@
 ---
+import { getEntry } from 'astro:content';
 import PageLayout from '../layouts/PageLayout.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import EditorialMasthead from '../components/blocks/EditorialMasthead.astro';
@@ -6,102 +7,74 @@ import ContactCard from '../components/blocks/ContactCard.astro';
 import DemoForm from '../components/blocks/contact/DemoForm.astro';
 import EmailCard from '../components/blocks/contact/EmailCard.astro';
 
-// -- Page content (structured data; CMS-ready seam) -------------------------
+// ── Page content ────────────────────────────────────────────────────────
 //
-// All copy lives here so it can be lifted into a content collection later.
+// The copy lives in src/content/pages/contact.yml (the `pages` collection) so
+// CloudCannon can read and write it. Only the copy moved — the ambient layout, the
+// clipboard/toast script, and the JSON-LD below are still built here.
+// `editablePrefix` threads each block's data path down to its fields; see
+// src/lib/editable.ts.
 
-const hero = {
-  lead: 'Get in Touch With ',
-  display: 'Inner Explorer',
-  intro:
-    'Whether you are just curious about daily mindfulness or ready to bring Inner Explorer to your schools, send us a note. A member of our team will reach out within 1 business day.',
-};
+const entry = await getEntry('pages', 'contact');
+if (!entry || entry.data._schema !== 'contact') {
+  throw new Error('Missing or malformed src/content/pages/contact.yml');
+}
+const { hero, form, email, pageTitle, pageDescription } = entry.data;
 
-const form = {
-  badge: 'Start here',
-  title: 'Start the conversation',
-  blurb: 'Someone on our team will follow up to set up a time to talk.',
-  roles: [
-    { value: 'district-administrator', label: 'District Administrator' },
-    { value: 'school-administrator', label: 'School Administrator' },
-    { value: 'counselor-student-services', label: 'Counselor / Student Services' },
-    { value: 'educator', label: 'Educator' },
-    { value: 'other', label: 'Other' },
-  ],
-  states: [
-    { value: 'AL', label: 'AL' },
-    { value: 'AK', label: 'AK' },
-    { value: 'AZ', label: 'AZ' },
-    { value: 'AR', label: 'AR' },
-    { value: 'CA', label: 'CA' },
-    { value: 'CO', label: 'CO' },
-    { value: 'CT', label: 'CT' },
-    { value: 'DE', label: 'DE' },
-    { value: 'FL', label: 'FL' },
-    { value: 'GA', label: 'GA' },
-    { value: 'HI', label: 'HI' },
-    { value: 'ID', label: 'ID' },
-    { value: 'IL', label: 'IL' },
-    { value: 'IN', label: 'IN' },
-    { value: 'IA', label: 'IA' },
-    { value: 'KS', label: 'KS' },
-    { value: 'KY', label: 'KY' },
-    { value: 'LA', label: 'LA' },
-    { value: 'ME', label: 'ME' },
-    { value: 'MD', label: 'MD' },
-    { value: 'MA', label: 'MA' },
-    { value: 'MI', label: 'MI' },
-    { value: 'MN', label: 'MN' },
-    { value: 'MS', label: 'MS' },
-    { value: 'MO', label: 'MO' },
-    { value: 'MT', label: 'MT' },
-    { value: 'NE', label: 'NE' },
-    { value: 'NV', label: 'NV' },
-    { value: 'NH', label: 'NH' },
-    { value: 'NJ', label: 'NJ' },
-    { value: 'NM', label: 'NM' },
-    { value: 'NY', label: 'NY' },
-    { value: 'NC', label: 'NC' },
-    { value: 'ND', label: 'ND' },
-    { value: 'OH', label: 'OH' },
-    { value: 'OK', label: 'OK' },
-    { value: 'OR', label: 'OR' },
-    { value: 'PA', label: 'PA' },
-    { value: 'RI', label: 'RI' },
-    { value: 'SC', label: 'SC' },
-    { value: 'SD', label: 'SD' },
-    { value: 'TN', label: 'TN' },
-    { value: 'TX', label: 'TX' },
-    { value: 'UT', label: 'UT' },
-    { value: 'VT', label: 'VT' },
-    { value: 'VA', label: 'VA' },
-    { value: 'WA', label: 'WA' },
-    { value: 'WV', label: 'WV' },
-    { value: 'WI', label: 'WI' },
-    { value: 'WY', label: 'WY' },
-  ],
-  submitLabel: 'Submit',
-  confirmation:
-    'Thank you for reaching out. We just sent a confirmation to your inbox, and someone from our team will follow up to find a time to talk.',
-};
-
-const email = {
-  title: 'Already using Inner Explorer?',
-  blurb:
-    'If you are an educator or administrator already practicing with us, our support team can help with your account, your login, or anything happening in the classroom.',
-  items: [
-    {
-      label: 'Support',
-      email: 'support@innerexplorer.com',
-      description: 'For current educators and administrators.',
-    },
-  ],
-  helpCenterHref: 'https://help.innerexplorer.com/',
-};
-
-const pageTitle = 'Contact Inner Explorer | Daily Mindfulness for Schools';
-const pageDescription =
-  'Reach the Inner Explorer team to learn how daily mindfulness could support your school community. Send a message and hear back within one business day.';
+// Form configuration, not copy — the state list never changes, and 50 rows in the
+// CMS would bury the handful of fields on this page that editors do change.
+const states = [
+  { value: 'AL', label: 'AL' },
+  { value: 'AK', label: 'AK' },
+  { value: 'AZ', label: 'AZ' },
+  { value: 'AR', label: 'AR' },
+  { value: 'CA', label: 'CA' },
+  { value: 'CO', label: 'CO' },
+  { value: 'CT', label: 'CT' },
+  { value: 'DE', label: 'DE' },
+  { value: 'FL', label: 'FL' },
+  { value: 'GA', label: 'GA' },
+  { value: 'HI', label: 'HI' },
+  { value: 'ID', label: 'ID' },
+  { value: 'IL', label: 'IL' },
+  { value: 'IN', label: 'IN' },
+  { value: 'IA', label: 'IA' },
+  { value: 'KS', label: 'KS' },
+  { value: 'KY', label: 'KY' },
+  { value: 'LA', label: 'LA' },
+  { value: 'ME', label: 'ME' },
+  { value: 'MD', label: 'MD' },
+  { value: 'MA', label: 'MA' },
+  { value: 'MI', label: 'MI' },
+  { value: 'MN', label: 'MN' },
+  { value: 'MS', label: 'MS' },
+  { value: 'MO', label: 'MO' },
+  { value: 'MT', label: 'MT' },
+  { value: 'NE', label: 'NE' },
+  { value: 'NV', label: 'NV' },
+  { value: 'NH', label: 'NH' },
+  { value: 'NJ', label: 'NJ' },
+  { value: 'NM', label: 'NM' },
+  { value: 'NY', label: 'NY' },
+  { value: 'NC', label: 'NC' },
+  { value: 'ND', label: 'ND' },
+  { value: 'OH', label: 'OH' },
+  { value: 'OK', label: 'OK' },
+  { value: 'OR', label: 'OR' },
+  { value: 'PA', label: 'PA' },
+  { value: 'RI', label: 'RI' },
+  { value: 'SC', label: 'SC' },
+  { value: 'SD', label: 'SD' },
+  { value: 'TN', label: 'TN' },
+  { value: 'TX', label: 'TX' },
+  { value: 'UT', label: 'UT' },
+  { value: 'VT', label: 'VT' },
+  { value: 'VA', label: 'VA' },
+  { value: 'WA', label: 'WA' },
+  { value: 'WV', label: 'WV' },
+  { value: 'WI', label: 'WI' },
+  { value: 'WY', label: 'WY' },
+];
 
 const base = new URL(Astro.site ?? 'https://www.innerexplorer.com').origin;
 const contactLd = {
@@ -140,11 +113,18 @@ const contactLd = {
       intro={hero.intro}
       layout="inline"
       maxWidth="960px"
+      editablePrefix="hero"
     />
 
     <div class="shell">
       <div class="stack">
-        <ContactCard tone="primary" badge={form.badge} title={form.title} blurb={form.blurb}>
+        <ContactCard
+          tone="primary"
+          badge={form.badge}
+          title={form.title}
+          blurb={form.blurb}
+          editablePrefix="form"
+        >
           <svg
             slot="icon"
             viewBox="0 0 24 24"
@@ -160,13 +140,14 @@ const contactLd = {
           </svg>
           <DemoForm
             roles={form.roles}
-            states={form.states}
+            states={states}
             submitLabel={form.submitLabel}
             confirmation={form.confirmation}
+            editablePrefix="form"
           />
         </ContactCard>
 
-        <ContactCard tone="subtle" title={email.title} blurb={email.blurb}>
+        <ContactCard tone="subtle" title={email.title} blurb={email.blurb} editablePrefix="email">
           <svg
             slot="icon"
             viewBox="0 0 24 24"
@@ -180,7 +161,7 @@ const contactLd = {
             <rect x="3" y="5" width="18" height="14" rx="2"></rect>
             <path d="m3 7 9 6 9-6"></path>
           </svg>
-          <EmailCard emails={email.items}>
+          <EmailCard emails={email.items} editablePrefix="email">
             You can also find answers to common questions in the <a href={email.helpCenterHref}
               >Help Center</a
             >.

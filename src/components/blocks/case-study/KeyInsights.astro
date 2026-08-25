@@ -3,6 +3,14 @@
 // beneath the "at a glance" stat band. Each row pairs a tracked-caps label
 // (Challenge / Approach / Outcome / Durability) with a one-sentence takeaway
 // synthesized from the story below — narrative, not numbers. Zero JS.
+import {
+  editableText,
+  editableArray,
+  editableItem,
+  itemPrefix,
+  type EditablePrefix,
+} from '../../../lib/editable';
+
 interface Insight {
   label: string;
   text: string;
@@ -11,19 +19,39 @@ interface Props {
   eyebrow?: string;
   items: Insight[];
   id?: string;
+  /** CloudCannon path prefix for this block's object (e.g. 'keyInsights'). Omit on
+   *  call sites not backed by a collection entry — see lib/editable.ts. */
+  editablePrefix?: EditablePrefix;
+  /** Bind the eyebrow too. Off by default: `eyebrow` carries a schema default, so
+   *  entries routinely omit it from the file and a region would fail to resolve. */
+  editableEyebrow?: boolean;
 }
-const { eyebrow = 'Key Insights', items, id }: Props = Astro.props;
+const {
+  eyebrow = 'Key Insights',
+  items,
+  id,
+  editablePrefix,
+  editableEyebrow = false,
+}: Props = Astro.props;
+const rowPrefix = itemPrefix(editablePrefix);
 ---
 
 <section class="ki" id={id} aria-label={eyebrow}>
   <div class="wrap">
-    <span class="eyebrow">{eyebrow}</span>
-    <dl class="rows">
+    <span class="eyebrow" {...editableEyebrow ? editableText(editablePrefix, 'eyebrow') : {}}>
+      {eyebrow}
+    </span>
+    {/* The array container holds ONLY rows — the eyebrow stays outside it. */}
+    <dl class="rows" {...editableArray(editablePrefix, 'items')}>
       {
         items.map((it) => (
-          <div class="row">
-            <dt class="label">{it.label}</dt>
-            <dd class="text">{it.text}</dd>
+          <div class="row" {...editableItem(editablePrefix)}>
+            <dt class="label" {...editableText(rowPrefix, 'label')}>
+              {it.label}
+            </dt>
+            <dd class="text" {...editableText(rowPrefix, 'text', 'text')}>
+              {it.text}
+            </dd>
           </div>
         ))
       }

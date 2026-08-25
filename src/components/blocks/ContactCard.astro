@@ -10,6 +10,8 @@
 //   tone="subtle"  — muted surface (bg-muted), used for secondary cards in a stack.
 //
 // Colors come from semantic tokens. Geometry is plain CSS (drift-safe).
+import { editableText, type EditablePrefix } from '../../lib/editable';
+
 interface Props {
   /** Card surface treatment. */
   tone?: 'primary' | 'subtle';
@@ -19,8 +21,11 @@ interface Props {
   title: string;
   /** Supporting copy under the title. */
   blurb: string;
+  /** CloudCannon path prefix for this card's fields (e.g. 'form'). Omit on routes
+   *  that are not backed by a `pages` collection entry. See lib/editable.ts. */
+  editablePrefix?: EditablePrefix;
 }
-const { tone = 'subtle', badge, title, blurb }: Props = Astro.props;
+const { tone = 'subtle', badge, title, blurb, editablePrefix }: Props = Astro.props;
 ---
 
 <article class="card" data-tone={tone}>
@@ -30,15 +35,15 @@ const { tone = 'subtle', badge, title, blurb }: Props = Astro.props;
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path d="M12 2v6M12 16v6M2 12h6M16 12h6M5 5l4 4M15 15l4 4M5 19l4-4M15 9l4-4" />
         </svg>
-        {badge}
+        <span {...editableText(editablePrefix, 'badge')}>{badge}</span>
       </span>
     )
   }
 
   <div class="head">
     <div class="head-text">
-      <h2 class="title">{title}</h2>
-      <p class="blurb">{blurb}</p>
+      <h2 class="title" {...editableText(editablePrefix, 'title')}>{title}</h2>
+      <p class="blurb" {...editableText(editablePrefix, 'blurb', 'text')}>{blurb}</p>
     </div>
     <div class="chip" aria-hidden="true">
       <slot name="icon" />

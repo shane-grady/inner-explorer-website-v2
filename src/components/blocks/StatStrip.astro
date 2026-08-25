@@ -1,4 +1,12 @@
 ---
+import {
+  editableText,
+  editableArray,
+  editableItem,
+  type EditablePrefix,
+  itemPrefix,
+} from '../../lib/editable';
+
 interface Stat {
   value: string; // e.g. "2.4M", "35,000", "487M", "94"
   sup?: string; // e.g. "+", "%"
@@ -26,6 +34,14 @@ interface Props {
    *  tracking and tabular figures (About hero band, mirrors `CinematicHero`). */
   numStyle?: 'serif' | 'sans' | 'bold-sans';
   ariaLabel?: string;
+  /** CloudCannon path prefix for this block's fields (e.g. 'stats'). Omit on routes
+   *  that are not backed by a `pages` collection entry. See lib/editable.ts. */
+  editablePrefix?: EditablePrefix;
+  /** The array field these cells come from, relative to `editablePrefix`. Defaults to
+   *  `stats`; collection entries that name it differently pass a dotted path (e.g.
+   *  `district.snapshot` on a case study, `facts` on a narrator). Row-relative field
+   *  names (`value`/`sup`/`label`/`sub`) are unaffected. */
+  statsKey?: string;
 }
 const {
   stats,
@@ -35,7 +51,11 @@ const {
   size = 'display',
   numStyle = 'serif',
   ariaLabel = 'Inner Explorer by the numbers',
+  editablePrefix,
+  statsKey = 'stats',
 }: Props = Astro.props;
+/** Inside an array row, paths are relative to the row — hence ''. */
+const rowPrefix = itemPrefix(editablePrefix);
 ---
 
 <section
@@ -51,16 +71,33 @@ const {
   aria-label={ariaLabel}
   style={`--mw: ${maxWidth}; --cols: ${stats.length}`}
 >
-  <div class="stats-row">
+  {/* Container holds ONLY array rows, as CloudCannon's array regions require. */}
+  <div class="stats-row" {...editableArray(editablePrefix, statsKey)}>
     {
       stats.map((s) => (
-        <div class="stat-cell">
+        <div class="stat-cell" {...editableItem(editablePrefix)}>
           <div class="num" data-value={s.value}>
-            {s.value}
-            {s.sup && <sup>{s.sup}</sup>}
+            {/* `sup` is a sibling field, so the value needs its own host element. The
+                wrapper is added only in editable mode, leaving other call sites' markup
+                untouched — a text region may not contain another field's region. */}
+            {editablePrefix === undefined ? (
+              s.value
+            ) : (
+              <span {...editableText(rowPrefix, 'value')}>{s.value}</span>
+            )}
+            {s.sup && <sup {...editableText(rowPrefix, 'sup')}>{s.sup}</sup>}
           </div>
-          <div class:list={['lbl', { upper: labelCase === 'upper' }]}>{s.label}</div>
-          {s.sub && <div class="sub">{s.sub}</div>}
+          <div
+            class:list={['lbl', { upper: labelCase === 'upper' }]}
+            {...editableText(rowPrefix, 'label')}
+          >
+            {s.label}
+          </div>
+          {s.sub && (
+            <div class="sub" {...editableText(rowPrefix, 'sub')}>
+              {s.sub}
+            </div>
+          )}
         </div>
       ))
     }

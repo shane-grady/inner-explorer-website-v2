@@ -1232,8 +1232,10 @@ Implemented `Help Center.dc.html` as a real docs hub on the token system.
 - **Replace `HelpFigure` placeholders with real product screenshots** before publishing
   (sign-in screen, player, dashboard, schools view, classroom photos, etc.). They render
   as labelled placeholders today; `HelpFigure` accepts a real `src` image when ready.
-- **Confirm `support@innerexplorer.org`** is the correct contact (used in the sidebar
-  card + home banner).
+- [x] **Support contact confirmed 2026-08-25: `support@innerexplorer.com`.** Now a single
+      field (`chrome.supportEmail` in src/data/help-ui.json); was split across two that
+      had drifted to different domains. (Originally: used in the sidebar
+      card + home banner).
 - **FAQPage schema on help articles — deliberately skipped.** Help articles emit
   `TechArticle` + `BreadcrumbList`; the canonical `FAQPage` rich result stays on `/faq`.
   Emitting `FAQPage` for `family-faq` would mean duplicating its Accordion Q&A into

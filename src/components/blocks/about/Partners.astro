@@ -1,4 +1,12 @@
 ---
+import {
+  editableText,
+  editableArray,
+  editableItem,
+  type EditablePrefix,
+  itemPrefix,
+} from '../../../lib/editable';
+
 interface Partner {
   name: string;
   sub: string;
@@ -7,22 +15,35 @@ interface Props {
   eyebrow: string;
   heading: string;
   partners: Partner[];
+  /** CloudCannon path prefix for this block's fields (e.g. 'partners'). Omit on
+   *  routes that are not backed by a `pages` collection entry. See lib/editable.ts.
+   *  The rows are read from `<prefix>.items`. */
+  editablePrefix?: EditablePrefix;
 }
-const { eyebrow, heading, partners }: Props = Astro.props;
+const { eyebrow, heading, partners, editablePrefix }: Props = Astro.props;
+/** Inside an array row, paths are relative to the row — hence ''. */
+const rowPrefix = itemPrefix(editablePrefix);
 ---
 
 <section class="partners">
   <div class="partners-head">
-    <span class="eyebrow">{eyebrow}</span>
-    <h2>{heading}</h2>
+    <span class="eyebrow" {...editableText(editablePrefix, 'eyebrow')}>{eyebrow}</span>
+    <h2 {...editableText(editablePrefix, 'heading')}>{heading}</h2>
   </div>
   <div class="partners-wrap">
-    <ul class="partners-grid">
+    {/* Container holds ONLY array rows, as CloudCannon's array regions require. */}
+    <ul class="partners-grid" {...editableArray(editablePrefix, 'items')}>
       {
         partners.map((p) => (
-          <li class="partner-cell">
-            {p.name}
-            <em>{p.sub}</em>
+          <li class="partner-cell" {...editableItem(editablePrefix)}>
+            {/* `sub` is a sibling field, so the name needs its own host element —
+                added only in editable mode so other call sites stay unchanged. */}
+            {editablePrefix === undefined ? (
+              p.name
+            ) : (
+              <span {...editableText(rowPrefix, 'name')}>{p.name}</span>
+            )}
+            <em {...editableText(rowPrefix, 'sub')}>{p.sub}</em>
           </li>
         ))
       }

@@ -11,6 +11,8 @@
 // and swaps the form for the in-page confirmation card. If JS fails, the form
 // submits normally and Netlify shows its default thank-you page.
 
+import { editableText, type EditablePrefix } from '../../../lib/editable';
+
 interface Option {
   value: string;
   label: string;
@@ -25,8 +27,15 @@ interface Props {
   submitLabel: string;
   /** Copy shown in place of the form after a successful submit. */
   confirmation: string;
+  /** CloudCannon path prefix for this form's copy (e.g. 'form'). Omit on routes not
+   *  backed by a `pages` collection entry. See lib/editable.ts.
+   *
+   *  `confirmation` is deliberately NOT an editable region: it lives inside a
+   *  <template>, whose contents are a detached fragment the Visual Editor cannot
+   *  reach. Edit it from the sidebar. */
+  editablePrefix?: EditablePrefix;
 }
-const { roles, states, submitLabel, confirmation }: Props = Astro.props;
+const { roles, states, submitLabel, confirmation, editablePrefix }: Props = Astro.props;
 ---
 
 <form
@@ -126,7 +135,7 @@ const { roles, states, submitLabel, confirmation }: Props = Astro.props;
 
   <div class="footer-row">
     <button type="submit" class="btn-submit">
-      <span class="label">{submitLabel}</span>
+      <span class="label" {...editableText(editablePrefix, 'submitLabel')}>{submitLabel}</span>
       <svg
         viewBox="0 0 24 24"
         aria-hidden="true"

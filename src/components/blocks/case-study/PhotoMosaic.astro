@@ -1,6 +1,14 @@
 ---
 import { Image } from 'astro:assets';
 import type { GalleryImage } from './types';
+import {
+  editableText,
+  editableImage,
+  editableArray,
+  editableItem,
+  itemPrefix,
+  type EditablePrefix,
+} from '../../../lib/editable';
 
 // A deliberate, fully-tiled photo mosaic (the designer's landed direction — not
 // auto-flow masonry, which left holes). With exactly six photos it composes a square
@@ -14,33 +22,49 @@ interface Props {
   /** Optional disclosure line under the grid (e.g. "Photos are representative…"). */
   note?: string;
   id?: string;
+  /** CloudCannon path prefix for this block's object (e.g. 'gallery'). Omit on call
+   *  sites not backed by a collection entry — see lib/editable.ts. */
+  editablePrefix?: EditablePrefix;
 }
-const { eyebrow, heading, images, note, id }: Props = Astro.props;
+const { eyebrow, heading, images, note, id, editablePrefix }: Props = Astro.props;
 const deliberate = images.length === 6;
+const tilePrefix = itemPrefix(editablePrefix);
 ---
 
 <section class="gallery" id={id}>
   <div class="wrap">
     <div class="head" data-cs-reveal>
-      <span class="eyebrow">{eyebrow}</span>
-      <h2 class="h2">{heading}</h2>
+      <span class="eyebrow" {...editableText(editablePrefix, 'eyebrow')}>{eyebrow}</span>
+      <h2 class="h2" {...editableText(editablePrefix, 'heading')}>{heading}</h2>
     </div>
-    <div class:list={['grid', { deliberate }]} data-cs-reveal>
+    {/* Container holds ONLY tiles — the head and the note are its siblings. */}
+    <div
+      class:list={['grid', { deliberate }]}
+      data-cs-reveal
+      {...editableArray(editablePrefix, 'images')}
+    >
       {
         images.map((im) => (
-          <figure class="item">
+          <figure class="item" {...editableItem(editablePrefix)}>
             <Image
               src={im.src}
               alt={im.alt}
               widths={[400, 700, 1100]}
               sizes="(max-width: 480px) 100vw, (max-width: 860px) 50vw, 33vw"
               loading="lazy"
+              {...editableImage(tilePrefix, 'src', 'alt')}
             />
           </figure>
         ))
       }
     </div>
-    {note && <p class="note">{note}</p>}
+    {
+      note && (
+        <p class="note" {...editableText(editablePrefix, 'note', 'text')}>
+          {note}
+        </p>
+      )
+    }
   </div>
 </section>
 

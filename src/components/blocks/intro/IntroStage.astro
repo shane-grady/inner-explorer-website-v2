@@ -1,5 +1,6 @@
 ---
 import { Image } from 'astro:assets';
+import { childPrefix, editableText, type EditablePrefix } from '../../../lib/editable';
 import heroImage from '../../../assets/intro/hero-classroom.png';
 
 // The homepage intro as ONE combined pinned stage. A single scroll progress (0→1,
@@ -37,8 +38,25 @@ interface Props {
   balanceLabel: string;
   off: State;
   on: State;
+  /** CloudCannon path prefix for this stage's copy (e.g. 'intro'). Omit on routes that
+   *  are not backed by a `pages` collection entry. See lib/editable.ts.
+   *
+   *  Editable regions here are ATTRIBUTES ONLY — no element is added, removed, or
+   *  reordered — so every selector the scroll controller in IntroScroll.astro queries
+   *  ([data-stage], [data-pin], [data-hero], .hero-content, .overlay, [data-balance],
+   *  [data-wave], [data-hero-lines], [data-balance-switch]) is untouched. `imageAlt`
+   *  stays sidebar-only: the photograph itself is a build-time import sized for the
+   *  pin, so there is no `src` field for an image region to pair the alt with. */
+  editablePrefix?: EditablePrefix;
 }
-const { headline, lede, cta, imageAlt, balanceLabel, off, on }: Props = Astro.props;
+const { headline, lede, cta, imageAlt, balanceLabel, off, on, editablePrefix }: Props = Astro.props;
+const ctaPrefix = childPrefix(editablePrefix, 'cta');
+// Hoisted so the label's markup stays on ONE line: Prettier would otherwise wrap the
+// spread onto its own line and pad the text node with whitespace. The BALANCE label is
+// the element the drawn line has to meet, so its box is kept byte-identical.
+const balanceLabelAttrs = editableText(editablePrefix, 'balanceLabel');
+const offPrefix = childPrefix(editablePrefix, 'problem');
+const onPrefix = childPrefix(editablePrefix, 'solution');
 ---
 
 <section class="stage" data-stage>
@@ -69,7 +87,7 @@ const { headline, lede, cta, imageAlt, balanceLabel, off, on }: Props = Astro.pr
     <!-- z2: Balance content — rises up from the bottom -->
     <div class="balance" data-balance>
       <div class="switch-row">
-        <span class="balance-label">{balanceLabel}</span>
+        <span class="balance-label" {...balanceLabelAttrs}>{balanceLabel}</span>
         <button
           type="button"
           class="balance-switch"
@@ -83,12 +101,12 @@ const { headline, lede, cta, imageAlt, balanceLabel, off, on }: Props = Astro.pr
       </div>
       <div class="states">
         <div class="state state--off">
-          <h2 class="state-title">{off.title}</h2>
-          <p class="state-body">{off.body}</p>
+          <h2 class="state-title" {...editableText(offPrefix, 'title')}>{off.title}</h2>
+          <p class="state-body" {...editableText(offPrefix, 'body', 'text')}>{off.body}</p>
         </div>
         <div class="state state--on" aria-hidden="true">
-          <h2 class="state-title">{on.title}</h2>
-          <p class="state-body">{on.body}</p>
+          <h2 class="state-title" {...editableText(onPrefix, 'title')}>{on.title}</h2>
+          <p class="state-body" {...editableText(onPrefix, 'body', 'text')}>{on.body}</p>
         </div>
       </div>
     </div>
@@ -108,11 +126,11 @@ const { headline, lede, cta, imageAlt, balanceLabel, off, on }: Props = Astro.pr
       </svg>
       <div class="hero-content">
         <div class="hero-inner">
-          <h1 class="hero-title">{headline}</h1>
+          <h1 class="hero-title" {...editableText(editablePrefix, 'headline')}>{headline}</h1>
           <div class="hero-aside">
-            <p class="hero-lede">{lede}</p>
+            <p class="hero-lede" {...editableText(editablePrefix, 'lede', 'text')}>{lede}</p>
             <a class="hero-cta" href={cta.href}>
-              <span>{cta.label}</span>
+              <span {...editableText(ctaPrefix, 'label')}>{cta.label}</span>
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
