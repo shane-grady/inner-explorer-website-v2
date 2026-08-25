@@ -13,5 +13,7 @@ declare global {
     Intercom?: (...args: unknown[]) => void;
     /** Boot config read by Intercom's widget, incl. the `ie_source` surface stamp. */
     intercomSettings?: Record<string, unknown>;
+    /** HubSpot forms embed API — see src/components/integrations/HubSpotForm.astro. */
+    hbspt?: { forms: { create: (options: Record<string, unknown>) => void } };
   }
 }

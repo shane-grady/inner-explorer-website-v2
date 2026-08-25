@@ -3,7 +3,7 @@ import PageLayout from '../layouts/PageLayout.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import EditorialMasthead from '../components/blocks/EditorialMasthead.astro';
 import ContactCard from '../components/blocks/ContactCard.astro';
-import DemoForm from '../components/blocks/contact/DemoForm.astro';
+import HubSpotForm from '../components/integrations/HubSpotForm.astro';
 import EmailCard from '../components/blocks/contact/EmailCard.astro';
 
 // -- Page content (structured data; CMS-ready seam) -------------------------
@@ -21,69 +21,19 @@ const form = {
   badge: 'Start here',
   title: 'Start the conversation',
   blurb: 'Someone on our team will follow up to set up a time to talk.',
-  roles: [
-    { value: 'district-administrator', label: 'District Administrator' },
-    { value: 'school-administrator', label: 'School Administrator' },
-    { value: 'counselor-student-services', label: 'Counselor / Student Services' },
-    { value: 'educator', label: 'Educator' },
-    { value: 'other', label: 'Other' },
-  ],
-  states: [
-    { value: 'AL', label: 'AL' },
-    { value: 'AK', label: 'AK' },
-    { value: 'AZ', label: 'AZ' },
-    { value: 'AR', label: 'AR' },
-    { value: 'CA', label: 'CA' },
-    { value: 'CO', label: 'CO' },
-    { value: 'CT', label: 'CT' },
-    { value: 'DE', label: 'DE' },
-    { value: 'FL', label: 'FL' },
-    { value: 'GA', label: 'GA' },
-    { value: 'HI', label: 'HI' },
-    { value: 'ID', label: 'ID' },
-    { value: 'IL', label: 'IL' },
-    { value: 'IN', label: 'IN' },
-    { value: 'IA', label: 'IA' },
-    { value: 'KS', label: 'KS' },
-    { value: 'KY', label: 'KY' },
-    { value: 'LA', label: 'LA' },
-    { value: 'ME', label: 'ME' },
-    { value: 'MD', label: 'MD' },
-    { value: 'MA', label: 'MA' },
-    { value: 'MI', label: 'MI' },
-    { value: 'MN', label: 'MN' },
-    { value: 'MS', label: 'MS' },
-    { value: 'MO', label: 'MO' },
-    { value: 'MT', label: 'MT' },
-    { value: 'NE', label: 'NE' },
-    { value: 'NV', label: 'NV' },
-    { value: 'NH', label: 'NH' },
-    { value: 'NJ', label: 'NJ' },
-    { value: 'NM', label: 'NM' },
-    { value: 'NY', label: 'NY' },
-    { value: 'NC', label: 'NC' },
-    { value: 'ND', label: 'ND' },
-    { value: 'OH', label: 'OH' },
-    { value: 'OK', label: 'OK' },
-    { value: 'OR', label: 'OR' },
-    { value: 'PA', label: 'PA' },
-    { value: 'RI', label: 'RI' },
-    { value: 'SC', label: 'SC' },
-    { value: 'SD', label: 'SD' },
-    { value: 'TN', label: 'TN' },
-    { value: 'TX', label: 'TX' },
-    { value: 'UT', label: 'UT' },
-    { value: 'VT', label: 'VT' },
-    { value: 'VA', label: 'VA' },
-    { value: 'WA', label: 'WA' },
-    { value: 'WV', label: 'WV' },
-    { value: 'WI', label: 'WI' },
-    { value: 'WY', label: 'WY' },
-  ],
-  submitLabel: 'Submit',
+  // The eight fields, their labels and the dropdown options live on the HubSpot form, not
+  // here, so the field set can change without a deploy. It is built and version-controlled
+  // by scripts/hubspot-contact-form.mjs. These ids are public, like Intercom's app id.
+  hubspot: {
+    portalId: '44976911',
+    formId: '48e37214-69e4-479f-b03b-1ae2ab5dfbd4',
+    region: 'na1',
+  },
   confirmation:
     'Thank you for reaching out. We just sent a confirmation to your inbox, and someone from our team will follow up to find a time to talk.',
 };
+
+const supportEmail = 'support@innerexplorer.com';
 
 const email = {
   title: 'Already using Inner Explorer?',
@@ -92,7 +42,7 @@ const email = {
   items: [
     {
       label: 'Support',
-      email: 'support@innerexplorer.com',
+      email: supportEmail,
       description: 'For current educators and administrators.',
     },
   ],
@@ -158,11 +108,13 @@ const contactLd = {
             <rect x="3" y="5" width="18" height="16" rx="2"></rect>
             <path d="M8 3v4M16 3v4M3 11h18"></path>
           </svg>
-          <DemoForm
-            roles={form.roles}
-            states={form.states}
-            submitLabel={form.submitLabel}
+          <HubSpotForm
+            portalId={form.hubspot.portalId}
+            formId={form.hubspot.formId}
+            region={form.hubspot.region}
             confirmation={form.confirmation}
+            supportEmail={supportEmail}
+            helpCenterHref={email.helpCenterHref}
           />
         </ContactCard>
 
