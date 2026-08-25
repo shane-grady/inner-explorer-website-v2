@@ -5,8 +5,10 @@ import { masthead, pageBase } from './shared';
 /** /contact/ — src/content/pages/contact.yml
  *
  * Left behind in src/pages/contact.astro on purpose:
- *   • the 50-state `<select>` list — form configuration, not copy. It never changes
- *     and 50 rows in the CMS would bury the four fields that do.
+ *   • the HubSpot portal/form ids — form IDENTITY, not copy. An editor changing them
+ *     would silently break lead capture. The fields, labels and dropdown options live
+ *     on the HubSpot form itself (built by scripts/hubspot-contact-form.mjs), which is
+ *     why `roles` and the 50-state list are no longer modelled here at all.
  *   • the ContactPage JSON-LD — derived from `pageTitle`, `pageDescription`, and
  *     `email.items[0].email`.
  *   • the copy-to-clipboard toast label ("Copied") — a UI affordance, not page copy.
@@ -17,15 +19,7 @@ import { masthead, pageBase } from './shared';
  *   form.blurb         → textarea
  *   form.confirmation  → textarea, comment: "Shown in place of the form after submit."
  *   email.blurb        → textarea
- *   form.roles         → array, min_items 1 (the `value` is the submitted form value —
- *                        changing it changes what Netlify records)
  */
-
-/** One `<option>` in a form `<select>`: `value` is submitted, `label` is displayed. */
-const selectOption = z.object({
-  value: z.string(),
-  label: z.string(),
-});
 
 export const contactPage = (_ctx: PageSchemaContext) =>
   z.object({
@@ -36,8 +30,6 @@ export const contactPage = (_ctx: PageSchemaContext) =>
       badge: z.string(),
       title: z.string(),
       blurb: z.string(),
-      roles: z.array(selectOption).min(1),
-      submitLabel: z.string(),
       confirmation: z.string(),
     }),
     email: z.object({

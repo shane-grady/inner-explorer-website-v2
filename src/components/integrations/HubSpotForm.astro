@@ -1,0 +1,414 @@
+---
+// The /contact form, rendered natively by HubSpot so submissions land in the CRM and fire
+// its workflows. Replaces a hand-rolled form that posted to Netlify Forms.
+//
+// The field set is NOT defined here — it lives on the HubSpot form and is built from
+// scripts/hubspot-contact-form.mjs. This component owns the loader and the styling only, so
+// adding or reordering a field is a HubSpot change with no deploy.
+//
+// -- Why `css: ''` is load-bearing -------------------------------------------------------
+//
+// Do NOT remove it. By default HubSpot renders this form inside an <iframe class=
+// "hs-form-iframe">, which our CSS and design tokens cannot reach — the form would appear
+// completely unstyled. Reading the embed script (js.hsforms.net/forms/embed/v2.js), the
+// iframe decision comes down to `css === undefined`: passing ANY string, including '',
+// makes HubSpot render the form inline in this document instead. Verified live: with the
+// option, zero HubSpot stylesheets are injected and we own the styling completely.
+//
+// `cssRequired: ''` suppresses HubSpot's base sheet as well. Safe because its only load-
+// bearing rule is `box-sizing: border-box`, which Tailwind's preflight already sets globally.
+//
+// The equivalent form-level setting (`displayOptions.renderRawHtml`) is deliberately NOT
+// used: it would change rendering for every other embed of this form, whereas `css` is
+// scoped to this one call.
+//
+// -- Why the loader re-runs on astro:page-load -------------------------------------------
+//
+// BaseLayout ships <ClientRouter />, which replaces <body> on every client-side navigation.
+// That discards the form HubSpot injected, and component <script> tags do not re-execute on
+// a soft nav. So init() is bound to `astro:page-load` (which fires on first load AND every
+// navigation) and guarded on the target being empty. Same problem, same shape, as
+// src/components/integrations/Intercom.astro — read its comment for the fuller story.
+//
+// No teardown is needed on `astro:before-swap`: Astro discards the nodes itself, and
+// creating this form again on a fresh target is verified to work.
+
+interface Props {
+  /** HubSpot portal ("hub") id. Public, like Intercom's app_id. */
+  portalId: string;
+  /** Form GUID. The field set and its labels live on this form in HubSpot. */
+  formId: string;
+  /** HubSpot data-residency region, e.g. 'na1'. */
+  region: string;
+  /** Copy shown in place of the form after a successful submit. */
+  confirmation: string;
+  /** Fallback contact address used when the embed cannot run. */
+  supportEmail: string;
+  /** Fallback Help Center URL used when the embed cannot run. */
+  helpCenterHref: string;
+}
+const { portalId, formId, region, confirmation, supportEmail, helpCenterHref }: Props = Astro.props;
+
+// Deterministic, so the markup is stable across builds. Not randomUUID() from node:crypto —
+// that is a server-only global and breaks CloudCannon's Visual Editor (see tasks/lessons.md).
+const targetId = `hsform-${formId}`;
+---
+
+<div class="hsform">
+  <div class="hsform-target" id={targetId}></div>
+
+  {
+    /* The fallback copy is rendered twice on purpose. <noscript> covers JavaScript being
+       off; the hidden twin covers JavaScript being ON but js.hsforms.net never arriving —
+       ad blockers and school-network filters do block it, and /contact is the only
+       conversion path on the site, so an empty card is not an acceptable failure mode. */
+  }
+  <noscript>
+    <p class="hsform-fallback">
+      This form needs JavaScript. Email <a href={`mailto:${supportEmail}`}>{supportEmail}</a> and someone
+      on our team will follow up, or browse the <a href={helpCenterHref}>Help Center</a>.
+    </p>
+  </noscript>
+  <p class="hsform-fallback" data-hsform-fallback hidden>
+    This form could not load. Email <a href={`mailto:${supportEmail}`}>{supportEmail}</a> and someone
+    on our team will follow up, or browse the <a href={helpCenterHref}>Help Center</a>.
+  </p>
+
+  <template data-hsform-success>
+    <div class="success" role="status" aria-live="polite">
+      <div class="success-check" aria-hidden="true">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.6"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
+      <p class="success-body">{confirmation}</p>
+    </div>
+  </template>
+</div>
+
+<style is:global>
+  /* Styling for DOM that HubSpot injects at runtime, so it cannot be component-scoped —
+     Astro's scope hash never touches those nodes. Everything is scoped under `.hsform`
+     instead, matching the pattern in src/pages/case-studies/[slug].astro.
+     Colors come from semantic tokens; geometry is plain CSS (drift-safe). Every value here
+     is carried over from the hand-rolled form this replaced. */
+
+  .hsform {
+    margin-top: 28px;
+  }
+
+  /* The <form> itself is the grid. `display: contents` flattens HubSpot's row wrappers
+     (fieldset.form-columns-N) so this one grid drives the whole layout — which keeps the
+     design correct no matter how the fields are grouped in HubSpot. */
+  .hsform form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 0;
+  }
+  .hsform .form-columns-1,
+  .hsform .form-columns-2,
+  .hsform .form-columns-3 {
+    display: contents;
+  }
+
+  .hsform .hs-form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+  }
+  /* Message and the submit row span both columns. This is also what leaves School name
+     alone on the left half: Message can no longer sit beside it, so it wraps. */
+  .hsform .hs_message,
+  .hsform .hs_submit {
+    grid-column: 1 / -1;
+  }
+
+  .hsform .hs-form-field > label {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--color-foreground);
+  }
+  .hsform .hs-form-required {
+    margin-left: 2px;
+    color: var(--color-brand-emphasis);
+  }
+  /* HubSpot wraps each control in a div.input; it must not add spacing of its own. */
+  .hsform .hs-form-field > .input {
+    margin: 0;
+  }
+
+  .hsform .hs-input {
+    width: 100%;
+    height: 48px;
+    padding: 0 16px;
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1;
+    color: var(--color-foreground);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    transition:
+      border-color var(--dur-fast) var(--ease-out),
+      box-shadow var(--dur-fast) var(--ease-out);
+  }
+  .hsform textarea.hs-input {
+    height: auto;
+    min-height: 108px;
+    padding: 14px 16px;
+    line-height: 1.5;
+    resize: vertical;
+  }
+  .hsform select.hs-input {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 40px;
+  }
+  .hsform .hs-input::placeholder {
+    color: var(--color-muted-foreground);
+  }
+  .hsform .hs-input:focus {
+    border-color: var(--color-brand);
+    box-shadow: 0 0 0 4px color-mix(in oklab, var(--color-brand) 18%, transparent);
+  }
+
+  /* Validation. HubSpot marks the control and appends a <ul> after it, inside the field
+     shell — so the flex column's 6px gap already spaces the message correctly. */
+  .hsform .hs-input.invalid,
+  .hsform .hs-input.error {
+    border-color: var(--color-danger);
+  }
+  .hsform .hs-error-msgs {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .hsform .hs-error-msg,
+  .hsform .hs-error-msgs label {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--color-danger);
+  }
+  /* Per-field help text, if any is ever added on the HubSpot side. */
+  .hsform .hs-field-desc {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--color-muted-foreground);
+  }
+
+  /* Submit. HubSpot renders <input type="submit">, and pseudo-elements do not generate on
+     void elements — so the design's trailing arrow lives on the wrapper instead, floated
+     over the button's right padding. The input stays the only interactive element, so the
+     hit target and accessibility are unchanged. */
+  .hsform .hs_submit {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 8px;
+  }
+  .hsform .hs_submit .actions {
+    position: relative;
+    display: inline-flex;
+    transition:
+      transform var(--dur-fast) var(--ease-out),
+      filter var(--dur-fast) var(--ease-out);
+  }
+  .hsform .hs-button {
+    height: 52px;
+    padding: 0 52px 0 28px;
+    border: 0;
+    border-radius: 9999px;
+    background: var(--color-brand);
+    color: var(--color-brand-foreground);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    box-shadow: 0 10px 24px -10px color-mix(in oklab, var(--color-brand) 60%, transparent);
+  }
+  .hsform .hs_submit .actions::after {
+    content: '';
+    position: absolute;
+    right: 28px;
+    top: 50%;
+    translate: 0 -50%;
+    width: 16px;
+    height: 16px;
+    pointer-events: none;
+    background-color: var(--color-brand-foreground);
+    -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='5' y1='12' x2='19' y2='12'/><polyline points='12 5 19 12 12 19'/></svg>");
+    mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='5' y1='12' x2='19' y2='12'/><polyline points='12 5 19 12 12 19'/></svg>");
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+  }
+  .hsform .hs_submit .actions:hover {
+    filter: brightness(0.94);
+    transform: translateY(-1px);
+  }
+  .hsform .hs_submit .actions:active {
+    transform: scale(0.98);
+  }
+  /* The global :focus-visible ring squares off a pill, so restate it here. */
+  .hsform .hs-button:focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 3px;
+    border-radius: 9999px;
+  }
+
+  .hsform .hsform-fallback {
+    margin: 0;
+    max-width: 56ch;
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--color-muted-foreground);
+  }
+  .hsform .hsform-fallback a {
+    color: var(--color-brand-emphasis);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  /* Confirmation card, appended by the onFormSubmitted callback below. */
+  .hsform .success {
+    padding: 24px 4px 4px;
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    animation: hsform-fade-up var(--dur-slow) var(--ease-out) both;
+  }
+  .hsform .success-check {
+    width: 44px;
+    height: 44px;
+    border-radius: 9999px;
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    background: var(--brand-300);
+    color: var(--brand-900);
+    box-shadow: 0 4px 12px color-mix(in oklab, var(--color-brand) 32%, transparent);
+  }
+  .hsform .success-check svg {
+    width: 22px;
+    height: 22px;
+  }
+  .hsform .success-body {
+    margin: 0;
+    max-width: 520px;
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--color-foreground);
+  }
+
+  @keyframes hsform-fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 720px) {
+    .hsform form {
+      grid-template-columns: 1fr;
+    }
+    .hsform .hs_submit {
+      justify-content: stretch;
+    }
+    .hsform .hs_submit .actions,
+    .hsform .hs-button {
+      width: 100%;
+    }
+    .hsform .hs_submit .actions::after {
+      right: 28px;
+    }
+  }
+</style>
+
+<script is:inline define:vars={{ portalId, formId, region, targetId }}>
+  (function () {
+    const SRC = 'https://js.hsforms.net/forms/embed/v2.js';
+
+    function showFallback() {
+      const el = document.querySelector('[data-hsform-fallback]');
+      if (el) el.removeAttribute('hidden');
+    }
+
+    // The confirmation card is appended as a SIBLING and the embed is hidden, rather than
+    // replacing the target's contents — the target is HubSpot's own React root, and tearing
+    // it out from under React is asking for trouble.
+    function showConfirmation(target) {
+      if (target.dataset.hsformDone) return;
+      target.dataset.hsformDone = 'true';
+      const tpl = document.querySelector('template[data-hsform-success]');
+      if (!tpl || !target.parentElement) return;
+      target.setAttribute('hidden', '');
+      target.parentElement.appendChild(tpl.content.cloneNode(true));
+    }
+
+    function create() {
+      const target = document.getElementById(targetId);
+      if (!target || target.childElementCount > 0) return;
+      window.hbspt.forms.create({
+        portalId: portalId,
+        formId: formId,
+        region: region,
+        target: '#' + targetId,
+        // Load-bearing. See this component's frontmatter comment before touching either.
+        css: '',
+        cssRequired: '',
+        onFormSubmitted: function () {
+          showConfirmation(target);
+        },
+        onFormDefinitionFetchError: showFallback,
+      });
+    }
+
+    function init() {
+      // On a ClientRouter swap the target is a fresh, empty node, so this re-renders. The
+      // guard inside create() keeps a repeat call on the same DOM a no-op.
+      if (!document.getElementById(targetId)) return;
+      if (window.hbspt && window.hbspt.forms) return create();
+
+      if (!document.querySelector('script[src="' + SRC + '"]')) {
+        const s = document.createElement('script');
+        s.async = true;
+        s.src = SRC;
+        s.addEventListener('load', create);
+        s.addEventListener('error', showFallback);
+        document.head.appendChild(s);
+      }
+    }
+
+    init();
+    document.addEventListener('astro:page-load', init);
+  })();
+</script>

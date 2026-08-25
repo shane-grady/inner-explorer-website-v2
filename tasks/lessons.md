@@ -627,7 +627,7 @@ browser aligns overflow to the start edge, so over-wide centred text always spil
 right in LTR, never symmetrically. Any `nowrap` headline is one copy change away from
 this. Prefer wrapping and size the container, rather than pinning `nowrap`.
 
-### 2026-08-25 — CloudCannon: making every page editable
+## 2026-08-25 — CloudCannon: making every page editable
 
 - **The red "Failed to render text editable region" card has exactly THREE causes**, all
   in `nodes/editable-text.ts` of `@cloudcannon/editable-regions`: a missing `data-prop`,
@@ -693,3 +693,78 @@ Optimize Dep)` on every module. Restart the dev server after `pnpm add` — the 
   produce torn output and phantom failures on pages nobody touched. Give agents disjoint
   FILES (that part works well), but treat any build-output check as unreliable while
   others are building — rebuild before believing an error.
+## 2026-08-25 — HubSpot embedded forms
+
+- **A HubSpot form embedded with the stock v2 snippet renders inside an `<iframe>`, and
+  `css: ''` is what stops it.** The snippet HubSpot's UI hands you (`hbspt.forms.create({
+portalId, formId, region })`) produced `<iframe class="hs-form-iframe">` for our form —
+  and parent CSS and custom properties cannot cross an iframe boundary, so the form would
+  have been permanently unstyleable. Reading the minified embed script, the decision is a
+  single predicate whose live term is `css === undefined`; passing ANY string, `''`
+  included, renders the form inline in the host document instead, with `.hs-form`,
+  `.hs-input`, `.hs_<propertyname>` hooks available and (with `cssRequired: ''` too) zero
+  HubSpot stylesheets injected. Verified both ways in a browser before building anything.
+  This is not in HubSpot's docs. If the form ever appears unstyled, check that option first.
+  The form-level equivalent (`displayOptions.renderRawHtml`) exists but is portal-wide for
+  that form, so it would restyle every other embed of it — prefer the per-embed option.
+- **Read a form's real field set before planning against it.** The public endpoint
+  `https://forms.hsforms.com/embed/v3/form/<portalId>/<formId>/json` returns the whole
+  definition — fields, required flags, option lists, theme, `scopes` — with no auth. The
+  form we were handed turned out to contain one field (Email) rather than the eight the
+  design needed, which changed the shape of the whole task.
+- **Before rewriting any HubSpot form, prove it is not the one collecting production
+  leads.** Contacts carry `recent_conversion_event_name` / `first_conversion_event_name`,
+  which name the form each contact converted on — sorting contacts by
+  `recent_conversion_date` shows exactly which forms are live. Ours were HubSpot _captured_
+  forms (`"<Page Title>: #contactForm"`), plus Meetings links and a content-download form;
+  captured forms cannot be embedded at all, so a new regular form was the only option.
+  Scripts that rewrite a form should also refuse to delete fields they did not expect —
+  cheap insurance against a wrong form id.
+- **`getComputedStyle` read in the same tick as a class mutation returns pre-recalc
+  values.** After `el.classList.add('invalid')` plus an `insertAdjacentHTML`, the border
+  colour still read as the old token and I briefly reported a styling bug that did not
+  exist. Style resolution had simply not run yet. Read computed styles in a _later_ tool
+  call (or force a reflow first) before concluding a rule does not apply.
+- **`.focus()` does not match `:focus-visible`.** Script focus on a button leaves
+  `outline-style: none`, so a focus-ring check done that way always "fails". Drive a real
+  Tab keypress and assert `el.matches(':focus-visible')`.
+- **`display: contents` is the clean way to own a third-party form's layout.** HubSpot wraps
+  rows in `fieldset.form-columns-N`. Flattening those wrappers lets one CSS grid on the
+  `<form>` place every field, so the design survives however the fields are grouped on the
+  HubSpot side — no per-group special-casing, and regrouping in HubSpot cannot break it.
+- **Pseudo-elements do not generate on `<input>`.** HubSpot's submit is
+  `<input type="submit">`, so a design with an icon inside the button cannot use
+  `.hs-button::after`. Put the icon on the wrapping `.actions` as an absolutely positioned
+  masked `::after` with `pointer-events: none`, and pad the input to make room — the input
+  stays the only focusable, clickable element.
+- **HubSpot's Forms GET does not echo back what you PATCH, so never diff raw JSON to decide
+  whether a write is needed.** `PATCH /marketing/v3/forms/{id}` requires `dependentFields`
+  on every field and `defaultValues` on every dropdown, but the subsequent GET omits both,
+  adds `description: ''` to every enumerated option, and does not preserve key order. A
+  `JSON.stringify` comparison therefore ALWAYS reports a difference — the script looked
+  idempotent in review and silently re-wrote the form on every run. Compare a canonical
+  projection of only the properties you control, in a fixed key order.
+- **A private app token is the credential that works, and the near-misses fail in
+  distinguishable ways.** Worth knowing when someone hands you the wrong one: a legacy
+  `hapikey` (bare UUID) authenticates but 403s with `MISSING_SCOPES`; an OAuth _refresh_
+  token (long, base64-ish, starts `Ci`) 401s with `EXPIRED_AUTHENTICATION` and an expiry of
+  `1970-01-01`; only a `pat-na1-…` private app token works as a Bearer. Also validate the
+  token is ASCII before calling fetch — a placeholder run literally fails deep inside undici
+  with "Cannot convert argument to a ByteString", which names nothing useful.
+- **Do not put a placeholder in a fenced shell command.** The terminal renders a Run button
+  on `bash` blocks, so `TOKEN=… node script.mjs` gets executed verbatim, ellipsis included.
+  Put the secret in a separate `export` line with an ASCII placeholder, and keep the
+  runnable fence free of anything that must be substituted.
+- **HubSpot form validation rejects reserved domains**, so `…@example.com` fails a test
+  submission with "Please enter a valid email address" before anything reaches the CRM. Use a
+  real domain with an obviously-test local part (`contact-form-test-<date>@yourdomain.com`).
+  Silver lining: the rejection is a free check of the live error styling.
+- **A HubSpot embedded form is React-controlled, so `el.value = x` does not register.**
+  Assign through the native property setter
+  (`Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set.call(el, v)`)
+  then dispatch `input` and `change` with `bubbles: true`. Separately, the FIRST field set
+  right after the form renders can be wiped by a re-render — fill everything, then read the
+  values back and re-set any that came back empty before submitting.
+- **HubSpot names a conversion `"<page title>: <form name>"`.** The page title is prepended,
+  so a descriptive form name produces a very long event name in reporting. Keep form names
+  short.

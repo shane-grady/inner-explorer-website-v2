@@ -4,7 +4,7 @@ import PageLayout from '../layouts/PageLayout.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import EditorialMasthead from '../components/blocks/EditorialMasthead.astro';
 import ContactCard from '../components/blocks/ContactCard.astro';
-import DemoForm from '../components/blocks/contact/DemoForm.astro';
+import HubSpotForm from '../components/integrations/HubSpotForm.astro';
 import EmailCard from '../components/blocks/contact/EmailCard.astro';
 
 // ── Page content ────────────────────────────────────────────────────────
@@ -21,60 +21,20 @@ if (!entry || entry.data._schema !== 'contact') {
 }
 const { hero, form, email, pageTitle, pageDescription } = entry.data;
 
-// Form configuration, not copy — the state list never changes, and 50 rows in the
-// CMS would bury the handful of fields on this page that editors do change.
-const states = [
-  { value: 'AL', label: 'AL' },
-  { value: 'AK', label: 'AK' },
-  { value: 'AZ', label: 'AZ' },
-  { value: 'AR', label: 'AR' },
-  { value: 'CA', label: 'CA' },
-  { value: 'CO', label: 'CO' },
-  { value: 'CT', label: 'CT' },
-  { value: 'DE', label: 'DE' },
-  { value: 'FL', label: 'FL' },
-  { value: 'GA', label: 'GA' },
-  { value: 'HI', label: 'HI' },
-  { value: 'ID', label: 'ID' },
-  { value: 'IL', label: 'IL' },
-  { value: 'IN', label: 'IN' },
-  { value: 'IA', label: 'IA' },
-  { value: 'KS', label: 'KS' },
-  { value: 'KY', label: 'KY' },
-  { value: 'LA', label: 'LA' },
-  { value: 'ME', label: 'ME' },
-  { value: 'MD', label: 'MD' },
-  { value: 'MA', label: 'MA' },
-  { value: 'MI', label: 'MI' },
-  { value: 'MN', label: 'MN' },
-  { value: 'MS', label: 'MS' },
-  { value: 'MO', label: 'MO' },
-  { value: 'MT', label: 'MT' },
-  { value: 'NE', label: 'NE' },
-  { value: 'NV', label: 'NV' },
-  { value: 'NH', label: 'NH' },
-  { value: 'NJ', label: 'NJ' },
-  { value: 'NM', label: 'NM' },
-  { value: 'NY', label: 'NY' },
-  { value: 'NC', label: 'NC' },
-  { value: 'ND', label: 'ND' },
-  { value: 'OH', label: 'OH' },
-  { value: 'OK', label: 'OK' },
-  { value: 'OR', label: 'OR' },
-  { value: 'PA', label: 'PA' },
-  { value: 'RI', label: 'RI' },
-  { value: 'SC', label: 'SC' },
-  { value: 'SD', label: 'SD' },
-  { value: 'TN', label: 'TN' },
-  { value: 'TX', label: 'TX' },
-  { value: 'UT', label: 'UT' },
-  { value: 'VT', label: 'VT' },
-  { value: 'VA', label: 'VA' },
-  { value: 'WA', label: 'WA' },
-  { value: 'WV', label: 'WV' },
-  { value: 'WI', label: 'WI' },
-  { value: 'WY', label: 'WY' },
-];
+// HubSpot owns the form's fields, labels and dropdown options, so the role and
+// 50-state lists that used to live here are gone. What remains is form IDENTITY —
+// configuration, not copy. It stays out of the CMS deliberately: an editor changing
+// these would silently break lead capture. The form is built and version-controlled by
+// scripts/hubspot-contact-form.mjs; these ids are public, like Intercom's app id.
+const hubspot = {
+  portalId: '44976911',
+  formId: '48e37214-69e4-479f-b03b-1ae2ab5dfbd4',
+  region: 'na1',
+};
+
+// Single source for the address — the schema guarantees at least one contact item, so
+// this cannot drift from what the page and the JSON-LD below render.
+const supportEmail = email.items[0]?.email;
 
 const base = new URL(Astro.site ?? 'https://www.innerexplorer.com').origin;
 const contactLd = {
@@ -138,12 +98,13 @@ const contactLd = {
             <rect x="3" y="5" width="18" height="16" rx="2"></rect>
             <path d="M8 3v4M16 3v4M3 11h18"></path>
           </svg>
-          <DemoForm
-            roles={form.roles}
-            states={states}
-            submitLabel={form.submitLabel}
+          <HubSpotForm
+            portalId={hubspot.portalId}
+            formId={hubspot.formId}
+            region={hubspot.region}
             confirmation={form.confirmation}
-            editablePrefix="form"
+            supportEmail={supportEmail}
+            helpCenterHref={email.helpCenterHref}
           />
         </ContactCard>
 

@@ -10,18 +10,6 @@ form:
   badge: Start here
   title: Start the conversation
   blurb: Someone on our team will follow up to set up a time to talk.
-  roles:
-    - value: district-administrator
-      label: District Administrator
-    - value: school-administrator
-      label: School Administrator
-    - value: counselor-student-services
-      label: Counselor / Student Services
-    - value: educator
-      label: Educator
-    - value: other
-      label: Other
-  submitLabel: Submit
   confirmation: Thank you for reaching out. We just sent a confirmation to your inbox, and someone from our team will follow up to find a time to talk.
 email:
   title: Already using Inner Explorer?
