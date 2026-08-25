@@ -389,11 +389,10 @@ preserve the original 28px gap between display and intro.
       below: phone number, team initials/names, `hello@`/`press@`, the Marlborough
       location line, and the `/schedule` calendar link are all gone. The only contact
       address left is the verified `support@innerexplorer.com`.
-- [ ] **Contact form delivery**: form is still wired to Netlify Forms
-      (`data-netlify="true"`, `name="demo"`). The field set changed in the copy pass, so
-      re-verify the destination email + notification settings and the new field names
-      (`firstName`, `lastName`, `email`, `role`, `state`, `district`, `school`,
-      `message`) in the Netlify dashboard before publish.
+- [x] **Contact form delivery**: resolved by moving the form to a native HubSpot embed
+      (see "HubSpot contact form" below). Netlify Forms is no longer the destination, so
+      there is nothing to configure in the Netlify dashboard — the `demo` form definition
+      there is now dead and can be deleted. Notification settings moved to HubSpot.
 
 ## Narrator collection page — D2 "Meet the Studio · Full-width headline" (complete)
 
@@ -1508,3 +1507,112 @@ Deliberately NOT changed:
 
 Verified in the built output: the Organization description now reads PreK-12 on all
 73 page instances, and no product-descriptor JSON-LD string says K-12 any more.
+
+## HubSpot contact form (2026-08-25)
+
+Replaced the hand-rolled Netlify Forms contact form with a native HubSpot embedded form
+(portal `44976911`, form `48e37214-69e4-479f-b03b-1ae2ab5dfbd4`) so submissions land in the
+CRM and fire its workflows, while keeping the design pixel-faithful.
+
+- [x] **`scripts/hubspot-contact-form.mjs`** — builds the eight-field definition through
+      `PATCH /marketing/v3/forms/{id}`, reading dropdown options from the CRM properties at
+      run time so the form cannot drift from them. Read-modify-write and idempotent; sends
+      only `fieldGroups`, so notification recipients, lifecycle stages, reCAPTCHA, the
+      post-submit action and every style value are untouched. Refuses to write if the live
+      form holds a field the spec would delete, or if `formType !== 'hubspot'`.
+      Needs `HUBSPOT_PRIVATE_APP_TOKEN` (scopes `forms` + `crm.schemas.contacts.read`);
+      it validates the token is header-safe and reports 401/403/404 in plain language
+      instead of a stack trace. The no-op check compares a canonical projection, not raw
+      JSON — HubSpot's GET does not echo back what you PATCH (see lessons.md).
+- [x] **`src/components/integrations/HubSpotForm.astro`** — loader + styling. Sits beside
+      `Intercom.astro` and re-runs on `astro:page-load` for the same ClientRouter reason.
+      `<style is:global>` scoped under `.hsform`, colors via `var(--color-*)` only.
+- [x] **Field mapping** to existing contact properties: `firstname`, `lastname`, `email`,
+      `job_role`, `stateabreviation`, `district_name`, `school_name`, `message`. All eight
+      already existed with option lists matching the design — nothing was created.
+- [x] **`src/pages/contact.astro`** — swapped the component; dropped `roles`/`states`/
+      `submitLabel` from the structured data (those now live on the HubSpot form); added a
+      `supportEmail` const so the form's fallback and the Support row share one address.
+- [x] **Deleted** `src/components/blocks/contact/DemoForm.astro`; its `.success*` rules and
+      `fadeUp` keyframes moved into the new component.
+- [x] **Fallback** for JS-off (`<noscript>`) and for JS-on-but-blocked (ad blockers and
+      school-network filters do block `js.hsforms.net`), pointing at `support@` + Help Center.
+
+### Deliberately not done
+
+- **The HubSpot tracking script** (`js.hs-scripts.com/44976911.js`). It only adds `hutk`
+  attribution and carries cookie-consent implications the site has not addressed;
+  submissions work fully without it.
+- **`displayOptions.renderRawHtml`** on the form. It would keep the form out of an iframe
+  form-wide, but that changes rendering for every other embed of it. The per-embed
+  `css: ''` option does the same job scoped to our page.
+
+### Two things for the owner
+
+1. The confirmation copy says "We just sent a confirmation to your inbox". Nothing sends
+   that today — either add a HubSpot follow-up email on this form, or change the copy.
+2. Submission notifications now come from HubSpot. Confirm the form's notification
+   recipients point at the right people; that was the substance of the old Netlify item.
+
+### Review (HubSpot contact form)
+
+`pnpm check` green (0 errors, 0 warnings, 8 pre-existing hints) and `pnpm build` clean at 60
+pages. Per-page JS on `/contact` did not grow — it shrank, because the old form's bundled
+`<script>` is gone and the loader is inline.
+
+Verified on the dev server by DOM measurement rather than eyeballing:
+
+- **Inline render, not an iframe** — zero visible iframes inside `.hsform`, zero HubSpot
+  stylesheets or `<style>` tags in the document. This is the whole ballgame; see the lesson
+  in `tasks/lessons.md`.
+- **Layout** — measured against the exact markup HubSpot emits (its `fieldset.form-columns-N`
+  wrappers included, so `display: contents` was genuinely exercised): rows land at
+  y=451/534/617/700/783 with two 354px columns and a 16px gap; School name sits alone on the
+  left half; Message and the submit row span 724px. Matches the design.
+- **Tokens** — input 48px/12px radius, border `rgb(220,223,229)` (`--color-border`), card
+  white; required mark `rgb(17,122,76)` (`--color-brand-emphasis`); button 52px pill
+  `rgb(26,154,89)` (`--color-brand`) with the arrow as a 16px masked `::after`; textarea
+  108px min-height; select chevron with 40px right padding.
+- **Error state** — HubSpot's `.invalid.error` classes and its `.hs-error-msgs` list resolve
+  to a `#b42318` border and 12px danger text, list markers reset.
+- **Focus** — a real Tab (not `.focus()`, which does not match `:focus-visible`) puts a 2px
+  `--color-ring` ring at 3px offset on the button with the pill radius intact.
+- **Mobile 375** — single 287px column, all eight stacked, submit full width, zero
+  horizontal overflow.
+- **Dark mode** — every measured value identical with `.dark` forced on `<html>`; the
+  `.appearance-light` pin holds through the embed.
+- **Soft nav** — `/contact` → `/about` → `/contact` by real anchor clicks, confirmed to be
+  client-side (a `window` sentinel survived), and the form re-rendered with exactly one
+  form instance and styling intact. This is the ClientRouter trap the repo has hit before.
+- **Confirmation card** — 44px `--brand-300` disc with a `--brand-900` glyph, 520px body,
+  `hsform-fade-up` animation, `role="status" aria-live="polite"`, embed hidden behind it.
+
+**The HubSpot form is now built.** The owner supplied a private app token and the script ran
+against the live form: it held only `email` (interlock passed with nothing to lose), and all
+eight fields were written in five groups. Confirmed live on the page — 8 fields, still inline
+(0 visible iframes, 0 HubSpot stylesheets), two 354px columns, `Job role` carrying its 5
+options and `State or region` its 54, School name alone on the left half, Message full width,
+zero horizontal overflow. Visually indistinguishable from the design.
+
+The form's name is still HubSpot's default, `New form (August 25, 2026 2:51:28 PM EDT)`. That
+string becomes the contact's `recent_conversion_event_name`, so it is worth renaming for
+reporting — the portal's other forms are named after their page.
+
+The form was also renamed from HubSpot's default to `Contact — innerexplorer.com V2`, which
+is now part of the script's payload so it stays version-controlled with the field set.
+
+**End-to-end verified.** A test lead submitted through the real form on `/contact` produced
+contact `244309307539` with all eight properties persisted — `firstname`, `lastname`,
+`email`, `job_role` (District Administrator), `stateabreviation` (MA), `district_name`,
+`school_name` and `message`. The confirmation card fired from `onFormSubmitted` (one card,
+embed hidden, 44px `--brand-300` disc). Conversion event recorded as
+`Contact Inner Explorer | Daily Mindfulness for Schools: Contact — innerexplorer.com V2`,
+i.e. HubSpot prepends the page title to the form name — so a shorter form name would read
+better in reporting if that string is ever surfaced in a dashboard.
+
+The real form also confirmed the error state on live HubSpot markup (not just the injected
+mock): `.hs-input.invalid.error` resolves to the `#b42318` border with 12px danger text,
+list markers reset, flush-aligned with the input, inside a `role="alert"` list.
+
+**The test contact is still in the CRM** — deleting CRM records is the owner's call, not
+something to automate: https://app.hubspot.com/contacts/44976911/record/0-1/244309307539
