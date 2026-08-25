@@ -693,6 +693,7 @@ Optimize Dep)` on every module. Restart the dev server after `pnpm add` — the 
   produce torn output and phantom failures on pages nobody touched. Give agents disjoint
   FILES (that part works well), but treat any build-output check as unreliable while
   others are building — rebuild before believing an error.
+
 ## 2026-08-25 — HubSpot embedded forms
 
 - **A HubSpot form embedded with the stock v2 snippet renders inside an `<iframe>`, and
@@ -768,3 +769,11 @@ portalId, formId, region })`) produced `<iframe class="hs-form-iframe">` for our
 - **HubSpot names a conversion `"<page title>: <form name>"`.** The page title is prepended,
   so a descriptive form name produces a very long event name in reporting. Keep form names
   short.
+
+- **Never run a formatter AFTER `git add` and then `git commit` without re-staging.**
+  `git commit` writes the INDEX, not the working tree, so a `prettier --write` run
+  between staging and committing is silently discarded — the working tree looks clean,
+  `pnpm check` passes locally, and CI fails on the version you actually committed. This
+  cost a red `format:check` on main. Either format before staging, or `git add -A` again
+  right before committing. Verify with `git diff <sha> -- <file>`, which shows the gap;
+  `git status` alone is easy to skim past.
