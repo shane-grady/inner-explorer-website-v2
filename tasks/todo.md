@@ -385,16 +385,15 @@ preserve the original 28px gap between display and intro.
 - [ ] Districts page omits the design's React multi-step demo modal — primary CTAs
       deep-link to `/contact`. If a modal is desired later, build it as a small vanilla
       island, not a React tree.
-- [ ] **Contact page placeholders** (designer's stand-ins): phone number
-      `+1 (508) 657-1755`, team initials `SC` / `MR` / `JP` / `AK` + names "Sarah Chen,
-      Marcus, Jenny" in the success card and humans panel, the email aliases
-      `hello@`/`support@`/`press@` `innerexplorer.org`, and the closing pull quote
-      (attributed to "The Inner Explorer team, Marlborough, MA"). Swap for verified
-      contact info before publish.
-- [ ] **Contact form delivery**: form is wired to Netlify Forms (`data-netlify="true"`,
-      `name="demo"`). Confirm the destination email + notification settings in the
-      Netlify dashboard before publish. Also wire a real scheduler URL for the success
-      card's "open her calendar" link (currently points to `/schedule`, which 404s).
+- [x] **Contact page placeholders** (designer's stand-ins) removed in the copy pass
+      below: phone number, team initials/names, `hello@`/`press@`, the Marlborough
+      location line, and the `/schedule` calendar link are all gone. The only contact
+      address left is the verified `support@innerexplorer.com`.
+- [ ] **Contact form delivery**: form is still wired to Netlify Forms
+      (`data-netlify="true"`, `name="demo"`). The field set changed in the copy pass, so
+      re-verify the destination email + notification settings and the new field names
+      (`firstName`, `lastName`, `email`, `role`, `state`, `district`, `school`,
+      `message`) in the Netlify dashboard before publish.
 
 ## Narrator collection page — D2 "Meet the Studio · Full-width headline" (complete)
 
@@ -1391,3 +1390,37 @@ Gotcha worth remembering: the first build used a viewport-sticky `<thead>` for t
 by dropping viewport-sticky entirely and repeating the plan names on each group banner
 row instead — better editorial rhythm, and no compositor edge cases. The sticky-_left_
 feature column (a different axis, inside an `overflow-x: auto` container) is fine.
+
+## Contact page copy update (2026-08-25, complete)
+
+Verbatim copy swap supplied by the marketing owner. No layout redesign.
+
+- [x] Masthead: H1 "Get in Touch With Inner Explorer" + new subtitle.
+- [x] Card 1 (form): badge "Start here", title "Start the conversation", new blurb,
+      two reassurance helper lines, button "Send your message", and a post-submit
+      confirmation replacing the persona-named success card.
+- [x] Form fields rebuilt to the specified eight (first/last name, email, job role,
+      state or region across the 50 abbreviations, district name, optional school
+      name, optional message with helper text). "How many educators?" dropped;
+      Netlify honeypot kept.
+- [x] Card 2 (was third): "Already using Inner Explorer?" with a single Support row
+      plus a Help Center link. General/Press rows removed.
+- [x] "Call us" card deleted outright; `blocks/contact/PhoneCard.astro` removed.
+      Page-level clipboard + toast JS stays because the email row still copies.
+- [x] Closing: new body + "The Inner Explorer team". Location line removed. The
+      paragraph is body copy now rather than a pull quote, so its serif italic was
+      set to normal (house style: no italic emphasis).
+- [x] Metadata + `ContactPage` JSON-LD trimmed to the support address (no telephone,
+      hours, or press contact point).
+- [x] Footer tagline: "K-12 schools" to "PreK-12 schools" (`src/data/footer.json`).
+
+### Review (Contact copy update)
+
+`pnpm check` clean; `pnpm build` clean (59 pages). Verified on the dev server:
+copy renders verbatim, all eight fields present with the honeypot intact, and a
+scripted submit swaps the form for the confirmation message.
+
+Fixed along the way: `EditorialMasthead`'s `inline` layout pins `white-space: nowrap`,
+and the longer H1 (33 chars vs the old 24) overflowed its container below roughly
+485px wide. Added a `max-width: 720px` rule letting the inline headline wrap. Shared
+with `/newsroom`, where wrapping is likewise better than overflow.

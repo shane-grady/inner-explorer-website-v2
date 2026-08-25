@@ -1,45 +1,39 @@
 ---
-// Demo-booking form body. Sits inside a primary ContactCard.
+// Contact form body. Sits inside a primary ContactCard.
 //
 // Submission target: Netlify Forms (the host platform). `data-netlify="true"`,
 // `name="demo"`, and a hidden `form-name` input let Netlify pick it up at build
-// time — no backend code. A honeypot `bot-field` blocks naive spam bots.
+// time, so there is no backend code. A honeypot `bot-field` blocks naive spam bots.
 //
 // Progressive enhancement: native HTML5 validation (`required`, `type="email"`)
 // is the floor. A small vanilla <script> intercepts submit on success, fetches
 // to "/" with the form data (Netlify's accepted endpoint for AJAX submissions),
-// and swaps the form for the in-page success card. If JS fails, the form
+// and swaps the form for the in-page confirmation card. If JS fails, the form
 // submits normally and Netlify shows its default thank-you page.
 
-interface Role {
+interface Option {
   value: string;
   label: string;
-}
-interface SizeBucket {
-  value: string;
-  label: string;
-}
-interface AvatarSeed {
-  initials: string;
-  variant: 'mint' | 'amber' | 'sky' | 'lilac';
-}
-interface RepNote {
-  /** Name displayed in the success card body (e.g. "Sarah Chen"). */
-  name: string;
-  /** Short qualifier (e.g. "from our schools team"). */
-  qualifier: string;
 }
 
 interface Props {
-  roles: Role[];
-  sizes: SizeBucket[];
-  avatars: AvatarSeed[];
-  teamSizeLabel: string;
-  responseLabel: string;
-  /** Microcopy + rep used by the success card. */
-  rep: RepNote;
+  /** "Job role" dropdown options. */
+  roles: Option[];
+  /** "State or region" dropdown options. */
+  states: Option[];
+  /** First reassurance line under the form. */
+  helperOne: string;
+  /** Second reassurance line under the form. */
+  helperTwo: string;
+  /** Submit button label. */
+  submitLabel: string;
+  /** Helper text under the optional message field. */
+  messageHelp: string;
+  /** Copy shown in place of the form after a successful submit. */
+  confirmation: string;
 }
-const { roles, sizes, avatars, teamSizeLabel, responseLabel, rep }: Props = Astro.props;
+const { roles, states, helperOne, helperTwo, submitLabel, messageHelp, confirmation }: Props =
+  Astro.props;
 ---
 
 <form
@@ -67,82 +61,91 @@ const { roles, sizes, avatars, teamSizeLabel, responseLabel, rep }: Props = Astr
         class="input"
         type="text"
         autocomplete="given-name"
-        placeholder="Jordan"
         required
         aria-required="true"
       />
     </div>
 
     <div class="field">
-      <label for="demo-last">Last name</label>
+      <label for="demo-last">Last name<span class="req" aria-hidden="true">*</span></label>
       <input
         id="demo-last"
         name="lastName"
         class="input"
         type="text"
         autocomplete="family-name"
-        placeholder="Rivera"
+        required
+        aria-required="true"
       />
     </div>
 
     <div class="field">
-      <label for="demo-email">School email<span class="req" aria-hidden="true">*</span></label>
+      <label for="demo-email">Email<span class="req" aria-hidden="true">*</span></label>
       <input
         id="demo-email"
         name="email"
         class="input"
         type="email"
         autocomplete="email"
-        placeholder="jordan@district.k12.us"
         required
         aria-required="true"
       />
     </div>
 
     <div class="field">
-      <label for="demo-org">School or district<span class="req" aria-hidden="true">*</span></label>
-      <input
-        id="demo-org"
-        name="organization"
-        class="input"
-        type="text"
-        autocomplete="organization"
-        placeholder="Lincoln Elementary"
-        required
-        aria-required="true"
-      />
-    </div>
-
-    <div class="field">
-      <label for="demo-role">Your role<span class="req" aria-hidden="true">*</span></label>
+      <label for="demo-role">Job role<span class="req" aria-hidden="true">*</span></label>
       <select id="demo-role" name="role" class="select" required aria-required="true">
-        <option value="">Select one…</option>
+        <option value="">Select one</option>
         {roles.map((r) => <option value={r.value}>{r.label}</option>)}
       </select>
     </div>
 
     <div class="field">
-      <label for="demo-size">How many educators?</label>
-      <select id="demo-size" name="size" class="select">
-        <option value="">Optional</option>
-        {sizes.map((s) => <option value={s.value}>{s.label}</option>)}
+      <label for="demo-state">State or region<span class="req" aria-hidden="true">*</span></label>
+      <select id="demo-state" name="state" class="select" required aria-required="true">
+        <option value="">Select one</option>
+        {states.map((s) => <option value={s.value}>{s.label}</option>)}
       </select>
+    </div>
+
+    <div class="field">
+      <label for="demo-district">District name<span class="req" aria-hidden="true">*</span></label>
+      <input
+        id="demo-district"
+        name="district"
+        class="input"
+        type="text"
+        autocomplete="organization"
+        required
+        aria-required="true"
+      />
+    </div>
+
+    <div class="field">
+      <label for="demo-school">School name</label>
+      <input id="demo-school" name="school" class="input" type="text" />
+    </div>
+
+    <div class="field field-wide">
+      <label for="demo-message">Message for our team</label>
+      <textarea
+        id="demo-message"
+        name="message"
+        class="textarea"
+        rows="4"
+        aria-describedby="demo-message-help"></textarea>
+      <p id="demo-message-help" class="field-help">{messageHelp}</p>
     </div>
   </div>
 
   <div class="footer-row">
-    <div class="team-row">
-      <div class="avatars" aria-hidden="true">
-        {avatars.map((a) => <span class={`avatar ${a.variant}`}>{a.initials}</span>)}
-      </div>
-      <p id="demo-form-help" class="team-caption">
-        You'll meet someone from a <strong>{teamSizeLabel}</strong>.<br />
-        Average response time: <strong>{responseLabel}</strong>.
-      </p>
-    </div>
+    <p id="demo-form-help" class="assurance">
+      {helperOne}<br />
+      {helperTwo}
+    </p>
 
     <button type="submit" class="btn-submit">
-      <span class="label">Schedule walkthrough</span>
+      <span class="label">{submitLabel}</span>
       <svg
         viewBox="0 0 24 24"
         aria-hidden="true"
@@ -173,14 +176,7 @@ const { roles, sizes, avatars, teamSizeLabel, responseLabel, rep }: Props = Astr
         <polyline points="20 6 9 17 4 12"></polyline>
       </svg>
     </div>
-    <div>
-      <h3 class="success-title">Got it, <span data-name>friend</span>.</h3>
-      <p class="success-body">
-        <strong>{rep.name}</strong>{` ${rep.qualifier}`} will reach out within one business day to schedule
-        your 20-minute walkthrough. Keep an eye on <strong data-email>your inbox</strong> — and if you'd
-        rather pick a time right now, <a href="/schedule" class="cal-link">open her calendar</a>.
-      </p>
-    </div>
+    <p class="success-body">{confirmation}</p>
   </div>
 </template>
 
@@ -209,6 +205,9 @@ const { roles, sizes, avatars, teamSizeLabel, responseLabel, rep }: Props = Astr
     flex-direction: column;
     gap: 6px;
   }
+  .field-wide {
+    grid-column: 1 / -1;
+  }
   .field label {
     font-family: var(--font-sans);
     font-size: 13px;
@@ -220,9 +219,17 @@ const { roles, sizes, avatars, teamSizeLabel, responseLabel, rep }: Props = Astr
     margin-left: 2px;
     color: var(--color-brand-emphasis);
   }
+  .field-help {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--color-muted-foreground);
+  }
 
   .input,
-  .select {
+  .select,
+  .textarea {
     width: 100%;
     height: 48px;
     padding: 0 16px;
@@ -241,17 +248,26 @@ const { roles, sizes, avatars, teamSizeLabel, responseLabel, rep }: Props = Astr
       border-color var(--dur-fast) var(--ease-out),
       box-shadow var(--dur-fast) var(--ease-out);
   }
+  .textarea {
+    height: auto;
+    min-height: 108px;
+    padding: 14px 16px;
+    line-height: 1.5;
+    resize: vertical;
+  }
   .select {
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
     background-repeat: no-repeat;
     background-position: right 14px center;
     padding-right: 40px;
   }
-  .input::placeholder {
+  .input::placeholder,
+  .textarea::placeholder {
     color: var(--color-muted-foreground);
   }
   .input:focus,
-  .select:focus {
+  .select:focus,
+  .textarea:focus {
     border-color: var(--color-brand);
     box-shadow: 0 0 0 4px color-mix(in oklab, var(--color-brand) 18%, transparent);
   }
@@ -269,60 +285,12 @@ const { roles, sizes, avatars, teamSizeLabel, responseLabel, rep }: Props = Astr
     flex-wrap: wrap;
   }
 
-  .team-row {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-  .avatars {
-    display: flex;
-    align-items: center;
-  }
-  .avatar {
-    width: 36px;
-    height: 36px;
-    border-radius: 9999px;
-    display: grid;
-    place-items: center;
-    font-family: var(--font-sans);
-    font-size: 12px;
-    font-weight: 600;
-    line-height: 1;
-    color: var(--color-foreground);
-    border: 2px solid var(--color-card);
-    margin-left: -8px;
-    box-shadow: var(--shadow-sm);
-  }
-  .avatar:first-child {
-    margin-left: 0;
-  }
-  .avatar.mint {
-    background: linear-gradient(135deg, var(--brand-200), var(--brand-400));
-    color: var(--brand-900);
-  }
-  .avatar.amber {
-    background: linear-gradient(135deg, var(--accent-100), var(--accent-300));
-    color: var(--accent-900);
-  }
-  .avatar.sky {
-    background: linear-gradient(135deg, var(--brand-100), var(--brand-300));
-    color: var(--brand-800);
-  }
-  .avatar.lilac {
-    background: linear-gradient(135deg, var(--neutral-200), var(--neutral-400));
-    color: var(--neutral-800);
-  }
-
-  .team-caption {
+  .assurance {
     margin: 0;
     font-family: var(--font-sans);
     font-size: 13px;
     line-height: 1.45;
     color: var(--color-muted-foreground);
-  }
-  .team-caption strong {
-    color: var(--color-foreground);
-    font-weight: 600;
   }
 
   .btn-submit {
@@ -358,7 +326,7 @@ const { roles, sizes, avatars, teamSizeLabel, responseLabel, rep }: Props = Astr
     height: 16px;
   }
 
-  /* Success state — swapped in by JS after a valid submit. */
+  /* Confirmation state, swapped in by JS after a valid submit. */
   :global(.success) {
     padding: 24px 4px 4px;
     display: flex;
@@ -381,32 +349,13 @@ const { roles, sizes, avatars, teamSizeLabel, responseLabel, rep }: Props = Astr
     width: 22px;
     height: 22px;
   }
-  :global(.success-title) {
-    margin: 0 0 6px;
-    font-family: var(--font-display);
-    font-style: normal;
-    font-weight: 400;
-    font-size: 28px;
-    line-height: 1.15;
-    color: var(--color-foreground);
-  }
   :global(.success-body) {
     margin: 0;
     max-width: 520px;
     font-family: var(--font-sans);
-    font-size: 15px;
+    font-size: 16px;
     line-height: 1.55;
-    color: var(--color-muted-foreground);
-  }
-  :global(.success-body strong) {
     color: var(--color-foreground);
-    font-weight: 600;
-  }
-  :global(.success-body .cal-link) {
-    color: var(--color-brand-emphasis);
-    font-weight: 600;
-    text-decoration: underline;
-    text-underline-offset: 3px;
   }
 
   @keyframes fadeUp {
@@ -435,9 +384,9 @@ const { roles, sizes, avatars, teamSizeLabel, responseLabel, rep }: Props = Astr
 </style>
 
 <script>
-  // Vanilla progressive enhancement for the demo form. Without JS the form
+  // Vanilla progressive enhancement for the contact form. Without JS the form
   // submits normally to Netlify; with JS we intercept, validate, ship the data
-  // in the background, and render a success card in place.
+  // in the background, and render the confirmation in place.
   const form = document.querySelector<HTMLFormElement>('form.demo-form');
   const template = document.getElementById('demo-success-template') as HTMLTemplateElement | null;
   if (form && template) {
@@ -465,8 +414,6 @@ const { roles, sizes, avatars, teamSizeLabel, responseLabel, rep }: Props = Astr
       event.preventDefault();
 
       const data = new FormData(form);
-      const first = String(data.get('firstName') ?? '').trim() || 'friend';
-      const email = String(data.get('email') ?? '').trim();
 
       // Best-effort background submit; failure falls back to a real submit.
       try {
@@ -481,10 +428,6 @@ const { roles, sizes, avatars, teamSizeLabel, responseLabel, rep }: Props = Astr
       }
 
       const node = template.content.cloneNode(true) as DocumentFragment;
-      const nameEl = node.querySelector('[data-name]');
-      const emailEl = node.querySelector('[data-email]');
-      if (nameEl) nameEl.textContent = first;
-      if (emailEl && email) emailEl.textContent = email;
       form.replaceWith(node);
     });
   }

@@ -1,9 +1,9 @@
 ---
 // Email-card body. Sits inside a subtle ContactCard.
 //
-// Three triaged email rows (General / Support / Press), each with a clickable
-// mailto:, a short qualifier, and a copy-to-clipboard icon button that dispatches
-// `contact:toast` to the page-level toast handler.
+// One row per triaged mailbox: a clickable mailto:, a short qualifier, and a
+// copy-to-clipboard icon button picked up by the page-level toast handler.
+// An optional default slot renders a note underneath the rows.
 
 interface EmailItem {
   label: string;
@@ -49,6 +49,8 @@ const { emails }: Props = Astro.props;
     ))
   }
 </ul>
+
+<p class="email-note"><slot /></p>
 
 <style>
   .email-list {
@@ -109,6 +111,23 @@ const { emails }: Props = Astro.props;
   .row-copy svg {
     width: 14px;
     height: 14px;
+  }
+
+  .email-note {
+    margin: 18px 0 0;
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--color-muted-foreground);
+  }
+  .email-note:empty {
+    display: none;
+  }
+  .email-note :global(a) {
+    color: var(--color-brand-emphasis);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
 
   @media (max-width: 540px) {
