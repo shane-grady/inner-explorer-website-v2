@@ -20,8 +20,7 @@ const hero = {
 const form = {
   badge: 'Start here',
   title: 'Start the conversation',
-  blurb:
-    'Share a little about your school or district and what you are hoping mindfulness could change. Someone on our team will follow up to set up a time to talk.',
+  blurb: 'Someone on our team will follow up to set up a time to talk.',
   roles: [
     { value: 'district-administrator', label: 'District Administrator' },
     { value: 'school-administrator', label: 'School Administrator' },
@@ -101,11 +100,6 @@ const email = {
     },
   ],
   helpCenterHref: 'https://help.innerexplorer.com/',
-};
-
-const closing = {
-  body: 'There is no wrong way to start. Even if you are only exploring what daily mindfulness could look like in your schools, we are glad to talk it through.',
-  attribution: 'The Inner Explorer team',
 };
 
 const pageTitle = 'Contact Inner Explorer | Daily Mindfulness for Schools';
@@ -199,13 +193,6 @@ const contactLd = {
           </EmailCard>
         </ContactCard>
       </div>
-
-      <section class="closing">
-        <p class="closing-quote">{closing.body}</p>
-        <div class="closing-meta">
-          <strong>{closing.attribution}</strong>
-        </div>
-      </section>
     </div>
 
     <output id="contact-toast" aria-live="polite" class="toast">
@@ -270,38 +257,6 @@ const contactLd = {
     gap: 28px;
   }
 
-  .closing {
-    margin-top: 56px;
-    padding: 28px 32px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
-    flex-wrap: wrap;
-  }
-  .closing-quote {
-    margin: 0;
-    max-width: 540px;
-    font-family: var(--font-display);
-    font-style: normal;
-    font-weight: 400;
-    font-size: 22px;
-    line-height: 1.3;
-    color: var(--color-foreground);
-  }
-  .closing-meta {
-    text-align: right;
-    font-family: var(--font-sans);
-    font-size: 13px;
-    line-height: 1.5;
-    color: var(--color-muted-foreground);
-  }
-  .closing-meta strong {
-    display: block;
-    color: var(--color-foreground);
-    font-weight: 600;
-  }
-
   /* Toast: fixed, slides up on .show, honors prefers-reduced-motion. */
   .toast {
     position: fixed;
@@ -346,15 +301,6 @@ const contactLd = {
   @media (max-width: 720px) {
     .shell {
       padding: 0 18px;
-    }
-    .closing {
-      flex-direction: column;
-      align-items: flex-start;
-      text-align: left;
-      padding: 24px 4px;
-    }
-    .closing-meta {
-      text-align: left;
     }
   }
 </style>

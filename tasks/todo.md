@@ -1453,3 +1453,18 @@ with no horizontal overflow at any of them; one line down to ~485px, two centred
 below. The other `inline` consumers are untouched in practice, both having ample room
 (`/newsroom` "Our Newsroom" 614px and `/case-studies` "Case Studies" 536px, against
 1136px available), so removing `nowrap` cannot make them wrap.
+
+## Contact copy trim (2026-08-25)
+
+Owner review after the page went live. Two cuts, no layout work:
+
+- [x] Removed the closing block entirely: "There is no wrong way to start..." and the
+      "The Inner Explorer team" signature. Judged unnecessary. Took its markup, its
+      `closing` data object, and all `.closing*` CSS (including the mobile override)
+      with it, so nothing dead is left behind.
+- [x] Trimmed the "Start the conversation" blurb to just "Someone on our team will
+      follow up to set up a time to talk." The dropped first sentence told people what
+      to write about; the owner's call is that they should say what they want to.
+
+The page now ends on the "Already using Inner Explorer?" card. `.contact-page`'s 96px
+bottom padding still separates it from the footer, so no spacing change was needed.
