@@ -4,9 +4,10 @@
 // Three layouts share the same component:
 //   stacked (default) — sans lead line above an oversized serif-italic display line
 //                       (used by /narrators/[slug] and similar long-form pages).
-//   inline            — a single-line sentence with the serif word painted brand-green,
-//                       sized to fit on one line (`white-space: nowrap`). Used by the
-//                       Contact page hero ("Reach a real person *now.*").
+//   inline            — a single-line sentence with the serif word painted brand-green.
+//                       Give it a `maxWidth` wide enough for the sentence; it wraps
+//                       rather than overflowing if the container is too narrow.
+//                       Used by the Contact page hero.
 //   display           — display-only: just the serif-italic line (no lead). Used by the
 //                       Support page hero ("FAQs.").
 //   uniform           — one sentence at a single size in a single color, wrapping
@@ -136,11 +137,15 @@ const {
     color: var(--color-brand-emphasis);
   }
 
-  /* Inline: one sentence on a single line, serif word painted brand-green. */
+  /* Inline: one sentence on a single line, serif word painted brand-green.
+     Deliberately NOT `white-space: nowrap`. A headline too long for its container
+     would overflow rather than wrap, and `text-align: center` pins overflowing text
+     to the start edge, so it spills right and reads as off-centre against the rest
+     of the page. Wrapping keeps it centred; size the container (`maxWidth`) so the
+     sentence still lands on one line at the widths you care about. */
   [data-layout='inline'] .display {
     font-size: clamp(28px, 5.2vw, 56px);
     line-height: 1.05;
-    white-space: nowrap;
     letter-spacing: -0.02em;
   }
   [data-layout='inline'] .lead {
@@ -207,13 +212,5 @@ const {
   }
   [data-layout='inline'] .intro {
     margin-top: 22px;
-  }
-
-  /* Narrow viewports: let the inline headline wrap rather than run past the
-     container. `nowrap` only holds while the sentence still fits on one line. */
-  @media (max-width: 720px) {
-    [data-layout='inline'] .display {
-      white-space: normal;
-    }
   }
 </style>

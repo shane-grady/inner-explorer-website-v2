@@ -1420,7 +1420,36 @@ Verbatim copy swap supplied by the marketing owner. No layout redesign.
 copy renders verbatim, all eight fields present with the honeypot intact, and a
 scripted submit swaps the form for the confirmation message.
 
-Fixed along the way: `EditorialMasthead`'s `inline` layout pins `white-space: nowrap`,
-and the longer H1 (33 chars vs the old 24) overflowed its container below roughly
-485px wide. Added a `max-width: 720px` rule letting the inline headline wrap. Shared
-with `/newsroom`, where wrapping is likewise better than overflow.
+Fixed along the way: `EditorialMasthead`'s `inline` layout pinned `white-space: nowrap`,
+and the longer H1 (32 chars vs the old 24) overflowed its container. First attempt only
+covered narrow viewports; see the follow-up below for the real fix.
+
+## Contact H1 centering fix (2026-08-25)
+
+Reported after the copy update shipped: the Contact H1 sat noticeably right of the
+subtitle and the form card.
+
+Cause: `EditorialMasthead`'s `inline` layout set `white-space: nowrap`. The new
+32-character headline needs 842px at the 56px size cap, but the masthead container was
+`maxWidth="760px"` (696px of content), so the text overflowed by 146px. `text-align:
+center` does **not** centre overflowing content: it pins the text to the start edge and
+lets it spill right. Measured at 1440px wide, the H1's ink centred on 793 while the
+subtitle and card both centred on 720.
+
+The earlier `max-width: 720px` media query masked this on phones only, which is why it
+looked fixed. Lesson recorded in tasks/lessons.md: measure the text ink box
+(`Range.getBoundingClientRect`), not the element box, when checking centring. The
+element box is always the container width and looks correct even while the glyphs
+overflow.
+
+- [x] Dropped `white-space: nowrap` from the `inline` layout so an over-long headline
+      wraps (and stays centred) instead of overflowing. Removed the now-redundant
+      720px override.
+- [x] Widened the Contact masthead to `maxWidth="960px"` so the sentence still lands
+      on one line at desktop widths (needs >= 906px to fit).
+
+Verified: H1 ink, subtitle, and card centres agree exactly at 1280 / 1024 / 768 / 414px,
+with no horizontal overflow at any of them; one line down to ~485px, two centred lines
+below. The other `inline` consumers are untouched in practice, both having ample room
+(`/newsroom` "Our Newsroom" 614px and `/case-studies` "Case Studies" 536px, against
+1136px available), so removing `nowrap` cannot make them wrap.

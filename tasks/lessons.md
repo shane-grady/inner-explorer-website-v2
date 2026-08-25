@@ -603,3 +603,26 @@ Accordion, HelpFigure, Button}} />` (same seam as the blog). Reading time reuses
 - **Do not bind an HTML input to a plain-text editable region.** Keep structured/styled
   HTML editable in the sidebar, and expose a visual text region only when the backing
   value is guaranteed to be a string with matching semantics.
+
+## Verifying that something is centered (2026-08-25)
+
+Measuring an element's own `getBoundingClientRect()` does not tell you whether its
+**text** is centered. For a block element the box is the container width, so its centre
+matches the page centre even when the glyphs inside overflow and sit visibly off-centre.
+
+On the Contact page an H1 with `white-space: nowrap` overflowed its container by 146px;
+the element box centred on 720 (correct) while the rendered text centred on 793 (wrong).
+I measured the box, concluded it was fine, and shipped a bug the user then spotted.
+
+Measure the text ink instead:
+
+```js
+const r = document.createRange();
+r.selectNodeContents(el);
+r.getBoundingClientRect(); // the glyphs, not the box
+```
+
+Related: `text-align: center` does not centre content wider than its line box. The
+browser aligns overflow to the start edge, so over-wide centred text always spills
+right in LTR, never symmetrically. Any `nowrap` headline is one copy change away from
+this. Prefer wrapping and size the container, rather than pinning `nowrap`.
