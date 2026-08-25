@@ -1,6 +1,15 @@
 ---
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
+import {
+  childPrefix,
+  editableArray,
+  editableImage,
+  editableItem,
+  editableText,
+  itemPrefix,
+  type EditablePrefix,
+} from '../../../lib/editable';
 
 // Part Two — "By the Numbers." Dark editorial centerfold: 3-col asymmetric grid
 // (big primary number, anchor photograph, stacked secondary numbers), then a
@@ -36,9 +45,25 @@ interface Props {
   imageAlt: string;
   imageCaption: string;
   citations: Citation[];
+  /** CloudCannon path prefix for this block's fields (e.g. 'byTheNumbers'). Omit on
+   *  routes that are not backed by a `pages` collection entry. See lib/editable.ts. */
+  editablePrefix?: EditablePrefix;
 }
-const { eyebrow, title, intro, primary, small, image, imageAlt, imageCaption, citations }: Props =
-  Astro.props;
+const {
+  eyebrow,
+  title,
+  intro,
+  primary,
+  small,
+  image,
+  imageAlt,
+  imageCaption,
+  citations,
+  editablePrefix,
+}: Props = Astro.props;
+const primaryPrefix = childPrefix(editablePrefix, 'primary');
+const smallPrefix = itemPrefix(editablePrefix);
+const citePrefix = itemPrefix(editablePrefix);
 ---
 
 <section class="btn" id="outcomes" aria-label="By the numbers">
@@ -48,62 +73,108 @@ const { eyebrow, title, intro, primary, small, image, imageAlt, imageCaption, ci
   <div class="btn-inner">
     <div class="btn-head">
       <div>
-        <div class="eyebrow">{eyebrow}</div>
+        <div class="eyebrow" {...editableText(editablePrefix, 'eyebrow')}>{eyebrow}</div>
+        {/* An HTML field cannot back a plain-text region — it stays sidebar-editable. */}
         <h2 class="head-h" set:html={title} />
       </div>
-      <p class="head-p">{intro}</p>
+      <p class="head-p" {...editableText(editablePrefix, 'intro', 'text')}>{intro}</p>
     </div>
 
     <div class="btn-spread">
       <div class="primary-col">
-        <div class="lbl">{primary.label}</div>
-        <div class="primary-num" data-value={primary.value}>
-          {primary.value}
-          {primary.unit && <span class="unit">{primary.unit}</span>}
+        <div class="lbl" {...editableText(primaryPrefix, 'label')}>
+          {primary.label}
         </div>
-        <div class="primary-caption">{primary.caption}</div>
-        <div class="primary-cite">{primary.source}</div>
+        <div class="primary-num" data-value={primary.value}>
+          {
+            /* `unit` is a sibling field, so the figure needs its own host element.
+              `data-count` also tells the count-up script to animate THIS span rather
+              than the leading text node, which would blow the region away. */
+          }
+          <span data-count {...editableText(primaryPrefix, 'value')}>{primary.value}</span>
+          {
+            primary.unit && (
+              <span class="unit" {...editableText(primaryPrefix, 'unit')}>
+                {primary.unit}
+              </span>
+            )
+          }
+        </div>
+        <div class="primary-caption" {...editableText(primaryPrefix, 'caption', 'text')}>
+          {primary.caption}
+        </div>
+        <div class="primary-cite" {...editableText(primaryPrefix, 'source')}>
+          {primary.source}
+        </div>
       </div>
 
       <div class="photo-col">
         <div class="frame">
+          {
+            /* The region sits on the <img> itself: `imageCaption` is a sibling field,
+              and a caption nested inside an image region would resolve against that
+              region's own value and fail. */
+          }
           <Image
             src={image}
             alt={imageAlt}
             widths={[480, 900, 1400]}
             sizes="(max-width: 920px) 100vw, 30vw"
             loading="lazy"
+            {...editableImage(editablePrefix, 'image', 'imageAlt')}
           />
-          <div class="cap">{imageCaption}</div>
+          <div class="cap" {...editableText(editablePrefix, 'imageCaption')}>
+            {imageCaption}
+          </div>
         </div>
       </div>
 
-      <div class="small-col">
+      {/* Container holds ONLY array rows, as CloudCannon's array regions require. */}
+      <div class="small-col" {...editableArray(editablePrefix, 'small')}>
         {
           small.map((s) => (
-            <div class="small-item">
-              <div class="lbl">{s.label}</div>
-              <div class="small-num" data-value={s.value}>
-                {s.value}
-                {s.unit && <span class="unit">{s.unit}</span>}
+            <div class="small-item" {...editableItem(editablePrefix)}>
+              {/* Inside an array row, paths are relative to the row. */}
+              <div class="lbl" {...editableText(smallPrefix, 'label')}>
+                {s.label}
               </div>
-              <div class="small-caption">{s.caption}</div>
-              <div class="small-cite">{s.source}</div>
+              <div class="small-num" data-value={s.value}>
+                <span data-count {...editableText(smallPrefix, 'value')}>
+                  {s.value}
+                </span>
+                {s.unit && (
+                  <span class="unit" {...editableText(smallPrefix, 'unit')}>
+                    {s.unit}
+                  </span>
+                )}
+              </div>
+              <div class="small-caption" {...editableText(smallPrefix, 'caption', 'text')}>
+                {s.caption}
+              </div>
+              <div class="small-cite" {...editableText(smallPrefix, 'source')}>
+                {s.source}
+              </div>
             </div>
           ))
         }
       </div>
     </div>
 
-    <div class="btn-cites">
+    {/* Container holds ONLY array rows, as CloudCannon's array regions require. */}
+    <div class="btn-cites" {...editableArray(editablePrefix, 'citations')}>
       {
         citations.map((c) => (
-          <div class="cite-cell">
-            <div class="lbl">{c.label}</div>
+          <div class="cite-cell" {...editableItem(editablePrefix)}>
+            <div class="lbl" {...editableText(citePrefix, 'label')}>
+              {c.label}
+            </div>
             <p class="cite-body">
-              <em>{c.emphasis}</em> <span>{c.body}</span>
+              <em {...editableText(citePrefix, 'emphasis')}>{c.emphasis}</em>{' '}
+              <span {...editableText(citePrefix, 'body', 'text')}>{c.body}</span>
             </p>
-            <div class="cite-source">{c.cite}</div>
+            <div class="cite-source" {...editableText(citePrefix, 'cite')}>
+              {c.cite}
+            </div>
           </div>
         ))
       }
@@ -393,6 +464,10 @@ const { eyebrow, title, intro, primary, small, image, imageAlt, imageCaption, ci
           const m = raw.match(/([\d.,]+)(.*)$/);
           if (!m) return;
           const target = parseFloat(m[1].replace(/,/g, ''));
+          // In CloudCannon-editable mode the figure has its own [data-count] span.
+          // Animate that and nothing else — rewriting the cell's innerHTML would
+          // destroy the Visual Editor's text region.
+          const host = el.querySelector<HTMLElement>('[data-count]');
           // Preserve the existing unit span markup; restore on finish.
           const html = el.innerHTML;
           const start = performance.now();
@@ -404,9 +479,12 @@ const { eyebrow, title, intro, primary, small, image, imageAlt, imageCaption, ci
             const decimals = (m[1].split('.')[1] || '').length;
             const shown =
               decimals > 0 ? v.toFixed(decimals) : Math.round(v).toLocaleString('en-US');
-            // Re-render: replace the leading text before any nested element.
-            if (el.firstChild) el.firstChild.nodeValue = shown;
+            // Re-render: replace the leading text before any nested element (or the
+            // dedicated [data-count] host when the page is CloudCannon-editable).
+            if (host) host.textContent = shown;
+            else if (el.firstChild) el.firstChild.nodeValue = shown;
             if (p < 1) requestAnimationFrame(tick);
+            else if (host) host.textContent = raw;
             else el.innerHTML = html;
           };
           requestAnimationFrame(tick);

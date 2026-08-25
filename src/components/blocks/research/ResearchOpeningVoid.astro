@@ -1,14 +1,23 @@
 ---
+import { editableText, type EditablePrefix } from '../../../lib/editable';
+
 interface Props {
   eyebrow: string;
   lines: string[];
   emphasisIndex?: number;
+  /** CloudCannon path prefix for this block's fields (e.g. 'opening'). Omit on
+   *  routes not backed by a `pages` collection entry. See lib/editable.ts.
+   *
+   *  `lines` is a plain string array, which has no per-row field to bind — an
+   *  editable region must resolve to a string, and an array row's own value cannot
+   *  be addressed. Edit the statement from the sidebar. */
+  editablePrefix?: EditablePrefix;
 }
-const { eyebrow, lines, emphasisIndex = lines.length - 1 }: Props = Astro.props;
+const { eyebrow, lines, emphasisIndex = lines.length - 1, editablePrefix }: Props = Astro.props;
 ---
 
 <section class="void" id="open" data-screen-label="Opening" aria-labelledby="void-statement">
-  <span class="void-eyebrow">{eyebrow}</span>
+  <span class="void-eyebrow" {...editableText(editablePrefix, 'eyebrow')}>{eyebrow}</span>
   <p class="void-statement" id="void-statement">
     {lines.map((line, i) => <span class:list={['stk', { em: i === emphasisIndex }]}>{line}</span>)}
   </p>

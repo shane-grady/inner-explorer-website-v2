@@ -1,5 +1,5 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import { Image } from 'astro:assets';
 import PageLayout from '../../layouts/PageLayout.astro';
 import JsonLd from '../../components/seo/JsonLd.astro';
@@ -9,12 +9,19 @@ import GlowCTA from '../../components/blocks/GlowCTA.astro';
 // Case-study hub: every non-draft story in the collection, in editorial order.
 // This page is the nav's "Case studies" target, giving each study a crawl path
 // from every page on the site (per the SEO audit's internal-linking findings).
+//
+// The masthead + closing CTA copy lives in src/content/pages/case-studies-index.yml
+// (the `pages` collection) so CloudCannon can read and write it; `editablePrefix`
+// threads each block's data path down to its fields (see src/lib/editable.ts). The
+// grid below stays derived from the `caseStudies` collection.
+const entry = await getEntry('pages', 'case-studies-index');
+if (!entry || entry.data._schema !== 'case-studies-index') {
+  throw new Error('Missing or malformed src/content/pages/case-studies-index.yml');
+}
+const { hero, cta, pageTitle, pageDescription } = entry.data;
+
 const all = await getCollection('caseStudies', ({ data }) => !data.draft);
 const studies = all.sort((a, b) => a.data.order - b.data.order);
-
-const pageTitle = 'Case Studies — Real Results from Schools & Districts | Inner Explorer';
-const pageDescription =
-  'Real schools, measured results: how districts and therapeutic schools use Inner Explorer’s daily 5–10 minute mindfulness practice to cut behavioral incidents and build calmer classrooms.';
 
 const base = new URL(Astro.site ?? 'https://www.innerexplorer.com').origin;
 const collectionLd = {
@@ -44,9 +51,10 @@ const collectionLd = {
       layout="inline"
       size="lg"
       glow
-      lead="Case"
-      display="Studies"
-      intro="Real schools, measured results. How partners across the country turned a daily five-minute practice into calmer, more focused classrooms."
+      lead={hero.lead}
+      display={hero.display}
+      intro={hero.intro}
+      editablePrefix="hero"
     />
 
     <section class="hub" aria-label="All case studies">
@@ -87,11 +95,12 @@ const collectionLd = {
     </section>
 
     <GlowCTA
-      sans="Your school could be"
-      serif="the next story"
-      subtitle="See what a daily mindfulness practice could do for your classrooms. We'll walk you through the playbook our partners used."
-      primary={{ label: 'Contact us', href: '/contact' }}
-      secondary={{ label: 'See the research', href: '/research' }}
+      sans={cta.sans}
+      serif={cta.serif}
+      subtitle={cta.subtitle}
+      primary={cta.primary}
+      secondary={cta.secondary}
+      editablePrefix="cta"
     />
   </div>
 </PageLayout>

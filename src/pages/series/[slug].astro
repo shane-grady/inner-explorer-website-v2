@@ -49,7 +49,12 @@ const ogImage = await getImage({
 });
 const crumbLd = breadcrumbSchema(Astro.site, [{ name: d.name, path }]);
 
-// Template chrome (identical across series — not per-series content).
+// CloudCannon Visual Editor: this page IS a `series` collection entry, so every
+// `data-prop` below resolves against src/content/series/<slug>.yaml and the prefixes
+// are the entry's own field paths ('' is the entry root).
+
+// Template chrome (identical across series — not per-series content), so this head
+// and the sibling rail below it carry no editable regions.
 const relatedHead = {
   eyebrow: 'The series family',
   heading: 'Explore the other series',
@@ -70,7 +75,16 @@ const related: RelatedItem[] = siblings.map((e) => ({
   <JsonLd slot="head" schema={crumbLd} />
 
   <div class="appearance-light series" data-series-tone={d.tone}>
-    <SeriesMasthead name={d.shortName} subline={`Inner Explorer · ${d.category}`} />
+    {
+      /* `subline` is composed from a literal plus `category`, so only the centerpiece
+        is a region — `category` stays sidebar-editable. */
+    }
+    <SeriesMasthead
+      name={d.shortName}
+      subline={`Inner Explorer · ${d.category}`}
+      editablePrefix=""
+      nameKey="shortName"
+    />
 
     <SeriesHero
       duetTop={d.hero.duetTop}
@@ -81,9 +95,16 @@ const related: RelatedItem[] = siblings.map((e) => ({
       primaryCta={d.hero.primaryCta}
       secondaryCta={d.hero.secondaryCta}
       chip={{ title: d.sample.title, meta: `${d.sample.duration} · ${d.sample.narrator}` }}
+      editablePrefix="hero"
+      chipPrefix="sample"
     />
 
-    <GlanceBar items={d.glance} ariaLabel={`${d.name} at a glance`} />
+    <GlanceBar
+      items={d.glance}
+      ariaLabel={`${d.name} at a glance`}
+      editablePrefix=""
+      itemsKey="glance"
+    />
 
     <Section space="md" id="who">
       <div class="wrap">
@@ -92,9 +113,10 @@ const related: RelatedItem[] = siblings.map((e) => ({
             eyebrow={d.audience.eyebrow}
             heading={d.audience.heading}
             intro={d.audience.intro}
+            editablePrefix="audience"
           />
         </div>
-        <IconCards items={d.audience.cards} />
+        <IconCards items={d.audience.cards} editablePrefix="audience" itemsKey="cards" />
       </div>
     </Section>
 
@@ -106,6 +128,8 @@ const related: RelatedItem[] = siblings.map((e) => ({
           intro={d.stats.intro}
           items={d.stats.items}
           footnote={d.stats.footnote}
+          editablePrefix="stats"
+          itemsKey="items"
         />
       </div>
     </Section>
@@ -117,18 +141,19 @@ const related: RelatedItem[] = siblings.map((e) => ({
             eyebrow={d.practices.eyebrow}
             heading={d.practices.heading}
             intro={d.practices.intro}
+            editablePrefix="practices"
           />
         </div>
-        <PracticeGrid items={d.practices.items} />
+        <PracticeGrid items={d.practices.items} editablePrefix="practices" itemsKey="items" />
       </div>
     </Section>
 
     <Section space="sm" id="how">
       <div class="wrap">
         <div data-sr>
-          <SeriesSectionHead eyebrow={d.how.eyebrow} heading={d.how.heading} />
+          <SeriesSectionHead eyebrow={d.how.eyebrow} heading={d.how.heading} editablePrefix="how" />
         </div>
-        <HowSteps steps={d.how.steps} />
+        <HowSteps steps={d.how.steps} editablePrefix="how" stepsKey="steps" />
       </div>
     </Section>
 
@@ -139,6 +164,8 @@ const related: RelatedItem[] = siblings.map((e) => ({
           eyebrow={d.benefits.eyebrow}
           heading={d.benefits.heading}
           items={d.benefits.items}
+          editablePrefix="benefits"
+          itemsKey="items"
         />
       </div>
     </Section>
@@ -153,6 +180,7 @@ const related: RelatedItem[] = siblings.map((e) => ({
           narrator={d.sample.narrator}
           description={d.sample.description}
           image={d.sample.image}
+          editablePrefix="sample"
         />
       </div>
     </Section>
@@ -164,6 +192,7 @@ const related: RelatedItem[] = siblings.map((e) => ({
           name={d.testimonial.name}
           role={d.testimonial.role}
           place={d.testimonial.place}
+          editablePrefix="testimonial"
         />
       </div>
     </Section>
@@ -193,6 +222,7 @@ const related: RelatedItem[] = siblings.map((e) => ({
           body={d.cta.body}
           primary={d.cta.primary}
           secondary={d.cta.secondary}
+          editablePrefix="cta"
         />
       </div>
     </Section>

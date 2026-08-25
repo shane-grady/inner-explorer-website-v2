@@ -1,4 +1,12 @@
 ---
+import {
+  editableText,
+  editableArray,
+  editableItem,
+  itemPrefix,
+  type EditablePrefix,
+} from '../../lib/editable';
+
 // Numbered Q&A / interview section. `headingHtml` carries the serif+sans "duet"
 // head (e.g. <span class="serif">Five questions,</span><span class="sans"> on the
 // practice.</span>). Reusable as an FAQ or interview block.
@@ -14,8 +22,23 @@ interface Props {
   headingHtml: string;
   items: Item[];
   maxWidth?: string;
+  /** CloudCannon path prefix for the object that OWNS the questions array. Omit on
+   *  call sites not backed by a collection entry — see lib/editable.ts. The eyebrow
+   *  and `headingHtml` are page chrome (composed copy / inline markup), so neither is
+   *  bound here. */
+  editablePrefix?: EditablePrefix;
+  /** Name of the array field within `editablePrefix` (a narrator calls it `qa`). */
+  itemsKey?: string;
 }
-const { eyebrow, headingHtml, items, maxWidth = '1200px' }: Props = Astro.props;
+const {
+  eyebrow,
+  headingHtml,
+  items,
+  maxWidth = '1200px',
+  editablePrefix,
+  itemsKey = 'items',
+}: Props = Astro.props;
+const rowPrefix = itemPrefix(editablePrefix);
 ---
 
 <section class="qa" style={`--mw: ${maxWidth}`}>
@@ -25,17 +48,30 @@ const { eyebrow, headingHtml, items, maxWidth = '1200px' }: Props = Astro.props;
       <h2 set:html={headingHtml} />
     </div>
 
-    <div class="list">
+    {/* Container holds ONLY question rows — the head is its sibling. */}
+    <div class="list" {...editableArray(editablePrefix, itemsKey)}>
       {
         items.map((item, i) => (
-          <article class="item">
+          <article class="item" {...editableItem(editablePrefix)}>
             <div class="side">
-              <span class="num">{item.n ?? String(i + 1).padStart(2, '0')}</span>
-              {item.tag && <span class="tag">{item.tag}</span>}
+              {/* Bound only when `n` is a real field: the auto-numbered fallback is
+                  derived, and a region on it would have nothing to write back to. */}
+              <span class="num" {...(item.n ? editableText(rowPrefix, 'n') : {})}>
+                {item.n ?? String(i + 1).padStart(2, '0')}
+              </span>
+              {item.tag && (
+                <span class="tag" {...editableText(rowPrefix, 'tag')}>
+                  {item.tag}
+                </span>
+              )}
             </div>
             <div class="body">
-              <h3 class="q">{item.question}</h3>
-              <p class="a">{item.answer}</p>
+              <h3 class="q" {...editableText(rowPrefix, 'question')}>
+                {item.question}
+              </h3>
+              <p class="a" {...editableText(rowPrefix, 'answer', 'text')}>
+                {item.answer}
+              </p>
             </div>
           </article>
         ))

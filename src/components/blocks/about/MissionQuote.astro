@@ -1,21 +1,36 @@
 ---
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
+import { editableText, editableImage, type EditablePrefix } from '../../../lib/editable';
 
 interface Props {
   mark: ImageMetadata;
   // Trusted, in-repo copy. `<span class="underline">…</span>` marks emphasized words.
   quoteHtml: string;
   attribution: string;
+  /** CloudCannon path prefix for this block's fields (e.g. 'mission'). Omit on routes
+   *  that are not backed by a `pages` collection entry. See lib/editable.ts.
+   *
+   *  `quoteHtml` renders through `set:html`; a text region would strip the
+   *  `<span class="underline">` emphasis, so it stays sidebar-only. */
+  editablePrefix?: EditablePrefix;
 }
-const { mark, quoteHtml, attribution }: Props = Astro.props;
+const { mark, quoteHtml, attribution, editablePrefix }: Props = Astro.props;
 ---
 
 <section class="mission">
   <div class="mission-inner">
-    <Image src={mark} alt="" width={64} height={64} class="mission-mark" />
+    {/* The mark is decorative (alt=''), so only `src` is bound. */}
+    <Image
+      src={mark}
+      alt=""
+      width={64}
+      height={64}
+      class="mission-mark"
+      {...editableImage(editablePrefix, 'mark')}
+    />
     <p class="mission-quote" set:html={quoteHtml} />
-    <p class="mission-attrib">{attribution}</p>
+    <p class="mission-attrib" {...editableText(editablePrefix, 'attribution')}>{attribution}</p>
   </div>
 </section>
 

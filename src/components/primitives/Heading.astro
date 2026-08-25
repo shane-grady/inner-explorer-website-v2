@@ -1,4 +1,5 @@
 ---
+import type { HTMLAttributes } from 'astro/types';
 import { tv, type VariantProps } from 'tailwind-variants';
 import { cn } from '../../lib/cn';
 
@@ -25,14 +26,15 @@ const heading = tv({
   defaultVariants: { size: 'lg', font: 'serif', tone: 'default' },
 });
 
-type Variants = VariantProps<typeof heading>;
-interface Props extends Variants {
-  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
-  id?: string;
-  class?: string;
-}
+// `...rest` forwards arbitrary attributes the same way Container does. That is what
+// lets a heading carry CloudCannon's `data-editable` / `data-prop` directly, instead of
+// needing a wrapper element around every editable title.
+type Props = VariantProps<typeof heading> &
+  HTMLAttributes<'h2'> & {
+    as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  };
 
-const { as: Tag = 'h2', size, font, tone, id, class: className }: Props = Astro.props;
+const { as: Tag = 'h2', size, font, tone, class: className, ...rest } = Astro.props;
 ---
 
-<Tag id={id} class={cn(heading({ size, font, tone }), className)}><slot /></Tag>
+<Tag class={cn(heading({ size, font, tone }), className)} {...rest}><slot /></Tag>

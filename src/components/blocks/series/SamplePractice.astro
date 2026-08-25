@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import SeriesIcon from './SeriesIcon.astro';
+import { editableText, editableImage, type EditablePrefix } from '../../../lib/editable';
 
 // "Try it now" — the dark immersive sample-practice card: full-bleed photo under
 // a radial ink scrim, with a demo player (play/pause button, waveform progress,
@@ -19,8 +20,12 @@ interface Props {
   description: string;
   image: ImageMetadata;
   id?: string;
+  /** CloudCannon path prefix for this card's object (e.g. 'sample'). Omit on call
+   *  sites not backed by a collection entry — see lib/editable.ts. */
+  editablePrefix?: EditablePrefix;
 }
-const { eyebrow, title, theme, duration, narrator, description, image, id }: Props = Astro.props;
+const { eyebrow, title, theme, duration, narrator, description, image, id, editablePrefix }: Props =
+  Astro.props;
 
 // Same stable waveform generator as the hero chip (seed from the prototype).
 function wave(n: number, seed: number): number[] {
@@ -48,14 +53,28 @@ const fmt = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).p
         widths={[760, 1100, 1600]}
         sizes="(max-width: 640px) 100vw, min(1100px, 94vw)"
         loading="lazy"
+        {...editableImage(editablePrefix, 'image')}
       />
     </div>
     <div class="ov" aria-hidden="true"></div>
     <div class="content">
-      <p class="eyebrow"><span class="dot" aria-hidden="true"></span> {eyebrow}</p>
-      <h2>{title}</h2>
-      <p class="theme">{theme}</p>
-      <p class="desc">{description}</p>
+      <p class="eyebrow">
+        {
+          /* The dot is a sibling, so the eyebrow text needs its own host in editable
+            mode; other call sites keep the bare text node. */
+        }
+        <span class="dot" aria-hidden="true"></span>{' '}
+        {
+          editablePrefix === undefined ? (
+            eyebrow
+          ) : (
+            <span {...editableText(editablePrefix, 'eyebrow')}>{eyebrow}</span>
+          )
+        }
+      </p>
+      <h2 {...editableText(editablePrefix, 'title')}>{title}</h2>
+      <p class="theme" {...editableText(editablePrefix, 'theme')}>{theme}</p>
+      <p class="desc" {...editableText(editablePrefix, 'description', 'text')}>{description}</p>
       <div class="player">
         <button class="pbtn" type="button" aria-label={`Play sample: ${title}`} data-play>
           <span class="ic is-play"><SeriesIcon name="play" /></span>
@@ -63,7 +82,7 @@ const fmt = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).p
         </button>
         <div class="pmain">
           <div class="pmeta">
-            <span class="nar">{narrator}</span>
+            <span class="nar" {...editableText(editablePrefix, 'narrator')}>{narrator}</span>
             <span class="state" data-state aria-live="polite">Ready to play</span>
           </div>
           <div class="pwave" data-wave aria-hidden="true">

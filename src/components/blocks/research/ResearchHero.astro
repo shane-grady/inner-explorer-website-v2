@@ -1,4 +1,6 @@
 ---
+import { childPrefix, editableText, type EditablePrefix } from '../../../lib/editable';
+
 interface Cta {
   label: string;
   href: string;
@@ -10,8 +12,15 @@ interface Props {
   subtitle: string;
   primaryCta: Cta;
   secondaryCta?: Cta;
+  /** CloudCannon path prefix for this block's fields (e.g. 'hero'). Omit on routes
+   *  not backed by a `pages` collection entry. See lib/editable.ts.
+   *
+   *  `lines` is deliberately NOT editable: each line is pre-split into per-word
+   *  spans carrying the scroll-reveal windows below, and a text region would replace
+   *  them with flat text. Edit the headline from the sidebar. */
+  editablePrefix?: EditablePrefix;
 }
-const { eyebrow, lines, subtitle, primaryCta, secondaryCta }: Props = Astro.props;
+const { eyebrow, lines, subtitle, primaryCta, secondaryCta, editablePrefix }: Props = Astro.props;
 
 // Pre-split the headline into words and give each a slice of the pinned-scroll
 // progress (0–100). Words resolve in reading order, their windows overlapping so
@@ -39,7 +48,7 @@ const wordLines = lines.map((l) => {
     <div class="hero-inner">
       <span class="hero-eyebrow">
         <span class="rule" aria-hidden="true"></span>
-        {eyebrow}
+        <span {...editableText(editablePrefix, 'eyebrow')}>{eyebrow}</span>
         <span class="rule" aria-hidden="true"></span>
       </span>
       <h1 class="hero-h">
@@ -55,10 +64,12 @@ const wordLines = lines.map((l) => {
           ))
         }
       </h1>
-      <p class="hero-sub">{subtitle}</p>
+      <p class="hero-sub" {...editableText(editablePrefix, 'subtitle', 'text')}>{subtitle}</p>
       <div class="hero-cta">
         <a href={primaryCta.href} class="btn btn-solid-ink btn-lg">
-          {primaryCta.label}
+          <span {...editableText(childPrefix(editablePrefix, 'primaryCta'), 'label')}>
+            {primaryCta.label}
+          </span>
           <svg
             width="14"
             height="14"
@@ -76,7 +87,11 @@ const wordLines = lines.map((l) => {
         </a>
         {
           secondaryCta && (
-            <a href={secondaryCta.href} class="btn btn-ghost-paper btn-lg">
+            <a
+              href={secondaryCta.href}
+              class="btn btn-ghost-paper btn-lg"
+              {...editableText(childPrefix(editablePrefix, 'secondaryCta'), 'label')}
+            >
               {secondaryCta.label}
             </a>
           )

@@ -12,6 +12,9 @@ markdown:
     escape_snippets_in_code_blocks: true
 
 collection_groups:
+  - heading: Marketing pages
+    collections:
+      - pages
   - heading: Pages and stories
     collections:
       - blog
@@ -27,6 +30,197 @@ collection_groups:
       - data
 
 collections_config:
+  # One entry per bespoke marketing route. These are SINGLETONS: the route file in
+  # src/pages/ decides what exists, so adding or removing entries here would just
+  # orphan a file — hence disable_add. `url` uses a DATA placeholder ({permalink},
+  # braces) rather than a fixed placeholder ([slug], brackets); that is what lets the
+  # homepage live at '/' instead of '/index/'.
+  pages:
+    path: src/content/pages
+    url: '{permalink}'
+    name: Marketing pages
+    singular_name: Marketing page
+    icon: web
+    schema_key: _schema
+    disable_add: true
+    disable_add_folder: true
+    _enabled_editors:
+      - visual
+      - data
+    # Only keys EVERY page entry shares belong here. Anything page-specific goes under
+    # `schemas` below: different routes legitimately reuse key names like `sections`
+    # for different shapes, and a collection-level _input would apply one page's
+    # structures to another page's data.
+    _inputs:
+      _schema:
+        type: text
+        hidden: true
+      permalink:
+        type: text
+        hidden: true
+      pageTitle:
+        comment: Browser tab + search result title.
+      pageDescription:
+        type: textarea
+        comment: Meta description shown in search results.
+    schemas:
+      # `path` is required by the config schema and names the template used when
+      # creating a new entry. These routes are singletons (disable_add), so it never
+      # gets cloned — pointing it at the live file keeps it honest and self-documenting.
+      faq:
+        path: src/content/pages/faq.yml
+        name: FAQ
+        icon: help
+        _inputs:
+          hero:
+            type: object
+            options:
+              preview:
+                icon: title
+          sections:
+            type: array
+            options:
+              structures: _structures.page_faq_sections
+              min_items: 1
+          pricing:
+            type: object
+            options:
+              preview:
+                icon: sell
+          closer:
+            type: object
+            options:
+              preview:
+                icon: format_quote
+          features:
+            type: array
+            comment: One line per bullet.
+          quotes:
+            type: array
+            options:
+              structures: _structures.quote_items
+              min_items: 1
+          ctas:
+            type: array
+            options:
+              structures: _structures.cta_links
+              max_items: 2
+      # The schemas below are generated against each page's real data: only key names
+      # that resolve to ONE shape in that file are declared, because CloudCannon matches
+      # an _inputs key by NAME at any depth. `stats` in about.yml and home.yml, and
+      # `items` in districts.yml, each appear with several shapes and are therefore
+      # deliberately absent — declaring them would mis-type every other use.
+      # `pnpm lint:editables` fails the build if an ambiguous name is ever declared.
+      about:
+        path: src/content/pages/about.yml
+        name: About
+        icon: groups
+        _inputs:
+          findHtml:
+            type: text
+            comment: Inline HTML allowed — edit here rather than on the page.
+          headingHtml:
+            type: text
+            comment: Inline HTML allowed — edit here rather than on the page.
+          pullHtml:
+            type: text
+            comment: Inline HTML allowed — edit here rather than on the page.
+          quoteHtml:
+            type: text
+            comment: Inline HTML allowed — edit here rather than on the page.
+          body:
+            type: textarea
+          lede:
+            type: textarea
+          quote:
+            type: textarea
+          subtitle:
+            type: textarea
+      narrators-index:
+        path: src/content/pages/narrators-index.yml
+        name: Narrators (index)
+        icon: record_voice_over
+        _inputs:
+          headingHtml:
+            type: text
+            comment: Inline HTML allowed — edit here rather than on the page.
+          quoteHtml:
+            type: text
+            comment: Inline HTML allowed — edit here rather than on the page.
+          subtitleHtml:
+            type: text
+            comment: Inline HTML allowed — edit here rather than on the page.
+          cardBody:
+            type: textarea
+      districts:
+        path: src/content/pages/districts.yml
+        name: Districts
+        icon: school
+        _inputs:
+          bodyHtml:
+            type: text
+            comment: Inline HTML allowed — edit here rather than on the page.
+          titleHtml:
+            type: text
+            comment: Inline HTML allowed — edit here rather than on the page.
+          a:
+            type: textarea
+          blurb:
+            type: textarea
+          body:
+            type: textarea
+          intro:
+            type: textarea
+          quote:
+            type: textarea
+          shortVersion:
+            type: textarea
+      pricing:
+        path: src/content/pages/pricing.yml
+        name: Pricing
+        icon: sell
+        _inputs:
+          titleHtml:
+            type: text
+            comment: Inline HTML allowed — edit here rather than on the page.
+          blurb:
+            type: textarea
+          footnote:
+            type: textarea
+          intro:
+            type: textarea
+          note:
+            type: textarea
+          subtitle:
+            type: textarea
+      newsroom:
+        path: src/content/pages/newsroom.yml
+        name: Newsroom
+        icon: newspaper
+      home:
+        path: src/content/pages/home.yml
+        name: Home
+        icon: home
+        _inputs:
+          body:
+            type: textarea
+          lede:
+            type: textarea
+          manifesto:
+            type: textarea
+      blog-index:
+        path: src/content/pages/blog-index.yml
+        name: Blog (index)
+        icon: post_add
+      case-studies-index:
+        path: src/content/pages/case-studies-index.yml
+        name: Case studies (index)
+        icon: menu_book
+        _inputs:
+          intro:
+            type: textarea
+          subtitle:
+            type: textarea
   blog:
     path: src/content/blog
     name: Blog
@@ -408,6 +602,11 @@ data_config:
     path: src/data/navigation.json
   footer:
     path: src/data/footer.json
+  # Shared Help Center UI copy. Bound with ABSOLUTE `@data[help-ui].<path>` regions,
+  # because every help page except an article is not a collection entry and a relative
+  # path would have no backing file to resolve against.
+  help-ui:
+    path: src/data/help-ui.json
 
 file_config:
   - glob: src/data/navigation.json
@@ -456,6 +655,120 @@ file_config:
         type: text
       closing:
         type: text
+  # Help Center shared UI copy (help.innerexplorer.com). Leaf inputs are keyed by bare
+  # name — CloudCannon matches input keys at any depth and the glob scopes them to this
+  # file. Group LABELS are not here: those are the nav model in src/lib/help.ts,
+  # mirrored by _select_data.help_groups.
+  - glob: src/data/help-ui.json
+    _inputs:
+      $:
+        type: object
+        options:
+          preview:
+            icon: help
+      chrome:
+        type: object
+        comment: Header bar and footer strings shared by every Help Center page.
+        options:
+          preview:
+            icon: web
+      sidebar:
+        type: object
+        comment: The docs sidebar — search, "Browse all guides", support card.
+        options:
+          preview:
+            icon: menu
+      home:
+        type: object
+        comment: Help Center home page — SEO metadata and hero copy.
+        options:
+          preview:
+            icon: home
+      search:
+        type: object
+        comment: The large search field on the Help Center home page.
+        options:
+          preview:
+            icon: search
+      support:
+        type: object
+        comment: '"Still need a hand?" banner at the foot of the home page.'
+        options:
+          preview:
+            icon: support_agent
+      notFound:
+        type: object
+        comment: Help Center 404 page.
+        options:
+          preview:
+            icon: error
+      brandName:
+        type: text
+      brandLabel:
+        type: text
+      legalName:
+        type: text
+      supportEmail:
+        type: text
+        comment: >-
+          The single support address, used by the footer, the home banner, and the
+          sidebar support card. Confirmed 2026-08-25 as support@innerexplorer.com; it
+          was previously split across two fields that had drifted (.org vs .com).
+      searchLabel:
+        type: text
+        comment: Screen-reader label for the sidebar search field.
+      searchPlaceholder:
+        type: text
+      browseLabel:
+        type: text
+      navEmpty:
+        type: text
+        comment: Shown when a sidebar search matches no guides.
+      supportTitle:
+        type: text
+      supportText:
+        type: text
+      supportCta:
+        type: text
+      seoTitle:
+        type: text
+      seoDescription:
+        type: textarea
+        comment: Meta description only — the on-page hero paragraph is `intro`.
+      shareImageAlt:
+        type: text
+        comment: Alt text for the social share image.
+      titleLine1:
+        type: text
+        comment: First line of the home headline; a hard line break follows it.
+      titleLine2:
+        type: text
+        comment: Second line of the home headline.
+      eyebrow:
+        type: text
+      intro:
+        type: textarea
+        comment: The on-page hero paragraph on the Help Center home.
+      title:
+        type: text
+      body:
+        type: textarea
+      label:
+        type: text
+        comment: Screen-reader label for the home search field.
+      placeholder:
+        type: text
+      empty:
+        type: textarea
+        comment: Shown when a home search matches no cards.
+      textBefore:
+        type: text
+        comment: Sentence fragment before the support email link.
+      textAfter:
+        type: text
+        comment: Sentence fragment after the support email link; starts with a semicolon.
+      homeLink:
+        type: text
 
 _select_data:
   blog_categories:
@@ -471,14 +784,20 @@ _select_data:
     - Mindfulness
     - Research
     - SEL
+  # Mirrors helpGroups in src/lib/help.ts (ids + labels + order) and the `group`
+  # z.enum in src/lib/help-collection.ts. All three must agree: a value missing here
+  # shows the editor a select with no matching option, and saving silently
+  # reclassifies the article.
   help_groups:
-    - name: Start here
+    - name: Getting started
       id: start
-    - name: Educators
+    - name: For educators
       id: educators
-    - name: Administrators
+    - name: For support staff
+      id: counselors
+    - name: For administrators
       id: admins
-    - name: Families
+    - name: For families
       id: families
     - name: Policies
       id: policies
@@ -486,6 +805,36 @@ _select_data:
     - English
     - Spanish
     - Portuguese
+  # Mirrors the seriesIcon z.enum in src/content.config.ts. Without this the icon
+  # field is free text in the editor and any typo fails the Astro build.
+  series_icons:
+    - clock
+    - headphones
+    - home
+    - users
+    - globe
+    - presentation
+    - lifebuoy
+    - compass
+    - play
+    - map-pin
+    - wind
+    - focus
+    - sparkles
+    - repeat
+    - shield
+    - graduation-cap
+    - heart
+    - message-circle
+    - rewind
+    - heart-handshake
+    - sprout
+    - sun
+    - tent
+    - palette
+    - star
+    - award
+    - flask
 
 _inputs:
   _schema:
@@ -609,6 +958,76 @@ _editables:
     table: true
 
 _structures:
+  page_faq_sections:
+    style: modal
+    values:
+      - label: FAQ section
+        icon: help
+        picker_preview:
+          text: [FAQ section]
+          icon: [help]
+        preview:
+          text: [{ key: title }, FAQ section]
+          icon: [help]
+        value:
+          id: ''
+          label: ''
+          title: ''
+          items: []
+        _inputs:
+          id:
+            comment: Anchor id — must match the sidebar jump link.
+          label:
+            comment: Short label shown in the sidebar.
+          items:
+            type: array
+            options:
+              structures: _structures.faq_items
+              min_items: 1
+  cta_links:
+    style: modal
+    values:
+      - label: Button
+        icon: ads_click
+        picker_preview:
+          text: [Button]
+          icon: [ads_click]
+        preview:
+          text: [{ key: label }, Button]
+          icon: [ads_click]
+        value:
+          label: ''
+          href: ''
+          variant: primary
+        _inputs:
+          variant:
+            type: select
+            options:
+              values: [primary, ghost]
+  quote_items:
+    style: modal
+    values:
+      - label: Quote
+        icon: format_quote
+        picker_preview:
+          text: [Quote]
+          icon: [format_quote]
+        preview:
+          text: [{ key: who }, Quote]
+          icon: [format_quote]
+        value:
+          stars: 5
+          body: ''
+          who: ''
+          where: ''
+        _inputs:
+          stars:
+            type: number
+            options:
+              min: 0
+              max: 5
+          body:
+            type: textarea
   navigation_items:
     style: modal
     values:
@@ -680,6 +1099,7 @@ _structures:
             type: array
             options:
               structures: _structures.faq_items
+              min_items: 1
   faq_items:
     style: modal
     values:
@@ -832,6 +1252,10 @@ _structures:
             type: array
             options:
               structures: _structures.key_insight_items
+              min_items: 3
+              max_items: 5
+              min_items_message: Key insights need at least 3 items.
+              max_items_message: Key insights allow at most 5 items.
   case_meta:
     style: modal
     values:
@@ -1110,6 +1534,7 @@ _structures:
             type: array
             options:
               structures: _structures.chart_bars
+              min_items: 1
   chart:
     style: modal
     values:
@@ -1134,6 +1559,7 @@ _structures:
             type: array
             options:
               structures: _structures.chart_groups
+              min_items: 1
   chart_items:
     style: modal
     values:
@@ -1279,6 +1705,7 @@ _structures:
             type: array
             options:
               structures: _structures.faq_items
+              min_items: 1
   case_cta:
     style: modal
     values:
@@ -1342,6 +1769,11 @@ _structures:
           icon: sparkles
           title: ''
           body: ''
+        _inputs:
+          icon:
+            type: select
+            options:
+              values: _select_data.series_icons
   series_glance:
     style: modal
     values:
@@ -1357,6 +1789,11 @@ _structures:
           icon: clock
           label: ''
           value: ''
+        _inputs:
+          icon:
+            type: select
+            options:
+              values: _select_data.series_icons
   series_hero:
     style: modal
     values:
@@ -2069,3 +2506,56 @@ _snippets:
         type: array
         options:
           structures: _structures.card_items
+
+  # `<CardGrid>` has two authoring forms and both must round-trip.
+  #
+  # `card_grid` above is the self-closing form: cards come from an `items` array and
+  # Card renders `content` as a PLAIN STRING (see Card.astro), so it cannot carry
+  # markdown. `card_grid_paired` is the rich form, wrapping `<Card>` children whose
+  # bodies are full markdown — links, bold, multi-paragraph ordered lists. Articles
+  # like signing-in.mdx need the rich form; converting them to `items` would silently
+  # flatten their markup. Different templates (mdx_component vs mdx_paired_component)
+  # keep the two unambiguous.
+  card_grid_paired:
+    template: mdx_paired_component
+    inline: false
+    preview:
+      text: [Card grid (rich)]
+      icon: dashboard
+    picker_preview:
+      text: [Card grid (rich)]
+      icon: [dashboard]
+    definitions:
+      component_name: CardGrid
+      content_key: cards
+      named_args:
+        - editor_key: columns
+          type: number
+          default: 2
+          allowed_values: [2, 3]
+    _inputs:
+      columns:
+        type: number
+        options:
+          min: 2
+          max: 3
+
+  card:
+    template: mdx_paired_component
+    inline: false
+    preview:
+      text: [{ key: title }, Card]
+      icon: article
+    picker_preview:
+      text: [Card]
+      icon: [article]
+    definitions:
+      component_name: Card
+      content_key: card_content
+      named_args:
+        - editor_key: title
+          type: string
+        - editor_key: badge
+          type: string
+          optional: true
+          remove_empty: true

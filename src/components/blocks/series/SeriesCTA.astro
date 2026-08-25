@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import Button from '../../primitives/Button.astro';
 import mark from '../../../assets/brand/inner-explorer-mark.png';
+import { editableText, childPrefix, type EditablePrefix } from '../../../lib/editable';
 
 // Closing CTA band — deep tone gradient panel with the compass mark, a duet
 // headline (bold sans over serif-italic in a light tint of the series accent),
@@ -17,8 +18,13 @@ interface Props {
   body: string;
   primary: Cta;
   secondary?: Cta;
+  /** CloudCannon path prefix for this band's object (e.g. 'cta'). Omit on call sites
+   *  not backed by a collection entry — see lib/editable.ts. */
+  editablePrefix?: EditablePrefix;
 }
-const { duetTop, duetBottom, body, primary, secondary }: Props = Astro.props;
+const { duetTop, duetBottom, body, primary, secondary, editablePrefix }: Props = Astro.props;
+const primaryPrefix = childPrefix(editablePrefix, 'primary');
+const secondaryPrefix = childPrefix(editablePrefix, 'secondary');
 ---
 
 <section class="band" data-sr>
@@ -26,15 +32,31 @@ const { duetTop, duetBottom, body, primary, secondary }: Props = Astro.props;
     <Image src={mark} alt="" width={40} height={40} />
   </span>
   <h2>
-    <span class="l1">{duetTop}</span>
-    <span class="l2">{duetBottom}</span>
+    <span class="l1" {...editableText(editablePrefix, 'duetTop')}>{duetTop}</span>
+    <span class="l2" {...editableText(editablePrefix, 'duetBottom')}>{duetBottom}</span>
   </h2>
-  <p>{body}</p>
+  <p {...editableText(editablePrefix, 'body', 'text')}>{body}</p>
   <div class="cta">
-    <Button href={primary.href} tone="light" size="lg" shape="pill">{primary.label}</Button>
+    {/* Each button's only content is its label, so the region sits on the <a> itself. */}
+    <Button
+      href={primary.href}
+      tone="light"
+      size="lg"
+      shape="pill"
+      {...editableText(primaryPrefix, 'label')}
+    >
+      {primary.label}
+    </Button>
     {
       secondary && (
-        <Button href={secondary.href} tone="light" variant="outline" size="lg" shape="pill">
+        <Button
+          href={secondary.href}
+          tone="light"
+          variant="outline"
+          size="lg"
+          shape="pill"
+          {...editableText(secondaryPrefix, 'label')}
+        >
           {secondary.label}
         </Button>
       )

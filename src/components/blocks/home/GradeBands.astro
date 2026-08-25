@@ -1,4 +1,12 @@
 ---
+import {
+  editableArray,
+  editableItem,
+  editableText,
+  itemPrefix,
+  type EditablePrefix,
+} from '../../../lib/editable';
+
 // Grade spectrum — four grade-band tiles whose green deepens from Pre-K to 9–12.
 // Each tile links into the platform. Light surface.
 interface Band {
@@ -14,28 +22,39 @@ interface Props {
   headingLead: string;
   headingAccent: string;
   bands: Band[];
+  /** CloudCannon path prefix for this block's fields (e.g. 'gradeBands'). Omit on
+   *  routes that are not backed by a `pages` collection entry. See lib/editable.ts. */
+  editablePrefix?: EditablePrefix;
 }
-const { eyebrow, headingLead, headingAccent, bands }: Props = Astro.props;
+const { eyebrow, headingLead, headingAccent, bands, editablePrefix }: Props = Astro.props;
+const rowPrefix = itemPrefix(editablePrefix);
 ---
 
 <section id="grades" class="grades" aria-labelledby="grades-heading">
   <div class="inner">
     <header class="head" data-home-reveal>
-      <p class="eyebrow">{eyebrow}</p>
+      <p class="eyebrow" {...editableText(editablePrefix, 'eyebrow')}>{eyebrow}</p>
       <h2 id="grades-heading" class="h">
-        {headingLead}{' '}
-        <em>{headingAccent}</em>
+        <span {...editableText(editablePrefix, 'headingLead')}>{headingLead}</span>{' '}
+        <em {...editableText(editablePrefix, 'headingAccent')}>{headingAccent}</em>
       </h2>
     </header>
 
-    <div class="bands" data-home-reveal>
+    {/* Array container: holds ONLY the mapped band tiles. */}
+    <div class="bands" data-home-reveal {...editableArray(editablePrefix, 'bands')}>
       {
         bands.map((b) => (
-          <a class={`band band-${b.tone}`} href={b.href}>
-            <div class="grade">{b.grade}</div>
+          <a class={`band band-${b.tone}`} href={b.href} {...editableItem(editablePrefix)}>
+            <div class="grade" {...editableText(rowPrefix, 'grade')}>
+              {b.grade}
+            </div>
             <div class="band-foot">
-              <div class="band-title">{b.title}</div>
-              <p class="band-body">{b.body}</p>
+              <div class="band-title" {...editableText(rowPrefix, 'title')}>
+                {b.title}
+              </div>
+              <p class="band-body" {...editableText(rowPrefix, 'body', 'text')}>
+                {b.body}
+              </p>
             </div>
           </a>
         ))

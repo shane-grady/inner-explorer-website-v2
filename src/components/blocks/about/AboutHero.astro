@@ -1,6 +1,14 @@
 ---
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
+import {
+  editableText,
+  editableArray,
+  editableItem,
+  editableImage,
+  type EditablePrefix,
+  itemPrefix,
+} from '../../../lib/editable';
 
 interface MetaItem {
   label: string;
@@ -14,9 +22,22 @@ interface Props {
   meta: MetaItem[];
   image: ImageMetadata;
   imageAlt: string;
+  /** CloudCannon path prefix for this block's fields (e.g. 'hero'). Omit on routes
+   *  that are not backed by a `pages` collection entry. See lib/editable.ts. */
+  editablePrefix?: EditablePrefix;
 }
-const { eyebrow, headlineTop, headlineBottom, subtitle, meta, image, imageAlt }: Props =
-  Astro.props;
+const {
+  eyebrow,
+  headlineTop,
+  headlineBottom,
+  subtitle,
+  meta,
+  image,
+  imageAlt,
+  editablePrefix,
+}: Props = Astro.props;
+/** Inside an array row, paths are relative to the row — hence ''. */
+const rowPrefix = itemPrefix(editablePrefix);
 ---
 
 <header class="hero" id="about-hero">
@@ -28,6 +49,7 @@ const { eyebrow, headlineTop, headlineBottom, subtitle, meta, image, imageAlt }:
       sizes="100vw"
       loading="eager"
       fetchpriority="high"
+      {...editableImage(editablePrefix, 'image', 'imageAlt')}
     />
   </div>
   <div class="hero-tint"></div>
@@ -35,24 +57,44 @@ const { eyebrow, headlineTop, headlineBottom, subtitle, meta, image, imageAlt }:
 
   <div class="hero-content">
     <div>
-      <span class="hero-eyebrow"><span class="dot" aria-hidden="true"></span>{eyebrow}</span>
+      <span class="hero-eyebrow">
+        <span class="dot" aria-hidden="true"></span>
+        {
+          /* The dot is a sibling, so the label needs its own host element — added only
+            in editable mode so other call sites' markup is unchanged. */
+        }
+        {
+          editablePrefix === undefined ? (
+            eyebrow
+          ) : (
+            <span {...editableText(editablePrefix, 'eyebrow')}>{eyebrow}</span>
+          )
+        }
+      </span>
     </div>
 
     <div class="hero-main">
       <h1 class="hero-headline">
-        <span class="sans">{headlineTop}</span>
-        <span class="serif">{headlineBottom}</span>
+        <span class="sans" {...editableText(editablePrefix, 'headlineTop')}>{headlineTop}</span>
+        <span class="serif" {...editableText(editablePrefix, 'headlineBottom')}>
+          {headlineBottom}
+        </span>
       </h1>
-      <p class="hero-sub">{subtitle}</p>
+      <p class="hero-sub" {...editableText(editablePrefix, 'subtitle', 'text')}>{subtitle}</p>
     </div>
 
     <div class="hero-foot">
-      <dl class="hero-meta">
+      {/* Container holds ONLY array rows, as CloudCannon's array regions require. */}
+      <dl class="hero-meta" {...editableArray(editablePrefix, 'meta')}>
         {
           meta.map((m) => (
-            <div>
-              <dt class="lbl">{m.label}</dt>
-              <dd class="val">{m.value}</dd>
+            <div {...editableItem(editablePrefix)}>
+              <dt class="lbl" {...editableText(rowPrefix, 'label')}>
+                {m.label}
+              </dt>
+              <dd class="val" {...editableText(rowPrefix, 'value')}>
+                {m.value}
+              </dd>
             </div>
           ))
         }

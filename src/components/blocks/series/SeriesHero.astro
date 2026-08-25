@@ -3,6 +3,12 @@ import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import Button from '../../primitives/Button.astro';
 import SeriesIcon from './SeriesIcon.astro';
+import {
+  editableText,
+  editableImage,
+  childPrefix,
+  type EditablePrefix,
+} from '../../../lib/editable';
 
 // Immersive series hero — the design's final "wide split stage": white duet
 // copy on the left over a tone gradient that blends seamlessly into the photo
@@ -24,9 +30,27 @@ interface Props {
   secondaryCta?: Cta;
   /** Glass-chip teaser for the sample practice (title / duration / narrator). */
   chip?: { title: string; meta: string };
+  /** CloudCannon path prefix for this hero's object (e.g. 'hero'). Omit on call sites
+   *  not backed by a collection entry — see lib/editable.ts. */
+  editablePrefix?: EditablePrefix;
+  /** Prefix for the object the chip previews (a series' `sample`). Only the chip's
+   *  title is bound — its meta line is composed from duration + narrator. */
+  chipPrefix?: EditablePrefix;
 }
-const { duetTop, duetBottom, lede, image, imageAlt, primaryCta, secondaryCta, chip }: Props =
-  Astro.props;
+const {
+  duetTop,
+  duetBottom,
+  lede,
+  image,
+  imageAlt,
+  primaryCta,
+  secondaryCta,
+  chip,
+  editablePrefix,
+  chipPrefix,
+}: Props = Astro.props;
+const primaryPrefix = childPrefix(editablePrefix, 'primaryCta');
+const secondaryPrefix = childPrefix(editablePrefix, 'secondaryCta');
 
 // Stable pseudo-random waveform heights (same generator as the prototype, so the
 // chip's mini-wave matches the approved design and stays identical across builds).
@@ -55,18 +79,29 @@ const chipWave = wave(18, 31);
           sizes="(max-width: 640px) 100vw, min(1100px, 94vw)"
           loading="eager"
           fetchpriority="high"
+          {...editableImage(editablePrefix, 'image', 'imageAlt')}
         />
       </div>
       <div class="grad" aria-hidden="true"></div>
       <div class="inner">
         <p class="duet">
-          <span class="l1">{duetTop}</span>
-          <span class="l2">{duetBottom}</span>
+          <span class="l1" {...editableText(editablePrefix, 'duetTop')}>{duetTop}</span>
+          <span class="l2" {...editableText(editablePrefix, 'duetBottom')}>{duetBottom}</span>
         </p>
-        <p class="lede">{lede}</p>
+        <p class="lede" {...editableText(editablePrefix, 'lede', 'text')}>{lede}</p>
         <div class="cta">
+          {
+            /* Each button carries an icon beside its label, so the label needs its own
+              host; the wrapper appears only in editable mode. */
+          }
           <Button href={primaryCta.href} tone="light" size="md" shape="pill">
-            {primaryCta.label}
+            {
+              primaryPrefix === undefined ? (
+                primaryCta.label
+              ) : (
+                <span {...editableText(primaryPrefix, 'label')}>{primaryCta.label}</span>
+              )
+            }
             <SeriesIcon name="arrow-right" size={18} />
           </Button>
           {
@@ -79,7 +114,11 @@ const chipWave = wave(18, 31);
                 shape="pill"
               >
                 <SeriesIcon name="play" size={16} />
-                {secondaryCta.label}
+                {secondaryPrefix === undefined ? (
+                  secondaryCta.label
+                ) : (
+                  <span {...editableText(secondaryPrefix, 'label')}>{secondaryCta.label}</span>
+                )}
               </Button>
             )
           }
@@ -93,7 +132,7 @@ const chipWave = wave(18, 31);
                 <SeriesIcon name="headphones" />
               </span>
               <span class="chip-tx">
-                <b>{chip.title}</b>
+                <b {...editableText(chipPrefix, 'title')}>{chip.title}</b>
                 <small>{chip.meta}</small>
               </span>
             </div>

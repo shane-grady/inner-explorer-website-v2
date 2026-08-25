@@ -1,6 +1,15 @@
 ---
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
+import {
+  childPrefix,
+  editableArray,
+  editableImage,
+  editableItem,
+  editableText,
+  itemPrefix,
+  type EditablePrefix,
+} from '../../lib/editable';
 
 // Shared full-bleed cinematic dark hero used by editorial pages (Research, Districts).
 // A photograph carries the emotional load; tint overlays guarantee AA contrast for the
@@ -45,6 +54,9 @@ interface Props {
   height?: 'full' | 'tall';
   // Render an animated "scroll" hint at the bottom-left if true (Research opener).
   scrollHint?: boolean;
+  /** CloudCannon path prefix for this block's fields (e.g. 'hero'). Omit on routes
+   *  that are not backed by a `pages` collection entry. See lib/editable.ts. */
+  editablePrefix?: EditablePrefix;
 }
 
 const {
@@ -59,7 +71,11 @@ const {
   imageAlt,
   height = 'full',
   scrollHint = false,
+  editablePrefix,
 }: Props = Astro.props;
+const chipPrefix = itemPrefix(editablePrefix);
+const linePrefix = itemPrefix(editablePrefix);
+const statPrefix = itemPrefix(editablePrefix);
 ---
 
 <section class:list={['cin-hero', `cin-hero--${height}`]} id="cinematic-hero">
@@ -71,6 +87,7 @@ const {
       sizes="100vw"
       loading="eager"
       fetchpriority="high"
+      {...editableImage(editablePrefix, 'image', 'imageAlt')}
     />
   </div>
   <div class="cin-tint" aria-hidden="true"></div>
@@ -80,13 +97,17 @@ const {
     <div class="cin-mast">
       <span class="cin-eyebrow">
         <span class="dot" aria-hidden="true"></span>
-        {eyebrow}
+        <span {...editableText(editablePrefix, 'eyebrow')}>{eyebrow}</span>
       </span>
       {
         serialChips.length > 0 && (
-          <div class="cin-serials">
+          /* Container holds ONLY array rows, as CloudCannon's array regions require. */
+          <div class="cin-serials" {...editableArray(editablePrefix, 'serialChips')}>
             {serialChips.map((c) => (
-              <span class:list={['serial', { dim: c.dim }]}>{c.text}</span>
+              <span class:list={['serial', { dim: c.dim }]} {...editableItem(editablePrefix)}>
+                {/* Inside an array row, paths are relative to the row. */}
+                <span {...editableText(chipPrefix, 'text')}>{c.text}</span>
+              </span>
             ))}
           </div>
         )
@@ -96,11 +117,14 @@ const {
     <slot name="corner" />
 
     <div class="cin-headline-wrap">
-      <h1 class="cin-headline">
+      <h1 class="cin-headline" {...editableArray(editablePrefix, 'headlineLines')}>
         {
           headlineLines.map((line) => (
-            <span class:list={['stk', line.kind, { accent: line.tone === 'accent' }]}>
-              {line.text}
+            <span
+              class:list={['stk', line.kind, { accent: line.tone === 'accent' }]}
+              {...editableItem(editablePrefix)}
+            >
+              <span {...editableText(linePrefix, 'text')}>{line.text}</span>
             </span>
           ))
         }
@@ -109,12 +133,15 @@ const {
       {
         (lede || primaryCta || secondaryCta) && (
           <div class="cin-row">
+            {/* An HTML field cannot back a plain-text region — it stays sidebar-editable. */}
             {lede && <p class="cin-lede" set:html={lede} />}
             {(primaryCta || secondaryCta) && (
               <div class="cin-ctas">
                 {primaryCta && (
                   <a class="btn btn-primary" href={primaryCta.href}>
-                    {primaryCta.label}
+                    <span {...editableText(childPrefix(editablePrefix, 'primaryCta'), 'label')}>
+                      {primaryCta.label}
+                    </span>
                     <svg
                       width="14"
                       height="14"
@@ -133,7 +160,9 @@ const {
                 )}
                 {secondaryCta && (
                   <a class="btn btn-ghost" href={secondaryCta.href}>
-                    {secondaryCta.label}
+                    <span {...editableText(childPrefix(editablePrefix, 'secondaryCta'), 'label')}>
+                      {secondaryCta.label}
+                    </span>
                   </a>
                 )}
                 <slot name="extra-cta" />
@@ -146,14 +175,25 @@ const {
 
     {
       stats && stats.length > 0 && (
-        <dl class="cin-stats">
+        /* Container holds ONLY array rows, as CloudCannon's array regions require. */
+        <dl class="cin-stats" {...editableArray(editablePrefix, 'stats')}>
           {stats.map((s) => (
-            <div class="cell">
+            <div class="cell" {...editableItem(editablePrefix)}>
               <dt class="val" data-value={s.value}>
-                {s.value}
+                {/* `data-count` tells the count-up below to animate THIS span rather
+                    than the cell's own text, which would blow the region away. */}
+                <span data-count {...editableText(statPrefix, 'value')}>
+                  {s.value}
+                </span>
               </dt>
-              <dd class="lbl">{s.label}</dd>
-              {s.sub && <dd class="sub">{s.sub}</dd>}
+              <dd class="lbl" {...editableText(statPrefix, 'label')}>
+                {s.label}
+              </dd>
+              {s.sub && (
+                <dd class="sub" {...editableText(statPrefix, 'sub')}>
+                  {s.sub}
+                </dd>
+              )}
             </div>
           ))}
         </dl>
@@ -493,8 +533,12 @@ const {
       (entries) => {
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return;
-          const el = entry.target as HTMLElement;
-          const raw = el.dataset.value ?? '';
+          const cell = entry.target as HTMLElement;
+          // In CloudCannon-editable mode the figure has its own [data-count] span.
+          // Animate that and nothing else — rewriting the cell's text would destroy
+          // the Visual Editor's text region.
+          const el = cell.querySelector<HTMLElement>('[data-count]') ?? cell;
+          const raw = cell.dataset.value ?? '';
           const m = raw.match(/([\d.,]+)(.*)$/);
           if (!m) return;
           const target = parseFloat(m[1].replace(/,/g, ''));
@@ -513,7 +557,7 @@ const {
             else el.textContent = raw;
           };
           requestAnimationFrame(tick);
-          io.unobserve(el);
+          io.unobserve(cell);
         });
       },
       { threshold: 0.4 },

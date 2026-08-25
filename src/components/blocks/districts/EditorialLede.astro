@@ -2,24 +2,32 @@
 // "From the editors" — single large italic display paragraph framing the rest of
 // the page. Signed off with a hairline + serial line.
 
+import { editableText, type EditablePrefix } from '../../../lib/editable';
+
 interface Props {
   eyebrow: string;
   // Pre-rendered HTML so <em> in the paragraph can call out specific phrases.
   bodyHtml: string;
   attribution: string;
+  /** CloudCannon path prefix for this block's fields (e.g. 'lede'). Omit on routes
+   *  that are not backed by a `pages` collection entry. See lib/editable.ts. */
+  editablePrefix?: EditablePrefix;
 }
-const { eyebrow, bodyHtml, attribution }: Props = Astro.props;
+const { eyebrow, bodyHtml, attribution, editablePrefix }: Props = Astro.props;
 ---
 
 <section class="lede">
   <div class="lede-inner">
     <div class="lede-grid">
-      <span class="lede-eyebrow">{eyebrow}</span>
+      <span class="lede-eyebrow" {...editableText(editablePrefix, 'eyebrow')}>{eyebrow}</span>
       <div>
+        {/* An HTML field cannot back a plain-text region — it stays sidebar-editable. */}
         <p class="lede-body" set:html={bodyHtml} />
         <div class="lede-sign">
           <span class="rule"></span>
-          <span class="serial">{attribution}</span>
+          <span class="serial" {...editableText(editablePrefix, 'attribution')}>
+            {attribution}
+          </span>
         </div>
       </div>
     </div>

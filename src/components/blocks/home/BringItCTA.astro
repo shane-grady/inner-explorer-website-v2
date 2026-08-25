@@ -2,6 +2,15 @@
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import Button from '../../primitives/Button.astro';
+import {
+  childPrefix,
+  editableArray,
+  editableImage,
+  editableItem,
+  editableText,
+  itemPrefix,
+  type EditablePrefix,
+} from '../../../lib/editable';
 
 // Bring-it-to-your-school — the closing CTA as a light photographic split: a photo
 // card with a glass "now playing" chip on the left, and the headline + CTAs + trust
@@ -22,6 +31,9 @@ interface Props {
   chip: { title: string; sub: string };
   image: ImageMetadata;
   imageAlt: string;
+  /** CloudCannon path prefix for this block's fields (e.g. 'bringIt'). Omit on routes
+   *  that are not backed by a `pages` collection entry. See lib/editable.ts. */
+  editablePrefix?: EditablePrefix;
 }
 const {
   eyebrow,
@@ -34,7 +46,12 @@ const {
   chip,
   image,
   imageAlt,
+  editablePrefix,
 } = Astro.props as Props;
+const chipPrefix = childPrefix(editablePrefix, 'chip');
+const primaryPrefix = childPrefix(editablePrefix, 'primaryCta');
+const secondaryPrefix = childPrefix(editablePrefix, 'secondaryCta');
+const rowPrefix = itemPrefix(editablePrefix);
 const wave = Array.from({ length: 12 }, (_, i) => ({
   h: 30 + Math.round(Math.abs(Math.sin(i * 1.6)) * 60),
   dur: (0.9 + (i % 4) * 0.16).toFixed(2),
@@ -49,6 +66,7 @@ const wave = Array.from({ length: 12 }, (_, i) => ({
         class="media-photo"
         src={image}
         alt={imageAlt}
+        {...editableImage(editablePrefix, 'image', 'imageAlt')}
         widths={[480, 768, 1100]}
         sizes="(max-width: 860px) 92vw, 520px"
         loading="lazy"
@@ -61,8 +79,8 @@ const wave = Array.from({ length: 12 }, (_, i) => ({
           >
         </span>
         <div class="chip-meta">
-          <div class="chip-title">{chip.title}</div>
-          <div class="chip-sub">{chip.sub}</div>
+          <div class="chip-title" {...editableText(chipPrefix, 'title')}>{chip.title}</div>
+          <div class="chip-sub" {...editableText(chipPrefix, 'sub')}>{chip.sub}</div>
         </div>
         <div class="chip-wave" aria-hidden="true">
           {
@@ -75,15 +93,21 @@ const wave = Array.from({ length: 12 }, (_, i) => ({
     </div>
 
     <div class="copy">
-      <p class="eyebrow"><span class="rule" aria-hidden="true"></span>{eyebrow}</p>
+      <p class="eyebrow">
+        <span class="rule" aria-hidden="true"></span><span
+          {...editableText(editablePrefix, 'eyebrow')}>{eyebrow}</span
+        >
+      </p>
       <h2 id="demo-heading" class="h">
-        <span class="h-top">{headingTop}</span>
-        <span class="h-bottom">{headingBottom}</span>
+        <span class="h-top" {...editableText(editablePrefix, 'headingTop')}>{headingTop}</span>
+        <span class="h-bottom" {...editableText(editablePrefix, 'headingBottom')}>
+          {headingBottom}
+        </span>
       </h2>
-      <p class="lead">{body}</p>
+      <p class="lead" {...editableText(editablePrefix, 'body', 'text')}>{body}</p>
       <div class="actions">
         <Button href={primaryCta.href} tone="brand" shape="pill" size="lg" class="primary">
-          {primaryCta.label}
+          <span {...editableText(primaryPrefix, 'label')}>{primaryCta.label}</span>
           <svg
             viewBox="0 0 24 24"
             width="17"
@@ -101,7 +125,7 @@ const wave = Array.from({ length: 12 }, (_, i) => ({
         {
           secondaryCta && (
             <a class="text-link" href={secondaryCta.href}>
-              {secondaryCta.label}
+              <span {...editableText(secondaryPrefix, 'label')}>{secondaryCta.label}</span>
               <svg
                 viewBox="0 0 24 24"
                 width="16"
@@ -122,10 +146,11 @@ const wave = Array.from({ length: 12 }, (_, i) => ({
           )
         }
       </div>
-      <ul class="pills">
+      {/* Array container: holds ONLY the mapped trust pills. */}
+      <ul class="pills" {...editableArray(editablePrefix, 'pills')}>
         {
           pills.map((p) => (
-            <li>
+            <li {...editableItem(editablePrefix)}>
               <svg
                 viewBox="0 0 24 24"
                 width="13"
@@ -139,7 +164,7 @@ const wave = Array.from({ length: 12 }, (_, i) => ({
               >
                 <polyline points="20 6 9 17 4 12" />
               </svg>
-              {p}
+              <span {...editableText(rowPrefix, '')}>{p}</span>
             </li>
           ))
         }

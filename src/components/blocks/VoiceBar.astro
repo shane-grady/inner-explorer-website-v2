@@ -3,6 +3,8 @@
 // driven by a tiny vanilla script: play/pause, live waveform, ticking time.
 // Progressive enhancement — the bar (title, static waveform, transcript) is fully
 // visible without JS; the play button simply activates once the script loads.
+import { editableText, type EditablePrefix } from '../../lib/editable';
+
 interface Props {
   audioSrc: string;
   durationSec: number;
@@ -20,6 +22,10 @@ interface Props {
   /** Drop the section's outer max-width + padding so the bar sits flush inside a
    *  content column (e.g. the blog article prose). */
   inset?: boolean;
+  /** CloudCannon path prefix for this bar's object (e.g. 'voiceIntro'). Only `title`
+   *  is bound: `eyebrow` is a component default rather than a field, `durationSec` is
+   *  a NUMBER, and the src/href fields are not visible text. */
+  editablePrefix?: EditablePrefix;
 }
 const {
   audioSrc,
@@ -31,6 +37,7 @@ const {
   maxWidth = '1200px',
   tone = 'light',
   inset = false,
+  editablePrefix,
 }: Props = Astro.props;
 
 // Deterministic, speech-shaped waveform (computed at build time).
@@ -80,7 +87,7 @@ const totalLabel = fmt(durationSec);
 
     <div class="meta">
       <span class="eyebrow">{eyebrow}</span>
-      <span class="title">{title}</span>
+      <span class="title" {...editableText(editablePrefix, 'title')}>{title}</span>
     </div>
 
     <div class="wave" aria-hidden="true">

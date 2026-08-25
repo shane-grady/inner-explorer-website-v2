@@ -1,5 +1,13 @@
 ---
 // Funding — a split header over a four-card row of funding streams. Light surface.
+import {
+  editableText,
+  editableArray,
+  editableItem,
+  type EditablePrefix,
+  itemPrefix,
+} from '../../../lib/editable';
+
 interface Card {
   title: string;
   body: string;
@@ -10,29 +18,36 @@ interface Props {
   headingAccent: string;
   intro: string;
   cards: Card[];
+  /** CloudCannon path prefix for this block's fields (e.g. 'funding'). */
+  editablePrefix?: EditablePrefix;
 }
-const { eyebrow, headingLead, headingAccent, intro, cards }: Props = Astro.props;
+const { eyebrow, headingLead, headingAccent, intro, cards, editablePrefix }: Props = Astro.props;
+const rowPrefix = itemPrefix(editablePrefix);
 ---
 
 <section id="bring" class="funding" aria-labelledby="funding-heading">
   <div class="inner">
     <header class="head" data-home-reveal>
       <div>
-        <p class="eyebrow">{eyebrow}</p>
+        <p class="eyebrow" {...editableText(editablePrefix, 'eyebrow')}>{eyebrow}</p>
         <h2 id="funding-heading" class="h">
-          {headingLead}{' '}
-          <em>{headingAccent}</em>
+          <span {...editableText(editablePrefix, 'headingLead')}>{headingLead}</span>{' '}
+          <em {...editableText(editablePrefix, 'headingAccent')}>{headingAccent}</em>
         </h2>
       </div>
-      <p class="intro">{intro}</p>
+      <p class="intro" {...editableText(editablePrefix, 'intro', 'text')}>{intro}</p>
     </header>
 
-    <div class="cards" data-home-reveal>
+    <div class="cards" data-home-reveal {...editableArray(editablePrefix, 'cards')}>
       {
         cards.map((c) => (
-          <div class="card">
-            <div class="card-title">{c.title}</div>
-            <p class="card-body">{c.body}</p>
+          <div class="card" {...editableItem(editablePrefix)}>
+            <div class="card-title" {...editableText(rowPrefix, 'title')}>
+              {c.title}
+            </div>
+            <p class="card-body" {...editableText(rowPrefix, 'body', 'text')}>
+              {c.body}
+            </p>
           </div>
         ))
       }

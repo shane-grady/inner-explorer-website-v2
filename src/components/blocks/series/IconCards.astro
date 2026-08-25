@@ -1,5 +1,12 @@
 ---
 import SeriesIcon from './SeriesIcon.astro';
+import {
+  editableText,
+  editableArray,
+  editableItem,
+  itemPrefix,
+  type EditablePrefix,
+} from '../../../lib/editable';
 
 // Icon-chip cards in the series template's two arrangements:
 //   - `grid`  — N-up cards under a (separately rendered) centered section head;
@@ -18,20 +25,39 @@ interface Props {
   /** Side-heading copy — `split` layout only. */
   eyebrow?: string;
   heading?: string;
+  /** CloudCannon path prefix for the section object (e.g. 'audience', 'benefits').
+   *  Omit on call sites not backed by a collection entry — see lib/editable.ts. */
+  editablePrefix?: EditablePrefix;
+  /** Name of the array field within `editablePrefix` (`cards` or `items`). */
+  itemsKey?: string;
 }
-const { items, layout = 'grid', eyebrow, heading }: Props = Astro.props;
+const {
+  items,
+  layout = 'grid',
+  eyebrow,
+  heading,
+  editablePrefix,
+  itemsKey = 'items',
+}: Props = Astro.props;
+const cardPrefix = itemPrefix(editablePrefix);
 ---
 
 {
   layout === 'grid' ? (
-    <div class="cards is-grid">
+    /* Container holds ONLY cards. `icon` is a token name, not editable text. */
+    <div class="cards is-grid" {...editableArray(editablePrefix, itemsKey)}>
       {items.map((c, i) => (
-        <article class="card" data-sr data-sr-delay={`${(i % 3) + 1}`}>
+        <article
+          class="card"
+          data-sr
+          data-sr-delay={`${(i % 3) + 1}`}
+          {...editableItem(editablePrefix)}
+        >
           <span class="ic">
             <SeriesIcon name={c.icon} />
           </span>
-          <h3>{c.title}</h3>
-          <p>{c.body}</p>
+          <h3 {...editableText(cardPrefix, 'title')}>{c.title}</h3>
+          <p {...editableText(cardPrefix, 'body', 'text')}>{c.body}</p>
         </article>
       ))}
     </div>
@@ -39,18 +65,30 @@ const { items, layout = 'grid', eyebrow, heading }: Props = Astro.props;
     <div class="split">
       <div class="side" data-sr>
         <span class="eyebrow">
-          <span class="dot" aria-hidden="true" /> {eyebrow}
+          {/* The dot is a sibling, so the eyebrow text needs its own host in
+              editable mode; other call sites keep the bare text node. */}
+          <span class="dot" aria-hidden="true" />{' '}
+          {editablePrefix === undefined ? (
+            eyebrow
+          ) : (
+            <span {...editableText(editablePrefix, 'eyebrow')}>{eyebrow}</span>
+          )}
         </span>
-        <h2>{heading}</h2>
+        <h2 {...editableText(editablePrefix, 'heading')}>{heading}</h2>
       </div>
-      <div class="cards is-split">
+      <div class="cards is-split" {...editableArray(editablePrefix, itemsKey)}>
         {items.map((c, i) => (
-          <article class="card is-compact" data-sr data-sr-delay={`${(i % 2) + 1}`}>
+          <article
+            class="card is-compact"
+            data-sr
+            data-sr-delay={`${(i % 2) + 1}`}
+            {...editableItem(editablePrefix)}
+          >
             <span class="ic is-flat">
               <SeriesIcon name={c.icon} />
             </span>
-            <h3>{c.title}</h3>
-            <p>{c.body}</p>
+            <h3 {...editableText(cardPrefix, 'title')}>{c.title}</h3>
+            <p {...editableText(cardPrefix, 'body', 'text')}>{c.body}</p>
           </article>
         ))}
       </div>

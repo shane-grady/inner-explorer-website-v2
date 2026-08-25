@@ -4,6 +4,14 @@
 // Works without JS (native <details>). Reusable on any page that needs a single
 // FAQ section; pair multiple instances under one sticky sidebar (see /support).
 
+import {
+  editableText,
+  editableArray,
+  editableItem,
+  type EditablePrefix,
+  itemPrefix,
+} from '../../lib/editable';
+
 export interface FAQItem {
   q: string;
   /** Plain text answer. Either `a` or `aHtml` must be provided. */
@@ -20,22 +28,39 @@ interface Props {
   /** Section heading. */
   title: string;
   items: FAQItem[];
+  /** CloudCannon path prefix. This block renders as one row of the page's
+   *  `sections` array, so the page passes '' — paths resolve relative to the row. */
+  editablePrefix?: EditablePrefix;
 }
 
-const { id, title, items }: Props = Astro.props;
+const { id, title, items, editablePrefix }: Props = Astro.props;
 ---
 
-<section class="faq-sec" id={id} aria-labelledby={`${id}-title`}>
-  <h2 id={`${id}-title`} class="sec-title">{title}</h2>
-  <div class="sec-list">
+<section class="faq-sec" id={id} aria-labelledby={`${id}-title`} {...editableItem(editablePrefix)}>
+  <h2 id={`${id}-title`} class="sec-title" {...editableText(editablePrefix, 'title')}>
+    {title}
+  </h2>
+  {/* Container holds ONLY array rows, as CloudCannon's array regions require. */}
+  <div class="sec-list" {...editableArray(editablePrefix, 'items')}>
     {
       items.map((item) => (
-        <details class="qa" open={item.open}>
+        <details class="qa" open={item.open} {...editableItem(editablePrefix)}>
           <summary>
-            <span class="q">{item.q}</span>
+            {/* Inside an array row, paths are relative to the row — hence ''. */}
+            <span class="q" {...editableText(itemPrefix(editablePrefix), 'q')}>
+              {item.q}
+            </span>
             <span class="toggle" aria-hidden="true" />
           </summary>
-          <div class="a">{item.aHtml ? <p set:html={item.aHtml} /> : <p>{item.a}</p>}</div>
+          <div class="a">
+            {item.aHtml ? (
+              /* An HTML input cannot be bound to a plain-text region without losing
+                 its inline markup — it stays editable in the sidebar instead. */
+              <p set:html={item.aHtml} />
+            ) : (
+              <p {...editableText(itemPrefix(editablePrefix), 'a', 'text')}>{item.a}</p>
+            )}
+          </div>
         </details>
       ))
     }

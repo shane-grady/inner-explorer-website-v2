@@ -1,6 +1,14 @@
 ---
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
+import {
+  editableText,
+  editableArray,
+  editableItem,
+  editableImage,
+  type EditablePrefix,
+  itemPrefix,
+} from '../../../lib/editable';
 
 interface Entry {
   year: number; // for rail matching
@@ -18,15 +26,24 @@ interface Props {
   lede: string;
   railYears: number[];
   entries: Entry[];
+  /** CloudCannon path prefix for this block's fields (e.g. 'timeline'). Omit on
+   *  routes that are not backed by a `pages` collection entry. See lib/editable.ts.
+   *
+   *  Sidebar-only: `headingHtml`, each entry's `body` and `pullHtml` (all render
+   *  through `set:html`, and a text region would strip their inline markup), and
+   *  `railYears` (numbers — a region must resolve to a string). */
+  editablePrefix?: EditablePrefix;
 }
-const { eyebrow, headingHtml, lede, railYears, entries }: Props = Astro.props;
+const { eyebrow, headingHtml, lede, railYears, entries, editablePrefix }: Props = Astro.props;
+/** Inside an array row, paths are relative to the row — hence ''. */
+const rowPrefix = itemPrefix(editablePrefix);
 ---
 
 <section class="tl-section" id="timeline">
   <div class="tl-head">
-    <span class="eyebrow">{eyebrow}</span>
+    <span class="eyebrow" {...editableText(editablePrefix, 'eyebrow')}>{eyebrow}</span>
     <h2 class="display-h" set:html={headingHtml} />
-    <p class="lede">{lede}</p>
+    <p class="lede" {...editableText(editablePrefix, 'lede', 'text')}>{lede}</p>
   </div>
 
   <div class="tl-rail" id="about-tl-rail" role="tablist" aria-label="Jump to a year">
@@ -45,33 +62,56 @@ const { eyebrow, headingHtml, lede, railYears, entries }: Props = Astro.props;
       <div class="tl-spine-fill" id="about-tl-fill" aria-hidden="true"></div>
 
       {
-        entries.map((e) => (
-          <div class:list={['tl-entry', { highlight: e.highlight }]} data-year={e.year}>
-            <div class="tl-card">
-              <span class:list={['tag', e.tag.variant]}>{e.tag.label}</span>
-              <h3>{e.title}</h3>
-              <p set:html={e.body} />
-              {e.pullHtml && <div class="pull" set:html={e.pullHtml} />}
-            </div>
-            <div class="tl-node">
-              <span class="yr">{e.node.yr}</span>
-              <span class="yr-sub">{e.node.sub}</span>
-            </div>
-            {e.image && (
-              <div class="tl-image">
-                <Image
-                  src={e.image.src}
-                  alt={e.image.alt}
-                  widths={[480, 768, 1100]}
-                  sizes="(max-width: 920px) 90vw, 45vw"
-                  loading="lazy"
-                />
-                <span class="cap">{e.image.caption}</span>
-              </div>
-            )}
-          </div>
-        ))
+        /* The array container must hold ONLY rows, so the two decorative spines above
+          stay outside it. The entries keep their even/odd parity either way (they
+          were children 3..n of `.tl-track`, now 1..n of this wrapper). */
       }
+      <div class="tl-entries" {...editableArray(editablePrefix, 'entries')}>
+        {
+          entries.map((e) => (
+            <div
+              class:list={['tl-entry', { highlight: e.highlight }]}
+              data-year={e.year}
+              {...editableItem(editablePrefix)}
+            >
+              <div class="tl-card">
+                <span class:list={['tag', e.tag.variant]} {...editableText(rowPrefix, 'tag.label')}>
+                  {e.tag.label}
+                </span>
+                <h3 {...editableText(rowPrefix, 'title')}>{e.title}</h3>
+                <p set:html={e.body} />
+                {e.pullHtml && <div class="pull" set:html={e.pullHtml} />}
+              </div>
+              <div class="tl-node">
+                <span class="yr" {...editableText(rowPrefix, 'node.yr')}>
+                  {e.node.yr}
+                </span>
+                <span class="yr-sub" {...editableText(rowPrefix, 'node.sub')}>
+                  {e.node.sub}
+                </span>
+              </div>
+              {e.image && (
+                <div class="tl-image">
+                  {/* The region sits on the <img>, not on `.tl-image` — the caption is a
+                    sibling field, and nesting it inside an image region resolves it
+                    against {src, alt} and fails. */}
+                  <Image
+                    src={e.image.src}
+                    alt={e.image.alt}
+                    widths={[480, 768, 1100]}
+                    sizes="(max-width: 920px) 90vw, 45vw"
+                    loading="lazy"
+                    {...editableImage(rowPrefix, 'image.src', 'image.alt')}
+                  />
+                  <span class="cap" {...editableText(rowPrefix, 'image.caption')}>
+                    {e.image.caption}
+                  </span>
+                </div>
+              )}
+            </div>
+          ))
+        }
+      </div>
     </div>
   </div>
 </section>

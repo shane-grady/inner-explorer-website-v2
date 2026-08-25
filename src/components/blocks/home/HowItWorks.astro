@@ -1,4 +1,12 @@
 ---
+import {
+  editableArray,
+  editableItem,
+  editableText,
+  itemPrefix,
+  type EditablePrefix,
+} from '../../../lib/editable';
+
 // How it works — the five-minute morning as three timestamped steps, joined into one
 // bordered card. Light surface.
 interface Step {
@@ -15,27 +23,36 @@ interface Props {
   headingLead: string;
   headingAccent: string;
   steps: Step[];
+  /** CloudCannon path prefix for this block's fields (e.g. 'howItWorks'). Omit on
+   *  routes that are not backed by a `pages` collection entry. See lib/editable.ts. */
+  editablePrefix?: EditablePrefix;
 }
-const { eyebrow, headingLead, headingAccent, steps }: Props = Astro.props;
+const { eyebrow, headingLead, headingAccent, steps, editablePrefix }: Props = Astro.props;
+const rowPrefix = itemPrefix(editablePrefix);
 ---
 
 <section id="how" class="how" aria-labelledby="how-heading">
   <div class="inner">
     <header class="head" data-home-reveal>
-      <p class="eyebrow">{eyebrow}</p>
+      <p class="eyebrow" {...editableText(editablePrefix, 'eyebrow')}>{eyebrow}</p>
       <h2 id="how-heading" class="h">
-        {headingLead}{' '}
-        <em>{headingAccent}</em>
+        <span {...editableText(editablePrefix, 'headingLead')}>{headingLead}</span>{' '}
+        <em {...editableText(editablePrefix, 'headingAccent')}>{headingAccent}</em>
       </h2>
     </header>
 
-    <div class="steps" data-home-reveal>
+    {/* Array container: holds ONLY the mapped step cards. */}
+    <div class="steps" data-home-reveal {...editableArray(editablePrefix, 'steps')}>
       {
         steps.map((s) => (
-          <div class="step">
-            <div class="time">{s.time}</div>
+          <div class="step" {...editableItem(editablePrefix)}>
+            <div class="time" {...editableText(rowPrefix, 'time')}>
+              {s.time}
+            </div>
             <div class="step-top">
-              <span class="ord">{s.n}</span>
+              <span class="ord" {...editableText(rowPrefix, 'n')}>
+                {s.n}
+              </span>
               <span class:list={['icon', { filled: s.icon === 'play' }]} aria-hidden="true">
                 {s.icon === 'choose' && (
                   <svg
@@ -74,8 +91,12 @@ const { eyebrow, headingLead, headingAccent, steps }: Props = Astro.props;
                 )}
               </span>
             </div>
-            <h3 class="step-title">{s.title}</h3>
-            <p class="step-body">{s.body}</p>
+            <h3 class="step-title" {...editableText(rowPrefix, 'title')}>
+              {s.title}
+            </h3>
+            <p class="step-body" {...editableText(rowPrefix, 'body', 'text')}>
+              {s.body}
+            </p>
           </div>
         ))
       }

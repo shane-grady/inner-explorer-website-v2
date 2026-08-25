@@ -3,6 +3,7 @@
 // Page-local because it's a singular full-width oversized-type composition
 // (different DNA from AboutHero's image-backed hero). Background composes from
 // --studio-hero-wash; the corona is a brand-tinted soft circle.
+import { editableText, childPrefix, type EditablePrefix } from '../../../lib/editable';
 
 interface Cta {
   label: string;
@@ -16,6 +17,12 @@ interface Props {
   subtitleHtml: string; // supports inline <em>
   primary: Cta;
   secondary?: Cta;
+  /** CloudCannon path prefix for this block's fields (e.g. 'hero'). Omit on routes
+   *  that are not backed by a `pages` collection entry. See lib/editable.ts.
+   *
+   *  `subtitleHtml` renders through `set:html`; a text region would strip its inline
+   *  <em>, so it stays sidebar-only. */
+  editablePrefix?: EditablePrefix;
 }
 const {
   eyebrow,
@@ -25,32 +32,57 @@ const {
   subtitleHtml,
   primary,
   secondary,
+  editablePrefix,
 }: Props = Astro.props;
+const primaryPrefix = childPrefix(editablePrefix, 'primary');
+const secondaryPrefix = childPrefix(editablePrefix, 'secondary');
 ---
 
 <section class="hero" aria-labelledby="hero-headline">
   <span class="corner" aria-hidden="true">
     <span class="corner-pip"></span>
-    {cornerLabel}
+    {
+      /* The pip is a sibling, so the label needs its own host element — added only in
+        editable mode so other call sites' markup is unchanged. */
+    }
+    {
+      editablePrefix === undefined ? (
+        cornerLabel
+      ) : (
+        <span {...editableText(editablePrefix, 'cornerLabel')}>{cornerLabel}</span>
+      )
+    }
   </span>
 
   <div class="inner">
     <div class="eyebrow">
       <span class="pip" aria-hidden="true"></span>
-      <span>{eyebrow}</span>
+      <span {...editableText(editablePrefix, 'eyebrow')}>{eyebrow}</span>
       <span class="line" aria-hidden="true"></span>
     </div>
 
     <h1 class="title" id="hero-headline">
-      <span class="sans">{headlineSans}</span>
-      {headlineSerif}
+      <span class="sans" {...editableText(editablePrefix, 'headlineSans')}>{headlineSans}</span>
+      {
+        editablePrefix === undefined ? (
+          headlineSerif
+        ) : (
+          <span {...editableText(editablePrefix, 'headlineSerif')}>{headlineSerif}</span>
+        )
+      }
     </h1>
 
     <div class="bottom">
       <p class="sub" set:html={subtitleHtml} />
       <div class="actions">
         <a class="btn-primary" href={primary.href}>
-          {primary.label}
+          {
+            editablePrefix === undefined ? (
+              primary.label
+            ) : (
+              <span {...editableText(primaryPrefix, 'label')}>{primary.label}</span>
+            )
+          }
           <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             <path d="M8 5v14l11-7z"></path>
           </svg>
@@ -58,7 +90,11 @@ const {
         {
           secondary && (
             <a class="btn-ghost" href={secondary.href}>
-              {secondary.label}
+              {editablePrefix === undefined ? (
+                secondary.label
+              ) : (
+                <span {...editableText(secondaryPrefix, 'label')}>{secondary.label}</span>
+              )}
               <svg
                 width="13"
                 height="13"

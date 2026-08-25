@@ -1,13 +1,25 @@
 ---
 import type { ResultsChartData } from './types';
+import {
+  editableText,
+  editableArray,
+  editableItem,
+  itemPrefix,
+  type EditablePrefix,
+} from '../../../lib/editable';
 
 // Grouped bar chart for the results band (e.g. Webb School's restraints-by-year
 // figure). Renders on the dark proof band, so all color is white-mix + brand scale.
 // The visual plot is aria-hidden; a visually-hidden table carries the data for
 // screen readers. Bars grow in on first scroll-in via the page's existing
 // `data-cs-reveal` observer — pure CSS, zero JS shipped by this block.
-type Props = ResultsChartData;
-const { title, subtitle, foot, sourceId, valueSuffix, groups }: Props = Astro.props;
+type Props = ResultsChartData & {
+  /** CloudCannon path prefix for this chart's object (e.g. 'chart' or 'charts.0').
+   *  Omit on call sites not backed by a collection entry — see lib/editable.ts. */
+  editablePrefix?: EditablePrefix;
+};
+const { title, subtitle, foot, sourceId, valueSuffix, groups, editablePrefix }: Props = Astro.props;
+const groupPrefix = itemPrefix(editablePrefix);
 
 const max = Math.max(...groups.flatMap((g) => g.bars.map((b) => b.value)));
 // Running bar index drives the staggered grow-in delay across group boundaries.
@@ -25,21 +37,49 @@ const rows = groups.map((g) => ({
 
 <figure class="chartfig" data-cs-reveal>
   <figcaption class="chead">
-    <span class="ctitle">{title}{sourceId && <sup>{sourceId}</sup>}</span>
-    {subtitle && <span class="csub">{subtitle}</span>}
+    <span class="ctitle">
+      {
+        /* `sourceId` is a NUMBER (a footnote ref), so it is never a text region — which
+          means the title needs its own host once that sibling <sup> can appear. */
+      }
+      {
+        editablePrefix === undefined ? (
+          title
+        ) : (
+          <span {...editableText(editablePrefix, 'title')}>{title}</span>
+        )
+      }
+      {sourceId && <sup>{sourceId}</sup>}
+    </span>
+    {
+      subtitle && (
+        <span class="csub" {...editableText(editablePrefix, 'subtitle')}>
+          {subtitle}
+        </span>
+      )
+    }
   </figcaption>
 
-  <div class="plot" aria-hidden="true">
+  {/* Bar VALUES are numbers, so only the labels are editable text here. */}
+  <div class="plot" aria-hidden="true" {...editableArray(editablePrefix, 'groups')}>
     {
       rows.map((g) => (
-        <div class="group" style={`--n:${g.bars.length}`}>
-          <div class="glabel">{g.label}</div>
-          <div class="bars">
+        <div class="group" style={`--n:${g.bars.length}`} {...editableItem(editablePrefix)}>
+          <div class="glabel" {...editableText(groupPrefix, 'label')}>
+            {g.label}
+          </div>
+          <div class="bars" {...editableArray(groupPrefix, 'bars')}>
             {g.bars.map((b) => (
-              <div class="cell" style={`--v:${b.h.toFixed(4)}; --d:${b.d}ms`}>
+              <div
+                class="cell"
+                style={`--v:${b.h.toFixed(4)}; --d:${b.d}ms`}
+                {...editableItem(groupPrefix)}
+              >
                 <span class="val">{b.shown}</span>
                 <span class={`bar tone-${g.tone}`} />
-                <span class="xlabel">{b.label}</span>
+                <span class="xlabel" {...editableText(itemPrefix(groupPrefix), 'label')}>
+                  {b.label}
+                </span>
               </div>
             ))}
           </div>
@@ -48,7 +88,13 @@ const rows = groups.map((g) => ({
     }
   </div>
 
-  {foot && <p class="cfoot">{foot}</p>}
+  {
+    foot && (
+      <p class="cfoot" {...editableText(editablePrefix, 'foot', 'text')}>
+        {foot}
+      </p>
+    )
+  }
 
   {
     /* sr-only goes on a wrapper div: tables won't shrink below min-content width,

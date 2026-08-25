@@ -1,5 +1,12 @@
 ---
 import SeriesIcon from './SeriesIcon.astro';
+import {
+  editableText,
+  editableArray,
+  editableItem,
+  itemPrefix,
+  type EditablePrefix,
+} from '../../../lib/editable';
 
 // At-a-glance facts bar — a white card row of icon + label/value items sitting
 // under the immersive hero (practice length, format, audience, languages…).
@@ -12,22 +19,38 @@ interface GlanceItem {
 interface Props {
   items: GlanceItem[];
   ariaLabel?: string;
+  /** CloudCannon path prefix for the object that OWNS the items array. Omit on call
+   *  sites not backed by a collection entry — see lib/editable.ts. */
+  editablePrefix?: EditablePrefix;
+  /** Name of the array field within `editablePrefix` (a series calls it `glance`). */
+  itemsKey?: string;
 }
-const { items, ariaLabel = 'Series at a glance' }: Props = Astro.props;
+const {
+  items,
+  ariaLabel = 'Series at a glance',
+  editablePrefix,
+  itemsKey = 'items',
+}: Props = Astro.props;
+const rowPrefix = itemPrefix(editablePrefix);
 ---
 
 <section class="glance" aria-label={ariaLabel}>
   <div class="wrap">
-    <ul class="row" style={`--cols:${items.length}`}>
+    {/* Container holds ONLY fact rows. `icon` is a token name, not editable text. */}
+    <ul class="row" style={`--cols:${items.length}`} {...editableArray(editablePrefix, itemsKey)}>
       {
         items.map((g) => (
-          <li class="item">
+          <li class="item" {...editableItem(editablePrefix)}>
             <span class="ic">
               <SeriesIcon name={g.icon} />
             </span>
             <span class="tx">
-              <span class="lab">{g.label}</span>
-              <span class="val">{g.value}</span>
+              <span class="lab" {...editableText(rowPrefix, 'label')}>
+                {g.label}
+              </span>
+              <span class="val" {...editableText(rowPrefix, 'value')}>
+                {g.value}
+              </span>
             </span>
           </li>
         ))

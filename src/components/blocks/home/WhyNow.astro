@@ -1,4 +1,12 @@
 ---
+import {
+  editableArray,
+  editableItem,
+  editableText,
+  itemPrefix,
+  type EditablePrefix,
+} from '../../../lib/editable';
+
 // Why-now — dark manifesto section. The lead paragraph lights word-by-word as it
 // scrolls into view (progressive enhancement: full opacity without JS), followed by a
 // three-column "why this matters now" stat grid.
@@ -11,25 +19,50 @@ interface Props {
   eyebrow: string;
   manifesto: string;
   stats: StatCard[];
+  /** CloudCannon path prefix for this block's fields (e.g. 'whyNow'). Omit on routes
+   *  that are not backed by a `pages` collection entry. See lib/editable.ts.
+   *
+   *  `manifesto` is deliberately NOT an editable region: it is split into one <span>
+   *  per word for the scroll-driven light-up, and a text region would flatten those
+   *  spans back into a single node. It stays sidebar-editable. */
+  editablePrefix?: EditablePrefix;
 }
-const { eyebrow, manifesto, stats }: Props = Astro.props;
+const { eyebrow, manifesto, stats, editablePrefix }: Props = Astro.props;
 const words = manifesto.split(' ');
+const rowPrefix = itemPrefix(editablePrefix);
 ---
 
 <section id="why" class="why" aria-labelledby="why-eyebrow">
   <div class="inner">
-    <p id="why-eyebrow" class="eyebrow" data-home-reveal>{eyebrow}</p>
+    <p
+      id="why-eyebrow"
+      class="eyebrow"
+      data-home-reveal
+      {...editableText(editablePrefix, 'eyebrow')}
+    >
+      {eyebrow}
+    </p>
 
     <p class="manifesto" data-manifesto>
       {words.map((w) => <span class="w">{w + ' '}</span>)}
     </p>
 
-    <div class="grid">
+    {/* Array container: holds ONLY the mapped stat cells. */}
+    <div class="grid" {...editableArray(editablePrefix, 'stats')}>
       {
         stats.map((s, i) => (
-          <div class="cell" data-home-reveal style={`--reveal-delay:${i * 100}ms`}>
-            <div class="num">{s.value}</div>
-            <p class="body">{s.body}</p>
+          <div
+            class="cell"
+            data-home-reveal
+            style={`--reveal-delay:${i * 100}ms`}
+            {...editableItem(editablePrefix)}
+          >
+            <div class="num" {...editableText(rowPrefix, 'value')}>
+              {s.value}
+            </div>
+            <p class="body" {...editableText(rowPrefix, 'body', 'text')}>
+              {s.body}
+            </p>
           </div>
         ))
       }

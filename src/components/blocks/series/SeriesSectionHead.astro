@@ -3,18 +3,36 @@
 // accent, serif-italic heading, optional muted intro. Used by the audience,
 // stats, practices, how-it-works, and related sections.
 
+import { editableText, type EditablePrefix } from '../../../lib/editable';
+
 interface Props {
   eyebrow: string;
   heading: string;
   intro?: string;
+  /** CloudCannon path prefix for the section object (e.g. 'audience'). Omit on call
+   *  sites not backed by a collection entry — see lib/editable.ts. */
+  editablePrefix?: EditablePrefix;
 }
-const { eyebrow, heading, intro }: Props = Astro.props;
+const { eyebrow, heading, intro, editablePrefix }: Props = Astro.props;
 ---
 
 <div class="shead">
-  <span class="eyebrow"><span class="dot" aria-hidden="true"></span> {eyebrow}</span>
-  <h2>{heading}</h2>
-  {intro && <p>{intro}</p>}
+  <span class="eyebrow">
+    {
+      /* The dot is a sibling, so the eyebrow text needs its own host; the wrapper
+        appears only in editable mode, leaving other call sites' markup untouched. */
+    }
+    <span class="dot" aria-hidden="true"></span>{' '}
+    {
+      editablePrefix === undefined ? (
+        eyebrow
+      ) : (
+        <span {...editableText(editablePrefix, 'eyebrow')}>{eyebrow}</span>
+      )
+    }
+  </span>
+  <h2 {...editableText(editablePrefix, 'heading')}>{heading}</h2>
+  {intro && <p {...editableText(editablePrefix, 'intro', 'text')}>{intro}</p>}
 </div>
 
 <style>

@@ -1,4 +1,13 @@
 ---
+import {
+  childPrefix,
+  editableArray,
+  editableItem,
+  editableText,
+  itemPrefix,
+  type EditablePrefix,
+} from '../../../lib/editable';
+
 interface Cta {
   label: string;
   href: string;
@@ -10,30 +19,39 @@ interface Props {
   subtitle: string;
   primary: Cta;
   secondary?: Cta;
+  /** CloudCannon path prefix for this block's fields (e.g. 'cta'). Omit on routes
+   *  not backed by a `pages` collection entry. See lib/editable.ts. */
+  editablePrefix?: EditablePrefix;
 }
-const { eyebrow, lines, subtitle, primary, secondary }: Props = Astro.props;
+const { eyebrow, lines, subtitle, primary, secondary, editablePrefix }: Props = Astro.props;
+const linePrefix = itemPrefix(editablePrefix);
 ---
 
 <section class="cta" id="cta" data-screen-label="Begin" aria-labelledby="cta-heading">
   <div class="wrap reveal">
     <span class="eyebrow">
       <span class="rule" aria-hidden="true"></span>
-      {eyebrow}
+      <span {...editableText(editablePrefix, 'eyebrow')}>{eyebrow}</span>
       <span class="rule" aria-hidden="true"></span>
     </span>
-    <h2 class="h" id="cta-heading">
+    <h2 class="h" id="cta-heading" {...editableArray(editablePrefix, 'lines')}>
       {
         lines.map((l) => (
-          <span class:list={['stk', l.face === 'sans' ? 'sans' : 'display', { em: l.em }]}>
-            {l.text}
+          <span
+            class:list={['stk', l.face === 'sans' ? 'sans' : 'display', { em: l.em }]}
+            {...editableItem(editablePrefix)}
+          >
+            <span {...editableText(linePrefix, 'text')}>{l.text}</span>
           </span>
         ))
       }
     </h2>
-    <p class="sub">{subtitle}</p>
+    <p class="sub" {...editableText(editablePrefix, 'subtitle', 'text')}>{subtitle}</p>
     <div class="btns">
       <a href={primary.href} class="btn btn-solid-ink btn-lg">
-        {primary.label}
+        <span {...editableText(childPrefix(editablePrefix, 'primary'), 'label')}>
+          {primary.label}
+        </span>
         <svg
           width="14"
           height="14"
@@ -51,7 +69,11 @@ const { eyebrow, lines, subtitle, primary, secondary }: Props = Astro.props;
       </a>
       {
         secondary && (
-          <a href={secondary.href} class="btn btn-ghost-paper btn-lg">
+          <a
+            href={secondary.href}
+            class="btn btn-ghost-paper btn-lg"
+            {...editableText(childPrefix(editablePrefix, 'secondary'), 'label')}
+          >
             {secondary.label}
           </a>
         )

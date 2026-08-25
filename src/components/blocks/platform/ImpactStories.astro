@@ -1,5 +1,6 @@
 ---
 import LinkArrow from './LinkArrow.astro';
+import { childPrefix, editableText, type EditablePrefix } from '../../../lib/editable';
 
 // Impact showcase: a centered headline with an In-schools / In-research toggle, then
 // three gradient "poster" cards. The toggle swaps which set of three is shown (the
@@ -17,8 +18,16 @@ export interface ImpactStoriesProps {
   groups: Record<string, [Story, Story, Story]>;
   egress: { label: string; href: string };
 }
-type Props = ImpactStoriesProps;
-const { headingHtml, toggle, groups, egress }: Props = Astro.props;
+type Props = ImpactStoriesProps & {
+  /** CloudCannon path prefix for this block's fields (e.g. 'impact'). Omit on routes
+   *  not backed by a `pages` collection entry. See lib/editable.ts.
+   *
+   *  Both the toggle and each group are fixed-arity (2 tabs, 3 posters), and the
+   *  group keys must match the toggle ids, so they are bound with indexed paths
+   *  rather than editable arrays — add/remove controls here would break the pairing. */
+  editablePrefix?: EditablePrefix;
+};
+const { headingHtml, toggle, groups, egress, editablePrefix }: Props = Astro.props;
 ---
 
 <section class="impact">
@@ -35,6 +44,7 @@ const { headingHtml, toggle, groups, egress }: Props = Astro.props;
               aria-selected={i === 0 ? 'true' : 'false'}
               aria-controls={`impact-${t.id}`}
               data-impact-tab={t.id}
+              {...editableText(editablePrefix, `toggle.${i}.label`)}
             >
               {t.label}
             </button>
@@ -52,12 +62,16 @@ const { headingHtml, toggle, groups, egress }: Props = Astro.props;
           aria-label={t.label}
           data-impact-panel={t.id}
         >
-          {groups[t.id].map((s) => (
+          {groups[t.id].map((s, j) => (
             <article class={`istory mesh-${s.theme}`}>
               <span class="grain" aria-hidden="true" />
               <div class="ct">
-                <div class="tag">{s.tag}</div>
-                <p class="h">{s.title}</p>
+                <div class="tag" {...editableText(editablePrefix, `groups.${t.id}.${j}.tag`)}>
+                  {s.tag}
+                </div>
+                <p class="h" {...editableText(editablePrefix, `groups.${t.id}.${j}.title`)}>
+                  {s.title}
+                </p>
               </div>
             </article>
           ))}
@@ -66,7 +80,11 @@ const { headingHtml, toggle, groups, egress }: Props = Astro.props;
     }
 
     <div class="impact-egress">
-      <LinkArrow label={egress.label} href={egress.href} />
+      <LinkArrow
+        label={egress.label}
+        href={egress.href}
+        editablePrefix={childPrefix(editablePrefix, 'egress')}
+      />
     </div>
   </div>
 </section>

@@ -1,4 +1,12 @@
 ---
+import {
+  editableArray,
+  editableItem,
+  editableText,
+  itemPrefix,
+  type EditablePrefix,
+} from '../../../lib/editable';
+
 interface Endorser {
   name: string;
   role: string;
@@ -6,19 +14,28 @@ interface Endorser {
 interface Props {
   label: string;
   items: Endorser[];
+  /** CloudCannon path prefix for the OBJECT holding these fields (e.g.
+   *  'endorsers'); `label`/`items` are appended to it. Omit on routes not backed by
+   *  a `pages` collection entry. See lib/editable.ts. */
+  editablePrefix?: EditablePrefix;
 }
-const { label, items }: Props = Astro.props;
+const { label, items, editablePrefix }: Props = Astro.props;
+const cellPrefix = itemPrefix(editablePrefix);
 ---
 
 <section class="endorsers" id="endorsers" data-screen-label="Endorsers" aria-label={label}>
   <div class="wrap">
-    <div class="label" aria-hidden="true">{label}</div>
-    <div class="grid">
+    <div class="label" aria-hidden="true" {...editableText(editablePrefix, 'label')}>{label}</div>
+    <div class="grid" {...editableArray(editablePrefix, 'items')}>
       {
         items.map((it) => (
-          <div class="cell">
-            <div class="name">{it.name}</div>
-            <div class="role">{it.role}</div>
+          <div class="cell" {...editableItem(editablePrefix)}>
+            <div class="name" {...editableText(cellPrefix, 'name')}>
+              {it.name}
+            </div>
+            <div class="role" {...editableText(cellPrefix, 'role')}>
+              {it.role}
+            </div>
           </div>
         ))
       }

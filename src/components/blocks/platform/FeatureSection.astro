@@ -4,6 +4,14 @@ import SectionHead from './SectionHead.astro';
 import LinkArrow from './LinkArrow.astro';
 import FeatureVisual from './FeatureVisual.astro';
 import PlatformIcon from './PlatformIcon.astro';
+import {
+  childPrefix,
+  editableArray,
+  editableItem,
+  editableText,
+  itemPrefix,
+  type EditablePrefix,
+} from '../../../lib/editable';
 
 // The repeating product-feature section (Classroom / District / Home): a two-column
 // head, two large visual cards (bespoke mockups via FeatureVisual), a four-cell
@@ -32,51 +40,90 @@ export interface FeatureSectionProps {
   grid: GridCell[];
   customer: { badge: string; name: string; quote: string; egress: { label: string; href: string } };
 }
-type Props = FeatureSectionProps;
-const { id, eyebrow, headingHtml, desc, cta, cards, grid, customer }: Props = Astro.props;
+type Props = FeatureSectionProps & {
+  /** CloudCannon path prefix for this section's fields (e.g. 'classroom'). Omit on
+   *  routes not backed by a `pages` collection entry. See lib/editable.ts.
+   *
+   *  `cards` is a fixed pair, each with its own bespoke FeatureVisual mockup, so it
+   *  is bound with indexed paths rather than an editable array — add/remove controls
+   *  would offer a third card with no visual behind it. `grid` is a real list and
+   *  gets the full array treatment. */
+  editablePrefix?: EditablePrefix;
+};
+const { id, eyebrow, headingHtml, desc, cta, cards, grid, customer, editablePrefix }: Props =
+  Astro.props;
+const cellPrefix = itemPrefix(editablePrefix);
 ---
 
 <section class="feat" id={id}>
   <div class="pwrap">
-    <SectionHead eyebrow={eyebrow} headingHtml={headingHtml} desc={desc}>
-      <Button href={cta.href} variant="solid" tone="neutral" shape="pill" size="sm"
-        >{cta.label}</Button
-      >
+    <SectionHead
+      eyebrow={eyebrow}
+      headingHtml={headingHtml}
+      desc={desc}
+      editablePrefix={editablePrefix}
+    >
+      <Button href={cta.href} variant="solid" tone="neutral" shape="pill" size="sm">
+        <span {...editableText(childPrefix(editablePrefix, 'cta'), 'label')}>{cta.label}</span>
+      </Button>
     </SectionHead>
 
     <div class="feat-cards">
       {
-        cards.map((c) => (
+        cards.map((c, i) => (
           <article class="fcard">
             <FeatureVisual kind={c.visual} />
             <div class="body">
-              <div class="label">{c.label}</div>
-              <p class="ti">{c.title}</p>
-              <p class="tx">{c.text}</p>
+              <div class="label" {...editableText(editablePrefix, `cards.${i}.label`)}>
+                {c.label}
+              </div>
+              <p class="ti" {...editableText(editablePrefix, `cards.${i}.title`)}>
+                {c.title}
+              </p>
+              <p class="tx" {...editableText(editablePrefix, `cards.${i}.text`, 'text')}>
+                {c.text}
+              </p>
             </div>
           </article>
         ))
       }
     </div>
 
-    <div class="fgrid">
+    <div class="fgrid" {...editableArray(editablePrefix, 'grid')}>
       {
         grid.map((cell) => (
-          <div class="cell">
+          <div class="cell" {...editableItem(editablePrefix)}>
             <div class="ic">
               <PlatformIcon name={cell.icon} />
             </div>
-            <p class="ti">{cell.title}</p>
-            <p class="tx">{cell.text}</p>
+            <p class="ti" {...editableText(cellPrefix, 'title')}>
+              {cell.title}
+            </p>
+            <p class="tx" {...editableText(cellPrefix, 'text', 'text')}>
+              {cell.text}
+            </p>
           </div>
         ))
       }
     </div>
 
     <div class="custstrip">
-      <div class="logo"><span class="badge">{customer.badge}</span> {customer.name}</div>
-      <p class="quote">{customer.quote}</p>
-      <LinkArrow label={customer.egress.label} href={customer.egress.href} />
+      <div class="logo">
+        <span class="badge" {...editableText(childPrefix(editablePrefix, 'customer'), 'badge')}>
+          {customer.badge}
+        </span>{' '}
+        <span {...editableText(childPrefix(editablePrefix, 'customer'), 'name')}>
+          {customer.name}
+        </span>
+      </div>
+      <p class="quote" {...editableText(childPrefix(editablePrefix, 'customer'), 'quote', 'text')}>
+        {customer.quote}
+      </p>
+      <LinkArrow
+        label={customer.egress.label}
+        href={customer.egress.href}
+        editablePrefix={childPrefix(editablePrefix, 'customer.egress')}
+      />
     </div>
   </div>
 </section>

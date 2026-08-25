@@ -1,0 +1,19 @@
+_schema: newsroom
+permalink: /newsroom/
+pageTitle: Newsroom — Inner Explorer
+pageDescription: The latest research, announcements, and lessons from the Inner Explorer community.
+hero:
+  lead: Our
+  display: Newsroom
+  intro: The latest research, announcements, and lessons from the Inner Explorer community.
+cta:
+  sans: Calm classrooms
+  serif: start with you
+  subtitle: Bring daily, research-backed mindfulness to every student in your school.
+  primary:
+    label: Contact us
+    href: /contact
+  secondary:
+    label: Take a tour
+    href: /educators
+  trust: Trusted by 50,000+ educators across 8,000 schools

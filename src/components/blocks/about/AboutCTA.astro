@@ -1,6 +1,12 @@
 ---
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
+import {
+  editableText,
+  editableImage,
+  childPrefix,
+  type EditablePrefix,
+} from '../../../lib/editable';
 
 interface Cta {
   label: string;
@@ -14,23 +20,49 @@ interface Props {
   imageAlt: string;
   primary: Cta;
   secondary: Cta;
+  /** CloudCannon path prefix for this block's fields (e.g. 'cta'). Omit on routes
+   *  that are not backed by a `pages` collection entry. See lib/editable.ts.
+   *
+   *  `headingHtml` renders through `set:html`; a text region would strip its
+   *  `<span class="accent">`, so it stays sidebar-only. */
+  editablePrefix?: EditablePrefix;
 }
-const { eyebrow, headingHtml, lede, image, imageAlt, primary, secondary }: Props = Astro.props;
+const { eyebrow, headingHtml, lede, image, imageAlt, primary, secondary, editablePrefix }: Props =
+  Astro.props;
+const primaryPrefix = childPrefix(editablePrefix, 'primary');
+const secondaryPrefix = childPrefix(editablePrefix, 'secondary');
 ---
 
 <section class="cta">
   <div class="cta-inner">
     <div class="cta-bg">
-      <Image src={image} alt={imageAlt} widths={[768, 1280, 1920]} sizes="100vw" loading="lazy" />
+      <Image
+        src={image}
+        alt={imageAlt}
+        widths={[768, 1280, 1920]}
+        sizes="100vw"
+        loading="lazy"
+        {...editableImage(editablePrefix, 'image', 'imageAlt')}
+      />
     </div>
     <div class="cta-tint" aria-hidden="true"></div>
     <div class="cta-content">
-      <span class="eyebrow">{eyebrow}</span>
+      <span class="eyebrow" {...editableText(editablePrefix, 'eyebrow')}>{eyebrow}</span>
       <h2 class="display-h" set:html={headingHtml} />
-      <p class="lede">{lede}</p>
+      <p class="lede" {...editableText(editablePrefix, 'lede', 'text')}>{lede}</p>
       <div class="cta-buttons">
         <a class="btn-primary" href={primary.href}>
-          {primary.label}
+          {
+            /* The arrow is a sibling, so the label needs its own host element — added
+              only in editable mode so other call sites stay unchanged. */
+          }
+          {
+            editablePrefix === undefined ? (
+              primary.label
+            ) : (
+              <span {...editableText(primaryPrefix, 'label')}>{primary.label}</span>
+            )
+          }
           <svg
             width="16"
             height="16"
@@ -46,7 +78,9 @@ const { eyebrow, headingHtml, lede, image, imageAlt, primary, secondary }: Props
             <polyline points="12 5 19 12 12 19"></polyline>
           </svg>
         </a>
-        <a class="btn-ghost" href={secondary.href}>{secondary.label}</a>
+        <a class="btn-ghost" {...editableText(secondaryPrefix, 'label')} href={secondary.href}>
+          {secondary.label}
+        </a>
       </div>
     </div>
   </div>

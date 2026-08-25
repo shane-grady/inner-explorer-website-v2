@@ -1,7 +1,8 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import PageLayout from '../../layouts/PageLayout.astro';
 import JsonLd from '../../components/seo/JsonLd.astro';
+import { editableText } from '../../lib/editable';
 
 import MeetStudioHero from '../../components/blocks/narrator/MeetStudioHero.astro';
 import MetaStrip from '../../components/blocks/MetaStrip.astro';
@@ -10,62 +11,20 @@ import NarratorWall from '../../components/blocks/narrator/NarratorWall.astro';
 import MomentsRail from '../../components/blocks/MomentsRail.astro';
 import SplitCTA from '../../components/blocks/SplitCTA.astro';
 
-// Studio Moments — kept as in-page structured data for now (small slice; promote
-// to a collection if it grows).
-import studioABoston from '../../assets/images/narrators/moments/studio-a-boston.jpg';
-import youthPanel from '../../assets/images/narrators/moments/youth-panel.jpg';
-import scriptRoom from '../../assets/images/narrators/moments/script-room.jpg';
+// ── Page content ────────────────────────────────────────────────────────────
+//
+// The copy lives in src/content/pages/narrators-index.yml (the `pages` collection)
+// so CloudCannon can read and write it — including the three Studio Moments photos,
+// which are `image()` fields resolved from repo-relative paths. Only the copy moved;
+// the wall, the derived meta figures, and the JSON-LD below are still built here.
+// `editablePrefix` threads each block's data path down to its fields; see
+// src/lib/editable.ts.
 
-// ── Page content (structured data; the CMS-ready seam) ──────────────────────
-
-const hero = {
-  eyebrow: 'Inner Explorer · the studio · 2026',
-  cornerLabel: 'Vol. IX · Spring 2026',
-  headlineSans: 'Meet the people',
-  headlineSerif: 'behind the voice.',
-  subtitleHtml:
-    'Thirty narrators in residence at our Boston studio — real teachers, counselors, and classroom-trained mindfulness instructors. <em>Every practice in the library is read by one of them.</em>',
-  primary: { label: 'Listen to the studio', href: '#wall' },
-  secondary: { label: 'Read our voice guide', href: '/voice-guide' },
-};
-
-const moments = [
-  {
-    img: studioABoston,
-    label: 'Studio A · Boston',
-    title: 'Recording day, every Tuesday morning.',
-    alt: 'A microphone in soft daylight inside the Inner Explorer recording studio',
-  },
-  {
-    img: youthPanel,
-    label: 'Youth Panel · Spring 2026',
-    title: 'Twenty students, one blind audition.',
-    alt: 'Students sitting around a table during a youth-panel listening session',
-  },
-  {
-    img: scriptRoom,
-    label: 'From the script room',
-    title: 'Each script is rehearsed for unhurried pace.',
-    alt: 'A pair of hands annotating a printed practice script with a pencil',
-  },
-];
-
-const coda = {
-  eyebrow: 'How we choose them',
-  quoteHtml:
-    "The ones we pick aren't trying to sound calm — they <em>are</em> calm. The microphone hears the difference.",
-  attribution: 'From the youth panel · Spring 2026',
-  attributionStrong: 'Eleven students, grades 4 to 11',
-  cardHeading: 'Apply to narrate.',
-  cardBody:
-    'We hold blind voice auditions every spring, and run an open application year-round for underrepresented languages and mindfulness traditions.',
-  primary: { label: 'Apply', href: '/apply' },
-  secondary: { label: 'Read the voice guide', href: '/voice-guide' },
-};
-
-const pageTitle = 'Narrators — Inner Explorer';
-const pageDescription =
-  'Meet the thirty narrators in residence at the Inner Explorer studio in Boston — teachers, counselors, and classroom-trained mindfulness instructors whose voices guide every practice in the library.';
+const entry = await getEntry('pages', 'narrators-index');
+if (!entry || entry.data._schema !== 'narrators-index') {
+  throw new Error('Missing or malformed src/content/pages/narrators-index.yml');
+}
+const { hero, metaStrip, toolbar, momentsRail, coda, pageTitle, pageDescription } = entry.data;
 
 // ── Data layer — narrators collection (CMS seam) ────────────────────────────
 
@@ -82,25 +41,34 @@ const narrators = entries
     photo: entry.data.photo!,
   }));
 
-// ── Derived meta-strip values (kept in lockstep with the data) ──────────────
+// ── Meta-strip rows — derived figures + authored labels ─────────────────────
+//
+// Three of the five figures are computed from the collection above, so they carry no
+// `editablePrefix`-bound value: a region must resolve to a field in the entry, and
+// these have none. Each row hands MetaStrip the path to its own object so the label
+// and qualifier stay editable either way.
 
 const totalPractices = narrators.reduce((sum, n) => sum + (n.practiceCount ?? 0), 0);
 const distinctLangs = new Set(narrators.flatMap((n) => n.langs ?? []));
 const meta = [
-  { value: String(narrators.length), label: 'Narrators in residence', sub: 'at our Boston studio' },
-  { value: 'EN · ES', label: 'Universal languages', sub: 'in every practice' },
+  {
+    value: String(narrators.length),
+    ...metaStrip.narrators,
+    editablePrefix: 'metaStrip.narrators',
+  },
+  { ...metaStrip.universalLangs, editablePrefix: 'metaStrip.universalLangs', valueEditable: true },
   {
     value: String(distinctLangs.size),
-    label: 'Languages narrated total',
-    sub: 'across the full library',
+    ...metaStrip.totalLangs,
+    editablePrefix: 'metaStrip.totalLangs',
   },
   {
     value: totalPractices.toLocaleString('en-US'),
-    label: 'Practices on file',
-    sub: 'recorded and counting',
+    ...metaStrip.practices,
+    editablePrefix: 'metaStrip.practices',
   },
-  // Schools listening — no data source yet, keep as stub copy (flagged in tasks/todo.md).
-  { value: '1,840', label: 'Schools listening weekly', sub: 'K–12, nationwide' },
+  // Schools listening — no data source yet, so the figure is authored copy too.
+  { ...metaStrip.schools, editablePrefix: 'metaStrip.schools', valueEditable: true },
 ];
 
 // ── SEO ─────────────────────────────────────────────────────────────────────
@@ -146,13 +114,13 @@ const collectionLd = {
       subtitleHtml={hero.subtitleHtml}
       primary={hero.primary}
       secondary={hero.secondary}
+      editablePrefix="hero"
     />
 
-    <MetaStrip items={meta} cols={5} ariaLabel="Studio at a glance" />
+    <MetaStrip items={meta} cols={5} ariaLabel={metaStrip.ariaLabel} />
 
-    <CollectionToolbar
-      headingHtml='Every voice in the studio. <span class="sans">No order. No hierarchy.</span>'
-    >
+    {/* `headingHtml` carries inline markup, so it stays sidebar-editable. */}
+    <CollectionToolbar headingHtml={toolbar.headingHtml}>
       <div class="tb-search" aria-hidden="true">
         <svg
           width="13"
@@ -167,10 +135,11 @@ const collectionLd = {
           <circle cx="11" cy="11" r="7"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
-        <span>Search by name or language</span>
+        <span {...editableText('toolbar', 'searchLabel')}>{toolbar.searchLabel}</span>
       </div>
       <button class="tb-filter" type="button" aria-disabled="true">
-        Filter <b>·</b> all {narrators.length}
+        <span {...editableText('toolbar', 'filterLabel')}>{toolbar.filterLabel}</span>
+        <b>·</b> all {narrators.length}
         <svg
           width="11"
           height="11"
@@ -190,9 +159,10 @@ const collectionLd = {
     <div id="wall"><NarratorWall narrators={narrators} /></div>
 
     <MomentsRail
-      headingHtml='From the studio. <span class="sans">Behind the recordings.</span>'
-      lede="The room, the script, the youth panel. Glimpses of what goes into a single thirty-second practice."
-      moments={moments}
+      headingHtml={momentsRail.headingHtml}
+      lede={momentsRail.lede}
+      moments={momentsRail.moments}
+      editablePrefix="momentsRail"
     />
 
     <SplitCTA
@@ -204,6 +174,7 @@ const collectionLd = {
       cardBody={coda.cardBody}
       primary={coda.primary}
       secondary={coda.secondary}
+      editablePrefix="coda"
     />
   </div>
 </PageLayout>

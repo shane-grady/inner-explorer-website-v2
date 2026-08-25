@@ -1,0 +1,18 @@
+_schema: case-studies-index
+permalink: /case-studies/
+pageTitle: Case Studies — Real Results from Schools & Districts | Inner Explorer
+pageDescription: 'Real schools, measured results: how districts and therapeutic schools use Inner Explorer’s daily 5–10 minute mindfulness practice to cut behavioral incidents and build calmer classrooms.'
+hero:
+  lead: Case
+  display: Studies
+  intro: Real schools, measured results. How partners across the country turned a daily five-minute practice into calmer, more focused classrooms.
+cta:
+  sans: Your school could be
+  serif: the next story
+  subtitle: See what a daily mindfulness practice could do for your classrooms. We'll walk you through the playbook our partners used.
+  primary:
+    label: Contact us
+    href: /contact
+  secondary:
+    label: See the research
+    href: /research

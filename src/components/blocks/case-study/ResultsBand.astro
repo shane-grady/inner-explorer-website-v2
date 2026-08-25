@@ -1,6 +1,14 @@
 ---
 import type { Metric, ResultsChartData, Source } from './types';
 import ResultsChart from './ResultsChart.astro';
+import {
+  editableText,
+  editableArray,
+  editableItem,
+  childPrefix,
+  itemPrefix,
+  type EditablePrefix,
+} from '../../../lib/editable';
 
 // The results "proof" band — a deep forest-green full-bleed section carrying one
 // oversized featured stat, a cited metric grid (units + ↑/↓ trend + footnote refs),
@@ -16,39 +24,82 @@ interface Props {
   charts?: ResultsChartData[];
   sources?: Source[];
   id?: string;
+  /** CloudCannon path prefix for the metrics object holding `featured` + `grid`
+   *  (e.g. 'metrics'). Omit on call sites not backed by a collection entry. */
+  editablePrefix?: EditablePrefix;
+  /** Prefix of the object that OWNS `sources`, `chart` and `charts` — they sit beside
+   *  the metrics object on the entry, not inside it, so on a case study this is the
+   *  entry root (`''`). Omit to leave those parts unbound. */
+  siblingsPrefix?: EditablePrefix;
 }
-const { featured, metrics, chart, charts = [], sources = [], id }: Props = Astro.props;
+const {
+  featured,
+  metrics,
+  chart,
+  charts = [],
+  sources = [],
+  id,
+  editablePrefix,
+  siblingsPrefix,
+}: Props = Astro.props;
 
 const arrow = (trend?: Metric['trend']) =>
   trend === 'up-good' ? '↑' : trend === 'down-good' ? '↓' : '';
+
+const featuredPrefix = childPrefix(editablePrefix, 'featured');
+const metricPrefix = itemPrefix(editablePrefix);
+const sourcePrefix = itemPrefix(siblingsPrefix);
+const chartPrefix = childPrefix(siblingsPrefix, 'chart');
+const chartsPrefix = childPrefix(siblingsPrefix, 'charts');
 ---
 
 <section class="results" id={id}>
   <div class="wrap">
     <div class="featured" data-cs-reveal>
       <div class="feat-num">
-        <span class="num" data-value={featured.value}>{featured.value}</span>
+        <span class="num" data-value={featured.value} {...editableText(featuredPrefix, 'value')}>
+          {featured.value}
+        </span>
         {featured.trend && <span class="arrow">{arrow(featured.trend)}</span>}
       </div>
       <div class="feat-label">
-        {featured.label}
+        {
+          /* `sourceId` is a NUMBER, so it is never a text region; the label therefore
+            needs its own host once that sibling <sup> can appear. */
+        }
+        {
+          editablePrefix === undefined ? (
+            featured.label
+          ) : (
+            <span {...editableText(featuredPrefix, 'label', 'text')}>{featured.label}</span>
+          )
+        }
         {featured.sourceId && <sup>{featured.sourceId}</sup>}
       </div>
     </div>
 
-    <div class="grid" data-cs-reveal>
+    {/* Container holds ONLY metric rows. */}
+    <div class="grid" data-cs-reveal {...editableArray(editablePrefix, 'grid')}>
       {
         metrics.map((m) => (
-          <div class="metric">
+          <div class="metric" {...editableItem(editablePrefix)}>
             <div class="metric-v">
-              <span class="num" data-value={m.value}>
+              <span class="num" data-value={m.value} {...editableText(metricPrefix, 'value')}>
                 {m.value}
               </span>
-              {m.unit && <span class="unit">{m.unit}</span>}
+              {m.unit && (
+                <span class="unit" {...editableText(metricPrefix, 'unit')}>
+                  {m.unit}
+                </span>
+              )}
               {m.trend && <span class="trend">{arrow(m.trend)}</span>}
             </div>
             <div class="metric-l">
-              {m.label}
+              {editablePrefix === undefined ? (
+                m.label
+              ) : (
+                <span {...editableText(metricPrefix, 'label', 'text')}>{m.label}</span>
+              )}
               {m.sourceId && <sup>{m.sourceId}</sup>}
             </div>
           </div>
@@ -56,25 +107,37 @@ const arrow = (trend?: Metric['trend']) =>
       }
     </div>
 
-    {chart && <ResultsChart {...chart} />}
-    {charts.map((c) => <ResultsChart {...c} />)}
+    {chart && <ResultsChart {...chart} editablePrefix={chartPrefix} />}
+    {
+      charts.map((c, i) => (
+        <ResultsChart
+          {...c}
+          editablePrefix={chartsPrefix === undefined ? undefined : `${chartsPrefix}.${i}`}
+        />
+      ))
+    }
 
     {
       sources.length > 0 && (
         <div class="sources" data-cs-reveal>
           <div class="sources-title">Sources</div>
-          {sources.map((s) => (
-            <div class="source">
-              <b>{s.id}</b>
-              {s.href ? (
-                <a href={s.href} rel="noopener">
-                  {s.text}
-                </a>
-              ) : (
-                <span>{s.text}</span>
-              )}
-            </div>
-          ))}
+          {/* The rows get their own container so the array region wraps rows ONLY —
+              the "Sources" heading is not an item of the array. */}
+          <div class="source-rows" {...editableArray(siblingsPrefix, 'sources')}>
+            {sources.map((s) => (
+              <div class="source" {...editableItem(siblingsPrefix)}>
+                {/* `id` is a NUMBER — footnote numbering, not editable text. */}
+                <b>{s.id}</b>
+                {s.href ? (
+                  <a href={s.href} rel="noopener" {...editableText(sourcePrefix, 'text', 'text')}>
+                    {s.text}
+                  </a>
+                ) : (
+                  <span {...editableText(sourcePrefix, 'text', 'text')}>{s.text}</span>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
       )
     }
@@ -200,6 +263,12 @@ const arrow = (trend?: Metric['trend']) =>
 
   .sources {
     margin-top: clamp(30px, 4vw, 46px);
+    display: grid;
+    gap: 8px;
+  }
+  /* Wrapper around the source rows (the array region's container). Repeats the
+     parent grid's gap so the rows keep the exact rhythm they had as direct children. */
+  .source-rows {
     display: grid;
     gap: 8px;
   }

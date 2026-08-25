@@ -1,6 +1,14 @@
 ---
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
+import {
+  editableArray,
+  editableImage,
+  editableItem,
+  editableText,
+  itemPrefix,
+  type EditablePrefix,
+} from '../../../lib/editable';
 
 // Part Three — A day inside. Three time-stamped photo cards (morning/midday/afternoon),
 // each with a practice tag, a sans heading, a body paragraph, and a single stat
@@ -21,48 +29,79 @@ interface Props {
   titleLines: { text: string; kind: 'sans' | 'serif' }[];
   intro: string;
   parts: DayPart[];
+  /** CloudCannon path prefix for this block's fields (e.g. 'dayInside'). Omit on
+   *  routes that are not backed by a `pages` collection entry. See lib/editable.ts.
+   *
+   *  `titleLines` is a fixed two-line duet bound with INDEXED paths, so the Visual
+   *  Editor offers text editing without add/remove controls the layout cannot take. */
+  editablePrefix?: EditablePrefix;
 }
-const { eyebrow, titleLines, intro, parts }: Props = Astro.props;
+const { eyebrow, titleLines, intro, parts, editablePrefix }: Props = Astro.props;
+const cardPrefix = itemPrefix(editablePrefix);
 ---
 
 <section class="di" id="day-inside" aria-label="A day inside">
   <div class="di-inner">
     <div class="di-head">
       <div>
-        <div class="eyebrow">{eyebrow}</div>
+        <div class="eyebrow" {...editableText(editablePrefix, 'eyebrow')}>{eyebrow}</div>
         <h2 class="head-h">
-          {titleLines.map((line) => <span class:list={['stk', line.kind]}>{line.text}</span>)}
+          {
+            titleLines.map((line, i) => (
+              <span
+                class:list={['stk', line.kind]}
+                {...editableText(editablePrefix, `titleLines.${i}.text`)}
+              >
+                {line.text}
+              </span>
+            ))
+          }
         </h2>
       </div>
-      <p class="head-p">{intro}</p>
+      <p class="head-p" {...editableText(editablePrefix, 'intro', 'text')}>{intro}</p>
     </div>
 
-    <div class="di-grid">
+    {/* Container holds ONLY array rows, as CloudCannon's array regions require. */}
+    <div class="di-grid" {...editableArray(editablePrefix, 'parts')}>
       {
         parts.map((p) => (
-          <article class="di-card">
+          <article class="di-card" {...editableItem(editablePrefix)}>
             <div class="frame">
+              {/* The region sits on the <img> itself: `time` is a sibling field, and a
+                  caption nested inside an image region would resolve against that
+                  region's own value and fail. */}
               <Image
                 src={p.photo}
                 alt={p.photoAlt}
                 widths={[480, 900, 1200]}
                 sizes="(max-width: 920px) 100vw, 30vw"
                 loading="lazy"
+                {...editableImage(cardPrefix, 'photo', 'photoAlt')}
               />
-              <div class="time">{p.time}</div>
+              <div class="time" {...editableText(cardPrefix, 'time')}>
+                {p.time}
+              </div>
             </div>
 
             <span class="practice">
               <span class="dot" aria-hidden="true" />
-              {p.practice}
+              <span {...editableText(cardPrefix, 'practice')}>{p.practice}</span>
             </span>
 
-            <h4 class="card-h">{p.title}</h4>
-            <p class="card-p">{p.body}</p>
+            <h4 class="card-h" {...editableText(cardPrefix, 'title')}>
+              {p.title}
+            </h4>
+            <p class="card-p" {...editableText(cardPrefix, 'body', 'text')}>
+              {p.body}
+            </p>
 
             <div class="card-stat">
-              <div class="val">{p.statValue}</div>
-              <div class="lbl">{p.statLabel}</div>
+              <div class="val" {...editableText(cardPrefix, 'statValue')}>
+                {p.statValue}
+              </div>
+              <div class="lbl" {...editableText(cardPrefix, 'statLabel')}>
+                {p.statLabel}
+              </div>
             </div>
           </article>
         ))

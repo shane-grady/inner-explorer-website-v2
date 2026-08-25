@@ -1,4 +1,12 @@
 ---
+import {
+  editableArray,
+  editableItem,
+  editableText,
+  itemPrefix,
+  type EditablePrefix,
+} from '../../../lib/editable';
+
 export interface Study {
   id: string;
   year: number;
@@ -16,9 +24,29 @@ interface Props {
   headingHtml: string;
   lede: string;
   studies: Study[];
+  /** CloudCannon path prefix for the chapter head (e.g. 'receipts'). Omit on routes
+   *  not backed by a `pages` collection entry. See lib/editable.ts.
+   *
+   *  `headingHtml` carries inline markup and stays sidebar-only. */
+  editablePrefix?: EditablePrefix;
+  /** Path prefix for the OBJECT holding `studies` — '' when the array is at the file
+   *  root. Separate from `editablePrefix` because the chapter head and the study
+   *  list can live under different keys. */
+  studiesPrefix?: EditablePrefix;
 }
-const { chapterLabel, chapterNumber, headingHtml, lede, studies }: Props = Astro.props;
-const sorted = [...studies].sort((a, b) => a.year - b.year);
+const {
+  chapterLabel,
+  chapterNumber,
+  headingHtml,
+  lede,
+  studies,
+  editablePrefix,
+  studiesPrefix,
+}: Props = Astro.props;
+const rowPrefix = itemPrefix(studiesPrefix);
+// Rendered in the order given. This used to sort by year, but the array-item
+// regions below bind by DOM position, so re-ordering here would point an editor's
+// edits at the wrong row. The CMS list order IS the reading order.
 ---
 
 <section
@@ -29,32 +57,46 @@ const sorted = [...studies].sort((a, b) => a.year - b.year);
 >
   <div class="wrap">
     <div class="chap-mark reveal">
-      <span class="chap-num">{chapterNumber}</span>
+      <span class="chap-num" {...editableText(editablePrefix, 'chapterNumber')}>
+        {chapterNumber}
+      </span>
       <span class="chap-rule" aria-hidden="true"></span>
-      <span class="chap-label">{chapterLabel}</span>
+      <span class="chap-label" {...editableText(editablePrefix, 'chapterLabel')}>
+        {chapterLabel}
+      </span>
     </div>
     <div class="intro reveal">
       <h2 class="chap-title" id="receipts-heading" set:html={headingHtml} />
-      <p class="lede">{lede}</p>
+      <p class="lede" {...editableText(editablePrefix, 'lede', 'text')}>{lede}</p>
     </div>
-    <ol class="rows">
+    <ol class="rows" {...editableArray(studiesPrefix, 'studies')}>
       {
-        sorted.map((s) => {
+        studies.map((s) => {
           const doctoral = s.tag.toLowerCase().includes('doctoral');
           return (
-            <li class="row reveal" id={`r-${s.id}`}>
+            <li class="row reveal" id={`r-${s.id}`} {...editableItem(studiesPrefix)}>
               <div class="row-result">
-                <div class="row-result-stat">{s.leadStat}</div>
-                <p class="row-result-label">{s.leadLabel}</p>
+                <div class="row-result-stat" {...editableText(rowPrefix, 'leadStat')}>
+                  {s.leadStat}
+                </div>
+                <p class="row-result-label" {...editableText(rowPrefix, 'leadLabel')}>
+                  {s.leadLabel}
+                </p>
               </div>
               <div class="row-body">
                 <p class="row-kicker">
-                  <span class:list={['tag', { doctoral }]}>{s.tag}</span>
+                  <span class:list={['tag', { doctoral }]} {...editableText(rowPrefix, 'tag')}>
+                    {s.tag}
+                  </span>
                   <span class="row-year">{s.year}</span>
                 </p>
-                <h3 class="row-title">{s.title}</h3>
+                <h3 class="row-title" {...editableText(rowPrefix, 'title')}>
+                  {s.title}
+                </h3>
                 <p class="row-meta">
-                  <strong>{s.authors}</strong> · {s.institution} · <em>{s.journal}</em>
+                  <strong {...editableText(rowPrefix, 'authors')}>{s.authors}</strong> ·{' '}
+                  <span {...editableText(rowPrefix, 'institution')}>{s.institution}</span> ·{' '}
+                  <em {...editableText(rowPrefix, 'journal')}>{s.journal}</em>
                 </p>
               </div>
             </li>

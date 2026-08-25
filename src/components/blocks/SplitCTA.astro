@@ -3,6 +3,7 @@
 // pull-quote + attribution. Right: cream-tinted card with a small italic
 // heading, paragraph, and two CTAs. Generic enough for Careers, Research
 // recruitment, and similar pages.
+import { editableText, childPrefix, type EditablePrefix } from '../../lib/editable';
 
 interface Cta {
   label: string;
@@ -17,6 +18,12 @@ interface Props {
   cardBody: string;
   primary: Cta;
   secondary?: Cta;
+  /** CloudCannon path prefix for this block's fields (e.g. 'coda'). Omit on routes
+   *  that are not backed by a `pages` collection entry. See lib/editable.ts.
+   *
+   *  `quoteHtml` renders through `set:html`; a text region would strip its inline
+   *  <em>, so it stays sidebar-only. */
+  editablePrefix?: EditablePrefix;
 }
 const {
   eyebrow,
@@ -27,7 +34,10 @@ const {
   cardBody,
   primary,
   secondary,
+  editablePrefix,
 }: Props = Astro.props;
+const primaryPrefix = childPrefix(editablePrefix, 'primary');
+const secondaryPrefix = childPrefix(editablePrefix, 'secondary');
 ---
 
 <section class="split">
@@ -35,24 +45,38 @@ const {
     <div class="left">
       <div class="eyebrow">
         <span class="rule" aria-hidden="true"></span>
-        <span>{eyebrow}</span>
+        <span {...editableText(editablePrefix, 'eyebrow')}>{eyebrow}</span>
       </div>
       <p class="quote">
         <span class="mark" aria-hidden="true">&ldquo;</span>
         <span set:html={quoteHtml} />
       </p>
       <div class="attrib">
-        <span>{attribution}</span>
-        {attributionStrong && <b>{attributionStrong}</b>}
+        <span {...editableText(editablePrefix, 'attribution')}>{attribution}</span>
+        {
+          attributionStrong && (
+            <b {...editableText(editablePrefix, 'attributionStrong')}>{attributionStrong}</b>
+          )
+        }
       </div>
     </div>
 
     <aside class="card">
-      <h3 class="hd">{cardHeading}</h3>
-      <p class="body">{cardBody}</p>
+      <h3 class="hd" {...editableText(editablePrefix, 'cardHeading')}>{cardHeading}</h3>
+      <p class="body" {...editableText(editablePrefix, 'cardBody', 'text')}>{cardBody}</p>
       <div class="actions">
         <a class="btn-primary" href={primary.href}>
-          {primary.label}
+          {
+            /* The arrow is a sibling, so the label needs its own host element — added
+              only in editable mode so other call sites stay unchanged. */
+          }
+          {
+            editablePrefix === undefined ? (
+              primary.label
+            ) : (
+              <span {...editableText(primaryPrefix, 'label')}>{primary.label}</span>
+            )
+          }
           <svg
             width="14"
             height="14"
@@ -70,7 +94,7 @@ const {
         </a>
         {
           secondary && (
-            <a class="btn-ghost" href={secondary.href}>
+            <a class="btn-ghost" {...editableText(secondaryPrefix, 'label')} href={secondary.href}>
               {secondary.label}
             </a>
           )

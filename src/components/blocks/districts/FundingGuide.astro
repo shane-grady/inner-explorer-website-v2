@@ -10,27 +10,41 @@ interface Funding {
   blurb: string;
   coverage: number; // 0..1
 }
+import {
+  editableArray,
+  editableItem,
+  editableText,
+  itemPrefix,
+  type EditablePrefix,
+} from '../../../lib/editable';
+
 interface Props {
   eyebrow: string;
   titleHtml: string;
   intro: string;
   funding: Funding[];
+  /** CloudCannon path prefix for this block's fields (e.g. 'funding'). Omit on
+   *  routes that are not backed by a `pages` collection entry. See lib/editable.ts. */
+  editablePrefix?: EditablePrefix;
 }
-const { eyebrow, titleHtml, intro, funding }: Props = Astro.props;
+const { eyebrow, titleHtml, intro, funding, editablePrefix }: Props = Astro.props;
+const cardPrefix = itemPrefix(editablePrefix);
 ---
 
 <section class="fg" id="funding" aria-label="Funding guide">
   <div class="fg-inner">
     <div class="fg-head">
-      <div class="eyebrow">{eyebrow}</div>
+      <div class="eyebrow" {...editableText(editablePrefix, 'eyebrow')}>{eyebrow}</div>
+      {/* An HTML field cannot back a plain-text region — it stays sidebar-editable. */}
       <h2 class="head-h" set:html={titleHtml} />
-      <p class="head-p">{intro}</p>
+      <p class="head-p" {...editableText(editablePrefix, 'intro', 'text')}>{intro}</p>
     </div>
 
-    <div class="fg-grid">
+    {/* Container holds ONLY array rows, as CloudCannon's array regions require. */}
+    <div class="fg-grid" {...editableArray(editablePrefix, 'funding')}>
       {
         funding.map((f) => (
-          <div class="fg-card">
+          <div class="fg-card" {...editableItem(editablePrefix)}>
             <div class="fg-top">
               <span class="chip" aria-hidden="true">
                 <svg
@@ -49,9 +63,17 @@ const { eyebrow, titleHtml, intro, funding }: Props = Astro.props;
               </span>
               <span class="pct">{Math.round(f.coverage * 100)}%</span>
             </div>
-            <div class="name">{f.name}</div>
-            <div class="sub">{f.fullName}</div>
-            <p class="blurb">{f.blurb}</p>
+            {/* Inside an array row, paths are relative to the row. `coverage` is a
+                number, so the percentage above stays sidebar-editable. */}
+            <div class="name" {...editableText(cardPrefix, 'name')}>
+              {f.name}
+            </div>
+            <div class="sub" {...editableText(cardPrefix, 'fullName')}>
+              {f.fullName}
+            </div>
+            <p class="blurb" {...editableText(cardPrefix, 'blurb', 'text')}>
+              {f.blurb}
+            </p>
           </div>
         ))
       }

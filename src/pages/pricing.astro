@@ -1,223 +1,28 @@
 ---
+import { getEntry } from 'astro:content';
 import PageLayout from '../layouts/PageLayout.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import EditorialMasthead from '../components/blocks/EditorialMasthead.astro';
 import PlanCards from '../components/blocks/pricing/PlanCards.astro';
 import PricingTable from '../components/blocks/pricing/PricingTable.astro';
 import GlowCTA from '../components/blocks/GlowCTA.astro';
-import type { Plan } from '../components/blocks/pricing/PlanCards.astro';
-import type { Group } from '../components/blocks/pricing/PricingTable.astro';
 
-// ── Page content (structured data — CMS-ready seam) ─────────────────────────
+// ── Page content ────────────────────────────────────────────────────────────
 //
-// Ported from the legacy /compare_program page. Plans, prices, and every feature
-// row are kept as data so they can move to a content collection or CMS later.
-// Cells: 'yes' = included, 'no' = not included, 'na' = not applicable to that
-// plan, { price, note } = priced add-on, or free text.
+// Ported from the legacy /compare_program page. The copy lives in
+// src/content/pages/pricing.yml (the `pages` collection) so CloudCannon can read
+// and write it; only the copy moved — the layout and the JSON-LD below are still
+// built here. `editablePrefix` threads each block's data path down to its fields;
+// see src/lib/editable.ts.
+//
+// Comparison cells: 'yes' = included, 'no' = not included, 'na' = not applicable
+// to that plan, { price, note } = priced add-on, or free text.
 
-// Every license is quoted by the team — there is no self-serve signup from the
-// site, so all three plan CTAs route to the contact page.
-const CONTACT = '/contact';
-
-const hero = {
-  eyebrow: 'Plans & pricing',
-  lead: 'Find the ideal plan for',
-  display: 'your learning community.',
-  layout: 'uniform' as const,
-  intro:
-    'Every plan includes the full library of daily audio-guided practices, PreK through 12, in English and Spanish. Compare the three site licenses below and choose the one that fits your school, center, or district.',
-};
-
-const plans: readonly Plan[] = [
-  {
-    id: 'early',
-    name: 'Early Learning',
-    price: '$1,200',
-    unit: 'per center, per year',
-    blurb:
-      'Annual per site license for early learning, out-of-school-time, and after-school centers.',
-    ctaLabel: 'Contact for pricing',
-    ctaHref: CONTACT,
-  },
-  {
-    id: 'community',
-    name: 'Community',
-    price: '$2,800',
-    unit: 'per school, per year',
-    blurb:
-      'Annual per site license for a single school, with admin dashboards, single sign-on, and onboarding.',
-    ctaLabel: 'Contact for pricing',
-    ctaHref: CONTACT,
-    highlight: true,
-  },
-  {
-    id: 'pro',
-    name: 'Community Pro',
-    price: '$3,600',
-    unit: 'per school, per year',
-    blurb:
-      'Annual per site license with full family access, roster management, a dedicated coordinator, and the Inner Explorer guarantee.',
-    ctaLabel: 'Contact us for districtwide pricing',
-    ctaHref: CONTACT,
-  },
-];
-
-const groups: readonly Group[] = [
-  {
-    title: 'Overview',
-    rows: [
-      { feat: 'CASEL approved', cells: ['yes', 'yes', 'yes'] },
-      { feat: 'Mental health mandate aligned', cells: ['yes', 'yes', 'yes'] },
-      {
-        feat: 'Mindfulness Based Stress Reduction (MBSR) protocol',
-        cells: ['yes', 'yes', 'yes'],
-      },
-      { feat: 'Reflective journaling', cells: ['yes', 'yes', 'yes'] },
-      { feat: 'BrainFutures top 10 recommendation', cells: ['yes', 'yes', 'yes'] },
-      { feat: 'FETC finalist, top edtech program', cells: ['yes', 'yes', 'yes'] },
-      {
-        feat: 'Published research on improved academics, behavior, and wellbeing',
-        cells: ['yes', 'yes', 'yes'],
-      },
-      { feat: 'Backed by the Inner Explorer guarantee', cells: ['no', 'no', 'yes'] },
-    ],
-  },
-  {
-    title: 'Programming',
-    rows: [
-      {
-        feat: '180 days of sequenced audio-guided practices by age group (PreK-12)',
-        cells: ['yes', 'yes', 'yes'],
-      },
-      { feat: 'Brief transition and sound practices', cells: ['yes', 'yes', 'yes'] },
-      { feat: 'Spanish language practices', cells: ['yes', 'yes', 'yes'] },
-      {
-        feat: 'Dynamic Practices module with 5 and 10 minute practice series',
-        note: 'Middle and high school',
-        cells: ['yes', 'yes', 'yes'],
-      },
-      { feat: 'School Safety series', cells: ['yes', 'yes', 'yes'] },
-      { feat: 'Educator and staff wellness series', cells: ['yes', 'yes', 'yes'] },
-      { feat: 'Counselor and social worker series', cells: ['na', 'yes', 'yes'] },
-      {
-        feat: 'STEM+M (mindfulness) project-based learning modules',
-        note: 'Elementary and middle school, per bundle of 10',
-        cells: [
-          'na',
-          { price: '$600', note: 'Annual per site license' },
-          {
-            price: '$600',
-            note: 'Annual per site license with full family access and performance guarantee',
-          },
-        ],
-      },
-      {
-        feat: 'Out-of-school-time (OST) access',
-        cells: ['yes', { price: '$225' }, 'yes'],
-      },
-      {
-        feat: 'Summer extension experience',
-        cells: [{ price: '$200' }, { price: '$200' }, 'yes'],
-      },
-      {
-        feat: 'Asynchronous professional development',
-        note: '10 hours',
-        cells: [{ price: '$800' }, { price: '$800' }, 'yes'],
-      },
-    ],
-  },
-  {
-    title: 'Innovative features',
-    rows: [
-      { feat: 'Tune In for families and caregivers', cells: ['yes', 'yes', 'yes'] },
-      { feat: '21 Day Quest and 30 Day Quest', cells: ['yes', 'yes', 'yes'] },
-      { feat: 'Advanced Quest feature with multiple quests', cells: ['no', 'yes', 'yes'] },
-      { feat: 'School level admin dashboard', cells: ['no', 'yes', 'yes'] },
-      { feat: 'District level admin dashboard', cells: ['no', 'yes', 'yes'] },
-      {
-        feat: 'Clever single sign-on (SSO) for educators and students',
-        cells: ['no', 'yes', 'yes'],
-      },
-      { feat: 'Clever sync with roster management', cells: ['no', 'no', 'yes'] },
-      { feat: 'ClassLink SSO for educators', cells: ['no', 'yes', 'yes'] },
-      { feat: 'ClassLink with roster management', cells: ['no', 'no', 'yes'] },
-      { feat: 'Google SSO for educators', cells: ['no', 'yes', 'yes'] },
-      { feat: 'Canvas SSO for educators', cells: ['no', 'yes', 'yes'] },
-      { feat: 'Schoology SSO for educators', cells: ['no', 'yes', 'yes'] },
-      { feat: 'One Profile', cells: ['yes', 'yes', 'yes'] },
-      { feat: 'Usage analytics trends and charts', cells: ['yes', 'yes', 'yes'] },
-      { feat: 'Advanced analytics dashboard', cells: ['yes', 'yes', 'yes'] },
-      { feat: 'QR code based signups and invitations', cells: ['yes', 'yes', 'yes'] },
-      {
-        feat: 'Access on all devices for families',
-        cells: [
-          { price: '$250', note: 'Up to 50 families' },
-          { price: '$600', note: 'Up to 300 families' },
-          'yes',
-        ],
-      },
-      {
-        feat: 'Impact analytics study and ROI calculations',
-        cells: [{ price: '$200' }, { price: '$200' }, 'yes'],
-      },
-      {
-        feat: 'Mindful Classroom Journey digital book',
-        cells: [
-          { price: '$195', note: 'Up to 15 classes' },
-          { price: '$395', note: 'Up to 50 classes' },
-          'yes',
-        ],
-      },
-    ],
-  },
-  {
-    title: 'Support and resources',
-    rows: [
-      { feat: 'Online technical support', cells: ['yes', 'yes', 'yes'] },
-      { feat: 'Mindful toolkit for educators', cells: ['yes', 'yes', 'yes'] },
-      { feat: 'Tech support with screen sharing', cells: ['yes', 'yes', 'yes'] },
-      { feat: 'Online webinars', cells: ['no', '1 included', '3 included'] },
-      {
-        feat: 'Mental health and resilience mandate supplements',
-        cells: ['no', 'yes', 'yes'],
-      },
-      { feat: 'Onboarding module', cells: ['no', 'yes', 'yes'] },
-      {
-        feat: 'Dedicated portal',
-        note: 'Not available for single schools',
-        cells: ['no', 'no', 'yes'],
-      },
-      { feat: 'Dedicated Inner Explorer coordinator', cells: ['no', 'no', 'yes'] },
-      {
-        feat: 'Monthly check-ins with analytics and insights',
-        note: '10 or more schools',
-        cells: ['no', 'no', 'yes'],
-      },
-    ],
-  },
-];
-
-const compare = {
-  eyebrow: 'Compare plans',
-  titleHtml: 'Every feature, <em>side by side.</em>',
-  intro:
-    'The full breakdown of what each license includes, and what can be added on. Items priced in a column are optional add-ons for that plan.',
-  footnote:
-    'Prices are annual per site licenses in U.S. dollars. Districts of 10 or more schools qualify for districtwide pricing, and most partners fund the program through Title IV-A, BSCA mental health, or state SEL grants. Talk to us and we will map the plan to the funding you already have.',
-};
-
-const cta = {
-  sans: 'Not sure which plan fits?',
-  serif: 'Let us help.',
-  subtitle:
-    "Reach out to our team so we can learn more about your school community and choose the plan that's right for you.",
-  primary: { label: 'Contact us', href: '/contact' },
-  secondary: { label: 'See the platform', href: '/platform' },
-  trust: 'A 501(c)(3) nonprofit · Trusted by districts in all 50 states',
-};
-
-const description =
-  "Compare Inner Explorer's Early Learning, Community, and Community Pro plans feature by feature and find the right daily mindfulness license for your school, center, or district.";
+const entry = await getEntry('pages', 'pricing');
+if (!entry || entry.data._schema !== 'pricing') {
+  throw new Error('Missing or malformed src/content/pages/pricing.yml');
+}
+const { hero, plans, compare, cta, pageTitle, pageDescription } = entry.data;
 
 // Structured data: one Product with three annual site-license offers.
 const productLd = {
@@ -227,7 +32,7 @@ const productLd = {
   description:
     'Daily audio-guided mindfulness practices for PreK-12 schools, centers, and districts.',
   brand: { '@type': 'Brand', name: 'Inner Explorer' },
-  offers: plans.map((p) => ({
+  offers: plans.items.map((p) => ({
     '@type': 'Offer',
     name: p.name,
     description: p.blurb,
@@ -239,7 +44,7 @@ const productLd = {
 };
 ---
 
-<PageLayout title="Pricing" description={description}>
+<PageLayout title={pageTitle} description={pageDescription}>
   <JsonLd slot="head" schema={productLd} />
 
   <EditorialMasthead
@@ -247,22 +52,21 @@ const productLd = {
     lead={hero.lead}
     display={hero.display}
     intro={hero.intro}
-    layout={hero.layout}
+    layout="uniform"
     maxWidth="900px"
+    editablePrefix="hero"
   />
 
-  <PlanCards
-    plans={plans}
-    note="All plans are annual per site licenses. Reach out and our team will confirm pricing for your school, center, or district."
-  />
+  <PlanCards plans={plans.items} note={plans.note} editablePrefix="plans" />
 
   <PricingTable
     eyebrow={compare.eyebrow}
     titleHtml={compare.titleHtml}
     intro={compare.intro}
-    plans={plans}
-    groups={groups}
+    plans={plans.items}
+    groups={compare.groups}
     footnote={compare.footnote}
+    editablePrefix="compare"
   />
 
   <GlowCTA
@@ -272,5 +76,6 @@ const productLd = {
     primary={cta.primary}
     secondary={cta.secondary}
     trust={cta.trust}
+    editablePrefix="cta"
   />
 </PageLayout>

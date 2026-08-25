@@ -1,0 +1,21 @@
+_schema: contact
+permalink: /contact/
+pageTitle: Contact Inner Explorer | Daily Mindfulness for Schools
+pageDescription: Reach the Inner Explorer team to learn how daily mindfulness could support your school community. Send a message and hear back within one business day.
+hero:
+  lead: 'Get in Touch With '
+  display: Inner Explorer
+  intro: Whether you are just curious about daily mindfulness or ready to bring Inner Explorer to your schools, send us a note. A member of our team will reach out within 1 business day.
+form:
+  badge: Start here
+  title: Start the conversation
+  blurb: Someone on our team will follow up to set up a time to talk.
+  confirmation: Thank you for reaching out. We just sent a confirmation to your inbox, and someone from our team will follow up to find a time to talk.
+email:
+  title: Already using Inner Explorer?
+  blurb: If you are an educator or administrator already practicing with us, our support team can help with your account, your login, or anything happening in the classroom.
+  items:
+    - label: Support
+      email: support@innerexplorer.com
+      description: For current educators and administrators.
+  helpCenterHref: https://help.innerexplorer.com/

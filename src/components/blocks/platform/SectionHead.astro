@@ -4,6 +4,8 @@
 // headline accepts inline HTML so an italic-serif emphasis runs via `<span class="em">`.
 // Collapses to one column ≤820px. Place inside a section's own width wrapper.
 
+import { editableText, type EditablePrefix } from '../../../lib/editable';
+
 interface Props {
   eyebrow: string;
   eyebrowUp?: boolean;
@@ -11,17 +13,36 @@ interface Props {
   desc?: string;
   /** Let the headline run wider (the "Three platforms" head). */
   wide?: boolean;
+  /** CloudCannon path prefix for the OBJECT holding these fields (e.g. 'trio'). Omit
+   *  on routes not backed by a `pages` collection entry. See lib/editable.ts.
+   *  `headingHtml` renders through `set:html` and stays sidebar-only. */
+  editablePrefix?: EditablePrefix;
 }
-const { eyebrow, eyebrowUp = false, headingHtml, desc, wide = false }: Props = Astro.props;
+const {
+  eyebrow,
+  eyebrowUp = false,
+  headingHtml,
+  desc,
+  wide = false,
+  editablePrefix,
+}: Props = Astro.props;
 ---
 
 <div class="shead">
   <div class="left">
-    <span class:list={['eyebrow', { up: eyebrowUp }]}>{eyebrow}</span>
+    <span class:list={['eyebrow', { up: eyebrowUp }]} {...editableText(editablePrefix, 'eyebrow')}>
+      {eyebrow}
+    </span>
     <h2 class:list={['shead-h', { wide }]} set:html={headingHtml} />
     <div class="actions"><slot /></div>
   </div>
-  {desc && <p class="desc">{desc}</p>}
+  {
+    desc && (
+      <p class="desc" {...editableText(editablePrefix, 'desc', 'text')}>
+        {desc}
+      </p>
+    )
+  }
 </div>
 
 <style>

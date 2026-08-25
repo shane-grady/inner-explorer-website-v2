@@ -10,14 +10,32 @@ interface Competency {
   sessions: number;
   mapped: string[];
 }
+import {
+  editableArray,
+  editableItem,
+  editableText,
+  itemPrefix,
+  type EditablePrefix,
+} from '../../../lib/editable';
+
 interface Props {
   eyebrow: string;
   titleHtml: string;
   intro: string;
   competencies: Competency[];
   pills: string[];
+  /** CloudCannon path prefix for this block's fields (e.g. 'standards'). Omit on
+   *  routes that are not backed by a `pages` collection entry. See lib/editable.ts.
+   *
+   *  `competencies` is rendered twice: as the aria-hidden CASEL petals and as the
+   *  detail panels. Only the panels are bound — a duplicate render would give an
+   *  editor two live regions writing one path. `pills` uses INDEXED paths because
+   *  each pill also carries a decorative dot, so the pill row is not a container of
+   *  bare rows. */
+  editablePrefix?: EditablePrefix;
 }
-const { eyebrow, titleHtml, intro, competencies, pills }: Props = Astro.props;
+const { eyebrow, titleHtml, intro, competencies, pills, editablePrefix }: Props = Astro.props;
+const panelPrefix = itemPrefix(editablePrefix);
 
 // Pre-compute petal positions (CSS-friendly).
 const cx = 220;
@@ -37,9 +55,10 @@ const positioned = competencies.map((c, i) => {
 <section class="sa" id="standards" aria-label="Standards alignment">
   <div class="sa-inner">
     <div class="sa-head">
-      <div class="eyebrow">{eyebrow}</div>
+      <div class="eyebrow" {...editableText(editablePrefix, 'eyebrow')}>{eyebrow}</div>
+      {/* An HTML field cannot back a plain-text region — it stays sidebar-editable. */}
       <h2 class="head-h" set:html={titleHtml} />
-      <p class="head-p">{intro}</p>
+      <p class="head-p" {...editableText(editablePrefix, 'intro', 'text')}>{intro}</p>
     </div>
 
     <div class="sa-card" data-standards>
@@ -68,23 +87,33 @@ const positioned = competencies.map((c, i) => {
         </svg>
       </div>
 
-      <div class="sa-detail">
+      {/* Container holds ONLY array rows, as CloudCannon's array regions require. */}
+      <div class="sa-detail" {...editableArray(editablePrefix, 'competencies')}>
         {
           competencies.map((c, i) => (
-            <div class:list={['panel', { on: i === 0 }]} data-id={c.id}>
+            <div
+              class:list={['panel', { on: i === 0 }]}
+              data-id={c.id}
+              {...editableItem(editablePrefix)}
+            >
+              {/* Derived from `name`, so it carries no region of its own. */}
               <div class="panel-eyebrow">{c.name.toUpperCase()}</div>
-              <h3 class="panel-h">{c.blurb}</h3>
+              {/* Inside an array row, paths are relative to the row. */}
+              <h3 class="panel-h" {...editableText(panelPrefix, 'blurb', 'text')}>
+                {c.blurb}
+              </h3>
               <div class="panel-rule" />
               <div class="panel-count">
                 <div class="num">{c.sessions}</div>
                 <div class="num-label">
-                  practices in the Inner Explorer library mapped to <strong>{c.name}</strong>.
+                  practices in the Inner Explorer library mapped to{' '}
+                  <strong {...editableText(panelPrefix, 'name')}>{c.name}</strong>.
                 </div>
               </div>
               <div class="panel-list-head">Example practices</div>
-              <div class="panel-list">
+              <div class="panel-list" {...editableArray(panelPrefix, 'mapped')}>
                 {c.mapped.map((m) => (
-                  <div class="list-row">
+                  <div class="list-row" {...editableItem(panelPrefix)}>
                     <span class="list-icon" aria-hidden="true">
                       <svg
                         viewBox="0 0 24 24"
@@ -100,7 +129,7 @@ const positioned = competencies.map((c, i) => {
                         <path d="M21 19a2 2 0 0 1-2 2h-1v-7h3v5zM3 19a2 2 0 0 0 2 2h1v-7H3v5z" />
                       </svg>
                     </span>
-                    <span>{m}</span>
+                    <span {...editableText(itemPrefix(panelPrefix), '')}>{m}</span>
                   </div>
                 ))}
               </div>
@@ -132,10 +161,10 @@ const positioned = competencies.map((c, i) => {
 
     <div class="sa-pills">
       {
-        pills.map((p) => (
+        pills.map((p, i) => (
           <span class="pill">
             <span class="dot" aria-hidden="true" />
-            {p}
+            <span {...editableText(editablePrefix, `pills.${i}`)}>{p}</span>
           </span>
         ))
       }

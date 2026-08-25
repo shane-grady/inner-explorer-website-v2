@@ -4,26 +4,46 @@
 import HelpSiteLayout from '../layouts/HelpSiteLayout.astro';
 import { MAIN_SITE } from '../../src/lib/site';
 import { helpRootHref } from '../../src/lib/help';
+// Copy lives in the shared Help Center UI dataset; bindings are absolute because
+// this route has no backing collection entry. See src/data/help-ui.json.
+import helpUi from '../../src/data/help-ui.json';
 
 const mainSiteLabel = new URL(MAIN_SITE).host.replace(/^www\./, '');
 ---
 
 <HelpSiteLayout
-  title="Page not found | Help Center | Inner Explorer"
-  description="We can't find that guide. Take a breath. Your way back is right here."
+  title={helpUi.notFound.seoTitle}
+  description={helpUi.notFound.seoDescription}
   noindex
 >
   <div class="mx-auto flex max-w-2xl flex-col items-start gap-6 px-6 py-24">
-    <p class="m-0 text-xs font-bold tracking-widest text-brand uppercase">
-      Page not found · Error 404
+    <p
+      class="m-0 text-xs font-bold tracking-widest text-brand uppercase"
+      data-editable="text"
+      data-prop="@data[help-ui].notFound.eyebrow"
+    >
+      {helpUi.notFound.eyebrow}
     </p>
-    <h1 class="m-0 font-display text-4xl text-foreground">This guide slipped beyond our map.</h1>
-    <p class="m-0 text-lg leading-relaxed text-muted-foreground">
-      Take a breath. The guide you're looking for may have moved. Browse the Help Center home, or
-      head back to the main site.
+    <h1
+      class="m-0 font-display text-4xl text-foreground"
+      data-editable="text"
+      data-prop="@data[help-ui].notFound.title"
+    >
+      {helpUi.notFound.title}
+    </h1>
+    <p
+      class="m-0 text-lg leading-relaxed text-muted-foreground"
+      data-editable="text"
+      data-prop="@data[help-ui].notFound.body"
+    >
+      {helpUi.notFound.body}
     </p>
     <p class="m-0 flex flex-wrap gap-6 text-sm font-medium">
-      <a class="text-brand-emphasis hover:underline" href={helpRootHref}>Help Center home</a>
+      <a class="text-brand-emphasis hover:underline" href={helpRootHref}>
+        <editable-text data-prop="@data[help-ui].notFound.homeLink"
+          >{helpUi.notFound.homeLink}</editable-text
+        >
+      </a>
       <a class="text-brand-emphasis hover:underline" href={MAIN_SITE}>{mainSiteLabel}</a>
     </p>
   </div>

@@ -7,6 +7,12 @@
 // home page) the article cards by title/blurb/keywords, mirrors the two search inputs,
 // and shows an empty state. Content is fully visible without JS (progressive enhancement).
 import type { HelpGroupTree } from '../../../lib/help';
+// Shared Help Center UI copy — the CloudCannon dataset backs every string in this
+// frame (see src/data/help-ui.json). Bindings are ABSOLUTE (`@data[help-ui]…`) so
+// they resolve on the help HOME page too, which has no backing collection entry.
+// The GROUP labels in the nav stay in code: they're the nav model (src/lib/help.ts),
+// mirrored by `_select_data.help_groups` and the article `group` enum.
+import helpUi from '../../../data/help-ui.json';
 
 interface Props {
   groups: HelpGroupTree[];
@@ -20,10 +26,12 @@ const { groups, activeSlug, showToc = false }: Props = Astro.props;
   <div class="help-grid">
     <aside class="help-side" data-help-sidebar>
       <div class="help-side-inner">
-        <p class="help-eyebrow">Help Center</p>
+        <p class="help-eyebrow" data-editable="text" data-prop="@data[help-ui].sidebar.eyebrow">
+          {helpUi.sidebar.eyebrow}
+        </p>
 
         <search class="help-search">
-          <label class="sr-only" for="help-search-side">Search the help center</label>
+          <label class="sr-only" for="help-search-side">{helpUi.sidebar.searchLabel}</label>
           <svg
             class="help-search-icon"
             width="17"
@@ -43,7 +51,7 @@ const { groups, activeSlug, showToc = false }: Props = Astro.props;
             id="help-search-side"
             class="help-search-input"
             type="search"
-            placeholder="Search the help center"
+            placeholder={helpUi.sidebar.searchPlaceholder}
             autocomplete="off"
             data-help-search
           />
@@ -53,7 +61,9 @@ const { groups, activeSlug, showToc = false }: Props = Astro.props;
              a small script collapses it on mobile, where the trigger toggles it. -->
         <details class="help-disclosure" data-help-disclosure open>
           <summary class="help-disclosure-trigger">
-            <span>Browse all guides</span>
+            <span data-editable="text" data-prop="@data[help-ui].sidebar.browseLabel">
+              {helpUi.sidebar.browseLabel}
+            </span>
             <svg
               class="help-disclosure-chev"
               width="18"
@@ -89,14 +99,34 @@ const { groups, activeSlug, showToc = false }: Props = Astro.props;
                 </div>
               ))
             }
-            <p class="help-nav-empty" data-nav-empty hidden>No matching guides.</p>
+            <p
+              class="help-nav-empty"
+              data-nav-empty
+              hidden
+              data-editable="text"
+              data-prop="@data[help-ui].sidebar.navEmpty"
+            >
+              {helpUi.sidebar.navEmpty}
+            </p>
           </nav>
         </details>
 
         <div class="help-support-card">
-          <p class="help-support-title">Still need help?</p>
-          <p class="help-support-text">Our team replies within one school day.</p>
-          <a class="help-support-btn" href="mailto:support@innerexplorer.com">
+          <p
+            class="help-support-title"
+            data-editable="text"
+            data-prop="@data[help-ui].sidebar.supportTitle"
+          >
+            {helpUi.sidebar.supportTitle}
+          </p>
+          <p
+            class="help-support-text"
+            data-editable="text"
+            data-prop="@data[help-ui].sidebar.supportText"
+          >
+            {helpUi.sidebar.supportText}
+          </p>
+          <a class="help-support-btn" href={`mailto:${helpUi.chrome.supportEmail}`}>
             <svg
               width="15"
               height="15"
@@ -111,7 +141,9 @@ const { groups, activeSlug, showToc = false }: Props = Astro.props;
               <rect width="20" height="16" x="2" y="4" rx="2"></rect>
               <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
             </svg>
-            Contact support
+            <editable-text data-prop="@data[help-ui].sidebar.supportCta"
+              >{helpUi.sidebar.supportCta}</editable-text
+            >
           </a>
         </div>
       </div>

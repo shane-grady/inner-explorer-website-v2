@@ -1,6 +1,15 @@
 ---
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
+import {
+  childPrefix,
+  editableArray,
+  editableImage,
+  editableItem,
+  editableText,
+  itemPrefix,
+  type EditablePrefix,
+} from '../../../lib/editable';
 
 // Part One — Field Reports. Three district case studies as alternating photo-spread
 // articles. Each: square photo (sized to sit level with the story column) with overlay
@@ -34,45 +43,65 @@ interface Props {
   /** Optional arrow link under the intro (e.g. to the full case studies). */
   link?: { label: string; href: string };
   reports: Report[];
+  /** CloudCannon path prefix for this block's fields (e.g. 'fieldReports'). Omit on
+   *  routes that are not backed by a `pages` collection entry. See lib/editable.ts. */
+  editablePrefix?: EditablePrefix;
 }
-const { eyebrow, title, intro, link, reports }: Props = Astro.props;
+const { eyebrow, title, intro, link, reports, editablePrefix }: Props = Astro.props;
+const rowPrefix = itemPrefix(editablePrefix);
+const metricPrefix = itemPrefix(rowPrefix);
 ---
 
 <section class="fr" id="field-reports" aria-label="Field reports">
   <div class="fr-inner">
     <div class="fr-head">
       <div class="head-title">
-        <div class="eyebrow">{eyebrow}</div>
+        <div class="eyebrow" {...editableText(editablePrefix, 'eyebrow')}>{eyebrow}</div>
+        {/* An HTML field cannot back a plain-text region — it stays sidebar-editable. */}
         <h2 class="head-h" set:html={title} />
       </div>
       <p class="head-p">
-        {intro}
+        {/* `intro` shares this <p> with the link, so it needs its own host element. */}
+        <span {...editableText(editablePrefix, 'intro', 'text')}>{intro}</span>
         {
           link && (
             <a class="head-link" href={link.href}>
-              {link.label} <span aria-hidden="true">→</span>
+              <span {...editableText(childPrefix(editablePrefix, 'link'), 'label')}>
+                {link.label}
+              </span>{' '}
+              <span aria-hidden="true">→</span>
             </a>
           )
         }
       </p>
     </div>
 
-    <div class="fr-list">
+    {/* Container holds ONLY array rows, as CloudCannon's array regions require. */}
+    <div class="fr-list" {...editableArray(editablePrefix, 'reports')}>
       {
         reports.map((r, i) => {
           const photoLeft = i % 2 === 0;
           return (
-            <article class:list={['fr-row', { 'photo-right': !photoLeft }]}>
+            <article
+              class:list={['fr-row', { 'photo-right': !photoLeft }]}
+              {...editableItem(editablePrefix)}
+            >
               <div class="fr-photo">
                 <div class="frame">
+                  {/* The region sits on the <img> itself: `photoCaption` is a sibling
+                      field, and a caption nested inside an image region would resolve
+                      against that region's own value and fail. */}
                   <Image
                     src={r.photo}
                     alt={r.photoAlt}
                     widths={[480, 900, 1400]}
                     sizes="(max-width: 920px) 100vw, 45vw"
                     loading="lazy"
+                    {...editableImage(rowPrefix, 'photo', 'photoAlt')}
                   />
-                  <div class="cap">{r.photoCaption}</div>
+                  <div class="cap" {...editableText(rowPrefix, 'photoCaption')}>
+                    {r.photoCaption}
+                  </div>
                 </div>
                 <div class="frame-meta">
                   <span class="margin-note">
@@ -88,37 +117,58 @@ const { eyebrow, title, intro, link, reports }: Props = Astro.props;
                     <span class="dot" aria-hidden="true" />
                     Field report №&nbsp;{r.n}
                   </span>
-                  <span class="tag">{r.district}</span>
+                  <span class="tag" {...editableText(rowPrefix, 'district')}>
+                    {r.district}
+                  </span>
                   <span class="tag">
                     {r.schools} schools · {r.students} students
                   </span>
                 </div>
 
-                <h3 class="fr-h">{r.headline}</h3>
+                <h3 class="fr-h" {...editableText(rowPrefix, 'headline')}>
+                  {r.headline}
+                </h3>
 
-                <blockquote class="fr-quote">&ldquo;{r.quote}&rdquo;</blockquote>
+                {/* The curly quotes are chrome around the field, so the region needs
+                    its own host element inside the blockquote. */}
+                <blockquote class="fr-quote">
+                  &ldquo;<span {...editableText(rowPrefix, 'quote', 'text')}>{r.quote}</span>&rdquo;
+                </blockquote>
                 <div class="fr-attribution">
                   <span class="rule" />
                   <div>
-                    <div class="who">{r.who}</div>
+                    <div class="who" {...editableText(rowPrefix, 'who')}>
+                      {r.who}
+                    </div>
                     <div class="role">
-                      {r.role}, {r.district.split(',')[0]}
+                      {/* The district suffix is derived from `district`, so `role`
+                          needs its own host element. */}
+                      <span {...editableText(rowPrefix, 'role')}>{r.role}</span>,{' '}
+                      {r.district.split(',')[0]}
                     </div>
                   </div>
                 </div>
 
-                <div class="fr-metrics">
+                <div class="fr-metrics" {...editableArray(rowPrefix, 'metrics')}>
                   {r.metrics.map((m) => (
-                    <div class="metric">
-                      <div class="val">{m.value}</div>
-                      <div class="lbl">{m.label}</div>
-                      <div class="sub">{m.sub}</div>
+                    <div class="metric" {...editableItem(rowPrefix)}>
+                      <div class="val" {...editableText(metricPrefix, 'value')}>
+                        {m.value}
+                      </div>
+                      <div class="lbl" {...editableText(metricPrefix, 'label')}>
+                        {m.label}
+                      </div>
+                      <div class="sub" {...editableText(metricPrefix, 'sub')}>
+                        {m.sub}
+                      </div>
                     </div>
                   ))}
                 </div>
 
                 <div class="fr-foot">
-                  <span class="funding">Funded via {r.funding}</span>
+                  <span class="funding">
+                    Funded via <span {...editableText(rowPrefix, 'funding')}>{r.funding}</span>
+                  </span>
                   <a class="link" href="#contact">
                     Read the full case study
                     <svg

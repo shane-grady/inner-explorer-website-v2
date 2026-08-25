@@ -1,11 +1,24 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import PageLayout from '../../layouts/PageLayout.astro';
 import Container from '../../components/primitives/Container.astro';
 import Section from '../../components/layout/Section.astro';
 import Heading from '../../components/primitives/Heading.astro';
 import Text from '../../components/primitives/Text.astro';
 import Link from '../../components/primitives/Link.astro';
+import { editableText } from '../../lib/editable';
+
+// ── Page content ────────────────────────────────────────────────────────────
+//
+// The masthead copy lives in src/content/pages/blog-index.yml (the `pages`
+// collection) so CloudCannon can read and write it. The list below stays derived from
+// the `blog` collection — a post's own title, dek, and date are edited on the post.
+
+const entry = await getEntry('pages', 'blog-index');
+if (!entry || entry.data._schema !== 'blog-index') {
+  throw new Error('Missing or malformed src/content/pages/blog-index.yml');
+}
+const { hero, readMoreLabel, pageTitle, pageDescription } = entry.data;
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
   (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
@@ -13,14 +26,13 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
 const dateFmt = new Intl.DateTimeFormat('en-US', { dateStyle: 'long' });
 ---
 
-<PageLayout
-  title="Blog — Inner Explorer"
-  description="Insights on bringing mindfulness to schools."
->
+<PageLayout title={pageTitle} description={pageDescription}>
   <Section space="lg">
     <Container width="narrow">
-      <Heading as="h1" size="xl">Blog</Heading>
-      <Text size="lg" tone="muted" class="mt-3">Insights on bringing mindfulness to schools.</Text>
+      <Heading as="h1" size="xl" {...editableText('hero', 'title')}>{hero.title}</Heading>
+      <Text size="lg" tone="muted" class="mt-3" {...editableText('hero', 'intro', 'text')}>
+        {hero.intro}
+      </Text>
       <ul class="mt-10 space-y-10">
         {
           posts.map((post) => (
@@ -38,8 +50,9 @@ const dateFmt = new Intl.DateTimeFormat('en-US', { dateStyle: 'long' });
               <Text tone="muted" class="mt-2">
                 {post.data.description}
               </Text>
+              {/* One page-level label reused by every row — sidebar-editable only. */}
               <Link href={`/blog/${post.id}/`} class="mt-3 inline-block text-sm">
-                Read more &rarr;
+                {readMoreLabel} &rarr;
               </Link>
             </li>
           ))

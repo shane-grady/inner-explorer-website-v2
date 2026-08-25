@@ -155,20 +155,26 @@ if (tags.length) metaParts.push({ icon: 'tag', text: tags.join(' · ') });
 
 {
   heroImage && (
-    <div
-      class="hero-image"
-      data-editable="image"
-      data-prop-src="heroImage"
-      data-prop-alt="heroImageAlt"
-    >
-      <Image
-        src={heroImage}
-        alt={heroImageAlt}
-        widths={[640, 960, 1280, 1600]}
-        sizes="(max-width: 1264px) 100vw, 1200px"
-        loading="eager"
-        fetchpriority="high"
-      />
+    <div class="hero-image">
+      {/* The caption must NOT be a descendant of the image region: a relative
+          `data-prop` binds to its nearest editable ancestor, so nested inside the
+          image it would resolve against that region's {src, alt} value instead of
+          the frontmatter, and the Visual Editor would render an error card. */}
+      <div
+        class="hero-image-media"
+        data-editable="image"
+        data-prop-src="heroImage"
+        data-prop-alt="heroImageAlt"
+      >
+        <Image
+          src={heroImage}
+          alt={heroImageAlt}
+          widths={[640, 960, 1280, 1600]}
+          sizes="(max-width: 1264px) 100vw, 1200px"
+          loading="eager"
+          fetchpriority="high"
+        />
+      </div>
       {heroCaption && (
         <span class="cap" data-editable="text" data-prop="heroCaption">
           {heroCaption}
@@ -293,6 +299,10 @@ if (tags.length) metaParts.push({ icon: 'tag', text: tags.join(' · ') });
     border-radius: 28px;
     overflow: hidden;
     background: var(--color-muted);
+  }
+  .hero-image-media {
+    position: absolute;
+    inset: 0;
   }
   .hero-image :global(img) {
     display: block;

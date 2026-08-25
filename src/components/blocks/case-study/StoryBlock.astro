@@ -2,6 +2,12 @@
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import type { ValueLabel } from './types';
+import {
+  editableText,
+  editableImage,
+  childPrefix,
+  type EditablePrefix,
+} from '../../../lib/editable';
 
 // Editorial narrative split: a text column (eyebrow + heading + paragraphs) beside a
 // tall photo with an optional glass stat chip. `reversed` flips the column order for
@@ -17,6 +23,19 @@ interface Props {
   statChip?: ValueLabel;
   reversed?: boolean;
   id?: string;
+  /** CloudCannon path prefix for this block's object (e.g. 'intro.challenge'). Omit on
+   *  call sites not backed by a collection entry — see lib/editable.ts. */
+  editablePrefix?: EditablePrefix;
+  /** Entry-root paths for the paragraphs, one per `body` entry. Paragraphs are a
+   *  string[] — an array of SCALARS, which cannot carry the array/array-item/field
+   *  nesting (a relative prop under an array-item would resolve against the string).
+   *  So each paragraph binds by its own path, and the page supplies them because only
+   *  it knows whether `body` is a real array field (`intro.challenge.body.0`) or a
+   *  single scalar the page wrapped in an array (`metrics.note`). */
+  bodyProps?: string[];
+  /** Set only when `imageAlt` is a real field on the entry (it is optional in the
+   *  schema, and an alt binding that cannot resolve is an editor error card). */
+  imageAltKey?: string;
 }
 const {
   eyebrow,
@@ -27,20 +46,30 @@ const {
   statChip,
   reversed = false,
   id,
+  editablePrefix,
+  bodyProps,
+  imageAltKey,
 }: Props = Astro.props;
+const chipPrefix = childPrefix(editablePrefix, 'stat');
 ---
 
 <section class="story" id={id}>
   <div class="wrap">
     <div class:list={['grid', { reversed, solo: !image }]}>
       <div class="text" data-cs-reveal>
-        <span class="eyebrow">{eyebrow}</span>
-        <h2 class="h2">{heading}</h2>
-        {body.map((p) => <p>{p}</p>)}
+        <span class="eyebrow" {...editableText(editablePrefix, 'eyebrow')}>{eyebrow}</span>
+        <h2 class="h2" {...editableText(editablePrefix, 'heading')}>{heading}</h2>
+        {
+          body.map((p, i) => (
+            <p {...(bodyProps?.[i] ? editableText('', bodyProps[i], 'text') : {})}>{p}</p>
+          ))
+        }
       </div>
       {
         image && (
           <div class="media" data-cs-reveal>
+            {/* The chip is a SIBLING of the image region, never a descendant — a
+                relative prop inside an image region resolves against its {src, alt}. */}
             <Image
               class="img"
               src={image}
@@ -48,11 +77,16 @@ const {
               widths={[560, 900, 1200]}
               sizes="(max-width: 880px) 100vw, 560px"
               loading="lazy"
+              {...editableImage(editablePrefix, 'image', imageAltKey)}
             />
             {statChip && (
               <div class="chip">
-                <div class="v">{statChip.value}</div>
-                <div class="l">{statChip.label}</div>
+                <div class="v" {...editableText(chipPrefix, 'value')}>
+                  {statChip.value}
+                </div>
+                <div class="l" {...editableText(chipPrefix, 'label')}>
+                  {statChip.label}
+                </div>
               </div>
             )}
           </div>

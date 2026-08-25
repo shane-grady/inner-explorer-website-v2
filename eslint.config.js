@@ -11,7 +11,10 @@ export default tseslint.config(
   {
     ignores: [
       'dist/',
-      'dist-help/',
+      // Covers dist-help/ plus scratch comparison builds (dist-help-baseline/ etc.).
+      'dist-*/',
+      // Transient extraction/scratch dirs — never source, and linting them fails the gate.
+      '.tmp-*/',
       '.astro/',
       'node_modules/',
       '.netlify/',
