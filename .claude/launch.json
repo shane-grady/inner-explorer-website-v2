@@ -4,103 +4,205 @@
     {
       "name": "ie-dev-home",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["exec", "astro", "dev", "--port", "4450"],
+      "runtimeArgs": [
+        "exec",
+        "astro",
+        "dev",
+        "--port",
+        "4450"
+      ],
       "port": 4450
     },
     {
       "name": "ie-dev-platform",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["exec", "astro", "dev", "--port", "4426"],
+      "runtimeArgs": [
+        "exec",
+        "astro",
+        "dev",
+        "--port",
+        "4426"
+      ],
       "port": 4426
     },
     {
       "name": "ie-dev-research",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["exec", "astro", "dev", "--port", "4421"],
+      "runtimeArgs": [
+        "exec",
+        "astro",
+        "dev",
+        "--port",
+        "4421"
+      ],
       "port": 4421
     },
     {
       "name": "ie-dev-contact",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["exec", "astro", "dev", "--port", "4423"],
+      "runtimeArgs": [
+        "exec",
+        "astro",
+        "dev",
+        "--port",
+        "4423"
+      ],
       "port": 4423
     },
     {
       "name": "ie-dev-support",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["exec", "astro", "dev", "--port", "4424"],
+      "runtimeArgs": [
+        "exec",
+        "astro",
+        "dev",
+        "--port",
+        "4424"
+      ],
       "port": 4424
     },
     {
       "name": "ie-dev-newsroom",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["exec", "astro", "dev", "--port", "4425"],
+      "runtimeArgs": [
+        "exec",
+        "astro",
+        "dev",
+        "--port",
+        "4425"
+      ],
       "port": 4425
     },
     {
       "name": "ie-dev-casestudy",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["exec", "astro", "dev", "--port", "4427"],
+      "runtimeArgs": [
+        "exec",
+        "astro",
+        "dev",
+        "--port",
+        "4427"
+      ],
       "port": 4427
     },
     {
       "name": "ie-dev-jmhs",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["exec", "astro", "dev", "--port", "4428"],
+      "runtimeArgs": [
+        "exec",
+        "astro",
+        "dev",
+        "--port",
+        "4428"
+      ],
       "port": 4428
     },
     {
       "name": "ie-dev-kaiser",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["exec", "astro", "dev", "--port", "4431"],
+      "runtimeArgs": [
+        "exec",
+        "astro",
+        "dev",
+        "--port",
+        "4431"
+      ],
       "port": 4431
     },
     {
       "name": "ie-dev-dwight",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["exec", "astro", "dev", "--port", "4433"],
+      "runtimeArgs": [
+        "exec",
+        "astro",
+        "dev",
+        "--port",
+        "4433"
+      ],
       "port": 4433
     },
     {
       "name": "ie-dev-michigan",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["exec", "astro", "dev", "--port", "4435"],
+      "runtimeArgs": [
+        "exec",
+        "astro",
+        "dev",
+        "--port",
+        "4435"
+      ],
       "port": 4435
     },
     {
       "name": "ie-dev-lajoya",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["exec", "astro", "dev", "--port", "4437"],
+      "runtimeArgs": [
+        "exec",
+        "astro",
+        "dev",
+        "--port",
+        "4437"
+      ],
       "port": 4437
     },
     {
       "name": "ie-dev-series",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["exec", "astro", "dev", "--port", "4439"],
+      "runtimeArgs": [
+        "exec",
+        "astro",
+        "dev",
+        "--port",
+        "4439"
+      ],
       "port": 4439
     },
     {
       "name": "ie-dev-blog",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["exec", "astro", "dev", "--port", "4440"],
+      "runtimeArgs": [
+        "exec",
+        "astro",
+        "dev",
+        "--port",
+        "4440"
+      ],
       "port": 4440
     },
     {
       "name": "ie-dev-home",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["exec", "astro", "dev", "--port", "4442"],
+      "runtimeArgs": [
+        "exec",
+        "astro",
+        "dev",
+        "--port",
+        "4442"
+      ],
       "port": 4442
     },
     {
       "name": "ie-dev-help",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["exec", "astro", "dev", "--port", "4452"],
+      "runtimeArgs": [
+        "exec",
+        "astro",
+        "dev",
+        "--port",
+        "4452"
+      ],
       "port": 4452
     },
     {
       "name": "ie-dev-amplitude",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["exec", "astro", "dev", "--port", "4461"],
+      "runtimeArgs": [
+        "exec",
+        "astro",
+        "dev",
+        "--port",
+        "4461"
+      ],
       "port": 4461
     },
     {
@@ -118,7 +220,7 @@
       "port": 4470
     },
     {
-      "_comment": "Same help subdomain app as ie-help-subdomain, on a second port so it can run alongside another worktree's copy (4470 is often already taken). astro dev ignores the PORT env var, so autoPort does not work here — the port must be passed as a flag.",
+      "_comment": "Same help subdomain app as ie-help-subdomain, on a second port so it can run alongside another worktree's copy (4470 is often already taken). astro dev ignores the PORT env var, so autoPort does not work here \u2014 the port must be passed as a flag.",
       "name": "ie-help-subdomain-4473",
       "runtimeExecutable": "pnpm",
       "runtimeArgs": [
@@ -135,22 +237,54 @@
     {
       "name": "ie-main-postsplit",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["exec", "astro", "dev", "--port", "4471"],
+      "runtimeArgs": [
+        "exec",
+        "astro",
+        "dev",
+        "--port",
+        "4471"
+      ],
       "port": 4471
     },
     {
       "_comment": "Serves the PRODUCTION build in dist/ (astro preview), NOT a dev server. Needed to verify anything gated on a real production build: both the Intercom Messenger and GA4 are gated on import.meta.env.PROD in src/layouts/BaseLayout.astro, so `astro dev` never renders them. Build first, baking in the app id: PUBLIC_INTERCOM_APP_ID=a185fzec pnpm build",
       "name": "ie-preview-main-4480",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["exec", "astro", "preview", "--port", "4480"],
+      "runtimeArgs": [
+        "exec",
+        "astro",
+        "preview",
+        "--port",
+        "4480"
+      ],
       "port": 4480
     },
     {
       "_comment": "Help Center equivalent of ie-preview-main-4480. Build first: PUBLIC_INTERCOM_APP_ID=a185fzec pnpm build:help",
       "name": "ie-preview-help-4481",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["exec", "astro", "preview", "--config", "astro.help.config.mjs", "--port", "4481"],
+      "runtimeArgs": [
+        "exec",
+        "astro",
+        "preview",
+        "--config",
+        "astro.help.config.mjs",
+        "--port",
+        "4481"
+      ],
       "port": 4481
+    },
+    {
+      "name": "ie-dev-pricing",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "exec",
+        "astro",
+        "dev",
+        "--port",
+        "4483"
+      ],
+      "port": 4483
     }
   ]
 }

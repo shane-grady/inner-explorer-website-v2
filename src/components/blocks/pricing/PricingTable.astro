@@ -1,0 +1,541 @@
+---
+// Feature-by-feature plan comparison for /pricing.
+//
+// Rows are grouped into labelled categories (Overview, Programming, …). Each row
+// carries one cell per plan, in plan order. Cells are either an availability
+// token ('yes' | 'no' | 'na'), a priced add-on ({ price, note }), or free text
+// ("1 included"). The highlighted plan's column is brand-tinted end to end so it
+// lines up with the same plan's card in PlanCards.
+//
+// Zero JS. The feature column is sticky-left so names stay readable while the
+// plan columns scroll horizontally on narrow screens. The table is long, so each
+// group banner repeats the plan names in its plan columns rather than relying on
+// a viewport-sticky <thead> — Chromium mispaints sticky table headers, and the
+// repeat reads better as an editorial rhythm anyway.
+
+import type { Plan } from './PlanCards.astro';
+
+/** A priced add-on cell: the figure plus an optional license note. */
+export interface PriceCell {
+  price: string;
+  note?: string;
+}
+export type Cell = 'yes' | 'no' | 'na' | PriceCell | string;
+
+export interface Row {
+  feat: string;
+  /** Small qualifier under the feature name (e.g. "Not available for single schools"). */
+  note?: string;
+  /** One cell per plan, in the same order as `plans`. */
+  cells: readonly Cell[];
+}
+export interface Group {
+  title: string;
+  rows: readonly Row[];
+}
+
+interface Props {
+  eyebrow: string;
+  titleHtml: string;
+  intro: string;
+  plans: readonly Plan[];
+  groups: readonly Group[];
+  /** Footnote under the table (funding, taxes, quotes). */
+  footnote?: string;
+}
+const { eyebrow, titleHtml, intro, plans, groups, footnote }: Props = Astro.props;
+
+function isPrice(v: Cell): v is PriceCell {
+  return typeof v === 'object' && v !== null && 'price' in v;
+}
+---
+
+<section class="cmp" id="compare" aria-labelledby="compare-head">
+  <div class="cmp-inner">
+    <div class="cmp-head">
+      <div class="eyebrow">{eyebrow}</div>
+      <h2 id="compare-head" class="head-h" set:html={titleHtml} />
+      <p class="head-p">{intro}</p>
+    </div>
+
+    <div class="cmp-card">
+      <p class="hint">Scroll sideways to see every plan.</p>
+      <div class="cmp-scroll">
+        <table>
+          <caption class="sr-only"> Inner Explorer plans compared feature by feature. </caption>
+          <thead>
+            <tr>
+              <th scope="col" class="th-feat">What&rsquo;s included</th>
+              {
+                plans.map((p) => (
+                  <th scope="col" class:list={['th-col', { hl: p.highlight }]}>
+                    <span class="col-label">{p.name}</span>
+                    <span class="col-note">{p.price}</span>
+                  </th>
+                ))
+              }
+            </tr>
+          </thead>
+          {
+            groups.map((g, gi) => (
+              <tbody>
+                <tr class="grp">
+                  <th scope="colgroup">{g.title}</th>
+                  {plans.map((p) => (
+                    <td class:list={['grp-col', { hl: p.highlight }]} aria-hidden="true">
+                      {/* The first group sits directly under the real <thead>, so the
+                          repeat would be redundant there. */}
+                      {gi > 0 && p.name}
+                    </td>
+                  ))}
+                </tr>
+                {g.rows.map((r) => (
+                  <tr>
+                    <th scope="row" class="td-feat">
+                      <span class="feat-name">{r.feat}</span>
+                      {r.note && <span class="feat-note">{r.note}</span>}
+                    </th>
+                    {r.cells.map((v, i) => (
+                      <td class:list={['td-cell', { hl: plans[i]?.highlight }]}>
+                        {v === 'yes' && (
+                          <span class="glyph yes">
+                            <svg
+                              viewBox="0 0 24 24"
+                              width="12"
+                              height="12"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="3"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              aria-hidden="true"
+                            >
+                              <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                            <span class="sr-only">Included</span>
+                          </span>
+                        )}
+                        {v === 'no' && (
+                          <span class="glyph no" aria-hidden="true">
+                            <span class="dash" />
+                          </span>
+                        )}
+                        {v === 'no' && <span class="sr-only">Not included</span>}
+                        {v === 'na' && <span class="na">Not applicable</span>}
+                        {isPrice(v) && (
+                          <span class="addon">
+                            <span class="addon-price">{v.price}</span>
+                            {v.note && <span class="addon-note">{v.note}</span>}
+                          </span>
+                        )}
+                        {typeof v === 'string' && !['yes', 'no', 'na'].includes(v) && (
+                          <span class="text">{v}</span>
+                        )}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            ))
+          }
+          <tfoot>
+            <tr>
+              <th scope="row" class="td-feat foot-feat">Ready when you are</th>
+              {
+                plans.map((p) => (
+                  <td class:list={['td-cell', { hl: p.highlight }]}>
+                    <a class:list={['foot-cta', { solid: p.highlight }]} href={p.ctaHref}>
+                      {p.ctaLabel}
+                      <span class="sr-only"> for the {p.name} plan</span>
+                    </a>
+                  </td>
+                ))
+              }
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+
+    {footnote && <p class="footnote">{footnote}</p>}
+  </div>
+</section>
+
+<style>
+  .cmp {
+    background: var(--color-background);
+    padding: clamp(56px, 7vw, 96px) 0 clamp(72px, 9vw, 120px);
+    border-top: 1px solid var(--color-border);
+  }
+  .cmp-inner {
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+  .cmp-head {
+    max-width: 720px;
+    margin-bottom: 44px;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-muted-foreground);
+  }
+  .eyebrow::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.55;
+  }
+  .head-h {
+    margin: 16px 0 0;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: clamp(34px, 4.4vw, 56px);
+    line-height: 1.04;
+    letter-spacing: -0.03em;
+    color: var(--color-foreground);
+    text-wrap: balance;
+  }
+  .head-h :global(em) {
+    font-style: normal;
+    color: var(--color-brand-emphasis);
+  }
+  .head-p {
+    margin: 14px 0 0;
+    max-width: 640px;
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--color-muted-foreground);
+    text-wrap: pretty;
+  }
+
+  .cmp-card {
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+  }
+  .hint {
+    display: none;
+    margin: 0;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-muted-foreground);
+  }
+
+  .cmp-scroll {
+    overflow-x: clip;
+  }
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+
+  thead th {
+    background: var(--color-muted);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .th-feat {
+    text-align: left;
+    padding: 15px 24px;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-muted-foreground);
+    width: 40%;
+  }
+  .th-col {
+    padding: 13px 14px;
+    text-align: center;
+    vertical-align: middle;
+  }
+  .th-col.hl {
+    background: color-mix(in oklab, var(--color-brand) 14%, var(--color-muted));
+  }
+  .col-label {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-foreground);
+  }
+  .th-col.hl .col-label {
+    color: var(--color-brand-emphasis);
+  }
+  .col-note {
+    display: block;
+    margin-top: 6px;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    color: var(--color-muted-foreground);
+  }
+
+  /* Group banner rows. The title sits left; the plan names repeat across so a
+     reader deep in the table never loses track of which column is which. */
+  .grp > * {
+    padding: 30px 24px 11px;
+    background: var(--color-card);
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    vertical-align: bottom;
+  }
+  .grp th {
+    text-align: left;
+    color: var(--color-brand-emphasis);
+  }
+  .grp-col {
+    padding-left: 14px;
+    padding-right: 14px;
+    text-align: center;
+    letter-spacing: 0.14em;
+    color: var(--color-muted-foreground);
+  }
+  .grp-col.hl {
+    background: color-mix(in oklab, var(--color-brand) 6%, var(--color-card));
+    color: var(--color-brand-emphasis);
+  }
+
+  tbody tr:not(.grp) > * {
+    border-top: 1px solid var(--color-border);
+  }
+  tbody tr:not(.grp):hover .td-feat,
+  tbody tr:not(.grp):hover .td-cell:not(.hl) {
+    background: var(--color-muted);
+  }
+
+  .td-feat {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    padding: 14px 24px;
+    text-align: left;
+    font-weight: 400;
+    background: var(--color-card);
+  }
+  .feat-name {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--color-foreground);
+    text-wrap: pretty;
+  }
+  .feat-note {
+    display: block;
+    margin-top: 3px;
+    font-size: 12.5px;
+    line-height: 1.35;
+    color: var(--color-muted-foreground);
+  }
+
+  .td-cell {
+    padding: 14px 14px;
+    text-align: center;
+    vertical-align: middle;
+    background: var(--color-card);
+  }
+  .td-cell.hl {
+    background: color-mix(in oklab, var(--color-brand) 6%, var(--color-card));
+  }
+
+  /* Cell glyphs */
+  .glyph {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 9999px;
+  }
+  .glyph.yes {
+    background: var(--color-brand);
+    color: var(--color-brand-foreground);
+  }
+  .glyph.no {
+    background: transparent;
+  }
+  .dash {
+    width: 12px;
+    height: 2px;
+    border-radius: 9999px;
+    background: var(--color-border);
+  }
+  .na {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-muted-foreground);
+    opacity: 0.7;
+  }
+  .addon {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 3px;
+    max-width: 200px;
+  }
+  .addon-price {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: var(--color-foreground);
+  }
+  .addon-note {
+    font-size: 11.5px;
+    line-height: 1.3;
+    color: var(--color-muted-foreground);
+    text-wrap: pretty;
+  }
+  .text {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-foreground);
+  }
+
+  /* Footer CTA row */
+  tfoot > tr > * {
+    border-top: 1px solid var(--color-border);
+    background: var(--color-muted);
+  }
+  tfoot .td-cell {
+    padding: 20px 14px;
+    background: var(--color-muted);
+  }
+  tfoot .td-cell.hl {
+    background: color-mix(in oklab, var(--color-brand) 10%, var(--color-muted));
+  }
+  .foot-feat {
+    background: var(--color-muted);
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-muted-foreground);
+  }
+  .foot-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    padding: 8px 18px;
+    border-radius: 9999px;
+    border: 1px solid var(--color-border);
+    background: var(--color-card);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-size: 13.5px;
+    font-weight: 500;
+    line-height: 1.25;
+    transition:
+      background var(--dur-fast) var(--ease-out),
+      color var(--dur-fast) var(--ease-out);
+  }
+  .foot-cta:hover {
+    background: var(--color-foreground);
+    color: var(--color-background);
+  }
+  .foot-cta.solid {
+    border-color: transparent;
+    background: var(--color-brand);
+    color: var(--color-brand-foreground);
+  }
+  .foot-cta.solid:hover {
+    background: var(--color-brand-emphasis);
+  }
+
+  .footnote {
+    margin: 24px 0 0;
+    max-width: 760px;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--color-muted-foreground);
+    text-wrap: pretty;
+  }
+
+  @media (max-width: 1080px) {
+    .cmp-inner {
+      padding: 0 24px;
+    }
+    .hint {
+      display: block;
+    }
+    /* Below the fold-out width the plan columns scroll horizontally and the
+       feature column sticks left as the reader's anchor. */
+    .cmp-scroll {
+      overflow-x: auto;
+    }
+    /* Fixed widths, not percentages: the sticky feature column has to leave room
+       for at least one whole plan column beside it on a phone. */
+    table {
+      min-width: 700px;
+      table-layout: fixed;
+    }
+    .th-feat {
+      position: sticky;
+      left: 0;
+      z-index: 4;
+      width: 260px;
+    }
+    .grp th {
+      position: sticky;
+      left: 0;
+      z-index: 2;
+    }
+    .td-feat,
+    .th-feat {
+      border-right: 1px solid var(--color-border);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .cmp-inner {
+      padding: 0 16px;
+    }
+    table {
+      min-width: 620px;
+    }
+    .th-feat {
+      width: 220px;
+    }
+    .td-feat,
+    .th-feat,
+    .grp th {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+    .feat-name {
+      font-size: 14px;
+    }
+  }
+</style>
