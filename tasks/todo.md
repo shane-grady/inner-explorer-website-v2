@@ -1484,3 +1484,27 @@ Second pass, same review:
       which would have silently moved the button to the left.
 - [x] Dropped the `aria-describedby` wiring on the form and the textarea along with the
       elements they pointed at, so no dangling references remain (verified in the DOM).
+
+## PreK-12 in structured data (2026-08-25)
+
+Follow-on from the footer tagline change: the footer said PreK-12 while the schema.org
+markup still said K-12.
+
+- [x] `src/lib/schema.ts` Organization description (renders on every page).
+- [x] `index.astro` Service `serviceType` and EducationalAudience `audienceType`.
+- [x] `about.astro` Organization description.
+- [x] `districts.astro` EducationalAudience `audienceType`.
+
+Deliberately NOT changed:
+
+- `research.astro`'s JSON-LD `about: 'Mindfulness research in K-12 schools'`. This
+  describes the research corpus, not the product. The trials were run in K-12 settings,
+  so widening it to PreK-12 would assert PreK research we cannot support.
+- Every other remaining K-12 in JSON-LD is the page's own `pageTitle` / `pageDescription`
+  reused in the markup, so it is really the `<title>` and `<meta name="description">`
+  (homepage title, /about, /districts, /platform, /research). Changing those is an SEO
+  copy decision for marketing, not a consistency fix. Left for the owner to call.
+- Visible body copy across /about, /districts, /platform still says K-12.
+
+Verified in the built output: the Organization description now reads PreK-12 on all
+73 page instances, and no product-descriptor JSON-LD string says K-12 any more.

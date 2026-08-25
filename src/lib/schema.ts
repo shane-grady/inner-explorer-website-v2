@@ -13,7 +13,7 @@ export function organizationSchema(site: URL | string | undefined) {
     name: 'Inner Explorer',
     url: base,
     logo: `${base}/logo.png`,
-    description: 'Daily audio-guided mindfulness practices for K-12 schools.',
+    description: 'Daily audio-guided mindfulness practices for PreK-12 schools.',
   };
 }
 
