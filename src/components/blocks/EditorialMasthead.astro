@@ -9,6 +9,9 @@
 //                       Contact page hero ("Reach a real person *now.*").
 //   display           — display-only: just the serif-italic line (no lead). Used by the
 //                       Support page hero ("FAQs.").
+//   uniform           — one sentence at a single size in a single color, wrapping
+//                       naturally. No two-tone duet. Used by the Pricing hero, where
+//                       a mixed grey/green headline read as an accident.
 //
 // Carries the page's single <h1>.
 interface Props {
@@ -23,7 +26,7 @@ interface Props {
   /** Inner content width (any CSS length). */
   maxWidth?: string;
   /** Layout style. */
-  layout?: 'stacked' | 'inline' | 'display';
+  layout?: 'stacked' | 'inline' | 'display' | 'uniform';
   /** Inline-layout scale. `lg` is the oversized hero treatment (Newsroom); `md`
    *  (default) is the one-line sentence size used by Contact. */
   size?: 'md' | 'lg';
@@ -159,6 +162,27 @@ const {
   }
   [data-layout='inline'][data-size='lg'] .lead {
     font-weight: 300;
+  }
+
+  /* Uniform: the whole headline at one size in one color. `lead` and `display` are
+     rendered as inline siblings so a sentence split across the two props still reads
+     and wraps as a single continuous line of type. */
+  [data-layout='uniform'] .display {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: clamp(36px, 5.4vw, 68px);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--color-foreground);
+  }
+  [data-layout='uniform'] .lead,
+  [data-layout='uniform'] .serif {
+    display: inline;
+    font: inherit;
+    color: inherit;
+  }
+  [data-layout='uniform'] .lead::after {
+    content: ' ';
   }
 
   /* Display: single oversized serif-italic line (no lead). */
