@@ -262,6 +262,53 @@ function checkInputAmbiguity() {
   return found;
 }
 
+// ── schema registration ──────────────────────────────────────────────────────
+// A collection that uses a schema key (default `_schema`) resolves each entry to a
+// SCHEMA by that value. If the value has no matching entry under the collection's
+// `schemas`, CloudCannon refuses to open the file at all — "Schema not found", no
+// sidebar, no preview. The page still builds and every data-prop still resolves, so
+// nothing else here catches it; only opening the page in the editor would.
+function checkSchemaRegistration() {
+  const found = [];
+  for (const [key, cfg] of Object.entries(collections)) {
+    const schemas = cfg?.schemas;
+    if (!schemas || !cfg?.path || !existsSync(cfg.path)) continue;
+    const schemaKey = cfg.schema_key ?? '_schema';
+    const declared = new Set(Object.keys(schemas));
+
+    for (const name of readdirSync(cfg.path)) {
+      const full = join(cfg.path, name);
+      if (statSync(full).isDirectory()) continue;
+      const value = loadFile(full).data?.[schemaKey];
+      if (value === undefined || declared.has(value)) continue;
+      found.push({
+        kind: 'UNREGISTERED_SCHEMA',
+        file: full,
+        url: `${key}/${name}`,
+        backing: full,
+        tag: schemaKey,
+        detail:
+          `${schemaKey}: "${value}" has no entry under collections_config.${key}.schemas ` +
+          `— CloudCannon shows "Schema not found" and the page cannot be opened`,
+      });
+    }
+
+    for (const [sKey, sCfg] of Object.entries(schemas)) {
+      if (sCfg?.path && !existsSync(sCfg.path)) {
+        found.push({
+          kind: 'ORPHANED_SCHEMA',
+          file: 'cloudcannon.config.yml',
+          url: `${key}/${sKey}`,
+          backing: sCfg.path,
+          tag: sKey,
+          detail: `schema "${sKey}" points at ${sCfg.path}, which does not exist`,
+        });
+      }
+    }
+  }
+  return found;
+}
+
 // ── walk the builds ──────────────────────────────────────────────────────────
 function* htmlFiles(dir) {
   for (const name of readdirSync(dir)) {
@@ -271,7 +318,7 @@ function* htmlFiles(dir) {
   }
 }
 
-const errors = checkInputAmbiguity();
+const errors = [...checkInputAmbiguity(), ...checkSchemaRegistration()];
 const warnings = [];
 const stats = { pages: 0, regions: 0, unbacked: 0, byKind: {} };
 

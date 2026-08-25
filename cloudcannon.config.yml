@@ -111,6 +111,59 @@ collections_config:
       # `items` in districts.yml, each appear with several shapes and are therefore
       # deliberately absent — declaring them would mis-type every other use.
       # `pnpm lint:editables` fails the build if an ambiguous name is ever declared.
+      contact:
+        path: src/content/pages/contact.yml
+        name: Contact
+        icon: contact_mail
+        _inputs:
+          blurb:
+            type: textarea
+          confirmation:
+            type: textarea
+          intro:
+            type: textarea
+      platform:
+        path: src/content/pages/platform.yml
+        name: Platform
+        icon: devices
+        _inputs:
+          claimHtml:
+            type: text
+            comment: Inline HTML allowed — edit here rather than on the page.
+          headingHtml:
+            type: text
+            comment: Inline HTML allowed — edit here rather than on the page.
+          desc:
+            type: textarea
+          excerpt:
+            type: textarea
+          lead:
+            type: textarea
+          quote:
+            type: textarea
+          subtitle:
+            type: textarea
+          text:
+            type: textarea
+      research:
+        path: src/content/pages/research.yml
+        name: Research
+        icon: science
+        _inputs:
+          headingHtml:
+            type: text
+            comment: Inline HTML allowed — edit here rather than on the page.
+          pullQuoteHtml:
+            type: text
+            comment: Inline HTML allowed — edit here rather than on the page.
+          copy:
+            type: textarea
+          lede:
+            type: textarea
+          quote:
+            type: textarea
+          subtitle:
+            type: textarea
       about:
         path: src/content/pages/about.yml
         name: About
