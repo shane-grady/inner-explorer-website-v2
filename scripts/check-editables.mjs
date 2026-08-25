@@ -343,6 +343,72 @@ function checkDataReachability() {
   return found;
 }
 
+// ── MDX snippet coverage ─────────────────────────────────────────────────────
+// Components inside MDX bodies are editable only if a `_snippets` entry matches BOTH
+// the component name and the attributes used. An attribute the snippet does not
+// declare makes the whole element unmatched, and the Content Editor renders
+// "<component> cannot be edited — Unexpected element" instead of the snippet. The
+// page still builds correctly, so nothing else catches it.
+function checkSnippetCoverage() {
+  const found = [];
+  const snippets = cc._snippets ?? {};
+  const byComponent = {};
+  for (const [key, snip] of Object.entries(snippets)) {
+    const name = snip?.definitions?.component_name;
+    if (!name) continue;
+    byComponent[name] ??= { keys: [], args: new Set() };
+    byComponent[name].keys.push(key);
+    for (const a of snip.definitions.named_args ?? []) {
+      if (a?.editor_key) byComponent[name].args.add(a.editor_key);
+    }
+  }
+
+  const dirs = Object.values(collections)
+    .map((c) => c?.path)
+    .filter((p) => p && existsSync(p));
+  const seen = new Set();
+
+  for (const dir of dirs) {
+    for (const name of readdirSync(dir)) {
+      if (!/\.mdx?$/.test(name)) continue;
+      const full = join(dir, name);
+      const src = readFileSync(full, 'utf8');
+      const tag =
+        /<([A-Z][A-Za-z0-9]*)((?:\s+[a-zA-Z][\w-]*(?:=(?:"[^"]*"|'[^']*'|\{[^}]*\}))?)*)\s*\/?>/g;
+      let m;
+      while ((m = tag.exec(src))) {
+        const component = m[1];
+        const attrs = [...(m[2] ?? '').matchAll(/([a-zA-Z][\w-]*)=/g)].map((a) => a[1]);
+        const def = byComponent[component];
+        let detail;
+        if (!def) {
+          detail = `no _snippets entry declares component_name: ${component}`;
+        } else {
+          const unknown = attrs.filter((a) => !def.args.has(a));
+          if (unknown.length) {
+            detail =
+              `uses ${unknown.map((u) => `"${u}"`).join(', ')}, which no snippet for ` +
+              `${component} declares in named_args (declared: ${[...def.args].join(', ') || 'none'})`;
+          }
+        }
+        if (!detail) continue;
+        const dedupe = `${full}|${component}|${detail}`;
+        if (seen.has(dedupe)) continue;
+        seen.add(dedupe);
+        found.push({
+          kind: 'UNMATCHED_SNIPPET',
+          file: full,
+          url: full,
+          backing: full,
+          tag: component,
+          detail: `${detail} — the editor shows "cannot be edited: Unexpected element"`,
+        });
+      }
+    }
+  }
+  return found;
+}
+
 // ── walk the builds ──────────────────────────────────────────────────────────
 function* htmlFiles(dir) {
   for (const name of readdirSync(dir)) {
@@ -352,7 +418,12 @@ function* htmlFiles(dir) {
   }
 }
 
-const errors = [...checkInputAmbiguity(), ...checkSchemaRegistration(), ...checkDataReachability()];
+const errors = [
+  ...checkInputAmbiguity(),
+  ...checkSchemaRegistration(),
+  ...checkDataReachability(),
+  ...checkSnippetCoverage(),
+];
 const warnings = [];
 const stats = { pages: 0, regions: 0, unbacked: 0, byKind: {} };
 

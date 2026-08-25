@@ -2362,11 +2362,22 @@ _snippets:
           type: string
           optional: true
           remove_empty: true
+        # Callout.astro also accepts `heading`, which promotes the aside from a quiet
+        # note to a signposted one. It was missing here, so every `<Callout heading=…>`
+        # was unmatched and the editor showed "<callout> cannot be edited — Unexpected
+        # element" instead of the snippet.
+        - editor_key: heading
+          type: string
+          optional: true
+          remove_empty: true
     _inputs:
       type:
         type: select
         options:
           values: [tip, note, good]
+      heading:
+        type: text
+        comment: Optional. Replaces the small eyebrow with a sentence-case heading.
   help_figure:
     template: mdx_component
     inline: false
