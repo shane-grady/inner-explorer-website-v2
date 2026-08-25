@@ -351,16 +351,20 @@ function checkDataReachability() {
 // page still builds correctly, so nothing else catches it.
 function checkSnippetCoverage() {
   const found = [];
-  const snippets = cc._snippets ?? {};
   const byComponent = {};
-  for (const [key, snip] of Object.entries(snippets)) {
-    const name = snip?.definitions?.component_name;
-    if (!name) continue;
-    byComponent[name] ??= { keys: [], args: new Set() };
-    byComponent[name].keys.push(key);
-    for (const a of snip.definitions.named_args ?? []) {
-      if (a?.editor_key) byComponent[name].args.add(a.editor_key);
+  for (const [key, snip] of Object.entries(cc._snippets ?? {})) {
+    const def = snip?.definitions;
+    if (!def?.component_name) continue;
+    const args = new Set();
+    const required = new Set();
+    for (const a of def.named_args ?? []) {
+      if (!a?.editor_key) continue;
+      args.add(a.editor_key);
+      // `optional: true` governs MATCHING, not just validation. An arg without it must
+      // appear in the markup or the snippet does not match — a `default` does not help.
+      if (a.optional !== true) required.add(a.editor_key);
     }
+    (byComponent[def.component_name] ??= []).push({ key, args, required });
   }
 
   const dirs = Object.values(collections)
@@ -379,16 +383,24 @@ function checkSnippetCoverage() {
       while ((m = tag.exec(src))) {
         const component = m[1];
         const attrs = [...(m[2] ?? '').matchAll(/([a-zA-Z][\w-]*)=/g)].map((a) => a[1]);
-        const def = byComponent[component];
+        const defs = byComponent[component];
         let detail;
-        if (!def) {
+        if (!defs) {
           detail = `no _snippets entry declares component_name: ${component}`;
         } else {
-          const unknown = attrs.filter((a) => !def.args.has(a));
-          if (unknown.length) {
-            detail =
-              `uses ${unknown.map((u) => `"${u}"`).join(', ')}, which no snippet for ` +
-              `${component} declares in named_args (declared: ${[...def.args].join(', ') || 'none'})`;
+          // A usage is fine if ANY definition for this component accepts it: every
+          // attribute declared, and every required arg supplied.
+          const ok = defs.some(
+            (d) =>
+              attrs.every((a) => d.args.has(a)) && [...d.required].every((r) => attrs.includes(r)),
+          );
+          if (!ok) {
+            const unknown = attrs.filter((a) => !defs.some((d) => d.args.has(a)));
+            const missing = [...(defs[0].required ?? [])].filter((r) => !attrs.includes(r));
+            detail = unknown.length
+              ? `uses ${unknown.map((u) => `"${u}"`).join(', ')}, which no snippet declares`
+              : `omits required arg ${missing.map((r) => `"${r}"`).join(', ')} ` +
+                `(mark it \`optional: true\` in the snippet if the component defaults it)`;
           }
         }
         if (!detail) continue;

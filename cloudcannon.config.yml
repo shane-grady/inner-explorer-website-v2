@@ -2354,9 +2354,16 @@ _snippets:
       component_name: Callout
       content_key: callout_content
       named_args:
+        # `optional: true` matters for MATCHING, not just for validation: a named_arg
+        # without it must be present in the markup or CloudCannon fails to match the
+        # snippet and shows "cannot be edited — Unexpected element". A `default` does
+        # NOT make an arg optional. Callout.astro defaults `type` to 'tip', so the two
+        # usages that omit it (privacy-policy.mdx, signing-in.mdx) render correctly but
+        # were uneditable until this was marked optional.
         - editor_key: type
           type: string
           default: tip
+          optional: true
           allowed_values: [tip, note, good]
         - editor_key: label
           type: string
