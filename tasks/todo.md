@@ -1360,3 +1360,34 @@ instead of semicolon runs. Open question left for Juliana: the callout keeps the
 legal phrase "educator-led, whole-classroom program", which reads against the house rule
 that the audio guide leads the practice — flagged rather than silently reworded, since it
 is the legal characterization of who operates the product.
+
+## Pricing page — port of legacy /compare_program (2026-08-25)
+
+Goal: replicate `innerexplorer.com/compare_program` as `/pricing` in the new design
+system. The footer already linked `/pricing`, so this fills a dead route.
+
+- [x] Scrape the legacy static page and extract all 47 feature rows + 3 plans verbatim
+- [x] `blocks/pricing/PlanCards.astro` — three-up plan cards (price, unit, blurb, CTA)
+- [x] `blocks/pricing/PricingTable.astro` — grouped feature comparison, zero JS
+- [x] `src/pages/pricing.astro` — content as structured data (CMS-ready seam) + Product JSON-LD
+- [x] `.claude/launch.json` — `ie-dev-pricing` on port 4483
+- [x] `pnpm check` clean; production build ships 0 page-specific JS
+
+### Review
+
+Content fidelity: all 3 plans, 4 groups, 47 rows, and the 3 CTA hrefs carried over
+exactly. Two things from the source were intentionally dropped: placeholder junk copy
+("testing testing testing testing" inside two plan descriptions) and a duplicated
+stray "SUPPORT & RESOURCES" table fragment at the end of the legacy markup. Row labels
+were re-cased from Title Case to the site's sentence case; wording is unchanged.
+
+Judgment call to confirm with marketing: the **Community** column is the highlighted
+anchor (middle card, brand tint, solid CTA). The legacy page highlights nothing. No
+"most popular" badge was invented — the emphasis is purely visual.
+
+Gotcha worth remembering: the first build used a viewport-sticky `<thead>` for the
+47-row table. Layout was correct (measured via getBoundingClientRect) but Chromium
+**painted the sticky header a full row-height off**, blanking the table region. Fixed
+by dropping viewport-sticky entirely and repeating the plan names on each group banner
+row instead — better editorial rhythm, and no compositor edge cases. The sticky-_left_
+feature column (a different axis, inside an `overflow-x: auto` container) is fine.
