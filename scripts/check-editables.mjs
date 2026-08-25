@@ -309,6 +309,40 @@ function checkSchemaRegistration() {
   return found;
 }
 
+// ── data_config reachability ─────────────────────────────────────────────────
+// A file in `data_config` is bindable on a page via @data[key], but that only makes
+// the fields that are RENDERED somewhere editable. Anything else in the file — SEO
+// copy, a 404's text — is reachable only through the sidebar collection that browses
+// src/data. If the file is not in that collection's glob, those fields cannot be
+// edited at all, and nothing else reports it.
+function checkDataReachability() {
+  const found = [];
+  const dataColl = Object.entries(collections).find(
+    ([, cfg]) => cfg?.path && Object.values(dataConfig).some((d) => d?.path?.startsWith(cfg.path)),
+  );
+  if (!dataColl) return found;
+  const [collKey, collCfg] = dataColl;
+  const globbed = collCfg.glob;
+  if (!Array.isArray(globbed)) return found;
+
+  for (const [key, cfg] of Object.entries(dataConfig)) {
+    if (!cfg?.path) continue;
+    const base = cfg.path.split('/').pop();
+    if (globbed.some((g) => g === base || g === '*' || g === cfg.path)) continue;
+    found.push({
+      kind: 'UNREACHABLE_DATA_FILE',
+      file: cfg.path,
+      url: `@data[${key}]`,
+      backing: cfg.path,
+      tag: key,
+      detail:
+        `registered in data_config but missing from collections_config.${collKey}.glob ` +
+        `— editors cannot open it in the sidebar, so any field not rendered on a page is uneditable`,
+    });
+  }
+  return found;
+}
+
 // ── walk the builds ──────────────────────────────────────────────────────────
 function* htmlFiles(dir) {
   for (const name of readdirSync(dir)) {
@@ -318,7 +352,7 @@ function* htmlFiles(dir) {
   }
 }
 
-const errors = [...checkInputAmbiguity(), ...checkSchemaRegistration()];
+const errors = [...checkInputAmbiguity(), ...checkSchemaRegistration(), ...checkDataReachability()];
 const warnings = [];
 const stats = { pages: 0, regions: 0, unbacked: 0, byKind: {} };
 

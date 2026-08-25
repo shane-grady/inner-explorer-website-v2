@@ -641,9 +641,13 @@ collections_config:
     name: Site settings
     singular_name: Settings file
     description: Navigation, footer, and other shared site content.
+    # Must list every file registered in `data_config`, or the file is bindable on a
+    # page via @data[key] but unreachable in the sidebar — so any field that is not
+    # rendered on some page (SEO copy, the 404) becomes uneditable.
     glob:
       - navigation.json
       - footer.json
+      - help-ui.json
     icon: settings
     disable_add: true
     disable_url: true
