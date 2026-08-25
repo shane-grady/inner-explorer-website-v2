@@ -21,19 +21,12 @@ interface Props {
   roles: Option[];
   /** "State or region" dropdown options. */
   states: Option[];
-  /** First reassurance line under the form. */
-  helperOne: string;
-  /** Second reassurance line under the form. */
-  helperTwo: string;
   /** Submit button label. */
   submitLabel: string;
-  /** Helper text under the optional message field. */
-  messageHelp: string;
   /** Copy shown in place of the form after a successful submit. */
   confirmation: string;
 }
-const { roles, states, helperOne, helperTwo, submitLabel, messageHelp, confirmation }: Props =
-  Astro.props;
+const { roles, states, submitLabel, confirmation }: Props = Astro.props;
 ---
 
 <form
@@ -44,7 +37,6 @@ const { roles, states, helperOne, helperTwo, submitLabel, messageHelp, confirmat
   data-netlify="true"
   data-netlify-honeypot="bot-field"
   novalidate
-  aria-describedby="demo-form-help"
 >
   <input type="hidden" name="form-name" value="demo" />
   <p class="visually-hidden" aria-hidden="true">
@@ -128,22 +120,11 @@ const { roles, states, helperOne, helperTwo, submitLabel, messageHelp, confirmat
 
     <div class="field field-wide">
       <label for="demo-message">Message for our team</label>
-      <textarea
-        id="demo-message"
-        name="message"
-        class="textarea"
-        rows="4"
-        aria-describedby="demo-message-help"></textarea>
-      <p id="demo-message-help" class="field-help">{messageHelp}</p>
+      <textarea id="demo-message" name="message" class="textarea" rows="4"></textarea>
     </div>
   </div>
 
   <div class="footer-row">
-    <p id="demo-form-help" class="assurance">
-      {helperOne}<br />
-      {helperTwo}
-    </p>
-
     <button type="submit" class="btn-submit">
       <span class="label">{submitLabel}</span>
       <svg
@@ -219,14 +200,6 @@ const { roles, states, helperOne, helperTwo, submitLabel, messageHelp, confirmat
     margin-left: 2px;
     color: var(--color-brand-emphasis);
   }
-  .field-help {
-    margin: 0;
-    font-family: var(--font-sans);
-    font-size: 13px;
-    line-height: 1.45;
-    color: var(--color-muted-foreground);
-  }
-
   .input,
   .select,
   .textarea {
@@ -276,21 +249,15 @@ const { roles, states, helperOne, helperTwo, submitLabel, messageHelp, confirmat
     border-color: var(--color-danger);
   }
 
+  /* The submit button is the only child, so align to the end rather than
+     `space-between`, which would push a lone child to the start edge. */
   .footer-row {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     gap: 20px;
     margin-top: 24px;
     flex-wrap: wrap;
-  }
-
-  .assurance {
-    margin: 0;
-    font-family: var(--font-sans);
-    font-size: 13px;
-    line-height: 1.45;
-    color: var(--color-muted-foreground);
   }
 
   .btn-submit {

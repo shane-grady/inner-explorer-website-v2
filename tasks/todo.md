@@ -1468,3 +1468,19 @@ Owner review after the page went live. Two cuts, no layout work:
 
 The page now ends on the "Already using Inner Explorer?" card. `.contact-page`'s 96px
 bottom padding still separates it from the footer, so no spacing change was needed.
+
+Second pass, same review:
+
+- [x] Removed the reassurance block under the form ("A real person from our team reads
+      every message." / "You will hear back within one business day."). The owner
+      pointed at it by its first line; both lines went, because the second one repeats
+      the subtitle's one-business-day promise almost verbatim and leaving it would have
+      kept the repetition the cut was meant to solve. Flagged for the owner.
+- [x] Removed "Optional. A sentence is plenty." under the message field. Optional
+      fields are already signalled by the absence of the required asterisk, same as
+      "School name".
+- [x] `.footer-row` switched from `space-between` to `flex-end`. The submit button is
+      its only child now, and `space-between` pushes a lone child to the _start_ edge,
+      which would have silently moved the button to the left.
+- [x] Dropped the `aria-describedby` wiring on the form and the textarea along with the
+      elements they pointed at, so no dangling references remain (verified in the DOM).
