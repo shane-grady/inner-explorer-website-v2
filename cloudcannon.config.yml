@@ -166,9 +166,6 @@ collections_config:
             type: textarea
       about:
         path: src/content/pages/about.yml
-        preview:
-          image:
-            - key: hero.image
         name: About
         icon: groups
         _inputs:
@@ -194,9 +191,6 @@ collections_config:
             type: textarea
       narrators-index:
         path: src/content/pages/narrators-index.yml
-        preview:
-          image:
-            - key: momentsRail.moments.0.img
         name: Narrators (index)
         icon: record_voice_over
         _inputs:
@@ -213,9 +207,6 @@ collections_config:
             type: textarea
       districts:
         path: src/content/pages/districts.yml
-        preview:
-          image:
-            - key: hero.image
         name: Districts
         icon: school
         _inputs:
@@ -288,13 +279,17 @@ collections_config:
     # auto screenshots: those regenerate after every build and are frequently absent,
     # which is why the collection browser showed "No preview available" on nearly every
     # item. Reading the entry's own data renders instantly and never goes stale.
+    # NOTE: no `image` here on purpose. Card previews can only show an image the CMS
+    # can fetch by URL, and every content image on this site is stored as a path into
+    # src/assets/ (e.g. ../../assets/images/...) so Astro can optimise it. Astro emits
+    # those as content-hashed /_astro/ files; the source path itself 404s. Adding
+    # `image` therefore renders an empty band rather than a thumbnail. Text + subtext
+    # come from the entry's own data and always resolve.
     preview:
       text:
         - key: title
       subtext:
         - key: category
-      image:
-        - key: heroImage
     path: src/content/blog
     name: Blog
     singular_name: Blog post
@@ -366,8 +361,6 @@ collections_config:
         - key: meta.titleLead
       subtext:
         - key: district.name
-      image:
-        - key: meta.heroImage
     path: src/content/case-studies
     name: Case studies
     singular_name: Case study
@@ -528,8 +521,6 @@ collections_config:
         - key: name
       subtext:
         - key: role
-      image:
-        - key: photo
     path: src/content/narrators
     name: Narrators
     singular_name: Narrator
@@ -590,8 +581,6 @@ collections_config:
         - key: name
       subtext:
         - key: category
-      image:
-        - key: hero.image
     path: src/content/series
     name: Practice series
     singular_name: Practice series
