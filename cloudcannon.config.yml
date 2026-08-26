@@ -166,6 +166,9 @@ collections_config:
             type: textarea
       about:
         path: src/content/pages/about.yml
+        preview:
+          image:
+            - key: hero.image
         name: About
         icon: groups
         _inputs:
@@ -191,6 +194,9 @@ collections_config:
             type: textarea
       narrators-index:
         path: src/content/pages/narrators-index.yml
+        preview:
+          image:
+            - key: momentsRail.moments.0.img
         name: Narrators (index)
         icon: record_voice_over
         _inputs:
@@ -207,6 +213,9 @@ collections_config:
             type: textarea
       districts:
         path: src/content/pages/districts.yml
+        preview:
+          image:
+            - key: hero.image
         name: Districts
         icon: school
         _inputs:
@@ -275,6 +284,17 @@ collections_config:
           subtitle:
             type: textarea
   blog:
+    # Card previews are configured explicitly rather than relying on CloudCannon's
+    # auto screenshots: those regenerate after every build and are frequently absent,
+    # which is why the collection browser showed "No preview available" on nearly every
+    # item. Reading the entry's own data renders instantly and never goes stale.
+    preview:
+      text:
+        - key: title
+      subtext:
+        - key: category
+      image:
+        - key: heroImage
     path: src/content/blog
     name: Blog
     singular_name: Blog post
@@ -337,6 +357,17 @@ collections_config:
             icon: help
 
   caseStudies:
+    # Card previews are configured explicitly rather than relying on CloudCannon's
+    # auto screenshots: those regenerate after every build and are frequently absent,
+    # which is why the collection browser showed "No preview available" on nearly every
+    # item. Reading the entry's own data renders instantly and never goes stale.
+    preview:
+      text:
+        - key: meta.titleLead
+      subtext:
+        - key: district.name
+      image:
+        - key: meta.heroImage
     path: src/content/case-studies
     name: Case studies
     singular_name: Case study
@@ -443,6 +474,15 @@ collections_config:
             icon: ads_click
 
   help:
+    # Card previews are configured explicitly rather than relying on CloudCannon's
+    # auto screenshots: those regenerate after every build and are frequently absent,
+    # which is why the collection browser showed "No preview available" on nearly every
+    # item. Reading the entry's own data renders instantly and never goes stale.
+    preview:
+      text:
+        - key: title
+      subtext:
+        - key: blurb
     path: src/content/help
     name: Help center
     singular_name: Help article
@@ -479,6 +519,17 @@ collections_config:
           values: []
 
   narrators:
+    # Card previews are configured explicitly rather than relying on CloudCannon's
+    # auto screenshots: those regenerate after every build and are frequently absent,
+    # which is why the collection browser showed "No preview available" on nearly every
+    # item. Reading the entry's own data renders instantly and never goes stale.
+    preview:
+      text:
+        - key: name
+      subtext:
+        - key: role
+      image:
+        - key: photo
     path: src/content/narrators
     name: Narrators
     singular_name: Narrator
@@ -530,6 +581,17 @@ collections_config:
           values: _select_data.languages
 
   series:
+    # Card previews are configured explicitly rather than relying on CloudCannon's
+    # auto screenshots: those regenerate after every build and are frequently absent,
+    # which is why the collection browser showed "No preview available" on nearly every
+    # item. Reading the entry's own data renders instantly and never goes stale.
+    preview:
+      text:
+        - key: name
+      subtext:
+        - key: category
+      image:
+        - key: hero.image
     path: src/content/series
     name: Practice series
     singular_name: Practice series
@@ -618,6 +680,15 @@ collections_config:
             icon: ads_click
 
   testimonials:
+    # Card previews are configured explicitly rather than relying on CloudCannon's
+    # auto screenshots: those regenerate after every build and are frequently absent,
+    # which is why the collection browser showed "No preview available" on nearly every
+    # item. Reading the entry's own data renders instantly and never goes stale.
+    preview:
+      text:
+        - key: name
+      subtext:
+        - key: org
     path: src/content/testimonials
     name: Testimonials
     singular_name: Testimonial
@@ -641,9 +712,13 @@ collections_config:
     name: Site settings
     singular_name: Settings file
     description: Navigation, footer, and other shared site content.
+    # Must list every file registered in `data_config`, or the file is bindable on a
+    # page via @data[key] but unreachable in the sidebar — so any field that is not
+    # rendered on some page (SEO copy, the 404) becomes uneditable.
     glob:
       - navigation.json
       - footer.json
+      - help-ui.json
     icon: settings
     disable_add: true
     disable_url: true
@@ -2350,11 +2425,26 @@ _snippets:
       component_name: Callout
       content_key: callout_content
       named_args:
+        # `optional: true` matters for MATCHING, not just for validation: a named_arg
+        # without it must be present in the markup or CloudCannon fails to match the
+        # snippet and shows "cannot be edited — Unexpected element". A `default` does
+        # NOT make an arg optional. Callout.astro defaults `type` to 'tip', so the two
+        # usages that omit it (privacy-policy.mdx, signing-in.mdx) render correctly but
+        # were uneditable until this was marked optional.
         - editor_key: type
           type: string
           default: tip
+          optional: true
           allowed_values: [tip, note, good]
         - editor_key: label
+          type: string
+          optional: true
+          remove_empty: true
+        # Callout.astro also accepts `heading`, which promotes the aside from a quiet
+        # note to a signposted one. It was missing here, so every `<Callout heading=…>`
+        # was unmatched and the editor showed "<callout> cannot be edited — Unexpected
+        # element" instead of the snippet.
+        - editor_key: heading
           type: string
           optional: true
           remove_empty: true
@@ -2363,6 +2453,9 @@ _snippets:
         type: select
         options:
           values: [tip, note, good]
+      heading:
+        type: text
+        comment: Optional. Replaces the small eyebrow with a sentence-case heading.
   help_figure:
     template: mdx_component
     inline: false

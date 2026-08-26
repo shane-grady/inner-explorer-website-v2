@@ -309,6 +309,118 @@ function checkSchemaRegistration() {
   return found;
 }
 
+// ── data_config reachability ─────────────────────────────────────────────────
+// A file in `data_config` is bindable on a page via @data[key], but that only makes
+// the fields that are RENDERED somewhere editable. Anything else in the file — SEO
+// copy, a 404's text — is reachable only through the sidebar collection that browses
+// src/data. If the file is not in that collection's glob, those fields cannot be
+// edited at all, and nothing else reports it.
+function checkDataReachability() {
+  const found = [];
+  const dataColl = Object.entries(collections).find(
+    ([, cfg]) => cfg?.path && Object.values(dataConfig).some((d) => d?.path?.startsWith(cfg.path)),
+  );
+  if (!dataColl) return found;
+  const [collKey, collCfg] = dataColl;
+  const globbed = collCfg.glob;
+  if (!Array.isArray(globbed)) return found;
+
+  for (const [key, cfg] of Object.entries(dataConfig)) {
+    if (!cfg?.path) continue;
+    const base = cfg.path.split('/').pop();
+    if (globbed.some((g) => g === base || g === '*' || g === cfg.path)) continue;
+    found.push({
+      kind: 'UNREACHABLE_DATA_FILE',
+      file: cfg.path,
+      url: `@data[${key}]`,
+      backing: cfg.path,
+      tag: key,
+      detail:
+        `registered in data_config but missing from collections_config.${collKey}.glob ` +
+        `— editors cannot open it in the sidebar, so any field not rendered on a page is uneditable`,
+    });
+  }
+  return found;
+}
+
+// ── MDX snippet coverage ─────────────────────────────────────────────────────
+// Components inside MDX bodies are editable only if a `_snippets` entry matches BOTH
+// the component name and the attributes used. An attribute the snippet does not
+// declare makes the whole element unmatched, and the Content Editor renders
+// "<component> cannot be edited — Unexpected element" instead of the snippet. The
+// page still builds correctly, so nothing else catches it.
+function checkSnippetCoverage() {
+  const found = [];
+  const byComponent = {};
+  for (const [key, snip] of Object.entries(cc._snippets ?? {})) {
+    const def = snip?.definitions;
+    if (!def?.component_name) continue;
+    const args = new Set();
+    const required = new Set();
+    for (const a of def.named_args ?? []) {
+      if (!a?.editor_key) continue;
+      args.add(a.editor_key);
+      // `optional: true` governs MATCHING, not just validation. An arg without it must
+      // appear in the markup or the snippet does not match — a `default` does not help.
+      if (a.optional !== true) required.add(a.editor_key);
+    }
+    (byComponent[def.component_name] ??= []).push({ key, args, required });
+  }
+
+  const dirs = Object.values(collections)
+    .map((c) => c?.path)
+    .filter((p) => p && existsSync(p));
+  const seen = new Set();
+
+  for (const dir of dirs) {
+    for (const name of readdirSync(dir)) {
+      if (!/\.mdx?$/.test(name)) continue;
+      const full = join(dir, name);
+      const src = readFileSync(full, 'utf8');
+      const tag =
+        /<([A-Z][A-Za-z0-9]*)((?:\s+[a-zA-Z][\w-]*(?:=(?:"[^"]*"|'[^']*'|\{[^}]*\}))?)*)\s*\/?>/g;
+      let m;
+      while ((m = tag.exec(src))) {
+        const component = m[1];
+        const attrs = [...(m[2] ?? '').matchAll(/([a-zA-Z][\w-]*)=/g)].map((a) => a[1]);
+        const defs = byComponent[component];
+        let detail;
+        if (!defs) {
+          detail = `no _snippets entry declares component_name: ${component}`;
+        } else {
+          // A usage is fine if ANY definition for this component accepts it: every
+          // attribute declared, and every required arg supplied.
+          const ok = defs.some(
+            (d) =>
+              attrs.every((a) => d.args.has(a)) && [...d.required].every((r) => attrs.includes(r)),
+          );
+          if (!ok) {
+            const unknown = attrs.filter((a) => !defs.some((d) => d.args.has(a)));
+            const missing = [...(defs[0].required ?? [])].filter((r) => !attrs.includes(r));
+            detail = unknown.length
+              ? `uses ${unknown.map((u) => `"${u}"`).join(', ')}, which no snippet declares`
+              : `omits required arg ${missing.map((r) => `"${r}"`).join(', ')} ` +
+                `(mark it \`optional: true\` in the snippet if the component defaults it)`;
+          }
+        }
+        if (!detail) continue;
+        const dedupe = `${full}|${component}|${detail}`;
+        if (seen.has(dedupe)) continue;
+        seen.add(dedupe);
+        found.push({
+          kind: 'UNMATCHED_SNIPPET',
+          file: full,
+          url: full,
+          backing: full,
+          tag: component,
+          detail: `${detail} — the editor shows "cannot be edited: Unexpected element"`,
+        });
+      }
+    }
+  }
+  return found;
+}
+
 // ── walk the builds ──────────────────────────────────────────────────────────
 function* htmlFiles(dir) {
   for (const name of readdirSync(dir)) {
@@ -318,7 +430,12 @@ function* htmlFiles(dir) {
   }
 }
 
-const errors = [...checkInputAmbiguity(), ...checkSchemaRegistration()];
+const errors = [
+  ...checkInputAmbiguity(),
+  ...checkSchemaRegistration(),
+  ...checkDataReachability(),
+  ...checkSnippetCoverage(),
+];
 const warnings = [];
 const stats = { pages: 0, regions: 0, unbacked: 0, byKind: {} };
 
