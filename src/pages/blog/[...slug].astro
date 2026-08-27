@@ -51,6 +51,12 @@ const related = (await getCollection('blog', ({ data }) => !data.draft))
 const metaTitle = d.metaTitle ?? `${d.title} — Inner Explorer`;
 const metaDescription = d.metaDescription ?? d.description;
 
+// The hero photo doubles as the social share card. Without this every post fell
+// back to the site-wide og-default.jpg, so a shared article looked identical to a
+// shared pricing page. `heroImage.src` is a built asset path, absolutised against
+// `Astro.site` because og:image requires a fully-qualified URL.
+const shareImage = d.heroImage ? new URL(d.heroImage.src, Astro.site).toString() : undefined;
+
 // A named author (author + role) is attributed as a Person; otherwise the
 // attribution stays the Inner Explorer brand (Organization).
 const schema = articleSchema(Astro.site, {
@@ -74,7 +80,15 @@ const faqSchema = d.faq
   : null;
 ---
 
-<PageLayout title={metaTitle} description={metaDescription} type="article">
+<PageLayout
+  title={metaTitle}
+  description={metaDescription}
+  type="article"
+  image={shareImage}
+  imageAlt={d.heroImageAlt}
+  imageWidth={d.heroImage?.width}
+  imageHeight={d.heroImage?.height}
+>
   <JsonLd schema={schema} slot="head" />
   {faqSchema && <JsonLd schema={faqSchema} slot="head" />}
   <ReadingProgress />

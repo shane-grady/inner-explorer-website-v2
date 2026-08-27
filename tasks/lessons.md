@@ -529,6 +529,12 @@ src/content/case-studies/*.yaml` for duplicates and renumber.
   `2026-05-12` as UTC midnight; `Intl.DateTimeFormat` then renders it in local
   time → "May 11". Pass `timeZone: 'UTC'` to the formatter so the calendar date
   shows as authored.
+  - **Fixed in `ArticleHeader` but NOT in `blog/index.astro` — caught 2026-08-27**,
+    which had been shipping every card a day early (all five posts) while the
+    article pages showed the right date. Writing the lesson did not fix the second
+    call site. When a date bug like this surfaces, `grep -rn "DateTimeFormat\|
+toLocaleDateString" src/` and fix EVERY formatter at once; a per-file fix leaves
+    the same bug live somewhere the reader will still see it.
 - **Claude Preview screenshots blank out at non-zero scroll** on pages with a
   `position: sticky` rail. DOM/computed-style checks (`preview_inspect`,
   `preview_eval`) are reliable there; for a visual, use a tall viewport so the
@@ -795,3 +801,48 @@ portalId, formId, region })`) produced `<iframe class="hs-form-iframe">` for our
   instead of in the file. This generalizes past legal text: any reviewed, quoted, or
   signed-off content (research claims, testimonial quotes, district-approved copy) is
   content to move, not to improve.
+
+## 2026-08-27 — Transferring a LinkedIn article into the blog collection
+
+- **`StatStrip`'s `.lbl` is `white-space: nowrap`, so `<StatRow>` labels must be
+  ~3–4 words.** Authored a 3-up row with labels like "Of high school athletes report
+  sport-related stress" and the cells silently overlapped and clipped past the column —
+  no build error, no drift failure, just broken layout. Budget ~26 characters per label
+  at a 3-up in the 700px article column. Verify with a live measurement, not the eye:
+  `[...strip.querySelectorAll('.lbl')].map(l => l.scrollWidth > l.parentElement.clientWidth)`.
+- **The count-up regex is `^([\d.,]+)(.*)$`,** so a non-numeric-leading value still
+  animates its numeric head: `"1 in 10"` counts "0 in 10" → "1 in 10" and `"15-28"`
+  counts "0-28" → "15-28". Both land correctly, but a screenshot will catch the
+  partial value. Read the final figure from the DOM (`.num` innerText) after the
+  `setTimeout` snap; don't trust the image.
+- **Blog article screenshots still blank out at non-zero scroll** (sticky `.rail-left`,
+  same trap as 2026-06-17). Verified the pull quote by reading computed styles + text
+  instead. A 1280×2400 viewport captures through the first H2 at scroll 0.
+- **A LinkedIn "pulse" article is fetchable but WebFetch summarizes it.** The small
+  model returned a paraphrase, not the copy. Load the URL in the Browser pane and use
+  `get_page_text` for the body; the source citations are LinkedIn `redir/redirect`
+  wrappers, so pull the real URLs with a DOM query over `main a` and decode the
+  `?url=` parameter (dots are `%2E`-escaped).
+- **When Juliana hands over an article to publish, DO NOT TOUCH THE COPY.** Corrected
+  2026-08-27, after I transferred this LinkedIn piece and rewrote the headline, all five
+  H2s, a grammatically broken McIlroy sentence, and the outcomes sentence (folding its
+  figures into a `<StatRow>`). All of it had to come back out. Her rule: "If you have to
+  adjust some things to fit the design, fine, but do not change my copy."
+  - **Copy** = headline, subhead, every H2, every sentence, quotes, attributions, and
+    the typos and fragments in them. Not mine to improve, even when a sentence is
+    ungrammatical, even when an SEO skill says to keep headings keyword-led, and even
+    when a claim is time-relative ("this year and last") on an evergreen page. Verifying
+    that a fact is TRUE is not a licence to restate it — flag it in the summary instead
+    and let her decide.
+  - **Design adjustment** = the wrapper: which component holds the words (`PullQuote`
+    carrying her quote + attribution), where a link points, frontmatter/SEO fields,
+    taxonomy, and stripping the source platform's markup artifacts (LinkedIn @mention
+    residue: `"Jack Sullivan ,"` → `"Jack Sullivan,"`, `"Inner Explorer 's"` → `"Inner
+Explorer's"`).
+  - **Do not invent new prose under her byline either.** A Quick Read summary and an
+    FAQ are template features here, but the words in them would be mine, published as
+    hers. Offer them; don't add them unasked.
+  - **Verify verbatim mechanically, not by eye.** Save the source to the scratchpad and
+    diff normalized word lists with `difflib.SequenceMatcher`, stripping markdown links
+    and JSX tags. It caught all four remaining deltas in seconds and proves the claim;
+    re-reading my own draft is how I missed them in the first place.

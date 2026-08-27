@@ -12,6 +12,9 @@ interface Props {
   image?: string;
   /** Alt text for the share image (og:image:alt / twitter:image:alt). */
   imageAlt?: string;
+  /** Intrinsic size of the share image; forwarded to og:image:width/height. */
+  imageWidth?: number;
+  imageHeight?: number;
   /** Hide the page from search engines (e.g. the internal styleguide). */
   noindex?: boolean;
   // The nav is a floating glass pill (position: fixed). Pages get top clearance by
@@ -24,6 +27,8 @@ const {
   type = 'website',
   image,
   imageAlt,
+  imageWidth,
+  imageHeight,
   noindex,
   flushTop = false,
 }: Props = Astro.props;
@@ -35,6 +40,8 @@ const {
   type={type}
   image={image}
   imageAlt={imageAlt}
+  imageWidth={imageWidth}
+  imageHeight={imageHeight}
   noindex={noindex}
 >
   <slot name="head" slot="head" />

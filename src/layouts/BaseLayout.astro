@@ -18,6 +18,10 @@ interface Props {
   image?: string;
   /** Alt text for the share image (og:image:alt / twitter:image:alt). */
   imageAlt?: string;
+  /** Intrinsic size of the share image. Scrapers render the FIRST share from these,
+   *  so a wrong ratio crops the card — pass the real dimensions with `image`. */
+  imageWidth?: number;
+  imageHeight?: number;
   /** Hide the page from search engines (e.g. the internal styleguide). */
   noindex?: boolean;
   /**
@@ -43,6 +47,8 @@ const {
   type = 'website',
   image,
   imageAlt,
+  imageWidth,
+  imageHeight,
   noindex = false,
   canonical,
   surface = 'Website',
@@ -96,6 +102,8 @@ const intercomAppId = import.meta.env.PUBLIC_INTERCOM_APP_ID;
       type={type}
       image={image}
       imageAlt={imageAlt}
+      imageWidth={imageWidth}
+      imageHeight={imageHeight}
       canonical={canonical}
     />
     <JsonLd schema={org} />

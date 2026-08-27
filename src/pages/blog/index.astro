@@ -23,7 +23,11 @@ const { hero, readMoreLabel, pageTitle, pageDescription } = entry.data;
 const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
   (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
 );
-const dateFmt = new Intl.DateTimeFormat('en-US', { dateStyle: 'long' });
+// `timeZone: 'UTC'` is required: `z.coerce.date()` parses a date-only `pubDate`
+// as UTC midnight, which formats as the PREVIOUS day in western timezones — this
+// index was showing "June 2" for a post dated 2026-06-03 while the article page
+// (which already passes UTC) showed "June 3". Matches ArticleHeader.astro.
+const dateFmt = new Intl.DateTimeFormat('en-US', { dateStyle: 'long', timeZone: 'UTC' });
 ---
 
 <PageLayout title={pageTitle} description={pageDescription}>
