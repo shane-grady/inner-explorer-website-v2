@@ -31,8 +31,8 @@ draft: false
 # description ≤155 chars with the stat first.
 seoTitle: 'La Joya ISD: 85% Fewer Behavior Issues in Special Education'
 seoDescription: >-
-  Reported behavior issues fell 85% in La Joya ISD special education classrooms
-  with Inner Explorer's daily mindfulness practice — in English and Spanish.
+  Reported behavior issues fell 85% in La Joya ISD special education classrooms with Inner
+  Explorer's daily mindfulness practice, in English and Spanish.
 publishedDate: 2026-06-10T00:00:00Z
 updatedDate: 2026-06-10T00:00:00Z
 
@@ -45,10 +45,10 @@ meta:
   # The dek doubles as the page's quotable answer: it names the district, the place,
   # the program, and the outcome in one self-contained passage.
   dek: >-
-    At La Joya Independent School District in Texas's Rio Grande Valley, special
-    education teacher Judith Lopez Guerra leads Inner Explorer's audio-guided
-    mindfulness practice twice a day, in English and Spanish — and reported behavior
-    issues in special education classrooms fell 85%.
+    At La Joya Independent School District in Texas's Rio Grande Valley, special education
+    teacher Judith Lopez Guerra runs Inner Explorer's audio-guided mindfulness practice
+    twice a day, in English and Spanish. Reported behavior issues in special education
+    classrooms fell 85%.
   readingTime: '6 min read'
   published: 'Updated June 2026'
   heroImage: '../../assets/images/case-studies/la-joya-isd/hero-daily-practice.jpg'
@@ -60,16 +60,16 @@ district:
   location: 'Rio Grande Valley · La Joya, Texas'
   snapshot:
     - { value: '85%', label: 'Fewer reported behavior issues in special education classrooms' }
-    - { value: '2×', label: 'Daily practice — morning and end of day' }
-    - { value: '2', label: 'Languages of daily practice — English and Spanish' }
+    - { value: '2×', label: 'Daily practice, morning and end of day' }
+    - { value: '2', label: 'Languages of daily practice: English and Spanish' }
     - { value: 'Anytime', label: 'On-demand resets, often requested by students' }
-    - { value: '0', label: 'Prep required — educators press play' }
+    - { value: '0', label: 'Prep required, since educators just press play' }
 
 # Scannable TLDR shown beneath the "at a glance" stat band.
 keyInsights:
   items:
     - label: 'Challenge'
-      text: "Students with disabilities often can't put distress into words, so it surfaces as behavior — and a stressed brain can't learn."
+      text: "Students with disabilities often can't put distress into words, so it surfaces as behavior. And a stressed brain can't learn."
     - label: 'Approach'
       text: 'An audio-guided practice runs twice a day, in English and Spanish, with the teacher practicing right alongside her students.'
     - label: 'Outcome'
@@ -80,33 +80,31 @@ keyInsights:
 intro:
   challenge:
     eyebrow: 'The Challenge'
-    heading: 'The students with the most to say were the least able to say it'
+    heading: 'Distress showed up as behavior before it showed up as words'
     body:
       - >-
         In schools and centers across the country, mental health concerns are on the
-        rise — and at the same time, students and educators face immense pressure to
-        perform academically and close the learning gap left by the pandemic. Cynthia
-        Salgado, a behavior specialist at La Joya Independent School District, sees
-        what that looks like up close: students are looking for help, and oftentimes
-        it plays out through noticeable stress and anxiety, anger and frustration, or
-        breaking down emotionally.
+        rise, and at the same time students and educators face heavy pressure to perform
+        academically and close the learning gap left by the pandemic. Cynthia Salgado, a
+        behavior specialist at La Joya Independent School District, sees what that looks
+        like up close: students are looking for help, and often it plays out as stress
+        and anxiety, anger and frustration, or breaking down emotionally.
       - >-
         For students with disabilities, those challenges are amplified. Many already
         find it difficult to express how they are feeling and advocate for what they
-        need — so distress surfaces as behavior long before it surfaces as words.
-        The voice is there; what these students need is a dependable way to find it.
+        need, so distress surfaces as behavior long before it surfaces as words.
       - >-
         There is a reason a stressed student can't simply be taught out of a hard
         moment. Traditional SEL curricula are designed to activate the prefrontal
-        cortex — the part of the brain associated with learning. But when the brain
-        is stressed, it cannot access what it cognitively knows, and it cannot absorb
-        new information. Something had to lower the stress first.
+        cortex, the part of the brain associated with learning. But when the brain is
+        stressed, it cannot reach what it cognitively knows, and it cannot absorb new
+        information. Something had to lower the stress first.
     image: '../../assets/images/case-studies/la-joya-isd/challenge-overwhelmed.jpg'
     imageAlt: 'A student sitting at a classroom desk, overwhelmed during an academic lesson'
     stat:
       {
         value: '0',
-        label: 'new information a stressed brain can absorb — the stress has to come down first',
+        label: 'new information a stressed brain can absorb, until the stress comes down',
       }
   approach:
     eyebrow: 'The Approach'
@@ -119,18 +117,17 @@ intro:
         offers foundational support for the five core competencies of social and
         emotional learning: self-awareness, self-management, social awareness,
         relationship skills, and responsible decision-making. La Joya educators use
-        MBSEL through Inner Explorer as a preventative, whole-class practice — the
-        Tier 1, universal layer in a multi-tiered system of supports (MTSS) — not a
-        reaction to crisis. By targeting stress first, the daily practice opens the
-        door the traditional curriculum knocks on.
+        MBSEL through Inner Explorer as a preventative, whole-class practice: the Tier 1
+        universal layer in a multi-tiered system of supports (MTSS), rather than a
+        reaction to crisis. Lowering the stress first is what makes the rest of the
+        curriculum reachable.
       - >-
-        In Judith Lopez Guerra's special education classroom, the audio-guided
-        practice runs twice a day — in the morning to prepare for academics, and at
-        the end of the school day before going home — in English and in Spanish.
-        The lights dim, the practice plays, and Judith practices right alongside her
-        students. Through Inner Explorer, she, her co-teachers, and colleagues have
-        noticed a remarkable difference in student behavior, made evident by a
-        drastic decrease in the number of reported behavioral issues.
+        In Judith Lopez Guerra's special education classroom, the audio-guided practice
+        runs twice a day in English and in Spanish: in the morning to prepare for
+        academics, and at the end of the school day before going home. The lights dim,
+        the practice plays, and Judith practices right alongside her students. She, her
+        co-teachers, and colleagues have seen student behavior change, and reported
+        behavioral issues drop sharply.
     image: '../../assets/images/case-studies/la-joya-isd/approach-press-play.jpg'
     imageAlt: 'A teacher starting an audio-guided mindfulness practice for her special education class'
 
@@ -143,23 +140,23 @@ timeline:
     - date: 'Across the district'
       tag: 'Baseline'
       title: 'Distress surfaces as behavior'
-      text: 'Mental health concerns rise nationally while students carry pandemic-era academic pressure. At La Joya, behavior specialist Cynthia Salgado sees it as stress and anxiety, anger and frustration, or breaking down emotionally — amplified for students with disabilities, who often find it hardest to say what they need.'
+      text: 'Mental health concerns rise nationally while students carry pandemic-era academic pressure. At La Joya, behavior specialist Cynthia Salgado sees it as stress and anxiety, anger and frustration, or breaking down emotionally. It is amplified for students with disabilities, who often find it hardest to say what they need.'
     - date: 'One classroom'
       tag: 'Seed'
       title: 'A daily practice begins, in two languages'
-      text: "Special education teacher Judith Lopez Guerra brings Inner Explorer's audio-guided MBSEL practice into her classroom in English and Spanish — support that begins before a crisis, not after one."
+      text: "Special education teacher Judith Lopez Guerra brings Inner Explorer's audio-guided MBSEL practice into her classroom in English and Spanish, as support that begins before a crisis rather than after one."
     - date: 'Every school day'
       tag: 'Routine'
       title: 'Twice a day, lights dimmed, everyone together'
-      text: 'The practice settles into a rhythm: morning to prepare for academics, end of day before going home. Judith practices alongside her students, and extra sessions happen the moment a lesson overwhelms — often because students ask for one.'
+      text: 'The practice settles into a rhythm: morning to prepare for academics, end of day before going home. Judith practices alongside her students, and extra sessions happen the moment a lesson overwhelms, often because students ask for one.'
     - date: 'The shift'
       tag: 'Proof'
       title: 'Reported behavior issues fall 85%'
-      text: 'Judith, her co-teachers, and colleagues see a remarkable difference in student behavior — a drastic decrease in reported behavioral issues, and students who were once extremely shy learning to ask for what they need: self-advocacy, practiced daily.'
+      text: 'Judith, her co-teachers, and colleagues see student behavior change: reported behavioral issues drop sharply, and students who were once extremely shy learn to ask for what they need.'
     - date: 'Beyond the classroom'
       tag: 'Sustain'
       title: 'The practice follows students home'
-      text: "Reflection drawings fill the classroom corner display, and families join the daily practice in real time through the Inner Explorer HOME app's Tune In feature — turning a classroom routine into a lifelong tool."
+      text: "Reflection drawings fill the classroom corner display, and families join the daily practice in real time through the Inner Explorer HOME app's Tune In feature."
 
 metrics:
   eyebrow: 'The Results'
@@ -174,7 +171,7 @@ metrics:
     Reported behavior issues in La Joya ISD's special education classrooms fell 85%
     with Inner Explorer's daily mindfulness practice, delivered in English and
     Spanish. The figure is an observation reported by La Joya educators in the
-    original case study — not a controlled study — and the source document is
+    original case study, not a controlled study, and the source document is
     undated. Classroom practices are as reported by those educators; framework and
     research context are drawn from the sources cited below.
   featured:
@@ -185,7 +182,7 @@ metrics:
   grid:
     - {
         value: '2×',
-        label: 'daily practice — morning to prepare for academics, end of day before home',
+        label: 'daily practice: morning to prepare for academics, end of day before home',
         sourceId: 1,
       }
     - {
@@ -208,7 +205,7 @@ metrics:
     - {
         value: '0',
         unit: 'prep',
-        label: 'the practices are fully audio-guided — educators and co-teachers simply press play',
+        label: 'the practices are fully audio-guided, so educators and co-teachers simply press play',
       }
     - {
         value: '1',
@@ -298,7 +295,7 @@ voices:
     # PUBLISH GATE: placeholder portrait — same rule as above.
     portrait: '../../assets/images/case-studies/la-joya-isd/voice-garza.jpg'
     portraitAlt: 'Portrait of a school counselor (placeholder image)'
-    stat: { value: '2×', label: 'daily practice — morning and end of day' }
+    stat: { value: '2×', label: 'daily practice, morning and end of day' }
   # A real quote from the source case study — Judith on what shifts for shy
   # students. Rendered as a classroom card (no portrait).
   - kind: 'From the classroom'
@@ -311,7 +308,7 @@ voices:
 
 gallery:
   eyebrow: 'Inside the classrooms'
-  heading: 'A practice that meets students where they are'
+  heading: 'Twice a day, in two languages'
   images:
     - {
         src: '../../assets/images/case-studies/la-joya-isd/gallery-1-morning-practice.jpg',
@@ -348,41 +345,38 @@ faq:
   eyebrow: 'FAQ'
   titleHtml: 'The questions <em>special education leaders ask about this story.</em>'
   intro: >-
-    Direct answers from La Joya ISD's classrooms — what the twice-daily practice
-    asked of educators, how it works for students with disabilities, and how
-    families practice along.
+    Answers from La Joya classrooms: what the twice-daily practice asked of educators, how
+    it works for students with disabilities, and how families practice along.
   items:
     - q: "How did La Joya ISD's special education classrooms reduce behavior issues?"
       a: >-
         Reported behavior issues in La Joya ISD's special education classrooms fell
         85% with Inner Explorer's daily mindfulness practice, delivered in English
         and Spanish. The routine behind the number: an audio-guided practice at a set
-        time twice a day — morning and end of day — with the lights dimmed and
-        educators practicing alongside students.
+        time twice a day, morning and end of day, with the lights dimmed and educators
+        practicing alongside students.
     - q: 'Does daily mindfulness work for students with disabilities?'
       a: >-
         At La Joya it changed the classroom. Students with disabilities often find it
-        difficult to express how they are feeling and advocate for what they need —
-        and after building a daily practice, "students who were once extremely shy
-        learn to ask for what they need," says special education teacher Judith Lopez
-        Guerra. That growth in self-advocacy is supported by structure: a set time,
-        dimmed lights, and the option to draw or journal during reflection meet
-        students where they are.
+        difficult to express how they are feeling and advocate for what they need.
+        After building a daily practice, "students who were once extremely shy learn to
+        ask for what they need," says special education teacher Judith Lopez Guerra.
+        Structure is part of what makes that possible: a set time, dimmed lights, and the
+        option to draw or journal during reflection.
     - q: 'Is the daily practice available in Spanish?'
       a: >-
         Yes. Judith Lopez Guerra practices daily mindfulness in English and in
-        Spanish in her La Joya classroom with Inner Explorer — so the practice
-        reaches students in the language of their classroom and their home.
+        Spanish in her La Joya classroom with Inner Explorer, so the practice reaches
+        students in the language of their classroom and their home.
     - q: 'What is Mindfulness-Based Social Emotional Learning (MBSEL)?'
       a: >-
         MBSEL is social-emotional learning built on daily mindfulness practice
-        rather than occasional lessons — a term coined by Inner Explorer co-founder
-        Dr. Laura Bakosh. The daily practice targets stress first, because a
-        stressed brain cannot access what it cognitively knows or absorb new
-        information.
+        rather than occasional lessons. Inner Explorer co-founder Dr. Laura Bakosh
+        coined the term. The daily practice targets stress first, because a stressed
+        brain cannot reach what it cognitively knows or absorb new information.
     - q: 'How much training did teachers need to run the practice?'
       a: >-
-        None beyond pressing play — the practices are fully audio-guided. At La Joya,
+        None beyond pressing play, since the practices are fully audio-guided. At La Joya,
         Judith and her co-teachers practice alongside their students, which removes
         stigma and helps students feel safe. Educators also get their own support:
         the Inner Explorer Educator Well-Being Series supplements the classroom
@@ -390,14 +384,14 @@ faq:
     - q: 'Can families practice at home with their students?'
       a: >-
         Yes. Families download the Inner Explorer HOME app and use its Tune In
-        feature to listen to the classroom's daily practice in real time — or
-        whenever their schedule allows. Students and families can then talk about
+        feature to listen to the classroom's daily practice in real time, or whenever
+        their schedule allows. Students and families can then talk about
         what came up during the practice at home.
     - q: 'How can a district fund a program like this?'
       a: >-
         Districts typically fund daily mindfulness practice in special education
-        settings through IDEA Part B — the lane that already supports their special
-        education programming — or through Title IV, Part A (Student Support and
+        settings through IDEA Part B, the lane that already supports their special
+        education programming, or through Title IV, Part A (Student Support and
         Academic Enrichment). Districts that want to extend the practice to students
         not yet identified for special education can use coordinated early
         intervening services (CEIS). Our partnerships team helps districts match
@@ -408,11 +402,10 @@ cta:
   heading: 'Bring daily mindfulness'
   headingEmphasis: 'to your special education classrooms'
   body: >-
-    See what a twice-daily, audio-guided MBSEL practice could look like for your
-    students — in English and Spanish, with zero prep for educators. As Judith Lopez
-    Guerra puts it, the tools students learn through MBSEL are tools they can take
-    with them for their entire lives. We'll walk you through how La Joya educators
-    made the practice stick.
+    As Judith Lopez Guerra puts it, the tools students learn through MBSEL are tools they
+    can take with them for their entire lives. If you want a twice-daily, audio-guided
+    practice in English and Spanish with zero prep for educators, let's talk about how La
+    Joya educators built it.
   primary: { label: 'Contact us', href: '/contact' }
   secondary:
     {

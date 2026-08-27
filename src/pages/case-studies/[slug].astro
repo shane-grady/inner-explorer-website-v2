@@ -43,7 +43,7 @@ const { entry, next } = Astro.props;
 const d = entry.data;
 const path = `/case-studies/${entry.id}/`;
 
-const title = d.seoTitle ?? `${d.district.shortName} Case Study — Inner Explorer`;
+const title = d.seoTitle ?? `${d.district.shortName} Case Study | Inner Explorer`;
 const description = d.seoDescription ?? d.meta.dek;
 
 // Social-share card: the hero photo at the standard 1200×630 OG crop.
