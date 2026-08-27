@@ -534,6 +534,15 @@ function isPrice(v: Cell): v is PriceCell {
        feature column sticks left as the reader's anchor. */
     .cmp-scroll {
       overflow-x: auto;
+      /* `overflow-x: auto` alone does NOT stop the table's `min-width` from
+         inflating documentElement.scrollWidth in Chromium — which resizes the
+         fixed nav pill (whose containing block that is) and pushes the mobile
+         menu button off the right edge of the screen. Containment keeps the wide
+         table's size from escaping the scroller. Kept inside the media query
+         because that is the only place the table exceeds its container: above
+         this width it fits, so containment would change paint behaviour for no
+         reason. */
+      contain: layout paint;
     }
     /* Fixed widths, not percentages: the sticky feature column has to leave room
        for at least one whole plan column beside it on a phone. */
@@ -562,8 +571,13 @@ function isPrice(v: Cell): v is PriceCell {
     .cmp-inner {
       padding: 0 16px;
     }
+    /* Phone budget: a 375px screen leaves ~341px inside the card. The sticky
+       feature column takes 220px of that, so the plan columns have to fit a whole
+       column into the remaining ~121px — at the old 133px you never saw one
+       complete, which defeats the point of a comparison. 100px columns fit, with
+       the next one peeking to advertise the scroll. */
     table {
-      min-width: 620px;
+      min-width: 520px;
     }
     .th-feat {
       width: 220px;
@@ -576,6 +590,22 @@ function isPrice(v: Cell): v is PriceCell {
     }
     .feat-name {
       font-size: 14px;
+    }
+    .th-col,
+    .td-cell,
+    .grp-col {
+      padding-left: 6px;
+      padding-right: 6px;
+    }
+    /* 11.5px is too small to read on a phone held at arm's length. */
+    .addon-note {
+      font-size: 12px;
+    }
+    /* Keeps the longest label ("Contact us for districtwide pricing") from
+       wrapping to four lines and dragging the whole footer row taller. */
+    .foot-cta {
+      padding: 8px 10px;
+      font-size: 12px;
     }
   }
 </style>
