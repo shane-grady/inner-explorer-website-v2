@@ -31,6 +31,14 @@
   status = 301
   force = true
 
+# /privacy is the short form people type and hand-link; the canonical policy page is
+# /privacy-policy. `force` wins over the static redirect page Astro also emits.
+[[redirects]]
+  from = "/privacy"
+  to = "/privacy-policy/"
+  status = 301
+  force = true
+
 # Long-cache Astro's content-hashed assets; they never change for a given hash.
 [[headers]]
   for = "/_astro/*"

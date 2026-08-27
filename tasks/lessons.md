@@ -777,3 +777,21 @@ portalId, formId, region })`) produced `<iframe class="hs-form-iframe">` for our
   cost a red `format:check` on main. Either format before staging, or `git add -A` again
   right before committing. Verify with `git diff <sha> -- <file>`, which shows the gap;
   `git status` alone is easy to skim past.
+
+- **Never write or edit legal copy. Move it verbatim.** Asked to turn the Help Center
+  privacy policy into its own page and make it "a standard privacy policy page that
+  would pass all inspection," I read "pass inspection" as a licence to fill gaps and
+  added four sections (request handling, extra state-law rights, international
+  transfers, Do Not Track) plus moved the effective date out of the body table into
+  frontmatter. All of it had to come back out. A privacy policy is a legal instrument
+  that has been reviewed and, in this case, is referenced by signed district DPAs; new
+  commitments in it are a legal change, not a copy improvement, and I cannot know what
+  counsel already decided to leave out. "Pass inspection" means the PAGE is sound
+  (canonical URL, valid structured data, reachable from the footer, accessible,
+  editable), not that the DOCUMENT is rewritten. Treat policy text as read-only:
+  transfer it byte for byte, verify with a body-only diff
+  (`git show HEAD:<file> | awk 'f{print} /^---$/{c++; if(c==2) f=1}'` against the same
+  on the working copy), and put any suggested additions in the summary as a question
+  instead of in the file. This generalizes past legal text: any reviewed, quoted, or
+  signed-off content (research claims, testimonial quotes, district-approved copy) is
+  content to move, not to improve.

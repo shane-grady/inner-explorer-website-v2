@@ -285,6 +285,31 @@
         "4483"
       ],
       "port": 4483
+    },
+    {
+      "name": "ie-dev-privacy",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "exec",
+        "astro",
+        "dev",
+        "--port",
+        "4485"
+      ],
+      "port": 4485
+    },
+    {
+      "_comment": "Serves the PRODUCTION build in dist/ (astro preview) for verifying /privacy-policy.",
+      "name": "ie-preview-privacy-4486",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "exec",
+        "astro",
+        "preview",
+        "--port",
+        "4486"
+      ],
+      "port": 4486
     }
   ]
 }

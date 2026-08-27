@@ -1,0 +1,136 @@
+---
+// Legal-document shell for the marketing site: the privacy policy today, a terms of
+// service or accessibility statement next. Deliberately NOT the centred
+// EditorialMasthead every other page uses — a policy has to read as a document a
+// reviewer can cite, so the chrome is left-aligned, dated, and quiet.
+//
+// The body arrives through the default slot already rendered (an MDX <Content />),
+// wrapped here in the shared `.prose-help` documentation prose from global.css. The
+// outline reuses the blog's ArticleToc in its unnumbered variant, so a policy's
+// section list looks like the Help Center's rather than a countdown.
+import Container from '../../primitives/Container.astro';
+import Breadcrumb from '../../primitives/Breadcrumb.astro';
+import ArticleToc from '../blog/ArticleToc.astro';
+import { editableText, type EditablePrefix } from '../../../lib/editable';
+
+interface TocItem {
+  slug: string;
+  text: string;
+}
+interface Props {
+  /** Uppercase kicker above the title (e.g. 'Legal'). */
+  eyebrow?: string;
+  title: string;
+  /** One-line summary of the document, under the title. */
+  intro?: string;
+  /** H2 outline for the sticky sidebar. Omit to render a single-column document. */
+  toc?: TocItem[];
+  /** Breadcrumb trail; the last entry is the current page. */
+  crumbs?: { label: string; href?: string }[];
+  /**
+   * CloudCannon path prefix for the page's own fields ('' for fields at the root of
+   * its `pages` entry). Only `eyebrow` is bound: `title`, `intro`, and the `meta`
+   * lines are read from the DOCUMENT (the MDX in the `help` collection), not from the
+   * page entry, so a region here would resolve against the wrong file and the Visual
+   * Editor would paint a red error card. Those are edited on the document itself.
+   * See src/lib/editable.ts.
+   */
+  editablePrefix?: EditablePrefix;
+}
+const { eyebrow, title, intro, toc = [], crumbs = [], editablePrefix }: Props = Astro.props;
+---
+
+<Container width="default" class="py-section-sm">
+  <article class="legal">
+    <header class="legal-head">
+      {crumbs.length > 0 && <Breadcrumb items={crumbs} class="legal-crumb" />}
+      {
+        eyebrow && (
+          <p class="legal-eyebrow" {...editableText(editablePrefix, 'eyebrow')}>
+            {eyebrow}
+          </p>
+        )
+      }
+      <h1 class="legal-title">{title}</h1>
+      {intro && <p class="legal-intro">{intro}</p>}
+    </header>
+
+    <div class="legal-body" data-has-toc={toc.length > 0}>
+      <div class="prose-help">
+        <slot />
+      </div>
+      {
+        toc.length > 0 && (
+          <aside class="legal-aside">
+            <ArticleToc items={toc} label="Contents" numbered={false} />
+          </aside>
+        )
+      }
+    </div>
+  </article>
+</Container>
+
+<style>
+  .legal-head {
+    max-width: 760px;
+    padding-bottom: 36px;
+    border-bottom: 1px solid var(--color-border);
+  }
+  /* `:global` because the class lands on the Breadcrumb component's root node, which
+     does not carry this file's scope attribute. */
+  :global(.legal-crumb) {
+    margin-bottom: 26px;
+  }
+  .legal-eyebrow {
+    margin: 0 0 14px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-brand-emphasis);
+  }
+  .legal-title {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: clamp(2.25rem, 1.8rem + 2.2vw, 3.25rem);
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+    color: var(--color-foreground);
+  }
+  .legal-intro {
+    margin: 18px 0 0;
+    max-width: 60ch;
+    font-size: 1.1875rem;
+    line-height: 1.55;
+    color: var(--color-muted-foreground);
+    text-wrap: pretty;
+  }
+  .legal-body {
+    margin-top: 40px;
+  }
+  /* Outline sits beside the document from lg up, and is simply omitted below that
+     (the document's own headings are the outline on a phone). */
+  @media (min-width: 1024px) {
+    .legal-body[data-has-toc='true'] {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 232px;
+      gap: 64px;
+      align-items: start;
+    }
+  }
+  .legal-aside {
+    display: none;
+  }
+  @media (min-width: 1024px) {
+    .legal-aside {
+      display: block;
+      position: sticky;
+      /* Clears the fixed nav pill. */
+      top: 120px;
+      max-height: calc(100vh - 160px);
+      overflow-y: auto;
+    }
+  }
+</style>

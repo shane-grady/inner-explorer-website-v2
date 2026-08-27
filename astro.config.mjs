@@ -46,9 +46,10 @@ export default defineConfig({
 
   prefetch: sharedPrefetch,
 
-  // The /support FAQ moved to /faq (the Help Center now owns guided how-to docs).
-  // Netlify serves a true 301 (netlify.toml); this keeps dev + preview in sync.
-  redirects: { '/support': '/faq' },
+  // Netlify serves true 301s for these (netlify.toml); this keeps dev + preview in
+  // sync. /support: the FAQ moved to /faq. /privacy: the short form people type and
+  // link by hand, pointed at the canonical policy page.
+  redirects: { '/support': '/faq', '/privacy': '/privacy-policy/' },
 
   // Keep the internal styleguide out of the sitemap (it also carries noindex).
   integrations: [

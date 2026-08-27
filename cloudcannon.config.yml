@@ -274,6 +274,18 @@ collections_config:
             type: textarea
           subtitle:
             type: textarea
+      # The policy TEXT is not here: it lives on the "Privacy policy" HELP ARTICLE,
+      # which this page renders, so the document has one place to edit. This entry
+      # carries the page's kicker and its SEO copy, and gives CloudCannon a file
+      # behind /privacy-policy/ so the page opens in the Visual Editor at all.
+      privacy-policy:
+        path: src/content/pages/privacy-policy.yml
+        name: Privacy policy
+        icon: gavel
+        _inputs:
+          eyebrow:
+            type: text
+            comment: Kicker above the document title.
   blog:
     # Card previews are configured explicitly rather than relying on CloudCannon's
     # auto screenshots: those regenerate after every build and are frequently absent,
@@ -510,6 +522,12 @@ collections_config:
         options:
           allow_create: true
           values: []
+      canonicalUrl:
+        type: url
+        comment: >-
+          Only when this document's canonical home is another page. The privacy policy
+          lives at innerexplorer.com/privacy-policy, so the article points search
+          engines there instead of competing with it. Leave empty otherwise.
 
   narrators:
     # Card previews are configured explicitly rather than relying on CloudCannon's
@@ -764,6 +782,11 @@ file_config:
         type: array
         options:
           structures: _structures.footer_groups
+      legalLinks:
+        type: array
+        comment: Policy links in the bottom legal row (privacy policy, terms).
+        options:
+          structures: _structures.navigation_items
       legalStartYear:
         type: number
       legalName:

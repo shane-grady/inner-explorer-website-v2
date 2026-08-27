@@ -12,6 +12,7 @@ import { caseStudiesIndexPage } from './case-studies-index';
 import { contactPage } from './contact';
 import { faqPage } from './faq';
 import { platformPage } from './platform';
+import { privacyPolicyPage } from './privacy-policy';
 import { researchPage } from './research';
 
 import type { PageSchemaContext } from './shared';
@@ -30,4 +31,5 @@ export const pageSchemas = (ctx: PageSchemaContext) =>
     narratorsIndexPage(ctx),
     blogIndexPage(ctx),
     caseStudiesIndexPage(ctx),
+    privacyPolicyPage(ctx),
   ] as const;

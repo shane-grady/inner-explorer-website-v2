@@ -1,0 +1,86 @@
+---
+// /privacy-policy — the canonical home of Inner Explorer's privacy policy.
+//
+// The policy TEXT is not duplicated here. It lives in one MDX file
+// (src/content/help/privacy-policy.mdx), which the Help Center also renders as an
+// article, so a legal document has exactly one place to edit and the two surfaces
+// cannot drift. That file's frontmatter declares
+// `canonicalUrl: https://www.innerexplorer.com/privacy-policy/`, which points search
+// engines here so the article does not compete with this page.
+//
+// The `help` collection is registered in this site's content config too (see
+// src/content.config.ts), so reading it from the marketing build is supported rather
+// than a workaround. The body's <HelpTable> and <Callout> modules are auto-imported
+// for both builds (astro.config.shared.mjs) and are entirely token-driven, so they
+// render correctly in this site's chrome and in dark mode.
+//
+// The page's own chrome and SEO copy live in src/content/pages/privacy-policy.yml,
+// which is also what gives CloudCannon a file behind this URL to open.
+import { getEntry, render } from 'astro:content';
+import PageLayout from '../layouts/PageLayout.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import LegalDoc from '../components/blocks/legal/LegalDoc.astro';
+import { organizationSchema } from '../lib/schema';
+import { MAIN_SITE } from '../lib/site';
+
+const page = await getEntry('pages', 'privacy-policy');
+if (!page || page.data._schema !== 'privacy-policy') {
+  throw new Error('Missing or malformed src/content/pages/privacy-policy.yml');
+}
+const { eyebrow, pageTitle, pageDescription } = page.data;
+
+const doc = await getEntry('help', 'privacy-policy');
+if (!doc) {
+  throw new Error('Missing src/content/help/privacy-policy.mdx (the policy source of truth)');
+}
+const { Content, headings } = await render(doc);
+const d = doc.data;
+
+const tocItems = headings.filter((h) => h.depth === 2).map((h) => ({ slug: h.slug, text: h.text }));
+
+// ── SEO ─────────────────────────────────────────────────────────────────────
+
+const base = new URL(Astro.site ?? MAIN_SITE).origin;
+// Trailing slash: the site builds directory-style URLs, so this is the exact string
+// Astro emits as this page's canonical, and the exact string the Help Center article
+// declares as its own canonical. They have to agree.
+const path = '/privacy-policy/';
+
+// `WebPage`, not a "PrivacyPolicy" type — schema.org has no such type, and an invalid
+// @type is exactly what a structured-data validator flags. No datePublished: the
+// document states its own effective date in its opening table, and duplicating that
+// date in metadata would give it a second place to go stale.
+const pageLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: d.title,
+  description: pageDescription,
+  url: `${base}${path}`,
+  inLanguage: 'en-US',
+  publisher: organizationSchema(Astro.site),
+};
+const crumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${base}/` },
+    { '@type': 'ListItem', position: 2, name: d.title, item: `${base}${path}` },
+  ],
+};
+---
+
+<PageLayout title={pageTitle} description={pageDescription}>
+  <JsonLd schema={pageLd} slot="head" />
+  <JsonLd schema={crumbLd} slot="head" />
+
+  <LegalDoc
+    eyebrow={eyebrow}
+    title={d.title}
+    intro={d.blurb}
+    toc={tocItems}
+    crumbs={[{ label: 'Home', href: '/' }, { label: d.title }]}
+    editablePrefix=""
+  >
+    <Content />
+  </LegalDoc>
+</PageLayout>
