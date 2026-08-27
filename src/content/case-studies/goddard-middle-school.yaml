@@ -32,8 +32,8 @@ draft: false
 # og:site_name carries it on social); description ≤155 chars with the stat first.
 seoTitle: "Goddard Middle School: 3X the State's Academic Growth"
 seoDescription: >-
-  Goddard's gains ran 3X Colorado's average in ELA and math, 5X in science, in two
-  years with Inner Explorer's daily mindfulness practice. The state called.
+  Goddard's gains ran 3X Colorado's average in ELA and math, and 5X in science, in two years
+  with Inner Explorer's daily mindfulness practice.
 publishedDate: 2026-06-09T00:00:00Z
 updatedDate: 2026-06-09T00:00:00Z
 
@@ -47,12 +47,11 @@ meta:
   # The dek doubles as the page's quotable answer: it names the school, the place,
   # the population, the program, and the outcome in one self-contained passage.
   dek: >-
-    At Goddard Middle School in Littleton, Colorado — the school with its district's
-    highest share of students receiving special education services, students
-    experiencing trauma, and students on the free lunch program — Inner Explorer's
-    daily 5–10 minute Mindfulness-Based SEL practice preceded academic gains 3X the
-    state average in English language arts and math, and 5X in science, between 2016
-    and 2018.
+    Goddard Middle School in Littleton, Colorado carries its district's highest share of
+    students receiving special education services, students experiencing trauma, and
+    students on the free lunch program. Between 2016 and 2018, after Inner Explorer's daily
+    5–10 minute Mindfulness-Based SEL practice began, academic gains ran 3X the state
+    average in English language arts and math, and 5X in science.
   readingTime: '7 min read'
   published: 'Updated June 2026'
   heroImage: '../../assets/images/case-studies/goddard-middle-school/hero-daily-practice.jpg'
@@ -70,7 +69,7 @@ district:
     - { value: '5X', label: "The state's gains in science" }
     - { value: '6–8', label: 'Grades served' }
     - { value: '5–10 min', label: 'Daily guided mindfulness practice' }
-    - { value: '$0', label: 'Cost to the school — LG-funded' }
+    - { value: '$0', label: 'Cost to the school, LG-funded' }
 
 # Scannable TLDR shown beneath the "at a glance" stat band.
 keyInsights:
@@ -78,7 +77,7 @@ keyInsights:
     - label: 'Background'
       text: "One school carried the district's highest shares of special-education, trauma-affected, and free-lunch students."
     - label: 'Approach'
-      text: 'A daily 5–10 minute MBSEL practice in every classroom — run before or after SEL lessons, adapted for trauma, and at no cost.'
+      text: 'A daily 5–10 minute MBSEL practice in every classroom, run before or after SEL lessons, adapted for trauma, and at no cost.'
     - label: 'Outcome'
       text: "In two years, academic gains ran 3X the state's average in English language arts and math, and 5X in science."
     - label: 'Recognition'
@@ -95,22 +94,22 @@ intro:
         district has a higher percentage of students receiving special education
         services, students experiencing trauma, or students on the free lunch program.
       - >-
-        The student body also spans a wide economic divide — students from very poor
+        The student body also spans a wide economic divide: students from very poor
         families learn alongside students from very wealthy ones. School staff see that
         diversity as one of the things that makes Goddard great, and they also know that
         bringing students from such different backgrounds together can raise issues.
       - >-
-        Staff were already facilitating social emotional learning (SEL) lessons. But
-        traditional SEL is designed to activate the prefrontal cortex — the brain's
-        executive center — and when the brain is stressed, the prefrontal cortex becomes
-        inactive. In a stressful moment, students couldn't access what they cognitively
-        knew, leaving them prone to reactivity exactly when their skills mattered most.
+        Staff were already running social emotional learning (SEL) lessons. But
+        traditional SEL is designed to activate the prefrontal cortex, the brain's
+        executive center, and when the brain is stressed the prefrontal cortex goes
+        inactive. In a stressful moment, students couldn't reach what they cognitively
+        knew, which left them reactive exactly when their skills mattered most.
     image: '../../assets/images/case-studies/goddard-middle-school/challenge-diverse-classroom.jpg'
     imageAlt: 'A diverse group of middle school students working together in a classroom'
     stat:
       {
         value: '6–8',
-        label: "grades served — with the district's highest share of special-education, trauma-affected, and free-lunch students",
+        label: "grades served, with the district's highest share of special-education, trauma-affected, and free-lunch students",
       }
   approach:
     eyebrow: 'The Approach'
@@ -120,13 +119,13 @@ intro:
         After Inner Explorer was introduced, Goddard's focus shifted from SEL lessons
         alone to incorporating Mindfulness-Based Social Emotional Learning (MBSEL) into
         every classroom, supporting student and educator well-being. The daily 5–10
-        minute audio-guided practice runs either before or after an SEL lesson — calming
-        students and preparing them to learn, or letting them reflect on what they just
-        learned. MBSEL targets the stress disconnect directly, teaching strategies to
-        self-regulate in the moments when the thinking brain goes offline.
+        minute audio-guided practice runs either before or after an SEL lesson: before,
+        it calms students and prepares them to learn; after, it gives them room to reflect
+        on what they just learned. MBSEL targets the stress disconnect directly, teaching
+        strategies to self-regulate in the moments when the thinking brain goes offline.
       - >-
         Goddard implemented the program at no cost through LG Electronics USA's
-        "Life's Good: Experience Happiness" initiative — funding that continued
+        "Life's Good: Experience Happiness" initiative, funding that continued
         throughout the period this case study documents. Both educators and counselors
         use Inner Explorer, in classrooms and in small-group sessions. Leadership made
         sure school staff and families were knowledgeable about mindfulness, holding a
@@ -139,7 +138,7 @@ intro:
         somewhere they feel safe and listen to a mindfulness practice until they're
         ready to talk; students uncomfortable closing their eyes or sitting still are
         encouraged to color or doodle while they listen. Teachers noticed students were
-        more calm and less reactive during the day.
+        calmer and less reactive during the day.
     image: '../../assets/images/case-studies/goddard-middle-school/approach-doodling-while-listening.jpg'
     imageAlt: 'A middle school student doodling at a desk while listening to an audio-guided mindfulness practice'
 
@@ -153,12 +152,12 @@ timeline:
       tag: 'Baseline'
       title: 'SEL lessons alone'
       text: >-
-        Staff facilitate social emotional learning lessons, but Goddard still carries
+        Staff run social emotional learning lessons, but Goddard still carries
         the district's highest concentrations of students receiving special education
         services, students experiencing trauma, and students on the free lunch program.
     - date: '2016'
       tag: 'Pilot'
-      title: 'Daily MBSEL begins — at no cost'
+      title: 'Daily MBSEL starts in every classroom'
       text: >-
         Funded by LG Electronics USA, educators and counselors add Inner Explorer's
         5–10 minute audio-guided practice to classrooms and small-group sessions,
@@ -169,24 +168,24 @@ timeline:
       text: >-
         Within two years of the first daily practice, Goddard's growth in students
         meeting or exceeding expectations runs 3X the Colorado average in English
-        language arts and math — 5X in science, and 8X in 8th-grade English language
+        language arts and math, 5X in science, and 8X in 8th-grade English language
         arts.
     - date: '2018'
       tag: 'Recognition'
       title: 'The state calls'
       text: >-
         The Colorado Department of Education contacts Goddard's principal to ask what
-        the school is doing — Goddard is outperforming most middle schools in the state
-        with the same demographic profile. The principal credits the daily mindfulness
-        practice through Inner Explorer.
+        the school is doing. Goddard is outperforming most middle schools in the state
+        with the same demographic profile, and the principal credits the daily
+        mindfulness practice through Inner Explorer.
     - date: 'Today'
       tag: 'Sustain'
       title: 'The playbook stands'
       text: >-
         Goddard still serves grades 6–8 in Littleton today. LG's Experience Happiness
-        funding carried the daily practice through the years this case study documents
-        — and the four key findings from the rollout remain a guide for any school
-        community.
+        funding carried the daily practice through the years this case study documents,
+        and the four key findings from the rollout still hold up as a guide for any
+        school community.
 
 metrics:
   eyebrow: 'The Results'
@@ -200,7 +199,7 @@ metrics:
   note: >-
     Between 2016 and 2018, Goddard Middle School's gains in students meeting or
     exceeding expectations were 3X Colorado's average in English language arts and
-    math, and 5X in science — growth the principal credited to Inner Explorer's daily
+    math, and 5X in science. The principal credited that growth to Inner Explorer's daily
     mindfulness practice. The gains were large enough that the Colorado Department of
     Education contacted Goddard's principal to ask what the school was doing. Figures
     compare Goddard's improvement with statewide averages on the Colorado Measures of
@@ -214,20 +213,20 @@ metrics:
   grid:
     - {
         value: '8X',
-        label: "the state's growth in 8th-grade English language arts — Goddard improved 16.8% vs 2.2% statewide",
+        label: "the state's growth in 8th-grade English language arts, where Goddard improved 16.8% against 2.2% statewide",
         trend: 'up-good',
         sourceId: 1,
       }
     - {
         value: '5X',
-        label: "the state's gains in science — Goddard's 8th grade improved 4.9% vs 1.0% statewide",
+        label: "the state's gains in science, where Goddard's 8th grade improved 4.9% against 1.0% statewide",
         trend: 'up-good',
         sourceId: 1,
       }
     - {
         value: '18',
         unit: '%',
-        label: 'improvement in 8th-grade math at Goddard — against 7.8% across Colorado',
+        label: 'improvement in 8th-grade math at Goddard, against 7.8% across Colorado',
         trend: 'up-good',
         sourceId: 1,
       }
@@ -240,11 +239,11 @@ metrics:
     - {
         value: '5–10',
         unit: 'min',
-        label: 'of daily audio-guided practice — before or after an SEL lesson, with no prep required from educators',
+        label: 'of daily audio-guided practice, before or after an SEL lesson, with no prep required from educators',
       }
     - {
         value: '$0',
-        label: "cost to the school — funded by LG Electronics USA's Experience Happiness initiative",
+        label: "cost to the school, funded by LG Electronics USA's Experience Happiness initiative",
       }
 
 # Three figures, one per assessed subject — the source's exact chart values.
@@ -255,8 +254,8 @@ charts:
     sourceId: 1
     valueSuffix: '%'
     foot: >-
-      8th-grade English language arts improved 16.8% at Goddard against 2.2% statewide
-      — the gap the Colorado Department of Education called about.
+      8th-grade English language arts improved 16.8% at Goddard against 2.2% statewide.
+      That gap is what the Colorado Department of Education called about.
     groups:
       - label: 'Colorado average'
         tone: 'muted'
@@ -275,8 +274,8 @@ charts:
     sourceId: 1
     valueSuffix: '%'
     foot: >-
-      While 6th-grade math declined 0.6% statewide, Goddard's 6th graders improved
-      3.6% — and every Goddard grade outpaced the state.
+      While 6th-grade math declined 0.6% statewide, Goddard's 6th graders improved 3.6%.
+      Every Goddard grade outpaced the state.
     groups:
       - label: 'Colorado average'
         tone: 'muted'
@@ -335,8 +334,8 @@ sources:
 
 voicesIntro:
   eyebrow: 'What partners say'
-  headingLead: 'Trusted by the counselors who'
-  headingEmphasis: 'know these students best'
+  headingLead: 'What the counselors saw'
+  headingEmphasis: 'day to day'
   # PUBLISH GATE (SEO/E-E-A-T audit): representative trust figure with no named survey
   # instrument. Before launch, either back it with a real instrument + year + n in the
   # trustLine or delete trustRating/trustLine — the block hides automatically. Never
@@ -402,11 +401,11 @@ voices:
 
 gallery:
   eyebrow: 'Inside the classrooms'
-  heading: 'A middle school practicing, one day at a time'
+  heading: 'Where the practice happens at Goddard'
   images:
     - {
         src: '../../assets/images/case-studies/goddard-middle-school/gallery-1-small-group.jpg',
-        alt: 'A school counselor leading a small group mindfulness session with middle school students',
+        alt: 'A school counselor sitting with a small group of middle school students during a guided mindfulness practice',
       }
     - {
         src: '../../assets/images/case-studies/goddard-middle-school/gallery-2-safe-corner.jpg',
@@ -437,29 +436,28 @@ faq:
   eyebrow: 'FAQ'
   titleHtml: 'The questions <em>school leaders ask about this story.</em>'
   intro: >-
-    Direct answers from Goddard's implementation — what MBSEL is, what the program
-    asked of teachers, what it cost, and how a high-need population made it work.
+    Goddard's rollout, answered from the record: what MBSEL is, what the program asked of
+    teachers, what it cost, and how a high-need population made it work.
   items:
     - q: 'How did Goddard Middle School earn state recognition in academics?'
       a: >-
-        Between 2016 and 2018 — within two years of beginning the daily practice —
+        Between 2016 and 2018, within two years of beginning the daily practice,
         Goddard's growth in students meeting or exceeding expectations ran 3X the
         Colorado average in English language arts and math, and 5X in science. The
-        results were significant enough that the Colorado Department of Education
-        contacted the principal to ask what the school was doing — Goddard was
-        outperforming most middle schools in the state with the same demographic
-        profile, and the principal credited the daily mindfulness practice through
-        Inner Explorer.
+        results were large enough that the Colorado Department of Education contacted
+        the principal to ask what the school was doing. Goddard was outperforming most
+        middle schools in the state with the same demographic profile, and the principal
+        credited the daily mindfulness practice through Inner Explorer.
     - q: 'What is Mindfulness-Based Social Emotional Learning (MBSEL)?'
       a: >-
         MBSEL is social-emotional learning built on daily mindfulness practice rather
-        than lessons alone. Traditional SEL activates the prefrontal cortex — but under
-        stress the prefrontal cortex goes inactive, so students can't access what they
+        than lessons alone. Traditional SEL activates the prefrontal cortex, but under
+        stress the prefrontal cortex goes inactive, so students can't reach what they
         know. Inner Explorer's 5–10 minute daily audio-guided practice teaches students
         to self-regulate in exactly those moments.
     - q: 'Does MBSEL replace an existing SEL curriculum?'
       a: >-
-        No — it complements one. Goddard kept its SEL lessons and ran the daily
+        No, it complements one. Goddard kept its SEL lessons and ran the daily
         practice right before or after them: before, students calm down and prepare to
         learn; after, they reflect on and absorb what they just learned. In MTSS terms,
         the daily classroom practice served every student as a Tier 1 universal
@@ -470,8 +468,8 @@ faq:
         Nothing. Goddard implemented Inner Explorer at no cost through the generosity
         of LG Electronics USA's Experience Happiness initiative. Districts typically
         fund the program through sources like Title IV, Part A (Student Support and
-        Academic Enrichment), school mental-health funds, and state SEL line items —
-        our partnerships team helps identify the right one.
+        Academic Enrichment), school mental-health funds, and state SEL line items.
+        Tell us your state and we can point you at the likely source.
     - q: 'How did Goddard adapt the practice for students experiencing trauma?'
       a: >-
         Staff brainstormed a trauma-sensitive integration as a team, building in the
@@ -482,7 +480,7 @@ faq:
         reactive during the day.
     - q: 'How much training did teachers need to run the daily practice?'
       a: >-
-        Almost none — the practices are fully audio-guided, and in the words of a
+        Almost none. The practices are fully audio-guided, and in the words of a
         Goddard counselor, "mindfulness skills are easy to learn through Inner
         Explorer." Leadership held one presentation so staff and families understood
         the research and benefits, then classrooms simply pressed play.
@@ -491,10 +489,10 @@ cta:
   heading: 'Bring daily mindfulness'
   headingEmphasis: 'to your middle school'
   body: >-
-    See what daily Mindfulness-Based Social Emotional Learning (MBSEL) could look like
-    for your students — in one building or across a district. We'll walk you through
-    how Goddard made the practice stick with a high-need population, and how a pilot
-    could work in your classrooms.
+    Goddard ran daily Mindfulness-Based Social Emotional Learning (MBSEL) with the
+    highest-need population in its district. Start a conversation with us if you want to
+    know whether the same practice fits one building or a whole district, and what kept it
+    going at Goddard.
   primary: { label: 'Contact us', href: '/contact' }
   secondary:
     {

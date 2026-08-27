@@ -41,8 +41,8 @@ draft: false
 # description ≤155 chars with the stat first.
 seoTitle: 'Mindfulness Case Study: 77% Fewer Discipline Events'
 seoDescription: >-
-  Discipline events fell 77% — from 82 to 19 — in one year at Henry J. Kaiser Elementary
-  in West Virginia. How a daily 10-minute mindfulness practice did it.
+  Discipline events fell 77%, from 82 to 19, in one year at Henry J. Kaiser Elementary in
+  West Virginia. How a daily 10-minute mindfulness practice did it.
 publishedDate: 2026-06-09T00:00:00Z
 updatedDate: 2026-06-09T00:00:00Z
 
@@ -55,11 +55,11 @@ meta:
   # The dek doubles as the page's quotable answer: it names the school, the place,
   # the program, and the outcome (with absolute counts) in one self-contained passage.
   dek: >-
-    In Ravenswood, West Virginia — the state with the nation's highest drug-overdose
-    death rate in 2018 — Henry J. Kaiser Elementary added Inner Explorer's 10-minute
-    audio-guided mindfulness practice to every school morning. Within a year, school-wide
-    discipline events fell 77%, from 82 to 19, and the share of students reading at grade
-    level nearly tripled, from 17% to 48%.
+    In 2018 West Virginia had the nation's highest drug-overdose death rate. In Ravenswood,
+    Henry J. Kaiser Elementary added Inner Explorer's 10-minute audio-guided mindfulness
+    practice to every school morning. Within a year, school-wide discipline events fell 77%,
+    from 82 to 19, and the share of students reading at grade level nearly tripled, from 17%
+    to 48%.
   readingTime: '7 min read'
   published: 'Updated June 2026'
   heroImage: '../../assets/images/case-studies/kaiser-elementary/hero-morning-practice.jpg'
@@ -75,15 +75,15 @@ district:
     - { value: '370', label: 'Students, PreK–2nd grade' }
     - { value: '10 min', label: 'Whole-school practice every morning' }
     - { value: '17% → 48%', label: 'Students reading at grade level' }
-    - { value: '$0', label: 'Program cost — LG Electronics grant' }
+    - { value: '$0', label: 'Program cost, covered by an LG Electronics grant' }
 
 # Scannable TLDR shown beneath the "at a glance" stat band.
 keyInsights:
   items:
     - label: 'Challenge'
-      text: "The opioid crisis followed students into class in the nation's hardest-hit state — chronic stress left kids unready to learn."
+      text: "The opioid crisis followed students into class in the nation's hardest-hit state, and chronic stress left kids unready to learn."
     - label: 'Approach'
-      text: 'The whole school — students and staff — practiced 10 audio-guided minutes every morning, woven into its existing PBIS tiers.'
+      text: 'The whole school, students and staff together, practiced 10 audio-guided minutes every morning inside the PBIS tiers it already used.'
     - label: 'Outcome'
       text: 'In one year, discipline events fell 77% (82 → 19), and grade-level reading nearly tripled, from 17% to 48%.'
     - label: 'Savings'
@@ -95,20 +95,19 @@ intro:
     heading: 'The opioid crisis followed students into the classroom'
     body:
       - >-
-        West Virginia had the nation's highest drug-overdose death rate — 51.5 per
-        100,000 people in 2018, against a national average of 21.7 — after years of
-        exceptionally high opioid prescribing: 69 prescriptions written for every 100
-        residents, compared with the U.S. rate of 51.4.
+        West Virginia had the nation's highest drug-overdose death rate in 2018: 51.5 per
+        100,000 people, against a national average of 21.7. That followed years of
+        exceptionally high opioid prescribing, 69 prescriptions written for every 100
+        residents compared with the U.S. rate of 51.4.
       - >-
         The addiction crisis rippled through the community around Henry J. Kaiser
-        Elementary in Ravenswood — disrupting families and straining public
-        institutions. The Nation reported that a quarter of the students in one
-        second-grade class were being raised by grandparents or in foster care. West
-        Virginia counties with the highest rates of opioid deaths also tended to see
-        higher rates of child abuse and neglect, and the CDC is blunt about what
-        follows: adverse childhood experiences (ACEs) like these can have lasting,
-        negative effects on children's health, well-being, and opportunity well into
-        adulthood.
+        Elementary in Ravenswood, disrupting families and straining public institutions.
+        The Nation reported that a quarter of the students in one second-grade class were
+        being raised by grandparents or in foster care. West Virginia counties with the
+        highest rates of opioid deaths also tended to see higher rates of child abuse and
+        neglect. The CDC's finding on what follows is direct: adverse childhood
+        experiences (ACEs) like these can have lasting, negative effects on children's
+        health, well-being, and opportunity well into adulthood.
       - >-
         In July 2018, The Nation profiled Henry J. Kaiser Elementary in "These Kids Are
         Watching Their Parents Die," reporting that Principal Amber Hardman and other
@@ -124,11 +123,11 @@ intro:
     stat:
       {
         value: '51.5',
-        label: "overdose deaths per 100,000 West Virginians in 2018 — the nation's highest rate",
+        label: "overdose deaths per 100,000 West Virginians in 2018, the nation's highest rate",
       }
   approach:
     eyebrow: 'The Approach'
-    heading: 'Ten minutes every morning — the whole school together'
+    heading: 'Ten minutes every morning, the whole school together'
     body:
       - >-
         Inner Explorer reached out to Principal Hardman in response to The Nation's
@@ -142,14 +141,14 @@ intro:
       - >-
         Principal Hardman took a student-centered approach at Henry J. Kaiser
         Elementary: she allocated time in the school schedule for the 10-minute
-        audio-guided practices, and the entire school — students and staff — practiced
+        audio-guided practices, and the entire school, students and staff, practiced
         together every morning to reach a state of educational "readiness." Rather than
         bolting on another program, the school folded mindfulness into the Positive
         Behavioral Interventions and Supports (PBIS) framework it had used for years:
         daily practice for every student as universal prevention at Tier 1, small
         groups with the counselor or therapist at Tier 2, and one-on-one practice with
-        the school-based therapist at Tier 3. Five focus areas — embed, champion,
-        adopt, change, and model — made it stick.
+        the school-based therapist at Tier 3. Five focus areas made it stick: embed,
+        champion, adopt, change, and model.
     image: '../../assets/images/case-studies/kaiser-elementary/approach-small-group.jpg'
     imageAlt: 'A small group of young students practicing mindfulness with a school counselor'
 
@@ -160,19 +159,19 @@ timeline:
     - date: '2018'
       tag: 'Crisis'
       title: "The nation's hardest-hit state"
-      text: "West Virginia records the country's highest drug-overdose death rate — 51.5 per 100,000 people. At Henry J. Kaiser Elementary, the fallout shows up as escalating behavior problems in classrooms as young as preschool."
+      text: "West Virginia records the country's highest drug-overdose death rate, 51.5 per 100,000 people. At Henry J. Kaiser Elementary, the fallout shows up as escalating behavior problems in classrooms as young as preschool."
     - date: 'July 2018'
       tag: 'Profile'
-      title: 'The Nation tells the school’s story'
-      text: "The Nation's profile brings Henry J. Kaiser Elementary to national attention. In response, Inner Explorer reaches out to Principal Amber Hardman — just as she begins searching for trauma-sensitive programs."
+      title: "The Nation tells the school's story"
+      text: "The Nation's profile brings Henry J. Kaiser Elementary to national attention. In response, Inner Explorer reaches out to Principal Amber Hardman, just as she begins searching for trauma-sensitive programs."
     - date: '2019'
       tag: 'Pilot'
-      title: 'Daily mindfulness begins — at no cost'
-      text: 'Funded through a partnership with LG Electronics, the whole school — students and staff — begins a 10-minute audio-guided practice together every morning, woven into the PBIS tiers the school already used.'
+      title: 'The whole school starts practicing together'
+      text: 'Funded through a partnership with LG Electronics, students and staff begin a 10-minute audio-guided practice together every morning, delivered inside the PBIS tiers the school already used.'
     - date: 'March 2020'
       tag: 'Proof'
       title: 'Discipline events fall 77% in one year'
-      text: 'Comparing March 2019 with March 2020, total discipline events at Henry J. Kaiser Elementary fall from 82 to 19. Lunch detentions drop 78%, suspensions 71% — and the share of students reading at grade level climbs from 17% to 48%.'
+      text: 'Comparing March 2019 with March 2020, total discipline events at Henry J. Kaiser Elementary fall from 82 to 19. Lunch detentions drop 78% and suspensions 71%, while the share of students reading at grade level climbs from 17% to 48%.'
 
 metrics:
   eyebrow: 'The Results'
@@ -184,11 +183,10 @@ metrics:
   # The first sentence is the page's canonical claim — keep it byte-identical
   # wherever this story is summarized (cards, anchors, social copy).
   note: >-
-    School-wide discipline events at Henry J. Kaiser Elementary in Ravenswood, West
-    Virginia fell 77% — from 82 to 19 — after one year of Inner Explorer's daily
-    mindfulness practice (March 2019 to March 2020). Discipline and academic figures
-    are reported by the school; statewide opioid statistics are drawn from the federal
-    sources cited below.
+    School-wide discipline events at Henry J. Kaiser Elementary in Ravenswood, West Virginia
+    fell 77%, from 82 to 19, after one year of Inner Explorer's daily mindfulness practice
+    (March 2019 to March 2020). Discipline and academic figures are reported by the school;
+    statewide opioid statistics are drawn from the federal sources cited below.
   featured:
     value: '77%'
     label: 'fewer school-wide discipline events after one year of daily mindfulness practice'
@@ -197,7 +195,7 @@ metrics:
   grid:
     - {
         value: '82 → 19',
-        label: 'total discipline events — detentions, suspensions, and alternative-school placements',
+        label: 'total discipline events: detentions, suspensions, and alternative-school placements',
         trend: 'down-good',
         sourceId: 1,
       }
@@ -215,7 +213,7 @@ metrics:
       }
     - {
         value: '115',
-        label: 'more students on track to read at grade level — the milestone the Annie E. Casey Foundation links to high-school graduation',
+        label: 'more students on track to read at grade level, the milestone the Annie E. Casey Foundation links to high-school graduation',
         sourceId: 1,
       }
     # $11,500/yr (reading) + $11,100/yr (math) — see source-data note at top.
@@ -228,7 +226,7 @@ metrics:
     - {
         value: '10',
         unit: 'min',
-        label: 'of audio-guided practice each morning — the whole school, students and staff, together',
+        label: 'of audio-guided practice each morning, with the whole school, students and staff, together',
       }
 
 chart:
@@ -236,17 +234,16 @@ chart:
   subtitle: 'Henry J. Kaiser Elementary, March 2019 vs. March 2020'
   sourceId: 1
   foot: >-
-    Lunch detentions fell 78% (65 to 14), suspensions 71% (14 to 4), and
-    alternative-school placements 67% (3 to 1) — a 77% reduction in total discipline
-    events.
+    Lunch detentions fell 78% (65 to 14), suspensions 71% (14 to 4), and alternative-school
+    placements 67% (3 to 1), for a 77% reduction in total discipline events.
   groups:
-    - label: 'March 2019 — before daily practice'
+    - label: 'March 2019, before daily practice'
       tone: 'muted'
       bars:
         - { label: 'Detentions', value: 65 }
         - { label: 'Suspensions', value: 14 }
         - { label: 'Alt. school', value: 3 }
-    - label: 'March 2020 — after one year'
+    - label: 'March 2020, after one year'
       tone: 'brand'
       bars:
         - { label: 'Detentions', value: 14 }
@@ -286,8 +283,8 @@ sources:
 
 voicesIntro:
   eyebrow: 'What educators say'
-  headingLead: 'Trusted by the adults who'
-  headingEmphasis: 'see these students every day'
+  headingLead: 'The teachers and staff who'
+  headingEmphasis: 'saw the change first'
   # PUBLISH GATE (SEO/E-E-A-T audit precedent from Webb): representative trust figure
   # with no named survey instrument. Before launch, either back it with a real
   # instrument + year + n in the trustLine or delete trustRating/trustLine — the block
@@ -396,14 +393,14 @@ faq:
   eyebrow: 'FAQ'
   titleHtml: 'The questions <em>elementary school leaders ask about this story.</em>'
   intro: >-
-    Direct answers from Henry J. Kaiser Elementary's implementation — what the daily
-    practice asked of educators, what it cost, and what changed.
+    Kaiser's rollout, answered plainly: what the daily practice asked of educators, what it
+    cost, and what changed.
   items:
     - q: 'How did Henry J. Kaiser Elementary reduce discipline events by 77%?'
       a: >-
         By adding one consistent routine: a 10-minute audio-guided Inner Explorer
-        mindfulness practice every morning, practiced by the whole school — students
-        and staff together — and woven into the school's existing PBIS framework.
+        mindfulness practice every morning, run by the whole school, students and staff
+        together, inside the school's existing PBIS framework.
         Total discipline events fell from 82 in March 2019 to 19 in March 2020.
     - q: 'Does daily mindfulness work for students as young as PreK?'
       a: >-
@@ -415,42 +412,42 @@ faq:
       a: >-
         As a universal Tier 1 support: every student and staff member practices
         together daily. Kaiser added small-group practice with the counselor or
-        therapist at Tier 2, and one-on-one practice in therapy sessions at Tier 3 —
-        the same tiered structure the school already used.
+        therapist at Tier 2, and one-on-one practice in therapy sessions at Tier 3, all
+        inside the tiered structure the school already used.
     - q: 'Can mindfulness help students with trauma?'
       a: >-
         At Henry J. Kaiser Elementary, the daily practice was adopted as a support for
-        students carrying chronic stress — not as a treatment for trauma. Principal
+        students carrying chronic stress, not as a treatment for trauma. Principal
         Amber Hardman had just begun looking into trauma-sensitive programs when Inner
         Explorer reached out, and the school delivered the practice inside the PBIS
-        tiers it already used — whole-school practice at Tier 1 through one-on-one
+        tiers it already used, from whole-school practice at Tier 1 to one-on-one
         sessions with the school-based therapist at Tier 3. The outcomes are the
         school-reported figures on this page: discipline events fell 77%, from 82 to
         19, in one year.
     - q: 'How much training did teachers need to run the daily practice?'
       a: >-
-        None beyond pressing play. The practices are fully audio-guided — no prep, no
-        script, no curriculum to deliver. At Kaiser, educators practiced alongside
+        Just enough to press play. The practices are fully audio-guided, with no prep,
+        no script, and no curriculum to deliver. At Kaiser, educators practiced alongside
         their students every morning, which is part of why the routine stuck.
     - q: 'What did the program cost the school?'
       a: >-
         Nothing. Through a partnership with LG Electronics, Inner Explorer granted
-        Henry J. Kaiser Elementary the program at no charge — and the school went on to
+        Henry J. Kaiser Elementary the program at no charge, and the school went on to
         save an estimated $22,600 a year as fewer students needed reading and math
         interventions. Districts typically fund the program through sources like Title
         IV-A (Safe and Healthy Students) and school mental-health funds; small rural
         districts can also draw on the federal Rural Education Achievement Program
         (REAP), and some states direct opioid settlement funds toward school-based
-        prevention — our partnerships team helps identify the right one.
+        prevention. Our partnerships team can help you find the one that fits.
 
 cta:
   heading: 'Bring daily mindfulness'
   headingEmphasis: 'to your elementary school'
   body: >-
-    See what ten minutes of daily Mindfulness-Based Social Emotional Learning (MBSEL)
-    could look like for your students — in a single elementary school or across a whole
-    district. We'll walk you through how Henry J. Kaiser Elementary made the practice
-    stick, and how a pilot could work in your classrooms.
+    Ten minutes of daily Mindfulness-Based Social Emotional Learning (MBSEL) reshaped
+    mornings at a school of 370 students, PreK through 2nd grade. Reach out and we'll go through how Henry J.
+    Kaiser Elementary built the routine, and what it would take in your elementary school or
+    district.
   primary: { label: 'Contact us', href: '/contact' }
   secondary:
     {

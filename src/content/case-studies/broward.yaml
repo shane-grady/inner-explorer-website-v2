@@ -3,11 +3,11 @@
 order: 1
 draft: false
 
-seoTitle: 'Broward County Case Study — Inner Explorer'
+seoTitle: 'Broward County Case Study: District-Wide Daily Practice'
 seoDescription: >-
-  How Broward County Public Schools turned a five-minute daily mindfulness practice
-  into a district-wide culture — reaching 253K students across 241 schools, with a
-  65% drop in behavioral outbursts.
+  How Broward County Public Schools turned a five-minute daily mindfulness practice into a
+  district-wide culture, reaching 253K students across 241 schools, with a 65% drop in
+  behavioral outbursts.
 publishedDate: 2026-02-01T00:00:00Z
 updatedDate: 2026-02-01T00:00:00Z
 
@@ -17,8 +17,7 @@ meta:
   titleEmphasis: 'calm a daily habit'
   dek: >-
     Inside the sixth-largest school district in America, a five-minute morning practice
-    grew into a district-wide culture of focus, regulation, and belonging — reaching a
-    quarter-million students before the first bell.
+    became a district-wide habit, reaching a quarter-million students before the first bell.
   readingTime: '8 min read'
   published: 'Updated February 2026'
   heroImage: '../../assets/images/case-studies/broward/hero-morning-practice.jpg'
@@ -40,13 +39,13 @@ district:
 keyInsights:
   items:
     - label: 'Challenge'
-      text: 'Rising behavioral referrals and record teacher burnout — and existing SEL was uneven and hard to measure across 250,000 students.'
+      text: 'Rising behavioral referrals and record teacher burnout, with existing SEL uneven and hard to measure across 250,000 students.'
     - label: 'Approach'
-      text: 'A five-minute, audio-guided morning practice any teacher can press play on — piloted in 12 schools and tracked on a district dashboard.'
+      text: 'A five-minute, audio-guided morning practice any teacher can press play on, piloted in 12 schools and tracked on a district dashboard.'
     - label: 'Outcome'
       text: 'Behavioral outbursts fell 65% and office referrals 27%, alongside gains in attendance, reading growth, and teacher well-being.'
     - label: 'Durability'
-      text: 'Four years on, daily practice is district-wide PreK–12 — a culture, not a program.'
+      text: 'Four years on, daily practice is district-wide PreK–12 and written into the master schedule.'
 
 intro:
   challenge:
@@ -54,31 +53,31 @@ intro:
     heading: 'A district under pressure, looking for something that scales'
     body:
       - >-
-        Coming out of a turbulent few years, Broward County's leadership saw the data they
-        feared most: rising behavioral referrals, classroom disruptions eating into
-        instruction, and educators reporting burnout at record levels. Existing SEL programs
-        were well-intentioned but uneven — adopted in pockets, hard to measure, and quick to
-        fade once the launch energy wore off.
+        Coming out of a turbulent few years, Broward County's leadership was looking at
+        rising behavioral referrals, classroom disruptions eating into instruction, and
+        educators reporting burnout at record levels. The SEL programs already in place
+        had been adopted in pockets, were hard to measure, and faded once the launch
+        energy wore off.
       - >-
-        The district needed something different: a practice simple enough for any teacher to
-        lead on day one, consistent enough to build a habit, and measurable enough to prove
-        its worth to a board accountable for 250,000 students.
+        What the district needed was a practice any teacher could start on day one,
+        consistent enough to build a habit, and measurable enough to answer to a board
+        accountable for 250,000 students.
     image: '../../assets/images/case-studies/broward/challenge-classroom.jpg'
     imageAlt: 'A teacher at the chalkboard with students at desks'
     stat: { value: '1 in 3', label: 'teachers reported chronic stress before rollout' }
   approach:
     eyebrow: 'The Approach'
-    heading: 'Five minutes a day, led by the teacher already in the room'
+    heading: 'Five minutes a day, and the teacher already in the room presses play'
     body:
       - >-
-        Inner Explorer's premise was disarmingly simple: a daily, audio-guided practice that
-        any educator can press play on — no certification, no prep, no new staff. Broward
-        started with a focused pilot across 12 schools, pairing the practice with the District
-        Dashboard so leaders could watch adoption climb in real time.
+        Inner Explorer's premise was simple: a daily, audio-guided practice that any
+        educator can press play on, with no certification, no prep, and no new staff.
+        Broward started with a focused pilot across 12 schools, pairing the practice with
+        the District Dashboard so leaders could watch adoption climb in real time.
       - >-
-        What spread wasn't a mandate — it was a morning ritual. Teachers told other teachers.
-        Principals saw calmer hallways. Within three semesters the pilot became a district-wide
-        standard, woven into the start of the school day.
+        It spread without a mandate. Teachers told other teachers, principals noticed
+        calmer hallways, and within three semesters the pilot became a district-wide
+        standard built into the start of the school day.
     image: '../../assets/images/case-studies/broward/approach-student-desk.jpg'
     imageAlt: 'A student working at a desk with the teacher nearby'
 
@@ -93,7 +92,7 @@ timeline:
     - date: 'Spring 2022'
       tag: 'Proof'
       title: 'Early signal, fast word-of-mouth'
-      text: 'Pilot schools post measurable drops in office referrals. Teachers in non-pilot schools begin asking for access. The dashboard makes the momentum undeniable.'
+      text: 'Pilot schools post measurable drops in office referrals, and teachers in non-pilot schools begin asking for access. The dashboard shows leadership exactly where adoption is climbing.'
     - date: 'Fall 2022'
       tag: 'Scale'
       title: 'Expansion to every elementary school'
@@ -104,8 +103,8 @@ timeline:
       text: 'Practice is written into the master schedule across grade bands. Family practices extend the routine home. Coaches use dashboard insights to support low-adoption sites.'
     - date: '2025'
       tag: 'Sustain'
-      title: 'A culture, not a program'
-      text: 'Four years in, daily practice is simply how the day begins. Broward shares its playbook with peer districts across Florida.'
+      title: 'Part of the master schedule'
+      text: 'Four years in, the practice is simply how the day begins across grade bands. Broward shares its playbook with peer districts across Florida.'
 
 metrics:
   eyebrow: 'The Results'
@@ -189,11 +188,11 @@ editorialQuote:
 
 voicesIntro:
   eyebrow: 'What partners say'
-  headingLead: 'Trusted by the people who'
+  headingLead: 'From the people who'
   headingEmphasis: 'start the day with kids'
   trustRating: '4.8 / 5'
   trustLine: 'average rating of the daily practice from <b>2,140 Broward educators surveyed</b>'
-  studentsLabel: 'In their own words — students of Broward'
+  studentsLabel: 'Students of Broward'
 
 voices:
   - kind: 'Leadership'
@@ -236,7 +235,7 @@ voices:
 
 gallery:
   eyebrow: 'In the classroom'
-  heading: 'A quarter-million mornings, one practice at a time'
+  heading: 'Mornings across Broward County'
   images:
     - {
         src: '../../assets/images/case-studies/broward/gallery-1-hands-in.jpg',
@@ -267,7 +266,8 @@ cta:
   heading: 'Bring Inner Explorer'
   headingEmphasis: 'to your district'
   body: >-
-    See how a five-minute daily practice can change the way your schools begin the day. We'll
-    walk you through the rollout playbook Broward used — and what it could look like for you.
+    A five-minute daily practice can change the way your schools begin the day. Tell us
+    about your district and we'll share the rollout playbook Broward used, plus what a pilot
+    would take in your buildings.
   primary: { label: 'Contact us', href: '/contact' }
   secondary: { label: 'Download the full report (PDF)', href: '/contact' }
