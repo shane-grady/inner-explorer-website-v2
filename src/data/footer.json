@@ -31,6 +31,7 @@
       ]
     }
   ],
+  "legalLinks": [{ "label": "Privacy policy", "href": "/privacy-policy" }],
   "legalStartYear": 2011,
   "legalName": "Inner Explorer, Inc.",
   "nonprofitLabel": "A 501(c)(3) nonprofit",

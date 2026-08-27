@@ -761,9 +761,11 @@ body.cms-editor-active [data-anim] {
     color: var(--color-brand-emphasis);
   }
 
-  /* Help Center article body — a calm, documentation-style treatment (distinct from
-     the editorial `.prose-article`: sans headings, no drop cap, tighter measure). Used
-     by /help/<slug>. In-article modules (Callout, Steps, CardGrid, LinkCards, Accordion,
+  /* Documentation prose — a calm, reference-style treatment (distinct from the
+     editorial `.prose-article`: sans headings, no drop cap, tighter measure). Used by
+     the Help Center articles (/help/<slug>) AND the marketing site's legal documents
+     (/privacy-policy, via blocks/legal/LegalDoc.astro), which render the same MDX.
+     In-article modules (Callout, Steps, CardGrid, LinkCards, Accordion,
      HelpFigure) carry their own scoped styles + block margins, so this styles only the
      raw prose elements — list decorations are scoped to `:not([class])` so module lists
      are untouched. Token-driven, so it stays AA and is dark-mode-ready. */

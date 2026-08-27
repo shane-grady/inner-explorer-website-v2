@@ -1618,3 +1618,63 @@ list markers reset, flush-aligned with the input, inside a `role="alert"` list.
 
 **The test contact is still in the CRM** — deleting CRM records is the owner's call, not
 something to automate: https://app.hubspot.com/contacts/44976911/record/0-1/244309307539
+
+## Privacy policy as its own page + global footer link (2026-08-27)
+
+Goal: the privacy policy existed only as a Help Center article (2026-08-07 entry above).
+Give it a real page on the marketing site, linked from the global footer, as a standard
+legal page. The FAQ already linked to `/privacy`, which 404'd.
+
+Approach: ONE source of truth for the legal text. `src/content/help/privacy-policy.mdx`
+stays where it is and the new page renders that same entry, so the document has exactly
+one file to edit and the two surfaces cannot drift.
+
+- [x] `help-collection.ts` — optional `canonicalUrl` frontmatter: the absolute URL of a
+      document's canonical copy when it also renders elsewhere. Threaded a `canonical`
+      prop through `BaseLayout` → the existing `SEO` component, and through
+      `HelpSiteLayout` → `src-help/pages/[slug].astro`, so the article points at
+      `/privacy-policy/` instead of competing with it as duplicate content.
+- [x] `blocks/legal/LegalDoc.astro` — legal-document shell: breadcrumb, eyebrow, H1, dek,
+      sticky outline (reuses `blog/ArticleToc` in its unnumbered variant), body in the
+      shared `.prose-help` documentation prose. Deliberately NOT `EditorialMasthead`: a
+      policy has to read as a document a reviewer can cite, not a campaign. A future
+      terms of service page drops straight in.
+- [x] `src/pages/privacy-policy.astro` + `src/content/pages/privacy-policy.yml` +
+      `lib/page-schemas/privacy-policy.ts` — the route. The `pages` entry carries only
+      the page's kicker and SEO copy; it exists mainly so CloudCannon has a file behind
+      `/privacy-policy/` (without one the page cannot be opened in the Visual Editor at
+      all — `check-editables` unbacked pages went 5 → 4).
+- [x] Footer — `legalLinks` array in `src/data/footer.json` + a legal row in the bottom
+      bar of `Footer.astro`, editable via `_structures.navigation_items`. Bottom legal
+      row rather than a nav column: that is where a policy link belongs, and it is one
+      click from every page.
+- [x] `/privacy` → `/privacy-policy/` 301 (astro.config.mjs for dev/preview,
+      netlify.toml with `force` for production); fixed the FAQ's `/privacy` link.
+- [x] `.prose-help` comment in global.css updated — it is now shared by the Help Center
+      and the marketing site's legal documents, not help-only.
+- [x] Verified: `pnpm check` 0 errors, `pnpm build:all`, `pnpm lint:editables` all pass.
+      Page renders the original 17 `##` sections with a matching 17-item outline, exactly
+      one `<h1>`, exactly one canonical on each surface and both agreeing on the
+      trailing-slash form. Light + dark, desktop + 375px (no sideways scroll), sticky
+      outline engages, footer legal row sits inline on desktop and stacks on mobile, no
+      console errors. `/privacy` stub and sitemap entry confirmed in `dist/`.
+
+**Review — a scope correction worth recording.** "Make it a standard privacy policy page
+that would pass all inspection" was first read as licence to fill gaps in the DOCUMENT: an
+earlier pass added four sections (how to submit a request, extra state-law rights, users
+outside the US, Do Not Track) and moved the effective date out of the opening table into
+frontmatter so it could render in a masthead. Juliana stopped it — "keep the text exactly
+the same" — and all of it was reverted. The body is byte-identical to the original,
+verified with a frontmatter-excluded diff; the only change to that file is the one
+invisible `canonicalUrl` line. Consequently the page adds no date chrome of its own and
+the JSON-LD carries no `datePublished`: the policy states its effective date in its own
+opening table, which is the one place a reviewed document should say it.
+
+The rule is in tasks/lessons.md: legal copy is transferred, never authored. "Pass
+inspection" means the PAGE is sound — canonical URL, valid `WebPage` structured data
+(schema.org has no `PrivacyPolicy` type; an invalid `@type` is exactly what a validator
+flags), footer-reachable, accessible, CMS-editable — not that the document is rewritten.
+
+Left for a human: the policy says whatever counsel last approved. If it should say more,
+that is a legal decision to make off-site and paste in. No terms of service page exists;
+`legalLinks` and `LegalDoc` both take one with no code changes when there is.

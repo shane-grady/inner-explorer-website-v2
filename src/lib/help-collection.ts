@@ -27,6 +27,13 @@ export const helpCollection = defineCollection({
     keywords: z.array(z.string()).default([]),
     // Optional manual reading-time override (else computed from the body).
     readingTime: z.string().optional(),
+    /**
+     * Absolute URL of the canonical copy of this document when it also renders
+     * elsewhere. The privacy policy is a standalone page on the marketing site
+     * (/privacy-policy) AND an article here; pointing the canonical at the
+     * marketing page keeps the two from competing as duplicate content.
+     */
+    canonicalUrl: z.string().url().optional(),
     // SEO (optional — falls back to title + blurb).
     seoTitle: z.string().optional(),
     seoDescription: z.string().optional(),

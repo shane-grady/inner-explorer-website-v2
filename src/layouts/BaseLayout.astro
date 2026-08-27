@@ -21,6 +21,13 @@ interface Props {
   /** Hide the page from search engines (e.g. the internal styleguide). */
   noindex?: boolean;
   /**
+   * Absolute URL to declare as canonical instead of this page's own URL. Only for
+   * a page that is a secondary rendering of a document that lives elsewhere (the
+   * Help Center's privacy-policy article, whose canonical home is the marketing
+   * site's /privacy-policy). Leave unset on every ordinary page.
+   */
+  canonical?: string;
+  /**
    * Which Inner Explorer surface this page belongs to. Stamped on the Intercom visitor
    * so support can tell website chats from Help Center chats (and from the platform's
    * own Messenger) in one shared inbox. Defaults to the marketing site; the Help Center
@@ -37,6 +44,7 @@ const {
   image,
   imageAlt,
   noindex = false,
+  canonical,
   surface = 'Website',
 }: Props = Astro.props;
 const org = organizationSchema(Astro.site);
@@ -82,7 +90,14 @@ const intercomAppId = import.meta.env.PUBLIC_INTERCOM_APP_ID;
     <title>{title}</title>
     <meta name="generator" content={Astro.generator} />
     {noindex && <meta name="robots" content="noindex" />}
-    <SEO title={title} description={description} type={type} image={image} imageAlt={imageAlt} />
+    <SEO
+      title={title}
+      description={description}
+      type={type}
+      image={image}
+      imageAlt={imageAlt}
+      canonical={canonical}
+    />
     <JsonLd schema={org} />
     {
       /* Astro 6 view transitions: enables cross-page FLIP morphs for elements

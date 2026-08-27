@@ -161,7 +161,7 @@ sections:
       - q: What student data does Inner Explorer collect?
         a: In the standard configuration, none. Students do not log in or create accounts. We only collect classroom-level practice metadata (which practices played, when, for how long) tied to an educator account.
       - q: Do you sell or share data?
-        aHtml: Never. We do not sell, rent, or share student or educator data with third parties for advertising or marketing. Full details are in our <a href="/privacy">privacy policy</a>.
+        aHtml: Never. We do not sell, rent, or share student or educator data with third parties for advertising or marketing. Full details are in our <a href="/privacy-policy">privacy policy</a>.
       - q: Where is data stored?
         a: On encrypted servers in the United States, hosted with SOC 2 Type II–certified cloud providers. All data is encrypted in transit (TLS 1.2+) and at rest (AES-256).
       - q: Will you sign our Data Privacy Agreement?

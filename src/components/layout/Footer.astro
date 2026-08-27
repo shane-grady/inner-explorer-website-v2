@@ -17,6 +17,10 @@ interface FooterGroup {
 interface Props {
   tagline?: string;
   groups?: FooterGroup[];
+  /** Bottom-bar policy links (privacy policy, and terms when one exists). Kept out
+   *  of the nav columns above: a legal notice belongs in the legal row, and every
+   *  page needs it reachable in one click from anywhere on the site. */
+  legalLinks?: FooterLink[];
   legalStartYear?: number;
   legalName?: string;
   nonprofitLabel?: string;
@@ -26,6 +30,7 @@ interface Props {
 const {
   tagline = footer.tagline,
   groups = footer.groups,
+  legalLinks = footer.legalLinks,
   legalStartYear = footer.legalStartYear,
   legalName = footer.legalName,
   nonprofitLabel = footer.nonprofitLabel,
@@ -70,11 +75,32 @@ const year = new Date().getFullYear();
     <div
       class="mt-12 flex flex-col gap-3 border-t border-border pt-6 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between"
     >
-      <span>
-        &copy; {legalStartYear}&ndash;{year}{' '}
-        <editable-text data-prop="legalName">{legalName}</editable-text> &middot;{' '}
-        <editable-text data-prop="nonprofitLabel">{nonprofitLabel}</editable-text>
-      </span>
+      <div class="flex flex-col gap-x-6 gap-y-3 sm:flex-row sm:items-center">
+        <span>
+          &copy; {legalStartYear}&ndash;{year}{' '}
+          <editable-text data-prop="legalName">{legalName}</editable-text> &middot;{' '}
+          <editable-text data-prop="nonprofitLabel">{nonprofitLabel}</editable-text>
+        </span>
+        {
+          legalLinks.length > 0 && (
+            <nav aria-label="Legal">
+              <ul
+                class="flex flex-wrap items-center gap-x-6 gap-y-2"
+                data-editable="array"
+                data-prop="legalLinks"
+              >
+                {legalLinks.map((link) => (
+                  <li data-editable="array-item">
+                    <a href={link.href} class="transition-colors hover:text-foreground">
+                      <editable-text data-prop="label">{link.label}</editable-text>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          )
+        }
+      </div>
       <span data-editable="text" data-prop="closing">{closing}</span>
     </div>
   </Container>
