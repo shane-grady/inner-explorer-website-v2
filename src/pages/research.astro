@@ -77,7 +77,13 @@ const researchLd = {
   <JsonLd slot="head" schema={researchLd} />
 
   <div class="appearance-light">
-    <ResearchOpeningVoid eyebrow={opening.eyebrow} lines={opening.lines} editablePrefix="opening" />
+    <ResearchOpeningVoid
+      eyebrow={opening.eyebrow}
+      lines={opening.lines}
+      video="/videos/research/neurons.mp4"
+      poster="/videos/research/neurons-poster.jpg"
+      editablePrefix="opening"
+    />
     <ResearchHero
       eyebrow={hero.eyebrow}
       lines={hero.lines}
