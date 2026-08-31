@@ -8,7 +8,9 @@ import type { ImageMetadata } from 'astro';
 export type Category = 'case-study' | 'announcement' | 'article' | 'research' | 'press';
 
 export type Cover =
-  | { kind: 'photo'; photo: ImageMetadata }
+  // `fit: 'contain'` is for text-bearing graphics (title cards, charts): the card
+  // tile letterboxes them whole instead of cropping words off the edges.
+  | { kind: 'photo'; photo: ImageMetadata; fit?: 'cover' | 'contain' }
   | { kind: 'mesh'; tone?: 'a' | 'b' | 'c'; eyebrow?: string }
   | { kind: 'compass'; eyebrow?: string }
   | { kind: 'quote'; quote: string; tone?: 'a' | 'b' }

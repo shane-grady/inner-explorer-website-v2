@@ -61,7 +61,7 @@ const articleStories: Story[] = posts.map((post, i) => {
   // Posts with a hero image use it; the rest get an on-brand generative cover
   // tagged with the post's own category.
   const cover: Cover = data.heroImage
-    ? { kind: 'photo', photo: data.heroImage }
+    ? { kind: 'photo', photo: data.heroImage, fit: data.heroImageFit }
     : { kind: 'mesh', tone: (['a', 'b', 'c'] as const)[i % 3], eyebrow: data.category };
   return {
     id: `blog/${post.id}`,

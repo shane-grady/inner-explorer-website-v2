@@ -23,6 +23,8 @@ interface Props {
   authorImage?: ImageMetadata;
   heroImage?: ImageMetadata;
   heroImageAlt?: string;
+  /** `contain` shows a text-bearing graphic whole, uncropped, at its own ratio. */
+  heroImageFit?: 'cover' | 'contain';
   heroCaption?: string;
 }
 const {
@@ -38,6 +40,7 @@ const {
   authorImage,
   heroImage,
   heroImageAlt = '',
+  heroImageFit = 'cover',
   heroCaption,
 }: Props = Astro.props;
 
@@ -155,7 +158,15 @@ if (tags.length) metaParts.push({ icon: 'tag', text: tags.join(' · ') });
 
 {
   heroImage && (
-    <div class="hero-image">
+    <div
+      class="hero-image"
+      data-fit={heroImageFit}
+      style={
+        heroImageFit === 'contain'
+          ? `--hero-ratio: ${heroImage.width} / ${heroImage.height}`
+          : undefined
+      }
+    >
       {/* The caption must NOT be a descendant of the image region: a relative
           `data-prop` binds to its nearest editable ancestor, so nested inside the
           image it would resolve against that region's {src, alt} value instead of
@@ -310,6 +321,20 @@ if (tags.length) metaParts.push({ icon: 'tag', text: tags.join(' · ') });
     height: 100%;
     object-fit: cover;
   }
+  /* Text-bearing graphics: keep the whole frame visible at every width by taking
+     the aspect ratio from the image itself, so nothing is ever cropped away. The
+     photo gradient is dropped too — it only exists to seat the caption chip over
+     a photo, and would wash the bottom of a light graphic. */
+  .hero-image[data-fit='contain'] {
+    aspect-ratio: var(--hero-ratio);
+    background: transparent;
+  }
+  .hero-image[data-fit='contain'] :global(img) {
+    object-fit: contain;
+  }
+  .hero-image[data-fit='contain']::after {
+    content: none;
+  }
   .hero-image::after {
     content: '';
     position: absolute;
@@ -340,8 +365,10 @@ if (tags.length) metaParts.push({ icon: 'tag', text: tags.join(' · ') });
   }
 
   @media (max-width: 720px) {
-    .hero-image {
+    .hero-image:not([data-fit='contain']) {
       aspect-ratio: 4 / 3;
+    }
+    .hero-image {
       border-radius: var(--radius-xl);
     }
     .hero-image .cap {
