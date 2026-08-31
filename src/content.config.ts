@@ -34,6 +34,10 @@ const blog = defineCollection({
       category: z.string().optional(),
       heroImage: image().optional(),
       heroImageAlt: z.string().optional(),
+      // Photos fill a fixed 2:1 (desktop) / 4:3 (mobile) frame edge to edge.
+      // Text-bearing graphics (charts, title cards, diagrams) must not be cropped,
+      // so `contain` renders them whole at their own aspect ratio instead.
+      heroImageFit: z.enum(['cover', 'contain']).default('cover'),
       heroCaption: z.string().optional(),
       readingTime: z.string().optional(),
       tags: z.array(z.string()).default([]),
