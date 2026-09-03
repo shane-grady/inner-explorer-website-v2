@@ -17,10 +17,10 @@ interface FooterGroup {
 interface Props {
   tagline?: string;
   groups?: FooterGroup[];
-  /** Bottom-bar policy links (privacy policy, and terms when one exists). Kept out
-   *  of the nav columns above: a legal notice belongs in the legal row, and every
-   *  page needs it reachable in one click from anywhere on the site. */
-  legalLinks?: FooterLink[];
+  /** Bottom-bar privacy-policy link. Kept out of the nav columns above: a legal
+   *  notice belongs in the legal row, and every page needs it reachable in one
+   *  click from anywhere on the site. */
+  legalLink?: FooterLink;
   legalStartYear?: number;
   legalName?: string;
   nonprofitLabel?: string;
@@ -30,7 +30,7 @@ interface Props {
 const {
   tagline = footer.tagline,
   groups = footer.groups,
-  legalLinks = footer.legalLinks,
+  legalLink = footer.legalLink,
   legalStartYear = footer.legalStartYear,
   legalName = footer.legalName,
   nonprofitLabel = footer.nonprofitLabel,
@@ -90,20 +90,16 @@ const year = new Date().getFullYear();
           >
         </span>
         {
-          legalLinks.length > 0 && (
+          legalLink && (
             <nav aria-label="Legal">
               <ul class="flex flex-wrap items-center gap-x-6 gap-y-2">
-                {legalLinks.map((link, index) => (
-                  <li>
-                    <a href={link.href} class="transition-colors hover:text-foreground">
-                      <editable-text
-                        data-prop={`@file[/src/data/footer.json].legalLinks.${index}.label`}
-                      >
-                        {link.label}
-                      </editable-text>
-                    </a>
-                  </li>
-                ))}
+                <li>
+                  <a href={legalLink.href} class="transition-colors hover:text-foreground">
+                    <editable-text data-prop="@file[/src/data/footer.json].legalLink.label">
+                      {legalLink.label}
+                    </editable-text>
+                  </a>
+                </li>
               </ul>
             </nav>
           )

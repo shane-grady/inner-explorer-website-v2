@@ -1827,11 +1827,13 @@ file_config:
         type: array
         options:
           structures: _structures.footer_groups
-      legalLinks:
-        type: array
-        comment: Policy links in the bottom legal row (privacy policy, terms).
+      legalLink:
+        type: object
+        comment: Privacy policy link in the fixed bottom legal row.
         options:
-          structures: _structures.navigation_items
+          structures: _structures.link_object
+          preview:
+            icon: policy
       legalStartYear:
         type: number
       legalName:
