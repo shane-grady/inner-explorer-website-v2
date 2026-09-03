@@ -1658,6 +1658,44 @@ function checkSnippetDefaults() {
   return found;
 }
 
+function checkSnippetArgumentOrder() {
+  const found = [];
+  const config = Object.values(cc._snippets ?? {}).find(
+    (snippet) => snippet?.definitions?.component_name === 'HelpVideo',
+  );
+  const expected = (config?.definitions?.named_args ?? [])
+    .map((arg) => arg?.source_key ?? arg?.editor_key)
+    .filter(Boolean);
+  if (expected.length < 2) return found;
+  const contentDirs = new Set(
+    Object.values(collections)
+      .map((config) => config?.path)
+      .filter(Boolean),
+  );
+  for (const dir of contentDirs) {
+    for (const file of filesBelow(dir, new Set(['.md', '.mdx']))) {
+      const source = readFileSync(file, 'utf8');
+      for (const match of source.matchAll(/<HelpVideo\b([^>]*)\/>/g)) {
+        const actual = [...match[1].matchAll(/(?:^|\s)([A-Za-z_$][\w$:.-]*)\s*=/g)]
+          .map((attribute) => attribute[1])
+          .filter((name) => expected.includes(name));
+        const canonical = expected.filter((name) => actual.includes(name));
+        if (actual.every((name, index) => name === canonical[index])) continue;
+        const line = source.slice(0, match.index).split('\n').length;
+        found.push({
+          kind: 'NONCANONICAL_SNIPPET_ARG_ORDER',
+          file,
+          url: `${file}:${line}`,
+          backing: 'HelpVideo',
+          tag: 'HelpVideo',
+          detail: `snippet arguments must follow CloudCannon's serializer order (${canonical.join(', ')})`,
+        });
+      }
+    }
+  }
+  return found;
+}
+
 // ── Help article link portability ───────────────────────────────────────────
 function checkHelpLinks() {
   const found = [];
@@ -1723,6 +1761,7 @@ const errors = [
   ...checkMarketingPageContract(),
   ...checkCreationSchemas(),
   ...checkSnippetDefaults(),
+  ...checkSnippetArgumentOrder(),
   ...checkHelpLinks(),
 ];
 const warnings = [];

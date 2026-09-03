@@ -607,6 +607,18 @@ const negativeFixtures = [
     },
   },
   {
+    name: 'snippet arguments outside CloudCannon serializer order',
+    error: 'NONCANONICAL_SNIPPET_ARG_ORDER',
+    mutate(files) {
+      files['cloudcannon.config.yml'] = files['cloudcannon.config.yml'].replace(
+        '  help_video:\n    template: mdx_component\n    definitions:\n      component_name: HelpVideo\n      named_args:\n        - editor_key: ratio\n          type: string\n          default: 16 / 9\n    _inputs:',
+        '  help_video:\n    template: mdx_component\n    definitions:\n      component_name: HelpVideo\n      named_args:\n        - editor_key: label\n          type: string\n        - editor_key: ratio\n          type: string\n          default: 16 / 9\n        - editor_key: caption\n          type: string\n          optional: true\n    _inputs:',
+      );
+      files['src/content/help/guide.mdx'] =
+        '---\ntitle: Guide\n---\n<HelpVideo label="Test" caption="Test" ratio="16 / 9"/>\n';
+    },
+  },
+  {
     name: 'required marketing page removed from the contract',
     error: 'MISSING_MARKETING_PAGE',
     mutate(files) {
@@ -770,6 +782,18 @@ test('unrelated optional snippet defaults remain valid', () => {
   });
   assert.equal(result.status, 0, result.output);
   assert.doesNotMatch(result.output, /\bSNIPPET_SELECT_/);
+});
+
+test('snippet arguments in CloudCannon serializer order remain valid', () => {
+  const result = runFixture((files) => {
+    files['cloudcannon.config.yml'] = files['cloudcannon.config.yml'].replace(
+      '  help_video:\n    template: mdx_component\n    definitions:\n      component_name: HelpVideo\n      named_args:\n        - editor_key: ratio\n          type: string\n          default: 16 / 9\n    _inputs:',
+      '  help_video:\n    template: mdx_component\n    definitions:\n      component_name: HelpVideo\n      named_args:\n        - editor_key: label\n          type: string\n        - editor_key: ratio\n          type: string\n          default: 16 / 9\n        - editor_key: caption\n          type: string\n          optional: true\n    _inputs:',
+    );
+    files['src/content/help/guide.mdx'] =
+      '---\ntitle: Guide\n---\n<HelpVideo label="Test" ratio="16 / 9" caption="Test"/>\n';
+  });
+  assert.equal(result.status, 0, result.output);
 });
 
 test('preprocessed optional objects retain nested creation-structure validation', () => {
