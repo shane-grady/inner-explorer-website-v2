@@ -1,7 +1,7 @@
 // Loaded only inside CloudCannon's Visual Editor (see BaseLayout.astro).
 // Register only components whose data changes their rendered structure or styling.
-// The shared header and footer use primitive external-data editables directly; wrapping
-// either in a registered component creates a nested Dataset re-render race in 0.0.19.
+// The shared header and footer use primitive @file editables directly; wrapping either
+// in a registered component creates overlapping render/listener lifecycles in 0.0.19.
 import { registerAstroComponent } from '@cloudcannon/editable-regions/astro';
 import EditableGlowCTA from './components/EditableGlowCTA.astro';
 import EditableCaseStudyCTA from './components/EditableCaseStudyCTA.astro';

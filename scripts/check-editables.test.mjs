@@ -388,6 +388,14 @@ file_config:
     },
   },
   {
+    name: 'absolute file binding whose file does not exist',
+    error: 'UNRESOLVED',
+    mutate(files) {
+      files['dist/index.html'] =
+        '<h1 data-editable="text" data-prop="@file[/src/data/missing.json].title">Missing title</h1>';
+    },
+  },
+  {
     name: 'editable input path absent from configuration',
     error: 'MISSING_INPUT',
     mutate(files) {
@@ -841,6 +849,21 @@ file_config:
     files['src/data/shared.json'] = '{"title":"Shared title"}\n';
     files['dist/index.html'] =
       '<editable-component data-component="hero" data-prop="@data[shared]"><h1 data-editable="text" data-prop="@data[shared].title">Shared title</h1></editable-component>';
+  });
+  assert.equal(result.status, 0, result.output);
+});
+
+test('absolute singleton file bindings resolve data and input configuration', () => {
+  const result = runFixture((files) => {
+    files['cloudcannon.config.yml'] += `
+file_config:
+  - glob: src/data/shared.json
+    _inputs:
+      title: { type: text }
+`;
+    files['src/data/shared.json'] = '{"title":"Shared title"}\n';
+    files['dist/index.html'] =
+      '<h1 data-editable="text" data-prop="@file[/src/data/shared.json].title">Shared title</h1>';
   });
   assert.equal(result.status, 0, result.output);
 });

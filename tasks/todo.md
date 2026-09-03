@@ -57,10 +57,11 @@ bindings absolute, keeps registered component boundaries at their page call site
 and adds negative fixtures for both failure modes. A post-merge readback caught one
 remaining `legalLinks` race on FAQ; the final follow-up removes unnecessary registered
 component wrappers from the shared header/footer while retaining their primitive
-external-data editables.
+external-data editables, now bound to exact singleton `@file[...]` paths rather than
+Dataset keys that may return a file list.
 
 Local implementation is complete. The authoritative Node 24 gate passes both builds,
-CloudCannon validation, all 8,623 editable regions, and 66 contract fixtures. The
+CloudCannon validation, all 8,623 editable regions, and 68 contract fixtures. The
 original dirty checkout remained untouched; work is isolated on
 `codex/cloudcannon-shared-data-rendering`.
 
