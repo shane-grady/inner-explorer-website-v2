@@ -17,7 +17,7 @@
  *        node scripts/check-editables.mjs --report     (census output, never fails)
  */
 import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
-import { basename, extname, join, relative } from 'node:path';
+import { basename, dirname, extname, join, relative } from 'node:path';
 import { parse as parseYaml } from 'yaml';
 import ts from 'typescript';
 
@@ -659,6 +659,7 @@ function checkSnippetCoverage() {
 
 // ── registered component coverage ───────────────────────────────────────────
 const componentRegistrationErrors = [];
+const registeredComponentSources = new Map();
 
 function registeredComponentKeys() {
   const found = new Set();
@@ -669,6 +670,14 @@ function registeredComponentKeys() {
       ts.ScriptTarget.Latest,
       true,
     );
+    const imports = new Map();
+    for (const statement of source.statements) {
+      if (!ts.isImportDeclaration(statement) || !ts.isStringLiteral(statement.moduleSpecifier)) {
+        continue;
+      }
+      const local = statement.importClause?.name?.text;
+      if (local) imports.set(local, statement.moduleSpecifier.text);
+    }
     const visit = (node) => {
       if (
         ts.isCallExpression(node) &&
@@ -689,6 +698,13 @@ function registeredComponentKeys() {
           });
         }
         found.add(key);
+        const renderer = node.arguments[1];
+        if (renderer && ts.isIdentifier(renderer) && imports.has(renderer.text)) {
+          const imported = join(dirname(file), imports.get(renderer.text));
+          const candidates = [imported, `${imported}.astro`, join(imported, 'index.astro')];
+          const componentFile = candidates.find((candidate) => existsSync(candidate));
+          if (componentFile) registeredComponentSources.set(key, componentFile);
+        }
       }
       ts.forEachChild(node, visit);
     };
@@ -698,6 +714,39 @@ function registeredComponentKeys() {
 }
 
 const registeredComponents = registeredComponentKeys();
+
+function checkRegisteredComponentTopology() {
+  const found = [];
+  for (const [key, file] of registeredComponentSources) {
+    const raw = readFileSync(file, 'utf8');
+    const frontmatterEnd = raw.startsWith('---') ? raw.indexOf('\n---', 3) : -1;
+    const template = (frontmatterEnd === -1 ? raw : raw.slice(frontmatterEnd + 4))
+      .replace(/<!--[^]*?-->/g, '')
+      .replace(/\{\/\*[^]*?\*\/\}/g, '');
+    const escapedKey = key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const componentAttr = new RegExp(
+      `\\bdata-component\\s*=\\s*(?:["']${escapedKey}["']|\\{[^}]*["']${escapedKey}["'][^}]*\\})`,
+    );
+    const selfWrappedArrayItem = [...template.matchAll(/<[A-Za-z][\w:-]*\b[^>]*>/g)].some(
+      ([tag]) =>
+        componentAttr.test(tag) &&
+        (/^<editable-array-item\b/i.test(tag) ||
+          /\bdata-editable\s*=\s*["']array-item["']/.test(tag) ||
+          /\{\.\.\.editableItem\s*\(/.test(tag)),
+    );
+    if (!selfWrappedArrayItem) continue;
+    found.push({
+      kind: 'SELF_WRAPPED_REGISTERED_COMPONENT',
+      file,
+      url: key,
+      backing: file,
+      tag: key,
+      detail:
+        'a registered renderer must not emit its own array-item/component boundary; keep that boundary at the call site so detached re-renders preserve array ancestry',
+    });
+  }
+  return found;
+}
 
 const EXPECTED_MARKETING_PAGE_IDS = new Set([
   'about',
@@ -1798,6 +1847,7 @@ function* htmlFiles(dir) {
 const errors = [
   ...mappingErrors,
   ...componentRegistrationErrors,
+  ...checkRegisteredComponentTopology(),
   ...checkInputAmbiguity(),
   ...checkSchemaRegistration(),
   ...checkDataReachability(),
@@ -1871,6 +1921,24 @@ for (const root of ROOTS) {
           tag: n.tag,
           detail: `data-component="${component}" is not registered`,
         });
+      }
+
+      if (
+        n.parent?.kind === 'component' &&
+        /^@data\[[^\]]+\](?:\..+)?$/.test(n.parent.attrs['data-prop'] ?? '')
+      ) {
+        for (const key of propKeys) {
+          const binding = n.attrs[key];
+          if (!binding || binding.startsWith('@')) continue;
+          errors.push({
+            ...where,
+            kind: 'RELATIVE_EXTERNAL_DATA_BINDING',
+            tag: n.tag,
+            detail:
+              `${key}="${binding}" is relative to an external @data component; ` +
+              'CloudCannon editable-regions 0.0.19 requires an explicit @data[key].field binding here so its hosted Dataset API resolves it',
+          });
+        }
       }
 
       const checkInput = (binding) => {

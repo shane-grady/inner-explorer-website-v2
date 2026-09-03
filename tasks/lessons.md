@@ -22,6 +22,14 @@ any correction or surprise.
 
 ## Toolchain (pnpm / Node)
 
+- **A clean compiled editable tree is not proof of a clean hosted Visual Editor.**
+  CloudCannon's runtime can supply external data as a Dataset API object and can
+  re-render registered components while detached from their original array parent.
+  Use absolute `@data[file].field` bindings for the first editable layer inside an
+  external-data component, keep `data-component`/`array-item` boundaries at the page
+  call site rather than inside the registered renderer, and finish every rollout with
+  a hosted page-by-page readback for red error cards.
+
 - **Clear retired CloudCannon schemas explicitly on provisioned Sites.** Removing a
   collection `schemas` map from source was not enough for a long-lived hosted editing
   session: it still inserted `_schema: default` and a creation-template SEO value into

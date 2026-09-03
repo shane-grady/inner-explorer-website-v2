@@ -328,6 +328,66 @@ const negativeFixtures = [
     },
   },
   {
+    name: 'registered renderer that emits its own component boundary',
+    error: 'SELF_WRAPPED_REGISTERED_COMPONENT',
+    mutate(files) {
+      files['src/cloudcannon/registerComponents.ts'] =
+        "import Hero from '../components/Hero.astro';\nregisterAstroComponent('hero', Hero);\n";
+      files['src/components/Hero.astro'] = `---
+import { editableItem } from '../lib/editable';
+---
+{/* data-component="hero" in a comment must not satisfy the guard. */}
+<section data-component={true ? 'hero' : undefined} {...editableItem('')}></section>
+`;
+    },
+  },
+  {
+    name: 'registered renderer that emits a custom array-item boundary',
+    error: 'SELF_WRAPPED_REGISTERED_COMPONENT',
+    mutate(files) {
+      files['src/cloudcannon/registerComponents.ts'] =
+        "import Hero from '../components/Hero.astro';\nregisterAstroComponent('hero', Hero);\n";
+      files['src/components/Hero.astro'] =
+        '<editable-array-item data-component="hero"></editable-array-item>\n';
+    },
+  },
+  {
+    name: 'relative child binding under an external data component',
+    error: 'RELATIVE_EXTERNAL_DATA_BINDING',
+    mutate(files) {
+      files['cloudcannon.config.yml'] += `
+data_config:
+  shared:
+    path: src/data/shared.json
+file_config:
+  - glob: src/data/shared.json
+    _inputs:
+      title: { type: text }
+`;
+      files['src/data/shared.json'] = '{"title":"Shared title"}\n';
+      files['dist/index.html'] =
+        '<editable-component data-component="hero" data-prop="@data[shared]"><h1 data-editable="text" data-prop="title">Shared title</h1></editable-component>';
+    },
+  },
+  {
+    name: 'relative child binding under a nested external data component',
+    error: 'RELATIVE_EXTERNAL_DATA_BINDING',
+    mutate(files) {
+      files['cloudcannon.config.yml'] += `
+data_config:
+  shared:
+    path: src/data/shared.json
+file_config:
+  - glob: src/data/shared.json
+    _inputs:
+      title: { type: text }
+`;
+      files['src/data/shared.json'] = '{"nested":{"title":"Shared title"}}\n';
+      files['dist/index.html'] =
+        '<editable-component data-component="hero" data-prop="@data[shared].nested"><h1 data-editable="text" data-prop="title">Shared title</h1></editable-component>';
+    },
+  },
+  {
     name: 'editable input path absent from configuration',
     error: 'MISSING_INPUT',
     mutate(files) {
@@ -766,6 +826,46 @@ for (const fixture of negativeFixtures) {
     assert.match(result.output, new RegExp(`\\b${fixture.error}\\b`));
   });
 }
+
+test('absolute child bindings under external data components remain valid', () => {
+  const result = runFixture((files) => {
+    files['cloudcannon.config.yml'] += `
+data_config:
+  shared:
+    path: src/data/shared.json
+file_config:
+  - glob: src/data/shared.json
+    _inputs:
+      title: { type: text }
+`;
+    files['src/data/shared.json'] = '{"title":"Shared title"}\n';
+    files['dist/index.html'] =
+      '<editable-component data-component="hero" data-prop="@data[shared]"><h1 data-editable="text" data-prop="@data[shared].title">Shared title</h1></editable-component>';
+  });
+  assert.equal(result.status, 0, result.output);
+});
+
+test('call-site array wrappers with plain registered renderers remain valid', () => {
+  const result = runFixture((files) => {
+    files['src/cloudcannon/registerComponents.ts'] =
+      "import Hero from '../components/Hero';\nregisterAstroComponent('hero', Hero);\n";
+    files['src/components/Hero.astro'] =
+      '<section data-component="other" data-id="hero"><span>Rendered row</span></section>\n';
+    files['dist/index.html'] =
+      '<div data-editable="array" data-prop="hero.items"><div data-editable="array-item" data-component="hero"><span data-editable="text" data-prop="label">First item</span></div></div>';
+  });
+  assert.equal(result.status, 0, result.output);
+});
+
+test('same-key component boundaries without a self-emitted array item remain valid', () => {
+  const result = runFixture((files) => {
+    files['src/cloudcannon/registerComponents.ts'] =
+      "import Hero from '../components/Hero.astro';\nregisterAstroComponent('hero', Hero);\n";
+    files['src/components/Hero.astro'] =
+      '<editable-component data-component="hero"><span>Rendered component</span></editable-component>\n';
+  });
+  assert.equal(result.status, 0, result.output);
+});
 
 test('default invocation rejects a missing Help build root', () => {
   const result = runFixture(() => {}, []);

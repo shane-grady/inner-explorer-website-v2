@@ -43,7 +43,7 @@ const isActive = (rawHref: string) => {
       <span>inner<em>Explorer</em></span>
     </a>
 
-    <div class="nav-links" data-editable="array" data-prop="items">
+    <div class="nav-links" data-editable="array" data-prop="@data[navigation].items">
       {
         navLinks.map((l) => (
           <a
@@ -60,11 +60,13 @@ const isActive = (rawHref: string) => {
 
     <div class="nav-right">
       <a class="nav-signin" href={signIn.href}>
-        <editable-text data-prop="signIn.label">{signIn.label}</editable-text>
+        <editable-text data-prop="@data[navigation].signIn.label">{signIn.label}</editable-text>
       </a>
       <ThemeToggle />
       <a class="nav-cta" href={primaryCta.href}>
-        <editable-text data-prop="primaryCta.label">{primaryCta.label}</editable-text>
+        <editable-text data-prop="@data[navigation].primaryCta.label"
+          >{primaryCta.label}</editable-text
+        >
         <svg
           width="14"
           height="14"
@@ -87,7 +89,7 @@ const isActive = (rawHref: string) => {
         aria-expanded="false"
         aria-controls="nav-menu"
       >
-        <span class="sr-only" data-editable="text" data-prop="mobileMenuLabel">
+        <span class="sr-only" data-editable="text" data-prop="@data[navigation].mobileMenuLabel">
           {mobileMenuLabel}
         </span>
         <svg

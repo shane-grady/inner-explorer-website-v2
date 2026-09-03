@@ -44,11 +44,20 @@ CloudCannon, and both Netlify sites.
       security headers.
 - [ ] Prove code-to-CMS and reversible CMS-to-GitHub-to-Netlify round trips, then
       confirm the legacy marketing site remains outside this rollout.
+- [ ] Clear the hosted Visual Editor's About footer and FAQ section errors, deploy
+      the fix, and repeat a live zero-error readback across all 13 Marketing pages.
 
 ### Review
 
+Fresh hosted-editor inspection after PR #98 merged found two runtime-only failures
+that the compiled-HTML guard could not reproduce: external footer data could resolve
+through CloudCannon's Dataset API as undefined, and registered FAQ rows lost their
+array ancestry during detached re-rendering. The follow-up keeps external top-level
+bindings absolute, keeps registered component boundaries at their page call sites,
+and adds negative fixtures for both failure modes.
+
 Local implementation is complete. The authoritative Node 24 gate passes both builds,
-CloudCannon validation, all 8,745 editable regions, and 59 contract fixtures. The
+CloudCannon validation, all 8,745 editable regions, and 66 contract fixtures. The
 original dirty checkout remained untouched; work is isolated on
 `codex/cloudcannon-reliability`.
 
