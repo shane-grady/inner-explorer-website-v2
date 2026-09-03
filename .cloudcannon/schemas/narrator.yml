@@ -13,6 +13,8 @@ intro: ''
 quote:
   text: Add a short quote that captures this narrator's approach.
   attrib: Narrator name
+# Keep the optional object visible as an Add control without rendering an empty player.
+voiceIntro: null
 facts: []
 qa: []
 practices: []

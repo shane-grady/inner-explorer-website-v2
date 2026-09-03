@@ -30,6 +30,12 @@ entries from `.cloudcannon/schemas/*`; they deliberately do not declare collecti
 maintenance to existing entries, while a default content file is creation-only.
 Testimonials follows the same pattern even though it has no output URL.
 
+Each collection also has an explicit, collision-safe Create Path. CloudCannon's
+default path ends in `.md`, which would bypass the YAML-only loaders for Case Studies,
+Narrators, Series, and Testimonials. Blog and Help explicitly create `.mdx` files so
+their registered MDX snippets remain available. The CMS contract guard fixes both the
+extension and the filename source (`title`, `name`, or the case-study title lead).
+
 ## MDX pipeline
 
 The site now uses `astro-auto-import` before `mdx()` so editorial files contain no import statements. Every capitalized component currently present in blog/help MDX has an explicit CloudCannon snippet definition:

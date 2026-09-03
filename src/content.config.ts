@@ -101,15 +101,20 @@ const narrators = defineCollection({
       // so narrators with only wall data still render a coherent page).
       intro: z.string().optional(),
       quote: z.object({ text: z.string(), attrib: z.string().optional() }).optional(),
-      voiceIntro: z
-        .object({
-          audioSrc: z.string(),
-          durationSec: z.number(),
-          title: z.string(),
-          transcriptHref: z.string().optional(),
-          captionsSrc: z.string().optional(),
-        })
-        .optional(),
+      // CloudCannon seeds this optional object as null so its Add control exists.
+      // Normalize that placeholder back to absence until an editor fills it.
+      voiceIntro: z.preprocess(
+        (value) => (value == null ? undefined : value),
+        z
+          .object({
+            audioSrc: z.string(),
+            durationSec: z.number(),
+            title: z.string(),
+            transcriptHref: z.string().optional(),
+            captionsSrc: z.string().optional(),
+          })
+          .optional(),
+      ),
       facts: z.array(z.object({ value: z.string(), label: z.string() })).default([]),
       qa: z
         .array(

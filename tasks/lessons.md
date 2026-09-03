@@ -26,7 +26,14 @@ any correction or surprise.
   uniform CloudCannon collection.** Hosted readback showed that `schemas` is an
   ongoing maintenance contract for existing entries, not merely a creation template;
   it can reorder, hide, or remove fields. Keep `_inputs` and `_structures` on the
-  collection and reserve `schemas` for genuinely different content shapes.
+  collection and reserve `schemas` for genuinely different content shapes. Include
+  optional Zod fields in the default content file as well: an absent key is not an
+  editor control. Seed an optional object with `null` and normalize that placeholder
+  to `undefined` when the runtime must not render an empty section.
+- **Pin `create.path` for every creatable CloudCannon collection.** Its default ends
+  in `.md`; that silently creates files outside an Astro loader that accepts only
+  YAML/JSON, and it prevents MDX snippets on authored collections. Match the extension
+  to the loader and include `[count]` so a repeated title cannot overwrite a file.
 - **CloudCannon's `.cloudcannon/initial-site-settings.json` only applies when a Site is
   first created.** Adding it to a repository that is already connected does not update
   the live Site's build configuration. For an existing Site, explicitly set the install

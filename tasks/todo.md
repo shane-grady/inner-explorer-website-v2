@@ -18,6 +18,9 @@ CloudCannon, and both Netlify sites.
 - [x] Exclude CloudCannon-owned serialized content/data from Prettier enforcement;
       keep validation through Astro/Zod and CMS guards.
 - [x] Keep redirects site-specific so Help does not inherit marketing redirects.
+- [x] Change the already-provisioned Help Netlify Site to repository-root Base,
+      Package directory `sites/help`, and `pnpm verify:cms`; read the saved settings
+      back without triggering a deployment.
 - [x] Complete page/collection inputs and creation schemas, including safe fixed
       arrays, Help video files, series icons, narrator languages/photos, and taxonomy.
 - [x] Replace single-shape collection `schemas` with explicit
@@ -35,7 +38,7 @@ CloudCannon, and both Netlify sites.
 ### Review
 
 Local implementation is complete. The authoritative Node 24 gate passes both builds,
-CloudCannon validation, all 8,745 editable regions, and 39 contract fixtures. The
+CloudCannon validation, all 8,745 editable regions, and 43 contract fixtures. The
 original dirty checkout remained untouched; work is isolated on
 `codex/cloudcannon-reliability`.
 
@@ -54,13 +57,18 @@ contract for existing entries. Blog, Case Studies, Help, Narrators, Series, and
 Testimonials now keep their inputs and structures at collection level and use an
 explicit `add_options.default_content_file` only when creating a new entry. The guard
 rejects missing, unconfigured, incomplete, or schema-managed creation templates.
+Creation templates must include optional fields too: the narrator seed carries a null
+`voiceIntro` key so CloudCannon exposes its Add control, while Zod normalizes that
+placeholder back to absence until an editor fills it. Every creatable collection now
+pins a collision-safe create path whose extension matches its Astro loader (`.mdx`
+for authored Blog/Help content and YAML for structured entries).
 
-Rollout remains intentionally unmerged until the live Help Netlify Site changes from
-Base `sites/help` to a repository-root Base with Package directory `sites/help`. The
-Netlify team is currently restricted by a $9 overdue balance, so its project settings
-and new previews are unavailable. Existing public deployments remain on their last
-successful versions; the live Help site therefore still demonstrates the old redirect
-leak (`/pricing` and `/resources` redirect instead of returning direct 404s).
+The live Help Netlify configuration is now corrected and read back. Rollout remains
+intentionally unmerged until the revised PR head passes both Netlify previews and the
+temporary CloudCannon Site proves that existing entries no longer gain creation-only
+placeholder values. Existing public deployments remain on their last successful
+versions; the live Help site therefore still demonstrates the old redirect leak
+(`/pricing` and `/resources` redirect instead of returning direct 404s).
 
 ## Home v2 — new home page from Claude Design handoff (2026-06-22)
 

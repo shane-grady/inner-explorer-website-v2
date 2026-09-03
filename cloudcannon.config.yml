@@ -1339,6 +1339,8 @@ collections_config:
       - visual
       - content
       - data
+    create:
+      path: '[relative_base_path]/{title|slugify}[count].mdx'
     add_options:
       - name: Blog post
         default_content_file: .cloudcannon/schemas/blog-post.md
@@ -1407,6 +1409,8 @@ collections_config:
     _enabled_editors:
       - visual
       - data
+    create:
+      path: '[relative_base_path]/{meta.titleLead|slugify}[count].yaml'
     add_options:
       - name: Case study
         default_content_file: .cloudcannon/schemas/case-study.yml
@@ -1519,6 +1523,8 @@ collections_config:
       - visual
       - content
       - data
+    create:
+      path: '[relative_base_path]/{title|slugify}[count].mdx'
     add_options:
       - name: Help article
         default_content_file: .cloudcannon/schemas/help-article.md
@@ -1565,6 +1571,8 @@ collections_config:
     _enabled_editors:
       - visual
       - data
+    create:
+      path: '[relative_base_path]/{name|slugify}[count].yml'
     add_options:
       - name: Narrator
         default_content_file: .cloudcannon/schemas/narrator.yml
@@ -1635,6 +1643,8 @@ collections_config:
     _enabled_editors:
       - visual
       - data
+    create:
+      path: '[relative_base_path]/{name|slugify}[count].yaml'
     add_options:
       - name: Practice series
         default_content_file: .cloudcannon/schemas/series.yml
@@ -1726,6 +1736,8 @@ collections_config:
     disable_url: true
     _enabled_editors:
       - data
+    create:
+      path: '[relative_base_path]/{name|slugify}[count].yml'
     add_options:
       - name: Testimonial
         default_content_file: .cloudcannon/schemas/testimonial.yml

@@ -1179,6 +1179,14 @@ function zodShape(node, declarations, seen = new Set()) {
     ts.isPropertyAccessExpression(callee) &&
     ts.isIdentifier(callee.expression) &&
     callee.expression.text === 'z' &&
+    callee.name.text === 'preprocess'
+  ) {
+    return zodShape(node.arguments[1], declarations, seen);
+  }
+  if (
+    ts.isPropertyAccessExpression(callee) &&
+    ts.isIdentifier(callee.expression) &&
+    callee.expression.text === 'z' &&
     callee.name.text === 'object'
   ) {
     const object = node.arguments[0];
@@ -1252,23 +1260,21 @@ function collectionZodShape(file, variableName) {
   return zodShape(schemaExpr, declarations);
 }
 
-function missingCreationFields(shape, value, prefix = '', inputs = {}) {
+function missingCreationFields(shape, value, prefix = '') {
   if (!shape || shape.kind !== 'object') return [];
   const missing = [];
   for (const [key, child] of shape.fields) {
     const path = prefix ? `${prefix}.${key}` : key;
     if (!value || typeof value !== 'object' || !(key in value)) {
-      if (child.optional && (inputs[key] || rootInputs[key])) continue;
       missing.push(path);
       continue;
     }
-    if (value[key] == null && child.optional && (inputs[key] || rootInputs[key])) continue;
-    if (child.kind === 'object')
-      missing.push(...missingCreationFields(child, value[key], path, inputs));
+    if (value[key] == null && child.optional) continue;
+    if (child.kind === 'object') missing.push(...missingCreationFields(child, value[key], path));
     if (child.kind === 'array' && Array.isArray(value[key]) && value[key].length > 0) {
       for (const [index, item] of value[key].entries()) {
         if (child.item?.kind === 'object') {
-          missing.push(...missingCreationFields(child.item, item, `${path}.${index}`, inputs));
+          missing.push(...missingCreationFields(child.item, item, `${path}.${index}`));
         }
       }
     }
@@ -1356,14 +1362,39 @@ function checkStructuredCreationFields(shape, inputs, context, prefix = '') {
 function checkCreationSchemas() {
   const found = [];
   const contracts = {
-    blog: ['src/content.config.ts', 'blog'],
-    caseStudies: ['src/content.config.ts', 'caseStudies'],
-    help: ['src/lib/help-collection.ts', 'helpCollection'],
-    narrators: ['src/content.config.ts', 'narrators'],
-    series: ['src/content.config.ts', 'series'],
-    testimonials: ['src/content.config.ts', 'testimonials'],
+    blog: {
+      source: 'src/content.config.ts',
+      variable: 'blog',
+      createPath: '[relative_base_path]/{title|slugify}[count].mdx',
+    },
+    caseStudies: {
+      source: 'src/content.config.ts',
+      variable: 'caseStudies',
+      createPath: '[relative_base_path]/{meta.titleLead|slugify}[count].yaml',
+    },
+    help: {
+      source: 'src/lib/help-collection.ts',
+      variable: 'helpCollection',
+      createPath: '[relative_base_path]/{title|slugify}[count].mdx',
+    },
+    narrators: {
+      source: 'src/content.config.ts',
+      variable: 'narrators',
+      createPath: '[relative_base_path]/{name|slugify}[count].yml',
+    },
+    series: {
+      source: 'src/content.config.ts',
+      variable: 'series',
+      createPath: '[relative_base_path]/{name|slugify}[count].yaml',
+    },
+    testimonials: {
+      source: 'src/content.config.ts',
+      variable: 'testimonials',
+      createPath: '[relative_base_path]/{name|slugify}[count].yml',
+    },
   };
-  for (const [collection, [source, variable]] of Object.entries(contracts)) {
+  for (const [collection, contract] of Object.entries(contracts)) {
+    const { source, variable, createPath: requiredCreatePath } = contract;
     const cfg = collections[collection];
     if (!cfg) {
       found.push({
@@ -1396,6 +1427,26 @@ function checkCreationSchemas() {
         detail:
           'single-shape collections must seed new entries with add_options.default_content_file; ' +
           'schemas can apply maintenance behavior to existing entries',
+      });
+    }
+    const createPath = typeof cfg.create === 'string' ? cfg.create : cfg.create?.path;
+    if (!createPath) {
+      found.push({
+        kind: 'MISSING_CREATION_PATH',
+        file: 'cloudcannon.config.yml',
+        url: collection,
+        backing: cfg.path ?? null,
+        tag: 'create.path',
+        detail: `creatable collection needs ${requiredCreatePath}`,
+      });
+    } else if (createPath !== requiredCreatePath) {
+      found.push({
+        kind: 'INVALID_CREATION_PATH',
+        file: 'cloudcannon.config.yml',
+        url: collection,
+        backing: cfg.path ?? null,
+        tag: 'create.path',
+        detail: `creation path must be ${requiredCreatePath}; found ${createPath}`,
       });
     }
     const addOptions = Array.isArray(cfg.add_options)
@@ -1453,7 +1504,7 @@ function checkCreationSchemas() {
       }
       const seed = loadFile(templatePath).data;
       const creationInputs = cfg._inputs ?? {};
-      for (const field of missingCreationFields(shape, seed, '', creationInputs)) {
+      for (const field of missingCreationFields(shape, seed)) {
         found.push({
           kind: 'MISSING_CREATION_FIELD',
           file: templatePath,

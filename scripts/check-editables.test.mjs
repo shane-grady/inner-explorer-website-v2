@@ -57,6 +57,8 @@ ${pageSchemas}
   blog:
     path: src/content/blog
     url: /blog/[slug]/
+    create:
+      path: '[relative_base_path]/{title|slugify}[count].mdx'
     add_options:
       - name: Blog post
         default_content_file: .cloudcannon/schemas/blog-post.md
@@ -68,30 +70,40 @@ ${pageSchemas}
   caseStudies:
     path: src/content/case-studies
     url: /case-studies/[slug]/
+    create:
+      path: '[relative_base_path]/{meta.titleLead|slugify}[count].yaml'
     add_options:
       - name: Case study
         default_content_file: .cloudcannon/schemas/case-study.yml
   help:
     path: src/content/help
     url: /help/[slug]/
+    create:
+      path: '[relative_base_path]/{title|slugify}[count].mdx'
     add_options:
       - name: Help article
         default_content_file: .cloudcannon/schemas/help-article.md
   narrators:
     path: src/content/narrators
     url: /narrators/[slug]/
+    create:
+      path: '[relative_base_path]/{name|slugify}[count].yml'
     add_options:
       - name: Narrator
         default_content_file: .cloudcannon/schemas/narrator.yml
   series:
     path: src/content/series
     url: /series/[slug]/
+    create:
+      path: '[relative_base_path]/{name|slugify}[count].yaml'
     add_options:
       - name: Practice series
         default_content_file: .cloudcannon/schemas/series.yml
   testimonials:
     path: src/content/testimonials
     disable_url: true
+    create:
+      path: '[relative_base_path]/{name|slugify}[count].yml'
     add_options:
       - name: Testimonial
         default_content_file: .cloudcannon/schemas/testimonial.yml
@@ -381,8 +393,38 @@ const negativeFixtures = [
     error: 'MISSING_CREATION_TEMPLATE',
     mutate(files) {
       files['cloudcannon.config.yml'] = files['cloudcannon.config.yml'].replace(
-        '  narrators:\n    path: src/content/narrators\n    url: /narrators/[slug]/\n    add_options:',
-        '  narrators:\n    path: src/content/narrators\n    url: /narrators/[slug]/\n    missing_add_options:',
+        '    add_options:\n      - name: Narrator\n        default_content_file: .cloudcannon/schemas/narrator.yml',
+        '    missing_add_options:\n      - name: Narrator\n        default_content_file: .cloudcannon/schemas/narrator.yml',
+      );
+    },
+  },
+  {
+    name: 'required creatable collection without a create path',
+    error: 'MISSING_CREATION_PATH',
+    mutate(files) {
+      files['cloudcannon.config.yml'] = files['cloudcannon.config.yml'].replace(
+        "    create:\n      path: '[relative_base_path]/{title|slugify}[count].mdx'",
+        '    missing_create: true',
+      );
+    },
+  },
+  {
+    name: 'creation path with an unsupported output extension',
+    error: 'INVALID_CREATION_PATH',
+    mutate(files) {
+      files['cloudcannon.config.yml'] = files['cloudcannon.config.yml'].replace(
+        "{meta.titleLead|slugify}[count].yaml'",
+        "{meta.titleLead|slugify}[count].md'",
+      );
+    },
+  },
+  {
+    name: 'creation path without its required data placeholder',
+    error: 'INVALID_CREATION_PATH',
+    mutate(files) {
+      files['cloudcannon.config.yml'] = files['cloudcannon.config.yml'].replace(
+        "{name|slugify}[count].yaml'",
+        "{title|slugify}[count].yaml'",
       );
     },
   },
@@ -547,23 +589,38 @@ test('default invocation rejects a missing Help build root', () => {
   assert.match(result.output, /Missing build output: dist-help/);
 });
 
-test('optional creation fields may be absent only when configured inputs can add them', () => {
+test('optional creation fields must still be present in the creation template', () => {
   const result = runFixture((files) => {
     files['src/content.config.ts'] = files['src/content.config.ts'].replace(
       'const narrators = defineCollection({ schema: z.object({ title: z.string() }) });',
-      'const narrators = defineCollection({ schema: z.object({ title: z.string(), photoWide: z.string().optional(), voice: z.object({ audio: z.string() }).optional() }) });',
+      'const narrators = defineCollection({ schema: z.object({ title: z.string(), voice: z.object({ audio: z.string() }).optional() }) });',
     );
+  });
+  assert.equal(result.status, 1, result.output);
+  assert.match(result.output, /\bMISSING_CREATION_FIELD\b/);
+  assert.match(result.output, /voice/);
+});
+
+test('preprocessed optional objects retain nested creation-structure validation', () => {
+  const result = runFixture((files) => {
+    files['src/content.config.ts'] = files['src/content.config.ts'].replace(
+      'const narrators = defineCollection({ schema: z.object({ title: z.string() }) });',
+      'const narrators = defineCollection({ schema: z.object({ title: z.string(), voice: z.preprocess((value) => value, z.object({ audio: z.string(), title: z.string() }).optional()) }) });',
+    );
+    files['.cloudcannon/schemas/narrator.yml'] = 'title: New narrator\nvoice: null\n';
     files['cloudcannon.config.yml'] = files['cloudcannon.config.yml']
       .replace(
         '  narrators:\n    path:',
-        '  narrators:\n    _inputs:\n      photoWide: { type: image }\n      voice:\n        type: object\n        options:\n          structures: _structures.voice\n    path:',
+        '  narrators:\n    _inputs:\n      voice:\n        type: object\n        options:\n          structures: _structures.voice\n    path:',
       )
       .replace(
         '  blog_items:\n',
         "  voice:\n    values:\n      - value:\n          audio: ''\n  blog_items:\n",
       );
   });
-  assert.equal(result.status, 0, result.output);
+  assert.equal(result.status, 1, result.output);
+  assert.match(result.output, /\bMISSING_CREATION_STRUCTURE_FIELD\b/);
+  assert.match(result.output, /title/);
 });
 
 test('exact file configuration with a $ root structure scopes page inputs', () => {
