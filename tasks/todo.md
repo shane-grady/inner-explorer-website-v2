@@ -60,14 +60,15 @@ component wrappers from the shared header/footer while retaining their primitive
 external-data editables, now bound to exact singleton `@file[...]` paths rather than
 Dataset keys that may return a file list. A second hosted readback showed CloudCannon
 0.0.19 still returned `undefined` for the footer's later `legalLinks` array listener, even
-though sibling fields resolved. The legal row is fixed layout, so its visible labels are
-now primitive indexed file editables; structural link changes remain safely available in
-Site Settings.
+though sibling fields resolved. Indexed paths inside arrays are also unsupported. Because
+the fixed legal row contains one privacy link, it is now a singleton `legalLink` object:
+the visible label uses the same proven object-field binding pattern as the header, while
+the destination remains safely editable in Site Settings.
 
 Local implementation is complete. The authoritative Node 24 gate passes both builds,
 CloudCannon validation, all 8,501 editable regions, and 68 contract fixtures. The
 original dirty checkout remained untouched; work is isolated on
-`codex/cloudcannon-footer-legal-links`.
+`codex/cloudcannon-footer-legal-object`.
 
 The final temporary-Site acceptance pass covered every creatable collection. Blog,
 Case Study, Help, Narrator, Practice Series, and Testimonial entries were created in
@@ -1777,8 +1778,8 @@ one file to edit and the two surfaces cannot drift.
       the page's kicker and SEO copy; it exists mainly so CloudCannon has a file behind
       `/privacy-policy/` (without one the page cannot be opened in the Visual Editor at
       all — `check-editables` unbacked pages went 5 → 4).
-- [x] Footer — `legalLinks` array in `src/data/footer.json` + a legal row in the bottom
-      bar of `Footer.astro`, editable via `_structures.navigation_items`. Bottom legal
+- [x] Footer — `legalLink` object in `src/data/footer.json` + a fixed legal row in the
+      bottom bar of `Footer.astro`, editable via `_structures.link_object`. Bottom legal
       row rather than a nav column: that is where a policy link belongs, and it is one
       click from every page.
 - [x] `/privacy` → `/privacy-policy/` 301 (astro.config.mjs for dev/preview,
@@ -1810,4 +1811,5 @@ flags), footer-reachable, accessible, CMS-editable — not that the document is 
 
 Left for a human: the policy says whatever counsel last approved. If it should say more,
 that is a legal decision to make off-site and paste in. No terms of service page exists;
-`legalLinks` and `LegalDoc` both take one with no code changes when there is.
+`LegalDoc` can render one when legal copy is supplied, and adding its footer link is
+intentionally a small fixed-layout code change.
