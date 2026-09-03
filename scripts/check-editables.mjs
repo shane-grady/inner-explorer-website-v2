@@ -1371,8 +1371,8 @@ function checkCreationSchemas() {
     caseStudies: {
       source: 'src/content.config.ts',
       variable: 'caseStudies',
-      createPath: '[relative_base_path]/{filename|slugify}[count].yaml',
-      createExtraData: { filename: '{meta.titleLead}' },
+      createPath: '[relative_base_path]/{slug|slugify}[count].yaml',
+      createPathInput: 'slug',
       sentinel: { path: 'seoTitle', value: 'New case study | Inner Explorer' },
     },
     help: {
@@ -1416,7 +1416,7 @@ function checkCreationSchemas() {
       source,
       variable,
       createPath: requiredCreatePath,
-      createExtraData,
+      createPathInput,
       sentinel,
     } = contract;
     const cfg = collections[collection];
@@ -1513,19 +1513,15 @@ function checkCreationSchemas() {
         detail: `creation path must be ${requiredCreatePath}; found ${createPath}`,
       });
     }
-    if (
-      createExtraData &&
-      Object.entries(createExtraData).some(
-        ([key, value]) => cfg.create?.extra_data?.[key] !== value,
-      )
-    ) {
+    const pathInput = createPathInput ? cfg._inputs?.[createPathInput] : null;
+    if (createPathInput && (pathInput?.type !== 'text' || pathInput?.options?.required !== true)) {
       found.push({
-        kind: 'INVALID_CREATION_EXTRA_DATA',
+        kind: 'INVALID_CREATION_PATH_INPUT',
         file: 'cloudcannon.config.yml',
         url: collection,
         backing: cfg.path ?? null,
-        tag: 'create.extra_data',
-        detail: `creation path requires ${JSON.stringify(createExtraData)}`,
+        tag: createPathInput,
+        detail: `creation path field "${createPathInput}" must be an explicit required Text input`,
       });
     }
     const addOptions = Array.isArray(cfg.add_options)

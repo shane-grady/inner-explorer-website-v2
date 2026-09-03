@@ -182,6 +182,7 @@ const caseStudies = defineCollection({
     return z.object({
       draft: z.boolean().default(false),
       order: z.number().default(0),
+      slug: z.string().optional(),
 
       // SEO (optional — falls back to meta copy + today's date on the page).
       seoTitle: z.string().optional(),

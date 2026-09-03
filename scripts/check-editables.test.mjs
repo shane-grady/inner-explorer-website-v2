@@ -73,12 +73,15 @@ ${pageSchemas}
     path: src/content/case-studies
     url: /case-studies/[slug]/
     create:
-      extra_data:
-        filename: '{meta.titleLead}'
-      path: '[relative_base_path]/{filename|slugify}[count].yaml'
+      path: '[relative_base_path]/{slug|slugify}[count].yaml'
     add_options:
       - name: Case study
         default_content_file: .cloudcannon/schemas/case-study.yml
+    _inputs:
+      slug:
+        type: text
+        options:
+          required: true
   help:
     schemas: null
     path: src/content/help
@@ -467,18 +470,18 @@ const negativeFixtures = [
     error: 'INVALID_CREATION_PATH',
     mutate(files) {
       files['cloudcannon.config.yml'] = files['cloudcannon.config.yml'].replace(
-        "{filename|slugify}[count].yaml'",
-        "{filename|slugify}[count].md'",
+        "{slug|slugify}[count].yaml'",
+        "{slug|slugify}[count].md'",
       );
     },
   },
   {
-    name: 'creation path without its nested-data alias',
-    error: 'INVALID_CREATION_EXTRA_DATA',
+    name: 'creation path without its required input',
+    error: 'INVALID_CREATION_PATH_INPUT',
     mutate(files) {
       files['cloudcannon.config.yml'] = files['cloudcannon.config.yml'].replace(
-        "      extra_data:\n        filename: '{meta.titleLead}'\n",
-        '',
+        '      slug:\n        type: text\n        options:\n          required: true',
+        '      slug:\n        type: text',
       );
     },
   },

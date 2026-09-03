@@ -1414,15 +1414,20 @@ collections_config:
       - data
     schemas: null
     create:
-      extra_data:
-        filename: '{meta.titleLead}'
-      path: '[relative_base_path]/{filename|slugify}[count].yaml'
+      path: '[relative_base_path]/{slug|slugify}[count].yaml'
     add_options:
       - name: Case study
         default_content_file: .cloudcannon/schemas/case-study.yml
         icon: school
         editor: data
     _inputs:
+      slug:
+        type: text
+        label: Page URL
+        comment: Use a short, readable phrase such as lincoln-elementary.
+        options:
+          required: true
+          required_message: Add a page URL before saving this case study.
       meta:
         type: object
         options:
