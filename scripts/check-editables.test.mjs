@@ -115,6 +115,46 @@ ${pageSchemas}
         default_content_file: .cloudcannon/schemas/testimonial.yml
 _inputs:
   title: { type: text }
+_snippets:
+  callout:
+    template: mdx_paired_component
+    definitions:
+      component_name: Callout
+      named_args:
+        - editor_key: type
+          type: string
+          default: tip
+    _inputs:
+      type:
+        type: select
+        options:
+          values: [tip, note, good]
+  help_figure:
+    template: mdx_component
+    definitions:
+      component_name: HelpFigure
+      named_args:
+        - editor_key: ratio
+          type: string
+          default: 16 / 9
+    _inputs:
+      ratio:
+        type: select
+        options:
+          values: [16 / 9, 4 / 3]
+  help_video:
+    template: mdx_component
+    definitions:
+      component_name: HelpVideo
+      named_args:
+        - editor_key: ratio
+          type: string
+          default: 16 / 9
+    _inputs:
+      ratio:
+        type: select
+        options:
+          values: [16 / 9, 16 / 10]
 _structures:
   hero:
     values:
@@ -510,58 +550,60 @@ const negativeFixtures = [
     name: 'semantic snippet Select cannot become optional',
     error: 'SNIPPET_SELECT_OPTIONAL',
     mutate(files) {
-      files['cloudcannon.config.yml'] += `
-_snippets:
-  callout:
-    template: mdx_component
-    definitions:
-      component_name: Callout
-      named_args:
-        - editor_key: type
-          type: string
-          optional: true
-          default: tip
-          remove_empty: true
-`;
+      files['cloudcannon.config.yml'] = files['cloudcannon.config.yml'].replace(
+        '        - editor_key: type\n          type: string\n          default: tip',
+        '        - editor_key: type\n          type: string\n          optional: true\n          default: tip\n          remove_empty: true',
+      );
     },
   },
   {
     name: 'semantic snippet Select keeps its insertion default',
     error: 'SNIPPET_SELECT_DEFAULT',
     mutate(files) {
-      files['cloudcannon.config.yml'] += `
-_snippets:
-  callout:
-    template: mdx_component
-    definitions:
-      component_name: Callout
-      named_args:
-        - editor_key: type
-          type: string
-          allowed_values: [tip, note, good]
-`;
+      files['cloudcannon.config.yml'] = files['cloudcannon.config.yml'].replace(
+        '        - editor_key: type\n          type: string\n          default: tip',
+        '        - editor_key: type\n          type: string',
+      );
     },
   },
   {
     name: 'semantic snippet argument uses a closed Select containing its default',
     error: 'SNIPPET_SELECT_INPUT',
     mutate(files) {
-      files['cloudcannon.config.yml'] += `
-_snippets:
-  help_video:
-    template: mdx_component
-    definitions:
-      component_name: HelpVideo
-      named_args:
-        - editor_key: ratio
-          type: string
-          default: 16 / 9
-    _inputs:
-      ratio:
-        type: text
-        options:
-          values: [16 / 9, 4 / 3]
-`;
+      files['cloudcannon.config.yml'] = files['cloudcannon.config.yml'].replace(
+        '  help_video:\n    template: mdx_component\n    definitions:\n      component_name: HelpVideo\n      named_args:\n        - editor_key: ratio\n          type: string\n          default: 16 / 9\n    _inputs:\n      ratio:\n        type: select',
+        '  help_video:\n    template: mdx_component\n    definitions:\n      component_name: HelpVideo\n      named_args:\n        - editor_key: ratio\n          type: string\n          default: 16 / 9\n    _inputs:\n      ratio:\n        type: text',
+      );
+    },
+  },
+  {
+    name: 'required semantic snippet Select removed from configuration',
+    error: 'SNIPPET_SELECT_MISSING',
+    mutate(files) {
+      files['cloudcannon.config.yml'] = files['cloudcannon.config.yml'].replace(
+        /  help_figure:\n[\s\S]*?(?=  help_video:)/,
+        '',
+      );
+    },
+  },
+  {
+    name: 'semantic snippet Select declared twice',
+    error: 'SNIPPET_SELECT_DUPLICATE',
+    mutate(files) {
+      files['cloudcannon.config.yml'] = files['cloudcannon.config.yml'].replace(
+        '        - editor_key: type\n          type: string\n          default: tip',
+        '        - editor_key: type\n          type: string\n          default: tip\n        - editor_key: type\n          type: string\n          default: tip',
+      );
+    },
+  },
+  {
+    name: 'ineffective allow-empty option restored on a semantic snippet Select',
+    error: 'SNIPPET_SELECT_ALLOW_EMPTY',
+    mutate(files) {
+      files['cloudcannon.config.yml'] = files['cloudcannon.config.yml'].replace(
+        '          values: [tip, note, good]',
+        '          values: [tip, note, good]\n          allow_empty: true',
+      );
     },
   },
   {
@@ -711,8 +753,9 @@ test('creation placeholders remain valid while an entry is a draft', () => {
 
 test('unrelated optional snippet defaults remain valid', () => {
   const result = runFixture((files) => {
-    files['cloudcannon.config.yml'] += `
-_snippets:
+    files['cloudcannon.config.yml'] = files['cloudcannon.config.yml'].replace(
+      '_snippets:\n  callout:',
+      `_snippets:
   badge:
     template: mdx_component
     definitions:
@@ -722,10 +765,11 @@ _snippets:
           type: string
           optional: true
           default: neutral
-`;
+  callout:`,
+    );
   });
   assert.equal(result.status, 0, result.output);
-  assert.doesNotMatch(result.output, /\bOPTIONAL_SNIPPET_(?:DEFAULT|KEPT_EMPTY)\b/);
+  assert.doesNotMatch(result.output, /\bSNIPPET_SELECT_/);
 });
 
 test('preprocessed optional objects retain nested creation-structure validation', () => {

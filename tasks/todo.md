@@ -35,7 +35,7 @@ CloudCannon, and both Netlify sites.
 - [x] Extend the CMS guard and add negative fixtures for every new contract.
 - [x] Run a clean Node 24 frozen install and `pnpm verify:cms`.
 - [x] Prove the provisioned technical Site loads Node 24, both exact CloudCannon
-      packages, both builds, 8,745 editable regions, and all 52 contract fixtures.
+      packages, both builds, 8,745 editable regions, and all then-current contract fixtures.
 - [ ] Prove a repeated no-op HelpVideo edit stays byte-stable after making the three
       semantic snippet Selects explicit in authored MDX.
 - [ ] Create, reopen, and remove one technical entry in every creatable collection.
@@ -48,7 +48,7 @@ CloudCannon, and both Netlify sites.
 ### Review
 
 Local implementation is complete. The authoritative Node 24 gate passes both builds,
-CloudCannon validation, all 8,745 editable regions, and 52 contract fixtures. The
+CloudCannon validation, all 8,745 editable regions, and 55 contract fixtures. The
 original dirty checkout remained untouched; work is isolated on
 `codex/cloudcannon-reliability`.
 
@@ -82,7 +82,7 @@ components rather than CloudCannon's serializer. CI rejects reintroduced schema
 metadata, published creation placeholders, and optional snippet defaults/empty attrs.
 The provisioned technical Site now clears its retained schema state: a fresh hosted
 build at `5df13e0` passed Node 24, exact dependency, both-site, editable-region, and
-52/52 fixture checks, and existing Help source no longer gained `_schema` or template
+52/52 then-current fixture checks, and existing Help source no longer gained `_schema` or template
 SEO. That build also proved generic Select `allow_empty` is ineffective inside the
 full-document MDX snippet serializer: opening HelpVideo still hydrated the separate
 omitted Callout type to `tip`. The durable follow-up makes Callout type and media ratio

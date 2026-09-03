@@ -1584,11 +1584,13 @@ function checkSnippetDefaults() {
     ['HelpFigure.ratio', '16 / 9'],
     ['HelpVideo.ratio', '16 / 9'],
   ]);
+  const occurrences = new Map();
   for (const [snippet, config] of Object.entries(cc._snippets ?? {})) {
     for (const model of config?.definitions?.named_args ?? []) {
       const key = `${config.definitions?.component_name}.${model?.editor_key}`;
       const expectedDefault = requiredSelectArgs.get(key);
       if (expectedDefault !== undefined) {
+        occurrences.set(key, (occurrences.get(key) ?? 0) + 1);
         if (model.optional === true || model.remove_empty === true) {
           found.push({
             kind: 'SNIPPET_SELECT_OPTIONAL',
@@ -1623,8 +1625,35 @@ function checkSnippetDefaults() {
               'the required snippet argument must use a closed Select containing its insertion default',
           });
         }
+        if (input?.options?.allow_empty === true) {
+          found.push({
+            kind: 'SNIPPET_SELECT_ALLOW_EMPTY',
+            file: 'cloudcannon.config.yml',
+            url: snippet,
+            backing: config.definitions?.component_name ?? null,
+            tag: model.editor_key ?? '(unknown)',
+            detail:
+              'allow_empty is ineffective for MDX snippet hydration and contradicts this explicit-value contract',
+          });
+        }
       }
     }
+  }
+  for (const key of requiredSelectArgs.keys()) {
+    const count = occurrences.get(key) ?? 0;
+    if (count === 1) continue;
+    const [component, field] = key.split('.');
+    found.push({
+      kind: count === 0 ? 'SNIPPET_SELECT_MISSING' : 'SNIPPET_SELECT_DUPLICATE',
+      file: 'cloudcannon.config.yml',
+      url: component,
+      backing: component,
+      tag: field,
+      detail:
+        count === 0
+          ? 'the semantic snippet Select must remain in the explicit CMS contract'
+          : `the semantic snippet Select must be declared exactly once (found ${count})`,
+    });
   }
   return found;
 }
