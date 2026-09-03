@@ -22,6 +22,14 @@ any correction or surprise.
 
 ## Toolchain (pnpm / Node)
 
+- **Clear retired CloudCannon schemas explicitly on provisioned Sites.** Removing a
+  collection `schemas` map from source was not enough for a long-lived hosted editing
+  session: it still inserted `_schema: default` and a creation-template SEO value into
+  an existing Help article. Use `schemas: null` on single-shape collections, keep the
+  `_schema` input scoped to collections that genuinely use schemas, and verify a fresh
+  hosted no-op edit after every schema migration. Optional snippet arguments must not
+  define serializer defaults; keep presentation fallbacks in the Astro component and
+  pair `optional: true` with `remove_empty: true`.
 - **Use `add_options.default_content_file`, not a one-entry `schemas` map, for a
   uniform CloudCannon collection.** Hosted readback showed that `schemas` is an
   ongoing maintenance contract for existing entries, not merely a creation template;

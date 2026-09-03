@@ -1366,35 +1366,52 @@ function checkCreationSchemas() {
       source: 'src/content.config.ts',
       variable: 'blog',
       createPath: '[relative_base_path]/{title|slugify}[count].mdx',
+      sentinel: { path: 'metaTitle', value: 'New blog post | Inner Explorer' },
     },
     caseStudies: {
       source: 'src/content.config.ts',
       variable: 'caseStudies',
       createPath: '[relative_base_path]/{meta.titleLead|slugify}[count].yaml',
+      sentinel: { path: 'seoTitle', value: 'New case study | Inner Explorer' },
     },
     help: {
       source: 'src/lib/help-collection.ts',
       variable: 'helpCollection',
       createPath: '[relative_base_path]/{title|slugify}[count].mdx',
+      sentinel: { path: 'seoTitle', value: 'New help article | Inner Explorer' },
     },
     narrators: {
       source: 'src/content.config.ts',
       variable: 'narrators',
       createPath: '[relative_base_path]/{name|slugify}[count].yml',
+      sentinel: { path: 'name', value: 'Narrator name' },
     },
     series: {
       source: 'src/content.config.ts',
       variable: 'series',
       createPath: '[relative_base_path]/{name|slugify}[count].yaml',
+      sentinel: { path: 'seoTitle', value: 'New practice series | Inner Explorer' },
     },
     testimonials: {
       source: 'src/content.config.ts',
       variable: 'testimonials',
       createPath: '[relative_base_path]/{name|slugify}[count].yml',
+      sentinel: { path: 'quote', value: 'Add the testimonial quote.', always: true },
     },
   };
+  if (cc._inputs?._schema) {
+    found.push({
+      kind: 'GLOBAL_SCHEMA_INPUT',
+      file: 'cloudcannon.config.yml',
+      url: '_inputs._schema',
+      backing: 'collections_config.pages._inputs._schema',
+      tag: '_schema',
+      detail:
+        'schema metadata must be scoped to Marketing pages or CloudCannon can serialize it into single-shape collections',
+    });
+  }
   for (const [collection, contract] of Object.entries(contracts)) {
-    const { source, variable, createPath: requiredCreatePath } = contract;
+    const { source, variable, createPath: requiredCreatePath, sentinel } = contract;
     const cfg = collections[collection];
     if (!cfg) {
       found.push({
@@ -1428,6 +1445,46 @@ function checkCreationSchemas() {
           'single-shape collections must seed new entries with add_options.default_content_file; ' +
           'schemas can apply maintenance behavior to existing entries',
       });
+    } else if (cfg.schemas !== null) {
+      found.push({
+        kind: 'MISSING_SCHEMA_TOMBSTONE',
+        file: 'cloudcannon.config.yml',
+        url: collection,
+        backing: cfg.path ?? null,
+        tag: 'schemas',
+        detail:
+          'creatable single-shape collections require schemas: null to clear legacy schema maintenance on provisioned Sites',
+      });
+    }
+    if (cfg.path && existsSync(cfg.path)) {
+      for (const file of filesBelow(cfg.path, CONTENT_EXTENSIONS)) {
+        const data = loadFile(file).data;
+        if (data._schema !== undefined) {
+          found.push({
+            kind: 'MANAGED_SCHEMA_METADATA',
+            file,
+            url: collection,
+            backing: file,
+            tag: '_schema',
+            detail:
+              'single-shape content must not carry _schema metadata; creation uses a default_content_file only',
+          });
+        }
+        if (
+          sentinel &&
+          lookup(data, sentinel.path) === sentinel.value &&
+          (sentinel.always || data.draft !== true)
+        ) {
+          found.push({
+            kind: 'CREATION_TEMPLATE_SENTINEL',
+            file,
+            url: collection,
+            backing: file,
+            tag: sentinel.path,
+            detail: `published content contains creation-only placeholder "${sentinel.value}"`,
+          });
+        }
+      }
     }
     const createPath = typeof cfg.create === 'string' ? cfg.create : cfg.create?.path;
     if (!createPath) {
@@ -1520,6 +1577,40 @@ function checkCreationSchemas() {
   return found;
 }
 
+function checkSnippetDefaults() {
+  const found = [];
+  const componentFallbacks = new Set(['Callout.type', 'HelpFigure.ratio', 'HelpVideo.ratio']);
+  for (const [snippet, config] of Object.entries(cc._snippets ?? {})) {
+    for (const model of config?.definitions?.named_args ?? []) {
+      const fallback = `${config.definitions?.component_name}.${model?.editor_key}`;
+      if (!model?.optional || !componentFallbacks.has(fallback)) continue;
+      if (model.default !== undefined) {
+        found.push({
+          kind: 'OPTIONAL_SNIPPET_DEFAULT',
+          file: 'cloudcannon.config.yml',
+          url: snippet,
+          backing: config.definitions?.component_name ?? null,
+          tag: model.editor_key ?? '(unknown)',
+          detail:
+            'this Astro component already supplies the fallback; a CloudCannon default creates no-op editor serialization',
+        });
+      }
+      if (model.remove_empty !== true) {
+        found.push({
+          kind: 'OPTIONAL_SNIPPET_KEPT_EMPTY',
+          file: 'cloudcannon.config.yml',
+          url: snippet,
+          backing: config.definitions?.component_name ?? null,
+          tag: model.editor_key ?? '(unknown)',
+          detail:
+            'this optional Astro-backed fallback requires remove_empty: true so empty editor values do not become source attributes',
+        });
+      }
+    }
+  }
+  return found;
+}
+
 // ── Help article link portability ───────────────────────────────────────────
 function checkHelpLinks() {
   const found = [];
@@ -1584,6 +1675,7 @@ const errors = [
   ...checkSnippetCoverage(),
   ...checkMarketingPageContract(),
   ...checkCreationSchemas(),
+  ...checkSnippetDefaults(),
   ...checkHelpLinks(),
 ];
 const warnings = [];

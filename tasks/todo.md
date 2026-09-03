@@ -26,6 +26,9 @@ CloudCannon, and both Netlify sites.
 - [x] Replace single-shape collection `schemas` with explicit
       `add_options.default_content_file` templates so CloudCannon seeds new entries
       without applying schema maintenance behavior to existing content.
+- [x] Add explicit `schemas: null` tombstones for provisioned Sites, scope `_schema`
+      to Marketing pages, and reject optional snippet defaults that create no-op
+      source changes.
 - [x] Add stable Marketing-page previews and update the nontechnical editor guide.
 - [x] Complete selective Visual Editor bindings, Help-relative links, and editor-mode
       analytics/session-replay suppression.
@@ -40,7 +43,7 @@ CloudCannon, and both Netlify sites.
 ### Review
 
 Local implementation is complete. The authoritative Node 24 gate passes both builds,
-CloudCannon validation, all 8,745 editable regions, and 43 contract fixtures. The
+CloudCannon validation, all 8,745 editable regions, and 51 contract fixtures. The
 original dirty checkout remained untouched; work is isolated on
 `codex/cloudcannon-reliability`.
 
@@ -64,6 +67,16 @@ Creation templates must include optional fields too: the narrator seed carries a
 placeholder back to absence until an editor fills it. Every creatable collection now
 pins a collision-safe create path whose extension matches its Astro loader (`.mdx`
 for authored Blog/Help content and YAML for structured entries).
+
+Hosted no-op testing then exposed retained legacy schema behavior on the technical
+Site: opening HelpVideo for editing inserted `_schema: default`, a creation-only SEO
+placeholder, and an optional Callout default without any field change. The config now
+uses explicit `schemas: null` tombstones for all six single-shape collections, keeps
+`_schema` scoped to Marketing pages, and leaves presentation defaults inside Astro
+components rather than CloudCannon's serializer. CI rejects reintroduced schema
+metadata, published creation placeholders, and optional snippet defaults/empty attrs.
+The next hosted build must prove that the provisioned Site clears its retained schema
+state and that a repeated HelpVideo no-op edit is clean.
 
 The live Help Netlify configuration is now corrected and read back. Rollout remains
 intentionally unmerged until the temporary CloudCannon Site proves that existing

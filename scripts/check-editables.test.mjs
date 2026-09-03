@@ -55,6 +55,7 @@ collections_config:
     schemas:
 ${pageSchemas}
   blog:
+    schemas: null
     path: src/content/blog
     url: /blog/[slug]/
     create:
@@ -68,6 +69,7 @@ ${pageSchemas}
         options:
           structures: _structures.blog_items
   caseStudies:
+    schemas: null
     path: src/content/case-studies
     url: /case-studies/[slug]/
     create:
@@ -76,6 +78,7 @@ ${pageSchemas}
       - name: Case study
         default_content_file: .cloudcannon/schemas/case-study.yml
   help:
+    schemas: null
     path: src/content/help
     url: /help/[slug]/
     create:
@@ -84,6 +87,7 @@ ${pageSchemas}
       - name: Help article
         default_content_file: .cloudcannon/schemas/help-article.md
   narrators:
+    schemas: null
     path: src/content/narrators
     url: /narrators/[slug]/
     create:
@@ -92,6 +96,7 @@ ${pageSchemas}
       - name: Narrator
         default_content_file: .cloudcannon/schemas/narrator.yml
   series:
+    schemas: null
     path: src/content/series
     url: /series/[slug]/
     create:
@@ -100,6 +105,7 @@ ${pageSchemas}
       - name: Practice series
         default_content_file: .cloudcannon/schemas/series.yml
   testimonials:
+    schemas: null
     path: src/content/testimonials
     disable_url: true
     create:
@@ -383,8 +389,8 @@ const negativeFixtures = [
     error: 'DISABLED_CREATABLE_COLLECTION',
     mutate(files) {
       files['cloudcannon.config.yml'] = files['cloudcannon.config.yml'].replace(
-        '  series:\n    path:',
-        '  series:\n    disable_add: true\n    path:',
+        '  series:\n    schemas: null\n    path:',
+        '  series:\n    schemas: null\n    disable_add: true\n    path:',
       );
     },
   },
@@ -460,9 +466,80 @@ const negativeFixtures = [
     error: 'CREATION_SCHEMA_POLLUTION_RISK',
     mutate(files) {
       files['cloudcannon.config.yml'] = files['cloudcannon.config.yml'].replace(
-        '  blog:\n    path:',
+        '  blog:\n    schemas: null\n    path:',
         '  blog:\n    schemas:\n      default:\n        path: .cloudcannon/schemas/blog-post.md\n    path:',
       );
+    },
+  },
+  {
+    name: 'single-shape collection missing a legacy-schema tombstone',
+    error: 'MISSING_SCHEMA_TOMBSTONE',
+    mutate(files) {
+      files['cloudcannon.config.yml'] = files['cloudcannon.config.yml'].replace(
+        '  help:\n    schemas: null\n',
+        '  help:\n',
+      );
+    },
+  },
+  {
+    name: 'schema metadata leaked into single-shape content',
+    error: 'MANAGED_SCHEMA_METADATA',
+    mutate(files) {
+      files['src/content/help/guide.mdx'] = '---\n_schema: default\ntitle: Guide\n---\n';
+    },
+  },
+  {
+    name: 'creation template placeholder leaked into content',
+    error: 'CREATION_TEMPLATE_SENTINEL',
+    mutate(files) {
+      files['src/content/help/guide.mdx'] =
+        '---\ntitle: Guide\nseoTitle: New help article | Inner Explorer\n---\n';
+    },
+  },
+  {
+    name: 'schema metadata input configured globally',
+    error: 'GLOBAL_SCHEMA_INPUT',
+    mutate(files) {
+      files['cloudcannon.config.yml'] = files['cloudcannon.config.yml'].replace(
+        '_inputs:\n  title:',
+        '_inputs:\n  _schema: { hidden: true }\n  title:',
+      );
+    },
+  },
+  {
+    name: 'Astro-backed optional snippet fallback configured with a serializer default',
+    error: 'OPTIONAL_SNIPPET_DEFAULT',
+    mutate(files) {
+      files['cloudcannon.config.yml'] += `
+_snippets:
+  callout:
+    template: mdx_component
+    definitions:
+      component_name: Callout
+      named_args:
+        - editor_key: type
+          type: string
+          optional: true
+          default: tip
+          remove_empty: true
+`;
+    },
+  },
+  {
+    name: 'Astro-backed optional snippet fallback missing remove-empty serialization',
+    error: 'OPTIONAL_SNIPPET_KEPT_EMPTY',
+    mutate(files) {
+      files['cloudcannon.config.yml'] += `
+_snippets:
+  callout:
+    template: mdx_component
+    definitions:
+      component_name: Callout
+      named_args:
+        - editor_key: type
+          type: string
+          optional: true
+`;
     },
   },
   {
@@ -601,6 +678,34 @@ test('optional creation fields must still be present in the creation template', 
   assert.match(result.output, /voice/);
 });
 
+test('creation placeholders remain valid while an entry is a draft', () => {
+  const result = runFixture((files) => {
+    files['src/content/help/guide.mdx'] =
+      '---\ntitle: New help article\nseoTitle: New help article | Inner Explorer\ndraft: true\n---\n';
+  });
+  assert.equal(result.status, 0, result.output);
+  assert.doesNotMatch(result.output, /\bCREATION_TEMPLATE_SENTINEL\b/);
+});
+
+test('unrelated optional snippet defaults remain valid', () => {
+  const result = runFixture((files) => {
+    files['cloudcannon.config.yml'] += `
+_snippets:
+  badge:
+    template: mdx_component
+    definitions:
+      component_name: Badge
+      named_args:
+        - editor_key: tone
+          type: string
+          optional: true
+          default: neutral
+`;
+  });
+  assert.equal(result.status, 0, result.output);
+  assert.doesNotMatch(result.output, /\bOPTIONAL_SNIPPET_(?:DEFAULT|KEPT_EMPTY)\b/);
+});
+
 test('preprocessed optional objects retain nested creation-structure validation', () => {
   const result = runFixture((files) => {
     files['src/content.config.ts'] = files['src/content.config.ts'].replace(
@@ -610,8 +715,8 @@ test('preprocessed optional objects retain nested creation-structure validation'
     files['.cloudcannon/schemas/narrator.yml'] = 'title: New narrator\nvoice: null\n';
     files['cloudcannon.config.yml'] = files['cloudcannon.config.yml']
       .replace(
-        '  narrators:\n    path:',
-        '  narrators:\n    _inputs:\n      voice:\n        type: object\n        options:\n          structures: _structures.voice\n    path:',
+        '  narrators:\n    schemas: null\n    path:',
+        '  narrators:\n    schemas: null\n    _inputs:\n      voice:\n        type: object\n        options:\n          structures: _structures.voice\n    path:',
       )
       .replace(
         '  blog_items:\n',

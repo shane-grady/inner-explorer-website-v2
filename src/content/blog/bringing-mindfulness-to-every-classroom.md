@@ -1,5 +1,4 @@
 ---
-_schema: default
 title: Bringing mindfulness to every class
 description: >-
   How a few minutes of daily audio-guided practice helps students focus,

@@ -1339,6 +1339,9 @@ collections_config:
       - visual
       - content
       - data
+    # Explicitly clear any legacy collection schema retained by an existing
+    # CloudCannon Site. New entries are seeded only by the Add template below.
+    schemas: null
     create:
       path: '[relative_base_path]/{title|slugify}[count].mdx'
     add_options:
@@ -1409,6 +1412,7 @@ collections_config:
     _enabled_editors:
       - visual
       - data
+    schemas: null
     create:
       path: '[relative_base_path]/{meta.titleLead|slugify}[count].yaml'
     add_options:
@@ -1523,6 +1527,7 @@ collections_config:
       - visual
       - content
       - data
+    schemas: null
     create:
       path: '[relative_base_path]/{title|slugify}[count].mdx'
     add_options:
@@ -1571,6 +1576,7 @@ collections_config:
     _enabled_editors:
       - visual
       - data
+    schemas: null
     create:
       path: '[relative_base_path]/{name|slugify}[count].yml'
     add_options:
@@ -1643,6 +1649,7 @@ collections_config:
     _enabled_editors:
       - visual
       - data
+    schemas: null
     create:
       path: '[relative_base_path]/{name|slugify}[count].yaml'
     add_options:
@@ -1736,6 +1743,7 @@ collections_config:
     disable_url: true
     _enabled_editors:
       - data
+    schemas: null
     create:
       path: '[relative_base_path]/{name|slugify}[count].yml'
     add_options:
@@ -2040,8 +2048,6 @@ _select_data:
     - flask
 
 _inputs:
-  _schema:
-    hidden: true
   draft:
     type: switch
     comment: Draft items are not published to the live site.
@@ -6417,8 +6423,8 @@ _snippets:
         # were uneditable until this was marked optional.
         - editor_key: type
           type: string
-          default: tip
           optional: true
+          remove_empty: true
           allowed_values: [tip, note, good]
         - editor_key: label
           type: string
@@ -6461,7 +6467,6 @@ _snippets:
         - editor_key: ratio
           type: string
           optional: true
-          default: 16 / 9
           remove_empty: true
         - editor_key: src
           type: string
@@ -6508,14 +6513,9 @@ _snippets:
       named_args:
         - editor_key: label
           type: string
-        - editor_key: caption
-          type: string
-          optional: true
-          remove_empty: true
         - editor_key: ratio
           type: string
           optional: true
-          default: 16 / 9
           remove_empty: true
         - editor_key: src
           type: string
@@ -6524,6 +6524,10 @@ _snippets:
           optional: true
           remove_empty: true
         - editor_key: poster
+          type: string
+          optional: true
+          remove_empty: true
+        - editor_key: caption
           type: string
           optional: true
           remove_empty: true
