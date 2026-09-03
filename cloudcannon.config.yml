@@ -6443,6 +6443,9 @@ _snippets:
         type: select
         options:
           values: [tip, note, good]
+          # CloudCannon otherwise preselects the first value when an optional
+          # argument is absent, which turns opening the modal into a file edit.
+          allow_empty: true
       heading:
         type: text
         comment: Optional. Replaces the small eyebrow with a sentence-case heading.
@@ -6482,6 +6485,7 @@ _snippets:
         type: select
         options:
           values: [16 / 9, 4 / 3, 1 / 1]
+          allow_empty: true
   help_table:
     template: mdx_paired_component
     inline: false
@@ -6567,6 +6571,7 @@ _snippets:
         type: select
         options:
           values: [16 / 9, 16 / 10, 4 / 3, 1 / 1, 1144 / 750, 964 / 720]
+          allow_empty: true
   link_cards:
     template: mdx_component
     inline: false

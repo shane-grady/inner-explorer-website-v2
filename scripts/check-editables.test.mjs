@@ -543,6 +543,29 @@ _snippets:
     },
   },
   {
+    name: 'Astro-backed optional snippet select preselects its first value',
+    error: 'OPTIONAL_SNIPPET_SELECT_PRESELECTS',
+    mutate(files) {
+      files['cloudcannon.config.yml'] += `
+_snippets:
+  callout:
+    template: mdx_component
+    definitions:
+      component_name: Callout
+      named_args:
+        - editor_key: type
+          type: string
+          optional: true
+          remove_empty: true
+    _inputs:
+      type:
+        type: select
+        options:
+          values: [tip, note, good]
+`;
+    },
+  },
+  {
     name: 'required marketing page removed from the contract',
     error: 'MISSING_MARKETING_PAGE',
     mutate(files) {

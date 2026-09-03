@@ -1606,6 +1606,18 @@ function checkSnippetDefaults() {
             'this optional Astro-backed fallback requires remove_empty: true so empty editor values do not become source attributes',
         });
       }
+      const input = config?._inputs?.[model.editor_key];
+      if (input?.type === 'select' && input.options?.allow_empty !== true) {
+        found.push({
+          kind: 'OPTIONAL_SNIPPET_SELECT_PRESELECTS',
+          file: 'cloudcannon.config.yml',
+          url: snippet,
+          backing: config.definitions?.component_name ?? null,
+          tag: model.editor_key ?? '(unknown)',
+          detail:
+            'this optional closed select requires allow_empty: true or CloudCannon preselects its first value when the argument is absent',
+        });
+      }
     }
   }
   return found;
