@@ -86,6 +86,12 @@ ${pageSchemas}
     add_options:
       - name: Help article
         default_content_file: .cloudcannon/schemas/help-article.md
+    _inputs:
+      keywords:
+        type: multiselect
+        options:
+          values: collections.help[*].keywords
+          allow_create: true
   narrators:
     schemas: null
     path: src/content/narrators
@@ -543,6 +549,16 @@ const negativeFixtures = [
       files['cloudcannon.config.yml'] = files['cloudcannon.config.yml'].replace(
         '_inputs:\n  title:',
         '_inputs:\n  _schema: { hidden: true }\n  title:',
+      );
+    },
+  },
+  {
+    name: 'select input with an empty value source',
+    error: 'EMPTY_SELECT_VALUES',
+    mutate(files) {
+      files['cloudcannon.config.yml'] = files['cloudcannon.config.yml'].replace(
+        '          values: collections.help[*].keywords',
+        '          values: []',
       );
     },
   },

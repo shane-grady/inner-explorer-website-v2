@@ -1658,6 +1658,32 @@ function checkSnippetDefaults() {
   return found;
 }
 
+function checkSelectSources() {
+  const found = [];
+  const visit = (value, path = []) => {
+    if (!value || typeof value !== 'object') return;
+    if (value._inputs && typeof value._inputs === 'object') {
+      for (const [key, input] of Object.entries(value._inputs)) {
+        if (!['select', 'multiselect'].includes(input?.type)) continue;
+        const values = input?.options?.values;
+        if (!Array.isArray(values) || values.length > 0) continue;
+        found.push({
+          kind: 'EMPTY_SELECT_VALUES',
+          file: 'cloudcannon.config.yml',
+          url: path.join('.') || '(root)',
+          backing: 'cloudcannon.config.yml',
+          tag: key,
+          detail:
+            'Select and Multiselect inputs need a populated values source; an empty array renders as a misconfigured control in CloudCannon',
+        });
+      }
+    }
+    for (const [key, child] of Object.entries(value)) visit(child, [...path, key]);
+  };
+  visit(cc);
+  return found;
+}
+
 function checkSnippetArgumentOrder() {
   const found = [];
   const config = Object.values(cc._snippets ?? {}).find(
@@ -1760,6 +1786,7 @@ const errors = [
   ...checkSnippetCoverage(),
   ...checkMarketingPageContract(),
   ...checkCreationSchemas(),
+  ...checkSelectSources(),
   ...checkSnippetDefaults(),
   ...checkSnippetArgumentOrder(),
   ...checkHelpLinks(),

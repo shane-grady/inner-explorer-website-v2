@@ -1547,8 +1547,8 @@ collections_config:
       keywords:
         type: multiselect
         options:
+          values: collections.help[*].keywords
           allow_create: true
-          values: []
       canonicalUrl:
         type: url
         comment: >-
