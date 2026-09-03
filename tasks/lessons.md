@@ -869,3 +869,11 @@ Explorer's"`).
     diff normalized word lists with `difflib.SequenceMatcher`, stripping markdown links
     and JSX tags. It caught all four remaining deltas in seconds and proves the claim;
     re-reading my own draft is how I missed them in the first place.
+
+## 2026-09-03 — Group CloudCannon test confirmations once
+
+- When a reversible CloudCannon acceptance test needs several related external actions,
+  prepare the whole isolated sequence first and request one precise confirmation covering
+  its save, verification, and cleanup. Once the user confirms that bounded sequence, finish
+  it without asking again at each intermediate step. Repeated permission prompts after the
+  user has already said to proceed create needless friction and obscure the actual test.
