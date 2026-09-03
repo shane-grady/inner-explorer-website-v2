@@ -35,6 +35,10 @@ CloudCannon validation, all 8,745 editable regions, and 33 contract fixtures. Th
 original dirty checkout remained untouched; work is isolated on
 `codex/cloudcannon-reliability`.
 
+A temporary CloudCannon branch Site exposed and verified the hosted pnpm cache path;
+the repository excludes `.pnpm-store/` so hosted formatting checks inspect source,
+not package-cache internals.
+
 Rollout remains intentionally unmerged until the live Help Netlify Site changes from
 Base `sites/help` to a repository-root Base with Package directory `sites/help`. The
 Netlify team is currently restricted by a $9 overdue balance, so its project settings

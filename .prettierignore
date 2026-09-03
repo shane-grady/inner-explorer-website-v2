@@ -5,6 +5,7 @@ dist-*/
 .tmp-*/
 .astro/
 node_modules/
+.pnpm-store/
 .netlify/
 public/
 pnpm-lock.yaml
