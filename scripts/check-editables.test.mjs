@@ -57,9 +57,9 @@ ${pageSchemas}
   blog:
     path: src/content/blog
     url: /blog/[slug]/
-    schemas:
-      default:
-        path: .cloudcannon/schemas/blog-post.md
+    add_options:
+      - name: Blog post
+        default_content_file: .cloudcannon/schemas/blog-post.md
     _inputs:
       items:
         type: array
@@ -68,27 +68,33 @@ ${pageSchemas}
   caseStudies:
     path: src/content/case-studies
     url: /case-studies/[slug]/
-    schemas:
-      default:
-        path: .cloudcannon/schemas/case-study.yml
+    add_options:
+      - name: Case study
+        default_content_file: .cloudcannon/schemas/case-study.yml
   help:
     path: src/content/help
     url: /help/[slug]/
-    schemas:
-      default:
-        path: .cloudcannon/schemas/help-article.md
+    add_options:
+      - name: Help article
+        default_content_file: .cloudcannon/schemas/help-article.md
   narrators:
     path: src/content/narrators
     url: /narrators/[slug]/
-    schemas:
-      default:
-        path: .cloudcannon/schemas/narrator.yml
+    add_options:
+      - name: Narrator
+        default_content_file: .cloudcannon/schemas/narrator.yml
   series:
     path: src/content/series
     url: /series/[slug]/
-    schemas:
-      default:
-        path: .cloudcannon/schemas/series.yml
+    add_options:
+      - name: Practice series
+        default_content_file: .cloudcannon/schemas/series.yml
+  testimonials:
+    path: src/content/testimonials
+    disable_url: true
+    add_options:
+      - name: Testimonial
+        default_content_file: .cloudcannon/schemas/testimonial.yml
 _inputs:
   title: { type: text }
 _structures:
@@ -146,6 +152,7 @@ const blog = defineCollection({ schema: z.object({ title: z.string(), items: z.a
 const caseStudies = defineCollection({ schema: z.object({ title: z.string() }) });
 const narrators = defineCollection({ schema: z.object({ title: z.string() }) });
 const series = defineCollection({ schema: z.object({ title: z.string() }) });
+const testimonials = defineCollection({ schema: z.object({ title: z.string() }) });
 `,
     'src/lib/help-collection.ts':
       'const helpCollection = defineCollection({ schema: z.object({ title: z.string() }) });\n',
@@ -156,12 +163,14 @@ const series = defineCollection({ schema: z.object({ title: z.string() }) });
     '.cloudcannon/schemas/help-article.md': '---\ntitle: New guide\n---\n',
     '.cloudcannon/schemas/narrator.yml': 'title: New narrator\n',
     '.cloudcannon/schemas/series.yml': 'title: New series\n',
+    '.cloudcannon/schemas/testimonial.yml': 'title: New testimonial\n',
     'src/content/blog/example.md': '---\ntitle: Example\nitems: []\n---\n',
     'src/content/blog/nested/article.md': '---\ntitle: Nested article\nitems: []\n---\n',
     'src/content/case-studies/example.yml': 'title: Example\n',
     'src/content/help/guide.mdx': '---\ntitle: Guide\n---\n',
     'src/content/narrators/example.yml': 'title: Example\n',
     'src/content/series/example.yml': 'title: Example\n',
+    'src/content/testimonials/example.yml': 'title: Example\n',
     'dist/blog/nested/article/index.html':
       '<!doctype html><h1 data-editable="text" data-prop="title">Nested article</h1>',
   };
@@ -318,7 +327,7 @@ const negativeFixtures = [
     },
   },
   {
-    name: 'incomplete collection creation schema',
+    name: 'incomplete collection creation template',
     error: 'MISSING_CREATION_FIELD',
     mutate(files) {
       files['src/content.config.ts'] = files['src/content.config.ts'].replace(
@@ -368,12 +377,49 @@ const negativeFixtures = [
     },
   },
   {
-    name: 'required creatable collection without schemas',
-    error: 'MISSING_CREATION_SCHEMA',
+    name: 'required creatable collection without an add option',
+    error: 'MISSING_CREATION_TEMPLATE',
     mutate(files) {
       files['cloudcannon.config.yml'] = files['cloudcannon.config.yml'].replace(
-        '  narrators:\n    path: src/content/narrators\n    url: /narrators/[slug]/\n    schemas:',
-        '  narrators:\n    path: src/content/narrators\n    url: /narrators/[slug]/\n    missing_schemas:',
+        '  narrators:\n    path: src/content/narrators\n    url: /narrators/[slug]/\n    add_options:',
+        '  narrators:\n    path: src/content/narrators\n    url: /narrators/[slug]/\n    missing_add_options:',
+      );
+    },
+  },
+  {
+    name: 'creation add option without a default content file',
+    error: 'UNCONFIGURED_CREATION_TEMPLATE',
+    mutate(files) {
+      files['cloudcannon.config.yml'] = files['cloudcannon.config.yml'].replace(
+        '        default_content_file: .cloudcannon/schemas/blog-post.md',
+        '',
+      );
+    },
+  },
+  {
+    name: 'creation add option configured through a managed schema',
+    error: 'UNCONFIGURED_CREATION_TEMPLATE',
+    mutate(files) {
+      files['cloudcannon.config.yml'] = files['cloudcannon.config.yml'].replace(
+        '        default_content_file: .cloudcannon/schemas/blog-post.md',
+        '        schema: default',
+      );
+    },
+  },
+  {
+    name: 'creation add option whose default content file is missing',
+    error: 'MISSING_CREATION_TEMPLATE',
+    mutate(files) {
+      delete files['.cloudcannon/schemas/blog-post.md'];
+    },
+  },
+  {
+    name: 'single-shape collection configured with schema maintenance',
+    error: 'CREATION_SCHEMA_POLLUTION_RISK',
+    mutate(files) {
+      files['cloudcannon.config.yml'] = files['cloudcannon.config.yml'].replace(
+        '  blog:\n    path:',
+        '  blog:\n    schemas:\n      default:\n        path: .cloudcannon/schemas/blog-post.md\n    path:',
       );
     },
   },

@@ -1,5 +1,4 @@
 ---
-_schema: default
 title: New help article
 group: start
 blurb: Add a short description for the Help Center card.

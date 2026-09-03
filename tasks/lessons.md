@@ -22,6 +22,11 @@ any correction or surprise.
 
 ## Toolchain (pnpm / Node)
 
+- **Use `add_options.default_content_file`, not a one-entry `schemas` map, for a
+  uniform CloudCannon collection.** Hosted readback showed that `schemas` is an
+  ongoing maintenance contract for existing entries, not merely a creation template;
+  it can reorder, hide, or remove fields. Keep `_inputs` and `_structures` on the
+  collection and reserve `schemas` for genuinely different content shapes.
 - **CloudCannon's `.cloudcannon/initial-site-settings.json` only applies when a Site is
   first created.** Adding it to a repository that is already connected does not update
   the live Site's build configuration. For an existing Site, explicitly set the install

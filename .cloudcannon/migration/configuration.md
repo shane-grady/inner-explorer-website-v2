@@ -23,6 +23,13 @@ The CLI-generated baseline was discarded because it incorrectly set `source` to 
 
 All page-producing URLs match Astro's directory-format output and include trailing slashes.
 
+These are uniform collections, so their editor contracts remain on the collection
+itself. Their friendly Add actions use `add_options.default_content_file` to seed new
+entries from `.cloudcannon/schemas/*`; they deliberately do not declare collection
+`schemas`. Hosted readback showed that a sole schema can apply ongoing input
+maintenance to existing entries, while a default content file is creation-only.
+Testimonials follows the same pattern even though it has no output URL.
+
 ## MDX pipeline
 
 The site now uses `astro-auto-import` before `mdx()` so editorial files contain no import statements. Every capitalized component currently present in blog/help MDX has an explicit CloudCannon snippet definition:

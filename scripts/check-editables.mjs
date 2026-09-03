@@ -1361,6 +1361,7 @@ function checkCreationSchemas() {
     help: ['src/lib/help-collection.ts', 'helpCollection'],
     narrators: ['src/content.config.ts', 'narrators'],
     series: ['src/content.config.ts', 'series'],
+    testimonials: ['src/content.config.ts', 'testimonials'],
   };
   for (const [collection, [source, variable]] of Object.entries(contracts)) {
     const cfg = collections[collection];
@@ -1385,15 +1386,29 @@ function checkCreationSchemas() {
         detail: 'editors must be able to create entries in this collection',
       });
     }
-    const schemaEntries = Object.entries(cfg.schemas ?? {});
-    if (!schemaEntries.length) {
+    if (Object.keys(cfg.schemas ?? {}).length) {
       found.push({
-        kind: 'MISSING_CREATION_SCHEMA',
+        kind: 'CREATION_SCHEMA_POLLUTION_RISK',
         file: 'cloudcannon.config.yml',
         url: collection,
         backing: cfg.path ?? null,
         tag: 'schemas',
-        detail: 'creatable collection needs at least one creation schema',
+        detail:
+          'single-shape collections must seed new entries with add_options.default_content_file; ' +
+          'schemas can apply maintenance behavior to existing entries',
+      });
+    }
+    const addOptions = Array.isArray(cfg.add_options)
+      ? cfg.add_options.filter((option) => option && typeof option === 'object' && !option.href)
+      : [];
+    if (!addOptions.length) {
+      found.push({
+        kind: 'MISSING_CREATION_TEMPLATE',
+        file: 'cloudcannon.config.yml',
+        url: collection,
+        backing: cfg.path ?? null,
+        tag: 'add_options',
+        detail: 'creatable collection needs an explicit add option with default_content_file',
       });
       continue;
     }
@@ -1409,33 +1424,46 @@ function checkCreationSchemas() {
       });
       continue;
     }
-    for (const [schemaName, schema] of schemaEntries) {
-      if (!schema?.path || !existsSync(schema.path)) {
+    for (const [index, option] of addOptions.entries()) {
+      const context = `${collection}/add_options/${index}`;
+      if (option.schema || !option.default_content_file) {
         found.push({
-          kind: 'MISSING_CREATION_SCHEMA',
+          kind: 'UNCONFIGURED_CREATION_TEMPLATE',
           file: 'cloudcannon.config.yml',
-          url: `${collection}/${schemaName}`,
-          backing: schema?.path ?? null,
-          tag: 'path',
-          detail: 'creation schema path is missing or does not exist',
+          url: context,
+          backing: option.default_content_file ?? null,
+          tag: option.schema ? 'schema' : 'default_content_file',
+          detail: option.schema
+            ? 'creation add option uses schema; use default_content_file to avoid maintaining existing entries'
+            : 'creation add option has no default_content_file',
         });
         continue;
       }
-      const seed = loadFile(schema.path).data;
-      const creationInputs = { ...(cfg._inputs ?? {}), ...(schema._inputs ?? {}) };
+      const templatePath = option.default_content_file;
+      if (!existsSync(templatePath)) {
+        found.push({
+          kind: 'MISSING_CREATION_TEMPLATE',
+          file: 'cloudcannon.config.yml',
+          url: context,
+          backing: templatePath,
+          tag: 'default_content_file',
+          detail: `creation template ${templatePath} does not exist`,
+        });
+        continue;
+      }
+      const seed = loadFile(templatePath).data;
+      const creationInputs = cfg._inputs ?? {};
       for (const field of missingCreationFields(shape, seed, '', creationInputs)) {
         found.push({
           kind: 'MISSING_CREATION_FIELD',
-          file: schema.path,
-          url: `${collection}/${schemaName}`,
+          file: templatePath,
+          url: context,
           backing: source,
           tag: field,
-          detail: `creation schema omits Zod field "${field}"`,
+          detail: `creation template omits Zod field "${field}"`,
         });
       }
-      found.push(
-        ...checkStructuredCreationFields(shape, creationInputs, `${collection}/${schemaName}`),
-      );
+      found.push(...checkStructuredCreationFields(shape, creationInputs, context));
     }
   }
   return found;

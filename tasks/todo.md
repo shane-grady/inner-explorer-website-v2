@@ -20,6 +20,9 @@ CloudCannon, and both Netlify sites.
 - [x] Keep redirects site-specific so Help does not inherit marketing redirects.
 - [x] Complete page/collection inputs and creation schemas, including safe fixed
       arrays, Help video files, series icons, narrator languages/photos, and taxonomy.
+- [x] Replace single-shape collection `schemas` with explicit
+      `add_options.default_content_file` templates so CloudCannon seeds new entries
+      without applying schema maintenance behavior to existing content.
 - [x] Add stable Marketing-page previews and update the nontechnical editor guide.
 - [x] Complete selective Visual Editor bindings, Help-relative links, and editor-mode
       analytics/session-replay suppression.
@@ -32,7 +35,7 @@ CloudCannon, and both Netlify sites.
 ### Review
 
 Local implementation is complete. The authoritative Node 24 gate passes both builds,
-CloudCannon validation, all 8,745 editable regions, and 35 contract fixtures. The
+CloudCannon validation, all 8,745 editable regions, and 39 contract fixtures. The
 original dirty checkout remained untouched; work is isolated on
 `codex/cloudcannon-reliability`.
 
@@ -44,6 +47,13 @@ The same hosted Site also exposed that using live singleton files as CloudCannon
 schema templates hides those files from the Marketing pages collection. All thirteen
 schemas now share a dedicated template outside the collection, and the guard rejects
 both missing templates and templates placed inside a managed collection.
+
+A subsequent hosted readback exposed a different schema side effect on uniform
+content collections: CloudCannon treated the sole schema as an ongoing maintenance
+contract for existing entries. Blog, Case Studies, Help, Narrators, Series, and
+Testimonials now keep their inputs and structures at collection level and use an
+explicit `add_options.default_content_file` only when creating a new entry. The guard
+rejects missing, unconfigured, incomplete, or schema-managed creation templates.
 
 Rollout remains intentionally unmerged until the live Help Netlify Site changes from
 Base `sites/help` to a repository-root Base with Package directory `sites/help`. The

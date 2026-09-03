@@ -1334,18 +1334,14 @@ collections_config:
     description: Articles, research stories, and practical resources.
     icon: post_add
     url: /blog/[slug]/
+    new_preview_url: /blog/inner-explorer-mtss-tiers/
     _enabled_editors:
       - visual
       - content
       - data
-    schemas:
-      default:
-        path: .cloudcannon/schemas/blog-post.md
-        name: Blog post
-        new_preview_url: /blog/inner-explorer-mtss-tiers/
     add_options:
       - name: Blog post
-        schema: default
+        default_content_file: .cloudcannon/schemas/blog-post.md
         icon: post_add
         editor: content
     _inputs:
@@ -1407,17 +1403,13 @@ collections_config:
     description: District and school success stories.
     icon: school
     url: /case-studies/[slug]/
+    new_preview_url: /case-studies/broward/
     _enabled_editors:
       - visual
       - data
-    schemas:
-      default:
-        path: .cloudcannon/schemas/case-study.yml
-        name: Case study
-        new_preview_url: /case-studies/broward/
     add_options:
       - name: Case study
-        schema: default
+        default_content_file: .cloudcannon/schemas/case-study.yml
         icon: school
         editor: data
     _inputs:
@@ -1522,19 +1514,14 @@ collections_config:
     description: Guided instructions for educators, administrators, and families.
     icon: help
     url: /help/[slug]/
+    new_preview_url: /help/welcome/
     _enabled_editors:
       - visual
       - content
       - data
-    schemas:
-      default:
-        path: .cloudcannon/schemas/help-article.md
-        name: Help article
-        new_preview_url: /help/welcome/
-        remove_empty_inputs: true
     add_options:
       - name: Help article
-        schema: default
+        default_content_file: .cloudcannon/schemas/help-article.md
         icon: help
         editor: content
     _inputs:
@@ -1574,18 +1561,13 @@ collections_config:
     description: The voices who guide Inner Explorer practices.
     icon: record_voice_over
     url: /narrators/[slug]/
+    new_preview_url: /narrators/maya-castellanos/
     _enabled_editors:
       - visual
       - data
-    schemas:
-      default:
-        path: .cloudcannon/schemas/narrator.yml
-        name: Narrator
-        new_preview_url: /narrators/maya-castellanos/
-        remove_empty_inputs: true
     add_options:
       - name: Narrator
-        schema: default
+        default_content_file: .cloudcannon/schemas/narrator.yml
         icon: record_voice_over
         editor: data
     _inputs:
@@ -1649,17 +1631,13 @@ collections_config:
     description: Supplemental mindfulness series and their practice details.
     icon: menu_book
     url: /series/[slug]/
+    new_preview_url: /series/educator-wellbeing/
     _enabled_editors:
       - visual
       - data
-    schemas:
-      default:
-        path: .cloudcannon/schemas/series.yml
-        name: Practice series
-        new_preview_url: /series/educator-wellbeing/
     add_options:
       - name: Practice series
-        schema: default
+        default_content_file: .cloudcannon/schemas/series.yml
         icon: menu_book
         editor: data
     _inputs:
@@ -1748,13 +1726,9 @@ collections_config:
     disable_url: true
     _enabled_editors:
       - data
-    schemas:
-      default:
-        path: .cloudcannon/schemas/testimonial.yml
-        name: Testimonial
     add_options:
       - name: Testimonial
-        schema: default
+        default_content_file: .cloudcannon/schemas/testimonial.yml
         icon: format_quote
         editor: data
 
@@ -6574,7 +6548,7 @@ _snippets:
       ratio:
         type: select
         options:
-          values: [16 / 9, 16 / 10, 4 / 3, 1 / 1]
+          values: [16 / 9, 16 / 10, 4 / 3, 1 / 1, 1144 / 750, 964 / 720]
   link_cards:
     template: mdx_component
     inline: false
