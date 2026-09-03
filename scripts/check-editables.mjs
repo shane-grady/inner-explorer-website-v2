@@ -1371,7 +1371,8 @@ function checkCreationSchemas() {
     caseStudies: {
       source: 'src/content.config.ts',
       variable: 'caseStudies',
-      createPath: '[relative_base_path]/{meta.titleLead|slugify}[count].yaml',
+      createPath: '[relative_base_path]/{filename|slugify}[count].yaml',
+      createExtraData: { filename: '{meta.titleLead}' },
       sentinel: { path: 'seoTitle', value: 'New case study | Inner Explorer' },
     },
     help: {
@@ -1411,7 +1412,13 @@ function checkCreationSchemas() {
     });
   }
   for (const [collection, contract] of Object.entries(contracts)) {
-    const { source, variable, createPath: requiredCreatePath, sentinel } = contract;
+    const {
+      source,
+      variable,
+      createPath: requiredCreatePath,
+      createExtraData,
+      sentinel,
+    } = contract;
     const cfg = collections[collection];
     if (!cfg) {
       found.push({
@@ -1504,6 +1511,21 @@ function checkCreationSchemas() {
         backing: cfg.path ?? null,
         tag: 'create.path',
         detail: `creation path must be ${requiredCreatePath}; found ${createPath}`,
+      });
+    }
+    if (
+      createExtraData &&
+      Object.entries(createExtraData).some(
+        ([key, value]) => cfg.create?.extra_data?.[key] !== value,
+      )
+    ) {
+      found.push({
+        kind: 'INVALID_CREATION_EXTRA_DATA',
+        file: 'cloudcannon.config.yml',
+        url: collection,
+        backing: cfg.path ?? null,
+        tag: 'create.extra_data',
+        detail: `creation path requires ${JSON.stringify(createExtraData)}`,
       });
     }
     const addOptions = Array.isArray(cfg.add_options)

@@ -1414,7 +1414,9 @@ collections_config:
       - data
     schemas: null
     create:
-      path: '[relative_base_path]/{meta.titleLead|slugify}[count].yaml'
+      extra_data:
+        filename: '{meta.titleLead}'
+      path: '[relative_base_path]/{filename|slugify}[count].yaml'
     add_options:
       - name: Case study
         default_content_file: .cloudcannon/schemas/case-study.yml
