@@ -6,8 +6,6 @@ commit_templates:
     template_string: |-
       CMS: {summary|trim}
 
-      [changes]
-
       Edited by [author] on [date]
     _inputs:
       summary:

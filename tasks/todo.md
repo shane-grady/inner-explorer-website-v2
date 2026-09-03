@@ -61,6 +61,12 @@ entries were then deleted through CloudCannon and saved together in cleanup comm
 `f2c0f67`; its repository tree is byte-for-byte identical to pre-test head `87be0d8`,
 with no remaining `cms-smoke-test` files or pending editor changes.
 
+That cleanup also exposed a CloudCannon platform defect in the documented `[changes]`
+commit placeholder: additions included the correct paths, but all six deletions were
+rendered as `Updated null`. The final template therefore keeps the required friendly
+summary plus automatic author/date and relies on the Git diff for the exact file list,
+instead of writing misleading deletion details into repository history.
+
 A temporary CloudCannon branch Site exposed and verified the hosted pnpm cache path;
 the repository excludes `.pnpm-store/` so hosted formatting checks inspect source,
 not package-cache internals.

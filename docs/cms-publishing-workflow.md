@@ -40,7 +40,12 @@ If the work is substantial, agree on a short editing pause for the affected file
 
 ## Repository history
 
-The Save prompt asks only **What changed and why?**. CloudCannon combines that answer with its automatic file summary, author, and date. This is the repository-side record of what the editor changed; preserve it when investigating or reverting a save.
+The Save prompt asks only **What changed and why?**. CloudCannon combines that answer
+with the author and date. The Git commit diff is the exact file-level record of what
+the editor changed; preserve the summary and diff when investigating or reverting a
+save. Do not add CloudCannon's `[changes]` placeholder to the template: as of this
+rollout it renders deleted files as `Updated null`, which makes deletion commits less
+clear rather than more informative.
 
 ## Provisioned build settings
 
