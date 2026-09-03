@@ -1,0 +1,24 @@
+---
+// CloudCannon re-renders registered components with the value at `data-prop`
+// spread into Astro.props. Keep this adapter's props identical to the `cta` object
+// and give the shared block relative editable paths inside that object scope.
+import GlowCTA from '../../components/blocks/GlowCTA.astro';
+
+interface CtaLink {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  sans: string;
+  serif: string;
+  subtitle?: string;
+  primary: CtaLink;
+  secondary?: CtaLink;
+  trust?: string;
+}
+
+const props: Props = Astro.props;
+---
+
+<GlowCTA {...props} editablePrefix="" />

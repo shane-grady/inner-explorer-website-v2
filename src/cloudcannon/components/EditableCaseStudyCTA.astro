@@ -1,0 +1,30 @@
+---
+import GlowCTA from '../../components/blocks/GlowCTA.astro';
+
+interface CtaLink {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  heading: string;
+  headingEmphasis: string;
+  body?: string;
+  primary: CtaLink;
+  secondary?: CtaLink;
+}
+
+const { heading, headingEmphasis, body, primary, secondary }: Props = Astro.props;
+---
+
+<GlowCTA
+  sans={heading}
+  serif={headingEmphasis}
+  subtitle={body}
+  {primary}
+  {secondary}
+  editablePrefix=""
+  sansKey="heading"
+  serifKey="headingEmphasis"
+  subtitleKey="body"
+/>

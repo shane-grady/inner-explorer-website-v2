@@ -5,6 +5,7 @@ dist-*/
 .tmp-*/
 .astro/
 node_modules/
+.pnpm-store/
 .netlify/
 public/
 pnpm-lock.yaml
@@ -13,3 +14,10 @@ pnpm-lock.yaml
 agent/
 .cloudcannon/migration/*.schema.json
 skills-lock.json
+
+# CloudCannon serializes these editor-owned files. Their meaning is validated by
+# Astro/Zod and the CMS contract checks; formatting must not block a valid Save.
+src/content/**
+src/data/navigation.json
+src/data/footer.json
+src/data/help-ui.json

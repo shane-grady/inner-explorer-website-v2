@@ -2,10 +2,10 @@
 import { getEntry } from 'astro:content';
 import PageLayout from '../layouts/PageLayout.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
-import EditorialMasthead from '../components/blocks/EditorialMasthead.astro';
-import PlanCards from '../components/blocks/pricing/PlanCards.astro';
+import EditablePricingMasthead from '../cloudcannon/components/EditablePricingMasthead.astro';
+import EditablePricingPlans from '../cloudcannon/components/EditablePricingPlans.astro';
 import PricingTable from '../components/blocks/pricing/PricingTable.astro';
-import GlowCTA from '../components/blocks/GlowCTA.astro';
+import EditableGlowCTA from '../cloudcannon/components/EditableGlowCTA.astro';
 
 // ── Page content ────────────────────────────────────────────────────────────
 //
@@ -47,17 +47,13 @@ const productLd = {
 <PageLayout title={pageTitle} description={pageDescription}>
   <JsonLd slot="head" schema={productLd} />
 
-  <EditorialMasthead
-    eyebrow={hero.eyebrow}
-    lead={hero.lead}
-    display={hero.display}
-    intro={hero.intro}
-    layout="uniform"
-    maxWidth="900px"
-    editablePrefix="hero"
-  />
+  <editable-component data-component="pricing-masthead" data-prop="hero">
+    <EditablePricingMasthead {...hero} />
+  </editable-component>
 
-  <PlanCards plans={plans.items} note={plans.note} editablePrefix="plans" />
+  <editable-component data-component="pricing-plans" data-prop="plans">
+    <EditablePricingPlans {...plans} />
+  </editable-component>
 
   <PricingTable
     eyebrow={compare.eyebrow}
@@ -69,13 +65,7 @@ const productLd = {
     editablePrefix="compare"
   />
 
-  <GlowCTA
-    sans={cta.sans}
-    serif={cta.serif}
-    subtitle={cta.subtitle}
-    primary={cta.primary}
-    secondary={cta.secondary}
-    trust={cta.trust}
-    editablePrefix="cta"
-  />
+  <editable-component data-component="glow-cta" data-prop="cta">
+    <EditableGlowCTA {...cta} />
+  </editable-component>
 </PageLayout>

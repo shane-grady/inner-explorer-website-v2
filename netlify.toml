@@ -1,10 +1,13 @@
 # Netlify deploy config. pnpm + lockfile are auto-detected via package.json `packageManager`.
 [build]
-  command = "pnpm build"
+  command = "pnpm verify:cms"
   publish = "dist"
 
 [build.environment]
   NODE_VERSION = "24"
+  # Netlify runs pnpm install before the build command. Make the lockfile contract
+  # explicit in addition to pnpm's CI default.
+  PNPM_FLAGS = "--frozen-lockfile"
 
 # The Help Center moved to its own subdomain (second Netlify site built from this
 # repo — see sites/help/netlify.toml). 301 every old /help URL to its new home so
@@ -38,6 +41,44 @@
   to = "/privacy-policy/"
   status = 301
   force = true
+
+# Marketing-only compatibility redirects. Keep these in this site configuration,
+# rather than public/_redirects, so the separately built Help Center never inherits
+# routes it does not own.
+[[redirects]]
+  from = "/educators"
+  to = "/platform"
+  status = 301
+
+[[redirects]]
+  from = "/resources"
+  to = "/research"
+  status = 301
+
+[[redirects]]
+  from = "/pricing"
+  to = "/contact"
+  status = 301
+
+[[redirects]]
+  from = "/app"
+  to = "/platform"
+  status = 301
+
+[[redirects]]
+  from = "/careers"
+  to = "/about"
+  status = 301
+
+[[redirects]]
+  from = "/donate"
+  to = "/about"
+  status = 301
+
+[[redirects]]
+  from = "/newsletter"
+  to = "/newsroom"
+  status = 301
 
 # Long-cache Astro's content-hashed assets; they never change for a given hash.
 [[headers]]

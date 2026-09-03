@@ -4,16 +4,16 @@ import PageLayout from '../layouts/PageLayout.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import IntroScroll from '../components/blocks/intro/IntroScroll.astro';
 
-import LiveNow from '../components/blocks/home/LiveNow.astro';
+import EditableHomeLiveNow from '../cloudcannon/components/EditableHomeLiveNow.astro';
 import WhyNow from '../components/blocks/home/WhyNow.astro';
 import AudienceToggle from '../components/blocks/home/AudienceToggle.astro';
-import HowItWorks from '../components/blocks/home/HowItWorks.astro';
+import EditableHomeHowItWorks from '../cloudcannon/components/EditableHomeHowItWorks.astro';
 import GradeBands from '../components/blocks/home/GradeBands.astro';
-import Proof from '../components/blocks/home/Proof.astro';
-import Stories from '../components/blocks/home/Stories.astro';
+import EditableHomeProof from '../cloudcannon/components/EditableHomeProof.astro';
+import EditableHomeStories from '../cloudcannon/components/EditableHomeStories.astro';
 import SampleListen from '../components/blocks/home/SampleListen.astro';
 import Funding from '../components/blocks/home/Funding.astro';
-import BringItCTA from '../components/blocks/home/BringItCTA.astro';
+import EditableBringItCTA from '../cloudcannon/components/EditableBringItCTA.astro';
 
 // ── Page content ────────────────────────────────────────────────────────────
 //
@@ -87,14 +87,9 @@ const homeLd = {
       editablePrefix="intro"
     />
 
-    <LiveNow
-      eyebrow={liveNow.eyebrow}
-      headingLead={liveNow.headingLead}
-      headingAccent={liveNow.headingAccent}
-      captions={liveNow.captions}
-      stats={liveNow.stats}
-      editablePrefix="liveNow"
-    />
+    <editable-component data-component="home-live-now" data-prop="liveNow">
+      <EditableHomeLiveNow {...liveNow} />
+    </editable-component>
     <WhyNow
       eyebrow={whyNow.eyebrow}
       manifesto={whyNow.manifesto}
@@ -109,13 +104,9 @@ const homeLd = {
       district={audiences.district}
       editablePrefix="audiences"
     />
-    <HowItWorks
-      eyebrow={howItWorks.eyebrow}
-      headingLead={howItWorks.headingLead}
-      headingAccent={howItWorks.headingAccent}
-      steps={howItWorks.steps}
-      editablePrefix="howItWorks"
-    />
+    <editable-component data-component="home-how-it-works" data-prop="howItWorks">
+      <EditableHomeHowItWorks {...howItWorks} />
+    </editable-component>
     <GradeBands
       eyebrow={gradeBands.eyebrow}
       headingLead={gradeBands.headingLead}
@@ -123,28 +114,12 @@ const homeLd = {
       bands={gradeBands.bands}
       editablePrefix="gradeBands"
     />
-    <Proof
-      eyebrow={proof.eyebrow}
-      headingLead={proof.headingLead}
-      headingAccent={proof.headingAccent}
-      intro={proof.intro}
-      hero={proof.hero}
-      trendLabel={proof.trendLabel}
-      trend={proof.trend}
-      support={proof.support}
-      pills={proof.pills}
-      editablePrefix="proof"
-    />
-    <Stories
-      badge={stories.badge}
-      headlineTop={stories.headlineTop}
-      headlineBottom={stories.headlineBottom}
-      body={stories.body}
-      cta={stories.cta}
-      portraits={stories.portraits}
-      statCards={stories.statCards}
-      editablePrefix="stories"
-    />
+    <editable-component data-component="home-proof" data-prop="proof">
+      <EditableHomeProof {...proof} />
+    </editable-component>
+    <editable-component data-component="home-stories" data-prop="stories">
+      <EditableHomeStories {...stories} />
+    </editable-component>
     <SampleListen
       eyebrow={sample.eyebrow}
       headingLead={sample.headingLead}
@@ -166,19 +141,9 @@ const homeLd = {
       cards={funding.cards}
       editablePrefix="funding"
     />
-    <BringItCTA
-      eyebrow={bringIt.eyebrow}
-      headingTop={bringIt.headingTop}
-      headingBottom={bringIt.headingBottom}
-      body={bringIt.body}
-      primaryCta={bringIt.primaryCta}
-      secondaryCta={bringIt.secondaryCta}
-      pills={bringIt.pills}
-      chip={bringIt.chip}
-      image={bringIt.image}
-      imageAlt={bringIt.imageAlt}
-      editablePrefix="bringIt"
-    />
+    <editable-component data-component="bring-it-cta" data-prop="bringIt">
+      <EditableBringItCTA {...bringIt} />
+    </editable-component>
   </div>
 </PageLayout>
 

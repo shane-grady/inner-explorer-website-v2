@@ -2,16 +2,16 @@
 import { getEntry } from 'astro:content';
 import PageLayout from '../layouts/PageLayout.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
-import CinematicHero from '../components/blocks/CinematicHero.astro';
-import EditorialCTA from '../components/blocks/EditorialCTA.astro';
+import EditableDistrictHero from '../cloudcannon/components/EditableDistrictHero.astro';
+import EditableEditorialCTA from '../cloudcannon/components/EditableEditorialCTA.astro';
 import EditorialLede from '../components/blocks/districts/EditorialLede.astro';
 import DistrictTrustStrip from '../components/blocks/districts/DistrictTrustStrip.astro';
 import FieldReports from '../components/blocks/districts/FieldReports.astro';
-import ByTheNumbers from '../components/blocks/districts/ByTheNumbers.astro';
-import DayInside from '../components/blocks/districts/DayInside.astro';
+import EditableDistrictNumbers from '../cloudcannon/components/EditableDistrictNumbers.astro';
+import EditableDistrictDay from '../cloudcannon/components/EditableDistrictDay.astro';
 import VoicesSelector from '../components/blocks/districts/VoicesSelector.astro';
 import StandardsAlignment from '../components/blocks/districts/StandardsAlignment.astro';
-import CompareTable from '../components/blocks/districts/CompareTable.astro';
+import EditableDistrictComparison from '../cloudcannon/components/EditableDistrictComparison.astro';
 import FundingGuide from '../components/blocks/districts/FundingGuide.astro';
 import ImplementationTimeline from '../components/blocks/districts/ImplementationTimeline.astro';
 import SecurityPrivacy from '../components/blocks/districts/SecurityPrivacy.astro';
@@ -77,18 +77,9 @@ const districtsLd = {
   <JsonLd slot="head" schema={districtsLd} />
 
   <div class="appearance-light">
-    <CinematicHero
-      eyebrow={hero.eyebrow}
-      serialChips={hero.serialChips}
-      headlineLines={hero.headlineLines}
-      lede={hero.lede}
-      primaryCta={hero.primaryCta}
-      stats={hero.stats}
-      image={hero.image}
-      imageAlt={hero.imageAlt}
-      height="tall"
-      editablePrefix="hero"
-    />
+    <editable-component data-component="district-hero" data-prop="hero">
+      <EditableDistrictHero {...hero} />
+    </editable-component>
     <EditorialLede
       eyebrow={lede.eyebrow}
       bodyHtml={lede.bodyHtml}
@@ -108,25 +99,12 @@ const districtsLd = {
       reports={fieldReports.reports}
       editablePrefix="fieldReports"
     />
-    <ByTheNumbers
-      eyebrow={byTheNumbers.eyebrow}
-      title={byTheNumbers.title}
-      intro={byTheNumbers.intro}
-      primary={byTheNumbers.primary}
-      small={byTheNumbers.small}
-      image={byTheNumbers.image}
-      imageAlt={byTheNumbers.imageAlt}
-      imageCaption={byTheNumbers.imageCaption}
-      citations={byTheNumbers.citations}
-      editablePrefix="byTheNumbers"
-    />
-    <DayInside
-      eyebrow={dayInside.eyebrow}
-      titleLines={dayInside.titleLines}
-      intro={dayInside.intro}
-      parts={dayInside.parts}
-      editablePrefix="dayInside"
-    />
+    <editable-component data-component="district-numbers" data-prop="byTheNumbers">
+      <EditableDistrictNumbers {...byTheNumbers} />
+    </editable-component>
+    <editable-component data-component="district-day" data-prop="dayInside">
+      <EditableDistrictDay {...dayInside} />
+    </editable-component>
     <VoicesSelector
       eyebrow={voices.eyebrow}
       title={voices.title}
@@ -142,15 +120,9 @@ const districtsLd = {
       pills={standards.pills}
       editablePrefix="standards"
     />
-    <CompareTable
-      eyebrow={compare.eyebrow}
-      titleHtml={compare.titleHtml}
-      intro={compare.intro}
-      shortVersion={compare.shortVersion}
-      columns={compare.columns}
-      rows={compare.rows}
-      editablePrefix="compare"
-    />
+    <editable-component data-component="district-comparison" data-prop="compare">
+      <EditableDistrictComparison {...compare} />
+    </editable-component>
     <FundingGuide
       eyebrow={funding.eyebrow}
       titleHtml={funding.titleHtml}
@@ -180,17 +152,8 @@ const districtsLd = {
       items={faq.items}
       editablePrefix="faq"
     />
-    <EditorialCTA
-      eyebrow={cta.eyebrow}
-      headlineLines={cta.headlineLines}
-      lede={cta.lede}
-      primaryCta={cta.primaryCta}
-      secondaryCta={cta.secondaryCta}
-      assurances={cta.assurances}
-      sideCard={cta.sideCard}
-      image={cta.image}
-      imageAlt={cta.imageAlt}
-      editablePrefix="cta"
-    />
+    <editable-component data-component="editorial-cta" data-prop="cta">
+      <EditableEditorialCTA {...cta} />
+    </editable-component>
   </div>
 </PageLayout>

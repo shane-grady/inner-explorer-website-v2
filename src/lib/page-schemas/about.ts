@@ -38,6 +38,9 @@ import { pageBase } from './shared';
 
 type ImageFn = PageSchemaContext['image'];
 
+const optionalImage = (image: ImageFn) =>
+  z.preprocess((value) => (value === '' || value === null ? undefined : value), image().optional());
+
 /** A photo with its own alt text (blocks/about/OriginStory.astro `Photo`). */
 const photo = (image: ImageFn) => z.object({ src: image(), alt: z.string() });
 
@@ -64,7 +67,7 @@ const timelineEntry = (image: ImageFn) =>
 const voice = (image: ImageFn) =>
   z.object({
     featured: z.boolean().optional(),
-    bg: image().optional(),
+    bg: optionalImage(image),
     quote: z.string(),
     name: z.string(),
     role: z.string(),
@@ -80,7 +83,7 @@ const person = (image: ImageFn) =>
     location: z.string().optional(),
     pin: z.string().optional(),
     founder: z.boolean().optional(),
-    photo: image().optional(),
+    photo: optionalImage(image),
   });
 
 /** The about page's buttons. Deliberately not `shared.ts`'s `ctaLink`: none of these

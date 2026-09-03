@@ -1,0 +1,9 @@
+---
+import type { ComponentProps } from 'astro/types';
+import CompareTable from '../../components/blocks/districts/CompareTable.astro';
+
+type Props = Omit<ComponentProps<typeof CompareTable>, 'editablePrefix'>;
+const props = Astro.props as Props;
+---
+
+<CompareTable {...props} editablePrefix="" />

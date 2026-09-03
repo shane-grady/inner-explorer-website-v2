@@ -16,18 +16,6 @@ jobs:
           node-version-file: .nvmrc
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm typecheck
-      - run: pnpm lint
-      - run: pnpm lint:drift
-      - run: pnpm lint:mirrors
-      - run: pnpm format:check
-      # Catches invalid keys in cloudcannon.config.yml, which otherwise surface only
-      # as missing fields once an editor opens the site.
-      - run: npx --yes @cloudcannon/cli@latest validate
-      # Both sites, so a change that breaks the Help Center build (shared components,
-      # help content schema, src-help routes) fails the PR instead of the deploy.
-      - run: pnpm build:all
-      # Editable regions resolve at RUNTIME, inside CloudCannon's Visual Editor, so a
-      # broken data-prop builds clean and then shows an editor a red error card. This
-      # resolves every binding against its backing file, failing the PR instead.
-      - run: pnpm lint:editables
+      # One reproducible acceptance gate for code, CloudCannon configuration,
+      # both site builds, and Visual Editor bindings.
+      - run: pnpm verify:cms

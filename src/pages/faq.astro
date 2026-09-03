@@ -2,10 +2,10 @@
 import { getEntry } from 'astro:content';
 import PageLayout from '../layouts/PageLayout.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
-import EditorialMasthead from '../components/blocks/EditorialMasthead.astro';
+import EditableFAQMasthead from '../cloudcannon/components/EditableFAQMasthead.astro';
 import FAQSection from '../components/blocks/FAQSection.astro';
-import PricingCard from '../components/blocks/PricingCard.astro';
-import QuoteRow from '../components/blocks/QuoteRow.astro';
+import EditableFAQPricing from '../cloudcannon/components/EditableFAQPricing.astro';
+import EditableFAQQuotes from '../cloudcannon/components/EditableFAQQuotes.astro';
 import FAQSidebar from '../components/blocks/support/FAQSidebar.astro';
 
 // ── Page content ────────────────────────────────────────────────────────────
@@ -51,14 +51,9 @@ const faqSchema = {
 <PageLayout title={pageTitle} description={pageDescription}>
   <JsonLd slot="head" schema={faqSchema} />
 
-  <EditorialMasthead
-    eyebrow={hero.eyebrow}
-    display={hero.display}
-    intro={hero.intro}
-    layout="display"
-    maxWidth="900px"
-    editablePrefix="hero"
-  />
+  <editable-component data-component="faq-masthead" data-prop="hero">
+    <EditableFAQMasthead {...hero} />
+  </editable-component>
 
   <div class="support-shell">
     <FAQSidebar sections={sidebarSections} />
@@ -69,29 +64,19 @@ const faqSchema = {
     <main id="faq-main" data-editable="array" data-prop="sections">
       {
         sections.map((sec) => (
-          <FAQSection id={sec.id} title={sec.title} items={sec.items} editablePrefix="" />
+          <FAQSection id={sec.id} title={sec.title} items={sec.items} editablePrefix="" arrayItem />
         ))
       }
     </main>
   </div>
 
-  <PricingCard
-    eyebrow={pricing.eyebrow}
-    headlineHtml={pricing.headlineHtml}
-    sub={pricing.sub}
-    plan={pricing.plan}
-    features={pricing.features}
-    editablePrefix="pricing"
-  />
+  <editable-component data-component="faq-pricing" data-prop="pricing">
+    <EditableFAQPricing {...pricing} />
+  </editable-component>
 
-  <QuoteRow
-    lead={closer.lead}
-    leadDisplay={closer.leadDisplay}
-    leadSub={closer.leadSub}
-    ctas={closer.ctas}
-    quotes={closer.quotes}
-    editablePrefix="closer"
-  />
+  <editable-component data-component="faq-quotes" data-prop="closer">
+    <EditableFAQQuotes {...closer} />
+  </editable-component>
 </PageLayout>
 
 <style>

@@ -2,6 +2,11 @@ import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'zod';
 
+// CloudCannon serializes cleared optional media as an empty value. Normalize that
+// editor state before Astro's image validator runs.
+const optionalImage = <T extends z.ZodTypeAny>(schema: T) =>
+  z.preprocess((value) => (value === '' || value === null ? undefined : value), schema.optional());
+
 // Content lives in the repo as type-safe collections (the Content Layer API).
 // This IS the CMS seam: a future admin reads/writes these same schema-validated
 // files, so moving to a CMS later is low-effort. Edit content here for now.
@@ -19,7 +24,7 @@ const blog = defineCollection({
       // this surfaces a visible byline and upgrades the JSON-LD author to a Person.
       author: z.string().default('Inner Explorer'),
       authorRole: z.string().optional(),
-      authorImage: image().optional(),
+      authorImage: optionalImage(image()),
       // Article template fields (all optional — the page degrades gracefully when
       // absent, so plain `.md` posts still render). `category` drives the hero pill
       // + breadcrumb; `heroCaption` is the photo-credit pill overlaid on the hero
@@ -32,7 +37,7 @@ const blog = defineCollection({
       metaTitle: z.string().optional(),
       metaDescription: z.string().optional(),
       category: z.string().optional(),
-      heroImage: image().optional(),
+      heroImage: optionalImage(image()),
       heroImageAlt: z.string().optional(),
       // Photos fill a fixed 2:1 (desktop) / 4:3 (mobile) frame edge to edge.
       // Text-bearing graphics (charts, title cards, diagrams) must not be cropped,
@@ -87,8 +92,8 @@ const narrators = defineCollection({
 
       // Photography (photo drives wall + detail-page card; photoWide is the
       // 21:9 editorial hero used by PhotoQuote on the detail page).
-      photo: image().optional(),
-      photoWide: image().optional(),
+      photo: optionalImage(image()),
+      photoWide: optionalImage(image()),
       photoAlt: z.string().optional(),
       location: z.string().optional(),
 
@@ -96,15 +101,20 @@ const narrators = defineCollection({
       // so narrators with only wall data still render a coherent page).
       intro: z.string().optional(),
       quote: z.object({ text: z.string(), attrib: z.string().optional() }).optional(),
-      voiceIntro: z
-        .object({
-          audioSrc: z.string(),
-          durationSec: z.number(),
-          title: z.string(),
-          transcriptHref: z.string().optional(),
-          captionsSrc: z.string().optional(),
-        })
-        .optional(),
+      // CloudCannon seeds this optional object as null so its Add control exists.
+      // Normalize that placeholder back to absence until an editor fills it.
+      voiceIntro: z.preprocess(
+        (value) => (value == null ? undefined : value),
+        z
+          .object({
+            audioSrc: z.string(),
+            durationSec: z.number(),
+            title: z.string(),
+            transcriptHref: z.string().optional(),
+            captionsSrc: z.string().optional(),
+          })
+          .optional(),
+      ),
       facts: z.array(z.object({ value: z.string(), label: z.string() })).default([]),
       qa: z
         .array(
@@ -117,7 +127,7 @@ const narrators = defineCollection({
         )
         .default([]),
       practices: z
-        .array(z.object({ title: z.string(), meta: z.string(), image: image().optional() }))
+        .array(z.object({ title: z.string(), meta: z.string(), image: optionalImage(image()) }))
         .default([]),
 
       // Wall-only metadata for the D2 collection page (NarratorCard surfaces
@@ -136,12 +146,16 @@ const narrators = defineCollection({
 const caseStudies = defineCollection({
   loader: glob({ pattern: '**/*.{json,yaml,yml}', base: './src/content/case-studies' }),
   schema: ({ image }) => {
+    const optionalSourceId = z.preprocess(
+      (value) => (value == null ? undefined : value),
+      z.number().optional(),
+    );
     const metric = z.object({
       value: z.string(),
       unit: z.string().optional(),
       label: z.string(),
       trend: z.enum(['up-good', 'down-good']).optional(),
-      sourceId: z.number().optional(),
+      sourceId: optionalSourceId,
     });
     const valueLabel = z.object({ value: z.string(), label: z.string() });
     const cta = z.object({ label: z.string(), href: z.string() });
@@ -152,7 +166,7 @@ const caseStudies = defineCollection({
       title: z.string(),
       subtitle: z.string().optional(),
       foot: z.string().optional(),
-      sourceId: z.number().optional(),
+      sourceId: optionalSourceId,
       valueSuffix: z.string().optional(),
       groups: z
         .array(
@@ -168,6 +182,7 @@ const caseStudies = defineCollection({
     return z.object({
       draft: z.boolean().default(false),
       order: z.number().default(0),
+      slug: z.string().optional(),
 
       // SEO (optional — falls back to meta copy + today's date on the page).
       seoTitle: z.string().optional(),
@@ -191,7 +206,7 @@ const caseStudies = defineCollection({
         name: z.string(),
         shortName: z.string(),
         location: z.string(),
-        seal: image().optional(),
+        seal: optionalImage(image()),
         partnerSince: z.string().optional(),
         snapshot: z.array(valueLabel).default([]),
       }),
@@ -245,7 +260,7 @@ const caseStudies = defineCollection({
         eyebrow: z.string(),
         heading: z.string(),
         note: z.string().optional(),
-        image: image().optional(),
+        image: optionalImage(image()),
         imageAlt: z.string().optional(),
         featured: metric,
         grid: z.array(metric).default([]),
@@ -259,7 +274,16 @@ const caseStudies = defineCollection({
       // `href` links a citation to its public source (DOI, agency page) — linked,
       // verifiable sources are an E-E-A-T/AI-citation signal, not just a footnote.
       sources: z
-        .array(z.object({ id: z.number(), text: z.string(), href: z.string().url().optional() }))
+        .array(
+          z.object({
+            id: z.number(),
+            text: z.string(),
+            href: z.preprocess(
+              (value) => (value === '' || value === null ? undefined : value),
+              z.url().optional(),
+            ),
+          }),
+        )
         .default([]),
 
       // Optional editorial quote rendered right after the results band — a quiet,
@@ -290,7 +314,7 @@ const caseStudies = defineCollection({
             name: z.string(),
             role: z.string(),
             org: z.string().optional(),
-            portrait: image().optional(),
+            portrait: optionalImage(image()),
             portraitAlt: z.string().optional(),
             stat: valueLabel.optional(),
           }),

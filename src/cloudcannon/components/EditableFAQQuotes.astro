@@ -1,0 +1,9 @@
+---
+import type { ComponentProps } from 'astro/types';
+import QuoteRow from '../../components/blocks/QuoteRow.astro';
+
+type Props = Omit<ComponentProps<typeof QuoteRow>, 'editablePrefix'>;
+const props = Astro.props as Props;
+---
+
+<QuoteRow {...props} editablePrefix="" />

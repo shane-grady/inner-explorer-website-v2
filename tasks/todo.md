@@ -1,5 +1,121 @@
 # Tasks — Inner Explorer Website
 
+## CloudCannon two-way publishing repair (2026-09-02)
+
+Goal: make GitHub `main` and CloudCannon a reliable two-way content workflow for
+fixed-layout marketing pages, with one reproducible verification gate across CI,
+CloudCannon, and both Netlify sites.
+
+- [x] Preserve the diverged CloudCannon state on
+      `cloudcannon/recovery-2026-09-02` and record tip `051a86a…`.
+- [x] Reconcile the four genuine editor changes onto current `main` without losing
+      PR #91/#95/#96 content; merge recovery PR #97 after CI and both previews pass.
+- [x] Pin Node 24, CloudCannon CLI 0.0.19, and editable-regions 0.0.19.
+- [x] Add `validate:cloudcannon` and the authoritative `verify:cms` command; use it
+      in CI, both Netlify configurations, and committed initial settings.
+- [ ] Change the already-provisioned CloudCannon Site build command to
+      `pnpm verify:cms` after this branch merges; initial settings do not update it.
+- [x] Exclude CloudCannon-owned serialized content/data from Prettier enforcement;
+      keep validation through Astro/Zod and CMS guards.
+- [x] Keep redirects site-specific so Help does not inherit marketing redirects.
+- [x] Change the already-provisioned Help Netlify Site to repository-root Base,
+      Package directory `sites/help`, and `pnpm verify:cms`; read the saved settings
+      back without triggering a deployment.
+- [x] Complete page/collection inputs and creation schemas, including safe fixed
+      arrays, Help video files, series icons, narrator languages/photos, and taxonomy.
+- [x] Replace single-shape collection `schemas` with explicit
+      `add_options.default_content_file` templates so CloudCannon seeds new entries
+      without applying schema maintenance behavior to existing content.
+- [x] Add explicit `schemas: null` tombstones for provisioned Sites, scope `_schema`
+      to Marketing pages, and reject optional snippet defaults that create no-op
+      source changes.
+- [x] Add stable Marketing-page previews and update the nontechnical editor guide.
+- [x] Complete selective Visual Editor bindings, Help-relative links, and editor-mode
+      analytics/session-replay suppression.
+- [x] Extend the CMS guard and add negative fixtures for every new contract.
+- [x] Run a clean Node 24 frozen install and `pnpm verify:cms`.
+- [x] Prove the provisioned technical Site loads Node 24, both exact CloudCannon
+      packages, both builds, 8,745 editable regions, and all then-current contract fixtures.
+- [x] Prove a repeated no-op HelpVideo edit stays byte-stable after making the three
+      semantic snippet Selects explicit in authored MDX.
+- [x] Create, reopen, and remove one technical entry in every creatable collection.
+- [ ] Re-run both Netlify previews at the final PR head. The prior `0bb8c83` preview
+      proof passed, including Help direct 404s, marketing redirects, noindex, and
+      security headers.
+- [ ] Prove code-to-CMS and reversible CMS-to-GitHub-to-Netlify round trips, then
+      confirm the legacy marketing site remains outside this rollout.
+
+### Review
+
+Local implementation is complete. The authoritative Node 24 gate passes both builds,
+CloudCannon validation, all 8,745 editable regions, and 59 contract fixtures. The
+original dirty checkout remained untouched; work is isolated on
+`codex/cloudcannon-reliability`.
+
+The final temporary-Site acceptance pass covered every creatable collection. Blog,
+Case Study, Help, Narrator, Practice Series, and Testimonial entries were created in
+CloudCannon, saved together in commit `913428b`, reopened from the hosted editor, and
+read back with the expected filenames, fields, media, and controls. That exact commit
+passed `pnpm verify:cms` under Node 24 locally and in CloudCannon. All six disposable
+entries were then deleted through CloudCannon and saved together in cleanup commit
+`f2c0f67`; its repository tree is byte-for-byte identical to pre-test head `87be0d8`,
+with no remaining `cms-smoke-test` files or pending editor changes.
+
+That cleanup also exposed a CloudCannon platform defect in the documented `[changes]`
+commit placeholder: additions included the correct paths, but all six deletions were
+rendered as `Updated null`. The final template therefore keeps the required friendly
+summary plus automatic author/date and relies on the Git diff for the exact file list,
+instead of writing misleading deletion details into repository history.
+
+A temporary CloudCannon branch Site exposed and verified the hosted pnpm cache path;
+the repository excludes `.pnpm-store/` so hosted formatting checks inspect source,
+not package-cache internals.
+
+The same hosted Site also exposed that using live singleton files as CloudCannon
+schema templates hides those files from the Marketing pages collection. All thirteen
+schemas now share a dedicated template outside the collection, and the guard rejects
+both missing templates and templates placed inside a managed collection.
+
+A subsequent hosted readback exposed a different schema side effect on uniform
+content collections: CloudCannon treated the sole schema as an ongoing maintenance
+contract for existing entries. Blog, Case Studies, Help, Narrators, Series, and
+Testimonials now keep their inputs and structures at collection level and use an
+explicit `add_options.default_content_file` only when creating a new entry. The guard
+rejects missing, unconfigured, incomplete, or schema-managed creation templates.
+Creation templates must include optional fields too: the narrator seed carries a null
+`voiceIntro` key so CloudCannon exposes its Add control, while Zod normalizes that
+placeholder back to absence until an editor fills it. Every creatable collection now
+pins a collision-safe create path whose extension matches its Astro loader (`.mdx`
+for authored Blog/Help content and YAML for structured entries).
+
+Hosted no-op testing then exposed retained legacy schema behavior on the technical
+Site: opening HelpVideo for editing inserted `_schema: default`, a creation-only SEO
+placeholder, and an optional Callout default without any field change. The config now
+uses explicit `schemas: null` tombstones for all six single-shape collections, keeps
+`_schema` scoped to Marketing pages, and leaves presentation defaults inside Astro
+components rather than CloudCannon's serializer. CI rejects reintroduced schema
+metadata, published creation placeholders, and optional snippet defaults/empty attrs.
+The provisioned technical Site now clears its retained schema state: the final hosted
+build at temporary content commit `913428b` passed Node 24, exact dependencies,
+both-site builds, all 8,745 editable regions, and 59/59 fixture checks; existing Help
+source no longer gained `_schema` or template SEO. That testing also proved generic
+Select `allow_empty` is ineffective inside the
+full-document MDX snippet serializer: opening HelpVideo still hydrated the separate
+omitted Callout type to `tip`. The durable follow-up makes Callout type and media ratio
+Selects required with explicit insertion defaults, and materializes `type="tip"` on
+the two render-equivalent omissions. Two fresh HelpVideo Edit/close passes then
+produced identical 6,345-byte source (FNV `46e5773d`) with every value preserved. The
+editor still raises a false dirty flag, but saving that state cannot rewrite the file.
+
+The live Help Netlify configuration is now corrected and read back. Rollout remains
+intentionally unmerged until the temporary CloudCannon Site proves that existing
+entries no longer gain creation-only placeholder values. GitHub verification and both
+Netlify previews pass at exact head `0bb8c83`; the Help preview returns direct branded
+404s for `/pricing` and `/resources`, and the marketing preview keeps its intended
+redirects and noindex/security headers. Existing public deployments remain on their
+last successful versions; the live Help site therefore still demonstrates the old
+redirect leak until this PR reaches `main`.
+
 ## Home v2 — new home page from Claude Design handoff (2026-06-22)
 
 Goal: replace the placeholder `src/pages/index.astro` with the art-directed

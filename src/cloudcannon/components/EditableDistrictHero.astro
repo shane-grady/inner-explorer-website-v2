@@ -1,0 +1,12 @@
+---
+import type { ComponentProps } from 'astro/types';
+import CinematicHero from '../../components/blocks/CinematicHero.astro';
+
+type Props = Omit<
+  ComponentProps<typeof CinematicHero>,
+  'editablePrefix' | 'height' | 'scrollHint' | 'secondaryCta'
+>;
+const props = Astro.props as Props;
+---
+
+<CinematicHero {...props} height="tall" editablePrefix="" />

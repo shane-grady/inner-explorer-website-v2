@@ -5,4 +5,4 @@ allowBuilds:
   sharp: true
   '@tailwindcss/oxide': true
 minimumReleaseAgeExclude:
-  - '@cloudcannon/editable-regions@0.0.18'
+  - '@cloudcannon/editable-regions@0.0.19'

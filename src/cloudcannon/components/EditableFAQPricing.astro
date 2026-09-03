@@ -1,0 +1,9 @@
+---
+import type { ComponentProps } from 'astro/types';
+import PricingCard from '../../components/blocks/PricingCard.astro';
+
+type Props = Omit<ComponentProps<typeof PricingCard>, 'editablePrefix'>;
+const props = Astro.props as Props;
+---
+
+<PricingCard {...props} editablePrefix="" />

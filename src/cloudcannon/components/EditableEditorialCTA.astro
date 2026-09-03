@@ -1,0 +1,25 @@
+---
+import type { ImageMetadata } from 'astro';
+import EditorialCTA from '../../components/blocks/EditorialCTA.astro';
+
+interface CtaLink {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  eyebrow: string;
+  headlineLines: { text: string; kind: 'sans' | 'serif'; tone?: 'default' | 'accent' }[];
+  lede?: string;
+  primaryCta?: CtaLink;
+  secondaryCta?: CtaLink;
+  image: ImageMetadata;
+  imageAlt: string;
+  assurances?: { text: string }[];
+  sideCard?: { eyebrow: string; serial?: string; items: string[] };
+}
+
+const props: Props = Astro.props;
+---
+
+<EditorialCTA {...props} editablePrefix="" />

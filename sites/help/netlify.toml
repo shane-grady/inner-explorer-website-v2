@@ -1,26 +1,24 @@
 # Netlify config for the HELP CENTER site (help.innerexplorer.com) — a second
-# Netlify site on this same repo. Set the site's "base directory" to `sites/help`
-# in the Netlify UI so this file (not the repo-root netlify.toml) governs it.
-# Paths below are relative to that base.
+# Netlify site on this same repo. In Netlify, leave the Base directory empty so
+# dependencies install at the repository root, and set Package directory to
+# `sites/help` so this file (not the root netlify.toml) governs the Help site.
+# Paths below are relative to the repository-root Base directory.
 [build]
-  command = "cd ../.. && pnpm install && pnpm build:help"
-  publish = "../../dist-help"
-  # ALWAYS build. Netlify's default for a site with a base directory is to cancel the
-  # build when nothing under that base changed ("no content change") — which is wrong
-  # here: this directory holds only config, while the build's real inputs are the whole
-  # repo (src/, src-help/, astro.help.config.mjs, astro.config.shared.mjs, package.json,
-  # the lockfile). That default silently dropped the Help Center copy changes in PRs #57
-  # and #58 on 2026-07-23. An `ignore` command cancels on exit 0 and builds on non-zero,
-  # so `exit 1` opts out of the heuristic entirely. Do not "optimize" this into a scoped
-  # git diff — the input list is the repo, and a stale list fails silently (no build, no
-  # error, just old content live).
+  command = "pnpm verify:cms"
+  publish = "dist-help"
+  edge_functions = "sites/help/netlify/edge-functions"
+  # ALWAYS build. This site's inputs span the whole repository (src/, src-help/,
+  # shared Astro config, package.json, and the lockfile). An `ignore` command cancels
+  # on exit 0 and builds on non-zero, so `exit 1` opts out of an unsafe scoped check.
+  # Do not replace this with a partial file list: a stale list fails silently by
+  # leaving old content live.
   ignore = "exit 1"
 
 [build.environment]
   NODE_VERSION = "24"
-  # pnpm is normally auto-detected from a pnpm-lock.yaml in the BASE directory —
-  # ours lives at the repo root, so opt in explicitly or `pnpm` won't be installed.
-  NETLIFY_USE_PNPM = "true"
+  # Netlify runs pnpm install from the repository-root Base directory before the
+  # build command. Keep that install locked to the committed dependency graph.
+  PNPM_FLAGS = "--frozen-lockfile"
 
 # One public address: send the Netlify default domain to the real one. Netlify sets
 # help.innerexplorer.com as this site's primary domain but does NOT redirect
@@ -52,9 +50,8 @@
     X-Frame-Options = "SAMEORIGIN"
 
 # X-Robots-Tag: noindex for *.netlify.app hosts is added per-request by
-# sites/help/netlify/edge-functions/noindex-netlify-host.ts (a copy of the root
-# one — with a base directory set, Netlify only discovers edge functions under
-# <base>/netlify/edge-functions).
+# sites/help/netlify/edge-functions/noindex-netlify-host.ts (selected explicitly
+# above so the Help site never relies on the root site's function discovery).
 
 # PRE-LAUNCH: noindex EVERY host (including help.innerexplorer.com) until the Help
 # Center is ready to be indexed. DELETE this block to launch it — the netlify.app-only

@@ -2,11 +2,12 @@
 /**
  * Mirrored-file guard. Fails if a file that MUST exist in two places has drifted.
  *
- * WHY: the two-site build (main + Help Center) forces exactly one duplication.
- * Netlify only discovers edge functions under `<base directory>/netlify/edge-functions`,
- * and the Help Center site's base is `sites/help` — so the noindex edge function has to
- * exist verbatim in both trees. Nothing else enforces that, and the failure is silent
- * and expensive: edit one copy, and the other host quietly stops sending
+ * WHY: the two-site build (main + Help Center) forces exactly one duplication. The
+ * marketing site discovers its root edge-function directory, while the Help site's
+ * committed configuration explicitly selects `sites/help/netlify/edge-functions`.
+ * The noindex function therefore has to exist verbatim in both trees. Nothing else
+ * enforces that, and the failure is silent and expensive: edit one copy, and the
+ * other host quietly stops sending
  * `X-Robots-Tag: noindex` — which is how Google indexed the staging mirror last time.
  *
  * Fix a reported mismatch by copying the canonical file over the mirror, never by

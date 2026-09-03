@@ -1,0 +1,9 @@
+---
+import type { ComponentProps } from 'astro/types';
+import TeamGrid from '../../components/blocks/TeamGrid.astro';
+
+type Props = Omit<ComponentProps<typeof TeamGrid>, 'editablePrefix' | 'variant' | 'maxWidth'>;
+const props = Astro.props as Props;
+---
+
+<TeamGrid {...props} variant="team" maxWidth="1440px" editablePrefix="" />

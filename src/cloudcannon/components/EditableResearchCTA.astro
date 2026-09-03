@@ -1,0 +1,20 @@
+---
+import ResearchCTA from '../../components/blocks/research/ResearchCTA.astro';
+
+interface CtaLink {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  eyebrow: string;
+  lines: Array<{ text: string; face?: 'sans' | 'display'; em?: boolean }>;
+  subtitle: string;
+  primary: CtaLink;
+  secondary?: CtaLink;
+}
+
+const props: Props = Astro.props;
+---
+
+<ResearchCTA {...props} editablePrefix="" />

@@ -1,0 +1,9 @@
+---
+import type { ComponentProps } from 'astro/types';
+import ResearchHero from '../../components/blocks/research/ResearchHero.astro';
+
+type Props = Omit<ComponentProps<typeof ResearchHero>, 'editablePrefix'>;
+const props = Astro.props as Props;
+---
+
+<ResearchHero {...props} editablePrefix="" />

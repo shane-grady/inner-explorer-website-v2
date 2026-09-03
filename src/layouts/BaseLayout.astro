@@ -123,8 +123,13 @@ const intercomAppId = import.meta.env.PUBLIC_INTERCOM_APP_ID;
       // invariant explicit.
       import * as amplitude from '@amplitude/unified';
 
-      const w = window as Window & { __amplitudeInitialized?: boolean };
-      if (!w.__amplitudeInitialized) {
+      const w = window as Window & {
+        __amplitudeInitialized?: boolean;
+        inEditorMode?: boolean;
+      };
+      // CloudCannon renders the production build inside its Visual Editor iframe.
+      // Never count editor activity or record an editor session.
+      if (!w.inEditorMode && !w.__amplitudeInitialized) {
         w.__amplitudeInitialized = true;
         amplitude.initAll('9eb782590a25fba8c96b5de6fd50bd73', {
           analytics: { autocapture: true },

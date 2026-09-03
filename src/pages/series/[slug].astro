@@ -16,7 +16,7 @@ import SamplePractice from '../../components/blocks/series/SamplePractice.astro'
 import SeriesTestimonial from '../../components/blocks/series/SeriesTestimonial.astro';
 import RelatedSeries from '../../components/blocks/series/RelatedSeries.astro';
 import type { RelatedItem } from '../../components/blocks/series/RelatedSeries.astro';
-import SeriesCTA from '../../components/blocks/series/SeriesCTA.astro';
+import EditableSeriesCTA from '../../cloudcannon/components/EditableSeriesCTA.astro';
 import { breadcrumbSchema } from '../../lib/schema';
 
 // One schema-validated file per series drives the whole page (the CMS seam —
@@ -216,14 +216,9 @@ const related: RelatedItem[] = siblings.map((e) => ({
 
     <Section space="sm">
       <div class="wrap">
-        <SeriesCTA
-          duetTop={d.cta.duetTop}
-          duetBottom={d.cta.duetBottom}
-          body={d.cta.body}
-          primary={d.cta.primary}
-          secondary={d.cta.secondary}
-          editablePrefix="cta"
-        />
+        <editable-component data-component="series-cta" data-prop="cta">
+          <EditableSeriesCTA {...d.cta} />
+        </editable-component>
       </div>
     </Section>
   </div>

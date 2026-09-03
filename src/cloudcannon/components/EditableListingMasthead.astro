@@ -1,0 +1,9 @@
+---
+import type { ComponentProps } from 'astro/types';
+import EditorialMasthead from '../../components/blocks/EditorialMasthead.astro';
+
+type Props = Pick<ComponentProps<typeof EditorialMasthead>, 'lead' | 'display' | 'intro'>;
+const props = Astro.props as Props;
+---
+
+<EditorialMasthead {...props} layout="inline" size="lg" glow maxWidth="1200px" editablePrefix="" />

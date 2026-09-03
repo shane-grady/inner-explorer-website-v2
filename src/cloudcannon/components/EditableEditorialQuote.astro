@@ -1,0 +1,14 @@
+---
+import EditorialQuote from '../../components/blocks/EditorialQuote.astro';
+
+interface Props {
+  quote: string;
+  name: string;
+  role?: string;
+  org?: string;
+}
+
+const props: Props = Astro.props;
+---
+
+<EditorialQuote {...props} editablePrefix="" />

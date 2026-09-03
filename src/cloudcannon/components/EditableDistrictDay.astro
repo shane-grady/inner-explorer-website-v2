@@ -1,0 +1,9 @@
+---
+import type { ComponentProps } from 'astro/types';
+import DayInside from '../../components/blocks/districts/DayInside.astro';
+
+type Props = Omit<ComponentProps<typeof DayInside>, 'editablePrefix'>;
+const props = Astro.props as Props;
+---
+
+<DayInside {...props} editablePrefix="" />

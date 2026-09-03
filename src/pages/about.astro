@@ -6,10 +6,10 @@ import AboutHero from '../components/blocks/about/AboutHero.astro';
 import StatStrip from '../components/blocks/StatStrip.astro';
 import MissionQuote from '../components/blocks/about/MissionQuote.astro';
 import OriginStory from '../components/blocks/about/OriginStory.astro';
-import Timeline from '../components/blocks/about/Timeline.astro';
+import EditableAboutTimeline from '../cloudcannon/components/EditableAboutTimeline.astro';
 import ResearchPioneer from '../components/blocks/about/ResearchPioneer.astro';
-import Voices from '../components/blocks/about/Voices.astro';
-import TeamGrid from '../components/blocks/TeamGrid.astro';
+import EditableAboutVoices from '../cloudcannon/components/EditableAboutVoices.astro';
+import EditableAboutTeam from '../cloudcannon/components/EditableAboutTeam.astro';
 import Partners from '../components/blocks/about/Partners.astro';
 import Principles from '../components/blocks/about/Principles.astro';
 import AboutCTA from '../components/blocks/about/AboutCTA.astro';
@@ -100,14 +100,9 @@ const aboutLd = {
       chip={origin.chip}
       editablePrefix="origin"
     />
-    <Timeline
-      eyebrow={timeline.eyebrow}
-      headingHtml={timeline.headingHtml}
-      lede={timeline.lede}
-      railYears={timeline.railYears}
-      entries={timeline.entries}
-      editablePrefix="timeline"
-    />
+    <editable-component data-component="about-timeline" data-prop="timeline">
+      <EditableAboutTimeline {...timeline} />
+    </editable-component>
     <ResearchPioneer
       eyebrow={pioneer.eyebrow}
       headingHtml={pioneer.headingHtml}
@@ -116,22 +111,12 @@ const aboutLd = {
       studies={pioneer.studies}
       editablePrefix="pioneer"
     />
-    <Voices
-      eyebrow={voices.eyebrow}
-      headingHtml={voices.headingHtml}
-      meta={voices.meta}
-      voices={voices.items}
-      editablePrefix="voices"
-    />
-    <TeamGrid
-      eyebrow={team.eyebrow}
-      headingHtml={team.headingHtml}
-      meta={team.meta}
-      people={team.people}
-      note={team.note}
-      cta={team.cta}
-      editablePrefix="team"
-    />
+    <editable-component data-component="about-voices" data-prop="voices">
+      <EditableAboutVoices {...voices} />
+    </editable-component>
+    <editable-component data-component="about-team" data-prop="team">
+      <EditableAboutTeam {...team} />
+    </editable-component>
     <Partners
       eyebrow={partners.eyebrow}
       heading={partners.heading}

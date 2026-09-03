@@ -22,6 +22,29 @@ any correction or surprise.
 
 ## Toolchain (pnpm / Node)
 
+- **Clear retired CloudCannon schemas explicitly on provisioned Sites.** Removing a
+  collection `schemas` map from source was not enough for a long-lived hosted editing
+  session: it still inserted `_schema: default` and a creation-template SEO value into
+  an existing Help article. Use `schemas: null` on single-shape collections, keep the
+  `_schema` input scoped to collections that genuinely use schemas, and verify a fresh
+  hosted no-op edit after every schema migration. Optional snippet arguments must not
+  define serializer defaults; pair genuinely optional text/media values with
+  `remove_empty: true`. Do not rely on Select `allow_empty` inside an MDX snippet:
+  hosted testing proved CloudCannon still hydrates an omitted Select to its first
+  option while parsing the full document. Make semantic Select arguments explicit,
+  required, and insertion-defaulted in the snippet contract instead.
+- **Use `add_options.default_content_file`, not a one-entry `schemas` map, for a
+  uniform CloudCannon collection.** Hosted readback showed that `schemas` is an
+  ongoing maintenance contract for existing entries, not merely a creation template;
+  it can reorder, hide, or remove fields. Keep `_inputs` and `_structures` on the
+  collection and reserve `schemas` for genuinely different content shapes. Include
+  optional Zod fields in the default content file as well: an absent key is not an
+  editor control. Seed an optional object with `null` and normalize that placeholder
+  to `undefined` when the runtime must not render an empty section.
+- **Pin `create.path` for every creatable CloudCannon collection.** Its default ends
+  in `.md`; that silently creates files outside an Astro loader that accepts only
+  YAML/JSON, and it prevents MDX snippets on authored collections. Match the extension
+  to the loader and include `[count]` so a repeated title cannot overwrite a file.
 - **CloudCannon's `.cloudcannon/initial-site-settings.json` only applies when a Site is
   first created.** Adding it to a repository that is already connected does not update
   the live Site's build configuration. For an existing Site, explicitly set the install
@@ -846,3 +869,11 @@ Explorer's"`).
     diff normalized word lists with `difflib.SequenceMatcher`, stripping markdown links
     and JSX tags. It caught all four remaining deltas in seconds and proves the claim;
     re-reading my own draft is how I missed them in the first place.
+
+## 2026-09-03 — Group CloudCannon test confirmations once
+
+- When a reversible CloudCannon acceptance test needs several related external actions,
+  prepare the whole isolated sequence first and request one precise confirmation covering
+  its save, verification, and cleanup. Once the user confirms that bounded sequence, finish
+  it without asking again at each intermediate step. Repeated permission prompts after the
+  user has already said to proceed create needless friction and obscure the actual test.

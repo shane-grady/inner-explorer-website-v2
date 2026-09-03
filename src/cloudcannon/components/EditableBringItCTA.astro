@@ -1,0 +1,26 @@
+---
+import type { ImageMetadata } from 'astro';
+import BringItCTA from '../../components/blocks/home/BringItCTA.astro';
+
+interface CtaLink {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  eyebrow: string;
+  headingTop: string;
+  headingBottom: string;
+  body: string;
+  primaryCta: CtaLink;
+  secondaryCta?: CtaLink;
+  pills: string[];
+  chip: { title: string; sub: string };
+  image: ImageMetadata;
+  imageAlt: string;
+}
+
+const props: Props = Astro.props;
+---
+
+<BringItCTA {...props} editablePrefix="" />

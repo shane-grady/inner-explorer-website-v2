@@ -95,7 +95,9 @@ if (tags.length) metaParts.push({ icon: 'tag', text: tags.join(' · ') });
       <div class="byline">
         {authorImage && (
           /* Decorative — the author's name is announced by the adjacent text. */
-          <Image class="avatar" src={authorImage} alt="" width={44} height={44} />
+          <span class="avatar-media" data-editable="image" data-prop-src="authorImage">
+            <Image class="avatar" src={authorImage} alt="" width={44} height={44} />
+          </span>
         )}
         <span class="byline-text">
           <span class="byline-name">
@@ -266,6 +268,10 @@ if (tags.length) metaParts.push({ icon: 'tag', text: tags.join(' · ') });
     border-radius: 50%;
     object-fit: cover;
     background: var(--color-muted);
+  }
+  .avatar-media {
+    display: flex;
+    flex: 0 0 auto;
   }
   .byline-text {
     display: flex;

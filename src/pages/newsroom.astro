@@ -2,10 +2,10 @@
 import { getCollection, getEntry } from 'astro:content';
 import PageLayout from '../layouts/PageLayout.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
-import EditorialMasthead from '../components/blocks/EditorialMasthead.astro';
+import EditableListingMasthead from '../cloudcannon/components/EditableListingMasthead.astro';
 import NewsroomFilters from '../components/blocks/newsroom/NewsroomFilters.astro';
 import StoryGrid from '../components/blocks/newsroom/StoryGrid.astro';
-import GlowCTA from '../components/blocks/GlowCTA.astro';
+import EditableGlowCTA from '../cloudcannon/components/EditableGlowCTA.astro';
 import { readingTime } from '../lib/reading-time';
 import type { Category, Cover, Story } from '../components/blocks/newsroom/types';
 
@@ -125,29 +125,17 @@ const collectionLd = {
   <JsonLd slot="head" schema={collectionLd} />
 
   <div class="appearance-light page-wash">
-    <EditorialMasthead
-      layout="inline"
-      size="lg"
-      glow
-      lead={hero.lead}
-      display={hero.display}
-      intro={hero.intro}
-      editablePrefix="hero"
-    />
+    <editable-component data-component="listing-masthead" data-prop="hero">
+      <EditableListingMasthead {...hero} />
+    </editable-component>
 
     <NewsroomFilters categories={categories} total={stories.length} />
 
     <StoryGrid stories={stories} cols={4} initial={12} step={8} />
 
-    <GlowCTA
-      sans={cta.sans}
-      serif={cta.serif}
-      subtitle={cta.subtitle}
-      primary={cta.primary}
-      secondary={cta.secondary}
-      trust={cta.trust}
-      editablePrefix="cta"
-    />
+    <editable-component data-component="glow-cta" data-prop="cta">
+      <EditableGlowCTA {...cta} />
+    </editable-component>
   </div>
 </PageLayout>
 
