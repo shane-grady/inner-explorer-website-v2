@@ -92,15 +92,15 @@ const year = new Date().getFullYear();
         {
           legalLinks.length > 0 && (
             <nav aria-label="Legal">
-              <ul
-                class="flex flex-wrap items-center gap-x-6 gap-y-2"
-                data-editable="array"
-                data-prop="@file[/src/data/footer.json].legalLinks"
-              >
-                {legalLinks.map((link) => (
-                  <li data-editable="array-item">
+              <ul class="flex flex-wrap items-center gap-x-6 gap-y-2">
+                {legalLinks.map((link, index) => (
+                  <li>
                     <a href={link.href} class="transition-colors hover:text-foreground">
-                      <editable-text data-prop="label">{link.label}</editable-text>
+                      <editable-text
+                        data-prop={`@file[/src/data/footer.json].legalLinks.${index}.label`}
+                      >
+                        {link.label}
+                      </editable-text>
                     </a>
                   </li>
                 ))}

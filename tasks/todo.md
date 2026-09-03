@@ -58,12 +58,16 @@ and adds negative fixtures for both failure modes. A post-merge readback caught 
 remaining `legalLinks` race on FAQ; the final follow-up removes unnecessary registered
 component wrappers from the shared header/footer while retaining their primitive
 external-data editables, now bound to exact singleton `@file[...]` paths rather than
-Dataset keys that may return a file list.
+Dataset keys that may return a file list. A second hosted readback showed CloudCannon
+0.0.19 still returned `undefined` for the footer's later `legalLinks` array listener, even
+though sibling fields resolved. The legal row is fixed layout, so its visible labels are
+now primitive indexed file editables; structural link changes remain safely available in
+Site Settings.
 
 Local implementation is complete. The authoritative Node 24 gate passes both builds,
-CloudCannon validation, all 8,623 editable regions, and 68 contract fixtures. The
+CloudCannon validation, all 8,501 editable regions, and 68 contract fixtures. The
 original dirty checkout remained untouched; work is isolated on
-`codex/cloudcannon-shared-data-rendering`.
+`codex/cloudcannon-footer-legal-links`.
 
 The final temporary-Site acceptance pass covered every creatable collection. Blog,
 Case Study, Help, Narrator, Practice Series, and Testimonial entries were created in

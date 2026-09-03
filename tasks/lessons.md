@@ -32,6 +32,12 @@ any correction or surprise.
   `data-component`/`array-item` boundaries at the page call site rather than inside a
   registered renderer, and finish every rollout with a hosted page-by-page readback
   for red error cards.
+- **Do not make a fixed shared link row an inline array control just because its source is
+  an array.** CloudCannon 0.0.19 can resolve several fields from one exact `@file` source
+  while still returning `undefined` for a later array listener. Keep structural edits for
+  fixed shared navigation in Site Settings and bind each visible label through its absolute
+  indexed file path. This preserves inline text editing without a fragile add/remove
+  boundary.
 
 - **Clear retired CloudCannon schemas explicitly on provisioned Sites.** Removing a
   collection `schemas` map from source was not enough for a long-lived hosted editing
