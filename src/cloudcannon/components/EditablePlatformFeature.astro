@@ -1,0 +1,9 @@
+---
+import type { ComponentProps } from 'astro/types';
+import FeatureSection from '../../components/blocks/platform/FeatureSection.astro';
+
+type Props = Omit<ComponentProps<typeof FeatureSection>, 'editablePrefix'>;
+const props = Astro.props as Props;
+---
+
+<FeatureSection {...props} editablePrefix="" />

@@ -27,22 +27,28 @@ interface Props {
 const { measurementId } = Astro.props;
 ---
 
-<script async src={`https://www.googletagmanager.com/gtag/js?id=${measurementId}`}></script>
 <script define:vars={{ measurementId }}>
-  if (location.hostname.endsWith('.netlify.app')) return;
+  // CloudCannon sets inEditorMode before page scripts run. Keep both the tracker
+  // request and all events out of the Visual Editor iframe.
+  if (!window.inEditorMode && !location.hostname.endsWith('.netlify.app')) {
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function (...args) {
+      window.dataLayer.push(args);
+    };
+    window.gtag('js', new Date());
+    window.gtag('config', measurementId, { send_page_view: false });
 
-  window.dataLayer = window.dataLayer || [];
-  window.gtag = function (...args) {
-    window.dataLayer.push(args);
-  };
-  window.gtag('js', new Date());
-  window.gtag('config', measurementId, { send_page_view: false });
+    const tracker = document.createElement('script');
+    tracker.async = true;
+    tracker.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
+    document.head.appendChild(tracker);
 
-  document.addEventListener('astro:page-load', () => {
-    window.gtag('event', 'page_view', {
-      page_location: location.href,
-      page_path: location.pathname,
-      page_title: document.title,
+    document.addEventListener('astro:page-load', () => {
+      window.gtag('event', 'page_view', {
+        page_location: location.href,
+        page_path: location.pathname,
+        page_title: document.title,
+      });
     });
-  });
+  }
 </script>

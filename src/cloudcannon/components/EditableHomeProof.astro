@@ -1,0 +1,9 @@
+---
+import type { ComponentProps } from 'astro/types';
+import Proof from '../../components/blocks/home/Proof.astro';
+
+type Props = Omit<ComponentProps<typeof Proof>, 'editablePrefix'>;
+const props = Astro.props as Props;
+---
+
+<Proof {...props} editablePrefix="" />

@@ -3,13 +3,13 @@ import { getEntry } from 'astro:content';
 import PageLayout from '../layouts/PageLayout.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import ResearchOpeningVoid from '../components/blocks/research/ResearchOpeningVoid.astro';
-import ResearchHero from '../components/blocks/research/ResearchHero.astro';
+import EditableResearchHero from '../cloudcannon/components/EditableResearchHero.astro';
 import ResearchReceipts from '../components/blocks/research/ResearchReceipts.astro';
 import ResearchBrain from '../components/blocks/research/ResearchBrain.astro';
 import ResearchOutcomes from '../components/blocks/research/ResearchOutcomes.astro';
 import ResearchEndorsers from '../components/blocks/research/ResearchEndorsers.astro';
 import ResearchVoices from '../components/blocks/research/ResearchVoices.astro';
-import ResearchCTA from '../components/blocks/research/ResearchCTA.astro';
+import EditableResearchCTA from '../cloudcannon/components/EditableResearchCTA.astro';
 import BreathMeter from '../components/blocks/research/BreathMeter.astro';
 
 // ── Page content ────────────────────────────────────────────────────────────
@@ -84,14 +84,9 @@ const researchLd = {
       poster="/videos/research/neurons-poster.jpg"
       editablePrefix="opening"
     />
-    <ResearchHero
-      eyebrow={hero.eyebrow}
-      lines={hero.lines}
-      subtitle={hero.subtitle}
-      primaryCta={hero.primaryCta}
-      secondaryCta={hero.secondaryCta}
-      editablePrefix="hero"
-    />
+    <editable-component data-component="research-hero" data-prop="hero">
+      <EditableResearchHero {...hero} />
+    </editable-component>
     {
       /* `studies` is rendered in file order, so the array-item regions inside
         ResearchReceipts line up with the rows in research.yml. */
@@ -125,14 +120,9 @@ const researchLd = {
     />
     <ResearchEndorsers label={endorsers.label} items={endorsers.items} editablePrefix="endorsers" />
     <ResearchVoices voices={voices} editablePrefix="" />
-    <ResearchCTA
-      eyebrow={cta.eyebrow}
-      lines={cta.lines}
-      subtitle={cta.subtitle}
-      primary={cta.primary}
-      secondary={cta.secondary}
-      editablePrefix="cta"
-    />
+    <editable-component data-component="research-cta" data-prop="cta">
+      <EditableResearchCTA {...cta} />
+    </editable-component>
     <BreathMeter />
   </div>
 </PageLayout>

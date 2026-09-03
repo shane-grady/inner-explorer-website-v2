@@ -5,12 +5,12 @@ import JsonLd from '../components/seo/JsonLd.astro';
 import PlatformHero from '../components/blocks/platform/PlatformHero.astro';
 import TrustLogos from '../components/blocks/platform/TrustLogos.astro';
 import PlatformTrio from '../components/blocks/platform/PlatformTrio.astro';
-import FeatureSection from '../components/blocks/platform/FeatureSection.astro';
+import EditablePlatformFeature from '../cloudcannon/components/EditablePlatformFeature.astro';
 import SignOn from '../components/blocks/platform/SignOn.astro';
-import ImpactStories from '../components/blocks/platform/ImpactStories.astro';
-import OutcomesExplorer from '../components/blocks/platform/OutcomesExplorer.astro';
+import EditablePlatformImpact from '../cloudcannon/components/EditablePlatformImpact.astro';
+import EditablePlatformOutcomes from '../cloudcannon/components/EditablePlatformOutcomes.astro';
 import Safety from '../components/blocks/platform/Safety.astro';
-import LatestUpdates from '../components/blocks/platform/LatestUpdates.astro';
+import EditablePlatformUpdates from '../cloudcannon/components/EditablePlatformUpdates.astro';
 import PlatformCTA from '../components/blocks/platform/PlatformCTA.astro';
 
 // ── Page content ────────────────────────────────────────────────────────────
@@ -72,14 +72,26 @@ const platformLd = {
     <PlatformHero {...hero} editablePrefix="hero" />
     <TrustLogos {...trust} editablePrefix="trust" />
     <PlatformTrio {...trio} editablePrefix="trio" />
-    <FeatureSection {...classroom} editablePrefix="classroom" />
-    <FeatureSection {...district} editablePrefix="district" />
-    <FeatureSection {...home} editablePrefix="home" />
+    <editable-component data-component="platform-feature" data-prop="classroom">
+      <EditablePlatformFeature {...classroom} />
+    </editable-component>
+    <editable-component data-component="platform-feature" data-prop="district">
+      <EditablePlatformFeature {...district} />
+    </editable-component>
+    <editable-component data-component="platform-feature" data-prop="home">
+      <EditablePlatformFeature {...home} />
+    </editable-component>
     <SignOn {...signOn} editablePrefix="signOn" />
-    <ImpactStories {...impact} editablePrefix="impact" />
-    <OutcomesExplorer {...research} editablePrefix="research" />
+    <editable-component data-component="platform-impact" data-prop="impact">
+      <EditablePlatformImpact {...impact} />
+    </editable-component>
+    <editable-component data-component="platform-outcomes" data-prop="research">
+      <EditablePlatformOutcomes {...research} />
+    </editable-component>
     <Safety {...safety} editablePrefix="safety" />
-    <LatestUpdates {...updates} editablePrefix="updates" />
+    <editable-component data-component="platform-updates" data-prop="updates">
+      <EditablePlatformUpdates {...updates} />
+    </editable-component>
     <PlatformCTA {...cta} editablePrefix="cta" />
   </div>
 </PageLayout>

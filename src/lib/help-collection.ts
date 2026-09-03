@@ -33,7 +33,10 @@ export const helpCollection = defineCollection({
      * (/privacy-policy) AND an article here; pointing the canonical at the
      * marketing page keeps the two from competing as duplicate content.
      */
-    canonicalUrl: z.string().url().optional(),
+    canonicalUrl: z.preprocess(
+      (value) => (value === '' || value === null ? undefined : value),
+      z.url().optional(),
+    ),
     // SEO (optional — falls back to title + blurb).
     seoTitle: z.string().optional(),
     seoDescription: z.string().optional(),

@@ -5,7 +5,7 @@ import JsonLd from '../../components/seo/JsonLd.astro';
 import Breadcrumb from '../../components/primitives/Breadcrumb.astro';
 import EditorialMasthead from '../../components/blocks/EditorialMasthead.astro';
 import PhotoQuote from '../../components/blocks/PhotoQuote.astro';
-import VoiceBar from '../../components/blocks/VoiceBar.astro';
+import EditableVoiceIntro from '../../cloudcannon/components/EditableVoiceIntro.astro';
 import StatStrip from '../../components/blocks/StatStrip.astro';
 import Interview from '../../components/blocks/Interview.astro';
 import MediaRows from '../../components/blocks/MediaRows.astro';
@@ -105,14 +105,9 @@ const heroAltProp = d.photoAlt ? 'photoAlt' : undefined;
 
     {
       d.voiceIntro && (
-        <VoiceBar
-          audioSrc={d.voiceIntro.audioSrc}
-          durationSec={d.voiceIntro.durationSec}
-          title={d.voiceIntro.title}
-          transcriptHref={d.voiceIntro.transcriptHref}
-          captionsSrc={d.voiceIntro.captionsSrc}
-          editablePrefix="voiceIntro"
-        />
+        <editable-component data-component="voice-intro" data-prop="voiceIntro">
+          <EditableVoiceIntro {...d.voiceIntro} />
+        </editable-component>
       )
     }
 

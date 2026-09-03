@@ -10,12 +10,12 @@ import KeyInsights from '../../components/blocks/case-study/KeyInsights.astro';
 import StoryBlock from '../../components/blocks/case-study/StoryBlock.astro';
 import Timeline from '../../components/blocks/case-study/Timeline.astro';
 import ResultsBand from '../../components/blocks/case-study/ResultsBand.astro';
-import EditorialQuote from '../../components/blocks/EditorialQuote.astro';
+import EditableEditorialQuote from '../../cloudcannon/components/EditableEditorialQuote.astro';
 import CaseStudyVoices from '../../components/blocks/case-study/CaseStudyVoices.astro';
 import PhotoMosaic from '../../components/blocks/case-study/PhotoMosaic.astro';
 import CaseStudyExplore from '../../components/blocks/case-study/CaseStudyExplore.astro';
 import FAQAccordion from '../../components/blocks/districts/FAQAccordion.astro';
-import GlowCTA from '../../components/blocks/GlowCTA.astro';
+import EditableCaseStudyCTA from '../../cloudcannon/components/EditableCaseStudyCTA.astro';
 import { articleSchema, breadcrumbSchema } from '../../lib/schema';
 
 // One schema-validated file per district drives the whole page. Add a new
@@ -243,13 +243,9 @@ const exploreLinks = [
     {
       d.editorialQuote && (
         <div data-cs-reveal>
-          <EditorialQuote
-            quote={d.editorialQuote.quote}
-            name={d.editorialQuote.name}
-            role={d.editorialQuote.role}
-            org={d.editorialQuote.org}
-            editablePrefix="editorialQuote"
-          />
+          <editable-component data-component="editorial-quote" data-prop="editorialQuote">
+            <EditableEditorialQuote {...d.editorialQuote} />
+          </editable-component>
         </div>
       )
     }
@@ -296,17 +292,9 @@ const exploreLinks = [
 
     <CaseStudyExplore id="explore" links={exploreLinks} next={next} />
 
-    <GlowCTA
-      sans={d.cta.heading}
-      serif={d.cta.headingEmphasis}
-      subtitle={d.cta.body}
-      primary={d.cta.primary}
-      secondary={d.cta.secondary}
-      editablePrefix="cta"
-      sansKey="heading"
-      serifKey="headingEmphasis"
-      subtitleKey="body"
-    />
+    <editable-component data-component="case-study-cta" data-prop="cta">
+      <EditableCaseStudyCTA {...d.cta} />
+    </editable-component>
   </div>
 </PageLayout>
 

@@ -4,6 +4,8 @@ name: New practice series
 shortName: New series
 category: Supplemental Series
 tone: sage
+seoTitle: New practice series | Inner Explorer
+seoDescription: Add a concise search description of this practice series.
 hero:
   duetTop: A new
   duetBottom: practice series.
@@ -13,6 +15,9 @@ hero:
   primaryCta:
     label: Contact us
     href: /contact
+  secondaryCta:
+    label: Explore all series
+    href: /series
 glance: []
 audience:
   eyebrow: Who it's for
@@ -58,3 +63,6 @@ cta:
   primary:
     label: Contact us
     href: /contact
+  secondary:
+    label: For districts
+    href: /districts

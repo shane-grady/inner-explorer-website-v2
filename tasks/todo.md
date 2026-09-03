@@ -1,5 +1,47 @@
 # Tasks — Inner Explorer Website
 
+## CloudCannon two-way publishing repair (2026-09-02)
+
+Goal: make GitHub `main` and CloudCannon a reliable two-way content workflow for
+fixed-layout marketing pages, with one reproducible verification gate across CI,
+CloudCannon, and both Netlify sites.
+
+- [x] Preserve the diverged CloudCannon state on
+      `cloudcannon/recovery-2026-09-02` and record tip `051a86a…`.
+- [x] Reconcile the four genuine editor changes onto current `main` without losing
+      PR #91/#95/#96 content; merge recovery PR #97 after CI and both previews pass.
+- [x] Pin Node 24, CloudCannon CLI 0.0.19, and editable-regions 0.0.19.
+- [x] Add `validate:cloudcannon` and the authoritative `verify:cms` command; use it
+      in CI, both Netlify configurations, and committed initial settings.
+- [ ] Change the already-provisioned CloudCannon Site build command to
+      `pnpm verify:cms` after this branch merges; initial settings do not update it.
+- [x] Exclude CloudCannon-owned serialized content/data from Prettier enforcement;
+      keep validation through Astro/Zod and CMS guards.
+- [x] Keep redirects site-specific so Help does not inherit marketing redirects.
+- [x] Complete page/collection inputs and creation schemas, including safe fixed
+      arrays, Help video files, series icons, narrator languages/photos, and taxonomy.
+- [x] Add stable Marketing-page previews and update the nontechnical editor guide.
+- [x] Complete selective Visual Editor bindings, Help-relative links, and editor-mode
+      analytics/session-replay suppression.
+- [x] Extend the CMS guard and add negative fixtures for every new contract.
+- [ ] Run a clean Node 24 frozen install and `pnpm verify:cms`; inspect both previews.
+- [ ] Prove code-to-CMS and reversible CMS-to-GitHub-to-Netlify round trips, then
+      confirm the legacy marketing site remains outside this rollout.
+
+### Review
+
+Local implementation is complete. The authoritative Node 24 gate passes both builds,
+CloudCannon validation, all 8,745 editable regions, and 33 contract fixtures. The
+original dirty checkout remained untouched; work is isolated on
+`codex/cloudcannon-reliability`.
+
+Rollout remains intentionally unmerged until the live Help Netlify Site changes from
+Base `sites/help` to a repository-root Base with Package directory `sites/help`. The
+Netlify team is currently restricted by a $9 overdue balance, so its project settings
+and new previews are unavailable. Existing public deployments remain on their last
+successful versions; the live Help site therefore still demonstrates the old redirect
+leak (`/pricing` and `/resources` redirect instead of returning direct 404s).
+
 ## Home v2 — new home page from Claude Design handoff (2026-06-22)
 
 Goal: replace the placeholder `src/pages/index.astro` with the art-directed

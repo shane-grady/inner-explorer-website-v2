@@ -1,5 +1,9 @@
 draft: true
 order: 0
+seoTitle: New case study | Inner Explorer
+seoDescription: Add a concise search description of the district story.
+publishedDate:
+updatedDate:
 meta:
   kicker: Case study
   titleLead: District name
@@ -14,6 +18,7 @@ district:
   shortName: District
   location: City, State
   partnerSince: ''
+  seal: ../../assets/images/research/hero-classroom.jpg
   snapshot: []
 keyInsights:
   eyebrow: Key Insights
@@ -30,6 +35,9 @@ intro:
     heading: Describe the challenge
     body:
       - Add the challenge story.
+    stat:
+      value: '0'
+      label: Add the challenge context.
     image: ../../assets/images/research/hero-classroom.jpg
     imageAlt: ''
   approach:
@@ -47,12 +55,34 @@ metrics:
   eyebrow: The results
   heading: What changed
   note: ''
+  image: ../../assets/images/research/hero-classroom.jpg
+  imageAlt: Replace this starter image and describe the final result image.
   featured:
     value: '0'
     unit: ''
     label: Add the featured result
+    trend: up-good
+    sourceId: 1
   grid: []
+chart:
+  title: Add a chart title
+  subtitle: Add chart context.
+  foot: Add a source note.
+  sourceId: 1
+  valueSuffix: '%'
+  groups:
+    - label: Baseline
+      tone: muted
+      bars:
+        - label: Measure
+          value: 0
+charts: []
 sources: []
+editorialQuote:
+  quote: Add a representative quote from the story.
+  name: Person name
+  role: Role or title
+  org: Organization
 voicesIntro:
   eyebrow: Community voices
   headingLead: What the community
@@ -66,6 +96,13 @@ gallery:
   heading: A closer look
   images: []
   note: ''
+faq:
+  eyebrow: FAQ
+  titleHtml: Frequently asked questions
+  intro: Add a short introduction.
+  items:
+    - q: Add a buyer question.
+      a: Add a factual answer from the case study.
 cta:
   heading: Bring Inner Explorer to
   headingEmphasis: your community.
@@ -73,3 +110,6 @@ cta:
   primary:
     label: Contact us
     href: /contact
+  secondary:
+    label: Explore case studies
+    href: /case-studies

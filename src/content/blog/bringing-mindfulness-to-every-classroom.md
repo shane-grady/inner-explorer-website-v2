@@ -8,8 +8,8 @@ pubDate: 2026-05-20T00:00:00Z
 author: Inner Explorer
 category: Practice
 tags:
-  - classroom
-  - practice
+  - Classroom
+  - Practice
 draft: false
 ---
 

@@ -1,0 +1,9 @@
+---
+import type { ComponentProps } from 'astro/types';
+import Timeline from '../../components/blocks/about/Timeline.astro';
+
+type Props = Omit<ComponentProps<typeof Timeline>, 'editablePrefix'>;
+const props = Astro.props as Props;
+---
+
+<Timeline {...props} editablePrefix="" />

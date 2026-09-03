@@ -1,17 +1,23 @@
+_schema: default
 name: Narrator name
 role: Narrator
 order: 0
 draft: true
-# Seeded because src/pages/narrators/[slug].astro only builds a detail page for a
-# narrator that HAS a photo. Without this, "+ Add" in CloudCannon creates a narrator
-# that silently never gets a page. Swap the portrait in the editor.
-photo: ../../assets/images/narrators/maya-castellanos.jpg
+# A portrait is required by the CloudCannon input before this draft can be saved.
+# The narrator routes only publish entries with a portrait, so this prevents a new
+# profile from silently disappearing without borrowing another person's identity.
+photo: ''
+photoWide: ''
 photoAlt: ''
 location: ''
 intro: ''
+quote:
+  text: Add a short quote that captures this narrator's approach.
+  attrib: Narrator name
 facts: []
 qa: []
 practices: []
 langs: []
+since: 2026
 practiceCount: 0
 isNew: false

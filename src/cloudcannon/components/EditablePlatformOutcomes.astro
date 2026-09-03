@@ -1,0 +1,9 @@
+---
+import type { ComponentProps } from 'astro/types';
+import OutcomesExplorer from '../../components/blocks/platform/OutcomesExplorer.astro';
+
+type Props = Omit<ComponentProps<typeof OutcomesExplorer>, 'editablePrefix'>;
+const props = Astro.props as Props;
+---
+
+<OutcomesExplorer {...props} editablePrefix="" />

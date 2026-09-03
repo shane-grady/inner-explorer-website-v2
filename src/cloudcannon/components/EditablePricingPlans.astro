@@ -1,0 +1,12 @@
+---
+import PlanCards, { type Plan } from '../../components/blocks/pricing/PlanCards.astro';
+
+interface Props {
+  items: readonly Plan[];
+  note?: string;
+}
+
+const { items, note }: Props = Astro.props;
+---
+
+<PlanCards plans={items} {note} editablePrefix="" />

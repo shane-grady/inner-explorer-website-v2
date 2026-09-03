@@ -2,7 +2,7 @@
 import { getEntry } from 'astro:content';
 import PageLayout from '../layouts/PageLayout.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
-import EditorialMasthead from '../components/blocks/EditorialMasthead.astro';
+import EditableContactMasthead from '../cloudcannon/components/EditableContactMasthead.astro';
 import ContactCard from '../components/blocks/ContactCard.astro';
 import HubSpotForm from '../components/integrations/HubSpotForm.astro';
 import EmailCard from '../components/blocks/contact/EmailCard.astro';
@@ -67,14 +67,9 @@ const contactLd = {
   <div class="appearance-light contact-page">
     <div class="ambient" aria-hidden="true"></div>
 
-    <EditorialMasthead
-      lead={hero.lead}
-      display={hero.display}
-      intro={hero.intro}
-      layout="inline"
-      maxWidth="960px"
-      editablePrefix="hero"
-    />
+    <editable-component data-component="contact-masthead" data-prop="hero">
+      <EditableContactMasthead {...hero} />
+    </editable-component>
 
     <div class="shell">
       <div class="stack">

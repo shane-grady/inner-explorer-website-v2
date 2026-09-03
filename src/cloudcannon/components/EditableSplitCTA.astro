@@ -1,0 +1,23 @@
+---
+import SplitCTA from '../../components/blocks/SplitCTA.astro';
+
+interface CtaLink {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  eyebrow: string;
+  quoteHtml: string;
+  attribution: string;
+  attributionStrong?: string;
+  cardHeading: string;
+  cardBody: string;
+  primary: CtaLink;
+  secondary?: CtaLink;
+}
+
+const props: Props = Astro.props;
+---
+
+<SplitCTA {...props} editablePrefix="" />

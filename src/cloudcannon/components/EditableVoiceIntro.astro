@@ -1,0 +1,15 @@
+---
+import VoiceBar from '../../components/blocks/VoiceBar.astro';
+
+interface Props {
+  audioSrc: string;
+  durationSec: number;
+  title: string;
+  transcriptHref?: string;
+  captionsSrc?: string;
+}
+
+const props: Props = Astro.props;
+---
+
+<VoiceBar {...props} editablePrefix="" />

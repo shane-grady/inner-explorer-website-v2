@@ -4,7 +4,7 @@ description: 'The research behind daily mindfulness — and how schools track it
 pubDate: 2026-05-06T00:00:00Z
 author: 'Inner Explorer'
 category: 'Research'
-tags: ['research', 'impact']
+tags: ['Research', 'Impact']
 draft: false
 ---
 

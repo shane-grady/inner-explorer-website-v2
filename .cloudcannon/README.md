@@ -1,36 +1,44 @@
 # Inner Explorer website
 
-Welcome. This dashboard is the editing home for the public Inner Explorer website.
+Welcome. This is the editing home for the Inner Explorer marketing website and Help Center.
 
-## Quick links
+## Start here
 
-- [Blog posts](cloudcannon:collections/blog)
-- [Case studies](cloudcannon:collections/caseStudies)
-- [Help Center articles](cloudcannon:collections/help)
-- [Narrators](cloudcannon:collections/narrators)
-- [Practice series](cloudcannon:collections/series)
-- [Testimonials](cloudcannon:collections/testimonials)
+- [Marketing Pages](cloudcannon:collections/pages) — edit page copy, images, links, and search descriptions.
+- [Blog](cloudcannon:collections/blog) — update or create a blog post.
+- [Help](cloudcannon:collections/help) — update or create a Help Center article.
+- [Site Settings](cloudcannon:collections/data) — edit navigation, footer, and shared Help Center text.
 
-## How editing works
+You can also edit [Case Studies](cloudcannon:collections/caseStudies),
+[Narrators](cloudcannon:collections/narrators),
+[Practice Series](cloudcannon:collections/series), and
+[Testimonials](cloudcannon:collections/testimonials).
 
-Open an existing blog post, case study, help article, narrator, or practice series in the Visual Editor to see the published layout while you work. The Content Editor is also available for blog and Help Center writing, and the Data Editor is useful for structured lists such as statistics, quotes, galleries, and calls to action.
+## What you can change
 
-New blog and Help Center articles open in the writing view first because drafts do not yet have a published preview page. New structured stories open in the form view. Preview pages shown during creation are examples only; the new item's own page appears after the next successful build.
+Pages have fixed, approved layouts. Edit the content and media shown in CloudCannon. Some lists let you add, remove, or reorder items when the layout supports it. For a new section, a different section order, or a design change, ask the website team.
 
-## Images
+Use the image or video picker for media fields. In blog and Help writing, use the Insert menu for figures, quotes, statistics, cards, audio, callouts, steps, accordions, and action links. These options preserve the site's responsive design and accessibility.
 
-Use the image picker on image fields. Structured page images are stored with the site's optimized source images, while images inserted directly into long-form writing are intentionally disabled. Use the Figure or Help figure component instead so images keep responsive sizing and required alternative text.
+## Save and publish
 
-## Rich-text components
+1. Preview the change and select **Save**.
+2. In **What changed and why?**, write one friendly sentence, such as “Updated the back-to-school resources and corrected two links.”
+3. Save once. CloudCannon records the change in the website repository and starts the normal checks and builds automatically.
+4. Open **Builds** and wait for the newest CloudCannon build to finish successfully. This confirms the editor preview passed its checks.
+5. Open the [V2 staging site](https://innerexplorerwebsitev2.netlify.app/) and [Help Center](https://help.innerexplorer.com/) before treating the change as live. Their Netlify deployments are separate from the CloudCannon preview and can finish at different times. The legacy `innerexplorer.com` site is not changed by this workflow.
 
-The insert menu includes pull quotes, figures, statistics, resource cards, audio practices, callouts, steps, card grids, link cards, accordions, and action links. Use these components instead of pasting custom markup; they preserve the site's design and accessibility behavior.
+The Build or Activity screens may show work in progress for a few minutes. A successful CloudCannon status means the saved version passed the editor-preview checks; it does not by itself prove either public Netlify deployment finished. If a deployment fails, visitors continue to see its last successful version.
 
-## Publishing
+## If saving or syncing pauses
 
-Save changes as drafts while reviewing. Publishing writes the approved content change back to the site's Git repository and triggers the normal site build. If a build fails, do not retry with altered formatting; share the build message with the website maintainer.
+- Stop editing that item and leave the page open.
+- Do **not** discard changes, switch branches, or repeatedly retry.
+- Take a screenshot of the error and note what you were editing and when you selected Save.
+- Send those details to the website maintainer. The maintainer will preserve the held work before repairing the sync.
 
-## Access and review
+If a saved change causes a failed build, send the build message to the website maintainer. They will reverse that exact saved change and let CloudCannon resync; you do not need to recreate or discard your work.
 
-Every team member should use their own CloudCannon account. Assign the lowest
-appropriate permission group and use a review/publishing branch before production;
-do not share a password or add a secret editing passcode to the public website.
+## Accounts
+
+Use your own CloudCannon account so every save shows who made it. Never share passwords or add editing credentials to the public website.

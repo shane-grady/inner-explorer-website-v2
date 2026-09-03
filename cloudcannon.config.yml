@@ -1,6 +1,22 @@
 version: latest
 timezone: America/New_York
 
+commit_templates:
+  - label: Marketing update
+    template_string: |-
+      CMS: {summary|trim}
+
+      [changes]
+
+      Edited by [author] on [date]
+    _inputs:
+      summary:
+        type: textarea
+        label: What changed and why?
+        options:
+          required: true
+          required_message: Briefly describe what changed and why.
+
 paths:
   static: public
   uploads: public/images
@@ -44,6 +60,7 @@ collections_config:
     schema_key: _schema
     disable_add: true
     disable_add_folder: true
+    disable_file_actions: true
     _enabled_editors:
       - visual
       - data
@@ -71,25 +88,60 @@ collections_config:
         path: src/content/pages/faq.yml
         name: FAQ
         icon: help
+        preview: &marketing_page_preview
+          text: [{ key: pageTitle }, Marketing page]
+          subtext: [{ key: permalink }]
         _inputs:
+          'sections[*]':
+            type: object
+            options:
+              preview:
+                icon: article
+          'sections[*].items':
+            type: array
+            options:
+              structures: _structures.page_sections_items
+              min_items: 1
+          'pricing.features':
+            type: array
+            options:
+              structures: _structures.page_origin_paragraphs
+              min_items: 1
+          'closer.ctas':
+            type: array
+            options:
+              structures: _structures.page_closer_ctas
+              min_items: 1
+          'closer.quotes':
+            type: array
+            options:
+              structures: _structures.page_closer_quotes
+              min_items: 1
           hero:
             type: object
             options:
+              structures: _structures.page_faq_hero_object
               preview:
                 icon: title
           sections:
             type: array
             options:
               structures: _structures.page_faq_sections
-              min_items: 1
+              min_items: 12
+              max_items: 12
+              disable_add: true
+              disable_remove: true
+              disable_reorder: true
           pricing:
             type: object
             options:
+              structures: _structures.page_faq_pricing_object
               preview:
                 icon: sell
           closer:
             type: object
             options:
+              structures: _structures.page_faq_closer_object
               preview:
                 icon: format_quote
           features:
@@ -115,7 +167,31 @@ collections_config:
         path: src/content/pages/contact.yml
         name: Contact
         icon: contact_mail
+        preview: *marketing_page_preview
         _inputs:
+          '$.email':
+            type: object
+            options:
+              structures: _structures.page_contact_email_object
+              preview:
+                icon: article
+          'hero':
+            type: object
+            options:
+              structures: _structures.page_contact_hero_object
+              preview:
+                icon: article
+          'form':
+            type: object
+            options:
+              structures: _structures.page_contact_form_object
+              preview:
+                icon: article
+          'email.items':
+            type: array
+            options:
+              structures: _structures.page_email_items
+              min_items: 1
           blurb:
             type: textarea
           confirmation:
@@ -126,7 +202,202 @@ collections_config:
         path: src/content/pages/platform.yml
         name: Platform
         icon: devices
+        preview: *marketing_page_preview
         _inputs:
+          '$.research':
+            type: object
+            options:
+              structures: _structures.page_platform_research_object
+              preview:
+                icon: article
+          'hero':
+            type: object
+            options:
+              structures: _structures.page_platform_hero_object
+              preview:
+                icon: article
+          'trust':
+            type: object
+            options:
+              structures: _structures.page_platform_trust_object
+              preview:
+                icon: article
+          'trust.logos':
+            type: array
+            options:
+              structures: _structures.page_origin_paragraphs
+              min_items: 1
+          'trio':
+            type: object
+            options:
+              structures: _structures.page_platform_trio_object
+              preview:
+                icon: article
+          'trio.cards':
+            type: array
+            options:
+              structures: _structures.page_trio_cards
+              min_items: 1
+              max_items: 3
+              disable_add: true
+              disable_remove: true
+              disable_reorder: true
+          'classroom':
+            type: object
+            options:
+              structures: _structures.page_platform_classroom_object
+              preview:
+                icon: article
+          'classroom.cards':
+            type: array
+            options:
+              structures: _structures.page_classroom_cards
+              min_items: 1
+              max_items: 2
+              disable_add: true
+              disable_remove: true
+              disable_reorder: true
+          'classroom.grid':
+            type: array
+            options:
+              structures: _structures.page_classroom_grid
+              min_items: 1
+          'district':
+            type: object
+            options:
+              structures: _structures.page_platform_district_object
+              preview:
+                icon: article
+          'district.cards':
+            type: array
+            options:
+              structures: _structures.page_classroom_cards
+              min_items: 1
+              max_items: 2
+              disable_add: true
+              disable_remove: true
+              disable_reorder: true
+          'district.grid':
+            type: array
+            options:
+              structures: _structures.page_classroom_grid
+              min_items: 1
+          'home':
+            type: object
+            options:
+              structures: _structures.page_platform_home_object
+              preview:
+                icon: article
+          'home.cards':
+            type: array
+            options:
+              structures: _structures.page_classroom_cards
+              min_items: 1
+              max_items: 2
+              disable_add: true
+              disable_remove: true
+              disable_reorder: true
+          'home.grid':
+            type: array
+            options:
+              structures: _structures.page_classroom_grid
+              min_items: 1
+          'signOn':
+            type: object
+            options:
+              structures: _structures.page_platform_signon_object
+              preview:
+                icon: article
+          'signOn.benefits':
+            type: array
+            options:
+              structures: _structures.page_classroom_grid
+              min_items: 1
+          'impact':
+            type: object
+            options:
+              structures: _structures.page_platform_impact_object
+              preview:
+                icon: article
+          'impact.toggle':
+            type: array
+            options:
+              structures: _structures.page_impact_toggle
+              min_items: 1
+              max_items: 2
+              disable_add: true
+              disable_remove: true
+              disable_reorder: true
+          'impact.groups.schools':
+            type: array
+            options:
+              structures: _structures.page_impact_groups_schools
+              min_items: 1
+              max_items: 3
+              disable_add: true
+              disable_remove: true
+              disable_reorder: true
+          'impact.groups.research':
+            type: array
+            options:
+              structures: _structures.page_impact_groups_schools
+              min_items: 1
+              max_items: 3
+              disable_add: true
+              disable_remove: true
+              disable_reorder: true
+          'research.outcomes':
+            type: array
+            options:
+              structures: _structures.page_research_outcomes
+              min_items: 1
+          'research.provenance':
+            type: array
+            options:
+              structures: _structures.page_origin_paragraphs
+              min_items: 1
+          'safety':
+            type: object
+            options:
+              structures: _structures.page_platform_safety_object
+              preview:
+                icon: article
+          'safety.cells':
+            type: array
+            options:
+              structures: _structures.page_classroom_grid
+              min_items: 1
+          'updates':
+            type: object
+            options:
+              structures: _structures.page_platform_updates_object
+              preview:
+                icon: article
+          'updates.stories':
+            type: array
+            options:
+              structures: _structures.page_updates_stories
+              min_items: 1
+          'cta':
+            type: object
+            options:
+              structures: _structures.page_platform_cta_object
+              preview:
+                icon: link
+          'cta.categories':
+            type: array
+            options:
+              structures: _structures.page_cta_categories
+              min_items: 1
+          'cta.categories[*].features':
+            type: array
+            options:
+              structures: _structures.page_cta_categories_features
+              min_items: 1
+              max_items: 3
+              disable_add: true
+              disable_remove: true
+              disable_reorder: true
           claimHtml:
             type: text
             comment: Inline HTML allowed — edit here rather than on the page.
@@ -149,7 +420,115 @@ collections_config:
         path: src/content/pages/research.yml
         name: Research
         icon: science
+        preview: *marketing_page_preview
         _inputs:
+          'opening':
+            type: object
+            options:
+              structures: _structures.page_research_opening_object
+              preview:
+                icon: article
+          'opening.lines':
+            type: array
+            options:
+              structures: _structures.page_origin_paragraphs
+              min_items: 1
+          'hero':
+            type: object
+            options:
+              structures: _structures.page_research_hero_object
+              preview:
+                icon: article
+          'hero.lines':
+            type: array
+            options:
+              structures: _structures.page_hero_lines
+              min_items: 1
+          'receipts':
+            type: object
+            options:
+              structures: _structures.page_research_receipts_object
+              preview:
+                icon: article
+          'studies':
+            type: array
+            options:
+              structures: _structures.page_studies
+              min_items: 1
+          'studies[*]':
+            type: object
+            options:
+              preview:
+                icon: article
+          'brain':
+            type: object
+            options:
+              structures: _structures.page_research_brain_object
+              preview:
+                icon: article
+          'brain.paragraphs':
+            type: array
+            options:
+              structures: _structures.page_origin_paragraphs
+              min_items: 1
+          'outcomesHead':
+            type: object
+            options:
+              structures: _structures.page_research_outcomeshead_object
+              preview:
+                icon: article
+          'outcomes':
+            type: array
+            options:
+              structures: _structures.page_outcomes
+              min_items: 1
+          'outcomes[*]':
+            type: object
+            options:
+              preview:
+                icon: article
+          'outcomes[*].studyIds':
+            type: array
+            options:
+              structures: _structures.page_origin_paragraphs
+              min_items: 1
+          'outcomes[*].data':
+            type: array
+            options:
+              structures: _structures.page_outcomes_data
+              min_items: 1
+          'endorsers':
+            type: object
+            options:
+              structures: _structures.page_research_endorsers_object
+              preview:
+                icon: article
+          'endorsers.items':
+            type: array
+            options:
+              structures: _structures.page_endorsers_items
+              min_items: 1
+          'voices':
+            type: array
+            options:
+              structures: _structures.page_voices
+              min_items: 1
+          'voices[*]':
+            type: object
+            options:
+              preview:
+                icon: format_quote
+          'cta':
+            type: object
+            options:
+              structures: _structures.page_research_cta_object
+              preview:
+                icon: link
+          'cta.lines':
+            type: array
+            options:
+              structures: _structures.page_hero_lines
+              min_items: 1
           headingHtml:
             type: text
             comment: Inline HTML allowed — edit here rather than on the page.
@@ -168,7 +547,132 @@ collections_config:
         path: src/content/pages/about.yml
         name: About
         icon: groups
+        preview: *marketing_page_preview
         _inputs:
+          'stats[*]':
+            type: object
+            options:
+              structures: _structures.page_about_stats_item
+              preview:
+                icon: article
+          'hero':
+            type: object
+            options:
+              structures: _structures.page_about_hero_object
+              preview:
+                icon: article
+          'hero.meta':
+            type: array
+            options:
+              structures: _structures.page_hero_meta
+              min_items: 1
+              max_items: 4
+              disable_add: true
+              disable_remove: true
+              disable_reorder: true
+          'mission':
+            type: object
+            options:
+              structures: _structures.page_about_mission_object
+              preview:
+                icon: article
+          'origin':
+            type: object
+            options:
+              structures: _structures.page_about_origin_object
+              preview:
+                icon: article
+          'origin.paragraphs':
+            type: array
+            options:
+              structures: _structures.page_origin_paragraphs
+              min_items: 1
+          'timeline':
+            type: object
+            options:
+              structures: _structures.page_about_timeline_object
+              preview:
+                icon: article
+          'timeline.railYears':
+            type: array
+            options:
+              structures: _structures.page_origin_paragraphs
+              min_items: 1
+              max_items: 8
+              disable_add: true
+              disable_remove: true
+              disable_reorder: true
+          'timeline.entries':
+            type: array
+            options:
+              structures: _structures.page_timeline_entries
+              min_items: 1
+          'pioneer':
+            type: object
+            options:
+              structures: _structures.page_about_pioneer_object
+              preview:
+                icon: article
+          'pioneer.stats':
+            type: array
+            options:
+              structures: _structures.page_pioneer_stats
+              min_items: 1
+          'pioneer.studies':
+            type: array
+            options:
+              structures: _structures.page_pioneer_studies
+              min_items: 1
+          'voices':
+            type: object
+            options:
+              structures: _structures.page_about_voices_object
+              preview:
+                icon: format_quote
+          'voices.items':
+            type: array
+            options:
+              structures: _structures.page_voices_items
+              min_items: 1
+          'team':
+            type: object
+            options:
+              structures: _structures.page_about_team_object
+              preview:
+                icon: article
+          'team.people':
+            type: array
+            options:
+              structures: _structures.page_team_people
+              min_items: 1
+          'partners':
+            type: object
+            options:
+              structures: _structures.page_about_partners_object
+              preview:
+                icon: article
+          'partners.items':
+            type: array
+            options:
+              structures: _structures.page_partners_items
+              min_items: 1
+          'principles':
+            type: object
+            options:
+              structures: _structures.page_about_principles_object
+              preview:
+                icon: article
+          'principles.items':
+            type: array
+            options:
+              structures: _structures.page_principles_items
+              min_items: 1
+          'cta':
+            type: object
+            options:
+              structures: _structures.page_about_cta_object
+              preview:
+                icon: link
           findHtml:
             type: text
             comment: Inline HTML allowed — edit here rather than on the page.
@@ -193,7 +697,43 @@ collections_config:
         path: src/content/pages/narrators-index.yml
         name: Narrators (index)
         icon: record_voice_over
+        preview: *marketing_page_preview
         _inputs:
+          'hero':
+            type: object
+            options:
+              structures: _structures.page_narrators_index_hero_object
+              preview:
+                icon: article
+          'metaStrip':
+            type: object
+            options:
+              structures: _structures.page_narrators_index_metastrip_object
+              preview:
+                icon: article
+          'toolbar':
+            type: object
+            options:
+              structures: _structures.page_narrators_index_toolbar_object
+              preview:
+                icon: article
+          'momentsRail':
+            type: object
+            options:
+              structures: _structures.page_narrators_index_momentsrail_object
+              preview:
+                icon: article
+          'momentsRail.moments':
+            type: array
+            options:
+              structures: _structures.page_momentsrail_moments
+              min_items: 1
+          'coda':
+            type: object
+            options:
+              structures: _structures.page_narrators_index_coda_object
+              preview:
+                icon: article
           headingHtml:
             type: text
             comment: Inline HTML allowed — edit here rather than on the page.
@@ -209,7 +749,241 @@ collections_config:
         path: src/content/pages/districts.yml
         name: Districts
         icon: school
+        preview: *marketing_page_preview
         _inputs:
+          '$.funding':
+            type: object
+            options:
+              structures: _structures.page_districts_funding_object
+              preview:
+                icon: article
+          '$.voices':
+            type: object
+            options:
+              structures: _structures.page_districts_voices_object
+              preview:
+                icon: article
+          '$.lede':
+            type: object
+            options:
+              structures: _structures.page_districts_lede_object
+              preview:
+                icon: article
+          'hero':
+            type: object
+            options:
+              structures: _structures.page_districts_hero_object
+              preview:
+                icon: article
+          'hero.serialChips':
+            type: array
+            options:
+              structures: _structures.page_hero_serialchips
+              min_items: 1
+          'hero.headlineLines':
+            type: array
+            options:
+              structures: _structures.page_hero_headlinelines
+              min_items: 1
+          'hero.stats':
+            type: array
+            options:
+              structures: _structures.page_hero_stats
+              min_items: 4
+              max_items: 4
+              disable_add: true
+              disable_remove: true
+              disable_reorder: true
+          'trustStrip':
+            type: object
+            options:
+              structures: _structures.page_districts_truststrip_object
+              preview:
+                icon: article
+          'trustStrip.districts':
+            type: array
+            options:
+              structures: _structures.page_origin_paragraphs
+              min_items: 1
+              max_items: 8
+              disable_add: true
+              disable_remove: true
+              disable_reorder: true
+          'fieldReports':
+            type: object
+            options:
+              structures: _structures.page_districts_fieldreports_object
+              preview:
+                icon: article
+          'fieldReports.reports':
+            type: array
+            options:
+              structures: _structures.page_fieldreports_reports
+              min_items: 1
+          'fieldReports.reports[*].metrics':
+            type: array
+            options:
+              structures: _structures.page_hero_stats
+              min_items: 1
+          'byTheNumbers':
+            type: object
+            options:
+              structures: _structures.page_districts_bythenumbers_object
+              preview:
+                icon: article
+          'byTheNumbers.small':
+            type: array
+            options:
+              structures: _structures.page_bythenumbers_small
+              min_items: 1
+          'byTheNumbers.citations':
+            type: array
+            options:
+              structures: _structures.page_bythenumbers_citations
+              min_items: 1
+          'dayInside':
+            type: object
+            options:
+              structures: _structures.page_districts_dayinside_object
+              preview:
+                icon: article
+          'dayInside.titleLines':
+            type: array
+            options:
+              structures: _structures.page_dayinside_titlelines
+              min_items: 1
+              max_items: 2
+              disable_add: true
+              disable_remove: true
+              disable_reorder: true
+          'dayInside.parts':
+            type: array
+            options:
+              structures: _structures.page_dayinside_parts
+              min_items: 1
+          'voices.voices':
+            type: array
+            options:
+              structures: _structures.page_voices_voices
+              min_items: 1
+          'standards':
+            type: object
+            options:
+              structures: _structures.page_districts_standards_object
+              preview:
+                icon: article
+          'standards.competencies':
+            type: array
+            options:
+              structures: _structures.page_standards_competencies
+              min_items: 1
+          'standards.competencies[*].mapped':
+            type: array
+            options:
+              structures: _structures.page_origin_paragraphs
+              min_items: 1
+          'standards.pills':
+            type: array
+            options:
+              structures: _structures.page_origin_paragraphs
+              min_items: 1
+          'compare':
+            type: object
+            options:
+              structures: _structures.page_districts_compare_object
+              preview:
+                icon: article
+          'compare.columns':
+            type: array
+            options:
+              structures: _structures.page_compare_columns
+              min_items: 1
+              max_items: 4
+              disable_add: true
+              disable_remove: true
+              disable_reorder: true
+          'compare.rows':
+            type: array
+            options:
+              structures: _structures.page_compare_rows
+              min_items: 1
+          'compare.rows[*].cats':
+            type: array
+            options:
+              structures: _structures.page_origin_paragraphs
+              min_items: 1
+          'funding.funding':
+            type: array
+            options:
+              structures: _structures.page_funding_funding
+              min_items: 1
+          'implementation':
+            type: object
+            options:
+              structures: _structures.page_districts_implementation_object
+              preview:
+                icon: article
+          'implementation.steps':
+            type: array
+            options:
+              structures: _structures.page_implementation_steps
+              min_items: 1
+              max_items: 6
+              disable_add: true
+              disable_remove: true
+              disable_reorder: true
+          'security':
+            type: object
+            options:
+              structures: _structures.page_districts_security_object
+              preview:
+                icon: article
+          'security.items':
+            type: array
+            options:
+              structures: _structures.page_security_items
+              min_items: 1
+          'security.awards':
+            type: array
+            options:
+              structures: _structures.page_security_awards
+              min_items: 1
+              max_items: 5
+              disable_add: true
+              disable_remove: true
+              disable_reorder: true
+          'faq':
+            type: object
+            options:
+              structures: _structures.page_districts_faq_object
+              preview:
+                icon: help
+          'faq.items':
+            type: array
+            options:
+              structures: _structures.page_faq_items
+              min_items: 1
+          'cta':
+            type: object
+            options:
+              structures: _structures.page_districts_cta_object
+              preview:
+                icon: link
+          'cta.headlineLines':
+            type: array
+            options:
+              structures: _structures.page_hero_headlinelines
+              min_items: 1
+          'cta.assurances':
+            type: array
+            options:
+              structures: _structures.page_cta_assurances
+              min_items: 1
+          'cta.sideCard.items':
+            type: array
+            options:
+              structures: _structures.page_origin_paragraphs
+              min_items: 1
           bodyHtml:
             type: text
             comment: Inline HTML allowed — edit here rather than on the page.
@@ -222,7 +996,7 @@ collections_config:
             type: textarea
           body:
             type: textarea
-          intro:
+          '$.intro':
             type: textarea
           quote:
             type: textarea
@@ -232,7 +1006,60 @@ collections_config:
         path: src/content/pages/pricing.yml
         name: Pricing
         icon: sell
+        preview: *marketing_page_preview
         _inputs:
+          'hero':
+            type: object
+            options:
+              structures: _structures.page_pricing_hero_object
+              preview:
+                icon: article
+          'plans':
+            type: object
+            options:
+              structures: _structures.page_pricing_plans_object
+              preview:
+                icon: article
+          'plans.items':
+            type: array
+            options:
+              structures: _structures.page_plans_items
+              min_items: 1
+              max_items: 3
+              disable_add: true
+              disable_remove: true
+              disable_reorder: true
+          'compare':
+            type: object
+            options:
+              structures: _structures.page_pricing_compare_object
+              preview:
+                icon: article
+          'compare.groups':
+            type: array
+            options:
+              structures: _structures.page_compare_groups
+              min_items: 1
+          'compare.groups[*].rows':
+            type: array
+            options:
+              structures: _structures.page_compare_groups_rows
+              min_items: 1
+          'compare.groups[*].rows[*].cells':
+            type: array
+            options:
+              structures: _structures.page_compare_groups_rows_cells
+              min_items: 1
+              max_items: 3
+              disable_add: true
+              disable_remove: true
+              disable_reorder: true
+          'cta':
+            type: object
+            options:
+              structures: _structures.page_pricing_cta_object
+              preview:
+                icon: link
           titleHtml:
             type: text
             comment: Inline HTML allowed — edit here rather than on the page.
@@ -250,11 +1077,188 @@ collections_config:
         path: src/content/pages/newsroom.yml
         name: Newsroom
         icon: newspaper
+        preview: *marketing_page_preview
+        _inputs:
+          'hero':
+            type: object
+            options:
+              structures: _structures.page_newsroom_hero_object
+              preview:
+                icon: article
+          'cta':
+            type: object
+            options:
+              structures: _structures.page_newsroom_cta_object
+              preview:
+                icon: link
       home:
         path: src/content/pages/home.yml
         name: Home
         icon: home
+        preview: *marketing_page_preview
         _inputs:
+          '$.intro':
+            type: object
+            options:
+              structures: _structures.page_home_intro_object
+              preview:
+                icon: article
+          'liveNow':
+            type: object
+            options:
+              structures: _structures.page_home_livenow_object
+              preview:
+                icon: article
+          'liveNow.captions':
+            type: array
+            options:
+              structures: _structures.page_origin_paragraphs
+              min_items: 1
+          'liveNow.stats':
+            type: array
+            options:
+              structures: _structures.page_livenow_stats
+              min_items: 1
+          'whyNow':
+            type: object
+            options:
+              structures: _structures.page_home_whynow_object
+              preview:
+                icon: article
+          'whyNow.stats':
+            type: array
+            options:
+              structures: _structures.page_whynow_stats
+              min_items: 1
+          'audiences':
+            type: object
+            options:
+              structures: _structures.page_home_audiences_object
+              preview:
+                icon: article
+          'audiences.educator.points':
+            type: array
+            options:
+              structures: _structures.page_origin_paragraphs
+              min_items: 1
+          'audiences.district.points':
+            type: array
+            options:
+              structures: _structures.page_origin_paragraphs
+              min_items: 1
+          'audiences.district.dashboard.rows':
+            type: array
+            options:
+              structures: _structures.page_audiences_district_dashboard_rows
+              min_items: 1
+          'audiences.district.dashboard.stats':
+            type: array
+            options:
+              structures: _structures.page_hero_meta
+              min_items: 1
+          'howItWorks':
+            type: object
+            options:
+              structures: _structures.page_home_howitworks_object
+              preview:
+                icon: article
+          'howItWorks.steps':
+            type: array
+            options:
+              structures: _structures.page_howitworks_steps
+              min_items: 3
+              max_items: 3
+              disable_add: true
+              disable_remove: true
+              disable_reorder: true
+          'gradeBands':
+            type: object
+            options:
+              structures: _structures.page_home_gradebands_object
+              preview:
+                icon: article
+          'gradeBands.bands':
+            type: array
+            options:
+              structures: _structures.page_gradebands_bands
+              min_items: 4
+              max_items: 4
+              disable_add: true
+              disable_remove: true
+              disable_reorder: true
+          'proof':
+            type: object
+            options:
+              structures: _structures.page_home_proof_object
+              preview:
+                icon: article
+          'proof.trend':
+            type: array
+            options:
+              structures: _structures.page_origin_paragraphs
+              min_items: 1
+          'proof.support':
+            type: array
+            options:
+              structures: _structures.page_proof_support
+              min_items: 1
+          'proof.pills':
+            type: array
+            options:
+              structures: _structures.page_proof_pills
+              min_items: 1
+          'stories':
+            type: object
+            options:
+              structures: _structures.page_home_stories_object
+              preview:
+                icon: article
+          'stories.portraits':
+            type: array
+            options:
+              structures: _structures.page_stories_portraits
+              min_items: 8
+              max_items: 8
+              disable_add: true
+              disable_remove: true
+              disable_reorder: true
+          'stories.statCards':
+            type: array
+            options:
+              structures: _structures.page_stories_statcards
+              min_items: 4
+              max_items: 4
+              disable_add: true
+              disable_remove: true
+              disable_reorder: true
+          'sample':
+            type: object
+            options:
+              structures: _structures.page_home_sample_object
+              preview:
+                icon: article
+          'funding':
+            type: object
+            options:
+              structures: _structures.page_home_funding_object
+              preview:
+                icon: article
+          'funding.cards':
+            type: array
+            options:
+              structures: _structures.page_security_items
+              min_items: 1
+          'bringIt':
+            type: object
+            options:
+              structures: _structures.page_home_bringit_object
+              preview:
+                icon: article
+          'bringIt.pills':
+            type: array
+            options:
+              structures: _structures.page_origin_paragraphs
+              min_items: 1
           body:
             type: textarea
           lede:
@@ -265,11 +1269,32 @@ collections_config:
         path: src/content/pages/blog-index.yml
         name: Blog (index)
         icon: post_add
+        preview: *marketing_page_preview
+        _inputs:
+          'hero':
+            type: object
+            options:
+              structures: _structures.page_blog_index_hero_object
+              preview:
+                icon: article
       case-studies-index:
         path: src/content/pages/case-studies-index.yml
         name: Case studies (index)
         icon: menu_book
+        preview: *marketing_page_preview
         _inputs:
+          'hero':
+            type: object
+            options:
+              structures: _structures.page_case_studies_index_hero_object
+              preview:
+                icon: article
+          'cta':
+            type: object
+            options:
+              structures: _structures.page_case_studies_index_cta_object
+              preview:
+                icon: link
           intro:
             type: textarea
           subtitle:
@@ -282,6 +1307,7 @@ collections_config:
         path: src/content/pages/privacy-policy.yml
         name: Privacy policy
         icon: gavel
+        preview: *marketing_page_preview
         _inputs:
           eyebrow:
             type: text
@@ -343,12 +1369,14 @@ collections_config:
       category:
         type: select
         options:
-          allow_create: true
           values: _select_data.blog_categories
+      heroImageFit:
+        type: select
+        options:
+          values: [cover, contain]
       tags:
         type: multiselect
         options:
-          allow_create: true
           values: _select_data.blog_tags
       quickRead:
         type: object
@@ -503,6 +1531,7 @@ collections_config:
         path: .cloudcannon/schemas/help-article.md
         name: Help article
         new_preview_url: /help/welcome/
+        remove_empty_inputs: true
     add_options:
       - name: Help article
         schema: default
@@ -553,6 +1582,7 @@ collections_config:
         path: .cloudcannon/schemas/narrator.yml
         name: Narrator
         new_preview_url: /narrators/maya-castellanos/
+        remove_empty_inputs: true
     add_options:
       - name: Narrator
         schema: default
@@ -565,6 +1595,17 @@ collections_config:
           structures: _structures.narrator_quote
           preview:
             icon: format_quote
+      photo:
+        type: image
+        label: Portrait photo
+        comment: Required. A narrator is not published as a profile until this portrait is present.
+        options:
+          paths:
+            uploads: /src/assets/images/narrators
+            static: ''
+            uploads_use_relative_path: true
+          required: true
+          required_message: Add a portrait before saving this narrator.
       voiceIntro:
         type: object
         options:
@@ -586,7 +1627,10 @@ collections_config:
       langs:
         type: multiselect
         options:
-          allow_create: true
+          value_key: id
+          preview:
+            text:
+              - key: name
           values: _select_data.languages
 
   series:
@@ -728,6 +1772,8 @@ collections_config:
       - help-ui.json
     icon: settings
     disable_add: true
+    disable_add_folder: true
+    disable_file_actions: true
     disable_url: true
     _enabled_editors:
       - data
@@ -912,18 +1958,28 @@ file_config:
 
 _select_data:
   blog_categories:
+    - Leadership
+    - Student Voices
     - Research
     - Practice
     - News
     - Resources
   blog_tags:
     - Administrators
+    - Classroom
+    - Coaches
+    - District Leadership
     - Districts
     - Educators
+    - Impact
+    - MTSS
+    - Mental Performance
     - Mental Health
     - Mindfulness
+    - Practice
     - Research
     - SEL
+    - Student Athletes
   # Mirrors helpGroups in src/lib/help.ts (ids + labels + order) and the `group`
   # z.enum in src/lib/help-collection.ts. All three must agree: a value missing here
   # shows the editor a select with no matching option, and saving silently
@@ -942,9 +1998,30 @@ _select_data:
     - name: Policies
       id: policies
   languages:
-    - English
-    - Spanish
-    - Portuguese
+    - name: English
+      id: EN
+    - name: Spanish
+      id: ES
+    - name: Portuguese
+      id: PT
+    - name: Swedish
+      id: SV
+    - name: Arabic
+      id: AR
+    - name: Urdu
+      id: UR
+    - name: Mandarin Chinese
+      id: ZH
+    - name: French
+      id: FR
+    - name: Korean
+      id: KO
+    - name: Japanese
+      id: JA
+    - name: Italian
+      id: IT
+    - name: Persian (Farsi)
+      id: FA
   # Mirrors the seriesIcon z.enum in src/content.config.ts. Without this the icon
   # field is free text in the editor and any typo fails the Astro build.
   series_icons:
@@ -992,10 +2069,19 @@ _inputs:
     type: switch
   pubDate:
     type: datetime
+    instance_value: NOW
+    options:
+      required: true
+      required_message: Add a publication date before saving.
   updatedDate:
     type: datetime
+    instance_value: NOW
   publishedDate:
     type: datetime
+    instance_value: NOW
+    options:
+      required: true
+      required_message: Add a publication date before saving.
   title:
     type: text
   name:
@@ -1050,7 +2136,7 @@ _inputs:
     type: number
   heroImage: &optimized_image
     type: image
-    options:
+    options: &optimized_image_options
       paths:
         uploads: /src/assets/images
         static: ''
@@ -1417,6 +2503,16 @@ _structures:
           published: ''
           heroImage: ''
           heroImageAlt: ''
+        _inputs:
+          heroImage: &required_optimized_image
+            type: image
+            options:
+              paths:
+                uploads: /src/assets/images
+                static: ''
+                uploads_use_relative_path: true
+              required: true
+              required_message: Choose an image before saving.
   district:
     style: modal
     values:
@@ -1464,6 +2560,7 @@ _structures:
             value: ''
             label: ''
         _inputs:
+          image: *required_optimized_image
           body:
             type: array
             options:
@@ -1800,6 +2897,8 @@ _structures:
         value:
           src: ''
           alt: ''
+        _inputs:
+          src: *required_optimized_image
   gallery:
     style: modal
     values:
@@ -1959,6 +3058,7 @@ _structures:
             label: ''
             href: ''
         _inputs:
+          image: *required_optimized_image
           primaryCta:
             type: object
             options:
@@ -2046,6 +3146,8 @@ _structures:
           duration: ''
           image: ''
           blurb: ''
+        _inputs:
+          image: *required_optimized_image
   series_practices:
     style: modal
     values:
@@ -2127,6 +3229,8 @@ _structures:
           narrator: ''
           description: ''
           image: ''
+        _inputs:
+          image: *required_optimized_image
   series_testimonial:
     style: modal
     values:
@@ -2299,6 +3403,2886 @@ _structures:
           content:
             type: textarea
 
+  page_hero_meta:
+    style: modal
+    values:
+      - label: About Hero Meta item
+        icon: article
+        picker_preview:
+          text: [About Hero Meta item]
+          icon: [article]
+        preview:
+          text: [{ key: label }, About Hero Meta item]
+          icon: [article]
+        value:
+          label: ''
+          value: ''
+  page_stats:
+    style: modal
+    values:
+      - label: About Stats item
+        icon: monitoring
+        picker_preview:
+          text: [About Stats item]
+          icon: [monitoring]
+        preview:
+          text: [{ key: label }, About Stats item]
+          icon: [monitoring]
+        value:
+          value: ''
+          sup: ''
+          label: ''
+          sub: ''
+  page_origin_paragraphs:
+    style: modal
+    values:
+      - label: About Origin Paragraphs item
+        icon: article
+        picker_preview:
+          text: [About Origin Paragraphs item]
+          icon: [article]
+        preview:
+          text: [About Origin Paragraphs item]
+          icon: [article]
+        value: ''
+  page_timeline_entries:
+    style: modal
+    values:
+      - label: About Timeline Entries item
+        icon: article
+        picker_preview:
+          text: [About Timeline Entries item]
+          icon: [article]
+        preview:
+          text: [{ key: title }, About Timeline Entries item]
+          icon: [article]
+        value:
+          year: 0
+          node:
+            yr: ''
+            sub: ''
+          tag:
+            label: ''
+            variant: milestone
+          title: ''
+          body: ''
+          pullHtml: ''
+          image:
+            src: ''
+            alt: ''
+            caption: ''
+          highlight: false
+        _inputs:
+          year:
+            type: number
+          node:
+            type: object
+            options:
+              preview:
+                icon: article
+          tag:
+            type: object
+            options:
+              preview:
+                icon: article
+          tag.variant:
+            type: select
+            options:
+              values: [milestone, research, partner, global]
+          image:
+            type: object
+            options:
+              preview:
+                icon: image
+          image.src: *required_optimized_image
+          highlight:
+            type: switch
+  page_pioneer_stats:
+    style: modal
+    values:
+      - label: About Pioneer Stats item
+        icon: monitoring
+        picker_preview:
+          text: [About Pioneer Stats item]
+          icon: [monitoring]
+        preview:
+          text: [About Pioneer Stats item]
+          icon: [monitoring]
+        value:
+          n: ''
+          l: ''
+  page_pioneer_studies:
+    style: modal
+    values:
+      - label: About Pioneer Studies item
+        icon: article
+        picker_preview:
+          text: [About Pioneer Studies item]
+          icon: [article]
+        preview:
+          text: [{ key: title }, About Pioneer Studies item]
+          icon: [article]
+        value:
+          yr: ''
+          pub: ''
+          title: ''
+          findHtml: ''
+  page_voices_items:
+    style: modal
+    values:
+      - label: About Voices Items item
+        icon: format_quote
+        picker_preview:
+          text: [About Voices Items item]
+          icon: [format_quote]
+        preview:
+          text: [{ key: name }, About Voices Items item]
+          icon: [format_quote]
+        value:
+          quote: ''
+          name: ''
+          role: ''
+          avatar: ''
+          featured: false
+          bg: ''
+        _inputs:
+          featured:
+            type: switch
+          avatar: *required_optimized_image
+          bg: *optimized_image
+  page_team_people:
+    style: modal
+    values:
+      - label: About Team People item
+        icon: article
+        picker_preview:
+          text: [About Team People item]
+          icon: [article]
+        preview:
+          text: [{ key: name }, About Team People item]
+          icon: [article]
+        value:
+          name: ''
+          role: ''
+          location: ''
+          pin: ''
+          founder: false
+          photo: ''
+        _inputs:
+          founder:
+            type: switch
+  page_partners_items:
+    style: modal
+    values:
+      - label: About Partners Items item
+        icon: article
+        picker_preview:
+          text: [About Partners Items item]
+          icon: [article]
+        preview:
+          text: [{ key: name }, About Partners Items item]
+          icon: [article]
+        value:
+          name: ''
+          sub: ''
+  page_principles_items:
+    style: modal
+    values:
+      - label: About Principles Items item
+        icon: article
+        picker_preview:
+          text: [About Principles Items item]
+          icon: [article]
+        preview:
+          text: [{ key: title }, About Principles Items item]
+          icon: [article]
+        value:
+          num: ''
+          title: ''
+          body: ''
+  page_email_items:
+    style: modal
+    values:
+      - label: Contact Email Items item
+        icon: article
+        picker_preview:
+          text: [Contact Email Items item]
+          icon: [article]
+        preview:
+          text: [{ key: label }, Contact Email Items item]
+          icon: [article]
+        value:
+          label: ''
+          email: ''
+          description: ''
+  page_hero_serialchips:
+    style: modal
+    values:
+      - label: Districts Hero SerialChips item
+        icon: article
+        picker_preview:
+          text: [Districts Hero SerialChips item]
+          icon: [article]
+        preview:
+          text: [{ key: text }, Districts Hero SerialChips item]
+          icon: [article]
+        value:
+          text: ''
+          dim: false
+        _inputs:
+          dim:
+            type: switch
+  page_hero_headlinelines:
+    style: modal
+    values:
+      - label: Districts Hero HeadlineLines item
+        icon: article
+        picker_preview:
+          text: [Districts Hero HeadlineLines item]
+          icon: [article]
+        preview:
+          text: [{ key: text }, Districts Hero HeadlineLines item]
+          icon: [article]
+        value:
+          text: ''
+          kind: serif
+          tone: accent
+        _inputs:
+          kind:
+            type: select
+            options:
+              values: [serif, sans]
+          tone:
+            type: select
+            options:
+              values: [default, accent]
+  page_hero_stats:
+    style: modal
+    values:
+      - label: Districts Hero Stats item
+        icon: monitoring
+        picker_preview:
+          text: [Districts Hero Stats item]
+          icon: [monitoring]
+        preview:
+          text: [{ key: label }, Districts Hero Stats item]
+          icon: [monitoring]
+        value:
+          value: ''
+          label: ''
+          sub: ''
+  page_fieldreports_reports:
+    style: modal
+    values:
+      - label: Districts FieldReports Reports item
+        icon: article
+        picker_preview:
+          text: [Districts FieldReports Reports item]
+          icon: [article]
+        preview:
+          text: [Districts FieldReports Reports item]
+          icon: [article]
+        value:
+          n: ''
+          district: ''
+          schools: 0
+          students: ''
+          photo: ''
+          photoAlt: ''
+          photoCaption: ''
+          headline: ''
+          quote: ''
+          who: ''
+          role: ''
+          metrics: []
+          funding: ''
+        _inputs:
+          schools:
+            type: number
+          metrics:
+            type: array
+            options:
+              structures: _structures.page_hero_stats
+          photo: *required_optimized_image
+  page_bythenumbers_small:
+    style: modal
+    values:
+      - label: Districts ByTheNumbers Small item
+        icon: article
+        picker_preview:
+          text: [Districts ByTheNumbers Small item]
+          icon: [article]
+        preview:
+          text: [{ key: label }, Districts ByTheNumbers Small item]
+          icon: [article]
+        value:
+          label: ''
+          value: ''
+          unit: ''
+          caption: ''
+          source: ''
+  page_bythenumbers_citations:
+    style: modal
+    values:
+      - label: Districts ByTheNumbers Citations item
+        icon: article
+        picker_preview:
+          text: [Districts ByTheNumbers Citations item]
+          icon: [article]
+        preview:
+          text: [{ key: label }, Districts ByTheNumbers Citations item]
+          icon: [article]
+        value:
+          label: ''
+          emphasis: ''
+          body: ''
+          cite: ''
+  page_dayinside_titlelines:
+    style: modal
+    values:
+      - label: Districts DayInside TitleLines item
+        icon: article
+        picker_preview:
+          text: [Districts DayInside TitleLines item]
+          icon: [article]
+        preview:
+          text: [{ key: text }, Districts DayInside TitleLines item]
+          icon: [article]
+        value:
+          text: ''
+          kind: serif
+        _inputs:
+          kind:
+            type: select
+            options:
+              values: [serif, sans]
+  page_dayinside_parts:
+    style: modal
+    values:
+      - label: Districts DayInside Parts item
+        icon: article
+        picker_preview:
+          text: [Districts DayInside Parts item]
+          icon: [article]
+        preview:
+          text: [{ key: title }, Districts DayInside Parts item]
+          icon: [article]
+        value:
+          time: ''
+          photo: ''
+          photoAlt: ''
+          title: ''
+          body: ''
+          practice: ''
+          statValue: ''
+          statLabel: ''
+        _inputs:
+          photo: *required_optimized_image
+  page_voices_voices:
+    style: modal
+    values:
+      - label: Districts Voices Voices item
+        icon: format_quote
+        picker_preview:
+          text: [Districts Voices Voices item]
+          icon: [format_quote]
+        preview:
+          text: [Districts Voices Voices item]
+          icon: [format_quote]
+        value:
+          quote: ''
+          who: ''
+          role: ''
+          photo: ''
+          photoAlt: ''
+        _inputs:
+          photo: *required_optimized_image
+  page_standards_competencies:
+    style: modal
+    values:
+      - label: Districts Standards Competencies item
+        icon: article
+        picker_preview:
+          text: [Districts Standards Competencies item]
+          icon: [article]
+        preview:
+          text: [{ key: name }, Districts Standards Competencies item]
+          icon: [article]
+        value:
+          id: ''
+          name: ''
+          blurb: ''
+          mapped: []
+          sessions: 0
+        _inputs:
+          mapped:
+            type: array
+            options:
+              structures: _structures.page_origin_paragraphs
+          sessions:
+            type: number
+  page_compare_columns:
+    style: modal
+    values:
+      - label: Districts Compare Columns item
+        icon: article
+        picker_preview:
+          text: [Districts Compare Columns item]
+          icon: [article]
+        preview:
+          text: [{ key: label }, Districts Compare Columns item]
+          icon: [article]
+        value:
+          id: ie
+          label: ''
+          highlight: false
+          note: ''
+        _inputs:
+          highlight:
+            type: switch
+          id:
+            type: select
+            options:
+              values: [ie, apps, sel, free]
+  page_compare_rows:
+    style: modal
+    values:
+      - label: Districts Compare Rows item
+        icon: article
+        picker_preview:
+          text: [Districts Compare Rows item]
+          icon: [article]
+        preview:
+          text: [{ key: feat }, Districts Compare Rows item]
+          icon: [article]
+        value:
+          feat: ''
+          ie: ''
+          apps: ''
+          sel: ''
+          free: ''
+          cats: []
+        _inputs:
+          cats:
+            type: array
+            options:
+              structures: _structures.page_origin_paragraphs
+  page_funding_funding:
+    style: modal
+    values:
+      - label: Districts Funding Funding item
+        icon: article
+        picker_preview:
+          text: [Districts Funding Funding item]
+          icon: [article]
+        preview:
+          text: [{ key: name }, Districts Funding Funding item]
+          icon: [article]
+        value:
+          id: ''
+          name: ''
+          fullName: ''
+          blurb: ''
+          coverage: 0
+        _inputs:
+          coverage:
+            type: number
+  page_implementation_steps:
+    style: modal
+    values:
+      - label: Districts Implementation Steps item
+        icon: article
+        picker_preview:
+          text: [Districts Implementation Steps item]
+          icon: [article]
+        preview:
+          text: [{ key: title }, Districts Implementation Steps item]
+          icon: [article]
+        value:
+          week: ''
+          title: ''
+          body: ''
+  page_security_items:
+    style: modal
+    values:
+      - label: Districts Security Items item
+        icon: article
+        picker_preview:
+          text: [Districts Security Items item]
+          icon: [article]
+        preview:
+          text: [{ key: title }, Districts Security Items item]
+          icon: [article]
+        value:
+          title: ''
+          body: ''
+  page_security_awards:
+    style: modal
+    values:
+      - label: Districts Security Awards item
+        icon: article
+        picker_preview:
+          text: [Districts Security Awards item]
+          icon: [article]
+        preview:
+          text: [{ key: name }, Districts Security Awards item]
+          icon: [article]
+        value:
+          name: ''
+          year: ''
+  page_faq_items:
+    style: modal
+    values:
+      - label: Districts Faq Items item
+        icon: help
+        picker_preview:
+          text: [Districts Faq Items item]
+          icon: [help]
+        preview:
+          text: [{ key: q }, Districts Faq Items item]
+          icon: [help]
+        value:
+          q: ''
+          a: ''
+  page_cta_assurances:
+    style: modal
+    values:
+      - label: Districts Cta Assurances item
+        icon: link
+        picker_preview:
+          text: [Districts Cta Assurances item]
+          icon: [link]
+        preview:
+          text: [{ key: text }, Districts Cta Assurances item]
+          icon: [link]
+        value:
+          text: ''
+  page_sections_items:
+    style: modal
+    values:
+      - label: Faq Sections Item Items item
+        icon: article
+        picker_preview:
+          text: [Faq Sections Item Items item]
+          icon: [article]
+        preview:
+          text: [{ key: q }, Faq Sections Item Items item]
+          icon: [article]
+        value:
+          q: ''
+          a: ''
+          open: false
+          aHtml: ''
+        _inputs:
+          open:
+            type: switch
+  page_closer_ctas:
+    style: modal
+    values:
+      - label: Faq Closer Ctas item
+        icon: link
+        picker_preview:
+          text: [Faq Closer Ctas item]
+          icon: [link]
+        preview:
+          text: [{ key: label }, Faq Closer Ctas item]
+          icon: [link]
+        value:
+          label: ''
+          href: ''
+          variant: primary
+        _inputs:
+          variant:
+            type: select
+            options:
+              values: [primary, ghost]
+  page_closer_quotes:
+    style: modal
+    values:
+      - label: Faq Closer Quotes item
+        icon: format_quote
+        picker_preview:
+          text: [Faq Closer Quotes item]
+          icon: [format_quote]
+        preview:
+          text: [Faq Closer Quotes item]
+          icon: [format_quote]
+        value:
+          stars: 0
+          body: ''
+          who: ''
+          where: ''
+        _inputs:
+          stars:
+            type: number
+  page_livenow_stats:
+    style: modal
+    values:
+      - label: Home LiveNow Stats item
+        icon: monitoring
+        picker_preview:
+          text: [Home LiveNow Stats item]
+          icon: [monitoring]
+        preview:
+          text: [{ key: label }, Home LiveNow Stats item]
+          icon: [monitoring]
+        value:
+          value: ''
+          sup: ''
+          label: ''
+  page_whynow_stats:
+    style: modal
+    values:
+      - label: Home WhyNow Stats item
+        icon: monitoring
+        picker_preview:
+          text: [Home WhyNow Stats item]
+          icon: [monitoring]
+        preview:
+          text: [{ key: value }, Home WhyNow Stats item]
+          icon: [monitoring]
+        value:
+          value: ''
+          body: ''
+  page_audiences_district_dashboard_rows:
+    style: modal
+    values:
+      - label: Home Audiences District Dashboard Rows item
+        icon: article
+        picker_preview:
+          text: [Home Audiences District Dashboard Rows item]
+          icon: [article]
+        preview:
+          text: [{ key: label }, Home Audiences District Dashboard Rows item]
+          icon: [article]
+        value:
+          label: ''
+          value: ''
+          fill: 0
+        _inputs:
+          fill:
+            type: number
+  page_howitworks_steps:
+    style: modal
+    values:
+      - label: Home HowItWorks Steps item
+        icon: article
+        picker_preview:
+          text: [Home HowItWorks Steps item]
+          icon: [article]
+        preview:
+          text: [{ key: title }, Home HowItWorks Steps item]
+          icon: [article]
+        value:
+          time: ''
+          n: ''
+          title: ''
+          body: ''
+          icon: ''
+        _inputs:
+          icon:
+            type: select
+            options:
+              values: [choose, play, reflect]
+  page_gradebands_bands:
+    style: modal
+    values:
+      - label: Home GradeBands Bands item
+        icon: article
+        picker_preview:
+          text: [Home GradeBands Bands item]
+          icon: [article]
+        preview:
+          text: [{ key: title }, Home GradeBands Bands item]
+          icon: [article]
+        value:
+          grade: ''
+          title: ''
+          body: ''
+          href: ''
+          tone: 0
+        _inputs:
+          tone:
+            type: number
+            options:
+              min: 0
+              max: 3
+              step: 1
+  page_proof_support:
+    style: modal
+    values:
+      - label: Home Proof Support item
+        icon: article
+        picker_preview:
+          text: [Home Proof Support item]
+          icon: [article]
+        preview:
+          text: [Home Proof Support item]
+          icon: [article]
+        value:
+          display: ''
+          count: 0
+          suffix: ''
+          caption: ''
+        _inputs:
+          count:
+            type: number
+  page_proof_pills:
+    style: modal
+    values:
+      - label: Home Proof Pills item
+        icon: article
+        picker_preview:
+          text: [Home Proof Pills item]
+          icon: [article]
+        preview:
+          text: [{ key: label }, Home Proof Pills item]
+          icon: [article]
+        value:
+          label: ''
+          icon: ''
+        _inputs:
+          icon:
+            type: select
+            options:
+              values: [check, star, shield]
+  page_stories_portraits:
+    style: modal
+    values:
+      - label: Home Stories Portraits item
+        icon: article
+        picker_preview:
+          text: [Home Stories Portraits item]
+          icon: [article]
+        preview:
+          text: [Home Stories Portraits item]
+          icon: [article]
+        value:
+          image: ''
+          alt: ''
+        _inputs:
+          image: *required_optimized_image
+  page_stories_statcards:
+    style: modal
+    values:
+      - label: Home Stories StatCards item
+        icon: monitoring
+        picker_preview:
+          text: [Home Stories StatCards item]
+          icon: [monitoring]
+        preview:
+          text: [{ key: label }, Home Stories StatCards item]
+          icon: [monitoring]
+        value:
+          value: ''
+          label: ''
+          tone: brand
+        _inputs:
+          tone:
+            type: select
+            options:
+              values: [brand, card]
+  page_momentsrail_moments:
+    style: modal
+    values:
+      - label: Narrators Index MomentsRail Moments item
+        icon: article
+        picker_preview:
+          text: [Narrators Index MomentsRail Moments item]
+          icon: [article]
+        preview:
+          text: [{ key: title }, Narrators Index MomentsRail Moments item]
+          icon: [article]
+        value:
+          img: ''
+          label: ''
+          title: ''
+          alt: ''
+        _inputs:
+          img: *required_optimized_image
+  page_trio_cards:
+    style: modal
+    values:
+      - label: Platform Trio Cards item
+        icon: article
+        picker_preview:
+          text: [Platform Trio Cards item]
+          icon: [article]
+        preview:
+          text: [{ key: name }, Platform Trio Cards item]
+          icon: [article]
+        value:
+          name: ''
+          desc: ''
+  page_classroom_cards:
+    style: modal
+    values:
+      - label: Platform Classroom Cards item
+        icon: article
+        picker_preview:
+          text: [Platform Classroom Cards item]
+          icon: [article]
+        preview:
+          text: [{ key: title }, Platform Classroom Cards item]
+          icon: [article]
+        value:
+          visual: immersive
+          label: ''
+          title: ''
+          text: ''
+        _inputs:
+          visual:
+            type: select
+            options:
+              values: [immersive, journal, dashHero, lineChart, phone, streak]
+  page_classroom_grid:
+    style: modal
+    values:
+      - label: Platform Classroom Grid item
+        icon: article
+        picker_preview:
+          text: [Platform Classroom Grid item]
+          icon: [article]
+        preview:
+          text: [{ key: title }, Platform Classroom Grid item]
+          icon: [article]
+        value:
+          icon: ''
+          title: ''
+          text: ''
+  page_impact_toggle:
+    style: modal
+    values:
+      - label: Platform Impact Toggle item
+        icon: article
+        picker_preview:
+          text: [Platform Impact Toggle item]
+          icon: [article]
+        preview:
+          text: [{ key: label }, Platform Impact Toggle item]
+          icon: [article]
+        value:
+          id: ''
+          label: ''
+  page_impact_groups_schools:
+    style: modal
+    values:
+      - label: Platform Impact Groups Schools item
+        icon: article
+        picker_preview:
+          text: [Platform Impact Groups Schools item]
+          icon: [article]
+        preview:
+          text: [{ key: title }, Platform Impact Groups Schools item]
+          icon: [article]
+        value:
+          tag: ''
+          title: ''
+          theme: forest
+        _inputs:
+          theme:
+            type: select
+            options:
+              values: [forest, dawn, dusk, water, calm, nature, space]
+  page_research_outcomes:
+    style: modal
+    values:
+      - label: Platform Research Outcomes item
+        icon: article
+        picker_preview:
+          text: [Platform Research Outcomes item]
+          icon: [article]
+        preview:
+          text: [{ key: label }, Platform Research Outcomes item]
+          icon: [article]
+        value:
+          id: ''
+          label: ''
+          statValue: ''
+          kicker: ''
+          sign: +
+          fig: 0
+          typ: 0
+          ie: 0
+          dir: ''
+          claimHtml: ''
+          src: ''
+        _inputs:
+          sign:
+            type: select
+            options:
+              values: [+, −]
+          fig:
+            type: number
+          typ:
+            type: number
+          ie:
+            type: number
+  page_updates_stories:
+    style: modal
+    values:
+      - label: Platform Updates Stories item
+        icon: article
+        picker_preview:
+          text: [Platform Updates Stories item]
+          icon: [article]
+        preview:
+          text: [{ key: title }, Platform Updates Stories item]
+          icon: [article]
+        value:
+          id: 0
+          cat: announcement
+          catLabel: ''
+          title: ''
+          excerpt: ''
+          date: ''
+          read: 0
+          pop: 0
+          href: ''
+          cover:
+            kind: mesh
+            tone: a
+            eyebrow: ''
+        _inputs:
+          id:
+            type: number
+          cat:
+            type: select
+            options:
+              values: [case-study, announcement, article, research, press]
+          read:
+            type: number
+          pop:
+            type: number
+          cover:
+            type: object
+            options:
+              preview:
+                icon: article
+          cover.kind:
+            type: select
+            hidden: true
+            options:
+              values: [mesh]
+          cover.tone:
+            type: select
+            options:
+              values: [a, b, c]
+  page_cta_categories:
+    style: modal
+    values:
+      - label: Platform Cta Categories item
+        icon: link
+        picker_preview:
+          text: [Platform Cta Categories item]
+          icon: [link]
+        preview:
+          text: [{ key: label }, Platform Cta Categories item]
+          icon: [link]
+        value:
+          id: ''
+          label: ''
+          features: []
+        _inputs:
+          features:
+            type: array
+            options:
+              structures: _structures.page_cta_categories_features
+  page_cta_categories_features:
+    style: modal
+    values:
+      - label: Platform Cta Categories Item Features item
+        icon: link
+        picker_preview:
+          text: [Platform Cta Categories Item Features item]
+          icon: [link]
+        preview:
+          text: [{ key: name }, Platform Cta Categories Item Features item]
+          icon: [link]
+        value:
+          name: ''
+          text: ''
+  page_plans_items:
+    style: modal
+    values:
+      - label: Pricing Plans Items item
+        icon: article
+        picker_preview:
+          text: [Pricing Plans Items item]
+          icon: [article]
+        preview:
+          text: [{ key: name }, Pricing Plans Items item]
+          icon: [article]
+        value:
+          id: ''
+          name: ''
+          price: ''
+          unit: ''
+          blurb: ''
+          ctaLabel: ''
+          ctaHref: ''
+          highlight: false
+        _inputs:
+          highlight:
+            type: switch
+  page_compare_groups:
+    style: modal
+    values:
+      - label: Pricing Compare Groups item
+        icon: article
+        picker_preview:
+          text: [Pricing Compare Groups item]
+          icon: [article]
+        preview:
+          text: [{ key: title }, Pricing Compare Groups item]
+          icon: [article]
+        value:
+          title: ''
+          rows: []
+        _inputs:
+          rows:
+            type: array
+            options:
+              structures: _structures.page_compare_groups_rows
+  page_compare_groups_rows:
+    style: modal
+    values:
+      - label: Pricing Compare Groups Item Rows item
+        icon: article
+        picker_preview:
+          text: [Pricing Compare Groups Item Rows item]
+          icon: [article]
+        preview:
+          text: [{ key: feat }, Pricing Compare Groups Item Rows item]
+          icon: [article]
+        value:
+          feat: ''
+          cells: []
+          note: ''
+        _inputs:
+          cells:
+            type: array
+            options:
+              structures: _structures.page_compare_groups_rows_cells
+  page_compare_groups_rows_cells:
+    style: modal
+    values:
+      - label: Availability or note
+        icon: article
+        picker_preview:
+          text: [Availability or note]
+          icon: [article]
+        preview:
+          text: [Availability or note]
+          icon: [article]
+        value: 'yes'
+        _inputs:
+          $:
+            type: select
+            options:
+              values: [yes, no, na]
+      - label: Priced add-on
+        icon: article
+        picker_preview:
+          text: [Priced add-on]
+          icon: [article]
+        preview:
+          text: [Priced add-on]
+          icon: [article]
+        value:
+          price: ''
+          note: ''
+  page_hero_lines:
+    style: modal
+    values:
+      - label: Research Hero Lines item
+        icon: article
+        picker_preview:
+          text: [Research Hero Lines item]
+          icon: [article]
+        preview:
+          text: [{ key: text }, Research Hero Lines item]
+          icon: [article]
+        value:
+          text: ''
+          face: sans
+          em: false
+        _inputs:
+          face:
+            type: select
+            options:
+              values: [sans, display]
+          em:
+            type: switch
+  page_studies:
+    style: modal
+    values:
+      - label: Research Studies item
+        icon: article
+        picker_preview:
+          text: [Research Studies item]
+          icon: [article]
+        preview:
+          text: [{ key: title }, Research Studies item]
+          icon: [article]
+        value:
+          id: ''
+          year: 0
+          tag: ''
+          title: ''
+          authors: ''
+          institution: ''
+          journal: ''
+          leadStat: ''
+          leadLabel: ''
+        _inputs:
+          year:
+            type: number
+  page_outcomes:
+    style: modal
+    values:
+      - label: Research Outcomes item
+        icon: article
+        picker_preview:
+          text: [Research Outcomes item]
+          icon: [article]
+        preview:
+          text: [{ key: label }, Research Outcomes item]
+          icon: [article]
+        value:
+          id: ''
+          label: ''
+          eyebrow: ''
+          statValue: ''
+          statUnit: ''
+          statCaption: ''
+          headline: ''
+          copy: ''
+          studyIds: []
+          chart: bars
+          chartTitle: ''
+          chartSubtitle: ''
+          chartFoot: ''
+          data: []
+        _inputs:
+          studyIds:
+            type: array
+            options:
+              structures: _structures.page_origin_paragraphs
+          chart:
+            type: select
+            hidden: true
+            options:
+              values: [bars, before-after, dial, line, competencies]
+          data:
+            type: array
+            hidden: true
+            options:
+              structures: _structures.page_outcomes_data
+  page_outcomes_data:
+    style: modal
+    values:
+      - label: Bar or dial value
+        icon: monitoring
+        picker_preview:
+          text: [Bar or dial value]
+          icon: [monitoring]
+        preview:
+          text: [{ key: label }, Bar or dial value]
+          icon: [monitoring]
+        value:
+          label: ''
+          value: 0
+        _inputs:
+          value:
+            type: number
+      - label: Before and after value
+        icon: monitoring
+        picker_preview:
+          text: [Before and after value]
+          icon: [monitoring]
+        preview:
+          text: [{ key: label }, Before and after value]
+          icon: [monitoring]
+        value:
+          label: ''
+          before: 0
+          after: 0
+        _inputs:
+          before:
+            type: number
+          after:
+            type: number
+      - label: Line-chart value
+        icon: monitoring
+        picker_preview:
+          text: [Line-chart value]
+          icon: [monitoring]
+        preview:
+          text: [Line-chart value]
+          icon: [monitoring]
+        value:
+          week: 0
+          stress: 0
+          control: 0
+        _inputs:
+          week:
+            type: number
+          stress:
+            type: number
+          control:
+            type: number
+  page_endorsers_items:
+    style: modal
+    values:
+      - label: Research Endorsers Items item
+        icon: article
+        picker_preview:
+          text: [Research Endorsers Items item]
+          icon: [article]
+        preview:
+          text: [{ key: name }, Research Endorsers Items item]
+          icon: [article]
+        value:
+          name: ''
+          role: ''
+  page_voices:
+    style: modal
+    values:
+      - label: Research Voices item
+        icon: format_quote
+        picker_preview:
+          text: [Research Voices item]
+          icon: [format_quote]
+        preview:
+          text: [Research Voices item]
+          icon: [format_quote]
+        value:
+          quote: ''
+          author: ''
+          where: ''
+  page_faq_hero_object:
+    style: modal
+    values:
+      - label: Faq — Hero
+        icon: article
+        picker_preview:
+          text: ['Faq — Hero']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Faq — Hero']
+          icon: [article]
+        value: { 'eyebrow': '', 'display': '', 'intro': '' }
+
+  page_faq_pricing_object:
+    style: modal
+    values:
+      - label: Faq — Pricing
+        icon: article
+        picker_preview:
+          text: ['Faq — Pricing']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Faq — Pricing']
+          icon: [article]
+        value:
+          {
+            'eyebrow': '',
+            'headlineHtml': '',
+            'sub': '',
+            'plan':
+              {
+                'pill': '',
+                'title': '',
+                'price': '',
+                'per': '',
+                'charged': '',
+                'ctaLabel': '',
+                'ctaHref': '',
+              },
+            'features': [''],
+          }
+
+  page_faq_closer_object:
+    style: modal
+    values:
+      - label: Faq — Closer
+        icon: article
+        picker_preview:
+          text: ['Faq — Closer']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Faq — Closer']
+          icon: [article]
+        value:
+          {
+            'lead': '',
+            'leadDisplay': '',
+            'leadSub': '',
+            'ctas': [{ 'label': '', 'href': '', 'variant': 'primary' }],
+            'quotes': [{ 'stars': 0, 'body': '', 'who': '', 'where': '' }],
+          }
+
+  page_contact_hero_object:
+    style: modal
+    values:
+      - label: Contact — Hero
+        icon: article
+        picker_preview:
+          text: ['Contact — Hero']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Contact — Hero']
+          icon: [article]
+        value: { 'lead': '', 'display': '', 'intro': '' }
+
+  page_contact_form_object:
+    style: modal
+    values:
+      - label: Contact — Form
+        icon: article
+        picker_preview:
+          text: ['Contact — Form']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Contact — Form']
+          icon: [article]
+        value: { 'badge': '', 'title': '', 'blurb': '', 'confirmation': '' }
+
+  page_contact_email_object:
+    style: modal
+    values:
+      - label: Contact — Email
+        icon: article
+        picker_preview:
+          text: ['Contact — Email']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Contact — Email']
+          icon: [article]
+        value:
+          {
+            'title': '',
+            'blurb': '',
+            'items': [{ 'label': '', 'email': '', 'description': '' }],
+            'helpCenterHref': '',
+          }
+
+  page_platform_hero_object:
+    style: modal
+    values:
+      - label: Platform — Hero
+        icon: article
+        picker_preview:
+          text: ['Platform — Hero']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Platform — Hero']
+          icon: [article]
+        value:
+          {
+            'titleLine1': '',
+            'titleLine2': '',
+            'subtitle': '',
+            'primaryCta': { 'label': '', 'href': '' },
+            'secondaryCta': { 'label': '', 'href': '' },
+          }
+
+  page_platform_trust_object:
+    style: modal
+    values:
+      - label: Platform — Trust
+        icon: article
+        picker_preview:
+          text: ['Platform — Trust']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Platform — Trust']
+          icon: [article]
+        value: { 'caption': '', 'egress': { 'label': '', 'href': '' }, 'logos': [''] }
+
+  page_platform_trio_object:
+    style: modal
+    values:
+      - label: Platform — Trio
+        icon: article
+        picker_preview:
+          text: ['Platform — Trio']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Platform — Trio']
+          icon: [article]
+        value:
+          {
+            'eyebrow': '',
+            'headingHtml': '',
+            'desc': '',
+            'egress': { 'label': '', 'href': '' },
+            'cards':
+              [{ 'name': '', 'desc': '' }, { 'name': '', 'desc': '' }, { 'name': '', 'desc': '' }],
+          }
+
+  page_platform_classroom_object:
+    style: modal
+    values:
+      - label: Platform — Classroom
+        icon: article
+        picker_preview:
+          text: ['Platform — Classroom']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Platform — Classroom']
+          icon: [article]
+        value:
+          {
+            'id': '',
+            'eyebrow': '',
+            'headingHtml': '',
+            'desc': '',
+            'cta': { 'label': '', 'href': '' },
+            'cards':
+              [
+                { 'visual': 'immersive', 'label': '', 'title': '', 'text': '' },
+                { 'visual': 'journal', 'label': '', 'title': '', 'text': '' },
+              ],
+            'grid': [{ 'icon': '', 'title': '', 'text': '' }],
+            'customer':
+              { 'badge': '', 'name': '', 'quote': '', 'egress': { 'label': '', 'href': '' } },
+          }
+
+  page_platform_district_object:
+    style: modal
+    values:
+      - label: Platform — District
+        icon: article
+        picker_preview:
+          text: ['Platform — District']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Platform — District']
+          icon: [article]
+        value:
+          {
+            'id': '',
+            'eyebrow': '',
+            'headingHtml': '',
+            'desc': '',
+            'cta': { 'label': '', 'href': '' },
+            'cards':
+              [
+                { 'visual': 'dashHero', 'label': '', 'title': '', 'text': '' },
+                { 'visual': 'lineChart', 'label': '', 'title': '', 'text': '' },
+              ],
+            'grid': [{ 'icon': '', 'title': '', 'text': '' }],
+            'customer':
+              { 'badge': '', 'name': '', 'quote': '', 'egress': { 'label': '', 'href': '' } },
+          }
+
+  page_platform_home_object:
+    style: modal
+    values:
+      - label: Platform — Home
+        icon: article
+        picker_preview:
+          text: ['Platform — Home']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Platform — Home']
+          icon: [article]
+        value:
+          {
+            'id': '',
+            'eyebrow': '',
+            'headingHtml': '',
+            'desc': '',
+            'cta': { 'label': '', 'href': '' },
+            'cards':
+              [
+                { 'visual': 'phone', 'label': '', 'title': '', 'text': '' },
+                { 'visual': 'streak', 'label': '', 'title': '', 'text': '' },
+              ],
+            'grid': [{ 'icon': '', 'title': '', 'text': '' }],
+            'customer':
+              { 'badge': '', 'name': '', 'quote': '', 'egress': { 'label': '', 'href': '' } },
+          }
+
+  page_platform_signon_object:
+    style: modal
+    values:
+      - label: Platform — SignOn
+        icon: article
+        picker_preview:
+          text: ['Platform — SignOn']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Platform — SignOn']
+          icon: [article]
+        value:
+          {
+            'eyebrow': '',
+            'headingHtml': '',
+            'desc': '',
+            'cta': { 'label': '', 'href': '' },
+            'lead': '',
+            'benefits': [{ 'icon': '', 'title': '', 'text': '' }],
+            'signIn': { 'welcome': '', 'sub': '', 'foot': '' },
+          }
+
+  page_platform_impact_object:
+    style: modal
+    values:
+      - label: Platform — Impact
+        icon: article
+        picker_preview:
+          text: ['Platform — Impact']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Platform — Impact']
+          icon: [article]
+        value:
+          {
+            'headingHtml': '',
+            'toggle': [{ 'id': 'schools', 'label': '' }, { 'id': 'research', 'label': '' }],
+            'groups':
+              {
+                'schools':
+                  [
+                    { 'tag': '', 'title': '', 'theme': 'forest' },
+                    { 'tag': '', 'title': '', 'theme': 'dawn' },
+                    { 'tag': '', 'title': '', 'theme': 'dusk' },
+                  ],
+                'research':
+                  [
+                    { 'tag': '', 'title': '', 'theme': 'water' },
+                    { 'tag': '', 'title': '', 'theme': 'calm' },
+                    { 'tag': '', 'title': '', 'theme': 'nature' },
+                  ],
+              },
+            'egress': { 'label': '', 'href': '' },
+          }
+
+  page_platform_research_object:
+    style: modal
+    values:
+      - label: Platform — Research
+        icon: article
+        picker_preview:
+          text: ['Platform — Research']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Platform — Research']
+          icon: [article]
+        value:
+          {
+            'eyebrow': '',
+            'headingHtml': '',
+            'desc': '',
+            'egress': { 'label': '', 'href': '' },
+            'outcomes':
+              [
+                {
+                  'id': '',
+                  'label': '',
+                  'statValue': '',
+                  'kicker': '',
+                  'sign': '+',
+                  'fig': 0,
+                  'typ': 0,
+                  'ie': 0,
+                  'dir': '',
+                  'claimHtml': '',
+                  'src': '',
+                },
+              ],
+            'provenance': [''],
+          }
+
+  page_platform_safety_object:
+    style: modal
+    values:
+      - label: Platform — Safety
+        icon: article
+        picker_preview:
+          text: ['Platform — Safety']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Platform — Safety']
+          icon: [article]
+        value:
+          {
+            'heading': '',
+            'egress': { 'label': '', 'href': '' },
+            'cells': [{ 'icon': '', 'title': '', 'text': '' }],
+          }
+
+  page_platform_updates_object:
+    style: modal
+    values:
+      - label: Platform — Updates
+        icon: article
+        picker_preview:
+          text: ['Platform — Updates']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Platform — Updates']
+          icon: [article]
+        value:
+          {
+            'heading': '',
+            'cta': { 'label': '', 'href': '' },
+            'stories':
+              [
+                {
+                  'id': 0,
+                  'cat': 'announcement',
+                  'catLabel': '',
+                  'title': '',
+                  'excerpt': '',
+                  'date': '',
+                  'read': 0,
+                  'pop': 0,
+                  'href': '',
+                  'cover': { 'kind': 'mesh', 'tone': 'a', 'eyebrow': '' },
+                },
+              ],
+          }
+
+  page_platform_cta_object:
+    style: modal
+    values:
+      - label: Platform — Cta
+        icon: article
+        picker_preview:
+          text: ['Platform — Cta']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Platform — Cta']
+          icon: [article]
+        value:
+          {
+            'headingHtml': '',
+            'primaryCta': { 'label': '', 'href': '' },
+            'secondaryCta': { 'label': '', 'href': '' },
+            'categories':
+              [
+                {
+                  'id': '',
+                  'label': '',
+                  'features':
+                    [
+                      { 'name': '', 'text': '' },
+                      { 'name': '', 'text': '' },
+                      { 'name': '', 'text': '' },
+                    ],
+                },
+              ],
+          }
+
+  page_research_opening_object:
+    style: modal
+    values:
+      - label: Research — Opening
+        icon: article
+        picker_preview:
+          text: ['Research — Opening']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Research — Opening']
+          icon: [article]
+        value: { 'eyebrow': '', 'lines': [''] }
+
+  page_research_hero_object:
+    style: modal
+    values:
+      - label: Research — Hero
+        icon: article
+        picker_preview:
+          text: ['Research — Hero']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Research — Hero']
+          icon: [article]
+        value:
+          {
+            'eyebrow': '',
+            'lines': [{ 'text': '', 'face': 'display' }],
+            'subtitle': '',
+            'primaryCta': { 'label': '', 'href': '' },
+            'secondaryCta': { 'label': '', 'href': '' },
+          }
+
+  page_research_receipts_object:
+    style: modal
+    values:
+      - label: Research — Receipts
+        icon: article
+        picker_preview:
+          text: ['Research — Receipts']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Research — Receipts']
+          icon: [article]
+        value: { 'chapterLabel': '', 'chapterNumber': '', 'headingHtml': '', 'lede': '' }
+
+  page_research_brain_object:
+    style: modal
+    values:
+      - label: Research — Brain
+        icon: article
+        picker_preview:
+          text: ['Research — Brain']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Research — Brain']
+          icon: [article]
+        value:
+          {
+            'chapterLabel': '',
+            'chapterNumber': '',
+            'headingHtml': '',
+            'paragraphs': [''],
+            'pullQuoteHtml': '',
+          }
+
+  page_research_outcomeshead_object:
+    style: modal
+    values:
+      - label: Research — OutcomesHead
+        icon: article
+        picker_preview:
+          text: ['Research — OutcomesHead']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Research — OutcomesHead']
+          icon: [article]
+        value: { 'chapterLabel': '', 'chapterNumber': '', 'headingHtml': '', 'jumpLabel': '' }
+
+  page_research_endorsers_object:
+    style: modal
+    values:
+      - label: Research — Endorsers
+        icon: article
+        picker_preview:
+          text: ['Research — Endorsers']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Research — Endorsers']
+          icon: [article]
+        value: { 'label': '', 'items': [{ 'name': '', 'role': '' }] }
+
+  page_research_cta_object:
+    style: modal
+    values:
+      - label: Research — Cta
+        icon: article
+        picker_preview:
+          text: ['Research — Cta']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Research — Cta']
+          icon: [article]
+        value:
+          {
+            'eyebrow': '',
+            'lines': [{ 'text': '', 'face': 'display' }],
+            'subtitle': '',
+            'primary': { 'label': '', 'href': '' },
+            'secondary': { 'label': '', 'href': '' },
+          }
+
+  page_about_hero_object:
+    style: modal
+    values:
+      - label: About — Hero
+        icon: article
+        picker_preview:
+          text: ['About — Hero']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'About — Hero']
+          icon: [article]
+        value:
+          {
+            'eyebrow': '',
+            'headlineTop': '',
+            'headlineBottom': '',
+            'subtitle': '',
+            'image': '',
+            'imageAlt': '',
+            'meta': [{ 'label': '', 'value': '' }],
+          }
+        _inputs:
+          image: *required_optimized_image
+
+  page_about_stats_item:
+    style: modal
+    values:
+      - label: About — Stats item
+        icon: article
+        picker_preview:
+          text: ['About — Stats item']
+          icon: [article]
+        preview:
+          text: [{ key: title }, { key: label }, { key: name }, 'About — Stats item']
+          icon: [article]
+        value: { 'value': '', 'sup': '', 'label': '', 'sub': '' }
+
+  page_about_mission_object:
+    style: modal
+    values:
+      - label: About — Mission
+        icon: article
+        picker_preview:
+          text: ['About — Mission']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'About — Mission']
+          icon: [article]
+        value: { 'mark': '', 'quoteHtml': '', 'attribution': '' }
+        _inputs:
+          mark: *required_optimized_image
+
+  page_about_origin_object:
+    style: modal
+    values:
+      - label: About — Origin
+        icon: article
+        picker_preview:
+          text: ['About — Origin']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'About — Origin']
+          icon: [article]
+        value:
+          {
+            'eyebrow': '',
+            'headingHtml': '',
+            'paragraphs': [''],
+            'signed': { 'initials': '', 'name': '', 'role': '' },
+            'large': { 'src': '', 'alt': '' },
+            'small': { 'src': '', 'alt': '' },
+            'chip': { 'quote': '', 'source': '' },
+          }
+        _inputs:
+          large.src: *required_optimized_image
+          small.src: *required_optimized_image
+
+  page_about_timeline_object:
+    style: modal
+    values:
+      - label: About — Timeline
+        icon: article
+        picker_preview:
+          text: ['About — Timeline']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'About — Timeline']
+          icon: [article]
+        value:
+          {
+            'eyebrow': '',
+            'headingHtml': '',
+            'lede': '',
+            'railYears': [0],
+            'entries':
+              [
+                {
+                  'year': 0,
+                  'node': { 'yr': '', 'sub': '' },
+                  'tag': { 'label': '', 'variant': 'milestone' },
+                  'title': '',
+                  'body': '',
+                  'pullHtml': '',
+                  'image': { 'src': '', 'alt': '', 'caption': '' },
+                },
+              ],
+          }
+        _inputs:
+          entries[*].image.src: *required_optimized_image
+
+  page_about_pioneer_object:
+    style: modal
+    values:
+      - label: About — Pioneer
+        icon: article
+        picker_preview:
+          text: ['About — Pioneer']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'About — Pioneer']
+          icon: [article]
+        value:
+          {
+            'eyebrow': '',
+            'headingHtml': '',
+            'lede': '',
+            'stats': [{ 'n': '', 'l': '' }],
+            'studies': [{ 'yr': '', 'pub': '', 'title': '', 'findHtml': '' }],
+          }
+
+  page_about_voices_object:
+    style: modal
+    values:
+      - label: About — Voices
+        icon: article
+        picker_preview:
+          text: ['About — Voices']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'About — Voices']
+          icon: [article]
+        value:
+          {
+            'eyebrow': '',
+            'headingHtml': '',
+            'meta': '',
+            'items':
+              [{ 'quote': '', 'name': '', 'role': '', 'avatar': '', 'featured': false, 'bg': '' }],
+          }
+        _inputs:
+          items[*].avatar: *required_optimized_image
+          items[*].bg: *optimized_image
+
+  page_about_team_object:
+    style: modal
+    values:
+      - label: About — Team
+        icon: article
+        picker_preview:
+          text: ['About — Team']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'About — Team']
+          icon: [article]
+        value:
+          {
+            'eyebrow': '',
+            'headingHtml': '',
+            'meta': '',
+            'note': '',
+            'cta': { 'label': '', 'href': '' },
+            'people':
+              [
+                {
+                  'name': '',
+                  'role': '',
+                  'location': '',
+                  'pin': '',
+                  'founder': false,
+                  'photo': '',
+                },
+              ],
+          }
+
+  page_about_partners_object:
+    style: modal
+    values:
+      - label: About — Partners
+        icon: article
+        picker_preview:
+          text: ['About — Partners']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'About — Partners']
+          icon: [article]
+        value: { 'eyebrow': '', 'heading': '', 'items': [{ 'name': '', 'sub': '' }] }
+
+  page_about_principles_object:
+    style: modal
+    values:
+      - label: About — Principles
+        icon: article
+        picker_preview:
+          text: ['About — Principles']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'About — Principles']
+          icon: [article]
+        value:
+          { 'eyebrow': '', 'headingHtml': '', 'items': [{ 'num': '', 'title': '', 'body': '' }] }
+
+  page_about_cta_object:
+    style: modal
+    values:
+      - label: About — Cta
+        icon: article
+        picker_preview:
+          text: ['About — Cta']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'About — Cta']
+          icon: [article]
+        value:
+          {
+            'eyebrow': '',
+            'headingHtml': '',
+            'lede': '',
+            'image': '',
+            'imageAlt': '',
+            'primary': { 'label': '', 'href': '' },
+            'secondary': { 'label': '', 'href': '' },
+          }
+        _inputs:
+          image: *required_optimized_image
+
+  page_narrators_index_hero_object:
+    style: modal
+    values:
+      - label: Narrators Index — Hero
+        icon: article
+        picker_preview:
+          text: ['Narrators Index — Hero']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Narrators Index — Hero']
+          icon: [article]
+        value:
+          {
+            'eyebrow': '',
+            'cornerLabel': '',
+            'headlineSans': '',
+            'headlineSerif': '',
+            'subtitleHtml': '',
+            'primary': { 'label': '', 'href': '' },
+            'secondary': { 'label': '', 'href': '' },
+          }
+
+  page_narrators_index_metastrip_object:
+    style: modal
+    values:
+      - label: Narrators Index — MetaStrip
+        icon: article
+        picker_preview:
+          text: ['Narrators Index — MetaStrip']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Narrators Index — MetaStrip']
+          icon: [article]
+        value:
+          {
+            'ariaLabel': '',
+            'narrators': { 'label': '', 'sub': '' },
+            'universalLangs': { 'value': '', 'label': '', 'sub': '' },
+            'totalLangs': { 'label': '', 'sub': '' },
+            'practices': { 'label': '', 'sub': '' },
+            'schools': { 'value': '', 'label': '', 'sub': '' },
+          }
+
+  page_narrators_index_toolbar_object:
+    style: modal
+    values:
+      - label: Narrators Index — Toolbar
+        icon: article
+        picker_preview:
+          text: ['Narrators Index — Toolbar']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Narrators Index — Toolbar']
+          icon: [article]
+        value: { 'headingHtml': '', 'searchLabel': '', 'filterLabel': '' }
+
+  page_narrators_index_momentsrail_object:
+    style: modal
+    values:
+      - label: Narrators Index — MomentsRail
+        icon: article
+        picker_preview:
+          text: ['Narrators Index — MomentsRail']
+          icon: [article]
+        preview:
+          text:
+            [{ key: heading }, { key: title }, { key: eyebrow }, 'Narrators Index — MomentsRail']
+          icon: [article]
+        value:
+          {
+            'headingHtml': '',
+            'lede': '',
+            'moments': [{ 'img': '', 'label': '', 'title': '', 'alt': '' }],
+          }
+        _inputs:
+          moments[*].img: *required_optimized_image
+
+  page_narrators_index_coda_object:
+    style: modal
+    values:
+      - label: Narrators Index — Coda
+        icon: article
+        picker_preview:
+          text: ['Narrators Index — Coda']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Narrators Index — Coda']
+          icon: [article]
+        value:
+          {
+            'eyebrow': '',
+            'quoteHtml': '',
+            'attribution': '',
+            'attributionStrong': '',
+            'cardHeading': '',
+            'cardBody': '',
+            'primary': { 'label': '', 'href': '' },
+            'secondary': { 'label': '', 'href': '' },
+          }
+
+  page_districts_hero_object:
+    style: modal
+    values:
+      - label: Districts — Hero
+        icon: article
+        picker_preview:
+          text: ['Districts — Hero']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Districts — Hero']
+          icon: [article]
+        value:
+          {
+            'eyebrow': '',
+            'serialChips': [{ 'text': '' }],
+            'headlineLines': [{ 'text': '', 'kind': 'serif' }],
+            'lede': '',
+            'imageAlt': '',
+            'primaryCta': { 'label': '', 'href': '' },
+            'stats':
+              [
+                { 'value': '', 'label': '', 'sub': '' },
+                { 'value': '', 'label': '', 'sub': '' },
+                { 'value': '', 'label': '', 'sub': '' },
+                { 'value': '', 'label': '', 'sub': '' },
+              ],
+            'image': '',
+          }
+        _inputs:
+          image: *required_optimized_image
+
+  page_districts_lede_object:
+    style: modal
+    values:
+      - label: Districts — Lede
+        icon: article
+        picker_preview:
+          text: ['Districts — Lede']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Districts — Lede']
+          icon: [article]
+        value: { 'eyebrow': '', 'bodyHtml': '', 'attribution': '' }
+
+  page_districts_truststrip_object:
+    style: modal
+    values:
+      - label: Districts — TrustStrip
+        icon: article
+        picker_preview:
+          text: ['Districts — TrustStrip']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Districts — TrustStrip']
+          icon: [article]
+        value: { 'caption': '', 'districts': [''] }
+
+  page_districts_fieldreports_object:
+    style: modal
+    values:
+      - label: Districts — FieldReports
+        icon: article
+        picker_preview:
+          text: ['Districts — FieldReports']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Districts — FieldReports']
+          icon: [article]
+        value:
+          {
+            'eyebrow': '',
+            'title': '',
+            'intro': '',
+            'reports':
+              [
+                {
+                  'n': '',
+                  'district': '',
+                  'schools': 0,
+                  'students': '',
+                  'photo': '',
+                  'photoAlt': '',
+                  'photoCaption': '',
+                  'headline': '',
+                  'quote': '',
+                  'who': '',
+                  'role': '',
+                  'metrics': [{ 'value': '', 'label': '', 'sub': '' }],
+                  'funding': '',
+                },
+              ],
+            'link': { 'label': '', 'href': '' },
+          }
+        _inputs:
+          reports[*].photo: *required_optimized_image
+
+  page_districts_bythenumbers_object:
+    style: modal
+    values:
+      - label: Districts — ByTheNumbers
+        icon: article
+        picker_preview:
+          text: ['Districts — ByTheNumbers']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Districts — ByTheNumbers']
+          icon: [article]
+        value:
+          {
+            'eyebrow': '',
+            'title': '',
+            'intro': '',
+            'primary': { 'label': '', 'value': '', 'unit': '', 'caption': '', 'source': '' },
+            'small': [{ 'label': '', 'value': '', 'unit': '', 'caption': '', 'source': '' }],
+            'imageAlt': '',
+            'imageCaption': '',
+            'citations': [{ 'label': '', 'emphasis': '', 'body': '', 'cite': '' }],
+            'image': '',
+          }
+        _inputs:
+          image: *required_optimized_image
+
+  page_districts_dayinside_object:
+    style: modal
+    values:
+      - label: Districts — DayInside
+        icon: article
+        picker_preview:
+          text: ['Districts — DayInside']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Districts — DayInside']
+          icon: [article]
+        value:
+          {
+            'eyebrow': '',
+            'titleLines': [{ 'text': '', 'kind': 'serif' }],
+            'intro': '',
+            'parts':
+              [
+                {
+                  'time': '',
+                  'photo': '',
+                  'photoAlt': '',
+                  'title': '',
+                  'body': '',
+                  'practice': '',
+                  'statValue': '',
+                  'statLabel': '',
+                },
+              ],
+          }
+        _inputs:
+          parts[*].photo: *required_optimized_image
+
+  page_districts_voices_object:
+    style: modal
+    values:
+      - label: Districts — Voices
+        icon: article
+        picker_preview:
+          text: ['Districts — Voices']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Districts — Voices']
+          icon: [article]
+        value:
+          {
+            'eyebrow': '',
+            'title': '',
+            'intro': '',
+            'voices': [{ 'quote': '', 'who': '', 'role': '', 'photo': '', 'photoAlt': '' }],
+          }
+        _inputs:
+          voices[*].photo: *required_optimized_image
+
+  page_districts_standards_object:
+    style: modal
+    values:
+      - label: Districts — Standards
+        icon: article
+        picker_preview:
+          text: ['Districts — Standards']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Districts — Standards']
+          icon: [article]
+        value:
+          {
+            'eyebrow': '',
+            'titleHtml': '',
+            'intro': '',
+            'competencies': [{ 'id': '', 'name': '', 'blurb': '', 'mapped': [''], 'sessions': 0 }],
+            'pills': [''],
+          }
+
+  page_districts_compare_object:
+    style: modal
+    values:
+      - label: Districts — Compare
+        icon: article
+        picker_preview:
+          text: ['Districts — Compare']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Districts — Compare']
+          icon: [article]
+        value:
+          {
+            'eyebrow': '',
+            'titleHtml': '',
+            'intro': '',
+            'shortVersion': '',
+            'columns': [{ 'id': 'ie', 'label': '', 'note': '', 'highlight': false }],
+            'rows': [{ 'feat': '', 'ie': '', 'apps': '', 'sel': '', 'free': '', 'cats': [''] }],
+          }
+
+  page_districts_funding_object:
+    style: modal
+    values:
+      - label: Districts — Funding
+        icon: article
+        picker_preview:
+          text: ['Districts — Funding']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Districts — Funding']
+          icon: [article]
+        value:
+          {
+            'eyebrow': '',
+            'titleHtml': '',
+            'intro': '',
+            'funding': [{ 'id': '', 'name': '', 'fullName': '', 'blurb': '', 'coverage': 0 }],
+          }
+
+  page_districts_implementation_object:
+    style: modal
+    values:
+      - label: Districts — Implementation
+        icon: article
+        picker_preview:
+          text: ['Districts — Implementation']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Districts — Implementation']
+          icon: [article]
+        value:
+          {
+            'eyebrow': '',
+            'titleHtml': '',
+            'intro': '',
+            'steps': [{ 'week': '', 'title': '', 'body': '' }],
+          }
+
+  page_districts_security_object:
+    style: modal
+    values:
+      - label: Districts — Security
+        icon: article
+        picker_preview:
+          text: ['Districts — Security']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Districts — Security']
+          icon: [article]
+        value:
+          {
+            'eyebrow': '',
+            'titleHtml': '',
+            'intro': '',
+            'items': [{ 'title': '', 'body': '' }],
+            'awards': [{ 'name': '', 'year': '' }],
+          }
+
+  page_districts_faq_object:
+    style: modal
+    values:
+      - label: Districts — Faq
+        icon: article
+        picker_preview:
+          text: ['Districts — Faq']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Districts — Faq']
+          icon: [article]
+        value: { 'eyebrow': '', 'titleHtml': '', 'intro': '', 'items': [{ 'q': '', 'a': '' }] }
+
+  page_districts_cta_object:
+    style: modal
+    values:
+      - label: Districts — Cta
+        icon: article
+        picker_preview:
+          text: ['Districts — Cta']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Districts — Cta']
+          icon: [article]
+        value:
+          {
+            'eyebrow': '',
+            'headlineLines': [{ 'text': '', 'kind': 'serif' }],
+            'lede': '',
+            'primaryCta': { 'label': '', 'href': '' },
+            'secondaryCta': { 'label': '', 'href': '' },
+            'assurances': [{ 'text': '' }],
+            'sideCard': { 'eyebrow': '', 'serial': '', 'items': [''] },
+            'image': '',
+            'imageAlt': '',
+          }
+        _inputs:
+          image: *required_optimized_image
+
+  page_pricing_hero_object:
+    style: modal
+    values:
+      - label: Pricing — Hero
+        icon: article
+        picker_preview:
+          text: ['Pricing — Hero']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Pricing — Hero']
+          icon: [article]
+        value: { 'eyebrow': '', 'lead': '', 'display': '', 'intro': '' }
+
+  page_pricing_plans_object:
+    style: modal
+    values:
+      - label: Pricing — Plans
+        icon: article
+        picker_preview:
+          text: ['Pricing — Plans']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Pricing — Plans']
+          icon: [article]
+        value:
+          {
+            'note': '',
+            'items':
+              [
+                {
+                  'id': '',
+                  'name': '',
+                  'price': '',
+                  'unit': '',
+                  'blurb': '',
+                  'ctaLabel': '',
+                  'ctaHref': '',
+                },
+              ],
+          }
+
+  page_pricing_compare_object:
+    style: modal
+    values:
+      - label: Pricing — Compare
+        icon: article
+        picker_preview:
+          text: ['Pricing — Compare']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Pricing — Compare']
+          icon: [article]
+        value:
+          {
+            'eyebrow': '',
+            'titleHtml': '',
+            'intro': '',
+            'footnote': '',
+            'groups': [{ 'title': '', 'rows': [{ 'feat': '', 'cells': [''] }] }],
+          }
+
+  page_pricing_cta_object:
+    style: modal
+    values:
+      - label: Pricing — Cta
+        icon: article
+        picker_preview:
+          text: ['Pricing — Cta']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Pricing — Cta']
+          icon: [article]
+        value:
+          {
+            'sans': '',
+            'serif': '',
+            'subtitle': '',
+            'primary': { 'label': '', 'href': '' },
+            'secondary': { 'label': '', 'href': '' },
+            'trust': '',
+          }
+
+  page_newsroom_hero_object:
+    style: modal
+    values:
+      - label: Newsroom — Hero
+        icon: article
+        picker_preview:
+          text: ['Newsroom — Hero']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Newsroom — Hero']
+          icon: [article]
+        value: { 'lead': '', 'display': '', 'intro': '' }
+
+  page_newsroom_cta_object:
+    style: modal
+    values:
+      - label: Newsroom — Cta
+        icon: article
+        picker_preview:
+          text: ['Newsroom — Cta']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Newsroom — Cta']
+          icon: [article]
+        value:
+          {
+            'sans': '',
+            'serif': '',
+            'subtitle': '',
+            'primary': { 'label': '', 'href': '' },
+            'secondary': { 'label': '', 'href': '' },
+            'trust': '',
+          }
+
+  page_home_intro_object:
+    style: modal
+    values:
+      - label: Home — Intro
+        icon: article
+        picker_preview:
+          text: ['Home — Intro']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Home — Intro']
+          icon: [article]
+        value:
+          {
+            'headline': '',
+            'lede': '',
+            'cta': { 'label': '', 'href': '' },
+            'imageAlt': '',
+            'balanceLabel': '',
+            'problem': { 'title': '', 'body': '' },
+            'solution': { 'title': '', 'body': '' },
+          }
+
+  page_home_livenow_object:
+    style: modal
+    values:
+      - label: Home — LiveNow
+        icon: article
+        picker_preview:
+          text: ['Home — LiveNow']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Home — LiveNow']
+          icon: [article]
+        value:
+          {
+            'eyebrow': '',
+            'headingLead': '',
+            'headingAccent': '',
+            'captions': [''],
+            'stats': [{ 'value': '', 'sup': '', 'label': '' }],
+          }
+
+  page_home_whynow_object:
+    style: modal
+    values:
+      - label: Home — WhyNow
+        icon: article
+        picker_preview:
+          text: ['Home — WhyNow']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Home — WhyNow']
+          icon: [article]
+        value: { 'eyebrow': '', 'manifesto': '', 'stats': [{ 'value': '', 'body': '' }] }
+
+  page_home_audiences_object:
+    style: modal
+    values:
+      - label: Home — Audiences
+        icon: article
+        picker_preview:
+          text: ['Home — Audiences']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Home — Audiences']
+          icon: [article]
+        value:
+          {
+            'eyebrow': '',
+            'headingLead': '',
+            'headingAccent': '',
+            'educator':
+              {
+                'heading': '',
+                'body': '',
+                'points': [''],
+                'cta': { 'label': '', 'href': '' },
+                'card': { 'title': '', 'meta': '', 'image': '', 'imageAlt': '' },
+              },
+            'district':
+              {
+                'heading': '',
+                'body': '',
+                'points': [''],
+                'cta': { 'label': '', 'href': '' },
+                'dashboard':
+                  {
+                    'title': '',
+                    'delta': '',
+                    'funnelLabel': '',
+                    'rows': [{ 'label': '', 'value': '', 'fill': 0 }],
+                    'stats': [{ 'value': '', 'label': '' }],
+                  },
+              },
+          }
+        _inputs:
+          educator.card.image: *required_optimized_image
+
+  page_home_howitworks_object:
+    style: modal
+    values:
+      - label: Home — HowItWorks
+        icon: article
+        picker_preview:
+          text: ['Home — HowItWorks']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Home — HowItWorks']
+          icon: [article]
+        value:
+          {
+            'eyebrow': '',
+            'headingLead': '',
+            'headingAccent': '',
+            'steps':
+              [
+                { 'time': '', 'n': '01', 'title': '', 'body': '', 'icon': 'choose' },
+                { 'time': '', 'n': '02', 'title': '', 'body': '', 'icon': 'play' },
+                { 'time': '', 'n': '03', 'title': '', 'body': '', 'icon': 'reflect' },
+              ],
+          }
+
+  page_home_gradebands_object:
+    style: modal
+    values:
+      - label: Home — GradeBands
+        icon: article
+        picker_preview:
+          text: ['Home — GradeBands']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Home — GradeBands']
+          icon: [article]
+        value:
+          {
+            'eyebrow': '',
+            'headingLead': '',
+            'headingAccent': '',
+            'bands':
+              [
+                { 'grade': '', 'title': '', 'body': '', 'href': '', 'tone': 0 },
+                { 'grade': '', 'title': '', 'body': '', 'href': '', 'tone': 1 },
+                { 'grade': '', 'title': '', 'body': '', 'href': '', 'tone': 2 },
+                { 'grade': '', 'title': '', 'body': '', 'href': '', 'tone': 3 },
+              ],
+          }
+
+  page_home_proof_object:
+    style: modal
+    values:
+      - label: Home — Proof
+        icon: article
+        picker_preview:
+          text: ['Home — Proof']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Home — Proof']
+          icon: [article]
+        value:
+          {
+            'eyebrow': '',
+            'headingLead': '',
+            'headingAccent': '',
+            'intro': '',
+            'hero': { 'display': '', 'count': 0, 'suffix': '', 'caption': '', 'source': '' },
+            'trendLabel': '',
+            'trend': [0],
+            'support': [{ 'display': '', 'count': 0, 'suffix': '', 'caption': '' }],
+            'pills': [{ 'label': '', 'icon': 'check' }],
+          }
+
+  page_home_stories_object:
+    style: modal
+    values:
+      - label: Home — Stories
+        icon: article
+        picker_preview:
+          text: ['Home — Stories']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Home — Stories']
+          icon: [article]
+        value:
+          {
+            'badge': '',
+            'headlineTop': '',
+            'headlineBottom': '',
+            'body': '',
+            'cta': { 'label': '', 'href': '' },
+            'portraits':
+              [
+                { 'image': '', 'alt': '' },
+                { 'image': '', 'alt': '' },
+                { 'image': '', 'alt': '' },
+                { 'image': '', 'alt': '' },
+                { 'image': '', 'alt': '' },
+                { 'image': '', 'alt': '' },
+                { 'image': '', 'alt': '' },
+                { 'image': '', 'alt': '' },
+              ],
+            'statCards':
+              [
+                { 'value': '', 'label': '', 'tone': 'brand' },
+                { 'value': '', 'label': '', 'tone': 'card' },
+                { 'value': '', 'label': '', 'tone': 'card' },
+                { 'value': '', 'label': '', 'tone': 'card' },
+              ],
+          }
+        _inputs:
+          portraits[*].image: *required_optimized_image
+
+  page_home_sample_object:
+    style: modal
+    values:
+      - label: Home — Sample
+        icon: article
+        picker_preview:
+          text: ['Home — Sample']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Home — Sample']
+          icon: [article]
+        value:
+          {
+            'eyebrow': '',
+            'headingLead': '',
+            'headingAccent': '',
+            'body': '',
+            'disclaimer': '',
+            'audioSrc': '',
+            'captionsSrc': '',
+            'durationSec': 0,
+            'trackTitle': '',
+            'trackEyebrow': '',
+          }
+
+  page_home_funding_object:
+    style: modal
+    values:
+      - label: Home — Funding
+        icon: article
+        picker_preview:
+          text: ['Home — Funding']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Home — Funding']
+          icon: [article]
+        value:
+          {
+            'eyebrow': '',
+            'headingLead': '',
+            'headingAccent': '',
+            'intro': '',
+            'cards': [{ 'title': '', 'body': '' }],
+          }
+
+  page_home_bringit_object:
+    style: modal
+    values:
+      - label: Home — BringIt
+        icon: article
+        picker_preview:
+          text: ['Home — BringIt']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Home — BringIt']
+          icon: [article]
+        value:
+          {
+            'eyebrow': '',
+            'headingTop': '',
+            'headingBottom': '',
+            'body': '',
+            'primaryCta': { 'label': '', 'href': '' },
+            'secondaryCta': { 'label': '', 'href': '' },
+            'pills': [''],
+            'chip': { 'title': '', 'sub': '' },
+            'image': '',
+            'imageAlt': '',
+          }
+        _inputs:
+          image: *required_optimized_image
+
+  page_blog_index_hero_object:
+    style: modal
+    values:
+      - label: Blog Index — Hero
+        icon: article
+        picker_preview:
+          text: ['Blog Index — Hero']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Blog Index — Hero']
+          icon: [article]
+        value: { 'title': '', 'intro': '' }
+
+  page_case_studies_index_hero_object:
+    style: modal
+    values:
+      - label: Case Studies Index — Hero
+        icon: article
+        picker_preview:
+          text: ['Case Studies Index — Hero']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Case Studies Index — Hero']
+          icon: [article]
+        value: { 'lead': '', 'display': '', 'intro': '' }
+
+  page_case_studies_index_cta_object:
+    style: modal
+    values:
+      - label: Case Studies Index — Cta
+        icon: article
+        picker_preview:
+          text: ['Case Studies Index — Cta']
+          icon: [article]
+        preview:
+          text: [{ key: heading }, { key: title }, { key: eyebrow }, 'Case Studies Index — Cta']
+          icon: [article]
+        value:
+          {
+            'sans': '',
+            'serif': '',
+            'subtitle': '',
+            'primary': { 'label': '', 'href': '' },
+            'secondary': { 'label': '', 'href': '' },
+          }
 _snippets:
   pull_quote:
     template: mdx_paired_component
@@ -2556,6 +6540,37 @@ _snippets:
           optional: true
           remove_empty: true
     _inputs:
+      src:
+        type: file
+        label: MP4 video
+        options:
+          accepts_mime_types:
+            - video/mp4
+          paths:
+            uploads: public/videos/help
+            static: public
+          required: true
+          required_message: Choose an MP4 video.
+      webmSrc:
+        type: file
+        label: WebM video (optional)
+        options:
+          accepts_mime_types:
+            - video/webm
+          paths:
+            uploads: public/videos/help
+            static: public
+      poster:
+        type: image
+        label: Poster image
+        options:
+          accepts_mime_types:
+            - image/jpeg
+            - image/png
+            - image/webp
+          paths:
+            uploads: public/videos/help
+            static: public
       ratio:
         type: select
         options:

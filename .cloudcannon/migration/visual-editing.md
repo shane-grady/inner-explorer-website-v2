@@ -1,78 +1,111 @@
-# Visual editing — section census
+# Visual editing — verified contract
 
-Updated 2026-08-25. Supersedes the 2026-07-14 census, which predated the Help Center
-subdomain split and described `src/pages/help/*` routes that no longer exist.
+Updated 2026-09-02. This replaces the earlier section census and records the
+fixed-layout editing contract now enforced by `pnpm verify:cms`.
 
-Coverage is verified mechanically, not by inspection: `pnpm lint:editables`
-(`scripts/check-editables.mjs`) replays CloudCannon's own resolver over the built HTML
-and fails on any `data-prop` that would render an error card in the Visual Editor.
+Coverage is verified mechanically, not by inspection. The editable-region guard
+replays CloudCannon's resolver over both built sites and checks every region against
+its backing entry, dataset, configured input, and registered component.
 
-**Current state — 8,353 regions across 90 pages, all resolving.**
+**Current state: 8,745 regions across 92 generated pages.**
 
-## Coverage by surface
+| Region kind          | Count |
+| -------------------- | ----: |
+| Text                 | 5,383 |
+| Image                |   180 |
+| Array                |   549 |
+| Array item           | 2,462 |
+| Registered component |   171 |
 
-| Surface           | Pages | Regions | Backing source                       | Treatment                             |
-| ----------------- | ----: | ------: | ------------------------------------ | ------------------------------------- |
-| `/case-studies/*` |     9 |   2,270 | `caseStudies` collection             | text · image · array                  |
-| `/narrators/*`    |    31 |   2,187 | `narrators` collection               | text · image · array                  |
-| `/series/*`       |     4 |     796 | `series` collection                  | text · image · array                  |
-| `/districts/`     |     1 |     492 | `pages/districts.yml`                | text · image · array                  |
-| `/faq/`           |     1 |     412 | `pages/faq.yml`                      | text · array                          |
-| `/blog/*`         |     5 |     354 | `blog` collection                    | text · image · `@content`             |
-| `/about/`         |     1 |     350 | `pages/about.yml`                    | text · image · array                  |
-| `/platform/`      |     1 |     270 | `pages/platform.yml`                 | text · array                          |
-| `/` (home)        |     1 |     261 | `pages/home.yml`                     | text · image · array                  |
-| `/research/`      |     1 |     202 | `pages/research.yml`                 | text · array                          |
-| `/help/*`         |    15 |     187 | `help` collection + `@data[help-ui]` | text · `@content`                     |
-| `/pricing/`       |     1 |     157 | `pages/pricing.yml`                  | text · array                          |
-| `/contact/`       |     1 |      79 | `pages/contact.yml`                  | text · array                          |
-| `/newsroom/`      |     1 |      75 | `pages/newsroom.yml`                 | text                                  |
-| Header / footer   |   all | 34/page | `@data[navigation]`, `@data[footer]` | registered components                 |
-| `/styleguide/`    |     1 |      66 | —                                    | chrome only; out of scope by decision |
-| `/404`            |     1 |       0 | —                                    | out of scope by decision              |
+Four generated pages contain inherited regions but are not directly openable as CMS
+entries. This is expected: `/help/` and `/styleguide/` in the marketing build, plus
+`/` and `/404` in the Help build. The Help home copy remains intentionally editable
+from **Site Settings -> Help Center Home** (`src/data/help-ui.json`).
 
-## What is deliberately not editable
+## Editing model
 
-These are exceptions with technical reasons, not gaps.
+The thirteen Marketing Pages are singleton YAML entries with stable `pageTitle` and
+`permalink` previews. Their Astro routes keep section order, design tokens, imported
+assets, and layout decisions in code. Editors can change copy, media, metadata, and
+safe repeatable lists; they cannot add page-builder blocks or reorder fixed layout
+groups.
 
-| Kind                                                                                                | Why                                                                                                                                                  |
-| --------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `*Html` fields (`titleHtml`, `headingHtml`, `quoteHtml`, …)                                         | Carry inline markup rendered via `set:html`. A plain-text region strips it. Sidebar-editable.                                                        |
-| Numbers (`stats[].value` where numeric, chart data, `durationSec`, `practiceCount`)                 | A text region must resolve to a **string**; a number renders an error card.                                                                          |
-| Token enums (`tone`, `icon`, `variant`, `kind`)                                                     | Vocabularies the templates switch on, constrained by `_select_data` / structures.                                                                    |
-| Per-word / per-line span copy (`whyNow.manifesto`, `research.hero.lines`, About's timeline reveals) | Pre-split into spans that carry scroll-reveal windows; a region would flatten them.                                                                  |
-| Script-rewritten nodes (count-ups, the LiveNow caption rotator)                                     | A script rewrites the text node; a region fights it. On `/districts/` the count-ups were given their own `[data-count]` host so they _are_ editable. |
-| Derived values (newsroom stories, JSON-LD, sibling-entry grids, computed counts)                    | Sourced from collections; making them editable would let them drift from the truth.                                                                  |
-| `aria-hidden` product mockups (`/platform/`)                                                        | Illustrations. Making "41,540 min" editable would imply it is a real figure.                                                                         |
-| Help group labels                                                                                   | The nav model in `src/lib/help.ts`, mirrored by `_select_data.help_groups`.                                                                          |
+Every repeatable field has an explicit item structure. Groups whose size or order is
+part of the design disable add, remove, and reorder controls. Blog, Case Study, Help,
+Narrator, and Series creation schemas expose every field required by their renderer
+and Zod contract.
 
-## Architecture
+Primitive text and image values use primitive editable regions. A registered
+component is used only when a boolean, enum, optional field, shared-data dependency,
+or conditional branch requires CloudCannon to re-render markup or styling:
 
-Marketing routes keep their art-directed layout, animation and imported assets in
-`.astro`; only their copy moved into `src/content/pages/<route>.yml`, validated by a
-per-route module under `src/lib/page-schemas/` and discriminated on `_schema`.
-CloudCannon maps each entry to its URL with `url: '{permalink}'` — a data placeholder in
-braces, which is what lets the homepage resolve to `/` rather than `/index/`.
+- `site-header`, `site-footer`
+- `pricing-plans`, `glow-cta`, `case-study-cta`, `series-cta`
+- `editorial-quote`, `voice-intro`, `research-cta`, `bring-it-cta`
+- `editorial-cta`, `split-cta`, `faq-section`
+- `listing-masthead`, `contact-masthead`, `pricing-masthead`, `faq-masthead`
+- `faq-pricing`, `faq-quotes`, `meet-studio-hero`, `research-hero`
+- `about-timeline`, `about-voices`, `about-team`
+- `district-hero`, `district-numbers`, `district-day`, `district-comparison`
+- `home-live-now`, `home-how-it-works`, `home-proof`, `home-stories`
+- `platform-feature`, `platform-impact`, `platform-outcomes`, `platform-updates`
 
-Blocks are shared between converted and unconverted routes, so editables are **opt-in**
-via an `editablePrefix` prop threaded from the page; see `src/lib/editable.ts`. The full
-procedure is in [page-conversion-recipe.md](page-conversion-recipe.md).
+## Deliberate save-and-rebuild fields
+
+These are safe sidebar inputs, not missing bindings:
+
+- `series.tone` is a root scalar that controls the page theme. CloudCannon cannot
+  scope a standalone registered component to an empty root path without changing the
+  content shape, so it updates after Save and rebuild.
+- Pricing `plans[].highlight` drives both the plan cards and a separate comparison
+  table. The cards re-render live; the mirrored comparison treatment updates after
+  Save and rebuild.
+- Blog `titleHtml` preserves authored inline emphasis. A primitive text editable
+  would strip that markup, so it remains a sidebar field and updates after Save.
+- About `stats` and Research `outcomes` are root arrays, so there is no non-empty
+  object path for a standalone registered component. Existing primitive values edit
+  inline; optional stat suffixes and Research chart-type changes update after Save
+  and rebuild.
+- Home `gradeBands.bands[].tone` is a numeric design token rather than visible copy.
+  It stays a sidebar control and its class treatment updates after Save and rebuild.
+- A Case Study's optional `editorialQuote` and a Narrator's optional `voiceIntro`
+  re-render live whenever the object already exists. On entries where the whole
+  object is absent, there is no DOM host for CloudCannon to replace; adding one is a
+  sidebar Save-and-rebuild operation. This is deliberate and avoids adding empty
+  layout shells or changing either content model.
 
 ## Guardrails
 
-- `pnpm lint:editables` — resolves every binding against its backing file; also fails if
-  an `_inputs` key name is ambiguous within one file (CloudCannon matches by name at any
-  depth, so `stats` in `about.yml`/`home.yml` and `items` in `districts.yml` cannot be
-  declared).
-- `npx @cloudcannon/cli validate` — catches invalid config keys and icon names.
-- Both run in CI after `pnpm build:all`.
+`pnpm verify:cms` is the single acceptance command used locally and by CI/builds. It
+performs type checking, linting, formatting checks, CloudCannon schema validation,
+both site builds, editable-region validation, and negative-fixture tests.
 
-## Known follow-ups
+The guard fails for:
 
-- `_structures` are not yet defined for the `pages` collection's arrays. Regions and
-  sidebar editing work; "add item" creates a blank row rather than a shaped one. Each
-  schema module's header comment records the structure its route would want.
-- Four pages carry regions but are not collection entries, so they cannot be _opened_ in
-  the Visual Editor: `/help/` and `/styleguide/` in `dist`, and `/` and `/404` in
-  `dist-help`. The Help Center home's copy is still editable — via `@data[help-ui]` in
-  the Data editor — because its regions use absolute dataset paths.
+- invalid image source or alt bindings;
+- unknown registered components;
+- editable fields without a matching CloudCannon input;
+- nested array items without a nested binding;
+- missing or duplicate Marketing Page permalinks;
+- mismatches among page IDs, CloudCannon schemas, Zod discriminants, routes, and
+  generated output;
+- incomplete creation schemas; and
+- root-relative links to known Help articles.
+
+The negative fixtures prove each failure mode independently. The conversion procedure
+for future fixed-layout pages remains in
+[page-conversion-recipe.md](page-conversion-recipe.md).
+
+## Fields intentionally not editable on canvas
+
+The following stay available in the sidebar when appropriate:
+
+- numeric values whose runtime type must remain a number;
+- token enums such as `tone`, `icon`, `variant`, and `kind`;
+- pre-split animated text whose span boundaries drive motion;
+- script-owned count-up or rotating text nodes;
+- derived values such as JSON-LD, computed counts, and sibling-entry grids; and
+- decorative `aria-hidden` product mockups.
+
+This boundary prevents visual editing from changing types, flattening authored markup,
+or making derived content drift from its source.

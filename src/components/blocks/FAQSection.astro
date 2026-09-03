@@ -24,19 +24,39 @@ export interface FAQItem {
 
 interface Props {
   /** Anchor id (matches the sidebar's jump-to href). */
-  id: string;
+  id?: string;
   /** Section heading. */
   title: string;
   items: FAQItem[];
   /** CloudCannon path prefix. This block renders as one row of the page's
    *  `sections` array, so the page passes '' — paths resolve relative to the row. */
   editablePrefix?: EditablePrefix;
+  /** This block is a row in the marketing FAQ page's `sections` array. */
+  arrayItem?: boolean;
 }
 
-const { id, title, items, editablePrefix }: Props = Astro.props;
+const {
+  id: idProp,
+  title,
+  items,
+  editablePrefix = '',
+  arrayItem: arrayItemProp,
+}: Props = Astro.props;
+const id = idProp ?? 'faq';
+// A registered FAQ-page row is re-rendered from the row object, so the adapter-only
+// `arrayItem` flag is no longer present. The stored `id` distinguishes that shape
+// from a blog post's nested `{ title, items }` FAQ object.
+const arrayItem = arrayItemProp ?? Boolean(idProp);
 ---
 
-<section class="faq-sec" id={id} aria-labelledby={`${id}-title`} {...editableItem(editablePrefix)}>
+<section
+  class="faq-sec"
+  id={id}
+  aria-labelledby={`${id}-title`}
+  {...editableItem(arrayItem ? editablePrefix : undefined)}
+  data-component={arrayItem ? 'faq-section' : undefined}
+  data-id={arrayItem ? id : undefined}
+>
   <h2 id={`${id}-title`} class="sec-title" {...editableText(editablePrefix, 'title')}>
     {title}
   </h2>

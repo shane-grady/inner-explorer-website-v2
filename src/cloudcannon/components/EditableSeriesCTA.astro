@@ -1,0 +1,20 @@
+---
+import SeriesCTA from '../../components/blocks/series/SeriesCTA.astro';
+
+interface CtaLink {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  duetTop: string;
+  duetBottom: string;
+  body: string;
+  primary: CtaLink;
+  secondary?: CtaLink;
+}
+
+const props: Props = Astro.props;
+---
+
+<SeriesCTA {...props} editablePrefix="" />

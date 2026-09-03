@@ -4,12 +4,12 @@ import PageLayout from '../../layouts/PageLayout.astro';
 import JsonLd from '../../components/seo/JsonLd.astro';
 import { editableText } from '../../lib/editable';
 
-import MeetStudioHero from '../../components/blocks/narrator/MeetStudioHero.astro';
+import EditableMeetStudioHero from '../../cloudcannon/components/EditableMeetStudioHero.astro';
 import MetaStrip from '../../components/blocks/MetaStrip.astro';
 import CollectionToolbar from '../../components/blocks/CollectionToolbar.astro';
 import NarratorWall from '../../components/blocks/narrator/NarratorWall.astro';
 import MomentsRail from '../../components/blocks/MomentsRail.astro';
-import SplitCTA from '../../components/blocks/SplitCTA.astro';
+import EditableSplitCTA from '../../cloudcannon/components/EditableSplitCTA.astro';
 
 // ── Page content ────────────────────────────────────────────────────────────
 //
@@ -106,16 +106,9 @@ const collectionLd = {
   <JsonLd slot="head" schema={collectionLd} />
 
   <div class="appearance-light">
-    <MeetStudioHero
-      eyebrow={hero.eyebrow}
-      cornerLabel={hero.cornerLabel}
-      headlineSans={hero.headlineSans}
-      headlineSerif={hero.headlineSerif}
-      subtitleHtml={hero.subtitleHtml}
-      primary={hero.primary}
-      secondary={hero.secondary}
-      editablePrefix="hero"
-    />
+    <editable-component data-component="meet-studio-hero" data-prop="hero">
+      <EditableMeetStudioHero {...hero} />
+    </editable-component>
 
     <MetaStrip items={meta} cols={5} ariaLabel={metaStrip.ariaLabel} />
 
@@ -165,17 +158,9 @@ const collectionLd = {
       editablePrefix="momentsRail"
     />
 
-    <SplitCTA
-      eyebrow={coda.eyebrow}
-      quoteHtml={coda.quoteHtml}
-      attribution={coda.attribution}
-      attributionStrong={coda.attributionStrong}
-      cardHeading={coda.cardHeading}
-      cardBody={coda.cardBody}
-      primary={coda.primary}
-      secondary={coda.secondary}
-      editablePrefix="coda"
-    />
+    <editable-component data-component="split-cta" data-prop="coda">
+      <EditableSplitCTA {...coda} />
+    </editable-component>
   </div>
 </PageLayout>
 

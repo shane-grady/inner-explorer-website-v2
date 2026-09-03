@@ -1,0 +1,10 @@
+---
+import type { ComponentProps } from 'astro/types';
+import Voices from '../../components/blocks/about/Voices.astro';
+
+type VoicesProps = Omit<ComponentProps<typeof Voices>, 'editablePrefix'>;
+type Props = Omit<VoicesProps, 'voices'> & { items: VoicesProps['voices'] };
+const { items, ...props } = Astro.props as Props;
+---
+
+<Voices {...props} voices={items} editablePrefix="" />
