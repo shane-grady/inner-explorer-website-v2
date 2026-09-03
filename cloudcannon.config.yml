@@ -6415,16 +6415,13 @@ _snippets:
       component_name: Callout
       content_key: callout_content
       named_args:
-        # `optional: true` matters for MATCHING, not just for validation: a named_arg
-        # without it must be present in the markup or CloudCannon fails to match the
-        # snippet and shows "cannot be edited — Unexpected element". A `default` does
-        # NOT make an arg optional. Callout.astro defaults `type` to 'tip', so the two
-        # usages that omit it (privacy-policy.mdx, signing-in.mdx) render correctly but
-        # were uneditable until this was marked optional.
+        # Keep the presentation variant explicit in authored MDX. CloudCannon
+        # hydrates an omitted Select to its first option while parsing the document,
+        # even when allow_empty is configured, which makes an unrelated no-op snippet
+        # edit dirty the file. The default is used only when inserting a new Callout.
         - editor_key: type
           type: string
-          optional: true
-          remove_empty: true
+          default: tip
           allowed_values: [tip, note, good]
         - editor_key: label
           type: string
@@ -6443,9 +6440,6 @@ _snippets:
         type: select
         options:
           values: [tip, note, good]
-          # CloudCannon otherwise preselects the first value when an optional
-          # argument is absent, which turns opening the modal into a file edit.
-          allow_empty: true
       heading:
         type: text
         comment: Optional. Replaces the small eyebrow with a sentence-case heading.
@@ -6469,8 +6463,7 @@ _snippets:
           remove_empty: true
         - editor_key: ratio
           type: string
-          optional: true
-          remove_empty: true
+          default: 16 / 9
         - editor_key: src
           type: string
           optional: true
@@ -6485,7 +6478,6 @@ _snippets:
         type: select
         options:
           values: [16 / 9, 4 / 3, 1 / 1]
-          allow_empty: true
   help_table:
     template: mdx_paired_component
     inline: false
@@ -6519,8 +6511,7 @@ _snippets:
           type: string
         - editor_key: ratio
           type: string
-          optional: true
-          remove_empty: true
+          default: 16 / 9
         - editor_key: src
           type: string
         - editor_key: webmSrc
@@ -6571,7 +6562,6 @@ _snippets:
         type: select
         options:
           values: [16 / 9, 16 / 10, 4 / 3, 1 / 1, 1144 / 750, 964 / 720]
-          allow_empty: true
   link_cards:
     template: mdx_component
     inline: false

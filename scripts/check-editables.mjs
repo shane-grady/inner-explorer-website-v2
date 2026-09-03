@@ -1579,44 +1579,50 @@ function checkCreationSchemas() {
 
 function checkSnippetDefaults() {
   const found = [];
-  const componentFallbacks = new Set(['Callout.type', 'HelpFigure.ratio', 'HelpVideo.ratio']);
+  const requiredSelectArgs = new Map([
+    ['Callout.type', 'tip'],
+    ['HelpFigure.ratio', '16 / 9'],
+    ['HelpVideo.ratio', '16 / 9'],
+  ]);
   for (const [snippet, config] of Object.entries(cc._snippets ?? {})) {
     for (const model of config?.definitions?.named_args ?? []) {
-      const fallback = `${config.definitions?.component_name}.${model?.editor_key}`;
-      if (!model?.optional || !componentFallbacks.has(fallback)) continue;
-      if (model.default !== undefined) {
-        found.push({
-          kind: 'OPTIONAL_SNIPPET_DEFAULT',
-          file: 'cloudcannon.config.yml',
-          url: snippet,
-          backing: config.definitions?.component_name ?? null,
-          tag: model.editor_key ?? '(unknown)',
-          detail:
-            'this Astro component already supplies the fallback; a CloudCannon default creates no-op editor serialization',
-        });
-      }
-      if (model.remove_empty !== true) {
-        found.push({
-          kind: 'OPTIONAL_SNIPPET_KEPT_EMPTY',
-          file: 'cloudcannon.config.yml',
-          url: snippet,
-          backing: config.definitions?.component_name ?? null,
-          tag: model.editor_key ?? '(unknown)',
-          detail:
-            'this optional Astro-backed fallback requires remove_empty: true so empty editor values do not become source attributes',
-        });
-      }
-      const input = config?._inputs?.[model.editor_key];
-      if (input?.type === 'select' && input.options?.allow_empty !== true) {
-        found.push({
-          kind: 'OPTIONAL_SNIPPET_SELECT_PRESELECTS',
-          file: 'cloudcannon.config.yml',
-          url: snippet,
-          backing: config.definitions?.component_name ?? null,
-          tag: model.editor_key ?? '(unknown)',
-          detail:
-            'this optional closed select requires allow_empty: true or CloudCannon preselects its first value when the argument is absent',
-        });
+      const key = `${config.definitions?.component_name}.${model?.editor_key}`;
+      const expectedDefault = requiredSelectArgs.get(key);
+      if (expectedDefault !== undefined) {
+        if (model.optional === true || model.remove_empty === true) {
+          found.push({
+            kind: 'SNIPPET_SELECT_OPTIONAL',
+            file: 'cloudcannon.config.yml',
+            url: snippet,
+            backing: config.definitions?.component_name ?? null,
+            tag: model.editor_key ?? '(unknown)',
+            detail:
+              'semantic Select arguments must remain explicit; CloudCannon hydrates omitted snippet Selects while parsing MDX and dirties unrelated edits',
+          });
+        }
+        if (model.default !== expectedDefault) {
+          found.push({
+            kind: 'SNIPPET_SELECT_DEFAULT',
+            file: 'cloudcannon.config.yml',
+            url: snippet,
+            backing: config.definitions?.component_name ?? null,
+            tag: model.editor_key ?? '(unknown)',
+            detail: `new snippets must serialize the same ${JSON.stringify(expectedDefault)} value that Astro uses as its runtime fallback`,
+          });
+        }
+        const input = config?._inputs?.[model.editor_key];
+        const values = input?.options?.values ?? [];
+        if (input?.type !== 'select' || !values.includes(expectedDefault)) {
+          found.push({
+            kind: 'SNIPPET_SELECT_INPUT',
+            file: 'cloudcannon.config.yml',
+            url: snippet,
+            backing: config.definitions?.component_name ?? null,
+            tag: model.editor_key ?? '(unknown)',
+            detail:
+              'the required snippet argument must use a closed Select containing its insertion default',
+          });
+        }
       }
     }
   }

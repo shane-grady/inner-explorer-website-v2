@@ -28,10 +28,11 @@ any correction or surprise.
   an existing Help article. Use `schemas: null` on single-shape collections, keep the
   `_schema` input scoped to collections that genuinely use schemas, and verify a fresh
   hosted no-op edit after every schema migration. Optional snippet arguments must not
-  define serializer defaults; keep presentation fallbacks in the Astro component and
-  pair `optional: true` with `remove_empty: true`. For an optional closed select,
-  also set `options.allow_empty: true`; without it, opening the snippet modal
-  preselects the first option and marks an unchanged file as edited.
+  define serializer defaults; pair genuinely optional text/media values with
+  `remove_empty: true`. Do not rely on Select `allow_empty` inside an MDX snippet:
+  hosted testing proved CloudCannon still hydrates an omitted Select to its first
+  option while parsing the full document. Make semantic Select arguments explicit,
+  required, and insertion-defaulted in the snippet contract instead.
 - **Use `add_options.default_content_file`, not a one-entry `schemas` map, for a
   uniform CloudCannon collection.** Hosted readback showed that `schemas` is an
   ongoing maintenance contract for existing entries, not merely a creation template;

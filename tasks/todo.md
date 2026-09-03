@@ -34,6 +34,11 @@ CloudCannon, and both Netlify sites.
       analytics/session-replay suppression.
 - [x] Extend the CMS guard and add negative fixtures for every new contract.
 - [x] Run a clean Node 24 frozen install and `pnpm verify:cms`.
+- [x] Prove the provisioned technical Site loads Node 24, both exact CloudCannon
+      packages, both builds, 8,745 editable regions, and all 52 contract fixtures.
+- [ ] Prove a repeated no-op HelpVideo edit stays byte-stable after making the three
+      semantic snippet Selects explicit in authored MDX.
+- [ ] Create, reopen, and remove one technical entry in every creatable collection.
 - [ ] Re-run both Netlify previews at the final PR head. The prior `0bb8c83` preview
       proof passed, including Help direct 404s, marketing redirects, noindex, and
       security headers.
@@ -43,7 +48,7 @@ CloudCannon, and both Netlify sites.
 ### Review
 
 Local implementation is complete. The authoritative Node 24 gate passes both builds,
-CloudCannon validation, all 8,745 editable regions, and 51 contract fixtures. The
+CloudCannon validation, all 8,745 editable regions, and 52 contract fixtures. The
 original dirty checkout remained untouched; work is isolated on
 `codex/cloudcannon-reliability`.
 
@@ -75,8 +80,15 @@ uses explicit `schemas: null` tombstones for all six single-shape collections, k
 `_schema` scoped to Marketing pages, and leaves presentation defaults inside Astro
 components rather than CloudCannon's serializer. CI rejects reintroduced schema
 metadata, published creation placeholders, and optional snippet defaults/empty attrs.
-The next hosted build must prove that the provisioned Site clears its retained schema
-state and that a repeated HelpVideo no-op edit is clean.
+The provisioned technical Site now clears its retained schema state: a fresh hosted
+build at `5df13e0` passed Node 24, exact dependency, both-site, editable-region, and
+52/52 fixture checks, and existing Help source no longer gained `_schema` or template
+SEO. That build also proved generic Select `allow_empty` is ineffective inside the
+full-document MDX snippet serializer: opening HelpVideo still hydrated the separate
+omitted Callout type to `tip`. The durable follow-up makes Callout type and media ratio
+Selects required with explicit insertion defaults, and materializes `type="tip"` on
+the two render-equivalent omissions. The next hosted build must prove repeated
+HelpVideo editing is now byte-stable.
 
 The live Help Netlify configuration is now corrected and read back. Rollout remains
 intentionally unmerged until the temporary CloudCannon Site proves that existing

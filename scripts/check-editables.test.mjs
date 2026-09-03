@@ -507,8 +507,8 @@ const negativeFixtures = [
     },
   },
   {
-    name: 'Astro-backed optional snippet fallback configured with a serializer default',
-    error: 'OPTIONAL_SNIPPET_DEFAULT',
+    name: 'semantic snippet Select cannot become optional',
+    error: 'SNIPPET_SELECT_OPTIONAL',
     mutate(files) {
       files['cloudcannon.config.yml'] += `
 _snippets:
@@ -526,8 +526,8 @@ _snippets:
     },
   },
   {
-    name: 'Astro-backed optional snippet fallback missing remove-empty serialization',
-    error: 'OPTIONAL_SNIPPET_KEPT_EMPTY',
+    name: 'semantic snippet Select keeps its insertion default',
+    error: 'SNIPPET_SELECT_DEFAULT',
     mutate(files) {
       files['cloudcannon.config.yml'] += `
 _snippets:
@@ -538,30 +538,29 @@ _snippets:
       named_args:
         - editor_key: type
           type: string
-          optional: true
+          allowed_values: [tip, note, good]
 `;
     },
   },
   {
-    name: 'Astro-backed optional snippet select preselects its first value',
-    error: 'OPTIONAL_SNIPPET_SELECT_PRESELECTS',
+    name: 'semantic snippet argument uses a closed Select containing its default',
+    error: 'SNIPPET_SELECT_INPUT',
     mutate(files) {
       files['cloudcannon.config.yml'] += `
 _snippets:
-  callout:
+  help_video:
     template: mdx_component
     definitions:
-      component_name: Callout
+      component_name: HelpVideo
       named_args:
-        - editor_key: type
+        - editor_key: ratio
           type: string
-          optional: true
-          remove_empty: true
+          default: 16 / 9
     _inputs:
-      type:
-        type: select
+      ratio:
+        type: text
         options:
-          values: [tip, note, good]
+          values: [16 / 9, 4 / 3]
 `;
     },
   },
