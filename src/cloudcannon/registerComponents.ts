@@ -1,9 +1,8 @@
 // Loaded only inside CloudCannon's Visual Editor (see BaseLayout.astro).
-// Shared-data changes can affect links, active-state markup, and responsive copies,
-// so re-render the whole component instead of updating text nodes in isolation.
+// Register only components whose data changes their rendered structure or styling.
+// The shared header and footer use primitive @file editables directly; wrapping either
+// in a registered component creates overlapping render/listener lifecycles in 0.0.19.
 import { registerAstroComponent } from '@cloudcannon/editable-regions/astro';
-import Header from '../components/layout/Header.astro';
-import Footer from '../components/layout/Footer.astro';
 import EditableGlowCTA from './components/EditableGlowCTA.astro';
 import EditableCaseStudyCTA from './components/EditableCaseStudyCTA.astro';
 import EditablePricingPlans from './components/EditablePricingPlans.astro';
@@ -39,8 +38,6 @@ import EditableFAQMasthead from './components/EditableFAQMasthead.astro';
 import EditableMeetStudioHero from './components/EditableMeetStudioHero.astro';
 import FAQSection from '../components/blocks/FAQSection.astro';
 
-registerAstroComponent('site-header', Header);
-registerAstroComponent('site-footer', Footer);
 registerAstroComponent('glow-cta', EditableGlowCTA);
 registerAstroComponent('case-study-cta', EditableCaseStudyCTA);
 registerAstroComponent('pricing-plans', EditablePricingPlans);

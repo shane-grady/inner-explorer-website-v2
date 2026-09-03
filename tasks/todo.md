@@ -54,12 +54,16 @@ that the compiled-HTML guard could not reproduce: external footer data could res
 through CloudCannon's Dataset API as undefined, and registered FAQ rows lost their
 array ancestry during detached re-rendering. The follow-up keeps external top-level
 bindings absolute, keeps registered component boundaries at their page call sites,
-and adds negative fixtures for both failure modes.
+and adds negative fixtures for both failure modes. A post-merge readback caught one
+remaining `legalLinks` race on FAQ; the final follow-up removes unnecessary registered
+component wrappers from the shared header/footer while retaining their primitive
+external-data editables, now bound to exact singleton `@file[...]` paths rather than
+Dataset keys that may return a file list.
 
 Local implementation is complete. The authoritative Node 24 gate passes both builds,
-CloudCannon validation, all 8,745 editable regions, and 66 contract fixtures. The
+CloudCannon validation, all 8,623 editable regions, and 68 contract fixtures. The
 original dirty checkout remained untouched; work is isolated on
-`codex/cloudcannon-reliability`.
+`codex/cloudcannon-shared-data-rendering`.
 
 The final temporary-Site acceptance pass covered every creatable collection. Blog,
 Case Study, Help, Narrator, Practice Series, and Testimonial entries were created in

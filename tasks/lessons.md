@@ -25,10 +25,13 @@ any correction or surprise.
 - **A clean compiled editable tree is not proof of a clean hosted Visual Editor.**
   CloudCannon's runtime can supply external data as a Dataset API object and can
   re-render registered components while detached from their original array parent.
-  Use absolute `@data[file].field` bindings for the first editable layer inside an
-  external-data component, keep `data-component`/`array-item` boundaries at the page
-  call site rather than inside the registered renderer, and finish every rollout with
-  a hosted page-by-page readback for red error cards.
+  Bind singleton shared-data primitives directly with exact
+  `@file[/src/data/file.json].field` paths rather than putting the whole header or
+  footer behind a registered component or relying on a Dataset that may resolve to a
+  file list; those paths can race or become ambiguous in editable-regions 0.0.19. Keep
+  `data-component`/`array-item` boundaries at the page call site rather than inside a
+  registered renderer, and finish every rollout with a hosted page-by-page readback
+  for red error cards.
 
 - **Clear retired CloudCannon schemas explicitly on provisioned Sites.** Removing a
   collection `schemas` map from source was not enough for a long-lived hosted editing

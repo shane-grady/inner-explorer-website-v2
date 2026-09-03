@@ -47,12 +47,12 @@ const year = new Date().getFullYear();
         <p
           class="max-w-xs text-sm text-muted-foreground"
           data-editable="text"
-          data-prop="@data[footer].tagline"
+          data-prop="@file[/src/data/footer.json].tagline"
         >
           {tagline}
         </p>
       </div>
-      <div class="contents" data-editable="array" data-prop="@data[footer].groups">
+      <div class="contents" data-editable="array" data-prop="@file[/src/data/footer.json].groups">
         {
           groups.map((group) => (
             <nav aria-label={group.heading} data-editable="array-item">
@@ -82,10 +82,12 @@ const year = new Date().getFullYear();
       <div class="flex flex-col gap-x-6 gap-y-3 sm:flex-row sm:items-center">
         <span>
           &copy; {legalStartYear}&ndash;{year}{' '}
-          <editable-text data-prop="@data[footer].legalName">{legalName}</editable-text> &middot;{
-            ' '
-          }
-          <editable-text data-prop="@data[footer].nonprofitLabel">{nonprofitLabel}</editable-text>
+          <editable-text data-prop="@file[/src/data/footer.json].legalName"
+            >{legalName}</editable-text
+          > &middot;{' '}
+          <editable-text data-prop="@file[/src/data/footer.json].nonprofitLabel"
+            >{nonprofitLabel}</editable-text
+          >
         </span>
         {
           legalLinks.length > 0 && (
@@ -93,7 +95,7 @@ const year = new Date().getFullYear();
               <ul
                 class="flex flex-wrap items-center gap-x-6 gap-y-2"
                 data-editable="array"
-                data-prop="@data[footer].legalLinks"
+                data-prop="@file[/src/data/footer.json].legalLinks"
               >
                 {legalLinks.map((link) => (
                   <li data-editable="array-item">
@@ -107,7 +109,7 @@ const year = new Date().getFullYear();
           )
         }
       </div>
-      <span data-editable="text" data-prop="@data[footer].closing">{closing}</span>
+      <span data-editable="text" data-prop="@file[/src/data/footer.json].closing">{closing}</span>
     </div>
   </Container>
 </footer>

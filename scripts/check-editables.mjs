@@ -36,6 +36,7 @@ const ROOTS = WANTED;
 
 const MISSING = Symbol('missing');
 const TEXT_TYPES = new Set(['span', 'text', 'block']);
+const CONTENT_EXTENSIONS = new Set(['.md', '.mdx', '.yml', '.yaml', '.json']);
 const VOID = new Set([
   'img',
   'br',
@@ -65,6 +66,7 @@ const CUSTOM = {
 const cc = parseYaml(readFileSync('cloudcannon.config.yml', 'utf8'));
 const collections = cc.collections_config ?? {};
 const dataConfig = cc.data_config ?? {};
+const fileBindingDataCache = new Map();
 
 function* filesBelow(dir, extensions = null) {
   if (!existsSync(dir)) return;
@@ -86,6 +88,21 @@ function loadFile(path) {
   return { data: {}, body: txt };
 }
 
+function repositoryFileForBinding(binding) {
+  if (typeof binding !== 'string' || !binding.startsWith('/')) return null;
+  const path = binding.slice(1);
+  if (existsSync(path) && !statSync(path).isDirectory()) return path;
+  if (extname(path)) return null;
+  return [...CONTENT_EXTENSIONS].map((extension) => `${path}${extension}`).find(existsSync) ?? null;
+}
+
+function dataForFileBinding(binding) {
+  const path = repositoryFileForBinding(binding);
+  if (!path) return MISSING;
+  if (!fileBindingDataCache.has(path)) fileBindingDataCache.set(path, loadFile(path).data);
+  return fileBindingDataCache.get(path);
+}
+
 // url → backing file, built from each collection's `path` + `url` template.
 // CloudCannon template strings have two placeholder forms: FIXED placeholders in
 // square brackets (`[slug]`, defined by CloudCannon) and DATA placeholders in braces
@@ -97,8 +114,6 @@ function loadFile(path) {
 const mainUrlToFile = new Map();
 const helpUrlToFile = new Map();
 const mappingErrors = [];
-const CONTENT_EXTENSIONS = new Set(['.md', '.mdx', '.yml', '.yaml', '.json']);
-
 function addUrlMapping(map, url, backing, surface) {
   const prior = map.get(url);
   if (prior && prior.path !== backing.path) {
@@ -150,6 +165,7 @@ const rootInputs = cc._inputs ?? {};
 const structures = cc._structures ?? {};
 const entryInputScopeCache = new Map();
 const dataInputScopeCache = new Map();
+const fileInputScopeCache = new Map();
 const inputScopeCache = new WeakMap();
 
 function structureRefs(input) {
@@ -247,6 +263,29 @@ function dataInputScope(key) {
   return scope;
 }
 
+function fileInputScope(binding) {
+  if (fileInputScopeCache.has(binding)) return fileInputScopeCache.get(binding);
+  const path = repositoryFileForBinding(binding);
+  if (!path) return rootInputScope();
+  const data = loadFile(path).data;
+  const collectionEntry = Object.entries(collections).find(([, cfg]) => {
+    const root = cfg?.path?.replace(/\/$/, '');
+    return root && (path === root || path.startsWith(`${root}/`));
+  });
+  const [, collection] = collectionEntry ?? [];
+  const schemaKey = collection?.schema_key ?? '_schema';
+  const fileInputs = (cc.file_config ?? [])
+    .filter((cfg) => cfg?.glob === path)
+    .map((cfg) => cfg._inputs);
+  const scope = rootInputScope(
+    collection?._inputs,
+    collection?.schemas?.[data?.[schemaKey]]?._inputs,
+    ...fileInputs,
+  );
+  fileInputScopeCache.set(binding, scope);
+  return scope;
+}
+
 function inputPathParts(path) {
   return path
     .replace(/\[(?:\*|\d+)\]/g, '')
@@ -275,12 +314,16 @@ function inputScopeForBinding(node, prop, fallback) {
   let scope =
     absolute?.[1] === 'data'
       ? dataInputScope(absolute[2])
-      : node.parent && node.parent.kind !== 'root'
-        ? node.parent.inputScope
-        : fallback;
-  const inherited = absolute?.[1] === 'data' ? scope : fallback;
+      : absolute?.[1] === 'file'
+        ? fileInputScope(absolute[2])
+        : node.parent && node.parent.kind !== 'root'
+          ? node.parent.inputScope
+          : fallback;
+  const inherited = absolute?.[1] === 'data' || absolute?.[1] === 'file' ? scope : fallback;
   const path = absolute ? absolute[3] : prop;
-  if (absolute && absolute[1] !== 'data') return { valid: false, scope };
+  if (absolute && absolute[1] !== 'data' && absolute[1] !== 'file') {
+    return { valid: false, scope };
+  }
   const parts = (path ?? '').split('.').filter((part) => part && !/^\d+$/.test(part));
   for (let index = 0; index < parts.length; ) {
     const scopedPath = matchingPathInput(scope?.inputs, parts, index);
@@ -373,7 +416,9 @@ function resolveBinding(node, prop, entry, body) {
   const parentVal = parent && 'val' in parent ? parent.val : MISSING;
   const abs = prop?.match(/^@(data|collections|file)\[([^\]]+)\](?:\.(.+))?$/);
   if (abs) {
-    return abs[1] === 'data' ? lookup(datasets[abs[2]] ?? MISSING, abs[3]) : MISSING;
+    if (abs[1] === 'data') return lookup(datasets[abs[2]] ?? MISSING, abs[3]);
+    if (abs[1] === 'file') return lookup(dataForFileBinding(abs[2]), abs[3]);
+    return MISSING;
   }
   if (prop === '@content') return body ?? MISSING;
   if (parent && parent.kind !== 'root') {
