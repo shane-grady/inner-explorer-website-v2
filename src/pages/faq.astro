@@ -57,14 +57,13 @@ const faqSchema = {
 
   <div class="support-shell">
     <FAQSidebar sections={sidebarSections} />
-    {
-      /* Array container: holds ONLY the mapped sections, each of which renders
-        `data-editable="array-item"` on its own root element. */
-    }
+    {/* Keep the array/component boundary outside the registered renderer. */}
     <main id="faq-main" data-editable="array" data-prop="sections">
       {
         sections.map((sec) => (
-          <FAQSection id={sec.id} title={sec.title} items={sec.items} editablePrefix="" arrayItem />
+          <div data-editable="array-item" data-component="faq-section" data-id={sec.id}>
+            <FAQSection id={sec.id} title={sec.title} items={sec.items} editablePrefix="" />
+          </div>
         ))
       }
     </main>
