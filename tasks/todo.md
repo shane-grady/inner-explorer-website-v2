@@ -36,9 +36,9 @@ CloudCannon, and both Netlify sites.
 - [x] Run a clean Node 24 frozen install and `pnpm verify:cms`.
 - [x] Prove the provisioned technical Site loads Node 24, both exact CloudCannon
       packages, both builds, 8,745 editable regions, and all then-current contract fixtures.
-- [ ] Prove a repeated no-op HelpVideo edit stays byte-stable after making the three
+- [x] Prove a repeated no-op HelpVideo edit stays byte-stable after making the three
       semantic snippet Selects explicit in authored MDX.
-- [ ] Create, reopen, and remove one technical entry in every creatable collection.
+- [x] Create, reopen, and remove one technical entry in every creatable collection.
 - [ ] Re-run both Netlify previews at the final PR head. The prior `0bb8c83` preview
       proof passed, including Help direct 404s, marketing redirects, noindex, and
       security headers.
@@ -48,9 +48,18 @@ CloudCannon, and both Netlify sites.
 ### Review
 
 Local implementation is complete. The authoritative Node 24 gate passes both builds,
-CloudCannon validation, all 8,745 editable regions, and 55 contract fixtures. The
+CloudCannon validation, all 8,745 editable regions, and 59 contract fixtures. The
 original dirty checkout remained untouched; work is isolated on
 `codex/cloudcannon-reliability`.
+
+The final temporary-Site acceptance pass covered every creatable collection. Blog,
+Case Study, Help, Narrator, Practice Series, and Testimonial entries were created in
+CloudCannon, saved together in commit `913428b`, reopened from the hosted editor, and
+read back with the expected filenames, fields, media, and controls. That exact commit
+passed `pnpm verify:cms` under Node 24 locally and in CloudCannon. All six disposable
+entries were then deleted through CloudCannon and saved together in cleanup commit
+`f2c0f67`; its repository tree is byte-for-byte identical to pre-test head `87be0d8`,
+with no remaining `cms-smoke-test` files or pending editor changes.
 
 A temporary CloudCannon branch Site exposed and verified the hosted pnpm cache path;
 the repository excludes `.pnpm-store/` so hosted formatting checks inspect source,
@@ -80,15 +89,17 @@ uses explicit `schemas: null` tombstones for all six single-shape collections, k
 `_schema` scoped to Marketing pages, and leaves presentation defaults inside Astro
 components rather than CloudCannon's serializer. CI rejects reintroduced schema
 metadata, published creation placeholders, and optional snippet defaults/empty attrs.
-The provisioned technical Site now clears its retained schema state: a fresh hosted
-build at `5df13e0` passed Node 24, exact dependency, both-site, editable-region, and
-52/52 then-current fixture checks, and existing Help source no longer gained `_schema` or template
-SEO. That build also proved generic Select `allow_empty` is ineffective inside the
+The provisioned technical Site now clears its retained schema state: the final hosted
+build at temporary content commit `913428b` passed Node 24, exact dependencies,
+both-site builds, all 8,745 editable regions, and 59/59 fixture checks; existing Help
+source no longer gained `_schema` or template SEO. That testing also proved generic
+Select `allow_empty` is ineffective inside the
 full-document MDX snippet serializer: opening HelpVideo still hydrated the separate
 omitted Callout type to `tip`. The durable follow-up makes Callout type and media ratio
 Selects required with explicit insertion defaults, and materializes `type="tip"` on
-the two render-equivalent omissions. The next hosted build must prove repeated
-HelpVideo editing is now byte-stable.
+the two render-equivalent omissions. Two fresh HelpVideo Edit/close passes then
+produced identical 6,345-byte source (FNV `46e5773d`) with every value preserved. The
+editor still raises a false dirty flag, but saving that state cannot rewrite the file.
 
 The live Help Netlify configuration is now corrected and read back. Rollout remains
 intentionally unmerged until the temporary CloudCannon Site proves that existing
