@@ -2120,6 +2120,8 @@ _inputs:
     type: url
   durationSec:
     type: number
+  sourceId:
+    type: number
   heroImage: &optimized_image
     type: image
     options: &optimized_image_options
@@ -2677,7 +2679,7 @@ _structures:
           unit: ''
           label: ''
           trend: ''
-          sourceId: 0
+          sourceId: null
         _inputs:
           trend:
             type: select
@@ -2706,7 +2708,7 @@ _structures:
             unit: ''
             label: ''
             trend: ''
-            sourceId: 0
+            sourceId: null
           grid: []
         _inputs:
           featured:
@@ -2774,7 +2776,7 @@ _structures:
           title: ''
           subtitle: ''
           foot: ''
-          sourceId: 0
+          sourceId: null
           valueSuffix: ''
           groups: []
         _inputs:

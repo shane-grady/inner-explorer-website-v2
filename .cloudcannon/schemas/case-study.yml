@@ -18,7 +18,7 @@ district:
   shortName: District
   location: City, State
   partnerSince: ''
-  seal: ../../assets/images/research/hero-classroom.jpg
+  seal: ''
   snapshot: []
 keyInsights:
   eyebrow: Key Insights
@@ -62,13 +62,13 @@ metrics:
     unit: ''
     label: Add the featured result
     trend: up-good
-    sourceId: 1
+    sourceId: null
   grid: []
 chart:
   title: Add a chart title
   subtitle: Add chart context.
   foot: Add a source note.
-  sourceId: 1
+  sourceId: null
   valueSuffix: '%'
   groups:
     - label: Baseline

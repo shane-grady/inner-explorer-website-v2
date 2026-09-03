@@ -35,6 +35,9 @@ default path ends in `.md`, which would bypass the YAML-only loaders for Case St
 Narrators, Series, and Testimonials. Blog and Help explicitly create `.mdx` files so
 their registered MDX snippets remain available. The CMS contract guard fixes both the
 extension and the filename source (`title`, `name`, or the case-study title lead).
+Generic drafts also start without person-specific portraits, district seals, or source
+references. When those fields are used, editors supply the real asset or citation
+rather than inheriting a misleading identity.
 
 ## MDX pipeline
 

@@ -5,7 +5,7 @@ pubDate:
 updatedDate:
 author: Inner Explorer
 authorRole: Editorial team
-authorImage: ../../assets/images/about/team-laura-bakosh.jpg
+authorImage: ''
 titleHtml: New blog post
 metaTitle: New blog post | Inner Explorer
 metaDescription: Add a short summary for readers and search results.

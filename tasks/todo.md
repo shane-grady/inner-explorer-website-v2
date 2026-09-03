@@ -31,7 +31,9 @@ CloudCannon, and both Netlify sites.
       analytics/session-replay suppression.
 - [x] Extend the CMS guard and add negative fixtures for every new contract.
 - [x] Run a clean Node 24 frozen install and `pnpm verify:cms`.
-- [ ] Inspect both Netlify previews after the account restriction is cleared.
+- [ ] Re-run both Netlify previews at the final PR head. The prior `0bb8c83` preview
+      proof passed, including Help direct 404s, marketing redirects, noindex, and
+      security headers.
 - [ ] Prove code-to-CMS and reversible CMS-to-GitHub-to-Netlify round trips, then
       confirm the legacy marketing site remains outside this rollout.
 
@@ -64,11 +66,13 @@ pins a collision-safe create path whose extension matches its Astro loader (`.md
 for authored Blog/Help content and YAML for structured entries).
 
 The live Help Netlify configuration is now corrected and read back. Rollout remains
-intentionally unmerged until the revised PR head passes both Netlify previews and the
-temporary CloudCannon Site proves that existing entries no longer gain creation-only
-placeholder values. Existing public deployments remain on their last successful
-versions; the live Help site therefore still demonstrates the old redirect leak
-(`/pricing` and `/resources` redirect instead of returning direct 404s).
+intentionally unmerged until the temporary CloudCannon Site proves that existing
+entries no longer gain creation-only placeholder values. GitHub verification and both
+Netlify previews pass at exact head `0bb8c83`; the Help preview returns direct branded
+404s for `/pricing` and `/resources`, and the marketing preview keeps its intended
+redirects and noindex/security headers. Existing public deployments remain on their
+last successful versions; the live Help site therefore still demonstrates the old
+redirect leak until this PR reaches `main`.
 
 ## Home v2 — new home page from Claude Design handoff (2026-06-22)
 

@@ -146,12 +146,16 @@ const narrators = defineCollection({
 const caseStudies = defineCollection({
   loader: glob({ pattern: '**/*.{json,yaml,yml}', base: './src/content/case-studies' }),
   schema: ({ image }) => {
+    const optionalSourceId = z.preprocess(
+      (value) => (value == null ? undefined : value),
+      z.number().optional(),
+    );
     const metric = z.object({
       value: z.string(),
       unit: z.string().optional(),
       label: z.string(),
       trend: z.enum(['up-good', 'down-good']).optional(),
-      sourceId: z.number().optional(),
+      sourceId: optionalSourceId,
     });
     const valueLabel = z.object({ value: z.string(), label: z.string() });
     const cta = z.object({ label: z.string(), href: z.string() });
@@ -162,7 +166,7 @@ const caseStudies = defineCollection({
       title: z.string(),
       subtitle: z.string().optional(),
       foot: z.string().optional(),
-      sourceId: z.number().optional(),
+      sourceId: optionalSourceId,
       valueSuffix: z.string().optional(),
       groups: z
         .array(
