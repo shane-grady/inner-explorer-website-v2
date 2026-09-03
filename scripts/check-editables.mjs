@@ -988,14 +988,27 @@ function checkMarketingPageContract() {
         tag: entry.id,
         detail: `collections_config.pages.schemas has no "${entry.id}" entry`,
       });
-    } else if (schema.path && schema.path !== entry.path) {
+    } else if (typeof schema.path !== 'string' || !existsSync(schema.path)) {
       found.push({
-        kind: 'PAGE_CONFIG_PATH_MISMATCH',
+        kind: 'MISSING_PAGE_SCHEMA_TEMPLATE',
+        file: 'cloudcannon.config.yml',
+        url: entry.id,
+        backing: schema.path ?? null,
+        tag: entry.id,
+        detail: `schema template ${schema.path ?? '(missing)'} does not exist`,
+      });
+    } else if (
+      schema.path === pagesCfg.path ||
+      schema.path.startsWith(`${pagesCfg.path.replace(/\/$/, '')}/`)
+    ) {
+      found.push({
+        kind: 'PAGE_SCHEMA_TEMPLATE_IN_COLLECTION',
         file: 'cloudcannon.config.yml',
         url: entry.id,
         backing: schema.path,
         tag: entry.id,
-        detail: `schema path ${schema.path} should be ${entry.path}`,
+        detail:
+          'schema templates must live outside the Marketing pages collection or CloudCannon hides them from the collection listing',
       });
     }
   }

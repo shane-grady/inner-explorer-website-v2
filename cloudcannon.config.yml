@@ -81,11 +81,11 @@ collections_config:
         type: textarea
         comment: Meta description shown in search results.
     schemas:
-      # `path` is required by the config schema and names the template used when
-      # creating a new entry. These routes are singletons (disable_add), so it never
-      # gets cloned — pointing it at the live file keeps it honest and self-documenting.
+      # `path` names a schema template. Keep it outside the collection: CloudCannon
+      # excludes schema-template files from collection listings, so pointing these
+      # paths at the live singleton files would hide all 13 Marketing pages.
       faq:
-        path: src/content/pages/faq.yml
+        path: .cloudcannon/schemas/marketing-page.yml
         name: FAQ
         icon: help
         preview: &marketing_page_preview
@@ -164,7 +164,7 @@ collections_config:
       # deliberately absent — declaring them would mis-type every other use.
       # `pnpm lint:editables` fails the build if an ambiguous name is ever declared.
       contact:
-        path: src/content/pages/contact.yml
+        path: .cloudcannon/schemas/marketing-page.yml
         name: Contact
         icon: contact_mail
         preview: *marketing_page_preview
@@ -199,7 +199,7 @@ collections_config:
           intro:
             type: textarea
       platform:
-        path: src/content/pages/platform.yml
+        path: .cloudcannon/schemas/marketing-page.yml
         name: Platform
         icon: devices
         preview: *marketing_page_preview
@@ -417,7 +417,7 @@ collections_config:
           text:
             type: textarea
       research:
-        path: src/content/pages/research.yml
+        path: .cloudcannon/schemas/marketing-page.yml
         name: Research
         icon: science
         preview: *marketing_page_preview
@@ -544,7 +544,7 @@ collections_config:
           subtitle:
             type: textarea
       about:
-        path: src/content/pages/about.yml
+        path: .cloudcannon/schemas/marketing-page.yml
         name: About
         icon: groups
         preview: *marketing_page_preview
@@ -694,7 +694,7 @@ collections_config:
           subtitle:
             type: textarea
       narrators-index:
-        path: src/content/pages/narrators-index.yml
+        path: .cloudcannon/schemas/marketing-page.yml
         name: Narrators (index)
         icon: record_voice_over
         preview: *marketing_page_preview
@@ -746,7 +746,7 @@ collections_config:
           cardBody:
             type: textarea
       districts:
-        path: src/content/pages/districts.yml
+        path: .cloudcannon/schemas/marketing-page.yml
         name: Districts
         icon: school
         preview: *marketing_page_preview
@@ -1003,7 +1003,7 @@ collections_config:
           shortVersion:
             type: textarea
       pricing:
-        path: src/content/pages/pricing.yml
+        path: .cloudcannon/schemas/marketing-page.yml
         name: Pricing
         icon: sell
         preview: *marketing_page_preview
@@ -1074,7 +1074,7 @@ collections_config:
           subtitle:
             type: textarea
       newsroom:
-        path: src/content/pages/newsroom.yml
+        path: .cloudcannon/schemas/marketing-page.yml
         name: Newsroom
         icon: newspaper
         preview: *marketing_page_preview
@@ -1092,7 +1092,7 @@ collections_config:
               preview:
                 icon: link
       home:
-        path: src/content/pages/home.yml
+        path: .cloudcannon/schemas/marketing-page.yml
         name: Home
         icon: home
         preview: *marketing_page_preview
@@ -1266,7 +1266,7 @@ collections_config:
           manifesto:
             type: textarea
       blog-index:
-        path: src/content/pages/blog-index.yml
+        path: .cloudcannon/schemas/marketing-page.yml
         name: Blog (index)
         icon: post_add
         preview: *marketing_page_preview
@@ -1278,7 +1278,7 @@ collections_config:
               preview:
                 icon: article
       case-studies-index:
-        path: src/content/pages/case-studies-index.yml
+        path: .cloudcannon/schemas/marketing-page.yml
         name: Case studies (index)
         icon: menu_book
         preview: *marketing_page_preview
@@ -1304,7 +1304,7 @@ collections_config:
       # carries the page's kicker and its SEO copy, and gives CloudCannon a file
       # behind /privacy-policy/ so the page opens in the Visual Editor at all.
       privacy-policy:
-        path: src/content/pages/privacy-policy.yml
+        path: .cloudcannon/schemas/marketing-page.yml
         name: Privacy policy
         icon: gavel
         preview: *marketing_page_preview

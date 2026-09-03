@@ -24,20 +24,26 @@ CloudCannon, and both Netlify sites.
 - [x] Complete selective Visual Editor bindings, Help-relative links, and editor-mode
       analytics/session-replay suppression.
 - [x] Extend the CMS guard and add negative fixtures for every new contract.
-- [ ] Run a clean Node 24 frozen install and `pnpm verify:cms`; inspect both previews.
+- [x] Run a clean Node 24 frozen install and `pnpm verify:cms`.
+- [ ] Inspect both Netlify previews after the account restriction is cleared.
 - [ ] Prove code-to-CMS and reversible CMS-to-GitHub-to-Netlify round trips, then
       confirm the legacy marketing site remains outside this rollout.
 
 ### Review
 
 Local implementation is complete. The authoritative Node 24 gate passes both builds,
-CloudCannon validation, all 8,745 editable regions, and 33 contract fixtures. The
+CloudCannon validation, all 8,745 editable regions, and 35 contract fixtures. The
 original dirty checkout remained untouched; work is isolated on
 `codex/cloudcannon-reliability`.
 
 A temporary CloudCannon branch Site exposed and verified the hosted pnpm cache path;
 the repository excludes `.pnpm-store/` so hosted formatting checks inspect source,
 not package-cache internals.
+
+The same hosted Site also exposed that using live singleton files as CloudCannon
+schema templates hides those files from the Marketing pages collection. All thirteen
+schemas now share a dedicated template outside the collection, and the guard rejects
+both missing templates and templates placed inside a managed collection.
 
 Rollout remains intentionally unmerged until the live Help Netlify Site changes from
 Base `sites/help` to a repository-root Base with Package directory `sites/help`. The

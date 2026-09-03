@@ -27,7 +27,7 @@ const pageIds = Object.keys(pageRoutes);
 const pageSchemas = pageIds
   .map(
     (id) => `      ${id}:
-        path: src/content/pages/${id}.yml${
+        path: .cloudcannon/schemas/marketing-page.yml${
           id === 'home'
             ? `
         _inputs:
@@ -150,6 +150,8 @@ const series = defineCollection({ schema: z.object({ title: z.string() }) });
     'src/lib/help-collection.ts':
       'const helpCollection = defineCollection({ schema: z.object({ title: z.string() }) });\n',
     '.cloudcannon/schemas/blog-post.md': '---\ntitle: New post\nitems: []\n---\n',
+    '.cloudcannon/schemas/marketing-page.yml':
+      '_schema: home\npermalink: /\npageTitle: Marketing page\npageDescription: Fixed layout\n',
     '.cloudcannon/schemas/case-study.yml': 'title: New case study\n',
     '.cloudcannon/schemas/help-article.md': '---\ntitle: New guide\n---\n',
     '.cloudcannon/schemas/narrator.yml': 'title: New narrator\n',
@@ -380,6 +382,23 @@ const negativeFixtures = [
     error: 'MISSING_MARKETING_PAGE',
     mutate(files) {
       delete files['src/content/pages/about.yml'];
+    },
+  },
+  {
+    name: 'marketing schema template placed inside its collection',
+    error: 'PAGE_SCHEMA_TEMPLATE_IN_COLLECTION',
+    mutate(files) {
+      files['cloudcannon.config.yml'] = files['cloudcannon.config.yml'].replaceAll(
+        '.cloudcannon/schemas/marketing-page.yml',
+        'src/content/pages/home.yml',
+      );
+    },
+  },
+  {
+    name: 'missing marketing schema template',
+    error: 'MISSING_PAGE_SCHEMA_TEMPLATE',
+    mutate(files) {
+      delete files['.cloudcannon/schemas/marketing-page.yml'];
     },
   },
   {
