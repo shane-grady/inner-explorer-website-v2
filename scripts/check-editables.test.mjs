@@ -581,7 +581,7 @@ const negativeFixtures = [
     error: 'SNIPPET_SELECT_MISSING',
     mutate(files) {
       files['cloudcannon.config.yml'] = files['cloudcannon.config.yml'].replace(
-        /  help_figure:\n[\s\S]*?(?=  help_video:)/,
+        / {2}help_figure:\n[\s\S]*?(?= {2}help_video:)/,
         '',
       );
     },
