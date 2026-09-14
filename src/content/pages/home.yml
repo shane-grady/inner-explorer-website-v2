@@ -9,11 +9,12 @@ intro:
     label: Get Started
     href: /contact
   imageAlt: A student sits quietly with lowered eyes during a calm moment in a busy elementary classroom.
-  balanceLabel: Balance
   problem:
+    label: Stressed
     title: If only finding peace in your district was as simple as pressing play.
     body: Behavioral disruptions steal weeks of instructional time every single year.
   solution:
+    label: Settled
     title: It turns out, it actually is.
     body: We reduce those disruptions by 60% with zero prep work required.
 liveNow:

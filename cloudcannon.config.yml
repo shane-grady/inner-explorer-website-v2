@@ -5973,9 +5973,8 @@ _structures:
             'lede': '',
             'cta': { 'label': '', 'href': '' },
             'imageAlt': '',
-            'balanceLabel': '',
-            'problem': { 'title': '', 'body': '' },
-            'solution': { 'title': '', 'body': '' },
+            'problem': { 'label': '', 'title': '', 'body': '' },
+            'solution': { 'label': '', 'title': '', 'body': '' },
           }
 
   page_home_livenow_object:

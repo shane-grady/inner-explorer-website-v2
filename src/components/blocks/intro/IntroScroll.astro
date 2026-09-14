@@ -2,11 +2,11 @@
 import IntroStage from './IntroStage.astro';
 import type { EditablePrefix } from '../../../lib/editable';
 
-// Orchestrates the homepage scroll-intro as ONE combined pinned stage: as the user
-// scrolls, the wave line draws on + the green field fades in + the hero copy slides up
-// to reveal the circle (collapsed toggle) and the problem statement; the line meets the
-// circle; the circle expands into the BALANCE pill; the toggle switches off→on
-// (green→cream); then the pin releases. All under Lenis smooth scroll. Wrapped in
+// Orchestrates the homepage scroll-intro as ONE combined pinned stage, in three beats:
+// the hero copy slides up + fades out quickly while the green field fades in; the wave
+// line draws alone and connects to the BALANCE pill; the Balance group appears the moment
+// it lands and the line dissolves into it; the toggle switches off→on (green→cream); then
+// the pin releases. Timeline in `T` below. All under Lenis smooth scroll. Wrapped in
 // `.appearance-light` so the warm/light treatment holds regardless of the global theme
 // (same pattern as the light-only About page).
 //
@@ -19,6 +19,8 @@ interface Cta {
   href: string;
 }
 interface State {
+  /** The word beside the toggle while this state shows. */
+  label: string;
   title: string;
   body: string;
 }
@@ -27,14 +29,12 @@ interface Props {
   lede: string;
   cta: Cta;
   imageAlt: string;
-  balanceLabel: string;
   problem: State;
   solution: State;
   /** CloudCannon path prefix for the intro's copy (e.g. 'intro'). */
   editablePrefix?: EditablePrefix;
 }
-const { headline, lede, cta, imageAlt, balanceLabel, problem, solution, editablePrefix }: Props =
-  Astro.props;
+const { headline, lede, cta, imageAlt, problem, solution, editablePrefix }: Props = Astro.props;
 ---
 
 <div class="intro appearance-light" data-intro>
@@ -44,7 +44,6 @@ const { headline, lede, cta, imageAlt, balanceLabel, problem, solution, editable
     lede={lede}
     cta={cta}
     imageAlt={imageAlt}
-    balanceLabel={balanceLabel}
     off={problem}
     on={solution}
     editablePrefix={editablePrefix}
@@ -87,6 +86,25 @@ const { headline, lede, cta, imageAlt, balanceLabel, problem, solution, editable
     const t = clamp01(x);
     return t * t * (3 - 2 * t);
   };
+
+  // Scroll timeline (fractions of the pin) — three separate beats, in order:
+  //   1. hero copy slides up + fades out (gone early, before anything else appears)
+  //   2. the line's swirl draws alone across the green field
+  //   3. the tail drops FAST from the swirl to the pill while the Balance group (pill +
+  //      text) crossfades in and the line fades out — fully swapped the moment it lands;
+  //      then the toggle flips
+  const T = {
+    heroGone: 0.2, // hero copy fully faded + moved up
+    swirlDone: 0.4, // the swirl (first SWIRL_END of the path) is fully drawn
+    lineConnect: 0.5, // the tail has dropped to the pill; line faded out, Balance in
+    toggleOn: 0.64, // toggle flips off→on (green→cream)
+  };
+  // Fraction of the path's length where the swirl closes and the long, near-straight
+  // tail to the pill begins (measured on PATH_STRONG/PATH_FAINT). Drawn linearly, that
+  // tail is ~30% of the length but reads as nothing happening — so it gets its own,
+  // much shorter scroll window, and the Balance crossfade is driven by it: the Balance
+  // group fades in and the line fades out as the tail drops, swapped when it lands.
+  const SWIRL_END = 0.7;
 
   function teardown() {
     offFns.forEach((off) => off());
@@ -134,31 +152,34 @@ const { headline, lede, cta, imageAlt, balanceLabel, problem, solution, editable
 
     const pinRange = () => Math.max(1, stage.offsetHeight - stagePin.offsetHeight);
 
-    // One progress value (0→1 across the pin) choreographs the whole stage:
-    // line draws (visible) → its end meets the rising pill (connect) → toggle switches
-    // (the button "animates") → line fades.
+    // One progress value (0→1 across the pin) choreographs the whole stage (see T).
     const apply = (p: number) => {
       const vh = window.innerHeight;
-      // 1. Hero copy slides all the way up the page; fades as it clears the swirl.
-      heroContent.style.setProperty('--hero-up', `${p * vh * 1.4}px`);
-      heroContent.style.setProperty('--hero-fade', String(smooth((p - 0.36) / 0.18)));
-      hero.classList.toggle('is-faded', p > 0.55);
-      // 2. Line draws on (stays on-screen), finishing right as the pill arrives (~0.52).
-      const drawn = clamp01(0.06 + p * 1.78);
+      // 1. Hero copy slides up and fades out together — quickly, and early.
+      const heroOut = smooth(p / T.heroGone);
+      heroContent.style.setProperty('--hero-up', `${heroOut * vh * 0.5}px`);
+      heroContent.style.setProperty('--hero-fade', String(heroOut));
+      hero.classList.toggle('is-faded', p > T.heroGone);
+      // Green overlay fades in over the photo as the copy leaves.
+      overlay.style.setProperty('--field-in', String(smooth(p / 0.42)));
+      // 2. The swirl draws alone across the field (0 → swirlDone)…
+      const swirl = clamp01(p / T.swirlDone) * SWIRL_END;
+      // 3. …then the tail drops to the pill (swirlDone → lineConnect), eased so it leaves
+      //    the swirl gently and settles into the pill rather than snapping.
+      const tail = smooth((p - T.swirlDone) / (T.lineConnect - T.swirlDone));
+      const drawn = swirl + tail * (1 - SWIRL_END);
       wavePaths.forEach((pa, i) => {
         pa.style.strokeDashoffset = String(lens[i] * (1 - drawn));
       });
-      // Holds while connected, then fades out as the toggle switches.
-      lines?.style.setProperty('--line-opacity', String(clamp01(1 - smooth((p - 0.6) / 0.14))));
-      // 3. Green overlay fades in over the photo.
-      overlay.style.setProperty('--field-in', String(smooth(p / 0.42)));
-      // 4. Balance rises UP FROM THE BOTTOM; the pill reaches the line's end (~p0.5).
-      const reveal = smooth(p / 0.5);
-      balance.style.setProperty('--balance-up', `${(1 - reveal) * vh * 0.45}px`);
-      balance.style.setProperty('--balance-in', String(smooth((p - 0.08) / 0.3)));
-      balance.classList.toggle('is-live', p > 0.5);
-      // 5. The toggle switches off→on (green→cream, problem→solution).
-      setState(p > 0.62);
+      // Crossfade rides the tail — Balance opacity = how far the tail has travelled, line
+      //    opacity its inverse — so they are fully swapped the frame it lands.
+      const reveal = tail;
+      balance.style.setProperty('--balance-up', `${(1 - reveal) * 16}px`);
+      balance.style.setProperty('--balance-in', String(reveal));
+      balance.classList.toggle('is-live', drawn >= 1);
+      lines?.style.setProperty('--line-opacity', String(1 - reveal));
+      // 4. The toggle switches off→on (green→cream, problem→solution).
+      setState(p > T.toggleOn);
       // Nav reads on-dark only while the photo is prominent.
       navEl?.classList.toggle('on-dark', p < 0.32);
     };
@@ -203,7 +224,9 @@ const { headline, lede, cta, imageAlt, balanceLabel, problem, solution, editable
       setState(goingOn);
       if (reduce || !lenis) return;
       const stageTop = stage.getBoundingClientRect().top + window.scrollY;
-      lenis.scrollTo(stageTop + pinRange() * (goingOn ? 0.82 : 0.55), { duration: 1.1 });
+      lenis.scrollTo(stageTop + pinRange() * (goingOn ? 0.85 : T.lineConnect + 0.05), {
+        duration: 1.1,
+      });
     };
     switchBtn?.addEventListener('click', onClick);
     offFns.push(() => switchBtn?.removeEventListener('click', onClick));

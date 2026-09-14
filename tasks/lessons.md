@@ -167,8 +167,31 @@ dashoffset)`; map it to the page with `getScreenCTM()` (`sx = a*x + c*y + e`,
   which had shoved the pill ~45px right of centre. Verified: end `(711,399)` inside pill
   `688–752 × 398–430`. The pill is a CONSTANT-size toggle — it does not expand from a
   circle (an earlier wrong guess); "the button animates" = the knob sliding on switch.
-  Sequence that reads right: line draws (visible) → completes as the rising pill reaches
-  it (~p0.52, connect) → toggle switches (~p0.62) → line fades (~p0.6→0.74).
+  Sequence that reads right (retuned 2026-09-14): THREE SEPARATE BEATS, not overlapping
+  layers. Hero copy slides up + fades out fast (gone by p0.2) → the line's SWIRL draws
+  alone across the green field (p0→0.40) → the TAIL drops to the pill (p0.40→0.50,
+  smoothstep so it leaves the swirl gently and settles) while the Balance group crossfades
+  in and the line fades out — Balance opacity = the eased tail progress, line opacity its
+  inverse — fully swapped the frame it lands → toggle switches (p0.64). A linear 5%-of-pin
+  tail with an ease-out crossfade read as fast/jarring; ~10% with one shared smoothstep
+  reads as one gesture.
+  **Draw the path in two phases, not linearly in length.** The swirl closes at ~70% of the
+  path's length; the remaining ~30% is a near-straight tail spanning half the SVG. Drawn
+  linearly it took ~15% of the pin — a full second of scrolling where a thin line crept
+  down and "nothing happened" — and every timing tweak on the reveal side left that gap
+  in place. Measure where the interesting geometry ends (`getPointAtLength` sweep for the
+  rightmost point / loop close), give the tail its own short scroll window, and drive the
+  reveal from the tail's progress so it cannot decouple. Earlier passes also had the
+  Balance rising from the bottom from p0.08 and the hero lingering to p0.54, so hero copy,
+  line, and Balance text were all on screen at once. The timeline lives in one named `T`
+  object in `IntroScroll.astro`, not scattered magic numbers. Pin tightened
+  360svh→300svh. The two decorative ring outlines in the green overlay were removed.
+- **Driving the Lenis scrub from the Browser pane without touching source:** Lenis
+  re-applies its own position every frame, so `window.scrollTo` is undone. Dispatch
+  `new WheelEvent('wheel', { deltaY: target - scrollY, bubbles: true, cancelable: true })`
+  on `document`, wait ~900ms for the lerp to settle, then read `strokeDashoffset`,
+  computed opacity and `[data-pin].dataset.state`. If the wheel does nothing and the
+  console shows `504 (Outdated Optimize Dep)`, restart the dev server first.
 - **Tuning a scroll-scrubbed scene: jump Lenis to exact frames + verify in the
   chrome-devtools browser, not `preview_screenshot`.** `lenis.scrollTo(y,{immediate:true})`
   (via a temporary `window.__lenis` handle, removed before ship) plus `lenis.stop()` locks
