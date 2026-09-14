@@ -107,9 +107,10 @@ export const homePage = ({ image }: PageSchemaContext) =>
       lede: z.string(),
       cta,
       imageAlt: z.string(),
-      balanceLabel: z.string(),
-      problem: z.object({ title: z.string(), body: z.string() }),
-      solution: z.object({ title: z.string(), body: z.string() }),
+      /** `label` is the single word beside the toggle while that state shows
+       *  (e.g. "Stressed" → "Settled"); it crossfades with the title/body. */
+      problem: z.object({ label: z.string(), title: z.string(), body: z.string() }),
+      solution: z.object({ label: z.string(), title: z.string(), body: z.string() }),
     }),
 
     /** blocks/home/LiveNow.astro */
