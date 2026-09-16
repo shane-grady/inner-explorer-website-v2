@@ -21,10 +21,14 @@
 # LG's initiative is "Life's Good: Experience Happiness" (source 3) — its support
 # is stated period-bound because no 2024–2026 evidence confirms it continues.
 #
-# Photography: AI-generated brand imagery (Higgsfield / GPT Image 2, 2026-06-09 —
-# provenance manifest in /tmp/goddard-imagery/batch_log.csv, archived in the
-# session log). The two PORTRAITS remain stand-ins for real people and carry
-# PUBLISH GATE comments below.
+# Photography: real photographs of Goddard Middle School supplied by the content
+# owner (2026-09-16), replacing the AI-generated stand-in imagery this page shipped
+# with. Six photos cover seven slots — the results band deliberately reuses the
+# school exterior, which is the only repeat on the page. Alt text describes what each
+# photo actually shows; none of them depict a mindfulness practice in progress, so no
+# caption claims one. The two AI stand-in PORTRAITS were removed rather than swapped
+# (no portrait exists in the supplied set), so both staff quotes now render as
+# compact cards — see the note on `voices` below.
 order: 3
 draft: false
 
@@ -54,8 +58,8 @@ meta:
     average in English language arts and math, and 5X in science.
   readingTime: '7 min read'
   published: 'Updated June 2026'
-  heroImage: '../../assets/images/case-studies/goddard-middle-school/hero-daily-practice.jpg'
-  heroImageAlt: 'A middle school classroom of students sitting upright with eyes closed during a daily guided mindfulness practice'
+  heroImage: '../../assets/images/case-studies/goddard-middle-school/welcome-sign.jpg'
+  heroImageAlt: 'The entrance sign at Goddard Middle School in Littleton, Colorado, reading "Welcome to Goddard Middle School, Home of the Vikings"'
 
 district:
   name: 'Goddard Middle School'
@@ -104,8 +108,8 @@ intro:
         executive center, and when the brain is stressed the prefrontal cortex goes
         inactive. In a stressful moment, students couldn't reach what they cognitively
         knew, which left them reactive exactly when their skills mattered most.
-    image: '../../assets/images/case-studies/goddard-middle-school/challenge-diverse-classroom.jpg'
-    imageAlt: 'A diverse group of middle school students working together in a classroom'
+    image: '../../assets/images/case-studies/goddard-middle-school/students-arriving.jpg'
+    imageAlt: 'Goddard Middle School students arriving on campus in the morning, walking past the buses in a large, visibly diverse crowd'
     stat:
       {
         value: '6–8',
@@ -139,8 +143,8 @@ intro:
         ready to talk; students uncomfortable closing their eyes or sitting still are
         encouraged to color or doodle while they listen. Teachers noticed students were
         calmer and less reactive during the day.
-    image: '../../assets/images/case-studies/goddard-middle-school/approach-doodling-while-listening.jpg'
-    imageAlt: 'A middle school student doodling at a desk while listening to an audio-guided mindfulness practice'
+    image: '../../assets/images/case-studies/goddard-middle-school/classroom-support.jpg'
+    imageAlt: 'A Goddard Middle School teacher leaning in to help two students at their workstations in a classroom'
 
 timeline:
   eyebrow: 'The Trajectory'
@@ -190,10 +194,11 @@ timeline:
 metrics:
   eyebrow: 'The Results'
   heading: 'Academic growth that made the state take notice'
-  # PLACEHOLDER: results photo — reusing an existing gallery image until a
-  # dedicated results photo is added (swap this one line per case study).
-  image: '../../assets/images/case-studies/goddard-middle-school/gallery-6-ready-classroom.jpg'
-  imageAlt: 'A calm, quiet middle school classroom ready for the day'
+  # The one deliberate repeat on the page: the results band reuses the school
+  # exterior from the gallery below. Swap this line if a dedicated results photo
+  # (e.g. an awards assembly or a state-recognition moment) is ever supplied.
+  image: '../../assets/images/case-studies/goddard-middle-school/school-exterior.jpg'
+  imageAlt: 'The front of Goddard Middle School under a clear Colorado sky, with the rocket sculpture that marks the campus entrance'
   # The first sentence is the page's canonical claim — keep it byte-identical
   # wherever this story is summarized (cards, anchors, social copy).
   note: >-
@@ -355,11 +360,9 @@ voices:
     name: 'Jenica Loether'
     role: 'School Counselor'
     org: 'Goddard Middle School'
-    # PUBLISH GATE: placeholder portrait — must be Jenica Loether's real photo before
-    # launch (a stand-in face with an identity-asserting alt is a fabrication risk).
-    # Alt text stays non-identifying until the real photo lands.
-    portrait: '../../assets/images/case-studies/goddard-middle-school/voice-loether.jpg'
-    portraitAlt: 'Portrait of a school counselor (placeholder image)'
+    # Portrait removed 2026-09-16: the AI stand-in face was a fabrication risk on a
+    # named person. Add `portrait` + `portraitAlt` back only with Jenica Loether's
+    # real, consented photo — that promotes this to a featured card again.
     stat: { value: '6–8', label: 'grades practicing daily at Goddard' }
   - kind: 'From the staff'
     quote: >-
@@ -373,11 +376,9 @@ voices:
     # be Jenica Loether; do not merge the two without confirmation.
     name: 'School Counselor'
     role: 'Goddard Middle School'
-    # PUBLISH GATE: placeholder portrait for an unnamed staff member — replace with a
-    # real (consented) photo or drop the portrait so the quote renders as a compact
-    # card. Alt text stays non-identifying.
-    portrait: '../../assets/images/case-studies/goddard-middle-school/voice-counselor.jpg'
-    portraitAlt: 'Portrait of a school counselor (placeholder image)'
+    # Portrait removed 2026-09-16: the AI stand-in face was attributed to an unnamed
+    # staff member. This quote renders as a compact card; a real, consented photo
+    # would promote it back to a featured card.
     stat: { value: '5–10', label: 'minutes of daily practice students look forward to' }
   # PUBLISH GATE (SEO/E-E-A-T audit, high severity): representative student voices —
   # the legacy case study has no student quotes; these names/grades are invented.
@@ -399,33 +400,24 @@ voices:
     name: 'Marcus'
     role: 'Grade 8'
 
+# Three photos, so PhotoMosaic renders its uniform 3-across grid rather than the
+# six-tile composition. Every photo here is unique to the page except the school
+# exterior, which the results band above reuses.
 gallery:
-  eyebrow: 'Inside the classrooms'
-  heading: 'Where the practice happens at Goddard'
+  eyebrow: 'Inside Goddard'
+  heading: 'The school behind the numbers'
   images:
     - {
-        src: '../../assets/images/case-studies/goddard-middle-school/gallery-1-small-group.jpg',
-        alt: 'A school counselor sitting with a small group of middle school students during a guided mindfulness practice',
+        src: '../../assets/images/case-studies/goddard-middle-school/school-exterior.jpg',
+        alt: 'The front of Goddard Middle School under a clear Colorado sky, with the rocket sculpture that marks the campus entrance',
       }
     - {
-        src: '../../assets/images/case-studies/goddard-middle-school/gallery-2-safe-corner.jpg',
-        alt: 'A student listening to a guided practice in a quiet, safe corner of the classroom',
+        src: '../../assets/images/case-studies/goddard-middle-school/shared-mission-lockers.jpg',
+        alt: "A banner reading \"Goddard's Shared Mission\" hanging above a row of teal lockers in a school hallway",
       }
     - {
-        src: '../../assets/images/case-studies/goddard-middle-school/gallery-3-desk-breathing.jpg',
-        alt: 'A middle school student practicing deep breathing at their desk',
-      }
-    - {
-        src: '../../assets/images/case-studies/goddard-middle-school/gallery-4-family-night.jpg',
-        alt: 'Families gathered in a school gym for a presentation on mindfulness-based social emotional learning',
-      }
-    - {
-        src: '../../assets/images/case-studies/goddard-middle-school/gallery-5-calm-hallway.jpg',
-        alt: 'Students walking calmly through a middle school hallway between classes',
-      }
-    - {
-        src: '../../assets/images/case-studies/goddard-middle-school/gallery-6-ready-classroom.jpg',
-        alt: 'A calm, quiet middle school classroom ready for the day',
+        src: '../../assets/images/case-studies/goddard-middle-school/principal-tablets.jpg',
+        alt: 'A Goddard administrator handing out tablets to a group of students in the school library',
       }
 
 # FAQ — real buyer questions (training, cost, fit, adaptation) answered from
