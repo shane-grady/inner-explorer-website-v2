@@ -66,6 +66,7 @@ const cellPrefix = itemPrefix(editablePrefix);
     letter-spacing: 0.28em;
     text-transform: uppercase;
     color: var(--editorial-ink-muted);
+    text-wrap: balance;
   }
   .label::before,
   .label::after {
@@ -106,6 +107,10 @@ const cellPrefix = itemPrefix(editablePrefix);
     color: var(--editorial-ink-muted);
   }
   @media (max-width: 720px) {
+    .label::before,
+    .label::after {
+      flex-basis: 24px;
+    }
     .grid {
       grid-template-columns: 1fr 1fr;
     }

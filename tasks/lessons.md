@@ -916,3 +916,31 @@ Explorer's"`).
   its save, verification, and cleanup. Once the user confirms that bounded sequence, finish
   it without asking again at each intermediate step. Repeated permission prompts after the
   user has already said to proceed create needless friction and obscure the actual test.
+
+## 2026-09-18 — Research page Build Doc v2
+
+- **The Astro compiler rejects a multi-line union type with leading `|` in
+  frontmatter** (`Unexpected "|"` from esbuild at build time; `astro check` and the
+  dev server are fine). Prettier reflows long unions into that shape, so keep them
+  short enough for one line or split them through a helper alias.
+- **A `string[]` field cannot carry array-item editables.** The CI guard flags
+  `array-item has CRUD controls but no editable text inside`: a row's own value has
+  no path to bind. Render plain string arrays without `editableArray`/`editableItem`
+  and leave them sidebar-only (same reason the splash `lines` aren't editable).
+- **A YAML list item containing `: ` parses as a mapping** — quote citation-style
+  strings ("…7–12-year-olds: a systematic review…") or Zod reports
+  `Expected "string", received "object"`.
+- **Orphan check that works:** after `text-wrap: balance/pretty`, run a Range-rect
+  scan per block (count words on the last line) at 375/768/1440, then pin the few
+  real hits with U+00A0 in the YAML (plain-text regions) or `&nbsp;` in `*Html`
+  fields. Skip `.stk`-stacked headings and visually-hidden `thead`s — false positives.
+- **Natural-scroll screenshots DO work in this env when transitions are disabled**
+  (`*{transition:none!important}` + force `.in` on reveals, then `scrollTo` → wait 1s
+  → screenshot). Pinning is only needed for the 200vh scrubbed hero. A DOM pass that
+  reads each section's computed padding and checks sibling-rect intersections catches
+  spacing drift and overlaps faster than eyeballing.
+- **After adding a field to a `page-schemas/*.ts` module, the running `astro dev`
+  keeps stripping it.** The content layer parsed the entry with the old Zod shape and
+  persisted it in `.astro/data-store.json`; a restart skips re-parsing because the
+  file digest is unchanged, and touching files does not help. Fix: stop the dev
+  server, delete `.astro/data-store.json`, start it again. `astro build` is unaffected.

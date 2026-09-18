@@ -1,5 +1,39 @@
 # Tasks — Inner Explorer Website
 
+## Research page content swap — Build Doc v2 (2026-09-18)
+
+Goal: swap the /research copy and structure to the "Research Page — Build Doc v2"
+brief while keeping the page CloudCannon-editable, drift-clean, and orphan-free.
+
+- [x] Hero: new headline/subhead, supporting `note` line, "See the evidence" /
+      "Book a demo"; sidebar + chapter label "I — Evidence".
+- [x] Evidence: seven study cards (meta-analysis added), `journal` → `credential`
+      line, institution bolded.
+- [x] Brain: paragraph 2 opener, 16,000+ studies, five-to-ten minutes, new closing
+      paragraph, tightened pull quote.
+- [x] New "The missing layer" section between Brain and Outcomes.
+- [x] Outcomes: six spreads (Aggression added), new copy, Learning Pyramid chart,
+      district results stat band, `paragraphs` + empty-stat support.
+- [x] New "The objection" aside, "The AI moment" night section (stats + risk/build
+      table), collapsed "Full citations" (group 1 generated from `studies`).
+- [x] Closing CTA: three action cards + final line.
+- [x] Schema (`page-schemas/research.ts`) + CloudCannon inputs/structures updated;
+      `pnpm lint:editables` and `cloudcannon validate` pass.
+- [x] Verified at 375 / 768 / 1440: no horizontal overflow; orphan scan clean.
+- [x] Full-page review pass: uniform 140/120 chapter padding at every width (new
+      sections had phone overrides — removed), range stats ("+18–27%") kept to one
+      line, citation groups flow in one grid, dials stack on phones, no sibling
+      overlaps beyond intentional ones (inline words, chart SVG parts, Voices mark).
+
+Review:
+
+- Placeholders left for Shane: research-summary download, newsletter, and AI brief
+  links are `#`; "Book a demo" → /contact.
+- Facts to confirm from the brief as written: Bakosh institution "Univ of London",
+  teacher dial "Burnout +12%".
+- `pnpm typecheck` fails on `src-help/lib/og-card.ts` (Buffer vs Uint8Array) under
+  the local Node 22; unrelated to this change and untouched.
+
 ## CloudCannon two-way publishing repair (2026-09-02)
 
 Goal: make GitHub `main` and CloudCannon a reliable two-way content workflow for

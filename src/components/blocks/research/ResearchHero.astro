@@ -10,6 +10,10 @@ interface Props {
   /** Line objects: text + optional `face` ('sans' for the upright weight-300 line; default is italic display). `em` colors the line with the brand accent. */
   lines: Array<{ text: string; face?: 'sans' | 'display'; em?: boolean }>;
   subtitle: string;
+  /** A short emphasized line of its own under the subtitle. */
+  proof?: string;
+  /** A quieter supporting line under the subtitle. */
+  note?: string;
   primaryCta: Cta;
   secondaryCta?: Cta;
   /** CloudCannon path prefix for this block's fields (e.g. 'hero'). Omit on routes
@@ -20,7 +24,8 @@ interface Props {
    *  them with flat text. Edit the headline from the sidebar. */
   editablePrefix?: EditablePrefix;
 }
-const { eyebrow, lines, subtitle, primaryCta, secondaryCta, editablePrefix }: Props = Astro.props;
+const { eyebrow, lines, subtitle, proof, note, primaryCta, secondaryCta, editablePrefix }: Props =
+  Astro.props;
 
 // Pre-split the headline into words and give each a slice of the pinned-scroll
 // progress (0–100). Words resolve in reading order, their windows overlapping so
@@ -65,6 +70,20 @@ const wordLines = lines.map((l) => {
         }
       </h1>
       <p class="hero-sub" {...editableText(editablePrefix, 'subtitle', 'text')}>{subtitle}</p>
+      {
+        proof && (
+          <p class="hero-proof" {...editableText(editablePrefix, 'proof')}>
+            {proof}
+          </p>
+        )
+      }
+      {
+        note && (
+          <p class="hero-note" {...editableText(editablePrefix, 'note', 'text')}>
+            {note}
+          </p>
+        )
+      }
       <div class="hero-cta">
         <a href={primaryCta.href} class="btn btn-solid-ink btn-lg">
           <span {...editableText(childPrefix(editablePrefix, 'primaryCta'), 'label')}>
@@ -178,10 +197,28 @@ const wordLines = lines.map((l) => {
 
   .hero-sub {
     margin: 0 auto 36px;
-    max-width: 540px;
+    max-width: 600px;
     font-size: 18px;
     line-height: 1.55;
     color: var(--editorial-ink-muted);
+    text-wrap: pretty;
+  }
+  .hero-proof {
+    margin: -20px auto 24px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 1.3;
+    color: var(--editorial-ink);
+  }
+  .hero-note {
+    margin: 0 auto 36px;
+    max-width: 560px;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--editorial-ink-muted);
+    text-wrap: pretty;
   }
   .hero-cta {
     display: flex;
@@ -235,6 +272,8 @@ const wordLines = lines.map((l) => {
     }
     .hero--scrub .hero-eyebrow,
     .hero--scrub .hero-sub,
+    .hero--scrub .hero-proof,
+    .hero--scrub .hero-note,
     .hero--scrub .hero-cta {
       opacity: 0;
     }
@@ -271,6 +310,8 @@ const wordLines = lines.map((l) => {
     const blocks: Array<[HTMLElement | null, number, number]> = [
       [hero.querySelector('.hero-eyebrow'), 0, 12],
       [hero.querySelector('.hero-sub'), 82, 92],
+      [hero.querySelector('.hero-proof'), 84, 94],
+      [hero.querySelector('.hero-note'), 86, 96],
       [hero.querySelector('.hero-cta'), 88, 100],
     ];
     const clamp = (n: number) => Math.max(0, Math.min(1, n));
