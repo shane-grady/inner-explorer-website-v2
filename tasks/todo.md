@@ -1813,3 +1813,39 @@ Left for a human: the policy says whatever counsel last approved. If it should s
 that is a legal decision to make off-site and paste in. No terms of service page exists;
 `LegalDoc` can render one when legal copy is supplied, and adding its footer link is
 intentionally a small fixed-layout code change.
+
+## 2026-09-21 — Research hero: scroll-scrub → staggered fade
+
+- [x] Deleted the per-word scrub from `ResearchHero.astro`: the build-time word
+      splitting (`REVEAL_FROM`/`LAST_START`/`WORD_LEN`, `data-s`/`data-e` spans), the
+      200vh section + `position: sticky` pin, and the 49-line rAF scroll loop that wrote
+      inline `opacity`/`filter` on ~40 spans every frame.
+- [x] Hero is now one centred 100vh section that reveals via the page's existing system
+      — `observe()` from `lib/intersect.ts` plus the `.reveal`/`.in` pair the four
+      research chapters already use. Eyebrow → each headline line → subtitle → CTAs,
+      80ms apart, each rising 20px out of a 6px blur over 700ms.
+- [x] `observe()` bound on `astro:page-load` so the reveal re-arms after a soft nav
+      (`BaseLayout` ships `<ClientRouter />`; see tasks/lessons.md).
+- [x] Transition scoped to `.in` rather than the base `.reveal` rule — fixes a
+      load-time fade-OUT this pattern has by default. Details in tasks/lessons.md.
+- [x] Fixed the now-stale "the hero below pins for 200vh" comment in
+      `ResearchOpeningVoid.astro`.
+- [x] Verified: `pnpm check` 0 errors (drift, mirrors, prettier all clean), `pnpm build`
+      77 pages. Hero measures 900px (was 1800px), no `.hero-sticky`, 0 `.word` spans,
+      hero script is 113 bytes. Browser-verified in Chromium: 7/7 elements reveal in
+      monotonic stagger, blur interpolates without snapping, one-shot (no replay on
+      scroll-back), reduced-motion renders fully visible with no pop, no-JS renders
+      fully visible, soft-nav re-arms, `cms-editor-active` keeps it visible.
+
+**Review.** The plan first specified the transition on the base `.reveal` rule, copying
+the four sibling blocks verbatim. Instrumenting the page before committing showed that
+shape makes the hero paint visible and then fade out for 700ms on load, because the
+JS-driven visible → hidden drop animates too. Scoping the transition to `.in` fixes it
+and is less CSS. The siblings still carry the original shape — noted in lessons.md as
+worth fixing when one is next touched, not swept into this change.
+
+Two things deliberately left alone: the same soft-nav re-arm gap in the other
+`observe()` call sites (the elegant fix is to move the `astro:page-load` binding inside
+`observe()` in `lib/intersect.ts`, which touches five pages), and making `lines`
+CloudCannon-editable (now unblocked by removing the word spans, but a field-shape
+decision rather than a motion change).

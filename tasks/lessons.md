@@ -916,3 +916,64 @@ Explorer's"`).
   its save, verification, and cleanup. Once the user confirms that bounded sequence, finish
   it without asking again at each intermediate step. Repeated permission prompts after the
   user has already said to proceed create needless friction and obscure the actual test.
+
+## 2026-09-21 — Scroll-reveal: put the transition on `.in`, not on `.reveal`
+
+Replacing the research hero's 200vh sticky per-word scrub with the repo's standard
+`observe()` + `.reveal`/`.in` fade surfaced a flaw in that standard pattern.
+
+**The inverted default costs a fade-OUT.** The four research blocks declare
+`.reveal { opacity: 1; transform: none; transition: … }` and then
+`[data-js-ready] .reveal:not(.in) { opacity: 0; transform: translateY(28px) }`. Content
+is visible by default (correct — no-JS and SEO readers get the finished page), and JS
+hides it. But because the transition sits on the BASE rule, that initial visible →
+hidden drop animates too: the element paints fully visible, then spends the full
+transition duration fading out, before it can ever fade in. Measured on `/research`
+before the fix — the first headline line read `opacity: 1` at t=0 and decayed to
+`0.0001` by t≈1050ms, all while off screen.
+
+Fix: scope the transition to the revealed state.
+
+```css
+[data-js-ready] .reveal:not(.in) {
+  opacity: 0;
+  transform: translateY(20px);
+  filter: blur(6px);
+}
+.reveal.in {
+  transition:
+    opacity 700ms var(--ease-out) var(--reveal-delay, 0ms),
+    …;
+}
+```
+
+The hide is then instant and only the reveal animates. It is also less CSS — the
+`opacity: 1; transform: none` resting block becomes unnecessary, because `.in` simply
+transitions back to the initial values. Verified `blur(6px)` → `none` interpolates
+smoothly (no snap) over 840 sampled frames.
+
+On `/research` nobody saw the fade-out (the hero sits below the 100vh splash), but it is
+wasted compositing on every load, and anything deep-linked or scroll-restored into view
+would flicker. **The four sibling blocks still have it** — worth fixing when one is next
+touched.
+
+**Two related gotchas confirmed by measurement, not assumption:**
+
+- `data-js-ready` does NOT survive a `<ClientRouter />` swap — Astro replaces the root
+  element's attributes with the incoming document's, so it is gone after a soft nav
+  (verified: `false` on the next page). That means a bare top-level `observe()` call
+  degrades to "content visible, no animation" rather than to a blank section — but it
+  still never re-arms. Binding `document.addEventListener('astro:page-load', …)` is two
+  lines and makes it correct either way.
+- Gate the whole thing on `@media (prefers-reduced-motion: no-preference)`. The global
+  reduced-motion rule in `global.css` squashes `transition-duration` but NOT
+  `transition-delay`, so a staggered reveal whose `.in` lands after first paint would
+  still pop element-by-element for a reduced-motion reader.
+
+**On pinned scroll effects generally.** The removed effect pinned 200vh to un-blur ~40
+per-word spans on a rAF scroll loop. It cost a full extra screen of scroll, was welded
+to scroll velocity (stuttery on trackpads, chunky on wheel clicks) and left the headline
+illegible for most of the pin. A one-shot staggered fade reads as more engaging and
+deleted ~70 lines. Also note CSS `animation-timeline: view()` is still not the answer
+here in 2026 — Firefox ships it behind a flag (~84% global), and the repo has no other
+usage to be consistent with.

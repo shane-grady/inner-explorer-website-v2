@@ -122,8 +122,8 @@ const {
       else play();
     });
 
-    // Decoding a background clip nobody can see is pure battery cost — the hero below
-    // pins for 200vh, so the splash is off screen for a long while.
+    // Decoding a background clip nobody can see is pure battery cost — the splash is
+    // a full screen, so it is off screen for the whole rest of the page.
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (!entry.isIntersecting) video.pause();
