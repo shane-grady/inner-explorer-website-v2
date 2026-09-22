@@ -110,20 +110,30 @@ const { title, subtitle, foot, data }: Props = Astro.props;
     flex-direction: column;
     gap: 4px;
     opacity: 1;
-    transition: opacity 600ms;
   }
   .box.before {
     background: color-mix(in oklab, var(--editorial-ink) 8%, transparent);
     color: var(--editorial-ink-muted);
-    transition-delay: var(--d);
   }
   .box.after {
     background: var(--editorial-ink);
     color: var(--editorial-paper);
-    transition-delay: calc(var(--d) + 200ms);
   }
   :global([data-js-ready]) [data-anim]:not(.in) .box {
     opacity: 0;
+  }
+  /* The transition lives on [data-anim].in, not on the resting rule: only the
+     reveal should animate. On the resting rule the initial visible -> hidden
+     reset would animate too, so the chart would visibly un-draw on load before
+     it could ever draw in. */
+  [data-anim].in .box {
+    transition: opacity 600ms;
+  }
+  [data-anim].in .box.before {
+    transition-delay: var(--d);
+  }
+  [data-anim].in .box.after {
+    transition-delay: calc(var(--d) + 200ms);
   }
   .tag {
     font-size: 10px;

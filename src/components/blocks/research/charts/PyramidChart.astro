@@ -112,10 +112,6 @@ const description = data.map((d) => `${d.label} (${d.sub})`).join(', then ');
     gap: 2px;
     padding: 0 8%;
     text-align: center;
-    transition:
-      opacity 700ms var(--ease-out),
-      transform 700ms var(--ease-out);
-    transition-delay: var(--d);
   }
   .tier:nth-child(1) {
     flex: 0 0 42%;
@@ -140,6 +136,16 @@ const description = data.map((d) => `${d.label} (${d.sub})`).join(', then ');
   :global([data-js-ready]) [data-anim]:not(.in) .tier {
     opacity: 0;
     transform: translateY(10px);
+  }
+  /* The transition lives on [data-anim].in, not on the resting rule: only the
+     reveal should animate. On the resting rule the initial visible -> hidden
+     reset would animate too, so the chart would visibly un-draw on load before
+     it could ever draw in. */
+  [data-anim].in .tier {
+    transition:
+      opacity 700ms var(--ease-out),
+      transform 700ms var(--ease-out);
+    transition-delay: var(--d);
   }
   .tier-label {
     font-size: 13px;

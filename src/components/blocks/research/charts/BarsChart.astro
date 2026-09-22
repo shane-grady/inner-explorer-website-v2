@@ -112,8 +112,6 @@ const ceiling = max ?? Math.max(...data.map((d) => d.value), 20);
     height: 100%;
     width: var(--w);
     background: var(--editorial-ink);
-    transition: width 1200ms var(--ease-out);
-    transition-delay: var(--d);
   }
   .fill::after {
     content: '';
@@ -126,6 +124,14 @@ const ceiling = max ?? Math.max(...data.map((d) => d.value), 20);
   }
   :global([data-js-ready]) [data-anim]:not(.in) .fill {
     width: 0;
+  }
+  /* The transition lives on [data-anim].in, not on the resting rule: only the
+     reveal should animate. On the resting rule the initial visible -> hidden
+     reset would animate too, so the chart would visibly un-draw on load before
+     it could ever draw in. */
+  [data-anim].in .fill {
+    transition: width 1200ms var(--ease-out);
+    transition-delay: var(--d);
   }
   .foot {
     margin-top: auto;
