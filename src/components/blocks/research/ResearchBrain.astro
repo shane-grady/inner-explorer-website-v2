@@ -322,6 +322,7 @@ const {
   .copy p {
     margin: 0 0 22px;
     max-width: 580px;
+    text-wrap: pretty;
   }
   .copy-block:first-child p:first-of-type::first-letter {
     font-family: var(--font-display);
@@ -360,16 +361,17 @@ const {
     color: var(--editorial-glow);
   }
 
-  .reveal {
-    opacity: 1;
-    transform: none;
-    transition:
-      opacity 900ms var(--ease-out),
-      transform 900ms var(--ease-out);
-  }
   :global([data-js-ready]) .reveal:not(.in) {
     opacity: 0;
     transform: translateY(28px);
+  }
+  /* The transition lives on .in, not on .reveal: only the reveal should animate.
+     On the base rule the initial visible -> hidden drop would animate too, so the
+     section would fade OUT for 900ms on load before it could ever fade in. */
+  .reveal.in {
+    transition:
+      opacity 900ms var(--ease-out),
+      transform 900ms var(--ease-out);
   }
 
   @media (max-width: 820px) {

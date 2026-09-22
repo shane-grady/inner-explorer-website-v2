@@ -1,113 +1,131 @@
 _schema: research
 permalink: /research/
 pageTitle: Research — Inner Explorer
-pageDescription: Six independent controlled trials. Forty years of MBSR research. The evidence behind Inner Explorer's daily five-minute mindfulness practice for K-12 schools.
+pageDescription: Six independent controlled trials and a meta-analysis of 77 more. Forty years of MBSR research. The evidence behind Inner Explorer's daily mindfulness practice for K-12 schools.
 opening:
   eyebrow: Inner Explorer · The Research
   lines:
     - Two of every three children
     - carry stress that quietly
-    - disables their ability to learn.
+    - shuts down their ability to learn.
 hero:
   eyebrow: A quiet revolution · Since 2011
   lines:
-    - text: We've spent
+    - text: That's not a behavior problem.
       face: sans
-    - text: fifteen years
-    - text: changing that.
-    - text: Here's the proof.
+    - text: It's biology.
       em: true
-  subtitle: Six independent controlled trials. Tens of thousands of classrooms. A daily five-minute practice, grounded in 40+ years of Mindfulness-Based Stress Reduction research.
+  subtitle: When the brain floods with stress, the thinking part goes offline. No lesson, no curriculum, no program reaches a brain that isn't ready. Daily mindfulness brings it back online, five minutes at a time.
+  proof: Here is the proof.
+  note: Six independent controlled trials and a meta-analysis. Tens of thousands of classrooms. A daily practice grounded in 40+ years of Mindfulness-Based Stress Reduction (MBSR) research, the gold standard in this field.
   primaryCta:
-    label: See the receipts
+    label: See the evidence
     href: '#receipts'
   secondaryCta:
-    label: Contact us
+    label: Book a demo
     href: /contact
 receipts:
-  chapterLabel: I — Receipts
+  chapterLabel: I — Evidence
   chapterNumber: I.
   headingHtml: <span class="stk">Six independent</span><span class="stk"><em>controlled trials.</em></span>
-  lede: Every study below was conducted by independent researchers in real classrooms — four randomized and controlled, two doctoral dissertations. We didn't write them. We just made them possible.
+  lede: Plus a meta-analysis of 77 more. Every study below was conducted by independent academic researchers in real classrooms — randomized controlled trials, controlled trials, and doctoral research. We collaborated and followed the evidence.
 studies:
   - id: bakosh-2016
     year: 2016
-    tag: RCT
+    tag: Controlled trial
     title: Maximizing mindful learning
     authors: Bakosh, Snow, Houlihan, Tobias, Barbosa-Leiker
-    institution: Loyola Marymount University et al.
-    journal: Journal of Mindfulness
-    leadStat: +14%
+    institution: Univ of London
+    credential: Controlled trial · 2016 · Published · Mindfulness
+    leadStat: +18%
     leadLabel: Reading grades vs. waitlist control
   - id: bakosh-2018
     year: 2018
-    tag: Controlled study
+    tag: RCT
     title: Audio-guided mindfulness training in schools
     authors: Bakosh, Houlihan, Tobias
-    institution: Loyola Marymount University
-    journal: Learning & Instruction
-    leadStat: +18%
+    institution: Univ of London
+    credential: RCT · 2018 · Published · Learning & Instruction
+    leadStat: +18–27%
     leadLabel: Math grades · sustained over the school year
   - id: lopez-2020
     year: 2020
     tag: RCT
-    title: A randomized controlled trial in 39 Head Start classrooms
+    title: A randomized controlled trial in Head Start
     authors: Lopez et al.
-    institution: University of South Florida
-    journal: Pending publication
+    institution: Univ of South Florida
+    credential: RCT · 2020 · 39 Head Start classrooms · Under review
     leadStat: −34%
-    leadLabel: Teacher stress · end of school year
+    leadLabel: Teacher stress · vs. waitlist control
   - id: stager-2022
     year: 2022
     tag: Doctoral study
-    title: Mindfulness with elementary students and state test scores
+    title: Mindfulness effects on 6th-grade students' state test scores
     authors: Stager
-    institution: University of La Verne
-    journal: Pending publication
-    leadStat: +Math
-    leadLabel: State test scores · active vs. inactive use
+    institution: La Verne Univ.
+    credential: Controlled trial · 2022 · Published doctoral research
+    leadStat: +21%
+    leadLabel: 6th-grade state math scores · active vs. inactive use
   - id: dunlap-2023
     year: 2023
     tag: Doctoral study
     title: An analysis of the impact of Inner Explorer on academic growth
-    authors: Dunlap
-    institution: UNC Charlotte
-    journal: Pending publication
-    leadStat: +GPA
-    leadLabel: General & special-education elementary students
+    authors: Dunlap et al.
+    institution: Univ of North Carolina–Charlotte
+    credential: RCT · 2023 · Published doctoral research · Journal publication forthcoming 2026
+    leadStat: +22–26%
+    leadLabel: Math and reading · special-education elementary students
   - id: treves-2023
     year: 2023
     tag: RCT
-    title: At-home use of app-based mindfulness for children
+    title: At-home use of app-based mindfulness
     authors: Treves et al.
-    institution: MIT — McGovern Institute
-    journal: Journal of Mindfulness
+    institution: MIT McGovern Institute
+    credential: RCT · 2023 · Published · Mindfulness
     leadStat: −28%
     leadLabel: Student stress · 8 weeks vs. active control
+  - id: phan-2022
+    year: 2022
+    tag: Meta-analysis
+    title: Outcomes of mindfulness interventions in schools
+    authors: Phan, ML, et al.
+    institution: Utah State Univ.
+    credential: Published meta-analysis · 2022 · Mindfulness · A-grade evidence for prosocial behavior, resilience, executive function and attention, and reduced anxiety, attention problems and conduct behaviors
+    leadStat: '77'
+    leadLabel: studies · 12,358 students · five continents
 brain:
   chapterLabel: II — Brain
   chapterNumber: II.
   headingHtml: <span class="stk sans">When stress goes,</span><span class="stk"><em>learning returns.</em></span>
   paragraphs:
     - Stress comes from many sources, both inside and outside of school. When it overwhelms the brain through the automatic fight-flight-freeze response, higher-order thinking takes a back seat. Working memory shrinks. Attention narrows. The capacity to absorb information collapses.
-    - Research suggests two of every three children experience Adverse Childhood Experiences that lead to lasting effects. Toxic stress doesn't just sit on top of learning — it physically rewires the developing brain, dampening executive function and amplifying the very stress response that began the cycle.
-    - Inner Explorer's daily practice is aligned with Mindfulness-Based Stress Reduction — the most widely studied mindfulness curriculum on Earth, with <span class="inline-stat">10,000+ studies</span> over four decades. We translate that science into five minutes a day, led by the teacher, in the classroom.
-    - 'The result, measured again and again in controlled trials: classrooms become calmer. Behavior referrals drop. Grades rise. Teachers report less stress. Students report less stress. And the cycle starts to reverse.'
-  pullQuoteHtml: Daily mindful practice rewires those networks <em>quietly, measurably, day by day.</em>
+    - Two of every three children experience adverse childhood experiences with lasting effects. Toxic stress doesn't sit on top of learning — it physically rewires the developing brain, dampening executive function and amplifying the very stress response that began the cycle.
+    - Inner Explorer's daily practice is aligned with Mindfulness-Based Stress Reduction — the most widely studied mindfulness curriculum on Earth, with <span class="inline-stat">16,000+ studies</span> over four decades. We translate that science into five to ten minutes a day. The teacher presses “play” on the next practice in the sequence and joins the daily classroom practice with students.
+    - 'The result, measured again and again in controlled trials: classrooms get calmer. Behavior referrals drop. Grades rise. Teachers report less stress. Students report less stress. Not because anyone was taught to behave differently — because their biology changed.'
+    - You wouldn't build a house on sand and wonder why the walls keep cracking. It's a biological problem. This is the biological solution.
+  pullQuoteHtml: Daily mindful practice rewires those networks, <em>measurably, day by&nbsp;day.</em>
+missingLayer:
+  label: The missing layer
+  headingHtml: <span class="stk sans">The curriculum works.</span><span class="stk">The brain it lands on <em>isn't&nbsp;ready.</em></span>
+  paragraphs:
+    - 'Districts have done the work. New reading curricula grounded in research. Math intervention. Tutoring. MTSS. Behavior systems. Resilience and life skills. All of it is well designed and led by people who care. And all of it quietly assumes one thing: that the child in the chair is neurologically ready to learn. Two of three of them aren''t.'
+    - A science-of-reading lesson can't reach a prefrontal cortex that's offline. A behavior plan can't regulate a nervous system stuck in fight-or-flight. The missing piece isn't a better program or better instruction. It's the biological foundation that lets every other program finally work.
+    - That's what five minutes a day builds. Not another initiative. The readiness underneath all of them.
+  pullQuoteHtml: You wouldn't build a house on sand and wonder why the walls keep cracking. It's a biological problem. <em>It needs a biological&nbsp;solution.</em>
 outcomesHead:
   chapterLabel: III — Outcomes
   chapterNumber: III.
-  headingHtml: <span class="stk">Five outcomes,</span><span class="stk sans">measured rigorously,</span><span class="stk"><em>across five spreads.</em></span>
+  headingHtml: Six outcomes. <span class="sans">Measured.</span> <em>Evidence-based.</em>
   jumpLabel: Jump to
 outcomes:
   - id: academics
     label: Academics
     eyebrow: Reading, math & GPA
-    statValue: '+18'
+    statValue: '+15'
     statUnit: '%'
-    statCaption: average GPA lift across treatment groups
+    statCaption: average GPA increase
     headline: Higher grades. Better test scores.
-    copy: Daily audio-guided practice rewires the brain for focus. Three independent studies — including a randomized controlled trial — found measurable gains in reading, math, science grades and standardized test scores for both general-ed and special-ed students.
+    copy: Daily audio-guided practice trains the brain for focus. Four studies, including two randomized controlled trials, found measurable gains in reading, math, and science grades and on standardized tests — for general-education and special-education students alike.
     studyIds:
       - bakosh-2016
       - bakosh-2018
@@ -116,46 +134,45 @@ outcomes:
     chart: bars
     chartTitle: Grade gains vs. control
     chartSubtitle: Treatment classes, quarterly grade points
-    chartFoot: Bakosh 2016 · 2018 · Dunlap 2023
+    chartFoot: Gains reported across four independent studies, 2016–2023
     data:
       - label: Reading
-        value: 14
+        value: 18
       - label: Math
         value: 18
       - label: Science
         value: 11
       - label: Overall GPA
-        value: 17
+        value: 15
   - id: behavior
     label: Behavior
     eyebrow: Climate & referrals
-    statValue: −42
+    statValue: −63
     statUnit: '%'
-    statCaption: drop in behavior referrals in 4th-grade study
+    statCaption: drop in behavioral referrals in Inner Explorer classrooms
     headline: Fewer disruptions. Calmer classrooms.
-    copy: When students learn to self-regulate through guided breathing, fight-flight-freeze reactions give way to focus. Schools using Inner Explorer daily report meaningful reductions in behavior referrals and a measurable shift in classroom climate.
+    copy: When students learn to self-regulate through guided awareness practices, fight-flight-freeze reactions give way to focus. Schools using Inner Explorer daily report meaningful drops in behavior referrals and a measurable shift in classroom climate — without a new discipline policy, a new system, or a single additional adult in the building.
     studyIds:
-      - bakosh-2016
       - lopez-2020
     chart: before-after
-    chartTitle: Before · After
-    chartSubtitle: Indexed to pre-program baseline = 100
-    chartFoot: Lopez 2020, RCT · 39 Head Start classrooms
+    chartTitle: Referrals per class per week
+    chartSubtitle: Indexed to each group's starting point = 100
+    chartFoot: Inner Explorer classrooms −63% · control classrooms +10%
     data:
-      - label: Behavior referrals
+      - label: Inner Explorer classrooms
         before: 100
-        after: 58
-      - label: Classroom disruptions
+        after: 37
+      - label: Control classrooms
         before: 100
-        after: 64
+        after: 110
   - id: teacher-stress
-    label: Teacher stress
-    eyebrow: Workforce wellbeing
+    label: Stress Resilience
+    eyebrow: Educator mental health & well-being
     statValue: −34
     statUnit: '%'
     statCaption: reduction in teacher stress, RCT in 39 Head Start classrooms
     headline: Teachers stay. Teachers thrive.
-    copy: Inner Explorer is the rare program that benefits the adult in the room as much as the children. Daily practice, led by the teacher, reduces stress and improves classroom management — and the teacher gets to do the practice too.
+    copy: Inner Explorer is the rare program that helps the adult in the room as much as the children. The practice begins when the teacher presses play — so the teacher does it too. Daily practice lowers stress and improves classroom management. In a workforce stretched to breaking, it's a retention lever, not just a wellness perk.
     studyIds:
       - lopez-2020
       - bakosh-2018
@@ -166,18 +183,18 @@ outcomes:
     data:
       - label: Stress
         value: -34
-      - label: Classroom management
-        value: 27
-      - label: Job satisfaction
-        value: 19
+      - label: Classroom climate
+        value: 21
+      - label: Burnout
+        value: 12
   - id: student-stress
-    label: Student stress
-    eyebrow: Mental health & wellbeing
+    label: Mental Well-being
+    eyebrow: Student mental health & well-being
     statValue: −28
     statUnit: '%'
     statCaption: reduction in student stress & negative affect
     headline: Lower stress. Less anxiety.
-    copy: A randomized, active-controlled trial at MIT's McGovern Institute found that children using Inner Explorer at home showed clinically meaningful reductions in stress and negative affect — a rigorous test of effect, not just engagement.
+    copy: 'A randomized, active-controlled trial at MIT''s McGovern Institute found that children using Inner Explorer at home showed clinically meaningful reductions in stress and negative affect — a rigorous test of effect, not just engagement. Against an active control, not a waitlist: the harder comparison, and significant results still hold.'
     studyIds:
       - treves-2023
     chart: line
@@ -200,30 +217,89 @@ outcomes:
       - week: 8
         stress: 72
         control: 96
-  - id: sel
-    label: SEL
-    eyebrow: CASEL competencies
-    statValue: '5'
-    statUnit: /5
-    statCaption: CASEL competencies explicitly mapped
-    headline: All five CASEL competencies.
-    copy: Inner Explorer is a CASEL-approved program. Practices explicitly map to all five core competencies — self-awareness, self-management, social awareness, relationship skills, and responsible decision-making — woven through daily lessons across the school year.
+  - id: life-skills
+    label: Life Skills
+    eyebrow: The foundation SEL assumes
+    statValue: ''
+    statUnit: ''
+    statCaption: ''
+    headline: Social, behavioral, and emotional skill development.
+    copy: 'Inner Explorer covers the same competencies that every social and emotional curriculum targets: self-awareness, emotional regulation, resilience, relationship skills, responsible decision-making, as well as discernment and critical thinking.'
+    paragraphs:
+      - The difference is how they're built. Curricula teach the concepts, and children learn them. A student can define self-regulation, name four calming strategies, and ace the unit. Then lose every bit of it the moment they're flooded. Social competence doesn't run on understanding. It runs on a nervous system that stays regulated when something goes wrong, and that is trained through repetition, not instruction.
+      - Five minutes a day, every day, is the repetition. Not a lesson about calm. The practice of it, until the body does it on its own.
     studyIds: []
-    chart: competencies
-    chartTitle: CASEL coverage
-    chartSubtitle: Practices explicitly mapping to each competency
-    chartFoot: CASEL Program Guide · pg.casel.org/inner-explorer
+    chart: pyramid
+    chartTitle: Learning Pyramid
+    chartSubtitle: Apply resources at the foundation to accelerate achievement
+    chartFoot: LAUSD Educator Wellbeing Report 2026 · CASEL approved · Brain Futures Top-10 program for executive function
     data:
-      - label: Self-awareness
-        value: 95
-      - label: Self-management
-        value: 92
-      - label: Social awareness
-        value: 84
-      - label: Relationship skills
-        value: 80
-      - label: Responsible decision-making
-        value: 78
+      - label: Outcomes
+        sub: Achievement
+      - label: Intellectual · Top-down
+        sub: Curriculum content
+      - label: Foundational · Embodied · Whole child · Bottom-up
+        sub: Readiness to learn
+  - id: aggression
+    label: Aggression
+    eyebrow: Behavior & aggression
+    statValue: ''
+    statUnit: ''
+    statCaption: ''
+    headline: When kids can't find the pause.
+    copy: 'Teachers are seeing it everywhere: students who escalate faster, melt down harder, and can''t put a beat between a trigger and their reaction. That isn''t defiance. It''s a nervous system stuck in fight-or-flight, with the part of the brain that governs anger and impulse knocked offline by chronic stress.'
+    paragraphs:
+      - There's a layer beneath the reaction. A child under chronic stress isn't reading the room the way you are. Researchers using EEG and eye-tracking found that adolescents who had experienced adversity showed blunted neural discrimination between angry faces and neutral ones. Their brains treated an ordinary expression much like a hostile one. Walking into a classroom, they are not seeing the room you see.
+      - 'That''s why belonging can''t be assigned. Schools work hard to build connection, and connection matters enormously: students who feel connected at school report poor mental health at roughly half the rate of students who don''t. But a child whose threat detection is miscalibrated cannot perceive the safety a school is offering. Safety is not a feeling adults can hand to a student. It''s a reading their nervous system has to be able to make.'
+      - 'Mindfulness builds the one thing those students are missing: the pause. Daily practice strengthens emotion regulation and the prefrontal control that lets a child feel anger without acting on it. It also lowers amygdala reactivity, which recalibrates the threat detection running underneath. When a neutral face reads as neutral again, the room stops being a threat, and belonging finally has somewhere to land. The wider research agrees: school-based mindfulness programs show meaningful reductions in aggressive and disruptive behavior.'
+    studyIds: []
+    chart: stat-band
+    chartTitle: District results
+    chartSubtitle: When that happens, it shows up where schools already keep count. Not in a survey. In the referral log.
+    chartFoot: School- and district-supplied data, 2025–26 school year
+    data:
+      - stat: −80%
+        label: Behavior referrals · MeckPreK, NC
+      - stat: −56%
+        label: Suspensions · PATHS, Fulton County, GA
+      - stat: −39%
+        label: Behavior referrals · GVSA Charlotte, NC
+      - stat: −48%
+        label: Behavior referrals · Stephens Elementary, Alexander City, AL
+objection:
+  heading: “Doesn't some research say mindfulness doesn't work?”
+  body: You may have seen the headlines. Look at the studies underneath them. In the largest, the UK's MYRIAD trial, students practiced outside of class on average about once over the entire program — and most never practiced at all. A skill you use once doesn't rewire a brain. That isn't a finding against mindfulness. It's a finding about dose.
+  closing: 'The programs that disappoint share one trait: the kids barely practiced. Inner Explorer is daily, teacher-launched, and built into the school day. No screens, five to ten minutes. Ease and consistency are the whole difference.'
+aiMoment:
+  label: The AI moment · Independent research on AI and cognition — not Inner Explorer trials
+  headingHtml: <span class="stk sans">AI accelerates.</span><span class="stk"><em>Mindfulness navigates.</em></span>
+  paragraphs:
+    - 'AI is now everywhere children learn, and the research on what it does to developing minds is arriving fast, from the most rigorous institutions in the world. The pattern is consistent: AI is powerful, but without a cognitively prepared human at the controls, that power backfires. Students stop struggling productively. Attention thins. The brain does less of its own thinking.'
+    - MIT's Media Lab measured it directly. Students who leaned on AI to write showed up to 55% weaker neural connectivity and less ownership of their own work. The researchers named it cognitive debt. RAND has formally modeled a point at which that dependency becomes irreversible.
+  stats:
+    - stat: 17%
+      label: worse on exams after AI-assisted practice · Wharton
+    - stat: 17%
+      label: lower skill scores with AI assistance · Cornell
+    - stat: 13%
+      label: employment decline among young AI-exposed workers · Stanford
+  transitionHeading: What AI takes away, daily mindfulness builds back.
+  riskHead: The risk, as researchers measured it
+  buildHead: What daily mindfulness practice builds
+  rows:
+    - risk: Cognitive debt · up to 55% weaker neural connectivity (MIT Media Lab, 2025 preprint)
+      build: Brain connectivity and gray-matter density
+    - risk: Skill atrophy · 17% lower competency (Cornell, 2026)
+      build: Metacognition and deep processing
+    - risk: Productive struggle bypassed (Wharton, 2025)
+      build: Sustained attention and persistence
+    - risk: Entry-level job displacement (Stanford, 2025)
+      build: The interpersonal, ethical, and creative capacities AI can't replace
+    - risk: Agency erosion · irreversible dependency (RAND, 2026)
+      build: Independent judgment and decision-making
+  closingHtml: AI provides power. Mindfulness builds the executive function that provides control. The next AI race isn't about better algorithms. <em>It's about better human&nbsp;cognition.</em>
+  linkLabel: 'Read the full brief: AI, cognition, and the classroom'
+  linkHref: '#'
 endorsers:
   label: Research partners & endorsements
   items:
@@ -239,24 +315,47 @@ endorsers:
       role: State-test study
     - name: Loyola Marymount
       role: Foundational study
-voices:
-  - quote: We saw a measurable drop in behavior referrals within a single semester. Teachers feel less reactive — and the kids notice.
-    author: District SEL Coordinator
-    where: Broward County, FL
-  - quote: It is the rare program that helps the adult in the room as much as the children. Five minutes a day, every day.
-    author: Principal
-    where: Title I elementary, TX
 cta:
   eyebrow: Bring it to your district
   lines:
-    - text: Five minutes a day,
+    - text: Five minutes a day
       face: sans
     - text: changes the year.
       em: true
-  subtitle: Inner Explorer is in tens of thousands of classrooms across the country. Talk to our team about bringing a daily mindful practice to yours.
-  primary:
-    label: Contact us
-    href: /contact
-  secondary:
-    label: Download research one-pager
-    href: /contact
+  subtitle: Inner Explorer is in tens of thousands of classrooms across the country. Wherever you are — curious, comparing, or ready — there's a next step.
+  actions:
+    - label: Book a demo
+      href: /contact
+      audience: Administrators ready to see it in their schools
+      line: See the platform and the rollout plan in 20 minutes.
+    - label: Download the research summary
+      href: '#'
+      audience: The reader who wants the evidence in hand for a team or a board
+      line: The studies, the outcomes, the citations. One page.
+    - label: Join our newsletter
+      href: '#'
+      audience: Educators following the science
+      line: Monthly, practical, grounded in the research.
+  closing: 'The science is clear. The solution exists. Every day without this foundation is another day students sit in classrooms with the neurological deck stacked against them. Let''s give them the one thing too few have tried at scale: a brain that''s consistently ready to learn.'
+citations:
+  label: Full citations
+  note: The aggression and AI sections draw on the wider research field rather than Inner Explorer's own trials. Publishing those citations is what keeps the evidentiary distinction honest.
+  groups:
+    - title: School-based mindfulness, behavior and emotion regulation
+      items:
+        - D'Souza, F., & Smyth, L. (2025). The array of outcomes associated with mindfulness interventions in schools. Mindfulness, 16, 2132–2155.
+        - Maynard, B. R., et al. (2017). Mindfulness-based interventions for improving cognition, academic achievement, behavior, and socioemotional functioning of students. Campbell Systematic Reviews.
+        - 'Montgomery, et al. (2023). School-based mindfulness and emotional regulation in 7–12-year-olds: a systematic review and meta-analysis. Mindfulness, 14.'
+        - Montero-Marin, J., et al. / MYRIAD Team (2022). School-based mindfulness training and adolescent mental health; and the reanalysis of Dunning et al. (2022). Note the near-zero practice adherence.
+    - title: AI and cognition
+      items:
+        - MIT Media Lab — Kosmyna et al. (2025), preprint. arxiv.org/abs/2506.08872
+        - Cornell / Anthropic — Shen & Tamkin (2026).
+        - Wharton, University of Pennsylvania — Bastani et al. (2025), PNAS.
+        - Stanford — Brynjolfsson et al. (2025).
+        - RAND — Moon & Boudreaux (2026).
+    - title: Mindfulness neuroscience, supporting the right-hand column of the AI table
+      items:
+        - Hölzel, B. K., et al. (2011). Mindfulness practice leads to increases in regional brain gray matter density. Psychiatry Research.
+        - Tang, Y., et al. (2010). Short-term meditation induces white matter changes in the anterior cingulate. PNAS.
+        - Jha, A. P., et al. (2010). Examining the protective effects of mindfulness training on working memory capacity and affective experience. Emotion.

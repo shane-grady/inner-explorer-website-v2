@@ -128,7 +128,6 @@ const gradId = `line-grad-${Math.random().toString(36).slice(2, 8)}`;
      them back. */
   .area {
     opacity: 1;
-    transition: opacity 800ms 700ms;
   }
   .line-control {
     fill: none;
@@ -136,22 +135,18 @@ const gradId = `line-grad-${Math.random().toString(36).slice(2, 8)}`;
     stroke-width: 2;
     stroke-dasharray: 5 5;
     opacity: 1;
-    transition: opacity 700ms 300ms;
   }
   .line-stress {
     fill: none;
     stroke: var(--color-brand);
     stroke-width: 3;
     stroke-dashoffset: 0;
-    transition: stroke-dashoffset 1600ms var(--ease-out);
   }
   .dot {
     fill: var(--color-brand);
     stroke: var(--color-white);
     stroke-width: 2;
     opacity: 1;
-    transition: opacity 300ms;
-    transition-delay: var(--d);
   }
   :global([data-js-ready]) [data-anim]:not(.in) .area,
   :global([data-js-ready]) [data-anim]:not(.in) .line-control,
@@ -161,10 +156,27 @@ const gradId = `line-grad-${Math.random().toString(36).slice(2, 8)}`;
   :global([data-js-ready]) [data-anim]:not(.in) .line-stress {
     stroke-dashoffset: 700;
   }
+  /* The transition lives on [data-anim].in, not on the resting rule: only the
+     reveal should animate. On the resting rule the initial visible -> hidden
+     reset would animate too, so the chart would visibly un-draw on load before
+     it could ever draw in. */
+  [data-anim].in .area {
+    transition: opacity 800ms 700ms;
+  }
+  [data-anim].in .line-control {
+    transition: opacity 700ms 300ms;
+  }
+  [data-anim].in .line-stress {
+    transition: stroke-dashoffset 1600ms var(--ease-out);
+  }
+  [data-anim].in .dot {
+    transition: opacity 300ms;
+    transition-delay: var(--d);
+  }
   .legend {
     display: flex;
     gap: 22px;
-    margin-top: 8px;
+    margin: 8px 0 24px;
     font-size: 11px;
     font-weight: 500;
     line-height: 1;

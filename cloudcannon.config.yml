@@ -469,6 +469,17 @@ collections_config:
             options:
               structures: _structures.page_origin_paragraphs
               min_items: 1
+          'missingLayer':
+            type: object
+            options:
+              structures: _structures.page_research_missinglayer_object
+              preview:
+                icon: article
+          'missingLayer.paragraphs':
+            type: array
+            options:
+              structures: _structures.page_origin_paragraphs
+              min_items: 1
           'outcomesHead':
             type: object
             options:
@@ -495,6 +506,37 @@ collections_config:
             options:
               structures: _structures.page_outcomes_data
               min_items: 1
+          'outcomes[*].paragraphs':
+            type: array
+            options:
+              structures: _structures.page_origin_paragraphs
+          'objection':
+            type: object
+            options:
+              structures: _structures.page_research_objection_object
+              preview:
+                icon: help
+          'aiMoment':
+            type: object
+            options:
+              structures: _structures.page_research_aimoment_object
+              preview:
+                icon: psychology
+          'aiMoment.paragraphs':
+            type: array
+            options:
+              structures: _structures.page_origin_paragraphs
+              min_items: 1
+          'aiMoment.stats':
+            type: array
+            options:
+              structures: _structures.page_research_ai_stats
+              min_items: 1
+          'aiMoment.rows':
+            type: array
+            options:
+              structures: _structures.page_research_ai_rows
+              min_items: 1
           'endorsers':
             type: object
             options:
@@ -506,16 +548,6 @@ collections_config:
             options:
               structures: _structures.page_endorsers_items
               min_items: 1
-          'voices':
-            type: array
-            options:
-              structures: _structures.page_voices
-              min_items: 1
-          'voices[*]':
-            type: object
-            options:
-              preview:
-                icon: format_quote
           'cta':
             type: object
             options:
@@ -527,10 +559,29 @@ collections_config:
             options:
               structures: _structures.page_hero_lines
               min_items: 1
+          'cta.actions':
+            type: array
+            options:
+              structures: _structures.page_research_cta_actions
+              min_items: 1
+          'citations':
+            type: object
+            options:
+              structures: _structures.page_research_citations_object
+              preview:
+                icon: menu_book
+          'citations.groups':
+            type: array
+            options:
+              structures: _structures.page_research_citation_groups
+              min_items: 1
           headingHtml:
             type: text
             comment: Inline HTML allowed — edit here rather than on the page.
           pullQuoteHtml:
+            type: text
+            comment: Inline HTML allowed — edit here rather than on the page.
+          closingHtml:
             type: text
             comment: Inline HTML allowed — edit here rather than on the page.
           copy:
@@ -540,6 +591,16 @@ collections_config:
           quote:
             type: textarea
           subtitle:
+            type: textarea
+          note:
+            type: textarea
+          body:
+            type: textarea
+          closing:
+            type: textarea
+          credential:
+            type: textarea
+          line:
             type: textarea
       about:
         path: .cloudcannon/schemas/marketing-page.yml
@@ -4533,7 +4594,7 @@ _structures:
           title: ''
           authors: ''
           institution: ''
-          journal: ''
+          credential: ''
           leadStat: ''
           leadLabel: ''
         _inputs:
@@ -4559,6 +4620,7 @@ _structures:
           statCaption: ''
           headline: ''
           copy: ''
+          paragraphs: []
           studyIds: []
           chart: bars
           chartTitle: ''
@@ -4566,6 +4628,10 @@ _structures:
           chartFoot: ''
           data: []
         _inputs:
+          paragraphs:
+            type: array
+            options:
+              structures: _structures.page_origin_paragraphs
           studyIds:
             type: array
             options:
@@ -4574,7 +4640,7 @@ _structures:
             type: select
             hidden: true
             options:
-              values: [bars, before-after, dial, line, competencies]
+              values: [bars, before-after, dial, line, competencies, pyramid, stat-band]
           data:
             type: array
             hidden: true
@@ -4633,6 +4699,91 @@ _structures:
             type: number
           control:
             type: number
+      - label: Pyramid tier
+        icon: change_history
+        picker_preview:
+          text: [Pyramid tier]
+          icon: [change_history]
+        preview:
+          text: [{ key: label }, Pyramid tier]
+          icon: [change_history]
+        value:
+          label: ''
+          sub: ''
+      - label: Result tile
+        icon: monitoring
+        picker_preview:
+          text: [Result tile]
+          icon: [monitoring]
+        preview:
+          text: [{ key: stat }, { key: label }, Result tile]
+          icon: [monitoring]
+        value:
+          stat: ''
+          label: ''
+  page_research_ai_stats:
+    style: modal
+    values:
+      - label: AI stat tile
+        icon: monitoring
+        picker_preview:
+          text: [AI stat tile]
+          icon: [monitoring]
+        preview:
+          text: [{ key: stat }, { key: label }, AI stat tile]
+          icon: [monitoring]
+        value:
+          stat: ''
+          label: ''
+  page_research_ai_rows:
+    style: modal
+    values:
+      - label: Risk and what practice builds
+        icon: compare_arrows
+        picker_preview:
+          text: [Risk and what practice builds]
+          icon: [compare_arrows]
+        preview:
+          text: [{ key: build }, Risk and what practice builds]
+          icon: [compare_arrows]
+        value:
+          risk: ''
+          build: ''
+  page_research_cta_actions:
+    style: modal
+    values:
+      - label: Next step
+        icon: link
+        picker_preview:
+          text: [Next step]
+          icon: [link]
+        preview:
+          text: [{ key: label }, Next step]
+          icon: [link]
+        value:
+          label: ''
+          href: ''
+          audience: ''
+          line: ''
+  page_research_citation_groups:
+    style: modal
+    values:
+      - label: Citation group
+        icon: menu_book
+        picker_preview:
+          text: [Citation group]
+          icon: [menu_book]
+        preview:
+          text: [{ key: title }, Citation group]
+          icon: [menu_book]
+        value:
+          title: ''
+          items: ['']
+        _inputs:
+          items:
+            type: array
+            options:
+              structures: _structures.page_origin_paragraphs
   page_endorsers_items:
     style: modal
     values:
@@ -4647,21 +4798,6 @@ _structures:
         value:
           name: ''
           role: ''
-  page_voices:
-    style: modal
-    values:
-      - label: Research Voices item
-        icon: format_quote
-        picker_preview:
-          text: [Research Voices item]
-          icon: [format_quote]
-        preview:
-          text: [Research Voices item]
-          icon: [format_quote]
-        value:
-          quote: ''
-          author: ''
-          where: ''
   page_faq_hero_object:
     style: modal
     values:
@@ -5108,6 +5244,8 @@ _structures:
             'eyebrow': '',
             'lines': [{ 'text': '', 'face': 'display' }],
             'subtitle': '',
+            'proof': '',
+            'note': '',
             'primaryCta': { 'label': '', 'href': '' },
             'secondaryCta': { 'label': '', 'href': '' },
           }
@@ -5187,9 +5325,74 @@ _structures:
             'eyebrow': '',
             'lines': [{ 'text': '', 'face': 'display' }],
             'subtitle': '',
-            'primary': { 'label': '', 'href': '' },
-            'secondary': { 'label': '', 'href': '' },
+            'actions': [{ 'label': '', 'href': '', 'audience': '', 'line': '' }],
+            'closing': '',
           }
+
+  page_research_missinglayer_object:
+    style: modal
+    values:
+      - label: Research — Missing layer
+        icon: article
+        picker_preview:
+          text: ['Research — Missing layer']
+          icon: [article]
+        preview:
+          text: [{ key: label }, 'Research — Missing layer']
+          icon: [article]
+        value: { 'label': '', 'headingHtml': '', 'paragraphs': [''], 'pullQuoteHtml': '' }
+
+  page_research_objection_object:
+    style: modal
+    values:
+      - label: Research — Objection
+        icon: help
+        picker_preview:
+          text: ['Research — Objection']
+          icon: [help]
+        preview:
+          text: [{ key: heading }, 'Research — Objection']
+          icon: [help]
+        value: { 'heading': '', 'body': '', 'closing': '' }
+
+  page_research_aimoment_object:
+    style: modal
+    values:
+      - label: Research — AI moment
+        icon: psychology
+        picker_preview:
+          text: ['Research — AI moment']
+          icon: [psychology]
+        preview:
+          text: [{ key: label }, 'Research — AI moment']
+          icon: [psychology]
+        value:
+          {
+            'label': '',
+            'headingHtml': '',
+            'paragraphs': [''],
+            'stats': [{ 'stat': '', 'label': '' }],
+            'transitionHeading': '',
+            'riskHead': '',
+            'buildHead': '',
+            'rows': [{ 'risk': '', 'build': '' }],
+            'closingHtml': '',
+            'linkLabel': '',
+            'linkHref': '',
+          }
+
+  page_research_citations_object:
+    style: modal
+    values:
+      - label: Research — Citations
+        icon: menu_book
+        picker_preview:
+          text: ['Research — Citations']
+          icon: [menu_book]
+        preview:
+          text: [{ key: label }, 'Research — Citations']
+          icon: [menu_book]
+        value: { 'label': '', 'note': '', 'groups': [{ 'title': '', 'items': [''] }] }
 
   page_about_hero_object:
     style: modal

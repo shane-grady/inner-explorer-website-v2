@@ -10,114 +10,129 @@ interface Props {
   /** Line objects: text + optional `face` ('sans' for the upright weight-300 line; default is italic display). `em` colors the line with the brand accent. */
   lines: Array<{ text: string; face?: 'sans' | 'display'; em?: boolean }>;
   subtitle: string;
+  /** A short emphasized line of its own under the subtitle. */
+  proof?: string;
+  /** A quieter supporting line under the subtitle. */
+  note?: string;
   primaryCta: Cta;
   secondaryCta?: Cta;
   /** CloudCannon path prefix for this block's fields (e.g. 'hero'). Omit on routes
    *  not backed by a `pages` collection entry. See lib/editable.ts.
    *
-   *  `lines` is deliberately NOT editable: each line is pre-split into per-word
-   *  spans carrying the scroll-reveal windows below, and a text region would replace
-   *  them with flat text. Edit the headline from the sidebar. */
+   *  `lines` is deliberately NOT editable: an editable region must resolve to a
+   *  string, and a row of this array is an object, whose own value cannot be
+   *  addressed. Edit the headline from the sidebar. */
   editablePrefix?: EditablePrefix;
 }
-const { eyebrow, lines, subtitle, primaryCta, secondaryCta, editablePrefix }: Props = Astro.props;
+const { eyebrow, lines, subtitle, proof, note, primaryCta, secondaryCta, editablePrefix }: Props =
+  Astro.props;
 
-// Pre-split the headline into words and give each a slice of the pinned-scroll
-// progress (0–100). Words resolve in reading order, their windows overlapping so
-// the soft blur reads as a mask sweeping across the text. The scrub script reads
-// these data attributes — one source of truth.
-const REVEAL_FROM = 4; // first word starts here
-const LAST_START = 66; // last word starts here
-const WORD_LEN = 20; // each word's own fade length
-const totalWords = lines.reduce((n, l) => n + l.text.trim().split(/\s+/).length, 0);
-let gi = 0;
-const wordLines = lines.map((l) => {
-  const parts = l.text.trim().split(/\s+/);
-  const words = parts.map((t, i) => {
-    const frac = totalWords > 1 ? gi / (totalWords - 1) : 0;
-    const start = Math.round(REVEAL_FROM + frac * (LAST_START - REVEAL_FROM));
-    gi += 1;
-    return { t, start, end: start + WORD_LEN, last: i === parts.length - 1 };
-  });
-  return { face: l.face === 'sans' ? 'sans' : 'display', em: !!l.em, words };
-});
+// One fade per element, 80ms apart, in render order: the eyebrow leads at 0, then one
+// slot per headline line, then the subtitle, then whichever of proof / note are set,
+// then the CTAs. Absent optional lines take no slot, so the cadence never leaves a gap.
+const STEP = 80;
+let slot = lines.length;
+const subtitleDelay = (slot += 1) * STEP;
+const proofDelay = proof ? (slot += 1) * STEP : 0;
+const noteDelay = note ? (slot += 1) * STEP : 0;
+const ctaDelay = (slot + 1) * STEP;
 ---
 
 <section class="hero" id="hero" data-screen-label="Hero">
-  <div class="hero-sticky">
-    <div class="hero-inner">
-      <span class="hero-eyebrow">
-        <span class="rule" aria-hidden="true"></span>
-        <span {...editableText(editablePrefix, 'eyebrow')}>{eyebrow}</span>
-        <span class="rule" aria-hidden="true"></span>
-      </span>
-      <h1 class="hero-h">
-        {
-          wordLines.map((l) => (
-            <span class:list={['stk', l.face, { em: l.em }]}>
-              {l.words.map((w) => (
-                <span class="word" data-s={w.start} data-e={w.end}>
-                  {w.last ? w.t : w.t + ' '}
-                </span>
-              ))}
-            </span>
-          ))
-        }
-      </h1>
-      <p class="hero-sub" {...editableText(editablePrefix, 'subtitle', 'text')}>{subtitle}</p>
-      <div class="hero-cta">
-        <a href={primaryCta.href} class="btn btn-solid-ink btn-lg">
-          <span {...editableText(childPrefix(editablePrefix, 'primaryCta'), 'label')}>
-            {primaryCta.label}
-          </span>
-          <svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
+  <div class="hero-inner">
+    <span class="hero-eyebrow reveal">
+      <span class="rule" aria-hidden="true"></span>
+      <span {...editableText(editablePrefix, 'eyebrow')}>{eyebrow}</span>
+      <span class="rule" aria-hidden="true"></span>
+    </span>
+    <h1 class="hero-h">
+      {
+        lines.map((l, i) => (
+          <span
+            class:list={['stk', 'reveal', l.face === 'sans' ? 'sans' : 'display', { em: l.em }]}
+            style={`--reveal-delay:${(i + 1) * STEP}ms`}
           >
-            <path d="M12 5v14"></path>
-            <path d="M5 12l7 7 7-7"></path>
-          </svg>
-        </a>
-        {
-          secondaryCta && (
-            <a
-              href={secondaryCta.href}
-              class="btn btn-ghost-paper btn-lg"
-              {...editableText(childPrefix(editablePrefix, 'secondaryCta'), 'label')}
-            >
-              {secondaryCta.label}
-            </a>
-          )
-        }
-      </div>
+            {l.text}
+          </span>
+        ))
+      }
+    </h1>
+    <p
+      class="hero-sub reveal"
+      style={`--reveal-delay:${subtitleDelay}ms`}
+      {...editableText(editablePrefix, 'subtitle', 'text')}
+    >
+      {subtitle}
+    </p>
+    {
+      proof && (
+        <p
+          class="hero-proof reveal"
+          style={`--reveal-delay:${proofDelay}ms`}
+          {...editableText(editablePrefix, 'proof')}
+        >
+          {proof}
+        </p>
+      )
+    }
+    {
+      note && (
+        <p
+          class="hero-note reveal"
+          style={`--reveal-delay:${noteDelay}ms`}
+          {...editableText(editablePrefix, 'note', 'text')}
+        >
+          {note}
+        </p>
+      )
+    }
+    <div class="hero-cta reveal" style={`--reveal-delay:${ctaDelay}ms`}>
+      <a href={primaryCta.href} class="btn btn-solid-ink btn-lg">
+        <span {...editableText(childPrefix(editablePrefix, 'primaryCta'), 'label')}>
+          {primaryCta.label}
+        </span>
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M12 5v14"></path>
+          <path d="M5 12l7 7 7-7"></path>
+        </svg>
+      </a>
+      {
+        secondaryCta && (
+          <a
+            href={secondaryCta.href}
+            class="btn btn-ghost-paper btn-lg"
+            {...editableText(childPrefix(editablePrefix, 'secondaryCta'), 'label')}
+          >
+            {secondaryCta.label}
+          </a>
+        )
+      }
     </div>
   </div>
 </section>
 
 <style>
-  /* Tall section → its inner content pins (sticky) while the headline resolves,
-     then releases into the receipts below. The reveal is scrubbed to the pinned
-     scroll distance by the script; CSS owns only the pin + the static fallbacks. */
+  /* A single centered screen. The headline used to resolve word by word across a
+     200vh sticky pin; it now fades in as one staggered run when the section scrolls
+     into view, so the page never stops moving for the reader. */
   .hero {
     position: relative;
-    min-height: 200vh;
-    background: var(--editorial-paper);
-    color: var(--editorial-ink);
-  }
-  .hero-sticky {
-    position: sticky;
-    top: 0;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    background: var(--editorial-paper);
+    color: var(--editorial-ink);
   }
   .hero-inner {
     width: 100%;
@@ -169,12 +184,6 @@ const wordLines = lines.map((l) => {
   .em {
     color: var(--color-brand);
   }
-  /* Each word resolves from a soft blur — the moving blur edge reads as a mask
-     sweeping across the line. (Opacity/blur are driven inline by the script.) */
-  .word {
-    display: inline;
-    will-change: filter, opacity;
-  }
 
   .hero-sub {
     margin: 0 auto 36px;
@@ -182,6 +191,23 @@ const wordLines = lines.map((l) => {
     font-size: 18px;
     line-height: 1.55;
     color: var(--editorial-ink-muted);
+  }
+  .hero-proof {
+    margin: -20px auto 24px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 1.3;
+    color: var(--editorial-ink);
+  }
+  .hero-note {
+    margin: 0 auto 36px;
+    max-width: 560px;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--editorial-ink-muted);
+    text-wrap: pretty;
   }
   .hero-cta {
     display: flex;
@@ -224,31 +250,29 @@ const wordLines = lines.map((l) => {
     background: color-mix(in oklab, var(--editorial-ink) 6%, transparent);
   }
 
-  /* The script adds .hero--scrub (only when motion is allowed) and then drives
-     opacity/filter/transform inline. This rule sets the pre-scrub hidden state so
-     nothing flashes before the first frame. Without JS, text stays fully visible
-     (SEO / no-JS safe). */
-  @media (prefers-reduced-motion: no-preference) {
-    .hero--scrub .word {
-      opacity: 0.1;
-      filter: blur(10px);
-    }
-    .hero--scrub .hero-eyebrow,
-    .hero--scrub .hero-sub,
-    .hero--scrub .hero-cta {
-      opacity: 0;
-    }
-  }
+  /* Reveal-on-scroll — content is fully visible by default, so no-JS and SEO
+     readers get the finished hero. Once JS is ready (intersect.ts sets
+     data-js-ready on <html>) anything not yet revealed drops to the hidden state,
+     and .in resolves it, line by line via --reveal-delay.
 
-  /* Reduced motion → a normal, static, fully-visible centered hero (no pin). */
-  @media (prefers-reduced-motion: reduce) {
-    .hero {
-      min-height: 100vh;
+     The transition lives on .in, not on .reveal: only the reveal should animate.
+     Were it on the base rule, the initial visible -> hidden drop would animate too,
+     so the hero would fade OUT for 700ms on load before it could ever fade in.
+
+     Gated on no-preference rather than left to the global reduced-motion rule,
+     which squashes transition-duration but NOT transition-delay — without the gate
+     a reduced-motion reader would still get the staggered pop. */
+  @media (prefers-reduced-motion: no-preference) {
+    :global([data-js-ready]) .reveal:not(.in) {
+      opacity: 0;
+      transform: translateY(20px);
+      filter: blur(6px);
     }
-    .hero-sticky {
-      position: static;
-      height: auto;
-      min-height: 100vh;
+    .reveal.in {
+      transition:
+        opacity 700ms var(--ease-out) var(--reveal-delay, 0ms),
+        transform 700ms var(--ease-out) var(--reveal-delay, 0ms),
+        filter 700ms var(--ease-out) var(--reveal-delay, 0ms);
     }
   }
 
@@ -263,51 +287,9 @@ const wordLines = lines.map((l) => {
 </style>
 
 <script>
-  const hero = document.getElementById('hero');
-  // Scrub the reveal to the pinned scroll distance. Skipped for reduced-motion
-  // readers, who keep the static, fully-resolved hero (no pin).
-  if (hero && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const words = Array.from(hero.querySelectorAll<HTMLElement>('.word'));
-    const blocks: Array<[HTMLElement | null, number, number]> = [
-      [hero.querySelector('.hero-eyebrow'), 0, 12],
-      [hero.querySelector('.hero-sub'), 82, 92],
-      [hero.querySelector('.hero-cta'), 88, 100],
-    ];
-    const clamp = (n: number) => Math.max(0, Math.min(1, n));
-    const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
-
-    let raf = 0;
-    const paint = () => {
-      raf = 0;
-      const vh = window.innerHeight;
-      const denom = Math.max(1, hero.offsetHeight - vh);
-      // Progress through the pinned range: 0 as the pin engages, 1 as it releases.
-      const p = clamp(-hero.getBoundingClientRect().top / denom) * 100;
-      words.forEach((el) => {
-        const s = Number(el.dataset.s);
-        const e = Number(el.dataset.e);
-        const t = easeOut(clamp((p - s) / (e - s)));
-        el.style.opacity = String(0.1 + 0.9 * t);
-        el.style.filter = `blur(${(1 - t) * 10}px)`;
-      });
-      blocks.forEach(([el, s, e]) => {
-        if (!el) return;
-        const t = easeOut(clamp((p - s) / (e - s)));
-        el.style.opacity = String(t);
-        el.style.filter = `blur(${(1 - t) * 6}px)`;
-        el.style.transform = `translateY(${(1 - t) * 12}px)`;
-      });
-    };
-    // Paint immediately on scroll (cheap — 12 elements) and also coalesce a
-    // trailing frame via rAF, mirroring the repo's passive-scroll idiom.
-    const onScroll = () => {
-      paint();
-      if (!raf) raf = requestAnimationFrame(paint);
-    };
-
-    hero.classList.add('hero--scrub');
-    paint();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll);
-  }
+  import { observe } from '../../../lib/intersect';
+  // BaseLayout ships <ClientRouter />, so a module script runs once and would not
+  // re-arm after a soft nav back to /research. astro:page-load fires on first load
+  // and after every swap (same pattern as Header.astro, IntroScroll.astro).
+  document.addEventListener('astro:page-load', () => observe('.hero .reveal'));
 </script>

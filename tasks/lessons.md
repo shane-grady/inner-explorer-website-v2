@@ -917,6 +917,133 @@ Explorer's"`).
   it without asking again at each intermediate step. Repeated permission prompts after the
   user has already said to proceed create needless friction and obscure the actual test.
 
+## 2026-09-18 — Research page Build Doc v2
+
+- **The Astro compiler rejects a multi-line union type with leading `|` in
+  frontmatter** (`Unexpected "|"` from esbuild at build time; `astro check` and the
+  dev server are fine). Prettier reflows long unions into that shape, so keep them
+  short enough for one line or split them through a helper alias.
+- **A `string[]` field cannot carry array-item editables.** The CI guard flags
+  `array-item has CRUD controls but no editable text inside`: a row's own value has
+  no path to bind. Render plain string arrays without `editableArray`/`editableItem`
+  and leave them sidebar-only (same reason the splash `lines` aren't editable).
+- **A YAML list item containing `: ` parses as a mapping** — quote citation-style
+  strings ("…7–12-year-olds: a systematic review…") or Zod reports
+  `Expected "string", received "object"`.
+- **Orphan check that works:** after `text-wrap: balance/pretty`, run a Range-rect
+  scan per block (count words on the last line) at 375/768/1440, then pin the few
+  real hits with U+00A0 in the YAML (plain-text regions) or `&nbsp;` in `*Html`
+  fields. Skip `.stk`-stacked headings and visually-hidden `thead`s — false positives.
+- **Natural-scroll screenshots DO work in this env when transitions are disabled**
+  (`*{transition:none!important}` + force `.in` on reveals, then `scrollTo` → wait 1s
+  → screenshot). (The 200vh scrubbed hero that needed pinning is gone — see the
+  2026-09-21 entry below; every section reveals via IntersectionObserver now.) A DOM pass that
+  reads each section's computed padding and checks sibling-rect intersections catches
+  spacing drift and overlaps faster than eyeballing.
+- **After adding a field to a `page-schemas/*.ts` module, the running `astro dev`
+  keeps stripping it.** The content layer parsed the entry with the old Zod shape and
+  persisted it in `.astro/data-store.json`; a restart skips re-parsing because the
+  file digest is unchanged, and touching files does not help. Fix: stop the dev
+  server, delete `.astro/data-store.json`, start it again. `astro build` is unaffected.
+
+## 2026-09-21 — Scroll-reveal: put the transition on `.in`, not on `.reveal`
+
+Replacing the research hero's 200vh sticky per-word scrub with the repo's standard
+`observe()` + `.reveal`/`.in` fade surfaced a flaw in that standard pattern.
+
+**The inverted default costs a fade-OUT.** The four research blocks declare
+`.reveal { opacity: 1; transform: none; transition: … }` and then
+`[data-js-ready] .reveal:not(.in) { opacity: 0; transform: translateY(28px) }`. Content
+is visible by default (correct — no-JS and SEO readers get the finished page), and JS
+hides it. But because the transition sits on the BASE rule, that initial visible →
+hidden drop animates too: the element paints fully visible, then spends the full
+transition duration fading out, before it can ever fade in. Measured on `/research`
+before the fix — the first headline line read `opacity: 1` at t=0 and decayed to
+`0.0001` by t≈1050ms, all while off screen.
+
+Fix: scope the transition to the revealed state.
+
+```css
+[data-js-ready] .reveal:not(.in) {
+  opacity: 0;
+  transform: translateY(20px);
+  filter: blur(6px);
+}
+.reveal.in {
+  transition:
+    opacity 700ms var(--ease-out) var(--reveal-delay, 0ms),
+    …;
+}
+```
+
+The hide is then instant and only the reveal animates. It is also less CSS — the
+`opacity: 1; transform: none` resting block becomes unnecessary, because `.in` simply
+transitions back to the initial values. Verified `blur(6px)` → `none` interpolates
+smoothly (no snap) over 840 sampled frames.
+
+On `/research` nobody saw the fade-out (the hero sits below the 100vh splash), but it is
+wasted compositing on every load, and anything deep-linked or scroll-restored into view
+would flicker.
+
+**It was page-wide, and the charts had it worse.** The same flaw sat in all four sibling
+blocks and in all five chart components, where the transition is declared on a
+descendant of `[data-anim]` at its FINAL value and `[data-anim]:not(.in)` overrides to
+the start value — so a bar painted at 1344px and animated down to 2px on load. All nine
+were fixed in the same PR; the fix for a chart is the same move, into `[data-anim].in`:
+
+```css
+.fill {
+  width: var(--w);
+} /* no transition here */
+[data-js-ready] [data-anim]:not(.in) .fill {
+  width: 0;
+}
+[data-anim].in .fill {
+  transition: width 1200ms var(--ease-out);
+  transition-delay: var(--d);
+}
+```
+
+Watch the shorthand when delays live on a separate rule (`BeforeAfterChart`'s
+`.box.before` / `.box.after`): a `transition:` shorthand on the more specific `.in` rule
+RESETS `transition-delay` to `0s` and silently flattens the stagger. Move the delays into
+`.in`-scoped rules too, or use longhands.
+
+Keep `transition-delay: var(--d)` as its own declaration rather than folding it into the
+shorthand — a missing `--d` invalidates the whole shorthand, not just the delay.
+
+**Still carrying the flaw** (left for their own change): `home/WhyNow.astro`,
+`case-study/ResultsChart.astro`, and the page-level rules in `pages/index.astro`,
+`pages/case-studies/[slug].astro`, `pages/series/[slug].astro`.
+
+**Test it with a control.** The regression probe samples each animated property on load
+WITHOUT scrolling and counts values strictly between the endpoints: an instant hide gives
+0, an animated one gives 14-26. Crucially, run it against the pre-fix build too — a probe
+that cannot fail proves nothing. Pre-fix scored 0/9 passing, post-fix 9/9, and a separate
+forward-motion probe confirmed all nine still animate in (3+ mid-flight frames each) so a
+silently-dropped transition could not pass as "correct final state".
+
+**Two related gotchas confirmed by measurement, not assumption:**
+
+- `data-js-ready` does NOT survive a `<ClientRouter />` swap — Astro replaces the root
+  element's attributes with the incoming document's, so it is gone after a soft nav
+  (verified: `false` on the next page). That means a bare top-level `observe()` call
+  degrades to "content visible, no animation" rather than to a blank section — but it
+  still never re-arms. Binding `document.addEventListener('astro:page-load', …)` is two
+  lines and makes it correct either way.
+- Gate the whole thing on `@media (prefers-reduced-motion: no-preference)`. The global
+  reduced-motion rule in `global.css` squashes `transition-duration` but NOT
+  `transition-delay`, so a staggered reveal whose `.in` lands after first paint would
+  still pop element-by-element for a reduced-motion reader.
+
+**On pinned scroll effects generally.** The removed effect pinned 200vh to un-blur ~40
+per-word spans on a rAF scroll loop. It cost a full extra screen of scroll, was welded
+to scroll velocity (stuttery on trackpads, chunky on wheel clicks) and left the headline
+illegible for most of the pin. A one-shot staggered fade reads as more engaging and
+deleted ~70 lines. Also note CSS `animation-timeline: view()` is still not the answer
+here in 2026 — Firefox ships it behind a flag (~84% global), and the repo has no other
+usage to be consistent with.
+
 ## 2026-09-22 — Claude Design canvases: preview the way the canvas renders
 
 - **The Design canvas runtime drops `<colgroup>`/`<col>` widths.** A `table-layout: fixed`

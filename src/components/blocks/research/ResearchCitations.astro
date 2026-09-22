@@ -1,0 +1,222 @@
+---
+// The reference list, collapsed by default at the foot of the page — depth available
+// rather than fine print. Group 1 is generated from the study cards so it can never
+// drift from them; the wider-field groups come from the page content.
+import type { Study } from './ResearchReceipts.astro';
+import {
+  editableArray,
+  editableItem,
+  editableText,
+  itemPrefix,
+  type EditablePrefix,
+} from '../../../lib/editable';
+
+interface Group {
+  title: string;
+  items: string[];
+}
+interface Props {
+  label: string;
+  note: string;
+  /** Wider-field groups, rendered after the Inner Explorer studies. */
+  groups: Group[];
+  studies: Study[];
+  /** `study.id` → source URL, for the studies that have one. */
+  studyUrls?: Record<string, string>;
+  studiesTitle?: string;
+  /** CloudCannon path prefix for this block's fields (e.g. 'citations'). Omit on
+   *  routes not backed by a `pages` collection entry. See lib/editable.ts. */
+  editablePrefix?: EditablePrefix;
+}
+const {
+  label,
+  note,
+  groups,
+  studies,
+  studyUrls = {},
+  studiesTitle = 'Inner Explorer studies',
+  editablePrefix,
+}: Props = Astro.props;
+const groupPrefix = itemPrefix(editablePrefix);
+---
+
+<section class="citations" id="citations" aria-label={label}>
+  <div class="wrap">
+    <details class="fold">
+      <summary>
+        <span class="summary-label" {...editableText(editablePrefix, 'label')}>{label}</span>
+        <span class="ico" aria-hidden="true">
+          <svg
+            viewBox="0 0 24 24"
+            width="14"
+            height="14"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          >
+            <line x1="12" y1="5" x2="12" y2="19" class="v"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+        </span>
+      </summary>
+      <div class="inner">
+        <p class="note" {...editableText(editablePrefix, 'note', 'text')}>{note}</p>
+        <div class="groups">
+          <div class="group">
+            <h3 class="group-title">{studiesTitle}</h3>
+            <ol class="list">
+              {
+                studies.map((s) => {
+                  const text = `${s.authors} (${s.year}). ${s.title}. ${s.institution}. ${s.credential}.`;
+                  const url = studyUrls[s.id];
+                  return (
+                    <li>
+                      {url ? (
+                        <a href={url} rel="noopener" target="_blank">
+                          {text}
+                        </a>
+                      ) : (
+                        text
+                      )}
+                    </li>
+                  );
+                })
+              }
+            </ol>
+          </div>
+          <div class="cms-groups" {...editableArray(editablePrefix, 'groups')}>
+            {
+              groups.map((g) => (
+                <div class="group" {...editableItem(editablePrefix)}>
+                  <h3 class="group-title" {...editableText(groupPrefix, 'title')}>
+                    {g.title}
+                  </h3>
+                  {/* `items` is a string array — no per-row field to bind; edit in the sidebar. */}
+                  <ol class="list">
+                    {g.items.map((it) => (
+                      <li>{it}</li>
+                    ))}
+                  </ol>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<style>
+  .citations {
+    padding: 0 0 80px;
+    background: var(--editorial-paper);
+    color: var(--editorial-ink);
+  }
+  .wrap {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  .fold {
+    border-top: 1px solid color-mix(in oklab, var(--editorial-ink) 12%, transparent);
+    border-bottom: 1px solid color-mix(in oklab, var(--editorial-ink) 12%, transparent);
+  }
+  summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 22px 0;
+    list-style: none;
+    cursor: pointer;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  summary:focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 4px;
+  }
+  .summary-label {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--editorial-ink-muted);
+  }
+  .ico {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid color-mix(in oklab, var(--editorial-ink) 15%, transparent);
+    color: var(--editorial-ink);
+  }
+  .ico .v {
+    transition: opacity 200ms var(--ease-out);
+  }
+  .fold[open] .ico .v {
+    opacity: 0;
+  }
+  .inner {
+    padding: 8px 0 40px;
+  }
+  .note {
+    margin: 0 0 32px;
+    max-width: 640px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--editorial-ink-muted);
+    text-wrap: pretty;
+  }
+  .groups {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px 48px;
+  }
+  /* The CMS array wrapper is needed for editing; let its groups flow in the grid. */
+  .cms-groups {
+    display: contents;
+  }
+  .group-title {
+    margin: 0 0 12px;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-brand);
+    text-wrap: balance;
+  }
+  .list {
+    margin: 0;
+    padding: 0 0 0 18px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--editorial-ink-muted);
+  }
+  .list li {
+    margin: 0 0 8px;
+    text-wrap: pretty;
+  }
+  .list a {
+    color: var(--editorial-ink);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in oklab, var(--editorial-ink) 30%, transparent);
+    text-underline-offset: 3px;
+  }
+  .list a:hover {
+    text-decoration-color: var(--color-brand);
+  }
+  @media (max-width: 720px) {
+    .groups {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+  }
+</style>

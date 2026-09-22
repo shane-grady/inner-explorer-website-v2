@@ -1,20 +1,9 @@
 ---
+import type { ComponentProps } from 'astro/types';
 import ResearchCTA from '../../components/blocks/research/ResearchCTA.astro';
 
-interface CtaLink {
-  label: string;
-  href: string;
-}
-
-interface Props {
-  eyebrow: string;
-  lines: Array<{ text: string; face?: 'sans' | 'display'; em?: boolean }>;
-  subtitle: string;
-  primary: CtaLink;
-  secondary?: CtaLink;
-}
-
-const props: Props = Astro.props;
+type Props = Omit<ComponentProps<typeof ResearchCTA>, 'editablePrefix'>;
+const props = Astro.props as Props;
 ---
 
 <ResearchCTA {...props} editablePrefix="" />
