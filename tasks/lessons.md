@@ -932,3 +932,9 @@ Explorer's"`).
 - **Mobile CTAs belong at the bottom.** For a long comparison table on mobile, the persistent
   recommended-plan CTA is a bar that slides up from the bottom of the viewport while the
   table is on screen, not an extra row in the sticky top header.
+- **Porting a site component into the design-system bundle: add `box-sizing: border-box`.**
+  The site gets it from Tailwind's preflight; the DS preview frame does not. Without it,
+  percentage cell widths plus padding overflow and `table-layout: fixed` rescales every
+  column, so the table and its sticky header drift apart. Scope it to the component root
+  (`.ie-cmp, .ie-cmp *`). Also: `calc()` percentage widths on table cells are ignored, so pass
+  plain percentages.
