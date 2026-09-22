@@ -916,3 +916,19 @@ Explorer's"`).
   its save, verification, and cleanup. Once the user confirms that bounded sequence, finish
   it without asking again at each intermediate step. Repeated permission prompts after the
   user has already said to proceed create needless friction and obscure the actual test.
+
+## 2026-09-22 — Claude Design canvases: preview the way the canvas renders
+
+- **The Design canvas runtime drops `<colgroup>`/`<col>` widths.** A `table-layout: fixed`
+  table that relies on `<col style="width">` renders as equal columns in the canvas, while a
+  plain headless-Chrome preview honours the colgroup and looks correct. I shipped a sticky
+  header whose rows (a separate table with no header row) drifted off-centre because of
+  this, and my "verification" missed it. Put explicit widths on the cells themselves
+  (header cells AND every body cell of any table that has no header row), and make local
+  previews strip `<colgroup>` so they fail the same way the canvas does.
+- **Verify alignment by measurement, not by eye.** After rendering, dump each row's cell
+  `getBoundingClientRect().left` values and assert every table on the board shares one
+  column layout. A screenshot at thumbnail scale hides 2px overflows and off-centre columns.
+- **Mobile CTAs belong at the bottom.** For a long comparison table on mobile, the persistent
+  recommended-plan CTA is a bar that slides up from the bottom of the viewport while the
+  table is on screen, not an extra row in the sticky top header.
