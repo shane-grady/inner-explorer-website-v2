@@ -4,16 +4,27 @@
 // Rows are grouped into labelled categories (Overview, Programming, …). Each row
 // carries one cell per plan, in plan order. Cells are either an availability
 // token ('yes' | 'no' | 'na'), a priced add-on ({ price, note }), or free text
-// ("1 included"). The highlighted plan's column is brand-tinted end to end so it
-// lines up with the same plan's card in PlanCards.
+// ("1 included"). The highlighted plan's column carries a brand frame end to end
+// (through the full-width group bands) plus a "Recommended" tab on its header.
 //
-// Zero JS. The feature column is sticky-left so names stay readable while the
-// plan columns scroll horizontally on narrow screens. The table is long, so each
-// group banner repeats the plan names in its plan columns rather than relying on
-// a viewport-sticky <thead> — Chromium mispaints sticky table headers, and the
-// repeat reads better as an editorial rhythm anyway.
+// Behaviour, cheapest mechanism first:
+//   • "Show only differences" — a native checkbox switch; CSS `:has()` hides every
+//     row whose cells are all 'yes' and swaps the counts. No JS.
+//   • Collapsible groups, the compact sticky plan header (desktop + mobile) and the
+//     mobile bottom CTA bar — one small vanilla script at the end. Without JS every
+//     group stays open and the sticky chrome never appears; the table still works.
+//
+// Layout: one <table> for every width. ≥ 768px it is a fixed-layout table (40% /
+// 20% / 20% / 20%). Below 768px each row becomes a grid: the feature name spans the
+// width with the three plan values underneath, so all plans stay visible on a
+// phone with no sideways scroll.
+//
+// The compact sticky header is a separate, presentational element (aria-hidden,
+// links out of the tab order): the real <thead> and <tfoot> carry the semantics
+// and the CTAs, and Chromium still mispaints `position: sticky` table headers.
 
 import type { Plan } from './PlanCards.astro';
+import Button from '../../primitives/Button.astro';
 import { editableText, type EditablePrefix } from '../../../lib/editable';
 
 /** A priced add-on cell: the figure plus an optional license note. */
@@ -48,7 +59,7 @@ interface Props {
    *
    *  `groups` is bound with INDEXED paths, not `editableArray`: an array container
    *  may hold only its own rows, and neither the <table> (which also holds
-   *  <thead>/<tfoot>) nor a <tbody> (which also holds its group banner) qualifies.
+   *  <thead>/<tfoot>) nor a <tbody> (which also holds its group band) qualifies.
    *  Text editing works; add/remove stays in the sidebar. */
   editablePrefix?: EditablePrefix;
 }
@@ -57,53 +68,166 @@ const { eyebrow, titleHtml, intro, plans, groups, footnote, editablePrefix }: Pr
 function isPrice(v: Cell): v is PriceCell {
   return typeof v === 'object' && v !== null && 'price' in v;
 }
+/** A row every plan includes — hidden by "Show only differences". */
+const isSame = (r: Row) => r.cells.every((c) => c === 'yes');
+
+const total = groups.reduce((n, g) => n + g.rows.length, 0);
+const differing = groups.reduce((n, g) => n + g.rows.filter((r) => !isSame(r)).length, 0);
+
+// Column geometry, shared by the table, the full-width band stripes and the sticky
+// header so all three line up. The feature column takes 40%; plans split the rest.
+const planPct = 60 / Math.max(plans.length, 1);
+const hlIndex = plans.findIndex((p) => p.highlight);
+const hlStart = hlIndex < 0 ? null : 40 + planPct * hlIndex;
+const geometry =
+  `--cmp-plans: ${plans.length}; --cmp-plan-w: ${planPct}%;` +
+  (hlStart === null ? '' : ` --cmp-hl-start: ${hlStart}%; --cmp-hl-end: ${hlStart + planPct}%;`);
+const primary = plans[hlIndex] ?? plans[0];
 ---
 
-<section class="cmp" id="compare" aria-labelledby="compare-head">
+<section
+  class="cmp"
+  id="compare"
+  aria-labelledby="compare-head"
+  data-cmp
+  data-has-hl={hlStart !== null ? '' : undefined}
+  style={geometry}
+>
   <div class="cmp-inner">
     <div class="cmp-head">
-      <div class="eyebrow" {...editableText(editablePrefix, 'eyebrow')}>{eyebrow}</div>
+      <p class="eyebrow" {...editableText(editablePrefix, 'eyebrow')}>{eyebrow}</p>
       {/* An HTML field cannot back a plain-text region — it stays sidebar-editable. */}
       <h2 id="compare-head" class="head-h" set:html={titleHtml} />
       <p class="head-p" {...editableText(editablePrefix, 'intro', 'text')}>{intro}</p>
     </div>
 
     <div class="cmp-card">
-      <p class="hint">Scroll sideways to see every plan.</p>
-      <div class="cmp-scroll">
-        <table>
-          <caption class="sr-only"> Inner Explorer plans compared feature by feature. </caption>
-          <thead>
-            <tr>
-              <th scope="col" class="th-feat">What&rsquo;s included</th>
-              {
-                plans.map((p) => (
-                  <th scope="col" class:list={['th-col', { hl: p.highlight }]}>
-                    <span class="col-label">{p.name}</span>
-                    <span class="col-note">{p.price}</span>
-                  </th>
-                ))
-              }
-            </tr>
-          </thead>
+      {/* Compact plan header that pins under the fixed nav while the table scrolls. */}
+      <div class="cmp-sticky" aria-hidden="true">
+        <div class="sticky-bar">
+          <div class="sticky-now">
+            <span class="sticky-kicker">Now viewing</span>
+            <span class="sticky-group" data-cmp-now>{groups[0]?.title}</span>
+          </div>
           {
-            groups.map((g, gi) => (
-              <tbody>
-                <tr class="grp">
-                  <th scope="colgroup" {...editableText(editablePrefix, `groups.${gi}.title`)}>
-                    {g.title}
+            plans.map((p) => (
+              <div class:list={['sticky-plan', { hl: p.highlight }]}>
+                <span class="sticky-name">{p.name}</span>
+                <span class="sticky-price">
+                  {p.price}
+                  <span class="sticky-unit"> {p.unit}</span>
+                </span>
+                <a class="sticky-link" href={p.ctaHref} tabindex="-1">
+                  Contact for pricing
+                </a>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <table role="table">
+        <caption class="sr-only">Inner Explorer plans compared feature by feature.</caption>
+        <thead>
+          <tr role="row">
+            <th scope="col" role="columnheader" class="th-key">
+              <span class="key-label">What&rsquo;s included</span>
+              <ul class="key" aria-label="Key">
+                <li>
+                  <span class="glyph yes" aria-hidden="true">
+                    <svg viewBox="0 0 256 256" width="20" height="20" fill="currentColor">
+                      <path
+                        d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm45.66,85.66-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32Z"
+                      ></path>
+                    </svg>
+                  </span>
+                  Included
+                </li>
+                <li>
+                  <span class="key-dollar" aria-hidden="true">$</span> Optional add-on, priced per site
+                </li>
+                <li><span class="dash" aria-hidden="true"></span> Not included</li>
+              </ul>
+              <label class="switch">
+                <input type="checkbox" role="switch" class="switch-input" data-cmp-diff />
+                <span class="switch-track" aria-hidden="true"
+                  ><span class="switch-knob"></span></span
+                >
+                <span class="switch-label">Show only differences</span>
+              </label>
+              <p class="switch-count" aria-live="polite">
+                <span class="when-all">Showing {total} of {total} features</span>
+                <span class="when-diff">Showing {differing} of {total} features</span>
+              </p>
+            </th>
+            {
+              plans.map((p) => (
+                <th scope="col" role="columnheader" class:list={['th-plan', { hl: p.highlight }]}>
+                  {p.highlight && <span class="rec-tab">Recommended</span>}
+                  <div class="plan-inner">
+                    <div class="plan-top">
+                      <span class="plan-name">{p.name}</span>
+                      <span class="plan-price">{p.price}</span>
+                      <span class="plan-unit">{p.unit}</span>
+                    </div>
+                    <Button
+                      href={p.ctaHref}
+                      variant={p.highlight ? 'solid' : 'outline'}
+                      tone={p.highlight ? 'brand' : 'neutral'}
+                      block
+                      class="plan-cta"
+                    >
+                      Contact for pricing
+                      <span class="sr-only"> for the {p.name} plan</span>
+                    </Button>
+                  </div>
+                </th>
+              ))
+            }
+          </tr>
+        </thead>
+        {
+          groups.map((g, gi) => {
+            const diffCount = g.rows.filter((r) => !isSame(r)).length;
+            return (
+              <tbody class="grp" id={`cmp-group-${gi}`} data-cmp-group={g.title}>
+                <tr class="grp-row" role="row">
+                  <th scope="rowgroup" role="rowheader" colspan={plans.length + 1}>
+                    <button
+                      type="button"
+                      class="grp-toggle"
+                      aria-expanded="true"
+                      aria-controls={`cmp-group-${gi}`}
+                      data-cmp-toggle
+                    >
+                      <svg
+                        class="caret"
+                        viewBox="0 0 256 256"
+                        width="20"
+                        height="20"
+                        fill="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" />
+                      </svg>
+                      <span
+                        class="grp-title"
+                        {...editableText(editablePrefix, `groups.${gi}.title`)}
+                      >
+                        {g.title}
+                      </span>
+                      <span class="grp-count">
+                        <span class="when-all">{g.rows.length} features</span>
+                        <span class="when-diff">
+                          {diffCount} of {g.rows.length} features
+                        </span>
+                      </span>
+                    </button>
                   </th>
-                  {plans.map((p) => (
-                    <td class:list={['grp-col', { hl: p.highlight }]} aria-hidden="true">
-                      {/* The first group sits directly under the real <thead>, so the
-                          repeat would be redundant there. */}
-                      {gi > 0 && p.name}
-                    </td>
-                  ))}
                 </tr>
                 {g.rows.map((r, ri) => (
-                  <tr>
-                    <th scope="row" class="td-feat">
+                  <tr class="row" role="row" data-same={isSame(r) ? '' : undefined}>
+                    <th scope="row" role="rowheader" class="td-feat">
                       <span
                         class="feat-name"
                         {...editableText(editablePrefix, `groups.${gi}.rows.${ri}.feat`)}
@@ -119,36 +243,35 @@ function isPrice(v: Cell): v is PriceCell {
                         </span>
                       )}
                     </th>
+                    {/* eslint-disable astro/jsx-a11y/no-interactive-element-to-noninteractive-role -- explicit table roles survive the phone layout's display: grid (Safari drops the implicit ones); the rule's 'td is interactive' is a false positive. */}
                     {r.cells.map((v, i) => (
-                      <td class:list={['td-cell', { hl: plans[i]?.highlight }]}>
+                      <td role="cell" class:list={['td-cell', { hl: plans[i]?.highlight }]}>
                         {v === 'yes' && (
                           <span class="glyph yes">
                             <svg
-                              viewBox="0 0 24 24"
-                              width="12"
-                              height="12"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="3"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
+                              viewBox="0 0 256 256"
+                              width="20"
+                              height="20"
+                              fill="currentColor"
                               aria-hidden="true"
                             >
-                              <polyline points="20 6 9 17 4 12" />
+                              <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm45.66,85.66-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32Z" />
                             </svg>
                             <span class="sr-only">Included</span>
                           </span>
                         )}
                         {v === 'no' && (
-                          <span class="glyph no" aria-hidden="true">
-                            <span class="dash" />
-                          </span>
+                          <>
+                            <span class="dash" aria-hidden="true" />
+                            <span class="sr-only">Not included</span>
+                          </>
                         )}
-                        {v === 'no' && <span class="sr-only">Not included</span>}
                         {v === 'na' && <span class="na">Not applicable</span>}
                         {isPrice(v) && (
                           <span class="addon">
-                            <span class="addon-price">{v.price}</span>
+                            <span class="addon-price">
+                              {v.price} <span class="addon-tag">add-on</span>
+                            </span>
                             {v.note && <span class="addon-note">{v.note}</span>}
                           </span>
                         )}
@@ -167,28 +290,48 @@ function isPrice(v: Cell): v is PriceCell {
                         )}
                       </td>
                     ))}
+                    {/* eslint-enable astro/jsx-a11y/no-interactive-element-to-noninteractive-role */}
                   </tr>
                 ))}
               </tbody>
-            ))
-          }
-          <tfoot>
-            <tr>
-              <th scope="row" class="td-feat foot-feat">Ready when you are</th>
-              {
-                plans.map((p) => (
-                  <td class:list={['td-cell', { hl: p.highlight }]}>
-                    <a class:list={['foot-cta', { solid: p.highlight }]} href={p.ctaHref}>
-                      {p.ctaLabel}
-                      <span class="sr-only"> for the {p.name} plan</span>
-                    </a>
-                  </td>
-                ))
-              }
-            </tr>
-          </tfoot>
-        </table>
-      </div>
+            );
+          })
+        }
+        <tfoot>
+          <tr role="row">
+            <th scope="row" role="rowheader" class="foot-feat">
+              <span class="foot-title">Ready when you are</span>
+              <span class="foot-sub">Our team replies within 1 business day.</span>
+            </th>
+            {
+              /* eslint-disable astro/jsx-a11y/no-interactive-element-to-noninteractive-role -- explicit table roles survive the phone layout's display: grid (Safari drops the implicit ones); the rule's 'td is interactive' is a false positive. */
+            }
+            {
+              plans.map((p) => (
+                <td role="cell" class:list={['foot-cell', { hl: p.highlight }]}>
+                  <span class="foot-plan">
+                    <span class="foot-plan-name">{p.name}</span>
+                    <span class="foot-plan-price">
+                      {p.price} {p.unit}
+                    </span>
+                  </span>
+                  <Button
+                    href={p.ctaHref}
+                    variant={p.highlight ? 'solid' : 'outline'}
+                    tone={p.highlight ? 'brand' : 'neutral'}
+                    block
+                    class="plan-cta"
+                  >
+                    Contact for pricing
+                    <span class="sr-only"> for the {p.name} plan</span>
+                  </Button>
+                </td>
+              ))
+            }
+            {/* eslint-enable astro/jsx-a11y/no-interactive-element-to-noninteractive-role */}
+          </tr>
+        </tfoot>
+      </table>
     </div>
 
     {
@@ -199,31 +342,95 @@ function isPrice(v: Cell): v is PriceCell {
       )
     }
   </div>
+
+  {/* Phone only: slides up while the table is on screen, away once its own CTAs show. */}
+  {
+    primary && (
+      <div class="cmp-bar">
+        <Button href={primary.ctaHref} block class="bar-cta">
+          Contact for pricing
+        </Button>
+      </div>
+    )
+  }
 </section>
+
+<script>
+  // Progressive enhancement for every comparison table on the page: group
+  // collapse, the compact sticky header and the phone bottom bar.
+  for (const root of document.querySelectorAll<HTMLElement>('[data-cmp]')) {
+    for (const btn of root.querySelectorAll<HTMLButtonElement>('[data-cmp-toggle]')) {
+      btn.addEventListener('click', () => {
+        const open = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!open));
+        btn.closest('tbody')?.toggleAttribute('data-collapsed', open);
+      });
+    }
+
+    const head = root.querySelector('thead');
+    const foot = root.querySelector('tfoot');
+    const sticky = root.querySelector<HTMLElement>('.sticky-bar');
+    const now = root.querySelector<HTMLElement>('[data-cmp-now]');
+    const groups = [...root.querySelectorAll<HTMLElement>('[data-cmp-group]')];
+    if (!head || !foot || !sticky) continue;
+
+    let queued = false;
+    const update = () => {
+      queued = false;
+      const top = parseFloat(getComputedStyle(root).getPropertyValue('--cmp-sticky-top')) || 0;
+      const barH = sticky.offsetHeight;
+      const headGone = head.getBoundingClientRect().bottom < top;
+      const footTop = foot.getBoundingClientRect().top;
+      root.toggleAttribute('data-stuck', headGone && footTop > top + barH);
+      root.toggleAttribute('data-bar', headGone && footTop > window.innerHeight);
+      if (now) {
+        const line = top + barH;
+        const current = groups.filter((g) => g.getBoundingClientRect().top <= line).pop();
+        now.textContent = current?.dataset.cmpGroup ?? groups[0]?.dataset.cmpGroup ?? '';
+      }
+    };
+    const schedule = () => {
+      if (!queued) {
+        queued = true;
+        requestAnimationFrame(update);
+      }
+    };
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule);
+    update();
+  }
+</script>
 
 <style>
   .cmp {
+    /* Clears the fixed nav pill (16px inset + ~64px pill + 16px gap). */
+    --cmp-sticky-top: 96px;
+    --cmp-band: color-mix(in oklab, var(--color-muted) 55%, var(--color-card));
+    --cmp-hl: var(--color-brand);
     background: var(--color-background);
-    padding: clamp(56px, 7vw, 96px) 0 clamp(72px, 9vw, 120px);
+    padding: var(--spacing-section-md) 0;
     border-top: 1px solid var(--color-border);
   }
   .cmp-inner {
-    max-width: 1360px;
+    max-width: 1280px;
     margin: 0 auto;
     padding: 0 40px;
   }
+
+  /* Section head --------------------------------------------------------- */
   .cmp-head {
-    max-width: 720px;
-    margin-bottom: 44px;
+    max-width: 760px;
+    margin-bottom: 32px;
   }
   .eyebrow {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    gap: 14px;
-    font-size: 11px;
-    font-weight: 500;
-    line-height: 1;
-    letter-spacing: 0.22em;
+    gap: 16px;
+    margin: 0 0 20px;
+    font-size: var(--text-sm);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--color-muted-foreground);
   }
@@ -231,381 +438,773 @@ function isPrice(v: Cell): v is PriceCell {
     content: '';
     width: 24px;
     height: 1px;
-    background: currentColor;
-    opacity: 0.55;
+    background: var(--color-border);
   }
   .head-h {
-    margin: 16px 0 0;
+    margin: 0;
     font-family: var(--font-sans);
-    font-weight: 500;
-    font-size: clamp(34px, 4.4vw, 56px);
-    line-height: 1.04;
+    font-weight: 400;
+    font-size: var(--text-4xl);
+    line-height: var(--text-4xl--line-height);
     letter-spacing: -0.03em;
     color: var(--color-foreground);
     text-wrap: balance;
   }
   .head-h :global(em) {
     font-style: normal;
+    font-weight: 700;
     color: var(--color-brand-emphasis);
   }
   .head-p {
-    margin: 14px 0 0;
-    max-width: 640px;
-    font-size: 18px;
-    line-height: 1.55;
+    margin: 20px 0 0;
+    max-width: 720px;
+    font-size: var(--text-lg);
+    line-height: var(--text-lg--line-height);
     color: var(--color-muted-foreground);
-    text-wrap: pretty;
+    text-wrap: balance;
   }
 
+  /* Card + table --------------------------------------------------------- */
   .cmp-card {
+    position: relative;
     background: var(--color-card);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-xl);
-    overflow: hidden;
-  }
-  .hint {
-    display: none;
-    margin: 0;
-    padding: 14px 20px;
-    border-bottom: 1px solid var(--color-border);
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--color-muted-foreground);
-  }
-
-  .cmp-scroll {
-    overflow-x: clip;
+    border-radius: var(--radius-sm);
   }
   table {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
+    table-layout: fixed;
+  }
+  th,
+  td {
+    font-weight: 400;
   }
 
+  /* The recommended column's frame: two 2px brand rules down every cell of that
+     column, closed at the header top and the footer bottom. */
+  .hl {
+    box-shadow:
+      inset 2px 0 0 var(--cmp-hl),
+      inset -2px 0 0 var(--cmp-hl);
+  }
+
+  /* Header row */
   thead th {
-    background: var(--color-muted);
+    vertical-align: bottom;
     border-bottom: 1px solid var(--color-border);
   }
-  .th-feat {
-    text-align: left;
-    padding: 15px 24px;
-    font-family: var(--font-sans);
-    font-size: 11px;
-    font-weight: 600;
-    line-height: 1;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--color-muted-foreground);
+  .th-key {
     width: 40%;
+    padding: 24px 24px 20px;
+    text-align: left;
   }
-  .th-col {
-    padding: 13px 14px;
+  .th-plan {
+    position: relative;
+    width: var(--cmp-plan-w);
+    /* The 1px height lets .plan-inner resolve height: 100% against the row, whose
+       height the key cell sets. */
+    height: 1px;
+    padding: 0 20px 20px;
     text-align: center;
-    vertical-align: middle;
   }
-  .th-col.hl {
-    background: color-mix(in oklab, var(--color-brand) 14%, var(--color-muted));
+  thead th:first-child {
+    border-top-left-radius: var(--radius-sm);
   }
-  .col-label {
-    display: block;
-    font-family: var(--font-sans);
-    font-size: 11px;
-    font-weight: 600;
-    line-height: 1;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+  thead th:last-child {
+    border-top-right-radius: var(--radius-sm);
+  }
+  .th-plan.hl {
+    border-top-left-radius: var(--radius-sm);
+    border-top-right-radius: var(--radius-sm);
+    box-shadow:
+      inset 2px 0 0 var(--cmp-hl),
+      inset -2px 0 0 var(--cmp-hl),
+      inset 0 2px 0 var(--cmp-hl);
+  }
+  .rec-tab {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 2px 12px;
+    border-radius: 9999px;
+    background: var(--color-brand);
+    color: var(--color-brand-foreground);
+    font-size: var(--text-sm);
+    line-height: 20px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  /* Name/price centred in the space between the header's top edge and its button:
+     the key cell sets the row height, this block grows to fill it. */
+  .plan-inner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .plan-top {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 16px 0;
+  }
+  .plan-name {
+    font-size: var(--text-xl);
+    line-height: var(--text-xl--line-height);
+    font-weight: 700;
     color: var(--color-foreground);
   }
-  .th-col.hl .col-label {
-    color: var(--color-brand-emphasis);
+  .plan-price {
+    margin-top: 4px;
+    font-size: var(--text-2xl);
+    line-height: 1.15;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--color-foreground);
   }
-  .col-note {
+  .plan-unit {
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    color: var(--color-muted-foreground);
+  }
+  :global(.plan-cta) {
+    white-space: nowrap;
+  }
+
+  .key-label {
     display: block;
-    margin-top: 6px;
-    font-family: var(--font-sans);
-    font-size: 13px;
-    font-weight: 500;
-    line-height: 1;
-    letter-spacing: -0.01em;
-    color: var(--color-muted-foreground);
-  }
-
-  /* Group banner rows. The title sits left; the plan names repeat across so a
-     reader deep in the table never loses track of which column is which. */
-  .grp > * {
-    padding: 30px 24px 11px;
-    background: var(--color-card);
-    font-family: var(--font-sans);
-    font-size: 11px;
-    font-weight: 600;
-    line-height: 1;
-    letter-spacing: 0.2em;
+    margin-bottom: 12px;
+    font-size: var(--text-sm);
+    line-height: 1.15;
+    font-weight: 700;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    vertical-align: bottom;
-  }
-  .grp th {
-    text-align: left;
-    color: var(--color-brand-emphasis);
-  }
-  .grp-col {
-    padding-left: 14px;
-    padding-right: 14px;
-    text-align: center;
-    letter-spacing: 0.14em;
     color: var(--color-muted-foreground);
   }
-  .grp-col.hl {
-    background: color-mix(in oklab, var(--color-brand) 6%, var(--color-card));
-    color: var(--color-brand-emphasis);
+  .key {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .key li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    color: var(--color-foreground);
+  }
+  .key-dollar {
+    width: 20px;
+    text-align: center;
+    font-weight: 700;
+    color: var(--color-foreground);
   }
 
-  tbody tr:not(.grp) > * {
+  /* "Show only differences" switch (a styled native checkbox) */
+  .switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 44px;
+    margin-top: 12px;
+    cursor: pointer;
+  }
+  .switch-input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+  }
+  .switch-track {
+    position: relative;
+    flex: none;
+    width: 40px;
+    height: 24px;
+    border-radius: 9999px;
+    background: var(--color-border);
+    transition: background-color var(--dur-fast) var(--ease-out);
+  }
+  .switch-knob {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    border-radius: 9999px;
+    background: var(--color-card);
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+  .switch-input:checked + .switch-track {
+    background: var(--color-brand);
+  }
+  .switch-input:checked + .switch-track .switch-knob {
+    transform: translateX(16px);
+  }
+  .switch-input:focus-visible + .switch-track {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+  }
+  .switch-label {
+    font-size: var(--text-base);
+    line-height: var(--text-base--line-height);
+    font-weight: 500;
+    color: var(--color-foreground);
+  }
+  .switch-count {
+    margin: 0;
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    color: var(--color-muted-foreground);
+  }
+
+  /* Differences-only mode: swap every count, hide rows every plan includes. */
+  .when-diff {
+    display: none;
+  }
+  .cmp:has(.switch-input:checked) .when-all {
+    display: none;
+  }
+  .cmp:has(.switch-input:checked) .when-diff {
+    display: inline;
+  }
+  .cmp:has(.switch-input:checked) .row[data-same] {
+    display: none;
+  }
+
+  /* Group bands: one full-width bar per category. Two background stripes carry the
+     recommended column's frame straight through it. */
+  .grp-row th {
+    padding: 0;
+    text-align: left;
+    border-top: 1px solid var(--color-border);
+    background: var(--cmp-band);
+  }
+  .cmp[data-has-hl] .grp-row th {
+    background:
+      linear-gradient(
+        to right,
+        transparent var(--cmp-hl-start),
+        var(--cmp-hl) var(--cmp-hl-start),
+        var(--cmp-hl) calc(var(--cmp-hl-start) + 2px),
+        transparent calc(var(--cmp-hl-start) + 2px),
+        transparent calc(var(--cmp-hl-end) - 2px),
+        var(--cmp-hl) calc(var(--cmp-hl-end) - 2px),
+        var(--cmp-hl) var(--cmp-hl-end),
+        transparent var(--cmp-hl-end)
+      ),
+      var(--cmp-band);
+  }
+  .grp-toggle {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    min-height: 48px;
+    padding: 10px 24px;
+    border: 0;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+    font: inherit;
+  }
+  .grp-toggle:focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: -2px;
+  }
+  .caret {
+    flex: none;
+    color: var(--color-muted-foreground);
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+  .grp[data-collapsed] .caret {
+    transform: rotate(-90deg);
+  }
+  .grp[data-collapsed] .row {
+    display: none !important;
+  }
+  .grp-title {
+    font-size: var(--text-lg);
+    line-height: var(--text-lg--line-height);
+    font-weight: 700;
+    color: var(--color-foreground);
+  }
+  .grp-count {
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    color: var(--color-muted-foreground);
+  }
+
+  /* Feature rows */
+  .row > * {
     border-top: 1px solid var(--color-border);
   }
-  tbody tr:not(.grp):hover .td-feat,
-  tbody tr:not(.grp):hover .td-cell:not(.hl) {
-    background: var(--color-muted);
+  .row:hover > * {
+    background-color: var(--color-background);
   }
-
   .td-feat {
-    position: sticky;
-    left: 0;
-    z-index: 2;
-    padding: 14px 24px;
+    padding: 12px 24px;
     text-align: left;
-    font-weight: 400;
-    background: var(--color-card);
   }
   .feat-name {
     display: block;
-    font-family: var(--font-sans);
-    font-size: 15px;
-    font-weight: 500;
-    line-height: 1.4;
+    font-size: var(--text-base);
+    line-height: var(--text-base--line-height);
     color: var(--color-foreground);
     text-wrap: pretty;
   }
   .feat-note {
     display: block;
-    margin-top: 3px;
-    font-size: 12.5px;
-    line-height: 1.35;
+    margin-top: 2px;
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
     color: var(--color-muted-foreground);
   }
-
   .td-cell {
-    padding: 14px 14px;
+    padding: 12px 20px;
     text-align: center;
     vertical-align: middle;
-    background: var(--color-card);
-  }
-  .td-cell.hl {
-    background: color-mix(in oklab, var(--color-brand) 6%, var(--color-card));
   }
 
-  /* Cell glyphs */
-  .glyph {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 22px;
-    height: 22px;
-    border-radius: 9999px;
-  }
+  /* Cell marks */
   .glyph.yes {
-    background: var(--color-brand);
-    color: var(--color-brand-foreground);
-  }
-  .glyph.no {
-    background: transparent;
+    display: inline-flex;
+    vertical-align: middle;
+    color: var(--color-brand);
   }
   .dash {
-    width: 12px;
+    display: inline-block;
+    width: 16px;
     height: 2px;
-    border-radius: 9999px;
-    background: var(--color-border);
+    border-radius: 1px;
+    vertical-align: middle;
+    /* muted-foreground: clears the 3:1 non-text contrast a meaningful mark needs. */
+    background: var(--color-muted-foreground);
   }
   .na {
-    font-family: var(--font-sans);
-    font-size: 12px;
-    font-weight: 500;
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
     color: var(--color-muted-foreground);
-    opacity: 0.7;
   }
   .addon {
     display: inline-flex;
     flex-direction: column;
-    gap: 3px;
-    max-width: 200px;
+    align-items: center;
+    gap: 2px;
   }
   .addon-price {
-    font-family: var(--font-sans);
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 1.1;
-    letter-spacing: -0.01em;
+    font-size: var(--text-base);
+    line-height: var(--text-base--line-height);
+    font-weight: 700;
     color: var(--color-foreground);
   }
-  .addon-note {
-    font-size: 11.5px;
-    line-height: 1.3;
+  .addon-tag {
+    font-size: var(--text-sm);
+    font-weight: 500;
     color: var(--color-muted-foreground);
-    text-wrap: pretty;
+  }
+  .addon-note {
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    color: var(--color-muted-foreground);
+    text-wrap: balance;
   }
   .text {
-    font-family: var(--font-sans);
-    font-size: 13px;
+    font-size: var(--text-base);
+    line-height: var(--text-base--line-height);
     font-weight: 500;
     color: var(--color-foreground);
   }
 
-  /* Footer CTA row */
+  /* Footer CTA band */
   tfoot > tr > * {
+    padding: 16px 20px;
+    vertical-align: middle;
     border-top: 1px solid var(--color-border);
-    background: var(--color-muted);
+    background: var(--cmp-band);
   }
-  tfoot .td-cell {
-    padding: 20px 14px;
-    background: var(--color-muted);
+  tfoot > tr > .foot-feat {
+    padding-left: 24px;
+    text-align: left;
+    border-bottom-left-radius: var(--radius-sm);
   }
-  tfoot .td-cell.hl {
-    background: color-mix(in oklab, var(--color-brand) 10%, var(--color-muted));
+  tfoot > tr > :last-child {
+    border-bottom-right-radius: var(--radius-sm);
   }
-  .foot-feat {
-    background: var(--color-muted);
-    font-family: var(--font-sans);
-    font-size: 11px;
-    font-weight: 600;
-    line-height: 1;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
+  .foot-cell.hl {
+    border-bottom-left-radius: var(--radius-sm);
+    border-bottom-right-radius: var(--radius-sm);
+    box-shadow:
+      inset 2px 0 0 var(--cmp-hl),
+      inset -2px 0 0 var(--cmp-hl),
+      inset 0 -2px 0 var(--cmp-hl);
+  }
+  .foot-title {
+    display: block;
+    font-size: var(--text-xl);
+    line-height: var(--text-xl--line-height);
+    font-weight: 700;
+    color: var(--color-foreground);
+  }
+  .foot-sub {
+    display: block;
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
     color: var(--color-muted-foreground);
   }
-  .foot-cta {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 40px;
-    padding: 8px 18px;
-    border-radius: 9999px;
-    border: 1px solid var(--color-border);
-    background: var(--color-card);
-    color: var(--color-foreground);
-    font-family: var(--font-sans);
-    font-size: 13.5px;
-    font-weight: 500;
-    line-height: 1.25;
-    transition:
-      background var(--dur-fast) var(--ease-out),
-      color var(--dur-fast) var(--ease-out);
-  }
-  .foot-cta:hover {
-    background: var(--color-foreground);
-    color: var(--color-background);
-  }
-  .foot-cta.solid {
-    border-color: transparent;
-    background: var(--color-brand);
-    color: var(--color-brand-foreground);
-  }
-  .foot-cta.solid:hover {
-    background: var(--color-brand-emphasis);
+  .foot-plan {
+    display: none;
   }
 
   .footnote {
     margin: 24px 0 0;
     max-width: 760px;
-    font-size: 13.5px;
-    line-height: 1.55;
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
     color: var(--color-muted-foreground);
     text-wrap: pretty;
   }
 
-  @media (max-width: 1080px) {
-    .cmp-inner {
-      padding: 0 24px;
-    }
-    .hint {
-      display: block;
-    }
-    /* Below the fold-out width the plan columns scroll horizontally and the
-       feature column sticks left as the reader's anchor. */
-    .cmp-scroll {
-      overflow-x: auto;
-      /* `overflow-x: auto` alone does NOT stop the table's `min-width` from
-         inflating documentElement.scrollWidth in Chromium — which resizes the
-         fixed nav pill (whose containing block that is) and pushes the mobile
-         menu button off the right edge of the screen. Containment keeps the wide
-         table's size from escaping the scroller. Kept inside the media query
-         because that is the only place the table exceeds its container: above
-         this width it fits, so containment would change paint behaviour for no
-         reason. */
-      contain: layout paint;
-    }
-    /* Fixed widths, not percentages: the sticky feature column has to leave room
-       for at least one whole plan column beside it on a phone. */
-    table {
-      min-width: 700px;
-      table-layout: fixed;
-    }
-    .th-feat {
-      position: sticky;
-      left: 0;
-      z-index: 4;
-      width: 260px;
-    }
-    .grp th {
-      position: sticky;
-      left: 0;
-      z-index: 2;
-    }
-    .td-feat,
-    .th-feat {
-      border-right: 1px solid var(--color-border);
-    }
+  /* Compact sticky plan header ------------------------------------------- */
+  .cmp-sticky {
+    position: sticky;
+    top: var(--cmp-sticky-top);
+    z-index: 5;
+    height: 0;
+  }
+  .sticky-bar {
+    position: absolute;
+    top: 0;
+    left: -1px;
+    right: -1px;
+    display: grid;
+    grid-template-columns: 40% repeat(var(--cmp-plans), var(--cmp-plan-w));
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-md);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition:
+      opacity var(--dur-fast) var(--ease-out),
+      transform var(--dur-fast) var(--ease-out),
+      visibility 0s linear var(--dur-fast);
+  }
+  .cmp[data-stuck] .sticky-bar {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition:
+      opacity var(--dur-fast) var(--ease-out),
+      transform var(--dur-fast) var(--ease-out);
+  }
+  .sticky-now {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 12px 24px;
+  }
+  .sticky-kicker {
+    font-size: var(--text-sm);
+    line-height: 1.15;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-muted-foreground);
+  }
+  .sticky-group {
+    margin-top: 4px;
+    font-size: var(--text-base);
+    line-height: var(--text-base--line-height);
+    font-weight: 700;
+    color: var(--color-foreground);
+  }
+  .sticky-plan {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 16px;
+    text-align: center;
+  }
+  .sticky-name {
+    font-size: var(--text-base);
+    line-height: var(--text-base--line-height);
+    font-weight: 700;
+    color: var(--color-foreground);
+  }
+  .sticky-price {
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    color: var(--color-muted-foreground);
+  }
+  .sticky-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+    margin-top: 4px;
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    font-weight: 700;
+    color: var(--color-brand-emphasis);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .sticky-link:hover {
+    color: var(--color-foreground);
   }
 
-  @media (max-width: 560px) {
+  /* Phone bottom CTA bar (hidden above the phone breakpoint) */
+  .cmp-bar {
+    display: none;
+  }
+
+  /* Phones ----------------------------------------------------------------- */
+  @media (max-width: 767px) {
+    .cmp {
+      --cmp-sticky-top: 84px;
+    }
     .cmp-inner {
       padding: 0 16px;
     }
-    /* Phone budget: a 375px screen leaves ~341px inside the card. The sticky
-       feature column takes 220px of that, so the plan columns have to fit a whole
-       column into the remaining ~121px — at the old 133px you never saw one
-       complete, which defeats the point of a comparison. 100px columns fit, with
-       the next one peeking to advertise the scroll. */
-    table {
-      min-width: 520px;
+    .cmp-head {
+      padding: 0 8px;
+      margin-bottom: 24px;
     }
-    .th-feat {
-      width: 220px;
+    .head-h {
+      font-size: var(--text-3xl);
+      line-height: var(--text-3xl--line-height);
     }
-    .td-feat,
-    .th-feat,
-    .grp th {
+    .head-p {
+      font-size: var(--text-base);
+      line-height: var(--text-base--line-height);
+      text-wrap: pretty;
+    }
+
+    /* One markup, restacked: every row is a 3-column grid; the feature name (and
+       the key, and group bands) span the full width. */
+    table,
+    thead,
+    tbody,
+    tfoot {
+      display: block;
+    }
+    thead tr,
+    .row,
+    tfoot tr {
+      display: grid;
+      grid-template-columns: repeat(var(--cmp-plans), minmax(0, 1fr));
+    }
+    .hl,
+    .th-plan.hl,
+    .foot-cell.hl {
+      box-shadow: none;
+    }
+    .cmp[data-has-hl] .grp-row th {
+      background: var(--cmp-band);
+    }
+
+    .th-key {
+      grid-column: 1 / -1;
+      width: auto;
+      padding: 16px;
+    }
+    .th-plan {
+      width: auto;
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 16px 8px;
+      border-radius: 0;
+    }
+    thead th:last-child,
+    .th-plan.hl {
+      border-radius: 0;
+    }
+    /* Super-minimal marker for the recommended plan: a brand hairline either side. */
+    .th-plan.hl {
+      background:
+        linear-gradient(var(--cmp-hl), var(--cmp-hl)) left center / 1px 56% no-repeat,
+        linear-gradient(var(--cmp-hl), var(--cmp-hl)) right center / 1px 56% no-repeat;
+    }
+    .th-plan.hl .plan-name {
+      color: var(--color-brand-emphasis);
+    }
+    .rec-tab,
+    .plan-unit,
+    .th-plan :global(.plan-cta) {
+      display: none;
+    }
+    .plan-top {
+      padding: 0;
+    }
+    .plan-name {
+      font-size: var(--text-sm);
+      line-height: var(--text-sm--line-height);
+    }
+    .plan-price {
+      margin-top: 2px;
+      font-size: var(--text-base);
+      line-height: var(--text-base--line-height);
+      letter-spacing: 0;
+    }
+
+    .grp-row,
+    .grp-row th {
+      display: block;
+    }
+    .grp-toggle {
+      gap: 8px;
+      padding: 8px 16px;
+    }
+    .grp-title {
+      flex-grow: 1;
+    }
+
+    .row > * {
+      border-top: 0;
+    }
+    .row > .td-feat {
+      grid-column: 1 / -1;
+      padding: 12px 16px 4px;
+      border-top: 1px solid var(--color-border);
+    }
+    .td-cell {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 4px 8px 12px;
+    }
+    .addon-price,
+    .addon-tag {
+      display: block;
+    }
+
+    tfoot tr {
+      grid-template-columns: 1fr;
+    }
+    tfoot > tr > * {
+      padding: 12px 16px;
+      border-radius: 0;
+    }
+    tfoot > tr > .foot-feat {
+      padding-bottom: 4px;
+    }
+    .foot-sub {
+      display: none;
+    }
+    .foot-title {
+      font-size: var(--text-lg);
+      line-height: var(--text-lg--line-height);
+    }
+    .foot-cell {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    tfoot > tr > :last-child {
+      border-bottom-left-radius: var(--radius-sm);
+      border-bottom-right-radius: var(--radius-sm);
+    }
+    .foot-plan {
+      display: block;
+    }
+    .foot-plan-name {
+      display: block;
+      font-size: var(--text-base);
+      line-height: var(--text-base--line-height);
+      font-weight: 700;
+      color: var(--color-foreground);
+    }
+    .foot-plan-price {
+      display: block;
+      font-size: var(--text-sm);
+      line-height: var(--text-sm--line-height);
+      color: var(--color-muted-foreground);
+    }
+    .foot-cell :global(.plan-cta) {
+      width: auto;
+      flex: none;
       padding-left: 16px;
       padding-right: 16px;
+      font-size: var(--text-sm);
     }
-    .feat-name {
-      font-size: 14px;
+
+    /* Sticky header on phones: plan names + prices only, current group above. */
+    .sticky-bar {
+      grid-template-columns: repeat(var(--cmp-plans), minmax(0, 1fr));
     }
-    .th-col,
-    .td-cell,
-    .grp-col {
-      padding-left: 6px;
-      padding-right: 6px;
+    .sticky-now {
+      grid-column: 1 / -1;
+      padding: 8px 16px 0;
     }
-    /* 11.5px is too small to read on a phone held at arm's length. */
-    .addon-note {
-      font-size: 12px;
+    .sticky-kicker {
+      display: none;
     }
-    /* Keeps the longest label ("Contact us for districtwide pricing") from
-       wrapping to four lines and dragging the whole footer row taller. */
-    .foot-cta {
-      padding: 8px 10px;
-      font-size: 12px;
+    .sticky-group {
+      margin: 0;
+      font-size: var(--text-sm);
+      line-height: var(--text-sm--line-height);
+      color: var(--color-muted-foreground);
+    }
+    .sticky-plan {
+      justify-content: flex-end;
+      padding: 8px;
+    }
+    .sticky-plan.hl {
+      background:
+        linear-gradient(var(--cmp-hl), var(--cmp-hl)) left center / 1px 56% no-repeat,
+        linear-gradient(var(--cmp-hl), var(--cmp-hl)) right center / 1px 56% no-repeat;
+    }
+    .sticky-plan.hl .sticky-name {
+      color: var(--color-brand-emphasis);
+    }
+    .sticky-name {
+      font-size: var(--text-sm);
+      line-height: var(--text-sm--line-height);
+    }
+    .sticky-price {
+      font-weight: 700;
+      color: var(--color-foreground);
+    }
+    .sticky-unit,
+    .sticky-link {
+      display: none;
+    }
+
+    /* Bottom CTA bar */
+    .cmp-bar {
+      display: block;
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 40;
+      padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+      background: var(--color-card);
+      border-top: 1px solid var(--color-border);
+      box-shadow: var(--shadow-lg);
+      transform: translateY(110%);
+      visibility: hidden;
+      transition:
+        transform var(--dur) var(--ease-out),
+        visibility 0s linear var(--dur);
+    }
+    .cmp[data-bar] .cmp-bar {
+      transform: none;
+      visibility: visible;
+      transition: transform var(--dur) var(--ease-out);
     }
   }
 </style>
