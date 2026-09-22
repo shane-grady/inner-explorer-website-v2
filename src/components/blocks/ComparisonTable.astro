@@ -1,0 +1,1376 @@
+---
+// The comparison table — one component for every feature-by-feature comparison on the
+// site (plans on /pricing, the alternatives on /districts). It is the PricingTable
+// component of the design system; see that card for the anatomy and the rules.
+//
+// Rows are grouped into labelled, collapsible categories. Each row carries one cell
+// per column, in column order. A cell is an availability token ('yes' | 'no' | 'na'
+// | 'partial' | 'limited' | 'varies'), a priced add-on ({ price, note }), or free
+// text ("1 included", "Med-High"). The highlighted column carries a brand frame end
+// to end, optionally tagged ("Recommended").
+//
+// Columns are plans or competitors: `price`/`unit` and `cta` are optional. Only when
+// columns carry CTAs does the table get its footer CTA row, the sticky header's links
+// and the phone bottom bar.
+//
+// Behaviour, cheapest mechanism first:
+//   • "Show only differences" — a native checkbox switch; CSS `:has()` hides every
+//     row whose cells are all 'yes' and swaps the counts. No JS. Rendered only when
+//     some rows are identical across columns.
+//   • Collapsible groups, the compact sticky header and the phone bottom CTA bar —
+//     one small vanilla script at the end. Without JS every group stays open and the
+//     sticky chrome never appears; the table still works.
+//
+// Layout: one <table> for every width. ≥ 768px it is a fixed-layout table (40% for
+// the feature column, the rest split evenly). Below 768px each row becomes a grid:
+// the feature name spans the width with the column values underneath, so every
+// column stays visible on a phone with no sideways scroll.
+//
+// The compact sticky header is a separate, presentational element (aria-hidden,
+// links out of the tab order): the real <thead> and <tfoot> carry the semantics
+// and the CTAs, and Chromium still mispaints `position: sticky` table headers.
+
+import Button from '../primitives/Button.astro';
+import { editableText, type EditablePrefix } from '../../lib/editable';
+
+/** A priced add-on cell: the figure plus an optional license note. */
+export interface PriceCell {
+  price: string;
+  note?: string;
+}
+export type Cell = 'yes' | 'no' | 'na' | 'partial' | 'limited' | 'varies' | PriceCell | string;
+
+export interface Column {
+  name: string;
+  /** Small qualifier under the name ("Headspace, Calm, etc."). */
+  note?: string;
+  price?: string;
+  unit?: string;
+  highlight?: boolean;
+  /** `for` completes the hidden button text "… for <for>" (default: the name). */
+  cta?: { label: string; href: string; for?: string };
+  /** CloudCannon paths (relative to `editablePrefix`) for the name and note. */
+  namePath?: string;
+  notePath?: string;
+}
+export interface Row {
+  feat: string;
+  /** Small qualifier under the feature name (e.g. "Middle and high school"). */
+  note?: string;
+  /** One cell per column, in the same order as `columns`. */
+  cells: readonly Cell[];
+  featPath?: string;
+  notePath?: string;
+  /** Per-cell paths; used only by free-text cells (tokens and add-ons stay in the sidebar). */
+  cellPaths?: readonly (string | undefined)[];
+}
+export interface Group {
+  title: string;
+  rows: readonly Row[];
+  titlePath?: string;
+}
+
+interface Props {
+  /** Section id and the prefix for every internal id. */
+  id?: string;
+  eyebrow: string;
+  titleHtml: string;
+  intro: string;
+  /** Label above the legend in the feature column's header. */
+  keyLabel?: string;
+  /** Visually hidden table caption. */
+  caption: string;
+  columns: readonly Column[];
+  groups: readonly Group[];
+  /** Words for the check and the dash — in the legend and for screen readers. */
+  labels?: { yes: string; no: string };
+  /** Legend entry for priced add-on cells. */
+  addonLabel?: string;
+  /** What a row is, for the counts ("4 features", "Showing 25 of 47 features"). */
+  noun?: { one: string; other: string };
+  /** Tab on the highlighted column's header ("Recommended"). */
+  highlightTag?: string;
+  /** Footer row beside the column CTAs. Shown only when columns carry CTAs. */
+  footer?: { title: string; sub?: string };
+  /** Footnote under the table (funding, taxes, quotes). */
+  footnote?: string;
+  /** CloudCannon path prefix for this block's fields. `eyebrow`, `intro` and
+   *  `footnote` bind to those keys under it; rows, groups and columns carry their own
+   *  paths. Omit on routes that are not backed by a `pages` collection entry. See
+   *  lib/editable.ts.
+   *
+   *  Rows are bound with INDEXED paths, not `editableArray`: an array container may
+   *  hold only its own rows, and neither the <table> (which also holds <thead>/
+   *  <tfoot>) nor a <tbody> (which also holds its group band) qualifies. Text
+   *  editing works; add/remove stays in the sidebar. */
+  editablePrefix?: EditablePrefix;
+}
+const {
+  id = 'compare',
+  eyebrow,
+  titleHtml,
+  intro,
+  keyLabel = 'What’s included',
+  caption,
+  columns,
+  groups,
+  labels = { yes: 'Included', no: 'Not included' },
+  addonLabel = 'Optional add-on, priced per site',
+  noun = { one: 'feature', other: 'features' },
+  highlightTag,
+  footer,
+  footnote,
+  editablePrefix,
+}: Props = Astro.props;
+
+const TOKENS = ['yes', 'no', 'na', 'partial', 'limited', 'varies'];
+function isPrice(v: Cell): v is PriceCell {
+  return typeof v === 'object' && v !== null && 'price' in v;
+}
+const isText = (v: Cell): v is string => typeof v === 'string' && !TOKENS.includes(v);
+/** A row every column includes — hidden by "Show only differences". */
+const isSame = (r: Row) => r.cells.every((c) => c === 'yes');
+const edit = (path: string | undefined, type?: 'span' | 'text') =>
+  path === undefined ? {} : editableText(editablePrefix, path, type);
+
+const allCells = groups.flatMap((g) => g.rows.flatMap((r) => r.cells));
+const has = (test: (c: Cell) => boolean) => allCells.some(test);
+const legend = {
+  yes: has((c) => c === 'yes'),
+  addon: has(isPrice),
+  partial: has((c) => c === 'partial' || c === 'limited'),
+  no: has((c) => c === 'no'),
+};
+
+const total = groups.reduce((n, g) => n + g.rows.length, 0);
+const differing = groups.reduce((n, g) => n + g.rows.filter((r) => !isSame(r)).length, 0);
+const showSwitch = differing < total;
+
+// Column geometry, shared by the table, the highlight frame and the sticky header so
+// all three line up. The feature column takes 40%; the columns split the rest.
+const colPct = 60 / Math.max(columns.length, 1);
+const hlIndex = columns.findIndex((c) => c.highlight);
+const geometry =
+  `--cmp-cols: ${columns.length}; --cmp-col-w: ${colPct}%;` +
+  (hlIndex < 0 ? '' : ` --cmp-hl-start: ${40 + colPct * hlIndex}%;`);
+const hasCta = columns.some((c) => c.cta);
+const primary = (columns[hlIndex]?.cta ? columns[hlIndex] : columns.find((c) => c.cta))?.cta;
+---
+
+<section class="cmp" id={id} aria-labelledby={`${id}-head`} data-cmp style={geometry}>
+  <div class="cmp-inner">
+    <div class="cmp-head">
+      <p class="eyebrow" {...editableText(editablePrefix, 'eyebrow')}>{eyebrow}</p>
+      {/* An HTML field cannot back a plain-text region — it stays sidebar-editable. */}
+      <h2 id={`${id}-head`} class="head-h" set:html={titleHtml} />
+      <p class="head-p" {...editableText(editablePrefix, 'intro', 'text')}>{intro}</p>
+    </div>
+
+    <div class="cmp-card">
+      {hlIndex >= 0 && <div class="cmp-frame" aria-hidden="true" />}
+
+      {/* Compact column header that pins under the fixed nav while the table scrolls. */}
+      <div class="cmp-sticky" aria-hidden="true">
+        <div class="sticky-bar">
+          <div class="sticky-now">
+            <span class="sticky-kicker">Now viewing</span>
+            <span class="sticky-group" data-cmp-now>{groups[0]?.title}</span>
+          </div>
+          {
+            columns.map((c) => (
+              <div class:list={['sticky-plan', { hl: c.highlight }]}>
+                <span class="sticky-name">{c.name}</span>
+                {c.price && (
+                  <span class="sticky-price">
+                    {c.price}
+                    {c.unit && <span class="sticky-unit"> {c.unit}</span>}
+                  </span>
+                )}
+                {c.cta && (
+                  <a class="sticky-link" href={c.cta.href} tabindex="-1">
+                    {c.cta.label}
+                  </a>
+                )}
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <table role="table">
+        <caption class="sr-only">{caption}</caption>
+        <thead>
+          <tr role="row">
+            <th scope="col" role="columnheader" class="th-key">
+              <span class="key-label">{keyLabel}</span>
+              <ul class="key" aria-label="Key">
+                {
+                  legend.yes && (
+                    <li>
+                      <span class="glyph yes" aria-hidden="true">
+                        <svg viewBox="0 0 256 256" width="20" height="20" fill="currentColor">
+                          <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm45.66,85.66-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32Z" />
+                        </svg>
+                      </span>
+                      {labels.yes}
+                    </li>
+                  )
+                }
+                {
+                  legend.addon && (
+                    <li>
+                      <span class="key-dollar" aria-hidden="true">
+                        $
+                      </span>
+                      {addonLabel}
+                    </li>
+                  )
+                }
+                {
+                  legend.partial && (
+                    <li>
+                      <span class="glyph part" aria-hidden="true">
+                        <svg viewBox="0 0 20 20" width="20" height="20">
+                          <circle
+                            cx="10"
+                            cy="10"
+                            r="7.75"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                          />
+                          <path d="M10 2.25a7.75 7.75 0 0 1 0 15.5z" fill="currentColor" />
+                        </svg>
+                      </span>
+                      Partial or limited
+                    </li>
+                  )
+                }
+                {
+                  legend.no && (
+                    <li>
+                      <span class="dash" aria-hidden="true" /> {labels.no}
+                    </li>
+                  )
+                }
+              </ul>
+              {
+                showSwitch && (
+                  <>
+                    <label class="switch">
+                      <input type="checkbox" role="switch" class="switch-input" />
+                      <span class="switch-track" aria-hidden="true">
+                        <span class="switch-knob" />
+                      </span>
+                      <span class="switch-label">Show only differences</span>
+                    </label>
+                    <p class="switch-count" aria-live="polite">
+                      <span class="when-all">
+                        Showing {total} of {total} {noun.other}
+                      </span>
+                      <span class="when-diff">
+                        Showing {differing} of {total} {noun.other}
+                      </span>
+                    </p>
+                  </>
+                )
+              }
+            </th>
+            {
+              columns.map((c) => (
+                <th scope="col" role="columnheader" class:list={['th-plan', { hl: c.highlight }]}>
+                  {c.highlight && highlightTag && <span class="rec-tab">{highlightTag}</span>}
+                  <div class="plan-inner">
+                    <div class:list={['plan-top', { 'is-label': !c.price }]}>
+                      <span class="plan-name" {...edit(c.namePath)}>
+                        {c.name}
+                      </span>
+                      {c.note && (
+                        <span class="plan-note" {...edit(c.notePath)}>
+                          {c.note}
+                        </span>
+                      )}
+                      {c.price && <span class="plan-price">{c.price}</span>}
+                      {c.unit && <span class="plan-unit">{c.unit}</span>}
+                    </div>
+                    {c.cta && (
+                      <Button
+                        href={c.cta.href}
+                        variant={c.highlight ? 'solid' : 'outline'}
+                        tone={c.highlight ? 'brand' : 'neutral'}
+                        block
+                        class="plan-cta"
+                      >
+                        {c.cta.label}
+                        <span class="sr-only"> for {c.cta.for ?? c.name}</span>
+                      </Button>
+                    )}
+                  </div>
+                </th>
+              ))
+            }
+          </tr>
+        </thead>
+        {
+          groups.map((g, gi) => {
+            const gid = `${id}-group-${gi}`;
+            const diffCount = g.rows.filter((r) => !isSame(r)).length;
+            return (
+              <tbody class="grp" id={gid} data-cmp-group={g.title}>
+                <tr class="grp-row" role="row">
+                  <th scope="rowgroup" role="rowheader" colspan={columns.length + 1}>
+                    <button
+                      type="button"
+                      class="grp-toggle"
+                      aria-expanded="true"
+                      aria-controls={gid}
+                      data-cmp-toggle
+                    >
+                      <svg
+                        class="caret"
+                        viewBox="0 0 256 256"
+                        width="20"
+                        height="20"
+                        fill="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" />
+                      </svg>
+                      <span class="grp-title" {...edit(g.titlePath)}>
+                        {g.title}
+                      </span>
+                      <span class="grp-count">
+                        <span class="when-all">
+                          {g.rows.length} {g.rows.length === 1 ? noun.one : noun.other}
+                        </span>
+                        <span class="when-diff">
+                          {diffCount} of {g.rows.length} {noun.other}
+                        </span>
+                      </span>
+                    </button>
+                  </th>
+                </tr>
+                {g.rows.map((r) => (
+                  <tr class="row" role="row" data-same={isSame(r) ? '' : undefined}>
+                    <th scope="row" role="rowheader" class="td-feat">
+                      <span class="feat-name" {...edit(r.featPath)}>
+                        {r.feat}
+                      </span>
+                      {r.note && (
+                        <span class="feat-note" {...edit(r.notePath)}>
+                          {r.note}
+                        </span>
+                      )}
+                    </th>
+                    {/* eslint-disable astro/jsx-a11y/no-interactive-element-to-noninteractive-role -- explicit table roles survive the phone layout's display: grid (Safari drops the implicit ones); the rule's 'td is interactive' is a false positive. */}
+                    {r.cells.map((v, i) => (
+                      <td role="cell" class:list={['td-cell', { hl: columns[i]?.highlight }]}>
+                        {v === 'yes' && (
+                          <span class="glyph yes">
+                            <svg
+                              viewBox="0 0 256 256"
+                              width="20"
+                              height="20"
+                              fill="currentColor"
+                              aria-hidden="true"
+                            >
+                              <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm45.66,85.66-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32Z" />
+                            </svg>
+                            <span class="sr-only">{labels.yes}</span>
+                          </span>
+                        )}
+                        {v === 'no' && (
+                          <>
+                            <span class="dash" aria-hidden="true" />
+                            <span class="sr-only">{labels.no}</span>
+                          </>
+                        )}
+                        {(v === 'partial' || v === 'limited') && (
+                          <span class="part-mark">
+                            <span class="glyph part" aria-hidden="true">
+                              <svg viewBox="0 0 20 20" width="20" height="20">
+                                <circle
+                                  cx="10"
+                                  cy="10"
+                                  r="7.75"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="1.5"
+                                />
+                                <path d="M10 2.25a7.75 7.75 0 0 1 0 15.5z" fill="currentColor" />
+                              </svg>
+                            </span>
+                            <span class="part-label">
+                              {v === 'partial' ? 'Partial' : 'Limited'}
+                            </span>
+                          </span>
+                        )}
+                        {v === 'varies' && <span class="na">Varies</span>}
+                        {v === 'na' && <span class="na">Not applicable</span>}
+                        {isPrice(v) && (
+                          <span class="addon">
+                            <span class="addon-price">
+                              {v.price} <span class="addon-tag">add-on</span>
+                            </span>
+                            {v.note && <span class="addon-note">{v.note}</span>}
+                          </span>
+                        )}
+                        {/* Only the free-text branch resolves to a string an editor
+                            should retype. The tokens render as glyphs and the priced
+                            add-on is an object — both would be wrong (or an error
+                            card) as text regions, so they stay in the sidebar. */}
+                        {isText(v) && (
+                          <span class="text" {...edit(r.cellPaths?.[i])}>
+                            {v}
+                          </span>
+                        )}
+                      </td>
+                    ))}
+                    {/* eslint-enable astro/jsx-a11y/no-interactive-element-to-noninteractive-role */}
+                  </tr>
+                ))}
+              </tbody>
+            );
+          })
+        }
+        {
+          hasCta && (
+            <tfoot>
+              <tr role="row">
+                <th scope="row" role="rowheader" class="foot-feat">
+                  {footer && <span class="foot-title">{footer.title}</span>}
+                  {footer?.sub && <span class="foot-sub">{footer.sub}</span>}
+                </th>
+                {/* eslint-disable astro/jsx-a11y/no-interactive-element-to-noninteractive-role -- explicit table roles survive the phone layout's display: grid (Safari drops the implicit ones); the rule's 'td is interactive' is a false positive. */}
+                {columns.map((c) => (
+                  <td role="cell" class:list={['foot-cell', { hl: c.highlight }]}>
+                    <span class="foot-plan">
+                      <span class="foot-plan-name">{c.name}</span>
+                      {c.price && (
+                        <span class="foot-plan-price">
+                          {c.price} {c.unit}
+                        </span>
+                      )}
+                    </span>
+                    {c.cta && (
+                      <Button
+                        href={c.cta.href}
+                        variant={c.highlight ? 'solid' : 'outline'}
+                        tone={c.highlight ? 'brand' : 'neutral'}
+                        block
+                        class="plan-cta"
+                      >
+                        {c.cta.label}
+                        <span class="sr-only"> for {c.cta.for ?? c.name}</span>
+                      </Button>
+                    )}
+                  </td>
+                ))}
+                {/* eslint-enable astro/jsx-a11y/no-interactive-element-to-noninteractive-role */}
+              </tr>
+            </tfoot>
+          )
+        }
+      </table>
+    </div>
+
+    {
+      footnote && (
+        <p class="footnote" {...editableText(editablePrefix, 'footnote', 'text')}>
+          {footnote}
+        </p>
+      )
+    }
+    <slot />
+  </div>
+
+  {/* Phone only: slides up while the table is on screen, away once its own CTAs show. */}
+  {
+    primary && (
+      <div class="cmp-bar">
+        <Button href={primary.href} block class="bar-cta">
+          {primary.label}
+        </Button>
+      </div>
+    )
+  }
+</section>
+
+<script>
+  // Progressive enhancement for every comparison table on the page: group collapse,
+  // the compact sticky header and the phone bottom bar. Delegated and re-queried on
+  // every frame, so a block re-rendered in place (CloudCannon's live editing) keeps
+  // working without re-binding.
+  document.addEventListener('click', (e) => {
+    const btn = (e.target as Element | null)?.closest?.('[data-cmp-toggle]');
+    if (!btn) return;
+    const open = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', String(!open));
+    btn.closest('tbody')?.toggleAttribute('data-collapsed', open);
+  });
+
+  let queued = false;
+  const update = () => {
+    queued = false;
+    for (const root of document.querySelectorAll<HTMLElement>('[data-cmp]')) {
+      const head = root.querySelector('thead');
+      const sticky = root.querySelector<HTMLElement>('.sticky-bar');
+      if (!head || !sticky) continue;
+      // Without a footer the table's own bottom edge is where the sticky chrome ends.
+      const end = root.querySelector('tfoot') ?? root.querySelector('table');
+      const top = parseFloat(getComputedStyle(root).getPropertyValue('--cmp-sticky-top')) || 0;
+      const barH = sticky.offsetHeight;
+      const headGone = head.getBoundingClientRect().bottom < top;
+      const endRect = end?.getBoundingClientRect();
+      const endY = end?.tagName === 'TFOOT' ? (endRect?.top ?? 0) : (endRect?.bottom ?? 0);
+      root.toggleAttribute('data-stuck', headGone && endY > top + barH);
+      root.toggleAttribute('data-bar', headGone && endY > window.innerHeight);
+      const now = root.querySelector<HTMLElement>('[data-cmp-now]');
+      if (now) {
+        const line = top + barH;
+        const groups = [...root.querySelectorAll<HTMLElement>('[data-cmp-group]')];
+        const current = groups.filter((g) => g.getBoundingClientRect().top <= line).pop();
+        now.textContent = current?.dataset.cmpGroup ?? groups[0]?.dataset.cmpGroup ?? '';
+      }
+    }
+  };
+  const schedule = () => {
+    if (!queued) {
+      queued = true;
+      requestAnimationFrame(update);
+    }
+  };
+  window.addEventListener('scroll', schedule, { passive: true });
+  window.addEventListener('resize', schedule);
+  update();
+</script>
+
+<style>
+  .cmp {
+    /* Clears the fixed nav pill (16px inset + ~64px pill + 16px gap). */
+    --cmp-sticky-top: 96px;
+    --cmp-band: color-mix(in oklab, var(--color-muted) 55%, var(--color-card));
+    --cmp-hl: var(--color-brand);
+    background: var(--color-background);
+    padding: var(--spacing-section-md) 0;
+    border-top: 1px solid var(--color-border);
+  }
+  .cmp-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* Section head --------------------------------------------------------- */
+  .cmp-head {
+    max-width: 760px;
+    margin-bottom: 32px;
+  }
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 0 0 20px;
+    font-size: var(--text-sm);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-muted-foreground);
+  }
+  .eyebrow::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--color-border);
+  }
+  .head-h {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: var(--text-4xl);
+    line-height: var(--text-4xl--line-height);
+    letter-spacing: -0.03em;
+    color: var(--color-foreground);
+    text-wrap: balance;
+  }
+  .head-h :global(em) {
+    font-style: normal;
+    font-weight: 700;
+    color: var(--color-brand-emphasis);
+  }
+  .head-p {
+    margin: 20px 0 0;
+    max-width: 720px;
+    font-size: var(--text-lg);
+    line-height: var(--text-lg--line-height);
+    color: var(--color-muted-foreground);
+    text-wrap: balance;
+  }
+
+  /* Card + table --------------------------------------------------------- */
+  .cmp-card {
+    position: relative;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+  }
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: fixed;
+  }
+  th,
+  td {
+    font-weight: 400;
+  }
+
+  /* Bottom corners follow the card's; the top stays open for the highlight tab. */
+  table {
+    clip-path: inset(
+      -16px 0 0 0 round 0 0 calc(var(--radius-sm) - 1px) calc(var(--radius-sm) - 1px)
+    );
+  }
+
+  /* The highlighted column's frame: one overlay from the header top to the table's
+     bottom edge, above every cell and band background, so it stays closed whether or
+     not there is a footer and whatever is collapsed. */
+  .cmp-frame {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    bottom: 0;
+    left: var(--cmp-hl-start);
+    width: var(--cmp-col-w);
+    border: 2px solid var(--cmp-hl);
+    border-radius: var(--radius-sm);
+    pointer-events: none;
+  }
+
+  /* Header row */
+  thead th {
+    vertical-align: bottom;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .th-key {
+    width: 40%;
+    padding: 24px 24px 20px;
+    text-align: left;
+  }
+  .th-plan {
+    position: relative;
+    width: var(--cmp-col-w);
+    /* The 1px height lets .plan-inner resolve height: 100% against the row, whose
+       height the key cell sets. */
+    height: 1px;
+    padding: 0 20px 20px;
+    text-align: center;
+  }
+  thead th:first-child {
+    border-top-left-radius: var(--radius-sm);
+  }
+  thead th:last-child {
+    border-top-right-radius: var(--radius-sm);
+  }
+  .rec-tab {
+    position: absolute;
+    z-index: 2;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 2px 12px;
+    border-radius: 9999px;
+    background: var(--color-brand);
+    color: var(--color-brand-foreground);
+    font-size: var(--text-sm);
+    line-height: 20px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  /* Name/price centred in the space between the header's top edge and its button:
+     the key cell sets the row height, this block grows to fill it. */
+  .plan-inner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .plan-top {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 16px 0;
+  }
+  .plan-name {
+    font-size: var(--text-xl);
+    line-height: var(--text-xl--line-height);
+    font-weight: 700;
+    color: var(--color-foreground);
+  }
+  .plan-top.is-label .plan-name {
+    font-size: var(--text-base);
+    line-height: var(--text-base--line-height);
+    text-wrap: balance;
+  }
+  .plan-note {
+    margin-top: 2px;
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    color: var(--color-muted-foreground);
+    text-wrap: balance;
+  }
+  .plan-price {
+    margin-top: 4px;
+    font-size: var(--text-2xl);
+    line-height: 1.15;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--color-foreground);
+  }
+  .plan-unit {
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    color: var(--color-muted-foreground);
+  }
+  :global(.plan-cta) {
+    white-space: nowrap;
+  }
+
+  .key-label {
+    display: block;
+    margin-bottom: 12px;
+    font-size: var(--text-sm);
+    line-height: 1.15;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-muted-foreground);
+  }
+  .key {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .key li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    color: var(--color-foreground);
+  }
+  .key-dollar {
+    width: 20px;
+    text-align: center;
+    font-weight: 700;
+    color: var(--color-foreground);
+  }
+
+  /* "Show only differences" switch (a styled native checkbox) */
+  .switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 44px;
+    margin-top: 12px;
+    cursor: pointer;
+  }
+  .switch-input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+  }
+  .switch-track {
+    position: relative;
+    flex: none;
+    width: 40px;
+    height: 24px;
+    border-radius: 9999px;
+    background: var(--color-border);
+    transition: background-color var(--dur-fast) var(--ease-out);
+  }
+  .switch-knob {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    border-radius: 9999px;
+    background: var(--color-card);
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+  .switch-input:checked + .switch-track {
+    background: var(--color-brand);
+  }
+  .switch-input:checked + .switch-track .switch-knob {
+    transform: translateX(16px);
+  }
+  .switch-input:focus-visible + .switch-track {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+  }
+  .switch-label {
+    font-size: var(--text-base);
+    line-height: var(--text-base--line-height);
+    font-weight: 500;
+    color: var(--color-foreground);
+  }
+  .switch-count {
+    margin: 0;
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    color: var(--color-muted-foreground);
+  }
+
+  /* Differences-only mode: swap every count, hide rows every plan includes. */
+  .when-diff {
+    display: none;
+  }
+  .cmp:has(.switch-input:checked) .when-all {
+    display: none;
+  }
+  .cmp:has(.switch-input:checked) .when-diff {
+    display: inline;
+  }
+  .cmp:has(.switch-input:checked) .row[data-same] {
+    display: none;
+  }
+
+  /* Group bands: one full-width bar per category. */
+  .grp-row th {
+    padding: 0;
+    text-align: left;
+    border-top: 1px solid var(--color-border);
+    background: var(--cmp-band);
+  }
+  .grp-toggle {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    min-height: 48px;
+    padding: 10px 24px;
+    border: 0;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+    font: inherit;
+  }
+  .grp-toggle:focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: -2px;
+  }
+  .caret {
+    flex: none;
+    color: var(--color-muted-foreground);
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+  .grp[data-collapsed] .caret {
+    transform: rotate(-90deg);
+  }
+  .grp[data-collapsed] .row {
+    display: none !important;
+  }
+  .grp-title {
+    font-size: var(--text-lg);
+    line-height: var(--text-lg--line-height);
+    font-weight: 700;
+    color: var(--color-foreground);
+  }
+  .grp-count {
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    color: var(--color-muted-foreground);
+  }
+
+  /* Feature rows */
+  .row > * {
+    border-top: 1px solid var(--color-border);
+  }
+  .row:hover > * {
+    background-color: var(--color-background);
+  }
+  .td-feat {
+    padding: 12px 24px;
+    text-align: left;
+  }
+  .feat-name {
+    display: block;
+    font-size: var(--text-base);
+    line-height: var(--text-base--line-height);
+    color: var(--color-foreground);
+    text-wrap: pretty;
+  }
+  .feat-note {
+    display: block;
+    margin-top: 2px;
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    color: var(--color-muted-foreground);
+  }
+  .td-cell {
+    padding: 12px 20px;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  /* Cell marks */
+  .glyph.yes {
+    display: inline-flex;
+    vertical-align: middle;
+    color: var(--color-brand);
+  }
+  .dash {
+    display: inline-block;
+    width: 16px;
+    height: 2px;
+    border-radius: 1px;
+    vertical-align: middle;
+    /* muted-foreground: clears the 3:1 non-text contrast a meaningful mark needs. */
+    background: var(--color-muted-foreground);
+  }
+  .glyph.part {
+    display: inline-flex;
+    flex: none;
+    color: var(--color-brand);
+  }
+  .part-mark {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    vertical-align: middle;
+  }
+  .part-label {
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    font-weight: 500;
+    color: var(--color-foreground);
+  }
+  .na {
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    color: var(--color-muted-foreground);
+  }
+  .addon {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+  .addon-price {
+    font-size: var(--text-base);
+    line-height: var(--text-base--line-height);
+    font-weight: 700;
+    color: var(--color-foreground);
+  }
+  .addon-tag {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-muted-foreground);
+  }
+  .addon-note {
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    color: var(--color-muted-foreground);
+    text-wrap: balance;
+  }
+  .text {
+    font-size: var(--text-base);
+    line-height: var(--text-base--line-height);
+    font-weight: 500;
+    color: var(--color-foreground);
+  }
+
+  /* Footer CTA band */
+  tfoot > tr > * {
+    padding: 16px 20px;
+    vertical-align: middle;
+    border-top: 1px solid var(--color-border);
+    background: var(--cmp-band);
+  }
+  tfoot > tr > .foot-feat {
+    padding-left: 24px;
+    text-align: left;
+    border-bottom-left-radius: var(--radius-sm);
+  }
+  tfoot > tr > :last-child {
+    border-bottom-right-radius: var(--radius-sm);
+  }
+  .foot-title {
+    display: block;
+    font-size: var(--text-xl);
+    line-height: var(--text-xl--line-height);
+    font-weight: 700;
+    color: var(--color-foreground);
+  }
+  .foot-sub {
+    display: block;
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    color: var(--color-muted-foreground);
+  }
+  .foot-plan {
+    display: none;
+  }
+
+  .footnote {
+    margin: 24px 0 0;
+    max-width: 760px;
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    color: var(--color-muted-foreground);
+    text-wrap: pretty;
+  }
+
+  /* Compact sticky plan header ------------------------------------------- */
+  .cmp-sticky {
+    position: sticky;
+    top: var(--cmp-sticky-top);
+    z-index: 5;
+    height: 0;
+  }
+  .sticky-bar {
+    position: absolute;
+    top: 0;
+    left: -1px;
+    right: -1px;
+    display: grid;
+    grid-template-columns: 40% repeat(var(--cmp-cols), var(--cmp-col-w));
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-md);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition:
+      opacity var(--dur-fast) var(--ease-out),
+      transform var(--dur-fast) var(--ease-out),
+      visibility 0s linear var(--dur-fast);
+  }
+  .cmp[data-stuck] .sticky-bar {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition:
+      opacity var(--dur-fast) var(--ease-out),
+      transform var(--dur-fast) var(--ease-out);
+  }
+  .sticky-now {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 12px 24px;
+  }
+  .sticky-kicker {
+    font-size: var(--text-sm);
+    line-height: 1.15;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-muted-foreground);
+  }
+  .sticky-group {
+    margin-top: 4px;
+    font-size: var(--text-base);
+    line-height: var(--text-base--line-height);
+    font-weight: 700;
+    color: var(--color-foreground);
+  }
+  .sticky-plan {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 16px;
+    text-align: center;
+  }
+  .sticky-name {
+    font-size: var(--text-base);
+    line-height: var(--text-base--line-height);
+    font-weight: 700;
+    color: var(--color-foreground);
+  }
+  .sticky-price {
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    color: var(--color-muted-foreground);
+  }
+  .sticky-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+    margin-top: 4px;
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    font-weight: 700;
+    color: var(--color-brand-emphasis);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .sticky-link:hover {
+    color: var(--color-foreground);
+  }
+
+  /* Phone bottom CTA bar (hidden above the phone breakpoint) */
+  .cmp-bar {
+    display: none;
+  }
+
+  /* Phones ----------------------------------------------------------------- */
+  @media (max-width: 767px) {
+    .cmp {
+      --cmp-sticky-top: 84px;
+    }
+    .cmp-inner {
+      padding: 0 16px;
+    }
+    .cmp-head {
+      padding: 0 8px;
+      margin-bottom: 24px;
+    }
+    .head-h {
+      font-size: var(--text-3xl);
+      line-height: var(--text-3xl--line-height);
+    }
+    .head-p {
+      font-size: var(--text-base);
+      line-height: var(--text-base--line-height);
+      text-wrap: pretty;
+    }
+
+    /* One markup, restacked: every row is a 3-column grid; the feature name (and
+       the key, and group bands) span the full width. */
+    table,
+    thead,
+    tbody,
+    tfoot {
+      display: block;
+    }
+    thead tr,
+    .row,
+    tfoot tr {
+      display: grid;
+      grid-template-columns: repeat(var(--cmp-cols), minmax(0, 1fr));
+    }
+    .cmp-frame {
+      display: none;
+    }
+
+    .th-key {
+      grid-column: 1 / -1;
+      width: auto;
+      padding: 16px;
+    }
+    .th-plan {
+      width: auto;
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 16px 8px;
+      border-radius: 0;
+    }
+    thead th:last-child,
+    .th-plan.hl {
+      border-radius: 0;
+    }
+    /* Super-minimal marker for the recommended plan: a brand hairline either side. */
+    .th-plan.hl {
+      background:
+        linear-gradient(var(--cmp-hl), var(--cmp-hl)) left center / 1px 56% no-repeat,
+        linear-gradient(var(--cmp-hl), var(--cmp-hl)) right center / 1px 56% no-repeat;
+    }
+    .th-plan.hl .plan-name {
+      color: var(--color-brand-emphasis);
+    }
+    .rec-tab,
+    .plan-unit,
+    .th-plan :global(.plan-cta) {
+      display: none;
+    }
+    .plan-top {
+      padding: 0;
+    }
+    .plan-name {
+      font-size: var(--text-sm);
+      line-height: var(--text-sm--line-height);
+    }
+    .plan-top.is-label .plan-name {
+      font-size: var(--text-sm);
+      line-height: var(--text-sm--line-height);
+    }
+    .plan-note {
+      font-size: var(--text-xs);
+      line-height: var(--text-xs--line-height);
+    }
+    .plan-price {
+      margin-top: 2px;
+      font-size: var(--text-base);
+      line-height: var(--text-base--line-height);
+      letter-spacing: 0;
+    }
+
+    .grp-row,
+    .grp-row th {
+      display: block;
+    }
+    .grp-toggle {
+      gap: 8px;
+      padding: 8px 16px;
+    }
+    .grp-title {
+      flex-grow: 1;
+    }
+
+    .row > * {
+      border-top: 0;
+    }
+    .row > .td-feat {
+      grid-column: 1 / -1;
+      padding: 12px 16px 4px;
+      border-top: 1px solid var(--color-border);
+    }
+    .td-cell {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 4px 8px 12px;
+    }
+    .addon-price,
+    .addon-tag {
+      display: block;
+    }
+    .part-mark {
+      flex-direction: column;
+      gap: 2px;
+    }
+    .text {
+      text-align: center;
+    }
+
+    tfoot tr {
+      grid-template-columns: 1fr;
+    }
+    tfoot > tr > * {
+      padding: 12px 16px;
+      border-radius: 0;
+    }
+    tfoot > tr > .foot-feat {
+      padding-bottom: 4px;
+    }
+    .foot-sub {
+      display: none;
+    }
+    .foot-title {
+      font-size: var(--text-lg);
+      line-height: var(--text-lg--line-height);
+    }
+    .foot-cell {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    tfoot > tr > :last-child {
+      border-bottom-left-radius: var(--radius-sm);
+      border-bottom-right-radius: var(--radius-sm);
+    }
+    .foot-plan {
+      display: block;
+    }
+    .foot-plan-name {
+      display: block;
+      font-size: var(--text-base);
+      line-height: var(--text-base--line-height);
+      font-weight: 700;
+      color: var(--color-foreground);
+    }
+    .foot-plan-price {
+      display: block;
+      font-size: var(--text-sm);
+      line-height: var(--text-sm--line-height);
+      color: var(--color-muted-foreground);
+    }
+    .foot-cell :global(.plan-cta) {
+      width: auto;
+      flex: none;
+      padding-left: 16px;
+      padding-right: 16px;
+      font-size: var(--text-sm);
+    }
+
+    /* Sticky header on phones: plan names + prices only, current group above. */
+    .sticky-bar {
+      grid-template-columns: repeat(var(--cmp-cols), minmax(0, 1fr));
+    }
+    .sticky-now {
+      grid-column: 1 / -1;
+      padding: 8px 16px 0;
+    }
+    .sticky-kicker {
+      display: none;
+    }
+    .sticky-group {
+      margin: 0;
+      font-size: var(--text-sm);
+      line-height: var(--text-sm--line-height);
+      color: var(--color-muted-foreground);
+    }
+    .sticky-plan {
+      justify-content: flex-end;
+      padding: 8px;
+    }
+    .sticky-plan.hl {
+      background:
+        linear-gradient(var(--cmp-hl), var(--cmp-hl)) left center / 1px 56% no-repeat,
+        linear-gradient(var(--cmp-hl), var(--cmp-hl)) right center / 1px 56% no-repeat;
+    }
+    .sticky-plan.hl .sticky-name {
+      color: var(--color-brand-emphasis);
+    }
+    .sticky-name {
+      font-size: var(--text-sm);
+      line-height: var(--text-sm--line-height);
+    }
+    .sticky-price {
+      font-weight: 700;
+      color: var(--color-foreground);
+    }
+    .sticky-unit,
+    .sticky-link {
+      display: none;
+    }
+
+    /* Bottom CTA bar */
+    .cmp-bar {
+      display: block;
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 40;
+      padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+      background: var(--color-card);
+      border-top: 1px solid var(--color-border);
+      box-shadow: var(--shadow-lg);
+      transform: translateY(110%);
+      visibility: hidden;
+      transition:
+        transform var(--dur) var(--ease-out),
+        visibility 0s linear var(--dur);
+    }
+    .cmp[data-bar] .cmp-bar {
+      transform: none;
+      visibility: visible;
+      transition: transform var(--dur) var(--ease-out);
+    }
+  }
+</style>

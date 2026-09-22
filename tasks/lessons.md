@@ -1043,3 +1043,25 @@ illegible for most of the pin. A one-shot staggered fade reads as more engaging 
 deleted ~70 lines. Also note CSS `animation-timeline: view()` is still not the answer
 here in 2026 — Firefox ships it behind a flag (~84% global), and the repo has no other
 usage to be consistent with.
+
+## 2026-09-22 — Claude Design canvases: preview the way the canvas renders
+
+- **The Design canvas runtime drops `<colgroup>`/`<col>` widths.** A `table-layout: fixed`
+  table that relies on `<col style="width">` renders as equal columns in the canvas, while a
+  plain headless-Chrome preview honours the colgroup and looks correct. I shipped a sticky
+  header whose rows (a separate table with no header row) drifted off-centre because of
+  this, and my "verification" missed it. Put explicit widths on the cells themselves
+  (header cells AND every body cell of any table that has no header row), and make local
+  previews strip `<colgroup>` so they fail the same way the canvas does.
+- **Verify alignment by measurement, not by eye.** After rendering, dump each row's cell
+  `getBoundingClientRect().left` values and assert every table on the board shares one
+  column layout. A screenshot at thumbnail scale hides 2px overflows and off-centre columns.
+- **Mobile CTAs belong at the bottom.** For a long comparison table on mobile, the persistent
+  recommended-plan CTA is a bar that slides up from the bottom of the viewport while the
+  table is on screen, not an extra row in the sticky top header.
+- **Porting a site component into the design-system bundle: add `box-sizing: border-box`.**
+  The site gets it from Tailwind's preflight; the DS preview frame does not. Without it,
+  percentage cell widths plus padding overflow and `table-layout: fixed` rescales every
+  column, so the table and its sticky header drift apart. Scope it to the component root
+  (`.ie-cmp, .ie-cmp *`). Also: `calc()` percentage widths on table cells are ignored, so pass
+  plain percentages.

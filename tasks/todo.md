@@ -1916,3 +1916,38 @@ Deliberately still out of scope: the same flaw in `home/WhyNow.astro`,
 `case-study/ResultsChart.astro` and the three page-level rules (listed in lessons.md),
 and the `astro:page-load` re-arm gap, which is a one-line change in `lib/intersect.ts`
 covering all seven `observe()` call sites.
+
+## 2026-09-22 — Districts compare table → the shared comparison component
+
+The pricing comparison (approved on the Claude Design canvas, now PricingTable in the
+design system) becomes the one comparison table. The districts competitor table adopts it.
+
+- [x] Move the engine to `blocks/ComparisonTable.astro`: generic columns (name, optional
+      note / price / unit / CTA, highlight), groups of rows, cell vocabulary extended with
+      `partial` / `limited` / `varies`, optional footer + bottom bar (only when columns
+      carry CTAs), optional "Recommended" tab, differences switch only when some rows are
+      identical, editable paths supplied by the caller.
+- [x] Recommended frame as one overlay element instead of per-cell shadows + band stripes
+      (works with no footer and with collapsed last groups); table bottom corners clipped.
+- [x] Script: event delegation + re-query per frame, so CloudCannon's live re-render of
+      `<editable-component>` keeps the toggles and sticky header working.
+- [x] `pricing/PricingTable.astro` → thin wrapper (same props, same editable paths).
+- [x] `districts/CompareTable.astro` → thin wrapper: rows grouped by their first category
+      (Classroom fit / Privacy & funding / Impact evidence — the old filter chips become
+      collapsible groups), 'n/a' → 'na', indexed editable paths, "The short version"
+      callout kept below the table. Schema + yml + CloudCannon config unchanged.
+- [x] Verify: pnpm check, build:all, lint:editables + tests, rendered checks on /pricing
+      (unchanged) and /districts (desktop, phone, dark).
+- [x] Update the PricingTable card in the design system (new marks, text-only columns).
+
+**Review.** `/pricing` is unchanged: the same column edges (121/600/840/1079 at 1440px,
+the sticky header identical), header centring 34/34, the differences switch at 25 of 47, and
+collapse, the sticky header, the phone bottom bar and dark mode all behave as before.
+`/districts` now renders the shared component: four columns, three groups (4/3/3), a
+Yes / Partial or limited / No legend, no switch (no row is identical across columns),
+no footer or bottom bar (the columns carry no CTAs), with the frame and sticky header on
+the same edges (121/600/780/960/1139). The phone layout has no sideways scroll, and every
+editable region resolves. The districts page forces light appearance (`appearance-light`),
+so it has no dark mode, as before. What changed for editors: the old filter chips are gone, and
+rows are text-editable in place but added and removed in the sidebar (indexed paths, as on
+/pricing).
