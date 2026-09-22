@@ -1849,3 +1849,36 @@ Two things deliberately left alone: the same soft-nav re-arm gap in the other
 `observe()` in `lib/intersect.ts`, which touches five pages), and making `lines`
 CloudCannon-editable (now unblocked by removing the word spans, but a field-shape
 decision rather than a motion change).
+
+### Follow-up — the same fix, page-wide (same PR)
+
+- [x] Found the hero's fade-out flaw was not hero-specific: all four sibling blocks and
+      all five chart components had it. Measured on the pre-fix build — `.receipts .reveal`
+      ran opacity 1 → 0.000, and a chart bar ran width 1344px → 2.45px, both on load.
+- [x] Applied the same move to 9 files — `Research{Receipts,Brain,Outcomes,CTA}.astro`
+      and `charts/{Bars,BeforeAfter,Competencies,Dial,Line}Chart.astro`. Every
+      `transition-*` declaration moved off the resting rule onto `.reveal.in` /
+      `[data-anim].in`.
+- [x] `BeforeAfterChart` needed care: its delays lived on `.box.before`/`.box.after`,
+      separate from `.box`'s `transition`. A `transition:` shorthand on the more specific
+      `.in` rule resets `transition-delay` to `0s`, so the delays moved too.
+- [x] No `prefers-reduced-motion` gate added to these nine — unlike the hero they call
+      `observe()` at module top level, where `.in` lands in the same task as
+      `data-js-ready`, so nothing paints in between and the global rule suffices.
+- [x] Verified with a controlled regression probe: pre-fix build scores 0/9 (14–26
+      intermediate animation frames per element), post-fix 9/9 instant. A separate
+      forward-motion probe confirms all 9 still animate in (3+ mid-flight frames each),
+      so a dropped transition can't pass as a correct final state. Reduced-motion and
+      no-JS both render 9/9 visible. `pnpm check` 0 errors, `pnpm build` 77 pages.
+      Screenshots confirm no visual shift.
+
+**Review.** Worth noting how this was found: the hero fix looked done and verified, and
+the flaw in the rest of the page only surfaced because the load-time behaviour was
+instrumented rather than eyeballed. Nothing here was visible to a user — every affected
+element sits below the fold — so a visual check would have passed at every step.
+
+Scope grew from 1 file to 10 across two user decisions, both asked rather than assumed.
+Deliberately still out of scope: the same flaw in `home/WhyNow.astro`,
+`case-study/ResultsChart.astro` and the three page-level rules (listed in lessons.md),
+and the `astro:page-load` re-arm gap, which is a one-line change in `lib/intersect.ts`
+covering all seven `observe()` call sites.

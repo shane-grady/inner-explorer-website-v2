@@ -110,11 +110,17 @@ const max = 50; // % magnitude cap for visualization
   .dial-fg {
     stroke: var(--color-brand);
     stroke-dashoffset: calc(var(--off) * 1px);
-    transition: stroke-dashoffset 1200ms var(--ease-out);
-    transition-delay: var(--d);
   }
   :global([data-js-ready]) [data-anim]:not(.in) .dial-fg {
     stroke-dashoffset: calc(3.14159 * 44 * 1px);
+  }
+  /* The transition lives on [data-anim].in, not on the resting rule: only the
+     reveal should animate. On the resting rule the initial visible -> hidden
+     reset would animate too, so the chart would visibly un-draw on load before
+     it could ever draw in. */
+  [data-anim].in .dial-fg {
+    transition: stroke-dashoffset 1200ms var(--ease-out);
+    transition-delay: var(--d);
   }
   .value {
     font-family: var(--font-display);

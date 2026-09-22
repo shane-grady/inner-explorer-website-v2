@@ -954,8 +954,45 @@ smoothly (no snap) over 840 sampled frames.
 
 On `/research` nobody saw the fade-out (the hero sits below the 100vh splash), but it is
 wasted compositing on every load, and anything deep-linked or scroll-restored into view
-would flicker. **The four sibling blocks still have it** — worth fixing when one is next
-touched.
+would flicker.
+
+**It was page-wide, and the charts had it worse.** The same flaw sat in all four sibling
+blocks and in all five chart components, where the transition is declared on a
+descendant of `[data-anim]` at its FINAL value and `[data-anim]:not(.in)` overrides to
+the start value — so a bar painted at 1344px and animated down to 2px on load. All nine
+were fixed in the same PR; the fix for a chart is the same move, into `[data-anim].in`:
+
+```css
+.fill {
+  width: var(--w);
+} /* no transition here */
+[data-js-ready] [data-anim]:not(.in) .fill {
+  width: 0;
+}
+[data-anim].in .fill {
+  transition: width 1200ms var(--ease-out);
+  transition-delay: var(--d);
+}
+```
+
+Watch the shorthand when delays live on a separate rule (`BeforeAfterChart`'s
+`.box.before` / `.box.after`): a `transition:` shorthand on the more specific `.in` rule
+RESETS `transition-delay` to `0s` and silently flattens the stagger. Move the delays into
+`.in`-scoped rules too, or use longhands.
+
+Keep `transition-delay: var(--d)` as its own declaration rather than folding it into the
+shorthand — a missing `--d` invalidates the whole shorthand, not just the delay.
+
+**Still carrying the flaw** (left for their own change): `home/WhyNow.astro`,
+`case-study/ResultsChart.astro`, and the page-level rules in `pages/index.astro`,
+`pages/case-studies/[slug].astro`, `pages/series/[slug].astro`.
+
+**Test it with a control.** The regression probe samples each animated property on load
+WITHOUT scrolling and counts values strictly between the endpoints: an instant hide gives
+0, an animated one gives 14-26. Crucially, run it against the pre-fix build too — a probe
+that cannot fail proves nothing. Pre-fix scored 0/9 passing, post-fix 9/9, and a separate
+forward-motion probe confirmed all nine still animate in (3+ mid-flight frames each) so a
+silently-dropped transition could not pass as "correct final state".
 
 **Two related gotchas confirmed by measurement, not assumption:**
 
