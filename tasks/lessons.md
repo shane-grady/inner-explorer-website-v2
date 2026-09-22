@@ -1043,3 +1043,39 @@ illegible for most of the pin. A one-shot staggered fade reads as more engaging 
 deleted ~70 lines. Also note CSS `animation-timeline: view()` is still not the answer
 here in 2026 — Firefox ships it behind a flag (~84% global), and the repo has no other
 usage to be consistent with.
+
+## 2026-09-22 — Reveals died on soft nav: `<ClientRouter />` strips root attributes
+
+Reported as "the reveal effect doesn't show until I reload." Reproduced exactly:
+hard-loading `/research` animates, clicking through from the homepage does not, and
+reloading fixes it.
+
+**Astro's `<ClientRouter />` replaces `<html>`'s attributes with the incoming
+document's on every swap.** `intersect.ts` set `data-js-ready="on"` once at module
+load, so after any client-side navigation the flag was gone, `[data-js-ready]
+.reveal:not(.in)` stopped matching, nothing was hidden — and therefore nothing
+animated. Every reveal on the site (home, research, case studies, series) was
+reveal-on-hard-load only. Verified with a three-way probe: hard load → 20 transition
+frames, soft nav → 1 frame, reload → 20 again.
+
+The fix needs BOTH halves, and half of it alone is worse than the bug:
+
+1. **Re-apply the flag to the INCOMING document** in `astro:before-swap`
+   (`event.newDocument.documentElement`), not in `astro:page-load`. `page-load` fires
+   after the new page paints, so setting it there flashes content visible, then hides
+   it, then reveals it. Setting it on the incoming document means the hidden state is
+   in place for the first paint. Confirmed: first sampled opacity after a soft nav is
+   `0`, never `1`.
+2. **Re-arm the observers.** Component `<script>` modules do not re-execute on a
+   revisit, so their `observe()` calls never run again. Fixing (1) without this leaves
+   a revisited page hidden with nothing left to clear it — content stranded at
+   `opacity: 0`. `intersect.ts` now keeps a registry of every `observe()` registration
+   and re-arms it on `astro:page-load`, with a `WeakSet` of observed elements so the
+   immediate-arm path and the page-load path never double-observe.
+
+Test the REVISIT, not just the first soft nav: home → research → home → research. The
+first soft nav passes with only half the fix; the second visit is what strands content.
+
+Keep the immediate `arm()` inside `observe()` as well as the `astro:page-load` binding
+— if the router is ever removed from `BaseLayout`, the page-load event never fires and
+a registry-only design would hide everything permanently.

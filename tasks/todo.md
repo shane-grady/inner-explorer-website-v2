@@ -1916,3 +1916,29 @@ Deliberately still out of scope: the same flaw in `home/WhyNow.astro`,
 `case-study/ResultsChart.astro` and the three page-level rules (listed in lessons.md),
 and the `astro:page-load` re-arm gap, which is a one-line change in `lib/intersect.ts`
 covering all seven `observe()` call sites.
+
+## 2026-09-22 — Fix: reveals only animated on a hard load
+
+- [x] Reproduced the report ("doesn't show the reveal effect until I reload"): hard
+      load animates (20 frames), soft nav from the homepage does not (1 frame), reload
+      animates again. Root cause: `<ClientRouter />` swaps `<html>`'s attributes, so
+      the `data-js-ready` flag `intersect.ts` set at module load is dropped on every
+      client-side navigation.
+- [x] Fixed at the root in `src/lib/intersect.ts`, covering all seven `observe()` call
+      sites across five pages rather than patching each one:
+      re-apply the flag to the incoming document in `astro:before-swap` (so the hidden
+      state is in place before the new page paints), and re-arm every registration on
+      `astro:page-load` (component scripts don't re-execute). A `WeakSet` stops the
+      immediate and page-load arming paths from double-observing.
+- [x] Verified all five navigation paths animate with nothing stuck hidden: hard load,
+      first soft nav, REVISIT after scripts are stale, back to home, third visit. Also
+      case-study and home reveals on soft nav, no flash-of-visible (first sampled
+      opacity is 0), reduced-motion and no-JS render everything visible.
+      `pnpm check` 0 errors, `pnpm build` 77 pages.
+
+**Review.** This was the gap flagged as out of scope in the two research PRs, and it
+was a live bug on every page with a reveal, not just /research. Worth noting it was
+invisible to all the earlier verification because every probe hard-loaded the page —
+the bug only exists on client-side navigation. The revisit case matters most: fixing
+the flag without re-arming observers would have stranded content at opacity 0, which is
+strictly worse than the original symptom.
