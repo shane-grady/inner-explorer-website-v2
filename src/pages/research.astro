@@ -6,10 +6,13 @@ import ResearchOpeningVoid from '../components/blocks/research/ResearchOpeningVo
 import EditableResearchHero from '../cloudcannon/components/EditableResearchHero.astro';
 import ResearchReceipts from '../components/blocks/research/ResearchReceipts.astro';
 import ResearchBrain from '../components/blocks/research/ResearchBrain.astro';
+import ResearchMissingLayer from '../components/blocks/research/ResearchMissingLayer.astro';
 import ResearchOutcomes from '../components/blocks/research/ResearchOutcomes.astro';
+import ResearchObjection from '../components/blocks/research/ResearchObjection.astro';
+import ResearchAIMoment from '../components/blocks/research/ResearchAIMoment.astro';
 import ResearchEndorsers from '../components/blocks/research/ResearchEndorsers.astro';
-import ResearchVoices from '../components/blocks/research/ResearchVoices.astro';
 import EditableResearchCTA from '../cloudcannon/components/EditableResearchCTA.astro';
+import ResearchCitations from '../components/blocks/research/ResearchCitations.astro';
 import BreathMeter from '../components/blocks/research/BreathMeter.astro';
 
 // ── Page content ────────────────────────────────────────────────────────────
@@ -30,11 +33,14 @@ const {
   receipts,
   studies,
   brain,
+  missingLayer,
   outcomesHead,
   outcomes,
+  objection,
+  aiMoment,
   endorsers,
-  voices,
   cta,
+  citations,
   pageTitle,
   pageDescription,
 } = entry.data;
@@ -67,7 +73,6 @@ const researchLd = {
     author: { '@type': 'Organization', name: s.authors },
     datePublished: String(s.year),
     publisher: { '@type': 'Organization', name: s.institution },
-    isPartOf: { '@type': 'Periodical', name: s.journal },
     ...(knownUrls[s.id] ? { url: knownUrls[s.id] } : {}),
   })),
 };
@@ -108,6 +113,13 @@ const researchLd = {
       pullQuoteHtml={brain.pullQuoteHtml}
       editablePrefix="brain"
     />
+    <ResearchMissingLayer
+      label={missingLayer.label}
+      headingHtml={missingLayer.headingHtml}
+      paragraphs={missingLayer.paragraphs}
+      pullQuoteHtml={missingLayer.pullQuoteHtml}
+      editablePrefix="missingLayer"
+    />
     <ResearchOutcomes
       chapterLabel={outcomesHead.chapterLabel}
       chapterNumber={outcomesHead.chapterNumber}
@@ -118,11 +130,25 @@ const researchLd = {
       editablePrefix="outcomesHead"
       outcomesPrefix=""
     />
+    <ResearchObjection
+      heading={objection.heading}
+      body={objection.body}
+      closing={objection.closing}
+      editablePrefix="objection"
+    />
+    <ResearchAIMoment {...aiMoment} editablePrefix="aiMoment" />
     <ResearchEndorsers label={endorsers.label} items={endorsers.items} editablePrefix="endorsers" />
-    <ResearchVoices voices={voices} editablePrefix="" />
     <editable-component data-component="research-cta" data-prop="cta">
       <EditableResearchCTA {...cta} />
     </editable-component>
+    <ResearchCitations
+      label={citations.label}
+      note={citations.note}
+      groups={citations.groups}
+      studies={studies}
+      studyUrls={knownUrls}
+      editablePrefix="citations"
+    />
     <BreathMeter />
   </div>
 </PageLayout>

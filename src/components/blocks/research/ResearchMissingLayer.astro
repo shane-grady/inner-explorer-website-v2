@@ -1,0 +1,158 @@
+---
+// The reframe between the brain chapter and the outcomes: an argument, not a data
+// display, so it gets a single centered column with room around it and a full-width
+// pull quote in the brain chapter's quote treatment, set in ink on paper.
+import { editableText, type EditablePrefix } from '../../../lib/editable';
+
+interface Props {
+  label: string;
+  headingHtml: string;
+  paragraphs: string[];
+  pullQuoteHtml: string;
+  /** CloudCannon path prefix for this block's fields (e.g. 'missingLayer'). Omit on
+   *  routes not backed by a `pages` collection entry. See lib/editable.ts.
+   *
+   *  `headingHtml` and `pullQuoteHtml` render through `set:html`, and `paragraphs` is a
+   *  plain string array with no per-row field to bind — all three stay sidebar-only. */
+  editablePrefix?: EditablePrefix;
+}
+const { label, headingHtml, paragraphs, pullQuoteHtml, editablePrefix }: Props = Astro.props;
+---
+
+<section
+  class="layer"
+  id="missing-layer"
+  data-screen-label={label}
+  aria-labelledby="missing-layer-heading"
+>
+  <div class="wrap">
+    <p class="label reveal">
+      <span class="rule" aria-hidden="true"></span>
+      <span {...editableText(editablePrefix, 'label')}>{label}</span>
+    </p>
+    <h2 class="h reveal" id="missing-layer-heading" set:html={headingHtml} />
+    {/* A string array has no per-row field to bind, so the paragraphs stay sidebar-only. */}
+    <div class="body reveal">
+      {paragraphs.map((p) => <p>{p}</p>)}
+    </div>
+    <blockquote class="pull reveal" set:html={pullQuoteHtml} />
+  </div>
+</section>
+
+<style>
+  .layer {
+    padding: 140px 0 120px;
+    background: var(--editorial-paper);
+    color: var(--editorial-ink);
+  }
+  .wrap {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  .label {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin: 0 0 32px;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--color-brand);
+  }
+  .rule {
+    width: 36px;
+    height: 1px;
+    background: color-mix(in oklab, var(--color-brand) 50%, transparent);
+  }
+  .h {
+    margin: 0 0 48px;
+    max-width: 1000px;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(40px, 5.4vw, 80px);
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  .h :global(em) {
+    font-style: normal;
+    color: var(--color-brand);
+    font-weight: 500;
+  }
+  .h :global(.sans) {
+    font-family: var(--font-sans);
+    font-style: normal;
+    font-weight: 300;
+    letter-spacing: -0.025em;
+  }
+  .h :global(.stk) {
+    display: block;
+  }
+  /* Body runs the full section width in two columns — shorter section, no centred block. */
+  .body {
+    columns: 2;
+    column-gap: 64px;
+    font-size: 19px;
+    line-height: 1.65;
+    color: color-mix(in oklab, var(--editorial-ink) 88%, transparent);
+  }
+  .body p {
+    margin: 0 0 22px;
+    break-inside: avoid;
+    text-wrap: pretty;
+  }
+  .body p:last-child {
+    margin-bottom: 0;
+  }
+  .pull {
+    margin: 56px 0 0;
+    padding: 40px 0;
+    border-top: 1px solid color-mix(in oklab, var(--editorial-ink) 12%, transparent);
+    border-bottom: 1px solid color-mix(in oklab, var(--editorial-ink) 12%, transparent);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(28px, 3.4vw, 48px);
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    color: var(--editorial-ink);
+    text-wrap: balance;
+  }
+  .pull :global(em) {
+    color: var(--color-brand);
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 900ms var(--ease-out),
+      transform 900ms var(--ease-out);
+  }
+  :global([data-js-ready]) .reveal:not(.in) {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+
+  @media (max-width: 820px) {
+    .h {
+      margin-bottom: 36px;
+    }
+    .body {
+      columns: 1;
+      font-size: 18px;
+    }
+    .pull {
+      margin-top: 48px;
+      padding: 28px 0;
+    }
+  }
+</style>
+
+<script>
+  import { observe } from '../../../lib/intersect';
+  observe('.layer .reveal');
+</script>

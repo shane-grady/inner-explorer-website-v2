@@ -10,6 +10,10 @@ interface Props {
   /** Line objects: text + optional `face` ('sans' for the upright weight-300 line; default is italic display). `em` colors the line with the brand accent. */
   lines: Array<{ text: string; face?: 'sans' | 'display'; em?: boolean }>;
   subtitle: string;
+  /** A short emphasized line of its own under the subtitle. */
+  proof?: string;
+  /** A quieter supporting line under the subtitle. */
+  note?: string;
   primaryCta: Cta;
   secondaryCta?: Cta;
   /** CloudCannon path prefix for this block's fields (e.g. 'hero'). Omit on routes
@@ -20,10 +24,18 @@ interface Props {
    *  addressed. Edit the headline from the sidebar. */
   editablePrefix?: EditablePrefix;
 }
-const { eyebrow, lines, subtitle, primaryCta, secondaryCta, editablePrefix }: Props = Astro.props;
+const { eyebrow, lines, subtitle, proof, note, primaryCta, secondaryCta, editablePrefix }: Props =
+  Astro.props;
 
-// One fade per element, 80ms apart: eyebrow → headline lines → subtitle → CTAs.
+// One fade per element, 80ms apart, in render order: the eyebrow leads at 0, then one
+// slot per headline line, then the subtitle, then whichever of proof / note are set,
+// then the CTAs. Absent optional lines take no slot, so the cadence never leaves a gap.
 const STEP = 80;
+let slot = lines.length;
+const subtitleDelay = (slot += 1) * STEP;
+const proofDelay = proof ? (slot += 1) * STEP : 0;
+const noteDelay = note ? (slot += 1) * STEP : 0;
+const ctaDelay = (slot + 1) * STEP;
 ---
 
 <section class="hero" id="hero" data-screen-label="Hero">
@@ -47,12 +59,34 @@ const STEP = 80;
     </h1>
     <p
       class="hero-sub reveal"
-      style={`--reveal-delay:${(lines.length + 1) * STEP}ms`}
+      style={`--reveal-delay:${subtitleDelay}ms`}
       {...editableText(editablePrefix, 'subtitle', 'text')}
     >
       {subtitle}
     </p>
-    <div class="hero-cta reveal" style={`--reveal-delay:${(lines.length + 2) * STEP}ms`}>
+    {
+      proof && (
+        <p
+          class="hero-proof reveal"
+          style={`--reveal-delay:${proofDelay}ms`}
+          {...editableText(editablePrefix, 'proof')}
+        >
+          {proof}
+        </p>
+      )
+    }
+    {
+      note && (
+        <p
+          class="hero-note reveal"
+          style={`--reveal-delay:${noteDelay}ms`}
+          {...editableText(editablePrefix, 'note', 'text')}
+        >
+          {note}
+        </p>
+      )
+    }
+    <div class="hero-cta reveal" style={`--reveal-delay:${ctaDelay}ms`}>
       <a href={primaryCta.href} class="btn btn-solid-ink btn-lg">
         <span {...editableText(childPrefix(editablePrefix, 'primaryCta'), 'label')}>
           {primaryCta.label}
@@ -157,6 +191,23 @@ const STEP = 80;
     font-size: 18px;
     line-height: 1.55;
     color: var(--editorial-ink-muted);
+  }
+  .hero-proof {
+    margin: -20px auto 24px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 1.3;
+    color: var(--editorial-ink);
+  }
+  .hero-note {
+    margin: 0 auto 36px;
+    max-width: 560px;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--editorial-ink-muted);
+    text-wrap: pretty;
   }
   .hero-cta {
     display: flex;

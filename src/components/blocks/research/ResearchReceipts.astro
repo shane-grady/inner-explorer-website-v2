@@ -14,7 +14,8 @@ export interface Study {
   title: string;
   authors: string;
   institution: string;
-  journal: string;
+  /** Design · year · status · venue, e.g. "RCT · 2018 · Published · Learning & Instruction". */
+  credential: string;
   leadStat: string;
   leadLabel: string;
 }
@@ -73,10 +74,15 @@ const rowPrefix = itemPrefix(studiesPrefix);
       {
         studies.map((s) => {
           const doctoral = s.tag.toLowerCase().includes('doctoral');
+          // Ranges like "+18–27%" need a smaller size to stay on one line.
+          const long = s.leadStat.length > 5;
           return (
             <li class="row reveal" id={`r-${s.id}`} {...editableItem(studiesPrefix)}>
               <div class="row-result">
-                <div class="row-result-stat" {...editableText(rowPrefix, 'leadStat')}>
+                <div
+                  class:list={['row-result-stat', { long }]}
+                  {...editableText(rowPrefix, 'leadStat')}
+                >
                   {s.leadStat}
                 </div>
                 <p class="row-result-label" {...editableText(rowPrefix, 'leadLabel')}>
@@ -85,18 +91,17 @@ const rowPrefix = itemPrefix(studiesPrefix);
               </div>
               <div class="row-body">
                 <p class="row-kicker">
-                  <span class:list={['tag', { doctoral }]} {...editableText(rowPrefix, 'tag')}>
-                    {s.tag}
+                  <span class:list={['tag', { doctoral }]} aria-hidden="true" />
+                  <span class="row-credential" {...editableText(rowPrefix, 'credential')}>
+                    {s.credential}
                   </span>
-                  <span class="row-year">{s.year}</span>
                 </p>
                 <h3 class="row-title" {...editableText(rowPrefix, 'title')}>
                   {s.title}
                 </h3>
                 <p class="row-meta">
-                  <strong {...editableText(rowPrefix, 'authors')}>{s.authors}</strong> ·{' '}
-                  <span {...editableText(rowPrefix, 'institution')}>{s.institution}</span> ·{' '}
-                  <em {...editableText(rowPrefix, 'journal')}>{s.journal}</em>
+                  <span {...editableText(rowPrefix, 'authors')}>{s.authors}</span> ·{' '}
+                  <strong {...editableText(rowPrefix, 'institution')}>{s.institution}</strong>
                 </p>
               </div>
             </li>
@@ -184,6 +189,7 @@ const rowPrefix = itemPrefix(studiesPrefix);
     font-size: 19px;
     line-height: 1.6;
     color: var(--editorial-ink-muted);
+    text-wrap: pretty;
   }
 
   .rows {
@@ -226,7 +232,11 @@ const rowPrefix = itemPrefix(studiesPrefix);
     line-height: 0.92;
     letter-spacing: -0.03em;
     color: var(--color-brand);
+    white-space: nowrap;
     transition: transform 400ms var(--ease-out);
+  }
+  .row-result-stat.long {
+    font-size: clamp(44px, 4.6vw, 72px);
   }
   .row-result-label {
     margin: 0;
@@ -235,6 +245,7 @@ const rowPrefix = itemPrefix(studiesPrefix);
     font-weight: 500;
     line-height: 1.45;
     color: var(--editorial-ink-muted);
+    text-wrap: pretty;
   }
 
   /* Content column — title leads as the heading; the date is a quiet kicker. */
@@ -245,43 +256,35 @@ const rowPrefix = itemPrefix(studiesPrefix);
   }
   .row-kicker {
     display: flex;
-    align-items: center;
-    gap: 16px;
+    align-items: baseline;
+    gap: 12px;
     margin: 0;
   }
-  .row-year {
-    font-size: 13px;
-    font-weight: 500;
-    line-height: 1;
-    letter-spacing: 0.16em;
-    color: var(--editorial-ink-muted);
-    font-variant-numeric: tabular-nums;
-  }
-  .tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 10px;
+  .row-credential {
+    font-size: 11px;
     font-weight: 600;
-    line-height: 1;
-    letter-spacing: 0.18em;
+    line-height: 1.5;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--color-brand);
+    text-wrap: pretty;
   }
-  .tag::before {
-    content: '';
+  /* Study-design marker: brand for trials, muted for doctoral research. */
+  .tag {
+    flex: none;
     width: 8px;
     height: 8px;
     border-radius: 50%;
     background: var(--color-brand);
     box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-brand) 18%, transparent);
+    transform: translateY(-1px);
   }
   .tag.doctoral {
-    color: var(--editorial-ink-muted);
-  }
-  .tag.doctoral::before {
     background: var(--editorial-ink-muted);
     box-shadow: 0 0 0 3px color-mix(in oklab, var(--editorial-ink) 8%, transparent);
+  }
+  .tag.doctoral + .row-credential {
+    color: var(--editorial-ink-muted);
   }
   .row-title {
     margin: 0;
@@ -299,10 +302,12 @@ const rowPrefix = itemPrefix(studiesPrefix);
     font-size: 13px;
     line-height: 1.45;
     color: var(--editorial-ink-muted);
+    text-wrap: pretty;
   }
   .row-meta strong {
     color: var(--editorial-ink);
     font-weight: 500;
+    white-space: nowrap; /* keep the institution on one line */
   }
 
   /* Reveal-on-scroll — content is fully visible by default, so no-JS and SEO

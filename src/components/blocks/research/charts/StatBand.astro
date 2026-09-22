@@ -1,0 +1,127 @@
+---
+/** A band of display-size results — school- and district-supplied figures rather
+ *  than a chart of trial data, so `stat` is display text ("−80%"), not a number. */
+export interface StatBandDatum {
+  stat: string;
+  label: string;
+}
+interface Props {
+  title: string;
+  /** Set small and muted above the tiles — the source-line style. */
+  subtitle: string;
+  foot: string;
+  data: StatBandDatum[];
+}
+const { title, subtitle, foot, data }: Props = Astro.props;
+---
+
+<figure class="chart" data-anim>
+  <figcaption class="head">
+    <div class="title">{title}</div>
+    <div class="sub">{subtitle}</div>
+  </figcaption>
+  <div class="band">
+    {
+      data.map((d, i) => (
+        <div class="tile" style={`--d:${i * 120}ms`}>
+          <div class="stat">{d.stat}</div>
+          <div class="label">{d.label}</div>
+        </div>
+      ))
+    }
+  </div>
+  <div class="foot">{foot}</div>
+</figure>
+
+<style>
+  .chart {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .head {
+    margin-bottom: 24px;
+  }
+  .title {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--editorial-ink);
+  }
+  .sub {
+    margin-top: 6px;
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--editorial-ink-muted);
+    text-wrap: pretty;
+  }
+  .band {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    align-content: start;
+    padding-bottom: 24px;
+  }
+  .tile {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    padding: 24px 20px;
+    border-radius: 16px;
+    background: color-mix(in oklab, var(--color-white) 50%, transparent);
+    border: 1px solid color-mix(in oklab, var(--editorial-ink) 6%, transparent);
+  }
+  :global([data-js-ready]) [data-anim]:not(.in) .tile {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  /* The transition lives on [data-anim].in, not on the resting rule: only the
+     reveal should animate. On the resting rule the initial visible -> hidden
+     reset would animate too, so the chart would visibly un-draw on load before
+     it could ever draw in. */
+  [data-anim].in .tile {
+    transition:
+      opacity 700ms var(--ease-out),
+      transform 700ms var(--ease-out);
+    transition-delay: var(--d);
+  }
+  .stat {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(36px, 4vw, 48px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--color-brand);
+  }
+  .label {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--editorial-ink-muted);
+    text-wrap: pretty;
+  }
+  .foot {
+    margin-top: auto;
+    padding-top: 18px;
+    font-size: 11px;
+    font-style: italic;
+    line-height: 1.4;
+    color: var(--editorial-ink-muted);
+    border-top: 1px solid color-mix(in oklab, var(--editorial-ink) 10%, transparent);
+  }
+  @media (max-width: 480px) {
+    .band {
+      grid-template-columns: 1fr;
+    }
+    .tile {
+      padding: 20px 18px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tile {
+      transition: none;
+    }
+  }
+</style>

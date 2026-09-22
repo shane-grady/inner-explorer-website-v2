@@ -4,6 +4,8 @@ import BeforeAfterChart, { type BADatum } from './charts/BeforeAfterChart.astro'
 import DialChart, { type DialDatum } from './charts/DialChart.astro';
 import LineChart, { type LineDatum } from './charts/LineChart.astro';
 import CompetenciesChart, { type CompDatum } from './charts/CompetenciesChart.astro';
+import PyramidChart, { type PyramidDatum } from './charts/PyramidChart.astro';
+import StatBand, { type StatBandDatum } from './charts/StatBand.astro';
 import type { Study } from './ResearchReceipts.astro';
 import {
   editableArray,
@@ -13,21 +15,26 @@ import {
   type EditablePrefix,
 } from '../../../lib/editable';
 
-export type ChartKind = 'bars' | 'before-after' | 'dial' | 'line' | 'competencies';
+// Kept to single-line unions: the Astro compiler trips on a leading `|` in frontmatter.
+type TrialChart = 'bars' | 'before-after' | 'dial' | 'line' | 'competencies';
+export type ChartKind = TrialChart | 'pyramid' | 'stat-band';
+type TrialData = BarDatum[] | BADatum[] | DialDatum[] | LineDatum[] | CompDatum[];
 
 export interface Outcome {
   id: string;
   label: string;
   eyebrow: string;
-  /** Combined display: '+', '−', or '5' / '5/5'. */
+  /** Combined display: '+', '−', or '5' / '5/5'. Empty hides the stat tile. */
   statValue: string;
   statUnit: string;
   statCaption: string;
   headline: string;
   copy: string;
+  /** Further paragraphs after `copy`, for spreads that carry an argument. */
+  paragraphs?: string[];
   studyIds: string[];
   chart: ChartKind;
-  data: BarDatum[] | BADatum[] | DialDatum[] | LineDatum[] | CompDatum[];
+  data: TrialData | PyramidDatum[] | StatBandDatum[];
   chartTitle: string;
   chartSubtitle: string;
   chartFoot: string;
@@ -133,24 +140,36 @@ const splitStat = (value: string) => {
               <span class="spread-eyebrow" {...editableText(spreadPrefix, 'eyebrow')}>
                 {o.eyebrow}
               </span>
-              <div class="spread-stat">
-                <span class="stat-value">
-                  {sign && <span class="stat-sign">{sign}</span>}
-                  {rest}
-                </span>
-                <span class="stat-unit" {...editableText(spreadPrefix, 'statUnit')}>
-                  {o.statUnit}
-                </span>
-              </div>
-              <p class="stat-caption" {...editableText(spreadPrefix, 'statCaption')}>
-                {o.statCaption}
-              </p>
+              {o.statValue && (
+                <>
+                  <div class="spread-stat">
+                    <span class="stat-value">
+                      {sign && <span class="stat-sign">{sign}</span>}
+                      {rest}
+                    </span>
+                    <span class="stat-unit" {...editableText(spreadPrefix, 'statUnit')}>
+                      {o.statUnit}
+                    </span>
+                  </div>
+                  <p class="stat-caption" {...editableText(spreadPrefix, 'statCaption')}>
+                    {o.statCaption}
+                  </p>
+                </>
+              )}
               <h3 class="spread-h" {...editableText(spreadPrefix, 'headline')}>
                 {o.headline}
               </h3>
               <p class="spread-body" {...editableText(spreadPrefix, 'copy', 'text')}>
                 {o.copy}
               </p>
+              {o.paragraphs && o.paragraphs.length > 0 && (
+                /* A string array has no per-row field to bind — sidebar-only. */
+                <div class="spread-more">
+                  {o.paragraphs.map((p) => (
+                    <p class="spread-body">{p}</p>
+                  ))}
+                </div>
+              )}
               {o.studyIds.length > 0 && (
                 <div class="cites">
                   {o.studyIds.map((sid) => (
@@ -202,6 +221,22 @@ const splitStat = (value: string) => {
                   data={o.data as CompDatum[]}
                 />
               )}
+              {o.chart === 'pyramid' && (
+                <PyramidChart
+                  title={o.chartTitle}
+                  subtitle={o.chartSubtitle}
+                  foot={o.chartFoot}
+                  data={o.data as PyramidDatum[]}
+                />
+              )}
+              {o.chart === 'stat-band' && (
+                <StatBand
+                  title={o.chartTitle}
+                  subtitle={o.chartSubtitle}
+                  foot={o.chartFoot}
+                  data={o.data as StatBandDatum[]}
+                />
+              )}
             </div>
           </article>
         );
@@ -250,11 +285,12 @@ const splitStat = (value: string) => {
     text-transform: uppercase;
     opacity: 0.55;
   }
+  /* Sized so the one-line heading spans the column at desktop widths. */
   .chap-title {
     margin: 0 0 32px;
     font-family: var(--font-display);
     font-weight: 400;
-    font-size: clamp(44px, 6vw, 88px);
+    font-size: clamp(44px, 5.1vw, 74px);
     line-height: 1.02;
     letter-spacing: -0.02em;
     text-wrap: balance;
@@ -399,6 +435,7 @@ const splitStat = (value: string) => {
     font-size: 28px;
     line-height: 1.55;
     color: var(--editorial-ink-muted);
+    text-wrap: balance;
   }
   .spread-h {
     margin: 12px 0 0;
@@ -408,6 +445,7 @@ const splitStat = (value: string) => {
     font-size: clamp(28px, 3vw, 40px);
     line-height: 1.15;
     letter-spacing: -0.015em;
+    text-wrap: balance;
   }
   .spread-body {
     margin: 4px 0 0;
@@ -415,6 +453,15 @@ const splitStat = (value: string) => {
     font-size: 16px;
     line-height: 1.65;
     color: var(--editorial-ink);
+    text-wrap: pretty;
+  }
+  .spread-more {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .spread-more .spread-body {
+    margin: 0;
   }
   .cites {
     display: flex;
@@ -449,7 +496,6 @@ const splitStat = (value: string) => {
 
   .spread-viz {
     position: relative;
-    min-height: 460px;
     padding: 40px;
     border-radius: 24px;
     background: var(--editorial-paper-soft);
@@ -482,6 +528,11 @@ const splitStat = (value: string) => {
     .spread.flip .spread-copy,
     .spread.flip .spread-viz {
       order: 0;
+    }
+  }
+  @media (max-width: 600px) {
+    .spread-viz {
+      padding: 28px 24px;
     }
   }
 </style>

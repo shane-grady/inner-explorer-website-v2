@@ -1,6 +1,5 @@
 ---
 import {
-  childPrefix,
   editableArray,
   editableItem,
   editableText,
@@ -8,22 +7,28 @@ import {
   type EditablePrefix,
 } from '../../../lib/editable';
 
-interface Cta {
+export interface CtaAction {
   label: string;
   href: string;
+  /** Who this step is for — the card's kicker. */
+  audience: string;
+  /** One supporting line under the link. */
+  line: string;
 }
 interface Props {
   eyebrow: string;
   /** Headline lines. `face: 'sans'` switches to the sans-300 face; default is italic display. `em` colors brand. */
   lines: Array<{ text: string; face?: 'sans' | 'display'; em?: boolean }>;
   subtitle: string;
-  primary: Cta;
-  secondary?: Cta;
+  /** Three next steps; the first renders as the solid button. */
+  actions: CtaAction[];
+  /** The last words on the page, under the actions. */
+  closing: string;
   /** CloudCannon path prefix for this block's fields (e.g. 'cta'). Omit on routes
    *  not backed by a `pages` collection entry. See lib/editable.ts. */
   editablePrefix?: EditablePrefix;
 }
-const { eyebrow, lines, subtitle, primary, secondary, editablePrefix }: Props = Astro.props;
+const { eyebrow, lines, subtitle, actions, closing, editablePrefix }: Props = Astro.props;
 const linePrefix = itemPrefix(editablePrefix);
 ---
 
@@ -47,38 +52,43 @@ const linePrefix = itemPrefix(editablePrefix);
       }
     </h2>
     <p class="sub" {...editableText(editablePrefix, 'subtitle', 'text')}>{subtitle}</p>
-    <div class="btns">
-      <a href={primary.href} class="btn btn-solid-ink btn-lg">
-        <span {...editableText(childPrefix(editablePrefix, 'primary'), 'label')}>
-          {primary.label}
-        </span>
-        <svg
-          width="14"
-          height="14"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
-        >
-          <path d="M5 12h14"></path>
-          <path d="M12 5l7 7-7 7"></path>
-        </svg>
-      </a>
+    <ul class="actions" {...editableArray(editablePrefix, 'actions')}>
       {
-        secondary && (
-          <a
-            href={secondary.href}
-            class="btn btn-ghost-paper btn-lg"
-            {...editableText(childPrefix(editablePrefix, 'secondary'), 'label')}
-          >
-            {secondary.label}
-          </a>
-        )
+        actions.map((a, i) => (
+          <li class="action" {...editableItem(editablePrefix)}>
+            <span class="action-for" {...editableText(linePrefix, 'audience')}>
+              {a.audience}
+            </span>
+            <a
+              href={a.href}
+              class:list={['btn', 'btn-lg', i === 0 ? 'btn-solid-ink' : 'btn-ghost-paper']}
+            >
+              <span {...editableText(linePrefix, 'label')}>{a.label}</span>
+              {i === 0 && (
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M5 12h14" />
+                  <path d="M12 5l7 7-7 7" />
+                </svg>
+              )}
+            </a>
+            <p class="action-line" {...editableText(linePrefix, 'line', 'text')}>
+              {a.line}
+            </p>
+          </li>
+        ))
       }
-    </div>
+    </ul>
+    <p class="closing" {...editableText(editablePrefix, 'closing', 'text')}>{closing}</p>
   </div>
 </section>
 
@@ -142,17 +152,65 @@ const linePrefix = itemPrefix(editablePrefix);
     color: var(--color-brand);
   }
   .sub {
-    margin: 0 auto 40px;
+    margin: 0 auto 56px;
     max-width: 580px;
     font-size: 18px;
     line-height: 1.55;
     color: var(--editorial-ink-muted);
+    text-wrap: pretty;
   }
-  .btns {
+
+  /* Three next steps, one card each: who it's for → the link → one line. */
+  .actions {
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
+    max-width: 1040px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    text-align: left;
+  }
+  .action {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 12px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 28px 28px 30px;
+    border-radius: 20px;
+    background: var(--editorial-paper-soft);
+    border: 1px solid color-mix(in oklab, var(--editorial-ink) 8%, transparent);
+  }
+  .action-for {
+    min-height: 2.6em;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--editorial-ink-muted);
+    text-wrap: balance;
+  }
+  .action-line {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--editorial-ink-muted);
+    text-wrap: pretty;
+  }
+  .closing {
+    margin: 56px auto 0;
+    max-width: 920px;
+    padding-top: 36px;
+    border-top: 1px solid color-mix(in oklab, var(--editorial-ink) 12%, transparent);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(20px, 2vw, 24px);
+    line-height: 1.5;
+    letter-spacing: -0.005em;
+    color: var(--editorial-ink);
+    text-wrap: pretty;
   }
   .btn {
     display: inline-flex;
@@ -199,6 +257,16 @@ const linePrefix = itemPrefix(editablePrefix);
     transition:
       opacity 900ms var(--ease-out),
       transform 900ms var(--ease-out);
+  }
+
+  @media (max-width: 820px) {
+    .actions {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    .action-for {
+      min-height: 0;
+    }
   }
 </style>
 

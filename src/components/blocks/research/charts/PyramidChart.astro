@@ -1,0 +1,259 @@
+---
+/** The Learning Pyramid: three tiers, listed top → bottom. The bottom tier (what
+ *  mindfulness practice builds) is the dark one; the two above (what most academic
+ *  and SEL programs address) lighten toward the apex. */
+export interface PyramidDatum {
+  label: string;
+  sub: string;
+}
+interface Props {
+  title: string;
+  subtitle: string;
+  foot: string;
+  data: PyramidDatum[];
+  apexLabel?: string;
+  legendLight?: string;
+  legendDark?: string;
+}
+const {
+  title,
+  subtitle,
+  foot,
+  data,
+  apexLabel = 'Highest potential',
+  legendLight = 'Most academic & SEL programs',
+  legendDark = 'Mindfulness practices',
+}: Props = Astro.props;
+const description = data.map((d) => `${d.label} (${d.sub})`).join(', then ');
+---
+
+<figure class="chart" data-anim>
+  <figcaption class="head">
+    <div class="title">{title}</div>
+    <div class="sub">{subtitle}</div>
+  </figcaption>
+  <div class="pyramid-wrap">
+    <div class="apex">{apexLabel}</div>
+    <div class="pyramid" role="img" aria-label={`Pyramid, top to bottom: ${description}`}>
+      {
+        data.map((d, i) => (
+          <div class="tier" style={`--d:${(data.length - 1 - i) * 140}ms`}>
+            <span class="tier-label">{d.label}</span>
+            <span class="tier-sub">{d.sub}</span>
+          </div>
+        ))
+      }
+    </div>
+    <div class="legend">
+      <span class="pill pill-light">{legendLight}</span>
+      <span class="pill pill-dark">{legendDark}</span>
+    </div>
+  </div>
+  <div class="foot">{foot}</div>
+</figure>
+
+<style>
+  .chart {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .head {
+    margin-bottom: 20px;
+  }
+  .title {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--editorial-ink);
+  }
+  .sub {
+    margin-top: 4px;
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--editorial-ink-muted);
+    text-wrap: pretty;
+  }
+  /* Not flex: 1 — an aspect-ratio child has no min-content height in a flex
+     column, so a grown wrapper would let the pyramid spill over the foot. */
+  .pyramid-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 24px;
+  }
+  .apex {
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--editorial-ink-muted);
+  }
+
+  /* One triangle cut into three tiers. Tier heights are 42 / 29 / 29 % of the whole,
+     so the polygon corners below continue a single slope from apex to base
+     (half-width at any depth = depth × 50%). Seams come from the gap. */
+  .pyramid {
+    width: 100%;
+    max-width: 440px;
+    aspect-ratio: 5 / 3.1;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .tier {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    padding: 0 8%;
+    text-align: center;
+  }
+  .tier:nth-child(1) {
+    flex: 0 0 42%;
+    justify-content: flex-end;
+    padding-bottom: 5%;
+    clip-path: polygon(50% 0, 71% 100%, 29% 100%);
+    background: color-mix(in oklab, var(--color-brand) 22%, var(--color-white));
+    color: var(--editorial-ink);
+  }
+  .tier:nth-child(2) {
+    flex: 0 0 29%;
+    clip-path: polygon(29% 0, 71% 0, 85.5% 100%, 14.5% 100%);
+    background: color-mix(in oklab, var(--color-brand) 55%, var(--color-white));
+    color: var(--editorial-ink);
+  }
+  .tier:nth-child(3) {
+    flex: 0 0 29%;
+    clip-path: polygon(14.5% 0, 85.5% 0, 100% 100%, 0 100%);
+    background: var(--brand-800);
+    color: var(--editorial-paper);
+  }
+  :global([data-js-ready]) [data-anim]:not(.in) .tier {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  /* The transition lives on [data-anim].in, not on the resting rule: only the
+     reveal should animate. On the resting rule the initial visible -> hidden
+     reset would animate too, so the chart would visibly un-draw on load before
+     it could ever draw in. */
+  [data-anim].in .tier {
+    transition:
+      opacity 700ms var(--ease-out),
+      transform 700ms var(--ease-out);
+    transition-delay: var(--d);
+  }
+  .tier-label {
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.005em;
+    text-wrap: balance;
+  }
+  .tier-sub {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.2;
+  }
+  .tier:nth-child(3) .tier-label,
+  .tier:nth-child(3) .tier-sub {
+    color: var(--editorial-paper);
+  }
+
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 6px;
+  }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: 9999px;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    white-space: nowrap;
+  }
+  .pill::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+  .pill-light {
+    color: var(--editorial-ink);
+    background: var(--color-white);
+    border: 1px solid color-mix(in oklab, var(--editorial-ink) 10%, transparent);
+  }
+  .pill-light::before {
+    background: color-mix(in oklab, var(--color-brand) 55%, var(--color-white));
+  }
+  .pill-dark {
+    color: var(--editorial-paper);
+    background: var(--brand-800);
+  }
+  .pill-dark::before {
+    background: var(--editorial-paper);
+  }
+
+  .foot {
+    margin-top: auto;
+    padding-top: 18px;
+    font-size: 11px;
+    font-style: italic;
+    line-height: 1.4;
+    color: var(--editorial-ink-muted);
+    border-top: 1px solid color-mix(in oklab, var(--editorial-ink) 10%, transparent);
+    text-wrap: pretty;
+  }
+
+  /* Phones: the card is too narrow for text inside a true triangle, so the tiers
+     become a stepped stack — still narrowing toward the top, text still inside. */
+  @media (max-width: 560px) {
+    .pyramid {
+      aspect-ratio: auto;
+      gap: 4px;
+      align-items: center;
+    }
+    .tier,
+    .tier:nth-child(1),
+    .tier:nth-child(2),
+    .tier:nth-child(3) {
+      flex: 0 0 auto;
+      clip-path: none;
+      justify-content: center;
+      padding: 14px 16px;
+      border-radius: 10px;
+    }
+    .tier:nth-child(1) {
+      width: 64%;
+    }
+    .tier:nth-child(2) {
+      width: 82%;
+    }
+    .tier:nth-child(3) {
+      width: 100%;
+    }
+    .tier-label {
+      font-size: 12px;
+    }
+    .tier-sub {
+      font-size: 13px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tier {
+      transition: none;
+    }
+  }
+</style>
