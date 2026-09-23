@@ -8,21 +8,21 @@ hero:
   display: your learning community.
   intro: Every plan includes the full library of daily audio-guided practices, PreK through 12, in English and Spanish. Compare the three site licenses below and choose the one that fits your school, center, or district.
 plans:
-  note: All plans are annual per site licenses. Reach out and our team will confirm pricing for your school, center, or district.
+  note: All plans are annual per site licenses. Reach out with any questions about which plan fits your school, center, or district.
   items:
     - id: early
       name: Early Learning
       price: $1,200
       unit: per center, per year
       blurb: Annual per site license for early learning, out-of-school-time, and after-school centers.
-      ctaLabel: Contact for pricing
+      ctaLabel: Contact us
       ctaHref: /contact
     - id: community
       name: Community
       price: $2,800
       unit: per school, per year
       blurb: Annual per site license for a single school, with admin dashboards, single sign-on, and onboarding.
-      ctaLabel: Contact for pricing
+      ctaLabel: Contact us
       ctaHref: /contact
       highlight: true
     - id: pro
