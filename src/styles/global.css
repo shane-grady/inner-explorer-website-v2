@@ -442,6 +442,23 @@ body.cms-editor-active [data-anim] {
   color: var(--color-foreground);
 }
 
+/* Help Center (help.innerexplorer.com) — darker secondary text. Readers flagged the
+   default muted gray (neutral-500) as hard to read on the light gray / white help
+   surfaces, so the help subtree steps muted text up to neutral-700 (~9:1 on
+   `--background`, well past AA) while staying a clear step lighter than body text.
+   Re-pins `--color-muted-foreground` for the same reason `.appearance-light` does,
+   and also targets nested `.appearance-light` wrappers (help pages add their own),
+   which would otherwise re-assert the default. */
+.appearance-help,
+.appearance-help .appearance-light {
+  --muted-foreground: var(--neutral-700);
+  --color-muted-foreground: var(--muted-foreground);
+}
+.appearance-help ::placeholder {
+  color: var(--color-muted-foreground);
+  opacity: 1;
+}
+
 .dark {
   /* 2. Semantic tokens — DARK (auto-applied to semantic utilities under .dark). */
   --background: var(--neutral-950);
@@ -787,7 +804,7 @@ body.cms-editor-active [data-anim] {
   .prose-help > p:first-of-type {
     font-size: 1.1875rem;
     line-height: 1.62;
-    color: color-mix(in oklab, var(--color-foreground) 80%, transparent);
+    color: var(--color-foreground);
   }
   .prose-help h2 {
     margin: 2.1em 0 0.2em;
