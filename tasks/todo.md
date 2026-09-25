@@ -29,6 +29,18 @@ Build Doc v2 copy kept verbatim. Canvas only; the site build comes after approva
       close; the AI section kept apart; numbered citations. It also carries the first
       review's credibility fixes.
 - [x] Verified B across 15 interactive states: no clipping, contrast AA, copy diff.
+- [x] Second fresh-eyes review applied:
+  - One "Pause motion" control; the sparks settle after three pulses; the brain flips
+    to Mindful by itself once.
+  - ESSA Tier 1 under the hero buttons and by the evidence heading.
+  - The trials lead the wall; the meta-analysis becomes a "wider field" strip.
+  - The filter removes cards and announces "Showing n of 7".
+  - The AI section moves before the close and is quieter.
+  - The outcome heading no longer overstates; mobile gets a list with the panel under
+    the selected row.
+  - "The pause" becomes three steps; the summary form is leaner and shows the PDF.
+  - One selected-state style throughout.
+- [x] Published both directions to https://claude.ai/artifact/STFHdCwUK9t8XGEk2hbyts.
 
 Review:
 
