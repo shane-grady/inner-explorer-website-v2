@@ -1129,3 +1129,14 @@ usage to be consistent with.
 - **Publishing to a typed artifact (a Design canvas) needs `file_path`**, even when
   `files` + `root` carry every board. Pass `project/canvas.json` as the `file_path`
   and the boards in `files`.
+- **Decoration inside a heading must not add an element that becomes a block.** The
+  word-width accent bar was an absolutely positioned child of "biology". Absolute
+  positioning blockifies it, so `innerText` (and crawlers) read "It’s biology" with the
+  period on a separate line. The copy diff caught it. Draw the bar as the word's own
+  background instead: `background-image` + `background-size: 100% 4px` +
+  `padding-bottom`. Run the copy diff after any markup change inside copy, not only
+  after copy changes.
+- **After a context reset, the artifact won't overwrite boards this session didn't
+  publish.** Read each published board, then compare it with a regeneration from the
+  previous generator. Keep a snapshot of the generator (e.g. `gen_b_r3.py`) before
+  editing it, so that comparison is possible. Only then publish over it.

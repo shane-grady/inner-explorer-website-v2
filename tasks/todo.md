@@ -63,7 +63,24 @@ Build Doc v2 copy kept verbatim. Canvas only; the site build comes after approva
   - The bar is a word-width accent bar that clears the g/y descenders. This departs
     from the DS (title width), and the note says so. Verified in both motion states.
     Recommended B, or A if the stat can't be sourced.
-- [ ] Fold the chosen version into `Main.dc.html` and `B-Mobile-1.dc.html`.
+- [x] Shane then chose hero option 2 ("Headline + living brain") for the full page,
+      carrying round 4's larger lead line and word-width bar. The exploration rows stay
+      on the canvas, marked as kept for reference.
+  - `Main.dc.html` and `B-Mobile-1.dc.html`: the headline sits left, the line-art brain
+    right with a slim switch. The lead line is 26px (21px on a phone).
+  - The hero subtitle now opens 01 Evidence as a lead-in. It ends on "Here is the
+    proof." as a link down to the heading.
+  - Removed: the brain card, the flat brain image, the sparks and rings, and the hero
+    eyebrow.
+  - Verified in all 15 states:
+    - heights re-measured from scratch: Main 6907, B-Mobile-1 4908
+    - no clipping, AA contrast, one accent bar per board
+    - Caslon only on "biology." and the two pull quotes
+    - the copy diff against round 3 shows no claim lost
+  - The other B boards changed only by a removed, unused animation, so they weren't
+    re-published.
+- [ ] Before build: add the word-width accent bar to the design system (Shane's call),
+      or return to the title-width bar.
 
 Review:
 
