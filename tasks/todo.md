@@ -55,7 +55,15 @@ Build Doc v2 copy kept verbatim. Canvas only; the site build comes after approva
     AA contrast, 44px targets, Caslon only on "biology.", one accent bar.
   - Published as a "Hero options" row above Direction B, with a note. Main and the
     other B boards are untouched until Shane picks. Recommended: option 1.
-- [ ] Fold the chosen hero into `Main.dc.html` and `B-Mobile-1.dc.html`.
+- [x] Shane chose option 1 and asked for versions with a larger lead line and the accent
+      bar under "biology" only. Built three (desktop + mobile), in a new row above:
+  - A, "Lead up": the lead line at 32px (22px on a phone).
+  - B, "Weight on the number": 36px, with "Two of every three children" in bold white.
+  - C, "One statement": the lead line and the headline both at 56px, grey then white.
+  - The bar is a word-width accent bar that clears the g/y descenders. This departs
+    from the DS (title width), and the note says so. Verified in both motion states.
+    Recommended B, or A if the stat can't be sourced.
+- [ ] Fold the chosen version into `Main.dc.html` and `B-Mobile-1.dc.html`.
 
 Review:
 
