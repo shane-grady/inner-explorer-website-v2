@@ -19,6 +19,16 @@ Build Doc v2 copy kept verbatim. Canvas only; the site build comes after approva
       copy diff against the YAML.
 - [x] Fresh-eyes review by an independent reviewer; findings addressed.
 - [x] Canvas notes: "What changed & why" + CTA hierarchy, and "Before build — confirm".
+- [x] Shane: keep it off the Website canvas until final; it was "boring" compared with
+      the old page. Moved to its own canvas, "Research Page Redesign" (removed from the
+      Website canvas, along with its two uploaded images). Direction A kept there for
+      comparison.
+- [x] Direction B, "Two states": an interactive, dark hero with the neuron footage and
+      a Stressed/Mindful brain switch; a filterable colour study wall; an outcome
+      explorer; a sand-vs-foundation wall; the dose drawn as a school year; a breathing
+      close; the AI section kept apart; numbered citations. It also carries the first
+      review's credibility fixes.
+- [x] Verified B across 15 interactive states: no clipping, contrast AA, copy diff.
 
 Review:
 

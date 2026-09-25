@@ -1096,3 +1096,24 @@ usage to be consistent with.
 - **Accent bar under an italic Caslon word with descenders** ("biology."): the DS's
   8px gap lets the g/y descenders cross the bar. 18–20px clears them; this is an
   optical exception to note, not a new token.
+
+## 2026-09-25 — Interactive Design-canvas boards (Research, Direction B)
+
+- **Canvas asset ids belong to one artifact.** A board copied to another canvas keeps its
+  `/_blob/<id>` references, and they don't resolve there. Copy the assets with
+  `publish` + `asset: true` + `from_url` + `asset_ids` (10 per call), then rewrite every
+  id in the copied boards from the returned mapping. Assert that no id outside the new
+  canvas's set remains.
+- **The dc-runtime hands DOM attributes to React as-is**; only `class`, `for` and `on*`
+  are renamed. React then drops boolean attributes whose value is an empty string
+  (`loop`, `open`, `required`), and `muted` becomes a property. Write explicit values:
+  `muted="muted" loop="loop" autoplay="autoplay" playsinline="playsinline"`,
+  `<details open="open">`. A bare `<details open>` renders closed on the canvas.
+- **Interactive boards change height with state.** A fixed-height root clips whatever
+  grows. Render a preview per state (the generator resolves `sc-if` from a state dict)
+  and measure. Put the extra room at the end of the board, painted in the last
+  section's colour, rather than a `min-height` on the panel, which leaves a hole under
+  every shorter state.
+- **Remove the fixed heights before re-measuring.** Once a root has `height: Npx`,
+  `scrollHeight` returns at least N, so adding the state allowance again inflates the
+  board each round (it grew 221px in one pass).
