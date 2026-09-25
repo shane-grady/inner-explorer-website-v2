@@ -1,5 +1,38 @@
 # Tasks — Inner Explorer Website
 
+## Research page redesign — Claude Design canvas (2026-09-25)
+
+Goal: redesign /research on the "Inner Explorer — Website" canvas so it fits the Inner
+Explorer design system (Inter-forward, subtle Libre Caslon, warm neutrals), with the
+Build Doc v2 copy kept verbatim. Canvas only; the site build comes after approval.
+
+- [x] Decisions with Shane: canvas artboards only; claims verbatim (headings, labels,
+      CTAs, order may change); show ESSA Tier 1; research summary gated by a short form.
+- [x] Boards: Research-Desktop-1..3 (1440), Research-Mobile-1..5 (390),
+      Research-Mobile-Scrolled (sticky outcome nav + bottom CTA bar). Header, footer,
+      helmet and button classes reused from the Why boards; brain illustrations uploaded.
+- [x] Generated from `src/content/pages/research.yml`, so every claim string is copied,
+      not retyped.
+- [x] Verified: board height = content height, no horizontal overflow, text contrast
+      ≥ AA on every text node, targets ≥ 44px (footer links 36px, as on sibling
+      boards), Caslon only in the 3 planned places, accent bar once per breakpoint,
+      copy diff against the YAML.
+- [x] Fresh-eyes review by an independent reviewer; findings addressed.
+- [x] Canvas notes: "What changed & why" + CTA hierarchy, and "Before build — confirm".
+
+Review:
+
+- Intentional copy changes: the roman-numeral chapter labels are dropped; the Brain
+  section's fifth paragraph (a repeat of the "house on sand" line) is cut and kept once,
+  as the Missing-layer pull quote. The hero eyebrow and the "See the evidence" button
+  are replaced ("The research behind Inner Explorer", "Get the research summary").
+- Presentation fix carried into the design: the generated citations printed
+  "Univ.." (institution already ends in a period). The live `ResearchCitations.astro`
+  has the same double period; fix it at build.
+- Open items for Shane are on the canvas (orange note). The main ones: an ESSA Tier 1
+  citation; the "independent researchers" line vs Bakosh being a co-founder;
+  "Burnout +12%" direction; stats that disagree with Home and Why; missing study URLs.
+
 ## Research page content swap — Build Doc v2 (2026-09-18)
 
 Goal: swap the /research copy and structure to the "Research Page — Build Doc v2"

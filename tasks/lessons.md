@@ -1065,3 +1065,34 @@ usage to be consistent with.
   column, so the table and its sticky header drift apart. Scope it to the component root
   (`.ie-cmp, .ie-cmp *`). Also: `calc()` percentage widths on table cells are ignored, so pass
   plain percentages.
+
+## 2026-09-25 — Research redesign on the Design canvas (cloud session)
+
+- **Headless Chromium can't open https pages through the cloud agent proxy**
+  (`net::ERR_CERT_AUTHORITY_INVALID`, even with `proxy` set, full Chromium or
+  headless shell). Don't disable TLS checks. Route the page's requests through Node,
+  which trusts `NODE_EXTRA_CA_CERTS`:
+  `newContext({ proxy: { server: process.env.HTTPS_PROXY } })` plus
+  `context.route('**/*', async r => r.fulfill({ response: await r.fetch() }))`.
+  That screenshots the live Netlify site fine.
+- **Artifact `read` of canvas asset ids works one id at a time.** `paths: [ids…]`
+  returned "not found through this cloud session's artifact mount" for every id, while
+  `path: "<id>"` saved the file. Fonts can come from the design system artifact as
+  normal files (`project/fonts/*.woff2`).
+- **Render canvas boards locally by rewriting `/_blob/<id>` to local files**, not by
+  routing. `file://` pages can't be intercepted, so replace the ids in a temp copy:
+  map font blob ids to `public/fonts/*.woff2` and photo ids to downloaded copies. Strip
+  `support.js`, and hide `<helmet>` with CSS.
+- **Generate big boards from the content YAML instead of hand-typing them.** A small
+  Python generator (sections as functions, desktop and mobile variants from one source)
+  kept every claim verbatim. It also made the copy diff mechanical: dump each board's
+  `innerText`, normalize quotes/nbsp/whitespace and case (innerText applies
+  `text-transform`), then check every YAML string. Closed `<details>` content is absent
+  from innerText, so collapsed mobile citations read as "missing". That's expected.
+- **Measure, then fix the board heights.** Render each board with an auto-height root,
+  read `scrollHeight`, write that as the board `h` and the root height, and re-render
+  to confirm `scrollHeight === h`. Small copy or layout tweaks shift it by a few px,
+  so re-measure after every change.
+- **Accent bar under an italic Caslon word with descenders** ("biology."): the DS's
+  8px gap lets the g/y descenders cross the bar. 18–20px clears them; this is an
+  optical exception to note, not a new token.
