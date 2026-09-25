@@ -1116,4 +1116,16 @@ usage to be consistent with.
   every shorter state.
 - **Remove the fixed heights before re-measuring.** Once a root has `height: Npx`,
   `scrollHeight` returns at least N, so adding the state allowance again inflates the
-  board each round (it grew 221px in one pass).
+  board each round (it grew 221px in one pass). This recurred in the hero round: a
+  board whose content got shorter still measured at its old fixed height.
+- **Reserve space in place when content changes without a click.** The brain flips to
+  Mindful by itself after about three seconds. If the caption box grows then, it pushes
+  down everything below it, and on the live page that counts as layout shift (CLS).
+  Size that box for its longest state. The room-at-the-end rule above is for
+  user-initiated toggles.
+- **A pulse with no pause control must finish within 5 seconds** (WCAG 2.2.2). Three
+  repeats at 1.8s ran 5.4s, so the duration is now 1.6s. A looping video still needs
+  the Pause motion control.
+- **Publishing to a typed artifact (a Design canvas) needs `file_path`**, even when
+  `files` + `root` carry every board. Pass `project/canvas.json` as the `file_path`
+  and the boards in `files`.

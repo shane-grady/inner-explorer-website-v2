@@ -41,6 +41,21 @@ Build Doc v2 copy kept verbatim. Canvas only; the site build comes after approva
   - "The pause" becomes three steps; the summary form is leaner and shows the PDF.
   - One selected-state style throughout.
 - [x] Published both directions to https://claude.ai/artifact/STFHdCwUK9t8XGEk2hbyts.
+- [x] Round 3: Shane found B's hero overwhelming (about ten things on the first
+      screen). He asked for both options, to compare, and a new line-art brain:
+  - Option 1, "Cinematic statement": a centred lead line, the two-line H1, the accent
+    bar, two buttons and one credentials line over dimmer footage. The brain switch,
+    paragraph and caption move to the next section, "Same brain. Two states."
+  - Option 2, "Headline + living brain": the headline sits left; the line-art brain sits
+    right with only a slim switch. The brain card's caption and paragraph leave the
+    first screen.
+  - The line-art brain (an inline SVG): labelled prefrontal cortex and amygdala; a coral
+    amygdala glow and pulse when stressed; a green prefrontal glow when mindful.
+  - Verified in the stressed, mindful and paused states at 1440 and 390: no clipping,
+    AA contrast, 44px targets, Caslon only on "biology.", one accent bar.
+  - Published as a "Hero options" row above Direction B, with a note. Main and the
+    other B boards are untouched until Shane picks. Recommended: option 1.
+- [ ] Fold the chosen hero into `Main.dc.html` and `B-Mobile-1.dc.html`.
 
 Review:
 
