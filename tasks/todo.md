@@ -1,5 +1,30 @@
 # Tasks — Inner Explorer Website
 
+## Narrators collection + profile redesign — Claude Design canvas (2026-09-29)
+
+Goal: redesign `/narrators/` and `/narrators/[slug]/` on the new Inner Explorer design
+system (Claude Design), Inter-forward with one italic Libre Caslon moment per page,
+aimed at district buyers (primary CTA "Request a demo" → /contact) and at SEO/GEO.
+Deliverable is a design canvas; the build is a separate step via `implement-design-handoff`.
+
+Canvas: https://claude.ai/artifact/SqXvpgp3MfFv246uh5EMN6 (private until shared)
+
+- [x] Six artboards: collection page (1440 + 390), full profile (Maya), sparse profile (Theo).
+- [x] DS installed on the canvas (tokens.json + ActionButton `bundle.css`); artboards use DS
+      token names as CSS vars, so the handoff maps straight onto tokens.
+- [x] Fresh-eyes review by a separate reviewer; fixes applied: removed ~40 play buttons with
+      no audio behind them, bracketed unverified figures, Caslon ligature, alt text,
+      mobile/desktop copy parity, search-field contrast, card meta alignment, youth-panel
+      quote credited, open transcript, earlier mobile CTA.
+- [ ] Confirm the facts in the canvas "To confirm" note (schools count, Maya's numbers and
+      languages, youth-panel size, portrait identities, transcript, practice URLs, /apply).
+- [ ] Before building: map `global.css` semantic tokens onto the DS values (green-500/400,
+      warm neutrals, radius 8/12, action/focus tokens). Site-wide re-skin, do it deliberately.
+- [ ] Build notes: add `font-variant-ligatures: no-common-ligatures` to the Caslon display
+      style; add a pill radius token and an icon/round `ie-btn` variant; render all 30 cards
+      on mobile (CSS collapse); add a `voiceSample` field before restoring card previews;
+      decide `noindex` vs. catalogue data for the 26 sparse profiles.
+
 ## Research page content swap — Build Doc v2 (2026-09-18)
 
 Goal: swap the /research copy and structure to the "Research Page — Build Doc v2"
