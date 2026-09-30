@@ -1140,3 +1140,8 @@ usage to be consistent with.
   publish.** Read each published board, then compare it with a regeneration from the
   previous generator. Keep a snapshot of the generator (e.g. `gen_b_r3.py`) before
   editing it, so that comparison is possible. Only then publish over it.
+- **Copy that moves into a state-dependent panel disappears from the default-state
+  diff.** Moving each outcome's sub-label from its always-visible tab into its panel
+  made the diff report five labels "missing". Before accepting that, check each moved
+  string in the state that shows it (`oc=1…5`). The diff only proves presence per
+  state.

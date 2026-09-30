@@ -79,6 +79,28 @@ Build Doc v2 copy kept verbatim. Canvas only; the site build comes after approva
     - the copy diff against round 3 shows no claim lost
   - The other B boards changed only by a removed, unused animation, so they weren't
     re-published.
+- [x] Finalizing B: Shane found 01 Evidence and 02 Outcomes overcrowded. Changes:
+  - The hero subtitle moved into its own dark band after the hero, so 01 starts with
+    its heading.
+  - Evidence:
+    - The filter chips and legend now share one row; "Showing n of 7" is for screen
+      readers only.
+    - The wall is three across (the DS pattern), with 24px card padding.
+    - Each card's title is now its study link, which replaces the "Read the study"
+      row.
+    - The credentials card left the wall; it closes the section with the research
+      partners (now 3 columns).
+  - Outcomes:
+    - The tabs are a horizontal scoreboard (stat over label), so the panel gets the full
+      width in a 5/7 split.
+    - The sub-label became the panel kicker, replacing "ACADEMICS 01 / 06".
+    - One source line, linked to the study cards, replaces the source chips.
+    - The chart card is flat on mobile.
+  - Verified in all 15 states:
+    - Main 7386, B-Mobile-1 5060, B-Mobile-2 6342
+    - no clipping, AA contrast, one accent bar
+    - the copy diff shows no claim lost; each moved sub-label was checked in its own
+      open state
 - [ ] Before build: add the word-width accent bar to the design system (Shane's call),
       or return to the title-width bar.
 
