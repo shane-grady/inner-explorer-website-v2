@@ -1153,3 +1153,8 @@ usage to be consistent with.
 - **A busy shared canvas can refuse a publish even when its index hasn't changed.** If it
   says you haven't viewed the latest version, read the whole artifact (`read` with `url`
   only, no `path`), re-apply the change on the fresh index and publish again.
+- **Check a comment thread for a Claude reply before starting work on it.** On the
+  Website Rebuild canvas, another Claude session on the account answered two comment
+  webhooks within a minute or two, before this session finished the same work. When a
+  comment event arrives, read the thread first. Then read it again just before publishing,
+  and skip it if a Claude reply is already there.
