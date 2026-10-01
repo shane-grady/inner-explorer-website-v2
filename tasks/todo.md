@@ -112,6 +112,16 @@ Build Doc v2 copy kept verbatim. Canvas only; the site build comes after approva
     build — confirm" list.
   - The staged boards match the verified boards apart from asset ids and titles.
   - Also fixed two out-of-date mobile board titles on the Research canvas.
+- [x] Website Rebuild canvas comment round (2026-10-01), five threads, replied and resolved:
+  - Contact: the "Book a 30-minute call" button is removed (on desktop, with its label).
+  - Why hero: "2,000,000+ students reached" replaces the nonprofit line.
+  - Why: the "On this page" navigation is removed.
+  - MTSS pyramid:
+    - It's larger, and each tier row is aligned with its band.
+    - The foundation row is level with the Inner Explorer box.
+    - Tier 3 now carries "Individualized support".
+  - A new "Practice, not curriculum" concept is on the WHY IE Working page (desktop and
+    mobile), with the comparison as the focal point and Inter only.
 - [ ] Before build: add the word-width accent bar to the design system (Shane's call),
       or return to the title-width bar.
 
