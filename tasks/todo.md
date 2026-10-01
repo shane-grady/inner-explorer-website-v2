@@ -101,6 +101,17 @@ Build Doc v2 copy kept verbatim. Canvas only; the site build comes after approva
     - no clipping, AA contrast, one accent bar
     - the copy diff shows no claim lost; each moved sub-label was checked in its own
       open state
+- [x] Added the finished page to the Inner Explorer Website Rebuild canvas
+      (https://claude.ai/artifact/6gx8tapeaDzTeSSMD7R31s), after About Us, at x 25830.
+  - Boards: Research-Desktop-1 and -2, Research-Mobile-1 to -4 and
+    Research-Mobile-Scrolled. They were renamed because that canvas's `Main.dc.html` is
+    Home.
+  - The 12 assets (fonts, logos, neuron poster and video) were copied across and their
+    ids rewritten. The copies' checksums match the originals.
+  - Notes on that canvas: a Research title, a "What changed & why" note and the "Before
+    build — confirm" list.
+  - The staged boards match the verified boards apart from asset ids and titles.
+  - Also fixed two out-of-date mobile board titles on the Research canvas.
 - [ ] Before build: add the word-width accent bar to the design system (Shane's call),
       or return to the title-width bar.
 

@@ -1145,3 +1145,11 @@ usage to be consistent with.
   made the diff report five labels "missing". Before accepting that, check each moved
   string in the state that shows it (`oc=1…5`). The diff only proves presence per
   state.
+- **Moving boards to another canvas means renaming them and copying their assets.**
+  Every canvas names its entry board `Main.dc.html`, so check for name collisions first.
+  Blob ids belong to one canvas: copy the assets with `asset: true` + `from_url`, then
+  rewrite the ids. Assert that no source id remains, and diff each staged board against
+  the verified source after reversing the id map; only ids and titles should differ.
+- **A busy shared canvas can refuse a publish even when its index hasn't changed.** If it
+  says you haven't viewed the latest version, read the whole artifact (`read` with `url`
+  only, no `path`), re-apply the change on the fresh index and publish again.
