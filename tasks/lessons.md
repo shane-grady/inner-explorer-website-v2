@@ -1065,3 +1065,9 @@ usage to be consistent with.
   column, so the table and its sticky header drift apart. Scope it to the component root
   (`.ie-cmp, .ie-cmp *`). Also: `calc()` percentage widths on table cells are ignored, so pass
   plain percentages.
+- **Escape every attribute value you generate (`alt`, `aria-label`, `title`).** A double quote
+  inside `alt="…"` (quoting an on-screen title) ended the attribute early. The Design canvas
+  then showed the whole board blank. A collaborator's next edit in that broken state also
+  nested one section inside another. Run generated values through `html.escape(v, quote=True)`
+  (or leave quotes out of descriptive text), and before publishing, parse every `<img>`/`<a>`
+  tag you inserted and assert its attributes are well-formed.
