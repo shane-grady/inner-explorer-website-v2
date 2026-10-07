@@ -1,0 +1,390 @@
+---
+/**
+ * Component library tracker — which components are on-system and which still drift.
+ * Scores are measured from source on every build (src/lib/component-health.ts);
+ * sign-offs, notes and consolidation families live in src/data/component-registry.ts.
+ */
+import PageLayout from '../../layouts/PageLayout.astro';
+import Container from '../../components/primitives/Container.astro';
+import Section from '../../components/layout/Section.astro';
+import Heading from '../../components/primitives/Heading.astro';
+import Text from '../../components/primitives/Text.astro';
+import Badge from '../../components/primitives/Badge.astro';
+import Link from '../../components/primitives/Link.astro';
+import {
+  getComponentHealth,
+  STATUS_LABEL,
+  THRESHOLDS,
+  type HealthStatus,
+} from '../../lib/component-health';
+import { families } from '../../data/component-registry';
+
+const components = getComponentHealth();
+const byPath = new Map(components.map((c) => [c.path, c]));
+const statuses: HealthStatus[] = ['good', 'minor', 'major'];
+
+const totals = Object.fromEntries(
+  statuses.map((s) => [s, components.filter((c) => c.status === s).length]),
+) as Record<HealthStatus, number>;
+const onSystemPct = Math.round((totals.good / components.length) * 100);
+
+// Foundation folders first, then page-specific block folders A–Z.
+const AREA_ORDER = ['primitives', 'layout', 'seo', 'integrations', 'blocks (shared)'];
+const areaNames = [...new Set(components.map((c) => c.area))].sort((a, b) => {
+  const ia = AREA_ORDER.indexOf(a);
+  const ib = AREA_ORDER.indexOf(b);
+  if (ia !== -1 || ib !== -1) return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib);
+  return a.localeCompare(b);
+});
+const areas = areaNames.map((name) => {
+  const items = components.filter((c) => c.area === name);
+  const counts = Object.fromEntries(
+    statuses.map((s) => [s, items.filter((c) => c.status === s).length]),
+  ) as Record<HealthStatus, number>;
+  return { name, items, counts };
+});
+
+const worst = components.filter((c) => c.status === 'major').slice(0, 10);
+const worstMax = worst[0]?.score ?? 1;
+
+const tone = {
+  good: { dot: 'bg-success', ground: 'bg-success/10 border-success' },
+  minor: { dot: 'bg-warning', ground: 'bg-warning/10 border-warning' },
+  major: { dot: 'bg-danger', ground: 'bg-danger/10 border-danger' },
+} satisfies Record<HealthStatus, { dot: string; ground: string }>;
+
+const statusHint: Record<HealthStatus, string> = {
+  good: `Score 0–${THRESHOLDS.good} · reuse freely`,
+  minor: `Score ${THRESHOLDS.good + 1}–${THRESHOLDS.minor} · tidy when you touch it`,
+  major: `Score ${THRESHOLDS.minor + 1}+ · refactor before reuse`,
+};
+
+const filters = [{ id: 'all', label: `All (${components.length})` }].concat(
+  statuses.map((s) => ({ id: s, label: `${STATUS_LABEL[s]} (${totals[s]})` })),
+);
+---
+
+<PageLayout
+  title="Component Library — Inner Explorer"
+  description="Which components are standardized and which still drift from the design system."
+  noindex
+>
+  <Section space="md">
+    <Container>
+      <div class="flex flex-wrap items-center gap-3">
+        <Badge tone="brand">Design system</Badge>
+        <Link href="/styleguide/" variant="subtle" class="text-sm">← Style guide</Link>
+      </div>
+      <Heading as="h1" size="xl" class="mt-4">Component library</Heading>
+      <Text size="lg" tone="muted" class="mt-3 max-w-2xl">
+        Every component on the site, scored for how much it relies on bespoke CSS instead of shared
+        tokens. Scores are measured on every build, so this page moves as we standardize.
+      </Text>
+
+      <!-- Summary -->
+      <div class="mt-10 grid grid-cols-2 gap-3 lg:grid-cols-4">
+        <div class="rounded-lg border border-border bg-card p-5">
+          <Text size="sm" tone="muted" weight="medium">Components tracked</Text>
+          <p class="mt-1 font-serif text-4xl text-foreground">{components.length}</p>
+          <Text size="sm" tone="muted">{onSystemPct}% on system</Text>
+        </div>
+        {
+          statuses.map((s) => (
+            <div class:list={['rounded-lg border p-5', tone[s].ground]}>
+              <p class="flex items-center gap-2 text-sm font-semibold text-foreground">
+                <span class:list={['size-2.5 rounded-full', tone[s].dot]} aria-hidden="true" />
+                {STATUS_LABEL[s]}
+              </p>
+              <p class="mt-1 font-serif text-4xl text-foreground">{totals[s]}</p>
+              <Text size="sm">{statusHint[s]}</Text>
+            </div>
+          ))
+        }
+      </div>
+      <div
+        class="mt-4 flex h-3 gap-0.5 overflow-hidden rounded-full"
+        role="img"
+        aria-label={statuses.map((s) => `${totals[s]} ${STATUS_LABEL[s].toLowerCase()}`).join(', ')}
+      >
+        {statuses.map((s) => <div class={tone[s].dot} style={`flex-grow: ${totals[s]}`} />)}
+      </div>
+
+      <details class="mt-6 max-w-2xl rounded-lg border border-border bg-card p-5">
+        <summary class="cursor-pointer font-medium text-foreground">How the score works</summary>
+        <div class="mt-3 space-y-2 text-sm text-muted-foreground">
+          <p>
+            <code>pnpm lint:drift</code> already blocks arbitrary Tailwind values and raw colors. What
+            it can't see is bespoke CSS inside scoped <code>&lt;style&gt;</code> blocks, so that is what
+            we count:
+          </p>
+          <ul class="list-disc space-y-1 pl-5">
+            <li>
+              <strong>Raw lengths</strong> — px/rem/em values instead of the spacing and type scales.
+            </li>
+            <li>
+              <strong>Palette refs</strong> (×2) — <code>var(--brand-600)</code> and friends, the private
+              palette instead of semantic tokens.
+            </li>
+            <li>
+              <strong>Page vars</strong> (×2) — page-only variables like <code>--editorial-*</code> or
+              <code>--series-*</code>.
+            </li>
+          </ul>
+          <p>
+            To sign off a component or leave a note, add it to <code
+              >src/data/component-registry.ts</code
+            >. A reviewed status overrides the measured one and is marked “Reviewed”.
+          </p>
+        </div>
+      </details>
+    </Container>
+  </Section>
+
+  <Section space="sm" surface="muted">
+    <Container>
+      <div class="grid grid-cols-1 gap-12 lg:grid-cols-2">
+        <div>
+          <Heading as="h2" size="md">Drift by area</Heading>
+          <Text tone="muted" class="mt-2">Foundations first, then page-specific block folders.</Text
+          >
+          <ul class="mt-6 space-y-3">
+            {
+              areas.map((a) => (
+                <li class="flex items-center gap-4">
+                  <a
+                    href={`#area-${a.name.replace(/\W+/g, '-')}`}
+                    class="w-36 shrink-0 truncate text-sm font-medium text-foreground hover:text-brand"
+                  >
+                    {a.name}
+                  </a>
+                  <div
+                    class="flex h-2.5 flex-1 gap-0.5 overflow-hidden rounded-full bg-border"
+                    role="img"
+                    aria-label={statuses
+                      .map((s) => `${a.counts[s]} ${STATUS_LABEL[s].toLowerCase()}`)
+                      .join(', ')}
+                  >
+                    {statuses.map((s) => (
+                      <div class={tone[s].dot} style={`flex-grow: ${a.counts[s]}`} />
+                    ))}
+                  </div>
+                  <span class="w-8 shrink-0 text-right text-sm text-muted-foreground">
+                    {a.items.length}
+                  </span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <div>
+          <Heading as="h2" size="md">Biggest drift</Heading>
+          <Text tone="muted" class="mt-2"
+            >The ten highest scores — best candidates to refactor next.</Text
+          >
+          <ol class="mt-6">
+            {
+              worst.map((c) => (
+                <li class="flex items-center gap-4 border-b border-border py-2.5">
+                  <span class="min-w-0 flex-1">
+                    <span class="block truncate font-medium text-foreground">{c.name}</span>
+                    <span class="block truncate text-xs text-muted-foreground">{c.path}</span>
+                  </span>
+                  <span class="h-2 w-24 shrink-0 overflow-hidden rounded-full bg-border">
+                    <span
+                      class="block h-full bg-danger"
+                      style={`width: ${Math.max(4, Math.round((c.score / worstMax) * 100))}%`}
+                    />
+                  </span>
+                  <span class="w-12 shrink-0 text-right text-sm font-semibold text-foreground">
+                    {c.score}
+                  </span>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+      </div>
+    </Container>
+  </Section>
+
+  <Section space="sm">
+    <Container>
+      <Heading as="h2" size="md">Consolidate these families</Heading>
+      <Text tone="muted" class="mt-2 max-w-2xl">
+        Same job, several hand-rolled versions. Fold each family into one shared block with
+        variants.
+      </Text>
+      <div class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          families.map((f) => (
+            <article class="flex flex-col gap-3 rounded-lg bg-card p-5 shadow-sm">
+              <div class="flex items-baseline justify-between gap-3">
+                <h3 class="font-semibold text-foreground">{f.name}</h3>
+                <Badge tone="neutral" class="shrink-0 text-xs">
+                  {f.members.length} versions
+                </Badge>
+              </div>
+              <ul class="flex flex-wrap gap-1.5">
+                {f.members.map((m) => {
+                  const c = byPath.get(m);
+                  return (
+                    <li class="inline-flex items-center gap-1.5 rounded-full border border-border px-2.5 py-0.5 text-xs text-foreground">
+                      {c && (
+                        <span
+                          class:list={['size-2 rounded-full', tone[c.status].dot]}
+                          aria-hidden="true"
+                        />
+                      )}
+                      {c
+                        ? f.members.filter((o) => o.endsWith(`/${c.name}.astro`)).length > 1
+                          ? `${c.area}/${c.name}`
+                          : c.name
+                        : m}
+                      {c && <span class="sr-only">({STATUS_LABEL[c.status]})</span>}
+                    </li>
+                  );
+                })}
+              </ul>
+              <Text size="sm" class="mt-auto">
+                <strong>Target:</strong> {f.target}
+              </Text>
+            </article>
+          ))
+        }
+      </div>
+    </Container>
+  </Section>
+
+  <Section space="sm" surface="muted">
+    <Container>
+      <div class="health">
+        <div class="flex flex-wrap items-end justify-between gap-4">
+          <Heading as="h2" size="md">All components</Heading>
+          <fieldset class="flex flex-wrap gap-2">
+            <legend class="sr-only">Filter by status</legend>
+            {
+              filters.map((f, i) => (
+                <label class="chip inline-flex min-h-11 cursor-pointer items-center rounded-full border border-border bg-card px-4 text-sm font-medium text-foreground">
+                  <input
+                    type="radio"
+                    name="health-filter"
+                    id={`f-${f.id}`}
+                    class="sr-only"
+                    checked={i === 0}
+                  />
+                  {f.label}
+                </label>
+              ))
+            }
+          </fieldset>
+        </div>
+
+        {
+          areas.map((a) => (
+            <section
+              class="area mt-10"
+              id={`area-${a.name.replace(/\W+/g, '-')}`}
+              aria-label={a.name}
+            >
+              <h3 class="flex items-baseline gap-2 font-serif text-2xl text-foreground">
+                {a.name}
+                <span class="font-sans text-sm text-muted-foreground">{a.items.length}</span>
+              </h3>
+              <ul class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {a.items.map((c) => (
+                  <li
+                    data-status={c.status}
+                    class="flex flex-col gap-2 rounded-lg border border-border bg-card p-4"
+                  >
+                    <div class="flex items-start justify-between gap-2">
+                      <span class="min-w-0 truncate font-semibold text-foreground">{c.name}</span>
+                      <span
+                        class:list={[
+                          'inline-flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-xs font-semibold text-foreground',
+                          tone[c.status].ground,
+                        ]}
+                      >
+                        <span
+                          class:list={['size-2 rounded-full', tone[c.status].dot]}
+                          aria-hidden="true"
+                        />
+                        {STATUS_LABEL[c.status]}
+                      </span>
+                    </div>
+                    <code class="truncate text-xs text-muted-foreground">{c.path}</code>
+                    <dl class="flex flex-wrap gap-x-3 gap-y-1 text-xs text-muted-foreground">
+                      <div class="flex gap-1">
+                        <dt>Score</dt>
+                        <dd class="font-semibold text-foreground">{c.score}</dd>
+                      </div>
+                      <div class="flex gap-1">
+                        <dt>Raw lengths</dt>
+                        <dd>{c.rawLengths}</dd>
+                      </div>
+                      <div class="flex gap-1">
+                        <dt>Palette</dt>
+                        <dd>{c.paletteRefs}</dd>
+                      </div>
+                      <div class="flex gap-1">
+                        <dt>Page vars</dt>
+                        <dd>{c.pageVars}</dd>
+                      </div>
+                      <div class="flex gap-1">
+                        <dt>Used by</dt>
+                        <dd>
+                          {c.usedBy === 0 ? 'none' : `${c.usedBy} file${c.usedBy > 1 ? 's' : ''}`}
+                        </dd>
+                      </div>
+                    </dl>
+                    {(c.reviewed || c.family || c.note) && (
+                      <div class="flex flex-wrap gap-1.5">
+                        {c.reviewed && (
+                          <Badge tone="brand" class="px-2 py-0.5 text-xs">
+                            Reviewed
+                          </Badge>
+                        )}
+                        {c.family && (
+                          <Badge tone="outline" class="px-2 py-0.5 text-xs">
+                            {c.family}
+                          </Badge>
+                        )}
+                      </div>
+                    )}
+                    {c.note && (
+                      <Text size="sm" tone="muted">
+                        {c.note}
+                      </Text>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))
+        }
+      </div>
+    </Container>
+  </Section>
+</PageLayout>
+
+<style>
+  /* Zero-JS status filter: the checked radio hides non-matching cards, then any area
+     left with nothing to show. */
+  .chip:has(input:checked) {
+    background-color: var(--color-foreground);
+    border-color: var(--color-foreground);
+    color: var(--color-background);
+  }
+  .chip:has(input:focus-visible) {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+  }
+  .health:has(#f-good:checked) [data-status]:not([data-status='good']),
+  .health:has(#f-minor:checked) [data-status]:not([data-status='minor']),
+  .health:has(#f-major:checked) [data-status]:not([data-status='major']),
+  .health:has(#f-good:checked) .area:not(:has([data-status='good'])),
+  .health:has(#f-minor:checked) .area:not(:has([data-status='minor'])),
+  .health:has(#f-major:checked) .area:not(:has([data-status='major'])) {
+    display: none;
+  }
+</style>

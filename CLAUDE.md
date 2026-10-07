@@ -56,6 +56,9 @@ pnpm check        # typecheck + lint + lint:drift + format:check  (run before do
   `primitives/` + `layout/`.
 - New variants belong in the component's `tailwind-variants` config, not as one-off
   class strings at call sites.
+- `/styleguide/components` tracks drift per component (scored from source on every
+  build). When you standardize or consolidate a component, update
+  `src/data/component-registry.ts` (sign-offs, notes, families) so the tracker stays true.
 
 **Ship minimal JS (hybrid model).**
 
