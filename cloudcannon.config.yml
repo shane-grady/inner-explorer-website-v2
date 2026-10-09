@@ -15,14 +15,14 @@ commit_templates:
           required: true
           required_message: Briefly describe what changed and why.
 
-# Fallback for any upload that has no input-level `paths`. Every upload-capable input
-# below sets its own, and the Content Editor's inline image tool is off, so in practice
-# this is where the file browser puts a new upload: the one folder the help build reads
-# CMS image paths from (src-help/lib/content-images.ts). public/ is shared with the
-# marketing build, so the CMS never uploads there except into public/videos/help.
+# Fallback for any upload without input-level `paths`: a file picked for a link (an
+# ActionLinks `href`, a body link), or a file-browser upload. It must be served as-is,
+# so it lives under `static` and gets a working /images/... URL on both sites (public/
+# is shared). Article figures set their own path: HelpFigure optimizes them from
+# src-help/assets/images (src-help/lib/content-images.ts).
 paths:
   static: public
-  uploads: src-help/assets/images
+  uploads: public/images
 
 markdown:
   engine: commonmark

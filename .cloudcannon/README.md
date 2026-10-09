@@ -42,4 +42,4 @@ Use your own CloudCannon account so every save shows who made it. Never share pa
 
 CloudCannon builds the Help Center site itself: build command `pnpm verify:help`, output path `dist-help`. That command validates this configuration, builds the Help Center, checks every editable region (`pnpm lint:editables`), and checks every link and asset in the build. `.cloudcannon/initial-site-settings.json` records these values, but CloudCannon reads it only when a Site is first created. On the existing Site, change them by hand in **Site Settings › Builds**.
 
-Article figures upload to `src-help/assets/images/`, the folder the Help Center build optimizes them from. Videos and poster images upload to `public/videos/help/`.
+Article figures upload to `src-help/assets/images/`, the folder the Help Center build optimizes them from. Videos and poster images upload to `public/videos/help/`. Any other upload (a file picked for a link, a file-browser upload) goes to `public/images/` and is served as-is at `/images/…`.

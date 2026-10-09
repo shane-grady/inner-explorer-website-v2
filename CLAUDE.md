@@ -47,15 +47,17 @@ legacy blog post.
 ```bash
 pnpm dev              # marketing dev server (localhost:4321)
 pnpm dev:help         # Help Center dev server (localhost:4322)
-pnpm check            # typecheck + lint + drift + mirrors + format:check + editables tests
+pnpm check            # typecheck + lint + drift + mirrors + format:check
 pnpm verify           # marketing gate: check, build, check:dist dist --classes
 pnpm verify:help      # Help Center gate (what CloudCannon and its Netlify site run)
 pnpm check:dist <dir> # every link/asset in a build resolves (--classes: every class has CSS)
+pnpm test:editables   # tests for the CloudCannon checker (run when you change scripts/)
 pnpm compare:builds   # normalized diff of two builds (see src-help/README.md)
 ```
 
 Run `pnpm verify` (and `pnpm verify:help` if you touched anything the Help Center
-reads) before considering work done. CI runs both.
+reads) before considering work done. CI runs both, the checker tests, and
+`check:dist dist dist-help` for links between the two sites.
 
 ## Project rules
 
@@ -72,8 +74,8 @@ reads) before considering work done. CI runs both.
 - **No off-system styling.** No arbitrary Tailwind values or raw colors in components
   (`pnpm lint:drift`). The foundation PR defines the tokens; until then pages stay
   unstyled.
-- **Analytics stay production-only.** GA4 and Intercom render only in production builds
-  (`BaseLayout`); GA4 also skips `*.netlify.app`.
+- **Analytics stay production-only.** GA4, Amplitude and Intercom render only in
+  production builds (`BaseLayout`); GA4 also skips `*.netlify.app`.
 
 ---
 

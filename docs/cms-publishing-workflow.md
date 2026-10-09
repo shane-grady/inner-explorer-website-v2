@@ -12,7 +12,7 @@ Marketing owns the Help Center content and media exposed by CloudCannon:
   www.innerexplorer.com/privacy-policy/ also renders)
 - `src/data/help-ui.json` (Help Center chrome and page copy)
 - media selected through configured CloudCannon pickers (`src-help/assets/images/`,
-  `public/videos/help/`)
+  `public/videos/help/`, and `public/images/` for linked files)
 
 Developers own layout and behavior:
 

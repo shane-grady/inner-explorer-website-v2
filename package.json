@@ -26,7 +26,7 @@
     "test:editables": "node --test scripts/check-editables.test.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "check": "pnpm typecheck && pnpm lint && pnpm lint:drift && pnpm lint:mirrors && pnpm format:check && pnpm test:editables",
+    "check": "pnpm typecheck && pnpm lint && pnpm lint:drift && pnpm lint:mirrors && pnpm format:check",
     "validate:cloudcannon": "cloudcannon validate",
     "verify": "pnpm check && pnpm build && pnpm check:dist dist --classes",
     "verify:help": "pnpm validate:cloudcannon && pnpm build:help && pnpm lint:editables && pnpm check:dist dist-help"
