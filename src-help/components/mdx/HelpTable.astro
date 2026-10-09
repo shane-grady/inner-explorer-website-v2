@@ -1,0 +1,99 @@
+---
+// Help-article data table — a scroll-safe, token-driven wrapper around a plain
+// markdown table. `.prose-help` styles only running prose, so tables get their
+// treatment here. Used as an in-article MDX module on /help/<slug>; author the
+// table as normal markdown inside the slot (blank lines around it so MDX parses
+// it as markdown):
+//
+//   <HelpTable label="What we collect">
+//
+//   | Category | Types |
+//   | --- | --- |
+//   | Educator account | Name, email |
+//
+//   </HelpTable>
+interface Props {
+  /** Accessible caption describing the table. Also shown above it. */
+  label?: string;
+}
+const { label }: Props = Astro.props;
+---
+
+<figure class="help-table">
+  {label && <figcaption class="help-table-label">{label}</figcaption>}
+  {
+    /* A scrollable region must be keyboard focusable so it can be scrolled without a
+      mouse (WCAG 2.1.1; axe-core `scrollable-region-focusable`). The a11y rule below
+      only knows the generic "no tabindex on non-interactive elements" heuristic, which
+      does not account for scroll containers, hence the narrow exception. */
+  }
+  {/* eslint-disable-next-line astro/jsx-a11y/no-noninteractive-tabindex */}
+  <div class="help-table-scroll" tabindex="0" role="region" aria-label={label ?? 'Table'}>
+    <slot />
+  </div>
+</figure>
+
+<style>
+  .help-table {
+    margin: 1.75rem 0;
+  }
+  .help-table-label {
+    margin-bottom: 9px;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-brand-emphasis);
+  }
+  /* Wide tables scroll rather than pushing the article layout sideways. Focusable so
+     keyboard users can reach the scroll area. */
+  .help-table-scroll {
+    overflow-x: auto;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-card);
+  }
+  .help-table-scroll:focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+  }
+
+  /* `:global` — the table itself is slotted markdown, so it carries no scope attr. */
+  .help-table-scroll :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+    line-height: 1.6;
+    text-align: left;
+  }
+  .help-table-scroll :global(th),
+  .help-table-scroll :global(td) {
+    padding: 12px 16px;
+    vertical-align: top;
+    text-align: left;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .help-table-scroll :global(th) {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-muted-foreground);
+    background: var(--color-muted);
+    white-space: nowrap;
+  }
+  .help-table-scroll :global(td) {
+    color: var(--color-foreground);
+  }
+  /* First column reads as a row header. */
+  .help-table-scroll :global(tbody td:first-child) {
+    font-weight: 600;
+  }
+  .help-table-scroll :global(tbody tr:last-child td) {
+    border-bottom: 0;
+  }
+  .help-table-scroll :global(p) {
+    margin: 0;
+  }
+</style>

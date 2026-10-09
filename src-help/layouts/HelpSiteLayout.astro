@@ -5,10 +5,10 @@
 // link with root-relative hrefs (/pricing, /about, …) that would 404 on this
 // subdomain — and slim chrome is the standard help-center pattern anyway.
 import { Image } from 'astro:assets';
-import BaseLayout from '../../src/layouts/BaseLayout.astro';
-import { MAIN_SITE } from '../../src/lib/site';
-import { helpRootHref } from '../../src/lib/help';
-import mark from '../../src/assets/brand/inner-explorer-mark.png';
+import BaseLayout from './HelpBaseLayout.astro';
+import { MAIN_SITE } from '../lib/site';
+import { helpRootHref } from '../lib/help';
+import mark from '../assets/brand/inner-explorer-mark.png';
 // Shared Help Center UI copy. Same mechanism as the marketing header/footer
 // (src/data/navigation.json + footer.json): the JSON is the build-time default AND
 // the CloudCannon dataset the editable regions below write back to. Bindings use

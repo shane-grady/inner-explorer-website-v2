@@ -2,13 +2,13 @@
 import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
 import HelpSiteLayout from '../layouts/HelpSiteLayout.astro';
-import JsonLd from '../../src/components/seo/JsonLd.astro';
-import HelpShell from '../../src/components/blocks/help/HelpShell.astro';
-import { buildHelpNav, helpGroups, helpHref } from '../../src/lib/help';
-import { readingTime } from '../../src/lib/reading-time';
+import JsonLd from '../components/seo/JsonLd.astro';
+import HelpShell from '../components/HelpShell.astro';
+import { buildHelpNav, helpGroups, helpHref } from '../lib/help';
+import { readingTime } from '../lib/reading-time';
 import { OG_HOME_IMAGE } from '../lib/og-card';
-import { HELP_SITE, MAIN_SITE } from '../../src/lib/site';
-import mark from '../../src/assets/brand/inner-explorer-mark.png';
+import { HELP_SITE, MAIN_SITE } from '../lib/site';
+import mark from '../assets/brand/inner-explorer-mark.png';
 // Shared Help Center UI copy (same mechanism as navigation.json/footer.json on the
 // marketing site). This route is NOT a collection entry, so every region below binds
 // an ABSOLUTE `@data[help-ui]…` path — a relative path has no file to resolve against

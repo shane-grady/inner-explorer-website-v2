@@ -1,0 +1,33 @@
+---
+// Ordered, numbered how-to steps. The structured `items` prop gives CloudCannon a
+// reliable array editor; the slot remains for backwards-compatible composition.
+import Step from './Step.astro';
+
+interface StepItem {
+  title: string;
+  content?: string;
+  contentHtml?: string;
+}
+
+interface Props {
+  items?: StepItem[];
+}
+
+const { items }: Props = Astro.props;
+---
+
+<ol class="help-steps">
+  {items?.length ? items.map((item) => <Step {...item} />) : <slot />}
+</ol>
+
+<style>
+  .help-steps {
+    counter-reset: help-step;
+    list-style: none;
+    margin: 1.75rem 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+</style>

@@ -1,0 +1,75 @@
+---
+// Intercom Messenger. Rendered once from BaseLayout, only when the caller has already
+// decided this is a real production build — see BaseLayout for the
+// PUBLIC_INTERCOM_APP_ID / build-context gating.
+//
+// `surface` is stamped on the visitor as the `ie_source` custom attribute. Intercom's
+// "Stamp conversation Source" workflow reads it when a conversation starts and writes
+// the `Source` conversation attribute (Website / Help Center / Platform), which is what
+// the source-specific Inbox views filter on. The strings below must match that
+// workflow's conditions exactly — change one and you must change the other.
+//
+// Two deliberate deviations from Intercom's stock snippet, both required here:
+//
+// 1. No *.netlify.app bail-out, unlike src/components/seo/Analytics.astro. Pre-launch
+//    the marketing site's ONLY host IS innerexplorerwebsitev2.netlify.app, so a host
+//    guard would mean the Messenger never loads on it. Deploy previews and branch
+//    deploys are already excluded by the build-context gate in BaseLayout, so this
+//    still can't generate conversations from throwaway URLs.
+//
+// 2. The whole loader re-runs on `astro:after-swap` (see initMessenger below), because
+//    ClientRouter replaces <body> on every client-side navigation and that discards the
+//    nodes Intercom appends there. Verified against this workspace, in the order a
+//    reader would guess:
+//      - `Intercom('update')` / `Intercom('boot')`: no-op. The loaded widget still
+//        believes it is booted, so it never rebuilds its DOM — the launcher stays gone.
+//      - `Intercom('shutdown')` then `boot`: also no-op, immediately or on a later tick.
+//      - Moving Intercom's nodes into event.newDocument in `astro:before-swap`: the
+//        launcher reappears but is DEAD — the move adopts #intercom-frame across
+//        documents, which reloads the iframe and breaks the messaging channel.
+//    Re-executing widget.js is what actually works. It is a memory-cache hit, and the
+//    visitor is keyed by the intercom-id-<app_id> cookie, which this path leaves intact
+//    (confirmed: same visitor id before and after), so re-running it does NOT create a
+//    fresh anonymous visitor the way `shutdown` would.
+interface Props {
+  appId: string;
+  surface: 'Website' | 'Help Center';
+}
+const { appId, surface } = Astro.props;
+---
+
+<script define:vars={{ appId, surface }}>
+  window.intercomSettings = { app_id: appId, ie_source: surface };
+
+  function injectWidget() {
+    const s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://widget.intercom.io/widget/' + appId;
+    document.head.appendChild(s);
+  }
+
+  function initMessenger() {
+    // Nothing to do while the widget's own DOM is still on the page. On a ClientRouter
+    // swap it never is; the guard just keeps this idempotent if that ever changes.
+    if (document.getElementById('intercom-frame')) return;
+
+    // Intercom's stock call queue: buffers calls until widget.js replaces this stub and
+    // boots from window.intercomSettings. Stock uses `arguments`; rest params replay
+    // identically when widget.js applies each queued entry.
+    const queue = function (...args) {
+      queue.c(args);
+    };
+    queue.q = [];
+    queue.c = function (args) {
+      queue.q.push(args);
+    };
+    window.Intercom = queue;
+
+    // First paint shouldn't compete with the widget; later navigations are already idle.
+    if (document.readyState === 'complete') injectWidget();
+    else window.addEventListener('load', injectWidget, { once: true });
+  }
+
+  initMessenger();
+  document.addEventListener('astro:after-swap', initMessenger);
+</script>

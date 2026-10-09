@@ -20,13 +20,15 @@
     "lint:fix": "eslint . --fix",
     "lint:drift": "node scripts/check-drift.mjs",
     "lint:mirrors": "node scripts/check-mirrors.mjs",
+    "check:dist": "node scripts/check-dist.mjs",
+    "compare:builds": "node scripts/compare-builds.mjs",
     "lint:editables": "node scripts/check-editables.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "check": "pnpm typecheck && pnpm lint && pnpm lint:drift && pnpm lint:mirrors && pnpm format:check",
     "build:all": "pnpm build && pnpm build:help",
     "validate:cloudcannon": "cloudcannon validate",
-    "verify:cms": "pnpm check && pnpm validate:cloudcannon && pnpm build:all && pnpm lint:editables && node --test scripts/check-editables.test.mjs"
+    "verify:cms": "pnpm check && pnpm validate:cloudcannon && pnpm build:all && pnpm lint:editables && node --test scripts/check-editables.test.mjs && pnpm check:dist dist-help"
   },
   "dependencies": {
     "@amplitude/unified": "^1.1.24",

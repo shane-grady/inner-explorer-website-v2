@@ -53,4 +53,39 @@ export default tseslint.config(
       ],
     },
   },
+  {
+    // The Help Center is sealed (src-help/README.md): it may read only the editor-owned
+    // help-ui.json from src/, so the marketing rebuild can never change it.
+    files: ['src-help/**'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              regex: '^(\\.\\./)+src/(?!data/help-ui\\.json$)',
+              message:
+                'src-help/ is sealed: use (or add) a copy under src-help/ instead. See src-help/README.md.',
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    files: ['src/**'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              regex: '(^|/)src-help/',
+              message: 'The marketing site must not import the frozen Help Center (src-help/).',
+            },
+          ],
+        },
+      ],
+    },
+  },
 );

@@ -1065,3 +1065,23 @@ usage to be consistent with.
   column, so the table and its sticky header drift apart. Scope it to the component root
   (`.ie-cmp, .ie-cmp *`). Also: `calc()` percentage widths on table cells are ignored, so pass
   plain percentages.
+
+## 2026-10-09 — Sealing the Help Center (rebuild PR A1)
+
+- **Tailwind v4 scans the whole repo by default** (`@import 'tailwindcss'` with no
+  `source()`): a Markdown file in `tasks/` that mentions "isolate" adds `.isolate` to BOTH
+  sites' CSS. A site that must not change gets `source(none)` plus `@source` for its own
+  markup only. Tailwind then emits only the theme variables its scan sees used, so after
+  scoping, confirm every `var(--x)` (without a fallback) in the build is still defined.
+- **A dynamic `import()` in a layout ships the imported module's CSS as a render-blocking
+  `<link>` on every page.** BaseLayout's editor-only `import('../cloudcannon/registerComponents')`
+  put a 150KB stylesheet of marketing component CSS on all 16 help pages. Gate heavy
+  editor-only code by build, not just at runtime.
+- **Prove "nothing changed" with a normalized build diff, not screenshots.**
+  `scripts/compare-builds.mjs` strips hashes and Astro scope ids so `diff -ru` shows only
+  real changes; number scope ids from the HTML first, or a CSS-only change renumbers every
+  page. Full-page screenshots of the SAME build differ run to run (sub-threshold
+  antialiasing), so a byte compare is useless; count pixels over a threshold, and compare
+  against a baseline-vs-baseline noise run.
+- **Random ids differ every build** (`randomUUID()` newsletter field ids, SVG gradient ids,
+  island `uid`s). Expect them in any marketing diff; they are not changes.
