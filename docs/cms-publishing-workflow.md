@@ -1,32 +1,27 @@
 # CloudCannon publishing and ownership
 
-CloudCannon is connected directly to `main`. A routine editor Save creates a descriptive Git commit on `main`; it does not require a Project, publishing branch, or pull request. Developer changes continue to use reviewed pull requests.
+CloudCannon edits the Help Center (help.innerexplorer.com) only. It is connected directly to `main`. A routine editor Save creates a descriptive Git commit on `main`; it does not require a Project, publishing branch, or pull request. Developer changes continue to use reviewed pull requests.
+
+The marketing site (www.innerexplorer.com) is being rebuilt from the new design and is not edited in CloudCannon. Its copy lives at the top of each page file; see `CLAUDE.md`.
 
 ## Ownership
 
-Marketing owns normal content and media changes exposed by CloudCannon:
+Marketing owns the Help Center content and media exposed by CloudCannon:
 
-- `src/content/pages/**`
-- `src/content/blog/**`
-- `src/content/case-studies/**`
-- `src/content/help/**`
-- `src/content/narrators/**`
-- `src/content/series/**`
-- `src/content/testimonials/**`
-- `src/data/navigation.json`
-- `src/data/footer.json`
-- `src/data/help-ui.json`
-- media selected through configured CloudCannon pickers
+- `src/content/help/**` (the articles, including the privacy policy, which
+  www.innerexplorer.com/privacy-policy/ also renders)
+- `src/data/help-ui.json` (Help Center chrome and page copy)
+- media selected through configured CloudCannon pickers (`src-help/assets/images/`,
+  `public/videos/help/`, and `public/images/` for linked files)
 
 Developers own layout and behavior:
 
-- components and route templates
+- components and route templates (the Help Center's are frozen in `src-help/`; see
+  `src-help/README.md`)
 - Astro and Zod schemas
 - CloudCannon configuration and editable-region wiring
 - build, validation, CI, redirect, and deployment configuration
 - design tokens and styling
-
-The thirteen Marketing Page files are a fixed-layout public contract. Marketing can edit their content, metadata, media, and supported repeatable lists. Adding, removing, or reordering page sections is a code change.
 
 ## Developer coordination
 
@@ -52,8 +47,8 @@ clear rather than more informative.
 Keep the hosted services aligned with the committed files. Initial Site settings only
 apply when a CloudCannon Site is created; they do not update an existing Site.
 
-- CloudCannon: install `pnpm install --frozen-lockfile`, build `pnpm verify:cms`,
-  output `dist`, and use the repository `.nvmrc` for Node.
+- CloudCannon: install `pnpm install --frozen-lockfile`, build `pnpm verify:help`,
+  output `dist-help`, and use the repository `.nvmrc` for Node.
 - Marketing Netlify site: repository-root Base and configuration, with no Package
   directory.
 - Help Netlify site: leave Base unset (repository root) and set Package directory to
@@ -80,5 +75,5 @@ For a sync divergence or held CloudCannon work, never use **Discard changes**. P
 ## Release flow
 
 - Developer pull request -> GitHub `main` -> CloudCannon pull and rebuild -> updated editor layout/configuration.
-- CloudCannon Save -> descriptive commit on `main` -> repository verification -> V2 Netlify staging and `help.innerexplorer.com`.
+- CloudCannon Save -> descriptive commit on `main` -> repository verification -> `help.innerexplorer.com` (and a V2 Netlify staging rebuild, since a privacy-policy edit also changes /privacy-policy/).
 - `innerexplorer.com` remains on the legacy website and outside this publishing flow.

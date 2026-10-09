@@ -6,6 +6,13 @@ HubSpot, education-sector/CASEL/ESSA materials, competitor teardowns — then
 synthesis, application, and adversarial verification). Applied to
 `/case-studies/webb-school/` on 2026-06-09. Reuse for every future case study.
 
+> **Since the 2026-10-09 clean slate** the case-study pages, their YAMLs, components, images and
+> PDFs are gone from the repo; recover any of them with `git show 0c8cac2:<path>` (for example
+> `src/content/case-studies/webb-school.yaml`, `public/downloads/webb-school-case-study.pdf`).
+> The Case Studies PR rebuilds the pages from the design canvas (`tasks/rebuild-plan.md`). The
+> rules, keyword maps and legacy 301 notes below still apply; open items are tracked in
+> `tasks/todo.md`.
+
 ## Keyword map (Webb School page)
 
 - **Primary:** reduce restraint and seclusion in schools · mindfulness in schools
@@ -116,8 +123,10 @@ synthesis, application, and adversarial verification). Applied to
   /images/Mindful-Michigan-Model.pdf (plus lms.innerexplorer.org variants) to
   /case-studies/mindful-michigan/.
 - PUBLISH GATES: two stand-in portraits (Zendejas, Mckenzie) need real photos.
-- The staging-domain noindex is handled by the separate open PR
-  (claude/magical-ptolemy-74fe00) — confirm merged before launch.
+- ~~The staging-domain noindex is handled by the separate open PR
+  (claude/magical-ptolemy-74fe00) — confirm merged before launch.~~ RESOLVED:
+  `netlify/edge-functions/noindex-netlify-host.ts` is in the repo and the staging host sends
+  `x-robots-tag: noindex` (checked 2026-10-09).
 - If the team can produce the grant start year / which school years "year one"
   and "year two" map to, anchor the timeline tags to real years.
 
@@ -167,8 +176,9 @@ synthesis, application, and adversarial verification). Applied to
   academics; no imported statistics (SEL-ROI multipliers, CASEL designations, ESSA
   tier claims).
 - **Representative imagery needs visible disclosure** when photoreal generated
-  children appear under a real named school: `gallery.note` (additive-optional in
-  the caseStudies schema, rendered by PhotoMosaic) + a non-documentary eyebrow.
+  children appear under a real named school: a visible note on the gallery + a
+  non-documentary eyebrow (pre-rebuild: `gallery.note` in the caseStudies schema, rendered
+  by PhotoMosaic; both recoverable from 0c8cac2).
 - **Site-level CASEL ceiling:** Inner Explorer's verified designation is
   "SEL-Supportive Program" — NOT "SELect". Never cite higher anywhere on the site.
 - At domain migration: the legacy case studies ALSO live on the lms. subdomain —
@@ -207,7 +217,8 @@ synthesis, application, and adversarial verification). Applied to
 ## Open follow-ups (John Marshall HS page)
 
 - The one format gap vs. competitors: a 60–90s real Inner Explorer audio practice
-  excerpt with transcript (repo components exist) — content owner's call.
+  excerpt with transcript (the Platform and Home boards design a sample-practice player)
+  — content owner's call.
 - Off-page targets that should link here, not live here: "how to start a mental
   health club at your school" (blog), "what is Tier 1 mental health support" (/research).
 - At domain migration: 301 innerexplorer.com/case-study5.html and
@@ -278,8 +289,8 @@ synthesis, application, and adversarial verification). Applied to
   intervention on-page.
 - **The 85%/80% source-internal discrepancy:** the legacy page AND PDF print both
   figures for the same claim. 85% featured (primary placement in both sources),
-  80% appears nowhere, PUBLISH GATE in the YAML until the owner rules. "Reported"
-  is load-bearing in every occurrence — never paraphrase to referrals/discipline
+  80% appears nowhere, PUBLISH GATE in the YAML (now at 0c8cac2) until the owner rules.
+  "Reported" is load-bearing in every occurrence — never paraphrase to referrals/discipline
   data; metrics.note states it is an educator-reported observation, not a
   controlled study, from an undated source.
 - **43% educator-stress figure is vendor-marketing provenance** (circulating

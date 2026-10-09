@@ -8,7 +8,7 @@
 // differs, so the check has to happen at request time.
 //
 // - Any host ending in `.netlify.app` → `X-Robots-Tag: noindex` on every response
-//   (HTML, PDFs under /downloads/, assets), so crawlers drop/skip the staging mirror.
+//   (HTML, PDFs, assets), so crawlers drop/skip the staging mirror.
 // - The production custom domain never matches the suffix, so it serves no header and
 //   stays fully indexable — with zero launch-day config to flip. Deny-listing
 //   `.netlify.app` (rather than allow-listing the prod domain, still TODO in

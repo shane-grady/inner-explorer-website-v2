@@ -1,4 +1,16 @@
 #!/usr/bin/env node
+/**
+ * Smoke-test a CloudCannon-hosted build against the local one.
+ *
+ * CloudCannon builds the Help Center (`pnpm verify:help` → dist-help), so by default
+ * every page in dist-help is fetched from the CloudCannon site URL, then every
+ * same-origin link, image, video and srcset candidate those pages reference. Exits 1
+ * if any page or reference fails, or if CloudCannon serves its "Site not built" page.
+ *
+ * Usage: node scripts/verify-cloudcannon.mjs <cloudcannon-url> [output-directory] [--pages-only]
+ *        (output-directory defaults to dist-help; with no arguments the URL comes from
+ *        CLOUDCANNON_URL)
+ */
 
 import { readdirSync } from 'node:fs';
 import { extname, join, relative, sep } from 'node:path';
@@ -6,7 +18,7 @@ import { extname, join, relative, sep } from 'node:path';
 const arguments_ = process.argv.slice(2);
 const rawBaseUrl = arguments_[0] ?? process.env.CLOUDCANNON_URL;
 const outputDirectory =
-  arguments_.slice(1).find((argument) => !argument.startsWith('--')) ?? 'dist';
+  arguments_.slice(1).find((argument) => !argument.startsWith('--')) ?? 'dist-help';
 const pagesOnly = arguments_.includes('--pages-only');
 const concurrency = 2;
 

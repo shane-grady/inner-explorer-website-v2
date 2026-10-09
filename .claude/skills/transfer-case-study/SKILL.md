@@ -14,6 +14,13 @@ description: >-
   system, and the verified optimization workflow — not bespoke per-page work.
 ---
 
+> **STALE until the Case Studies PR lands (see `tasks/rebuild-plan.md`).** This skill
+> targets the PREVIOUS case-study template, YAML collection and components, which the
+> 2026-10 clean slate removed (recover with `git show 0c8cac2:<path>`). The Case Studies
+> PR rebuilds the collection from the new canvas's content model and rewrites this
+> skill; until then, don't run it. The case-study lessons it cites from `tasks/lessons.md`
+> now live in `tasks/archive/lessons-pre-rebuild.md`.
+
 # Transfer a legacy case study
 
 Port a case study from the old innerexplorer.com site into this repo and make its

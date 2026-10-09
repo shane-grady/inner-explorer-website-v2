@@ -10,7 +10,6 @@ interface Props {
   imageWidth?: number;
   imageHeight?: number;
   type?: 'website' | 'article';
-  canonical?: string;
 }
 const {
   title,
@@ -20,10 +19,9 @@ const {
   imageWidth = 1200,
   imageHeight = 630,
   type = 'website',
-  canonical,
 }: Props = Astro.props;
 
-const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site).href;
 const imageURL = new URL(image, Astro.site).href;
 ---
 

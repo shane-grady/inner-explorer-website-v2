@@ -1,97 +1,18 @@
 ---
-import { getEntry } from 'astro:content';
+// Placeholder until this page is built from the "Inner Explorer — Website" canvas
+// (FINAL V). See tasks/rebuild-plan.md for the order pages are built in.
 import PageLayout from '../layouts/PageLayout.astro';
-import JsonLd from '../components/seo/JsonLd.astro';
-import PlatformHero from '../components/blocks/platform/PlatformHero.astro';
-import TrustLogos from '../components/blocks/platform/TrustLogos.astro';
-import PlatformTrio from '../components/blocks/platform/PlatformTrio.astro';
-import EditablePlatformFeature from '../cloudcannon/components/EditablePlatformFeature.astro';
-import SignOn from '../components/blocks/platform/SignOn.astro';
-import EditablePlatformImpact from '../cloudcannon/components/EditablePlatformImpact.astro';
-import EditablePlatformOutcomes from '../cloudcannon/components/EditablePlatformOutcomes.astro';
-import Safety from '../components/blocks/platform/Safety.astro';
-import EditablePlatformUpdates from '../cloudcannon/components/EditablePlatformUpdates.astro';
-import PlatformCTA from '../components/blocks/platform/PlatformCTA.astro';
 
-// ── Page content ────────────────────────────────────────────────────────────
-//
-// The copy lives in src/content/pages/platform.yml (the `pages` collection) so
-// CloudCannon can read and write it. Only the copy moved — the product mockups
-// (hero showcase, trio shots, FeatureVisual cards, the SSO card) are `aria-hidden`
-// illustrations and stay in the blocks, as does the JSON-LD below. `editablePrefix`
-// threads each block's data path down to its fields; see src/lib/editable.ts.
-//
-// Stats, customer names, district logos, and the research citations are still
-// illustrative — swap for verified figures and official assets before publishing
-// (see tasks/todo.md).
-
-const entry = await getEntry('pages', 'platform');
-if (!entry || entry.data._schema !== 'platform') {
-  throw new Error('Missing or malformed src/content/pages/platform.yml');
-}
-const {
-  hero,
-  trust,
-  trio,
-  classroom,
-  district,
-  home,
-  signOn,
-  impact,
-  research,
-  safety,
-  updates,
-  cta,
-  pageTitle,
-  pageDescription,
-} = entry.data;
-
-const base = new URL(Astro.site ?? 'https://www.innerexplorer.com').origin;
-const platformLd = {
-  '@context': 'https://schema.org',
-  '@type': 'WebPage',
-  name: pageTitle,
-  url: `${base}/platform`,
-  description: pageDescription,
-  isPartOf: { '@type': 'WebSite', name: 'Inner Explorer', url: base },
-  about: {
-    '@type': 'ItemList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Classroom app' },
-      { '@type': 'ListItem', position: 2, name: 'District dashboard' },
-      { '@type': 'ListItem', position: 3, name: 'Home family app' },
-    ],
-  },
+const content = {
+  title: 'Platform — daily mindfulness for every classroom | Inner Explorer',
+  description:
+    'One platform, three connected apps — the Classroom practice player, the District impact dashboard, and the Home family app — bringing daily, research-backed mindfulness to K-12.',
+  heading: 'Platform',
+  lead: 'One platform for daily mindfulness in every classroom.',
 };
 ---
 
-<PageLayout title={pageTitle} description={pageDescription} flushTop>
-  <JsonLd slot="head" schema={platformLd} />
-
-  <div class="appearance-light">
-    <PlatformHero {...hero} editablePrefix="hero" />
-    <TrustLogos {...trust} editablePrefix="trust" />
-    <PlatformTrio {...trio} editablePrefix="trio" />
-    <editable-component data-component="platform-feature" data-prop="classroom">
-      <EditablePlatformFeature {...classroom} />
-    </editable-component>
-    <editable-component data-component="platform-feature" data-prop="district">
-      <EditablePlatformFeature {...district} />
-    </editable-component>
-    <editable-component data-component="platform-feature" data-prop="home">
-      <EditablePlatformFeature {...home} />
-    </editable-component>
-    <SignOn {...signOn} editablePrefix="signOn" />
-    <editable-component data-component="platform-impact" data-prop="impact">
-      <EditablePlatformImpact {...impact} />
-    </editable-component>
-    <editable-component data-component="platform-outcomes" data-prop="research">
-      <EditablePlatformOutcomes {...research} />
-    </editable-component>
-    <Safety {...safety} editablePrefix="safety" />
-    <editable-component data-component="platform-updates" data-prop="updates">
-      <EditablePlatformUpdates {...updates} />
-    </editable-component>
-    <PlatformCTA {...cta} editablePrefix="cta" />
-  </div>
+<PageLayout title={content.title} description={content.description}>
+  <h1>{content.heading}</h1>
+  <p>{content.lead}</p>
 </PageLayout>

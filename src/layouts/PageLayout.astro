@@ -1,8 +1,9 @@
 ---
-// Standard marketing-page shell: document + skip link + Header + <main> + Footer.
+// Standard marketing-page shell: document + skip link + header nav + <main> + footer.
+// Unstyled semantic HTML until the design-foundation PR replaces the header and footer
+// with SiteHeader / SiteFooter (tasks/rebuild-plan.md).
 import BaseLayout from './BaseLayout.astro';
-import Header from '../components/layout/Header.astro';
-import Footer from '../components/layout/Footer.astro';
+import { contactCta, footerNav, primaryNav, signIn } from '../data/navigation';
 
 interface Props {
   title: string;
@@ -15,45 +16,47 @@ interface Props {
   /** Intrinsic size of the share image; forwarded to og:image:width/height. */
   imageWidth?: number;
   imageHeight?: number;
-  /** Hide the page from search engines (e.g. the internal styleguide). */
+  /** Hide the page from search engines. */
   noindex?: boolean;
-  // The nav is a floating glass pill (position: fixed). Pages get top clearance by
-  // default; hero pages (e.g. About) set `flushTop` so a full-bleed hero sits under it.
-  flushTop?: boolean;
 }
-const {
-  title,
-  description,
-  type = 'website',
-  image,
-  imageAlt,
-  imageWidth,
-  imageHeight,
-  noindex,
-  flushTop = false,
-}: Props = Astro.props;
+const props: Props = Astro.props;
+const year = new Date().getFullYear();
 ---
 
-<BaseLayout
-  title={title}
-  description={description}
-  type={type}
-  image={image}
-  imageAlt={imageAlt}
-  imageWidth={imageWidth}
-  imageHeight={imageHeight}
-  noindex={noindex}
->
+<BaseLayout {...props}>
   <slot name="head" slot="head" />
-  <a
-    href="#main"
-    class="sr-only rounded-md focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:bg-card focus:px-4 focus:py-2 focus:text-foreground focus:shadow-md"
-  >
-    Skip to content
-  </a>
-  <Header />
-  <main id="main" class:list={[{ 'pt-24': !flushTop }]}>
+  <a href="#main" class="sr-only focus:not-sr-only">Skip to content</a>
+  <header>
+    <a href="/">Inner Explorer</a>
+    <nav aria-label="Primary">
+      <ul>
+        {
+          primaryNav.map((link) => (
+            <li>
+              <a href={link.href}>{link.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <a href={signIn.href}>{signIn.label}</a>
+    <a href={contactCta.href}>{contactCta.label}</a>
+  </header>
+  <main id="main">
     <slot />
   </main>
-  <Footer />
+  <footer>
+    <nav aria-label="Footer">
+      <ul>
+        {
+          footerNav.map((link) => (
+            <li>
+              <a href={link.href}>{link.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <p>© 2011–{year} Inner Explorer, Inc.</p>
+  </footer>
 </BaseLayout>

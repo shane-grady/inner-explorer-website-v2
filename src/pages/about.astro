@@ -1,143 +1,18 @@
 ---
-import { getEntry } from 'astro:content';
+// Placeholder until this page is built from the "Inner Explorer — Website" canvas
+// (FINAL V). See tasks/rebuild-plan.md for the order pages are built in.
 import PageLayout from '../layouts/PageLayout.astro';
-import JsonLd from '../components/seo/JsonLd.astro';
-import AboutHero from '../components/blocks/about/AboutHero.astro';
-import StatStrip from '../components/blocks/StatStrip.astro';
-import MissionQuote from '../components/blocks/about/MissionQuote.astro';
-import OriginStory from '../components/blocks/about/OriginStory.astro';
-import EditableAboutTimeline from '../cloudcannon/components/EditableAboutTimeline.astro';
-import ResearchPioneer from '../components/blocks/about/ResearchPioneer.astro';
-import EditableAboutVoices from '../cloudcannon/components/EditableAboutVoices.astro';
-import EditableAboutTeam from '../cloudcannon/components/EditableAboutTeam.astro';
-import Partners from '../components/blocks/about/Partners.astro';
-import Principles from '../components/blocks/about/Principles.astro';
-import AboutCTA from '../components/blocks/about/AboutCTA.astro';
 
-// ── Page content ────────────────────────────────────────────────────────────
-//
-// The copy lives in src/content/pages/about.yml (the `pages` collection) so
-// CloudCannon can read and write it. That includes all 22 photographs and the brand
-// mark: they are `image()` fields in src/lib/page-schemas/about.ts, resolved from
-// repo-relative paths, so an editor can swap any of them. Only the copy moved — the
-// layout and the JSON-LD below are still built here. `editablePrefix` threads each
-// block's data path down to its fields; see src/lib/editable.ts.
-
-const entry = await getEntry('pages', 'about');
-if (!entry || entry.data._schema !== 'about') {
-  throw new Error('Missing or malformed src/content/pages/about.yml');
-}
-const {
-  hero,
-  stats,
-  mission,
-  origin,
-  timeline,
-  pioneer,
-  voices,
-  team,
-  partners,
-  principles,
-  cta,
-  pageTitle,
-  pageDescription,
-} = entry.data;
-
-// ── SEO ─────────────────────────────────────────────────────────────────────
-
-const base = new URL(Astro.site ?? 'https://www.innerexplorer.com').origin;
-const aboutLd = {
-  '@context': 'https://schema.org',
-  '@type': 'AboutPage',
-  name: pageTitle,
-  url: `${base}/about`,
-  description: pageDescription,
-  mainEntity: {
-    '@type': 'Organization',
-    name: 'Inner Explorer',
-    url: base,
-    logo: `${base}/logo.png`,
-    foundingDate: '2011',
-    description:
-      'Daily audio-guided mindfulness practices for PreK-12 schools. A 501(c)(3) nonprofit.',
-    founder: [
-      { '@type': 'Person', name: 'Dr. Laura Bakosh' },
-      { '@type': 'Person', name: 'Janice Houlihan' },
-    ],
-  },
+const content = {
+  title: 'About — Inner Explorer',
+  description:
+    'Fifteen years of daily, audio-guided mindfulness in K-12 schools. The story of Inner Explorer — our founders, our research, our team, and the practice we share with 2.4 million students.',
+  heading: 'About Inner Explorer',
+  lead: 'Fifteen years of daily, audio-guided mindfulness in K-12 schools.',
 };
 ---
 
-<PageLayout title={pageTitle} description={pageDescription} flushTop>
-  <JsonLd slot="head" schema={aboutLd} />
-
-  <div class="appearance-light">
-    <AboutHero
-      eyebrow={hero.eyebrow}
-      headlineTop={hero.headlineTop}
-      headlineBottom={hero.headlineBottom}
-      subtitle={hero.subtitle}
-      meta={hero.meta}
-      image={hero.image}
-      imageAlt={hero.imageAlt}
-      editablePrefix="hero"
-    />
-    {/* StatStrip binds its own array key, so the rows live at the entry root. */}
-    <StatStrip stats={stats} numStyle="bold-sans" editablePrefix="" />
-    <MissionQuote
-      mark={mission.mark}
-      quoteHtml={mission.quoteHtml}
-      attribution={mission.attribution}
-      editablePrefix="mission"
-    />
-    <OriginStory
-      eyebrow={origin.eyebrow}
-      headingHtml={origin.headingHtml}
-      paragraphs={origin.paragraphs}
-      signed={origin.signed}
-      large={origin.large}
-      small={origin.small}
-      chip={origin.chip}
-      editablePrefix="origin"
-    />
-    <editable-component data-component="about-timeline" data-prop="timeline">
-      <EditableAboutTimeline {...timeline} />
-    </editable-component>
-    <ResearchPioneer
-      eyebrow={pioneer.eyebrow}
-      headingHtml={pioneer.headingHtml}
-      lede={pioneer.lede}
-      stats={pioneer.stats}
-      studies={pioneer.studies}
-      editablePrefix="pioneer"
-    />
-    <editable-component data-component="about-voices" data-prop="voices">
-      <EditableAboutVoices {...voices} />
-    </editable-component>
-    <editable-component data-component="about-team" data-prop="team">
-      <EditableAboutTeam {...team} />
-    </editable-component>
-    <Partners
-      eyebrow={partners.eyebrow}
-      heading={partners.heading}
-      partners={partners.items}
-      editablePrefix="partners"
-    />
-    <Principles
-      eyebrow={principles.eyebrow}
-      headingHtml={principles.headingHtml}
-      principles={principles.items}
-      editablePrefix="principles"
-    />
-    <AboutCTA
-      eyebrow={cta.eyebrow}
-      headingHtml={cta.headingHtml}
-      lede={cta.lede}
-      image={cta.image}
-      imageAlt={cta.imageAlt}
-      primary={cta.primary}
-      secondary={cta.secondary}
-      editablePrefix="cta"
-    />
-  </div>
+<PageLayout title={content.title} description={content.description}>
+  <h1>{content.heading}</h1>
+  <p>{content.lead}</p>
 </PageLayout>

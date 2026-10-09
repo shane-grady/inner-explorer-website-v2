@@ -1,24 +1,18 @@
 ---
 import { getCollection, render } from 'astro:content';
 import HelpSiteLayout from '../layouts/HelpSiteLayout.astro';
-import JsonLd from '../../src/components/seo/JsonLd.astro';
-import HelpShell from '../../src/components/blocks/help/HelpShell.astro';
-import ArticleToc from '../../src/components/blocks/blog/ArticleToc.astro';
-import Breadcrumb from '../../src/components/primitives/Breadcrumb.astro';
-import HelpActions from '../../src/components/blocks/help/HelpActions.astro';
-import HelpPrint from '../../src/components/blocks/help/HelpPrint.astro';
-import PrevNext from '../../src/components/blocks/help/PrevNext.astro';
-import {
-  buildHelpNav,
-  flatHelpOrder,
-  groupLabel,
-  helpHref,
-  helpRootHref,
-} from '../../src/lib/help';
-import { readingTime } from '../../src/lib/reading-time';
+import JsonLd from '../components/seo/JsonLd.astro';
+import HelpShell from '../components/HelpShell.astro';
+import ArticleToc from '../components/ArticleToc.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import HelpActions from '../components/HelpActions.astro';
+import HelpPrint from '../components/HelpPrint.astro';
+import PrevNext from '../components/PrevNext.astro';
+import { buildHelpNav, flatHelpOrder, groupLabel, helpHref, helpRootHref } from '../lib/help';
+import { readingTime } from '../lib/reading-time';
 import { ogImageHref } from '../lib/og-card';
-import { organizationSchema } from '../../src/lib/schema';
-import { HELP_SITE, MAIN_SITE } from '../../src/lib/site';
+import { organizationSchema } from '../lib/schema';
+import { HELP_SITE, MAIN_SITE } from '../lib/site';
 
 export async function getStaticPaths() {
   const entries = await getCollection('help', ({ data }) => !data.draft);

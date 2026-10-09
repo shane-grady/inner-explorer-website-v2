@@ -1,0 +1,24 @@
+---
+// Plain stand-in for the Help Center's <Callout> MDX snippet, so the privacy policy
+// (src/content/help/privacy-policy.mdx, shared with the Help Center) renders on this
+// site. Same props as src-help/components/mdx/Callout.astro.
+type CalloutType = 'tip' | 'note' | 'good';
+interface Props {
+  type?: CalloutType;
+  /** Override the auto label (defaults from `type`). */
+  label?: string;
+  /** Replaces the label with a heading. */
+  heading?: string;
+}
+const labels: Record<CalloutType, string> = {
+  tip: 'Tip',
+  note: 'Note',
+  good: 'Good to know',
+};
+const { type = 'tip', label, heading }: Props = Astro.props;
+---
+
+<aside>
+  <p><strong>{heading ?? label ?? labels[type]}</strong></p>
+  <slot />
+</aside>

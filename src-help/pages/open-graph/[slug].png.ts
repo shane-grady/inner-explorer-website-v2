@@ -1,7 +1,7 @@
 // Per-article social-share card, prerendered at build time (see lib/og-card.ts).
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
-import { groupLabel } from '../../../src/lib/help';
+import { groupLabel } from '../../lib/help';
 import { renderOgCard } from '../../lib/og-card';
 
 interface CardProps {

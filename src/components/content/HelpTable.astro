@@ -1,0 +1,22 @@
+---
+// Plain stand-in for the Help Center's <HelpTable> MDX snippet (a captioned, scrollable
+// wrapper around a markdown table), so the privacy policy renders on this site. Same
+// props as src-help/components/mdx/HelpTable.astro.
+interface Props {
+  /** Accessible caption describing the table. Also shown above it. */
+  label?: string;
+}
+const { label }: Props = Astro.props;
+---
+
+<figure>
+  {label && <figcaption>{label}</figcaption>}
+  {
+    /* A scrollable region must be keyboard focusable so it can be scrolled without a
+      mouse (WCAG 2.1.1; axe-core `scrollable-region-focusable`). */
+  }
+  {/* eslint-disable-next-line astro/jsx-a11y/no-noninteractive-tabindex */}
+  <div class="overflow-x-auto" tabindex="0" role="region" aria-label={label ?? 'Table'}>
+    <slot />
+  </div>
+</figure>

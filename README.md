@@ -1,43 +1,46 @@
-# Astro Starter Kit: Minimal
+# Inner Explorer website
 
-```sh
-pnpm create astro@latest -- --template minimal
+The marketing site for [Inner Explorer](https://www.innerexplorer.com) (daily
+audio-guided mindfulness for K-12 schools) and its Help Center
+([help.innerexplorer.com](https://help.innerexplorer.com)). Two Astro builds from one
+repository:
+
+| Site        | Config                  | Source      | Output       | Netlify config            |
+| ----------- | ----------------------- | ----------- | ------------ | ------------------------- |
+| Marketing   | `astro.config.mjs`      | `src/`      | `dist/`      | `netlify.toml`            |
+| Help Center | `astro.help.config.mjs` | `src-help/` | `dist-help/` | `sites/help/netlify.toml` |
+
+The marketing site is being rebuilt from a new design and is pre-launch (noindexed).
+The Help Center is live, sealed from the rebuild (`src-help/README.md`), and edited in
+CloudCannon (`docs/cms-publishing-workflow.md`).
+
+## Setup
+
+Requires Node 24 (`.nvmrc`) and pnpm (version pinned in `package.json`).
+
+```bash
+pnpm install
+pnpm dev        # marketing site at http://localhost:4321
+pnpm dev:help   # Help Center at http://localhost:4322
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+GA4 and the Intercom Messenger only render in production builds with their ids set; see
+`.env.example`.
 
-## 🚀 Project Structure
+## Checks
 
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```bash
+pnpm verify       # marketing: typecheck, lint, format, tests, build, link/asset check
+pnpm verify:help  # Help Center: CloudCannon config, build, editable regions, link/asset check
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+CI runs both on every pull request and on `main`.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## Where things are
 
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                | Action                                           |
-| :--------------------- | :----------------------------------------------- |
-| `pnpm install`         | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- `CLAUDE.md`: project context and rules (start here, human or agent).
+- `tasks/rebuild-plan.md`: the rebuild plan; `tasks/todo.md`: what's open.
+- `src/pages/`: marketing routes; each keeps its copy in a `content` object at the top.
+- `src/content/help/`, `src/data/help-ui.json`: Help Center content (CloudCannon-owned).
+- `scripts/`: build checks (`check-dist`, `compare-builds`, `check-editables`, …) and
+  the HubSpot contact-form builder.

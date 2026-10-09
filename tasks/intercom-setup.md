@@ -42,13 +42,16 @@ without any error.
 
 ## Site side — done
 
-`src/components/integrations/Intercom.astro`, rendered from `BaseLayout`, gated on
-`PUBLIC_INTERCOM_APP_ID` + a real production build (same gate as GA4). The Help
-Center build passes `surface="Help Center"`; everything else defaults to `Website`.
+`src/components/integrations/Intercom.astro`, rendered from `src/layouts/BaseLayout.astro`
+with `surface="Website"`, gated on `PUBLIC_INTERCOM_APP_ID` + a real production build (same
+gate as GA4). The Help Center renders its own frozen copy
+(`src-help/components/integrations/Intercom.astro`, from `src-help/layouts/HelpBaseLayout.astro`)
+and passes `surface="Help Center"`.
 
 **Set `PUBLIC_INTERCOM_APP_ID=a185fzec` in Netlify env vars on BOTH sites** —
 `innerexplorerwebsitev2` and `inner-explorer-help`. Each build reads its own env, so
-missing it on one site silently means no Messenger there.
+missing it on one site silently means no Messenger there. (Checked 2026-10-09: the app ID is
+in the live HTML of both sites.)
 
 ## Platform side — TODO (needs a platform engineer)
 
@@ -107,8 +110,8 @@ Center installs.
   **`help.innerexplorer.com (live site)`**, 14 pages, re-synced weekly. No article
   migration, and the CloudCannon editing workflow is untouched.
 - **Fin AI Agent is still off.** Only Copilot (agent-assist) is live. Turning Fin on
-  is a separate decision — if you do, revisit `/contact`'s "no phone trees, no dead
-  ends" promise.
+  is a separate decision — if you do, revisit what `/contact/` promises about replies
+  (today: a member of the team within one business day).
 - Intercom's 4 sample conversations (`Messenger · [Demo]` etc.) are still in the
   inbox. They pre-date the workflow so they carry no `Source` and won't appear in the
   three views; close them whenever you want a clean queue.

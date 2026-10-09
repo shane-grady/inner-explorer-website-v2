@@ -13,26 +13,29 @@
  * `@data[...]`/`@collections[...]`/`@file[...]` are absolute) and
  * `Editable.lookupPathAndContext` → `EditableText.validateValue`.
  *
- * Usage: node scripts/check-editables.mjs [dir...]     (default: dist dist-help)
+ * CloudCannon edits and builds the Help Center only (cloudcannon.config.yml), so the
+ * build it checks is `dist-help`. Besides the built HTML it reads the CloudCannon config,
+ * the editor-owned content (src/content/help/, src/data/help-ui.json), the creation
+ * templates in .cloudcannon/schemas/ and the help schema in src-help/lib/help-collection.ts.
+ *
+ * Usage: node scripts/check-editables.mjs [dir...]     (default: dist-help)
  *        node scripts/check-editables.mjs --report     (census output, never fails)
  */
 import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
-import { basename, dirname, extname, join, relative } from 'node:path';
+import { extname, join, relative } from 'node:path';
 import { parse as parseYaml } from 'yaml';
 import ts from 'typescript';
 
 const args = process.argv.slice(2);
 const REPORT_ONLY = args.includes('--report');
 const DIRS = args.filter((a) => !a.startsWith('--'));
-const WANTED = DIRS.length ? DIRS : ['dist', 'dist-help'];
-const missingRoots = WANTED.filter((d) => !existsSync(d));
+const ROOTS = DIRS.length ? DIRS : ['dist-help'];
+const missingRoots = ROOTS.filter((d) => !existsSync(d));
 if (missingRoots.length) {
-  // Scanning only one half of the two-site build is also a false pass.
   console.error(`Missing build output: ${missingRoots.join(', ')}.`);
-  console.error('Run `pnpm build:all` first — this checks built HTML, not source.');
+  console.error('Run `pnpm build:help` first — this checks built HTML, not source.');
   process.exit(1);
 }
-const ROOTS = WANTED;
 
 const MISSING = Symbol('missing');
 const TEXT_TYPES = new Set(['span', 'text', 'block']);
@@ -103,31 +106,26 @@ function dataForFileBinding(binding) {
   return fileBindingDataCache.get(path);
 }
 
-// url → backing file, built from each collection's `path` + `url` template.
-// CloudCannon template strings have two placeholder forms: FIXED placeholders in
-// square brackets (`[slug]`, defined by CloudCannon) and DATA placeholders in braces
-// (`{permalink}`, read from the file's own front matter). The `pages` collection uses
-// the data form so the homepage can resolve to '/' rather than '/index/'.
-// Two builds, two URL spaces — and they COLLIDE: /faq/ is the marketing FAQ on the
-// main site AND a help article on help.innerexplorer.com. Keep the maps separate or
-// one page gets validated against the other's file.
-const mainUrlToFile = new Map();
-const helpUrlToFile = new Map();
+// url → backing file, built from each collection's `path` + `url` template. Only the
+// FIXED `[slug]` placeholder is expanded: the help collection's `url: /[slug]/` puts
+// every article at the root of the Help Center, which is exactly where dist-help
+// serves it. Any other template leaves its pages unbacked, which fails below.
+const urlToFile = new Map();
 const mappingErrors = [];
-function addUrlMapping(map, url, backing, surface) {
-  const prior = map.get(url);
+function addUrlMapping(url, backing) {
+  const prior = urlToFile.get(url);
   if (prior && prior.path !== backing.path) {
     mappingErrors.push({
       kind: 'DUPLICATE_OUTPUT_URL',
       file: 'cloudcannon.config.yml',
       url,
       backing: backing.path,
-      tag: surface,
+      tag: backing.collection,
       detail: `also maps to ${prior.path}`,
     });
     return;
   }
-  map.set(url, backing);
+  urlToFile.set(url, backing);
 }
 
 for (const [key, cfg] of Object.entries(collections)) {
@@ -137,16 +135,7 @@ for (const [key, cfg] of Object.entries(collections)) {
     const slug = relative(cfg.path, full)
       .replace(/\\/g, '/')
       .replace(/\.[^.]+$/, '');
-    let url = cfg.url.replace(/\[slug\]/g, slug);
-    if (url.includes('{')) {
-      const { data } = loadFile(full);
-      url = url.replace(/\{([^}|]+)(\|[^}]*)?\}/g, (_, k) => String(data?.[k.trim()] ?? ''));
-    }
-    if (!url) continue;
-    const backing = { collection: key, path: full };
-    addUrlMapping(mainUrlToFile, url, backing, 'marketing');
-    // The standalone Help Center build serves the same files at the subdomain root.
-    if (key === 'help') addUrlMapping(helpUrlToFile, `/${slug}/`, backing, 'help');
+    addUrlMapping(cfg.url.replace(/\[slug\]/g, slug), { collection: key, path: full });
   }
 }
 const datasets = Object.fromEntries(
@@ -468,10 +457,11 @@ function flatten(node, out = []) {
 
 // ── _inputs key-name ambiguity ───────────────────────────────────────────────
 // CloudCannon matches an `_inputs` key by NAME, at any depth in the file. So a name
-// used twice inside one page with DIFFERENT shapes cannot be declared at schema or
-// file level without mis-typing one of the uses — e.g. about.yml has `stats` as both
-// {value,sup,label,sub} and {n,l}, and home.yml has it in three shapes. Structure-level
-// `_inputs` are naturally scoped to their structure and are therefore exempt.
+// used twice inside one file with DIFFERENT shapes cannot be declared at schema or
+// file level without mis-typing one of the uses — e.g. help-ui.json's `title` is a
+// string in every group; making one of them an object would leave a single `title`
+// input wrong for the others. Structure-level `_inputs` are naturally scoped to their
+// structure and are therefore exempt.
 const shapeOf = (v) => {
   if (Array.isArray(v)) {
     if (!v.length) return 'array<empty>';
@@ -630,6 +620,65 @@ function checkDataReachability() {
 // declare makes the whole element unmatched, and the Content Editor renders
 // "<component> cannot be edited — Unexpected element" instead of the snippet. The
 // page still builds correctly, so nothing else catches it.
+
+// End index of the JSX expression `{…}` that opens at `start`, or -1. Braces inside
+// JS strings, template literals and comments do not count, so `items={[{ title: '…' }]}`
+// and `{/* it's fine */}` both work.
+function jsxExpressionEnd(src, start) {
+  let depth = 0;
+  for (let i = start; i < src.length; i++) {
+    const c = src[i];
+    if (c === '"' || c === "'" || c === '`') {
+      for (i++; i < src.length && src[i] !== c; i++) if (src[i] === '\\') i++;
+    } else if (src.startsWith('//', i)) {
+      i = src.indexOf('\n', i);
+      if (i === -1) return -1;
+    } else if (src.startsWith('/*', i)) {
+      i = src.indexOf('*/', i + 2);
+      if (i === -1) return -1;
+      i++;
+    } else if (c === '{') depth++;
+    else if (c === '}' && --depth === 0) return i + 1;
+  }
+  return -1;
+}
+
+// Every `<Component …>` opening tag in an MDX body, with its attribute names. A tag
+// whose attributes cannot be read comes back `unparsed`, so the caller reports it
+// rather than silently skipping a usage it cannot check.
+function* mdxComponentTags(src) {
+  const open = /<([A-Z][A-Za-z0-9]*)(?=[\s/>])/g;
+  const skipSpace = (i) => {
+    while (/\s/.test(src[i] ?? '')) i++;
+    return i;
+  };
+  let m;
+  while ((m = open.exec(src))) {
+    const attrs = [];
+    let i = open.lastIndex;
+    let closed = false;
+    while (i !== -1 && i < src.length) {
+      i = skipSpace(i);
+      if (src[i] === '>' || src.startsWith('/>', i)) {
+        closed = true;
+        break;
+      }
+      const name = /^[a-zA-Z][\w-]*/.exec(src.slice(i, i + 100))?.[0];
+      if (!name) break;
+      attrs.push(name);
+      i = skipSpace(i + name.length);
+      if (src[i] !== '=') continue; // a boolean attribute
+      i = skipSpace(i + 1);
+      if (src[i] === '{') i = jsxExpressionEnd(src, i);
+      else if (src[i] === '"' || src[i] === "'") {
+        const end = src.indexOf(src[i], i + 1);
+        i = end === -1 ? -1 : end + 1;
+      } else break;
+    }
+    yield { component: m[1], attrs, unparsed: !closed };
+  }
+}
+
 function checkSnippetCoverage() {
   const found = [];
   const byComponent = {};
@@ -658,12 +707,20 @@ function checkSnippetCoverage() {
       if (!/\.mdx?$/.test(name)) continue;
       const full = join(dir, name);
       const src = readFileSync(full, 'utf8');
-      const tag =
-        /<([A-Z][A-Za-z0-9]*)((?:\s+[a-zA-Z][\w-]*(?:=(?:"[^"]*"|'[^']*'|\{[^}]*\}))?)*)\s*\/?>/g;
-      let m;
-      while ((m = tag.exec(src))) {
-        const component = m[1];
-        const attrs = [...(m[2] ?? '').matchAll(/([a-zA-Z][\w-]*)=/g)].map((a) => a[1]);
+      for (const { component, attrs, unparsed } of mdxComponentTags(src)) {
+        if (unparsed) {
+          found.push({
+            kind: 'UNPARSED_MDX_TAG',
+            file: full,
+            url: full,
+            backing: full,
+            tag: component,
+            detail:
+              `could not read the attributes of <${component}>, so its snippet match is ` +
+              `unchecked — write each attribute as name="…" or name={…}`,
+          });
+          continue;
+        }
         const defs = byComponent[component];
         let detail;
         if (!defs) {
@@ -699,537 +756,6 @@ function checkSnippetCoverage() {
       }
     }
   }
-  return found;
-}
-
-// ── registered component coverage ───────────────────────────────────────────
-const componentRegistrationErrors = [];
-const registeredComponentSources = new Map();
-
-function registeredComponentKeys() {
-  const found = new Set();
-  for (const file of filesBelow('src/cloudcannon', new Set(['.ts', '.js', '.mjs']))) {
-    const source = ts.createSourceFile(
-      file,
-      readFileSync(file, 'utf8'),
-      ts.ScriptTarget.Latest,
-      true,
-    );
-    const imports = new Map();
-    for (const statement of source.statements) {
-      if (!ts.isImportDeclaration(statement) || !ts.isStringLiteral(statement.moduleSpecifier)) {
-        continue;
-      }
-      const local = statement.importClause?.name?.text;
-      if (local) imports.set(local, statement.moduleSpecifier.text);
-    }
-    const visit = (node) => {
-      if (
-        ts.isCallExpression(node) &&
-        ts.isIdentifier(node.expression) &&
-        /^(?:registerAstroComponent|registerReactComponent)$/.test(node.expression.text) &&
-        node.arguments[0] &&
-        ts.isStringLiteralLike(node.arguments[0])
-      ) {
-        const key = node.arguments[0].text;
-        if (found.has(key)) {
-          componentRegistrationErrors.push({
-            kind: 'DUPLICATE_COMPONENT_REGISTRATION',
-            file,
-            url: key,
-            backing: file,
-            tag: key,
-            detail: 'component key is registered more than once',
-          });
-        }
-        found.add(key);
-        const renderer = node.arguments[1];
-        if (renderer && ts.isIdentifier(renderer) && imports.has(renderer.text)) {
-          const imported = join(dirname(file), imports.get(renderer.text));
-          const candidates = [imported, `${imported}.astro`, join(imported, 'index.astro')];
-          const componentFile = candidates.find((candidate) => existsSync(candidate));
-          if (componentFile) registeredComponentSources.set(key, componentFile);
-        }
-      }
-      ts.forEachChild(node, visit);
-    };
-    visit(source);
-  }
-  return found;
-}
-
-const registeredComponents = registeredComponentKeys();
-
-function checkRegisteredComponentTopology() {
-  const found = [];
-  for (const [key, file] of registeredComponentSources) {
-    const raw = readFileSync(file, 'utf8');
-    const frontmatterEnd = raw.startsWith('---') ? raw.indexOf('\n---', 3) : -1;
-    const template = (frontmatterEnd === -1 ? raw : raw.slice(frontmatterEnd + 4))
-      .replace(/<!--[^]*?-->/g, '')
-      .replace(/\{\/\*[^]*?\*\/\}/g, '');
-    const escapedKey = key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const componentAttr = new RegExp(
-      `\\bdata-component\\s*=\\s*(?:["']${escapedKey}["']|\\{[^}]*["']${escapedKey}["'][^}]*\\})`,
-    );
-    const selfWrappedArrayItem = [...template.matchAll(/<[A-Za-z][\w:-]*\b[^>]*>/g)].some(
-      ([tag]) =>
-        componentAttr.test(tag) &&
-        (/^<editable-array-item\b/i.test(tag) ||
-          /\bdata-editable\s*=\s*["']array-item["']/.test(tag) ||
-          /\{\.\.\.editableItem\s*\(/.test(tag)),
-    );
-    if (!selfWrappedArrayItem) continue;
-    found.push({
-      kind: 'SELF_WRAPPED_REGISTERED_COMPONENT',
-      file,
-      url: key,
-      backing: file,
-      tag: key,
-      detail:
-        'a registered renderer must not emit its own array-item/component boundary; keep that boundary at the call site so detached re-renders preserve array ancestry',
-    });
-  }
-  return found;
-}
-
-const EXPECTED_MARKETING_PAGE_IDS = new Set([
-  'about',
-  'blog-index',
-  'case-studies-index',
-  'contact',
-  'districts',
-  'faq',
-  'home',
-  'narrators-index',
-  'newsroom',
-  'platform',
-  'pricing',
-  'privacy-policy',
-  'research',
-]);
-
-// ── fixed marketing-page contract ───────────────────────────────────────────
-function routeUrlForSource(file) {
-  let route = relative('src/pages', file)
-    .replace(/\\/g, '/')
-    .replace(/\.astro$/, '');
-  if (route.includes('[')) return null;
-  if (route === 'index') return '/';
-  if (route.endsWith('/index')) route = route.slice(0, -'/index'.length);
-  return `/${route}/`.replace(/\/{2,}/g, '/');
-}
-
-function pageSchemaRegistry() {
-  const registryPath = 'src/lib/page-schemas/index.ts';
-  const result = { ids: new Map(), errors: [] };
-  if (!existsSync(registryPath)) return result;
-  const source = ts.createSourceFile(
-    registryPath,
-    readFileSync(registryPath, 'utf8'),
-    ts.ScriptTarget.Latest,
-    true,
-  );
-  const imports = new Map();
-  for (const statement of source.statements) {
-    if (!ts.isImportDeclaration(statement) || !ts.isStringLiteral(statement.moduleSpecifier))
-      continue;
-    const module = statement.moduleSpecifier.text;
-    for (const element of statement.importClause?.namedBindings?.elements ?? []) {
-      imports.set(element.name.text, module);
-    }
-  }
-  let registryArray = null;
-  const findRegistry = (node) => {
-    if (
-      ts.isVariableDeclaration(node) &&
-      ts.isIdentifier(node.name) &&
-      node.name.text === 'pageSchemas' &&
-      node.initializer
-    ) {
-      const findArray = (candidate) => {
-        if (!registryArray && ts.isArrayLiteralExpression(candidate)) registryArray = candidate;
-        else ts.forEachChild(candidate, findArray);
-      };
-      findArray(node.initializer);
-    }
-    if (!registryArray) ts.forEachChild(node, findRegistry);
-  };
-  findRegistry(source);
-  if (!registryArray) return result;
-
-  for (const element of registryArray.elements) {
-    const call = ts.isCallExpression(element) ? element : null;
-    const name = call && ts.isIdentifier(call.expression) ? call.expression.text : null;
-    const module = name ? imports.get(name) : null;
-    const file = module?.startsWith('./')
-      ? join('src/lib/page-schemas', `${module.slice(2)}.ts`)
-      : null;
-    if (!name || !file || !existsSync(file)) {
-      result.errors.push({
-        kind: 'UNREADABLE_ZOD_REGISTRY',
-        file: registryPath,
-        url: name ?? 'pageSchemas',
-        backing: file,
-        tag: name ?? 'pageSchemas',
-        detail: 'pageSchemas contains an entry that cannot be traced to an imported schema module',
-      });
-      continue;
-    }
-    const moduleSource = ts.createSourceFile(
-      file,
-      readFileSync(file, 'utf8'),
-      ts.ScriptTarget.Latest,
-      true,
-    );
-    let exportedInitializer = null;
-    for (const statement of moduleSource.statements) {
-      if (!ts.isVariableStatement(statement)) continue;
-      const declaration = statement.declarationList.declarations.find(
-        (item) => ts.isIdentifier(item.name) && item.name.text === name,
-      );
-      if (declaration?.initializer) {
-        exportedInitializer = declaration.initializer;
-        break;
-      }
-    }
-    const literals = [];
-    const visit = (node) => {
-      if (
-        ts.isPropertyAssignment(node) &&
-        propertyName(node.name) === '_schema' &&
-        ts.isCallExpression(node.initializer) &&
-        ts.isPropertyAccessExpression(node.initializer.expression) &&
-        ts.isIdentifier(node.initializer.expression.expression) &&
-        node.initializer.expression.expression.text === 'z' &&
-        node.initializer.expression.name.text === 'literal' &&
-        node.initializer.arguments[0] &&
-        ts.isStringLiteralLike(node.initializer.arguments[0])
-      ) {
-        literals.push(node.initializer.arguments[0].text);
-      }
-      ts.forEachChild(node, visit);
-    };
-    if (exportedInitializer) visit(exportedInitializer);
-    if (literals.length !== 1) {
-      result.errors.push({
-        kind: 'INVALID_ZOD_SCHEMA_MODULE',
-        file,
-        url: name,
-        backing: file,
-        tag: name,
-        detail: `registered schema module must declare exactly one _schema literal (found ${literals.length})`,
-      });
-      continue;
-    }
-    const id = literals[0];
-    const uses = result.ids.get(id) ?? [];
-    uses.push(file);
-    result.ids.set(id, uses);
-  }
-  return result;
-}
-
-function marketingEntriesInRoute(file) {
-  const source = readFileSync(file, 'utf8');
-  const frontmatter = source.match(/^---\r?\n([\s\S]*?)\r?\n---/)?.[1];
-  if (!frontmatter) return [];
-  const ast = ts.createSourceFile(file, frontmatter, ts.ScriptTarget.Latest, true);
-  const ids = [];
-  const visit = (node) => {
-    if (
-      ts.isCallExpression(node) &&
-      ts.isIdentifier(node.expression) &&
-      node.expression.text === 'getEntry' &&
-      node.arguments[0] &&
-      ts.isStringLiteralLike(node.arguments[0]) &&
-      node.arguments[0].text === 'pages' &&
-      node.arguments[1] &&
-      ts.isStringLiteralLike(node.arguments[1])
-    ) {
-      ids.push(node.arguments[1].text);
-    }
-    ts.forEachChild(node, visit);
-  };
-  visit(ast);
-  return ids;
-}
-
-function checkMarketingPageContract() {
-  const found = [];
-  const pagesCfg = collections.pages;
-  if (!pagesCfg) {
-    found.push({
-      kind: 'MISSING_PAGES_COLLECTION',
-      file: 'cloudcannon.config.yml',
-      url: 'pages',
-      backing: null,
-      tag: 'pages',
-      detail: 'the fixed-layout Marketing pages collection is required',
-    });
-    return found;
-  }
-  if (!pagesCfg.path || !existsSync(pagesCfg.path)) {
-    found.push({
-      kind: 'MISSING_PAGES_PATH',
-      file: 'cloudcannon.config.yml',
-      url: 'pages',
-      backing: pagesCfg.path ?? null,
-      tag: 'path',
-      detail: 'the Marketing pages content directory does not exist',
-    });
-    return found;
-  }
-  if (pagesCfg.disable_add !== true) {
-    found.push({
-      kind: 'UNSAFE_PAGES_COLLECTION',
-      file: 'cloudcannon.config.yml',
-      url: 'pages',
-      backing: pagesCfg.path,
-      tag: 'disable_add',
-      detail: 'fixed-layout Marketing pages must keep disable_add: true',
-    });
-  }
-  if (pagesCfg.url !== '{permalink}') {
-    found.push({
-      kind: 'INVALID_PAGES_URL',
-      file: 'cloudcannon.config.yml',
-      url: 'pages',
-      backing: pagesCfg.path,
-      tag: 'url',
-      detail: 'Marketing pages must use url: "{permalink}"',
-    });
-  }
-
-  const pageFiles = [...filesBelow(pagesCfg.path, new Set(['.yml', '.yaml', '.json']))];
-  const entries = pageFiles.map((path) => ({
-    path,
-    id: path.slice(path.lastIndexOf('/') + 1).replace(/\.[^.]+$/, ''),
-    data: loadFile(path).data,
-  }));
-
-  const permalinks = new Map();
-  for (const entry of entries) {
-    const permalink = entry.data?.permalink;
-    if (typeof permalink !== 'string' || !permalink.startsWith('/') || !permalink.endsWith('/')) {
-      found.push({
-        kind: 'MISSING_PERMALINK',
-        file: entry.path,
-        url: entry.id,
-        backing: entry.path,
-        tag: 'permalink',
-        detail: 'marketing page needs a non-empty permalink with leading and trailing slashes',
-      });
-    } else {
-      const prior = permalinks.get(permalink);
-      if (prior) {
-        found.push({
-          kind: 'DUPLICATE_PERMALINK',
-          file: entry.path,
-          url: permalink,
-          backing: entry.path,
-          tag: 'permalink',
-          detail: `also used by ${prior}`,
-        });
-      } else {
-        permalinks.set(permalink, entry.path);
-      }
-    }
-    if (entry.data?._schema !== entry.id) {
-      found.push({
-        kind: 'PAGE_ID_MISMATCH',
-        file: entry.path,
-        url: String(permalink ?? entry.id),
-        backing: entry.path,
-        tag: '_schema',
-        detail: `filename id "${entry.id}" does not match _schema "${entry.data?._schema ?? ''}"`,
-      });
-    }
-  }
-
-  const entryById = new Map(entries.map((entry) => [entry.id, entry]));
-  for (const id of EXPECTED_MARKETING_PAGE_IDS) {
-    if (entryById.has(id)) continue;
-    found.push({
-      kind: 'MISSING_MARKETING_PAGE',
-      file: pagesCfg.path,
-      url: id,
-      backing: null,
-      tag: id,
-      detail: 'required fixed-layout marketing page is missing',
-    });
-  }
-  for (const [id, entry] of entryById) {
-    if (EXPECTED_MARKETING_PAGE_IDS.has(id)) continue;
-    found.push({
-      kind: 'UNEXPECTED_MARKETING_PAGE',
-      file: entry.path,
-      url: id,
-      backing: entry.path,
-      tag: id,
-      detail: 'marketing page is not part of the fixed thirteen-page contract',
-    });
-  }
-  const configured = pagesCfg.schemas ?? {};
-  for (const entry of entries) {
-    const schema = configured[entry.id];
-    if (!schema) {
-      found.push({
-        kind: 'MISSING_PAGE_CONFIG',
-        file: 'cloudcannon.config.yml',
-        url: entry.id,
-        backing: entry.path,
-        tag: entry.id,
-        detail: `collections_config.pages.schemas has no "${entry.id}" entry`,
-      });
-    } else if (typeof schema.path !== 'string' || !existsSync(schema.path)) {
-      found.push({
-        kind: 'MISSING_PAGE_SCHEMA_TEMPLATE',
-        file: 'cloudcannon.config.yml',
-        url: entry.id,
-        backing: schema.path ?? null,
-        tag: entry.id,
-        detail: `schema template ${schema.path ?? '(missing)'} does not exist`,
-      });
-    } else if (
-      schema.path === pagesCfg.path ||
-      schema.path.startsWith(`${pagesCfg.path.replace(/\/$/, '')}/`)
-    ) {
-      found.push({
-        kind: 'PAGE_SCHEMA_TEMPLATE_IN_COLLECTION',
-        file: 'cloudcannon.config.yml',
-        url: entry.id,
-        backing: schema.path,
-        tag: entry.id,
-        detail:
-          'schema templates must live outside the Marketing pages collection or CloudCannon hides them from the collection listing',
-      });
-    }
-  }
-  for (const id of Object.keys(configured)) {
-    if (entryById.has(id)) continue;
-    found.push({
-      kind: 'ORPHANED_PAGE_CONFIG',
-      file: 'cloudcannon.config.yml',
-      url: id,
-      backing: configured[id]?.path ?? null,
-      tag: id,
-      detail: 'CloudCannon page schema has no matching marketing content file',
-    });
-  }
-
-  const registry = pageSchemaRegistry();
-  found.push(...registry.errors);
-  const zodIds = new Set(registry.ids.keys());
-  for (const [id, files] of registry.ids) {
-    if (files.length === 1) continue;
-    found.push({
-      kind: 'DUPLICATE_ZOD_DISCRIMINANT',
-      file: files[1],
-      url: id,
-      backing: files[0],
-      tag: id,
-      detail: `pageSchemas registers _schema "${id}" ${files.length} times`,
-    });
-  }
-  for (const entry of entries) {
-    if (zodIds.has(entry.id)) continue;
-    found.push({
-      kind: 'MISSING_ZOD_DISCRIMINANT',
-      file: 'src/lib/page-schemas',
-      url: entry.id,
-      backing: entry.path,
-      tag: entry.id,
-      detail: 'marketing page id is absent from the page-schema discriminated union',
-    });
-  }
-  for (const id of zodIds) {
-    if (entryById.has(id)) continue;
-    found.push({
-      kind: 'ORPHANED_ZOD_DISCRIMINANT',
-      file: 'src/lib/page-schemas',
-      url: id,
-      backing: null,
-      tag: id,
-      detail: 'Zod page discriminant has no matching marketing content file',
-    });
-  }
-
-  const routes = new Map();
-  for (const file of filesBelow('src/pages', new Set(['.astro']))) {
-    const url = routeUrlForSource(file);
-    for (const id of marketingEntriesInRoute(file)) {
-      const uses = routes.get(id) ?? [];
-      uses.push({ file, url });
-      routes.set(id, uses);
-    }
-  }
-  for (const [id, uses] of routes) {
-    if (uses.length === 1) continue;
-    found.push({
-      kind: 'DUPLICATE_PAGE_ROUTE',
-      file: uses[1].file,
-      url: uses[1].url ?? id,
-      backing: uses[0].file,
-      tag: id,
-      detail: `marketing page id is loaded by ${uses.length} fixed routes`,
-    });
-  }
-  for (const entry of entries) {
-    const route = routes.get(entry.id)?.[0];
-    if (!route) {
-      found.push({
-        kind: 'MISSING_PAGE_ROUTE',
-        file: 'src/pages',
-        url: entry.id,
-        backing: entry.path,
-        tag: entry.id,
-        detail: 'no fixed Astro route loads this marketing page id',
-      });
-    } else if (route.url !== entry.data?.permalink) {
-      found.push({
-        kind: 'PAGE_ROUTE_MISMATCH',
-        file: route.file,
-        url: route.url ?? entry.id,
-        backing: entry.path,
-        tag: entry.id,
-        detail: `route URL "${route.url}" does not match permalink "${entry.data?.permalink ?? ''}"`,
-      });
-    }
-  }
-  for (const [id, uses] of routes) {
-    if (entryById.has(id)) continue;
-    const route = uses[0];
-    found.push({
-      kind: 'ORPHANED_PAGE_ROUTE',
-      file: route.file,
-      url: route.url ?? id,
-      backing: null,
-      tag: id,
-      detail: 'Astro route loads a marketing page id with no matching content file',
-    });
-  }
-
-  const marketingRoot = ROOTS.find((root) => !/(^|[/\\])dist-help[/\\]?$/.test(root));
-  if (marketingRoot) {
-    for (const entry of entries) {
-      const permalink = entry.data?.permalink;
-      if (typeof permalink !== 'string' || !permalink.startsWith('/')) continue;
-      const relativeOutput =
-        permalink === '/' ? 'index.html' : join(permalink.slice(1), 'index.html');
-      const output = join(marketingRoot, relativeOutput);
-      if (existsSync(output)) continue;
-      found.push({
-        kind: 'MISSING_OUTPUT_PAGE',
-        file: output,
-        url: permalink,
-        backing: entry.path,
-        tag: entry.id,
-        detail: 'the marketing page contract has no generated HTML output',
-      });
-    }
-  }
-
   return found;
 }
 
@@ -1456,42 +982,11 @@ function checkStructuredCreationFields(shape, inputs, context, prefix = '') {
 function checkCreationSchemas() {
   const found = [];
   const contracts = {
-    blog: {
-      source: 'src/content.config.ts',
-      variable: 'blog',
-      createPath: '[relative_base_path]/{title|slugify}[count].mdx',
-      sentinel: { path: 'metaTitle', value: 'New blog post | Inner Explorer' },
-    },
-    caseStudies: {
-      source: 'src/content.config.ts',
-      variable: 'caseStudies',
-      createPath: '[relative_base_path]/{slug|slugify}[count].yaml',
-      createPathInput: 'slug',
-      sentinel: { path: 'seoTitle', value: 'New case study | Inner Explorer' },
-    },
     help: {
-      source: 'src/lib/help-collection.ts',
+      source: 'src-help/lib/help-collection.ts',
       variable: 'helpCollection',
       createPath: '[relative_base_path]/{title|slugify}[count].mdx',
       sentinel: { path: 'seoTitle', value: 'New help article | Inner Explorer' },
-    },
-    narrators: {
-      source: 'src/content.config.ts',
-      variable: 'narrators',
-      createPath: '[relative_base_path]/{name|slugify}[count].yml',
-      sentinel: { path: 'name', value: 'Narrator name' },
-    },
-    series: {
-      source: 'src/content.config.ts',
-      variable: 'series',
-      createPath: '[relative_base_path]/{name|slugify}[count].yaml',
-      sentinel: { path: 'seoTitle', value: 'New practice series | Inner Explorer' },
-    },
-    testimonials: {
-      source: 'src/content.config.ts',
-      variable: 'testimonials',
-      createPath: '[relative_base_path]/{name|slugify}[count].yml',
-      sentinel: { path: 'quote', value: 'Add the testimonial quote.', always: true },
     },
   };
   if (cc._inputs?._schema) {
@@ -1499,20 +994,14 @@ function checkCreationSchemas() {
       kind: 'GLOBAL_SCHEMA_INPUT',
       file: 'cloudcannon.config.yml',
       url: '_inputs._schema',
-      backing: 'collections_config.pages._inputs._schema',
+      backing: 'cloudcannon.config.yml',
       tag: '_schema',
       detail:
-        'schema metadata must be scoped to Marketing pages or CloudCannon can serialize it into single-shape collections',
+        'a global _schema input lets CloudCannon serialize schema metadata into single-shape collections',
     });
   }
   for (const [collection, contract] of Object.entries(contracts)) {
-    const {
-      source,
-      variable,
-      createPath: requiredCreatePath,
-      createPathInput,
-      sentinel,
-    } = contract;
+    const { source, variable, createPath: requiredCreatePath, sentinel } = contract;
     const cfg = collections[collection];
     if (!cfg) {
       found.push({
@@ -1571,11 +1060,7 @@ function checkCreationSchemas() {
               'single-shape content must not carry _schema metadata; creation uses a default_content_file only',
           });
         }
-        if (
-          sentinel &&
-          lookup(data, sentinel.path) === sentinel.value &&
-          (sentinel.always || data.draft !== true)
-        ) {
+        if (sentinel && lookup(data, sentinel.path) === sentinel.value && data.draft !== true) {
           found.push({
             kind: 'CREATION_TEMPLATE_SENTINEL',
             file,
@@ -1605,17 +1090,6 @@ function checkCreationSchemas() {
         backing: cfg.path ?? null,
         tag: 'create.path',
         detail: `creation path must be ${requiredCreatePath}; found ${createPath}`,
-      });
-    }
-    const pathInput = createPathInput ? cfg._inputs?.[createPathInput] : null;
-    if (createPathInput && (pathInput?.type !== 'text' || pathInput?.options?.required !== true)) {
-      found.push({
-        kind: 'INVALID_CREATION_PATH_INPUT',
-        file: 'cloudcannon.config.yml',
-        url: collection,
-        backing: cfg.path ?? null,
-        tag: createPathInput,
-        detail: `creation path field "${createPathInput}" must be an explicit required Text input`,
       });
     }
     const addOptions = Array.isArray(cfg.add_options)
@@ -1834,52 +1308,6 @@ function checkSnippetArgumentOrder() {
   return found;
 }
 
-// ── Help article link portability ───────────────────────────────────────────
-function checkHelpLinks() {
-  const found = [];
-  const dir = collections.help?.path ?? 'src/content/help';
-  if (!existsSync(dir)) return found;
-  const articles = [...filesBelow(dir, new Set(['.md', '.mdx']))];
-  const known = new Set(
-    articles.map((file) => file.slice(file.lastIndexOf('/') + 1).replace(/\.[^.]+$/, '')),
-  );
-  for (const file of articles) {
-    const source = readFileSync(file, 'utf8');
-    const patterns = [
-      /(?<!!)\]\(\s*<?(\/(?!\/)[^\s)>]+)/g,
-      /href\s*=\s*['"`](\/(?!\/)[^'"`]+)['"`]/g,
-      /href\s*=\s*\{\s*['"`](\/(?!\/)[^'"`]+)['"`]\s*\}/g,
-      /href\s*=\s*(\/(?!\/)[^\s>]+)/g,
-      /^\s*\[[^\]]+\]:\s*<?(\/(?!\/)[^\s>]+)>?/gm,
-    ];
-    const seen = new Set();
-    for (const pattern of patterns) {
-      let match;
-      while ((match = pattern.exec(source))) {
-        const href = match.slice(1).find(Boolean);
-        const segments = href.split(/[?#]/, 1)[0].split('/').filter(Boolean);
-        const slug = segments[0] === 'help' ? segments[1] : segments[0];
-        if (!known.has(slug)) continue;
-        const line = source.slice(0, match.index).split('\n').length;
-        const dedupe = `${line}|${href}`;
-        if (seen.has(dedupe)) continue;
-        seen.add(dedupe);
-        found.push({
-          kind: 'ROOT_RELATIVE_HELP_LINK',
-          file,
-          url: `${file}:${line}`,
-          backing: file,
-          tag: slug,
-          detail:
-            `root-relative link "${href}" targets Help article "${slug}" and cannot work on both sites; ` +
-            'use a relative sibling URL',
-        });
-      }
-    }
-  }
-  return found;
-}
-
 // ── walk the builds ──────────────────────────────────────────────────────────
 function* htmlFiles(dir) {
   for (const name of readdirSync(dir)) {
@@ -1891,27 +1319,20 @@ function* htmlFiles(dir) {
 
 const errors = [
   ...mappingErrors,
-  ...componentRegistrationErrors,
-  ...checkRegisteredComponentTopology(),
   ...checkInputAmbiguity(),
   ...checkSchemaRegistration(),
   ...checkDataReachability(),
   ...checkSnippetCoverage(),
-  ...checkMarketingPageContract(),
   ...checkCreationSchemas(),
   ...checkSelectSources(),
   ...checkSnippetDefaults(),
   ...checkSnippetArgumentOrder(),
-  ...checkHelpLinks(),
 ];
 const warnings = [];
 const stats = { pages: 0, regions: 0, unbacked: 0, byKind: {} };
-const ALLOWED_UNBACKED_PAGES = new Set([
-  'dist|/help/',
-  'dist|/styleguide/',
-  'dist-help|/',
-  'dist-help|/404.html',
-]);
+// Help pages that are not collection entries. Their regions bind with absolute
+// `@data[help-ui]…` paths, so they need no backing file.
+const ALLOWED_UNBACKED_PAGES = new Set(['/', '/404.html']);
 
 for (const root of ROOTS) {
   for (const file of htmlFiles(root)) {
@@ -1922,8 +1343,7 @@ for (const root of ROOTS) {
       relative(root, file)
         .replace(/index\.html$/, '')
         .replace(/\\/g, '/');
-    const lookupMap = basename(root) === 'dist-help' ? helpUrlToFile : mainUrlToFile;
-    const backing = lookupMap.get(url) ?? null;
+    const backing = urlToFile.get(url) ?? null;
     const { data: entry, body } = backing ? loadFile(backing.path) : { data: null, body: null };
     const tree = parseEditables(html);
     const fallbackInputScope = entryInputScope(backing);
@@ -1935,8 +1355,7 @@ for (const root of ROOTS) {
     const where = { file, url, backing: backing?.path ?? null };
     if (!backing) {
       stats.unbacked++;
-      const key = `${basename(root)}|${url}`;
-      if (!ALLOWED_UNBACKED_PAGES.has(key)) {
+      if (!ALLOWED_UNBACKED_PAGES.has(url)) {
         errors.push({
           ...where,
           kind: 'UNBACKED_EDITABLE_PAGE',
@@ -1951,6 +1370,9 @@ for (const root of ROOTS) {
       const prop = n.attrs['data-prop'];
       const propKeys = Object.keys(n.attrs).filter((k) => k.startsWith('data-prop'));
 
+      // A component region re-renders through a renderer registered in the editor
+      // iframe. The Help Center registers none (HelpBaseLayout loads no registration
+      // script), so any `data-component` shows "Failed to render component" there.
       const component = n.attrs['data-component'];
       if (n.kind === 'component' && !component) {
         errors.push({
@@ -1959,31 +1381,13 @@ for (const root of ROOTS) {
           tag: n.tag,
           detail: 'component region has no data-component key',
         });
-      } else if (component && !registeredComponents.has(component)) {
+      } else if (component) {
         errors.push({
           ...where,
           kind: 'UNKNOWN_COMPONENT',
           tag: n.tag,
-          detail: `data-component="${component}" is not registered`,
+          detail: `data-component="${component}" is not registered; the Help Center registers no component renderers`,
         });
-      }
-
-      if (
-        n.parent?.kind === 'component' &&
-        /^@data\[[^\]]+\](?:\..+)?$/.test(n.parent.attrs['data-prop'] ?? '')
-      ) {
-        for (const key of propKeys) {
-          const binding = n.attrs[key];
-          if (!binding || binding.startsWith('@')) continue;
-          errors.push({
-            ...where,
-            kind: 'RELATIVE_EXTERNAL_DATA_BINDING',
-            tag: n.tag,
-            detail:
-              `${key}="${binding}" is relative to an external @data component; ` +
-              'CloudCannon editable-regions 0.0.19 requires an explicit @data[key].field binding here so its hosted Dataset API resolves it',
-          });
-        }
       }
 
       const checkInput = (binding) => {

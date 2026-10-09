@@ -16,6 +16,9 @@ jobs:
           node-version-file: .nvmrc
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      # One reproducible acceptance gate for code, CloudCannon configuration,
-      # both site builds, and Visual Editor bindings.
-      - run: pnpm verify:cms
+      # One job, so branch protection's required `verify` check stays the same. Covers
+      # code, both site builds, the CloudCannon configuration and Visual Editor bindings,
+      # the checker's own tests, and (only possible here, with both builds present) the
+      # links between the two sites.
+      - run: pnpm verify && pnpm verify:help && pnpm test:editables
+      - run: pnpm check:dist dist dist-help

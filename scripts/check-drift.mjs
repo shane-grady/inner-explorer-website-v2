@@ -5,7 +5,7 @@
  * WHY: AI agents (and humans in a hurry) reach for one-off values — bg-[#3b82f6],
  * mt-[13px], inline hex colors — instead of design tokens. Those silently erode the
  * system until every screen is "almost" consistent. This makes that a hard error so
- * every color / size / space comes from the @theme token scale in global.css.
+ * every color / size / space comes from the design tokens (see DESIGN.md).
  *
  * Escape hatch (use sparingly): put a `drift-ignore-next-line` comment on the line above.
  */
@@ -67,7 +67,7 @@ if (violations.length > 0) {
   for (const v of violations) {
     console.error(`  ${v.file}:${v.line}  ${v.msg}\n      → ${v.match}`);
   }
-  console.error(`\nFix: use design tokens from src/styles/global.css (@theme). See DESIGN.md.`);
+  console.error(`\nFix: use the design tokens instead. See DESIGN.md.`);
   console.error(`If genuinely unavoidable, add a "${IGNORE}" comment on the line above.\n`);
   process.exit(1);
 }

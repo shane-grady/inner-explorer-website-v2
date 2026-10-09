@@ -9,8 +9,8 @@ import { decompress } from 'wawoff2';
 // The card uses the site's dark brand surface so shared links read as unmistakably
 // Inner Explorer in a feed of white cards: deep calm green, warm cream serif type,
 // and concentric rings echoing the ring-of-leaves mark (and a breath rippling out).
-// Colors mirror tokens in src/styles/global.css (satori cannot read CSS variables;
-// the drift guard does not scan .ts). Keep in sync manually:
+// Colors mirror the frozen tokens in src-help/styles/help.css (satori cannot read CSS
+// variables; the drift guard does not scan .ts). Keep in sync manually:
 //   SURFACE_FROM/TO = --voice-featured-bg gradient stops, CREAM = --cream-50,
 //   EYEBROW = --brand-300, GLOW = --brand-600.
 const SURFACE_FROM = '#1a2e1f';
@@ -63,7 +63,7 @@ async function ghostMark(mark: Buffer): Promise<Buffer> {
 let assetsPromise: Promise<Assets> | undefined;
 function loadAssets(): Promise<Assets> {
   assetsPromise ??= (async () => {
-    const mark = await readFile('src/assets/brand/inner-explorer-mark.png');
+    const mark = await readFile('src-help/assets/brand/inner-explorer-mark.png');
     return {
       fonts: [
         {
