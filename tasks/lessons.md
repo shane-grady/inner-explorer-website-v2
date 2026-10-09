@@ -134,7 +134,7 @@ editing) are in `tasks/archive/lessons-pre-rebuild.md`; general points from them
   on `:root`, so overriding `--card` on a descendant does not re-resolve the utility. The
   pre-rebuild light-pinned pages hit this under dark mode (archived). It is why the rebuild
   declares its color utilities in `@theme inline`, which puts the `var(--…)` in each utility so
-  scoped overrides (`[data-on-brand]`, a later dark theme) work (`rebuild-plan.md` › B1).
+  scoped overrides (`[data-on-brand]`, a later dark theme) work (`rebuild-plan.md` › Next PR: the design foundation).
 - **`<audio>` needs a `<track kind="captions">`** for `astro/jsx-a11y/media-has-caption`,
   even for placeholder/silent audio. Always render the track inside the audio element;
   the rule accepts an empty `src` (or omitted attribute). Author components with a
@@ -177,7 +177,7 @@ editing) are in `tasks/archive/lessons-pre-rebuild.md`; general points from them
   separator) or set the port in `astro.config`.
 - `woff2_compress` (Homebrew) converts `.otf` faces to small `.woff2` (Inter ~100KB, Libre
   Caslon ~40KB each). `public/fonts/` now serves only the frozen Help Center; the rebuild
-  takes the design system's woff2 files into `src/assets/fonts/` (`rebuild-plan.md` › B1).
+  takes the design system's woff2 files into `src/assets/fonts/` (`rebuild-plan.md` › Next PR: the design foundation).
 
 ## Carried over from the archived build logs
 

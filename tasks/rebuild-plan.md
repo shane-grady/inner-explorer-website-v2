@@ -220,6 +220,13 @@ The new design foundation is the next PR, and is specified at the end of this fi
   CloudCannon) moved to `tasks/archive/cloudcannon-migration/`.
 - **`build:all`** was removed with `verify:cms`.
 - **`/contact/`** keeps the "Already using Inner Explorer?" support copy below the form.
+- **CloudCannon config:** `help_figure.src` drops `uploads_use_relative_path` (it would
+  save `../../../src-help/...` paths the help image glob rejects), and
+  `.cloudcannon/styles/editor.css` is deleted (its one style only applied to marketing
+  headlines). `paths.uploads` is `src-help/assets/images`.
+- **check-editables** also dropped its `/help/` link check (`check-dist dist-help` catches
+  broken root links), and its snippet scan now covers array-prop snippets it used to skip
+  (15 of 45 usages).
 
 ## Verification
 
