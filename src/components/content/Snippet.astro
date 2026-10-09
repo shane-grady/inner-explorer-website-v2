@@ -1,10 +1,12 @@
 ---
-// Plain stand-in for every Help Center MDX snippet the privacy policy does not use today
-// (Accordion, ActionLinks, Card, CardGrid, HelpFigure, HelpVideo, LinkCards, Steps, Step).
-// The policy file is shared with the Help Center and edited in CloudCannon, where all of
-// those are on offer. This renders the text any of them carries (heading, body, slot,
+// Plain stand-in for any Help Center MDX snippet in the privacy policy that has no
+// dedicated stand-in (Accordion, ActionLinks, Card, CardGrid, HelpFigure, HelpVideo,
+// LinkCards, Steps, Step, or one added later). The policy file is shared with the Help
+// Center and edited in CloudCannon, where all of those are on offer. This renders the text any of them carries (heading, body, slot,
 // every item) so such an edit can neither break this build nor hide legal text. Media
-// renders as its label and caption only.
+// renders as its label and caption only; item links resolve like the article's own.
+import { resolveHelpArticleHref } from '../../lib/help-links';
+
 interface Item {
   q?: string;
   a?: string;
@@ -47,7 +49,11 @@ const heading = [badge, title ?? label].filter(Boolean).join(' ');
           const name = [item.badge, item.q ?? item.title ?? item.label].filter(Boolean).join(' ');
           return (
             <li>
-              {item.href ? <a href={item.href}>{name}</a> : name && <strong>{name}</strong>}
+              {item.href ? (
+                <a href={resolveHelpArticleHref(item.href)}>{name}</a>
+              ) : (
+                name && <strong>{name}</strong>
+              )}
               {item.sub && <p>{item.sub}</p>}
               {item.aHtml ? <Fragment set:html={item.aHtml} /> : item.a && <p>{item.a}</p>}
               {item.contentHtml ? (

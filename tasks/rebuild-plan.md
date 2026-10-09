@@ -206,11 +206,14 @@ The new design foundation is the next PR, and is specified at the end of this fi
 - **No `pre-rebuild` tag.** The session could only push its own branch, so the docs use
   the commit SHA (`0c8cac2`) instead. Tag it yourself if you want the name:
   `git tag pre-rebuild 0c8cac2 && git push origin pre-rebuild`.
-- **No AutoImport on the marketing site.** `/privacy-policy/` passes one `components`
-  map covering all 11 help snippet names (plain `Callout` and `HelpTable`, and a generic
-  `Snippet` stand-in for the rest), so `astro.config.mjs` needs only `mdx()`.
-- **`helpCollection.schema` lost its types**, so `src/lib/help-collection.ts` now exports
-  `helpArticleSchema` and `src/content.config.ts` builds the narrowed collection from it.
+- **No AutoImport on the marketing site.** `/privacy-policy/` builds its `components`
+  map from the tags the article body uses (plain `Callout` and `HelpTable`, a generic
+  `Snippet` stand-in for anything else) and resolves its links against the Help Center,
+  so `astro.config.mjs` needs only `mdx()` and a CMS edit can't break the page.
+- **One help schema.** `helpCollection.schema` lost its types, so
+  `src-help/lib/help-collection.ts` exports `helpArticleSchema` and
+  `src/content.config.ts` builds the narrowed collection from it: the one marketing
+  import from `src-help/` that ESLint allows. There is no marketing copy to drift.
 - **HubSpotForm lost its class hooks** along with its stylesheet (`check-dist --classes`
   rejects classes with no CSS); the loader keys off `data-hsform*` attributes.
 - **ClientRouter-only code went too:** the Intercom and HubSpot re-init listeners, the

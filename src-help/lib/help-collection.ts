@@ -9,34 +9,37 @@ import { z } from 'zod';
 // CardGrid, LinkCards, Accordion, HelpFigure). `group` ties an article to one of the
 // audience sections defined in lib/help.ts. This is the CMS seam.
 //
-// The marketing site renders one of these articles (the privacy policy) with the same
-// schema, kept in its own copy: src/lib/help-collection.ts. Keep the two identical.
+// The schema is exported on its own because the marketing site renders one of these
+// articles (the privacy policy) and registers it with this same schema
+// (src/content.config.ts). This file is the only copy: edit the CMS contract here.
+export const helpArticleSchema = z.object({
+  title: z.string(),
+  group: z.enum(['start', 'educators', 'counselors', 'admins', 'families', 'policies']),
+  // Card description on the home grid + sidebar context.
+  blurb: z.string(),
+  // Sort order within the group (sidebar + home + prev/next sequencing).
+  order: z.number().default(0),
+  // Extra search terms beyond title/blurb (synonyms, feature names).
+  keywords: z.array(z.string()).default([]),
+  // Optional manual reading-time override (else computed from the body).
+  readingTime: z.string().optional(),
+  /**
+   * Absolute URL of the canonical copy of this document when it also renders
+   * elsewhere. The privacy policy is a standalone page on the marketing site
+   * (/privacy-policy) AND an article here; pointing the canonical at the
+   * marketing page keeps the two from competing as duplicate content.
+   */
+  canonicalUrl: z.preprocess(
+    (value) => (value === '' || value === null ? undefined : value),
+    z.url().optional(),
+  ),
+  // SEO (optional — falls back to title + blurb).
+  seoTitle: z.string().optional(),
+  seoDescription: z.string().optional(),
+  draft: z.boolean().default(false),
+});
+
 export const helpCollection = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/help' }),
-  schema: z.object({
-    title: z.string(),
-    group: z.enum(['start', 'educators', 'counselors', 'admins', 'families', 'policies']),
-    // Card description on the home grid + sidebar context.
-    blurb: z.string(),
-    // Sort order within the group (sidebar + home + prev/next sequencing).
-    order: z.number().default(0),
-    // Extra search terms beyond title/blurb (synonyms, feature names).
-    keywords: z.array(z.string()).default([]),
-    // Optional manual reading-time override (else computed from the body).
-    readingTime: z.string().optional(),
-    /**
-     * Absolute URL of the canonical copy of this document when it also renders
-     * elsewhere. The privacy policy is a standalone page on the marketing site
-     * (/privacy-policy) AND an article here; pointing the canonical at the
-     * marketing page keeps the two from competing as duplicate content.
-     */
-    canonicalUrl: z.preprocess(
-      (value) => (value === '' || value === null ? undefined : value),
-      z.url().optional(),
-    ),
-    // SEO (optional — falls back to title + blurb).
-    seoTitle: z.string().optional(),
-    seoDescription: z.string().optional(),
-    draft: z.boolean().default(false),
-  }),
+  schema: helpArticleSchema,
 });

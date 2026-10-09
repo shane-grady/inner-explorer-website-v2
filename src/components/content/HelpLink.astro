@@ -1,0 +1,11 @@
+---
+// MDX `a` override for the privacy policy: resolves the Help Center article's relative
+// links against help.innerexplorer.com (see src/lib/help-links.ts).
+import type { HTMLAttributes } from 'astro/types';
+import { resolveHelpArticleHref } from '../../lib/help-links';
+
+type Props = HTMLAttributes<'a'>;
+const { href, ...rest } = Astro.props;
+---
+
+<a href={typeof href === 'string' ? resolveHelpArticleHref(href) : href} {...rest}><slot /></a>

@@ -8,15 +8,18 @@
 // `canonicalUrl: https://www.innerexplorer.com/privacy-policy/`, which points search
 // engines here so the article does not compete with this page.
 //
-// The body uses the Help Center's MDX snippets by name. `components` maps <Callout> and
-// <HelpTable> (the two it uses) to plain stand-ins, and every other snippet name to a
-// generic one that keeps its text visible, so a CMS edit can't break this build.
+// The body uses the Help Center's MDX snippets by name. `components` gives every tag the
+// body actually uses a stand-in: <Callout> and <HelpTable> have plain ones, any other
+// (Steps, Accordion, a snippet added later…) gets the generic one that keeps its text
+// visible. Links resolve against the article's Help Center URL. So a CMS edit to this
+// shared file can't break this build or hide legal text.
 import { getEntry, render } from 'astro:content';
 import PageLayout from '../layouts/PageLayout.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import Callout from '../components/content/Callout.astro';
 import HelpTable from '../components/content/HelpTable.astro';
 import Snippet from '../components/content/Snippet.astro';
+import HelpLink from '../components/content/HelpLink.astro';
 import { breadcrumbSchema, organizationSchema } from '../lib/schema';
 import { MAIN_SITE } from '../lib/site';
 
@@ -33,18 +36,12 @@ if (!doc) {
 const { Content } = await render(doc);
 const d = doc.data;
 
+const usedTags = new Set([...(doc.body ?? '').matchAll(/<([A-Z][A-Za-z0-9]*)/g)].map((m) => m[1]));
 const components = {
+  ...Object.fromEntries([...usedTags].map((tag) => [tag, Snippet])),
   Callout,
   HelpTable,
-  Accordion: Snippet,
-  ActionLinks: Snippet,
-  Card: Snippet,
-  CardGrid: Snippet,
-  HelpFigure: Snippet,
-  HelpVideo: Snippet,
-  LinkCards: Snippet,
-  Steps: Snippet,
-  Step: Snippet,
+  a: HelpLink,
 };
 
 // ── SEO ─────────────────────────────────────────────────────────────────────

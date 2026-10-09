@@ -48,7 +48,8 @@ export default tseslint.config(
   },
   {
     // The Help Center is sealed (src-help/README.md): it may read only the editor-owned
-    // help-ui.json from src/, so the marketing rebuild can never change it.
+    // help-ui.json from src/, so the marketing rebuild can never change it. Covers
+    // relative (../src/) and Vite root-absolute (/src/) imports, and import.meta.glob.
     files: ['src-help/**'],
     rules: {
       'no-restricted-imports': [
@@ -56,11 +57,19 @@ export default tseslint.config(
         {
           patterns: [
             {
-              regex: '^(\\.\\./)+src/(?!data/help-ui\\.json$)',
+              regex: '^(?:(?:\\.\\./)+|/)src/(?!data/help-ui\\.json$)',
               message:
                 'src-help/ is sealed: use (or add) a copy under src-help/ instead. See src-help/README.md.',
             },
           ],
+        },
+      ],
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector:
+            "CallExpression[callee.object.type='MetaProperty'][callee.property.name='glob'] Literal[value=/^(\\.\\.\\/)*\\/?src\\//]",
+          message: 'src-help/ is sealed: import.meta.glob must not read from src/.',
         },
       ],
     },
@@ -73,7 +82,9 @@ export default tseslint.config(
         {
           patterns: [
             {
-              regex: '(^|/)src-help/',
+              // One exception: the help article schema, the CMS contract for the privacy
+              // policy that both sites render (src/content.config.ts).
+              regex: '(^|/)src-help/(?!lib/help-collection(\\.ts)?$)',
               message: 'The marketing site must not import the frozen Help Center (src-help/).',
             },
           ],

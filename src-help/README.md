@@ -8,8 +8,11 @@ that lives here, so nothing done in `src/` can change it.
 
 ## The boundary
 
-- `src-help/` imports nothing from `src/` except the editor-owned `src/data/help-ui.json`.
-  ESLint enforces this in both directions (`eslint.config.js`).
+- `src-help/` imports nothing from `src/` except the editor-owned `src/data/help-ui.json`
+  (relative, root-absolute and `import.meta.glob` paths alike). ESLint enforces this in
+  both directions (`eslint.config.js`). The one marketing import from here is
+  `lib/help-collection.ts`'s `helpArticleSchema`, the CMS contract for the privacy policy
+  both sites render; edit that schema here only.
 - Article bodies stay where CloudCannon edits them: `src/content/help/*.mdx` (read through
   the `glob` loader in `lib/help-collection.ts`) and `src/data/help-ui.json`. Don't move them.
 - `styles/help.css` is a frozen copy of the old marketing `global.css`. Tailwind scans only
