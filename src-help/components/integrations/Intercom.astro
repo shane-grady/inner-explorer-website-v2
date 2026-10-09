@@ -11,7 +11,7 @@
 //
 // Two deliberate deviations from Intercom's stock snippet, both required here:
 //
-// 1. No *.netlify.app bail-out, unlike src/components/seo/Analytics.astro. Pre-launch
+// 1. No *.netlify.app bail-out, unlike components/seo/Analytics.astro. Pre-launch
 //    the marketing site's ONLY host IS innerexplorerwebsitev2.netlify.app, so a host
 //    guard would mean the Messenger never loads on it. Deploy previews and branch
 //    deploys are already excluded by the build-context gate in BaseLayout, so this

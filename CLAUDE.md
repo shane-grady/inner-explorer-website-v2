@@ -1,89 +1,79 @@
-# CLAUDE.md — Inner Explorer Marketing Website
+# CLAUDE.md — Inner Explorer Website
 
 Context for AI agents (and humans) working in this repo. Read this first.
 
 ## What this is
 
 The marketing website for **Inner Explorer** — the leading provider of daily
-audio-guided mindfulness practices in K-12 schools. Audience: school/district
-administrators, principals, teachers, parents. Brand feel: calm, trustworthy,
-credible, accessible. Most code here is written by AI agents; most design is
-transferred from **Claude Design**, whose handoff writes against the tokens and
-components defined in this repo — so keeping the design system clean is what keeps
-agent output consistent.
+audio-guided mindfulness practices in K-12 schools — and its Help Center. Audience:
+school/district administrators, principals, teachers, parents. Brand feel: calm,
+trustworthy, credible, accessible.
 
-## Tech stack (locked)
+**The marketing site is being rebuilt from a new design, from a clean slate.** What is
+here now:
 
-- **Astro 6** (static-first, React islands only where needed) · **TypeScript strict**
-- **Tailwind CSS v4** (CSS-first `@theme`) via `@tailwindcss/vite`
-- **tailwind-variants** for component variants · **clsx + tailwind-merge** (`cn`)
-- **React 19** islands (only when interactivity is real) · **shadcn/ui** ok for complex islands
-- **Astro Content Collections + Zod** for content (the CMS-ready seam)
+- **The bones:** Astro, two Netlify sites, GA4, Amplitude, Intercom, the HubSpot contact
+  form, SEO (canonical, Open Graph, JSON-LD, sitemap), redirects, CI.
+- **Bare placeholder pages** (`src/pages/`): unstyled semantic HTML with a `content`
+  object at the top of each file. `/contact/` has the working HubSpot form;
+  `/privacy-policy/` renders the real policy.
+- **The Help Center** (help.innerexplorer.com, live): a second, **sealed** Astro build in
+  `src-help/`, edited by marketing in CloudCannon. Read `src-help/README.md` before
+  touching it. Never import across the `src/` ↔ `src-help/` boundary (ESLint enforces it).
+
+The previous design's code and content were removed on purpose. Recover anything with
+`git show 0c8cac2:<path>` (main before the clean slate), e.g. a page's JSON-LD or a
+legacy blog post.
+
+## Design sources
+
+- **Site design:** the Claude Design canvas "Inner Explorer — Website",
+  https://claude.ai/artifact/6gx8tapeaDzTeSSMD7R31s, page **FINAL V**.
+- **Design system:** "Inner Explorer", https://claude.ai/artifact/XSmeot9ufJMTTvGDh3GYxz.
+- **Plan:** `tasks/rebuild-plan.md`. Next is the design-foundation PR (tokens, theme,
+  shared components, `/styleguide/`), then one PR per page. `DESIGN.md` is written by
+  the foundation PR.
+
+## Tech stack
+
+- **Astro 6** (static) · **TypeScript strict** · **Tailwind CSS v4** via
+  `@tailwindcss/vite` (`src/styles/site.css`) · **MDX** (the privacy policy)
 - **ESLint 10** (flat) + **Prettier** (astro + tailwind plugins) · **pnpm** · **Node 24**
-- Hosting: **Netlify** (`netlify.toml`)
+- Hosting: **Netlify**: `netlify.toml` (marketing) and `sites/help/netlify.toml` (Help
+  Center). **CloudCannon** builds and edits the Help Center only.
 
 ## Commands
 
 ```bash
-pnpm dev          # dev server (localhost:4321)
-pnpm build        # production build → dist/
-pnpm preview      # serve the build
-pnpm typecheck    # astro check (TS + .astro)
-pnpm lint         # eslint
-pnpm lint:drift   # design-drift guard (fails on off-system values)
-pnpm format       # prettier --write
-pnpm check        # typecheck + lint + lint:drift + format:check  (run before done)
+pnpm dev              # marketing dev server (localhost:4321)
+pnpm dev:help         # Help Center dev server (localhost:4322)
+pnpm check            # typecheck + lint + drift + mirrors + format:check + editables tests
+pnpm verify           # marketing gate: check, build, check:dist dist --classes
+pnpm verify:help      # Help Center gate (what CloudCannon and its Netlify site run)
+pnpm check:dist <dir> # every link/asset in a build resolves (--classes: every class has CSS)
+pnpm compare:builds   # normalized diff of two builds (see src-help/README.md)
 ```
 
-## Project rules (non-negotiable — these prevent drift)
+Run `pnpm verify` (and `pnpm verify:help` if you touched anything the Help Center
+reads) before considering work done. CI runs both.
 
-**Design tokens are the only styling vocabulary.**
+## Project rules
 
-- Use semantic token utilities only: `bg-background`, `text-foreground`, `bg-card`,
-  `text-muted-foreground`, `bg-brand`, `border-border`, `ring-ring`, intents
-  (`bg-success/-warning/-danger/-info`). The raw palette is intentionally NOT exposed.
-- **Never** use arbitrary values (`bg-[#abc]`, `mt-[13px]`, `text-[19px]`) or raw
-  hex/rgb in components. `pnpm lint:drift` fails the build on these. Tokens live in
-  `src/styles/global.css` (`@theme`). See `DESIGN.md`.
-- Type sizes only via the ramp (`text-xs`…`text-5xl`) — use the `Heading`/`Text`
-  primitives, don't hand-pick sizes. Spacing comes from the scale (4/8pt grid) and
-  the fluid `py-section-*` tokens.
-
-**Reuse components — don't hand-roll.**
-
-- Before creating a component, check `/styleguide` and `src/components/`. Compose
-  pages from `blocks/` (Hero, FeatureGrid, Testimonials, CTABanner, …) built on
-  `primitives/` + `layout/`.
-- New variants belong in the component's `tailwind-variants` config, not as one-off
-  class strings at call sites.
-
-**Ship minimal JS (hybrid model).**
-
-- Default to `.astro` components (zero JS). Use a **React island** (`client:*`) only
-  when interactivity is genuinely needed. A theme toggle or simple disclosure does
-  NOT justify shipping React — use a vanilla Astro component (see `layout/ThemeToggle.astro`).
-- Verify per-page JS after adding islands: marketing pages should stay ~0KB JS.
-
-**Accessibility is required (WCAG 2.2 AA — it's a procurement requirement for schools).**
-
-- Semantic HTML + landmarks, keyboard operable, visible focus (`focus-visible` ring),
-  AA contrast (use tokens), `alt` on images, captions/transcripts for audio/video,
-  respect `prefers-reduced-motion` (handled globally).
-
-**Content lives in collections.**
-
-- Blog/resources/testimonials are schema-validated collections (`src/content.config.ts`).
-  Keep marketing page copy as structured data at the top of the page file (not buried
-  in markup) so it can move to a CMS later.
-
-**SEO.** Every page goes through `PageLayout`/`BaseLayout` (canonical, OG, Twitter,
-Organization JSON-LD). Add page-specific structured data via the `head` slot.
-
-**Always run `pnpm check` before considering work done.**
-
-> Environment note: in the current Cowork environment, subagents fail to spawn
-> (their inherited MCP tool context overflows the prompt limit). Do research and
-> work in the main context until that changes. See `tasks/lessons.md`.
+- **Accessibility is required** (WCAG 2.2 AA — a procurement requirement for schools):
+  semantic HTML and landmarks, keyboard operable, visible focus, AA contrast, `alt` on
+  images, captions/transcripts for audio/video, respect `prefers-reduced-motion`.
+- **Minimal JavaScript.** Pages are static `.astro`. Behavior is a small vanilla
+  `<script>`; no React or other UI framework unless a feature truly needs one.
+- **SEO goes through the layouts.** Every page renders inside `PageLayout`/`BaseLayout`
+  (canonical, Open Graph, Twitter, Organization JSON-LD); add page-specific structured
+  data through the `head` slot.
+- **Page copy is structured data at the top of the page file** (a `content` object), not
+  buried in markup, so it can move to a CMS later.
+- **No off-system styling.** No arbitrary Tailwind values or raw colors in components
+  (`pnpm lint:drift`). The foundation PR defines the tokens; until then pages stay
+  unstyled.
+- **Analytics stay production-only.** GA4 and Intercom render only in production builds
+  (`BaseLayout`); GA4 also skips `*.netlify.app`.
 
 ---
 

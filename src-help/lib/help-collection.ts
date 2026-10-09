@@ -7,13 +7,10 @@ import { z } from 'zod';
 // metadata that builds the sidebar nav, home cards, search index, and prev/next.
 // Article bodies are MDX authored with the shared doc components (Callout, Steps,
 // CardGrid, LinkCards, Accordion, HelpFigure). `group` ties an article to one of the
-// audience sections defined in src/lib/help.ts. This is the CMS seam.
+// audience sections defined in lib/help.ts. This is the CMS seam.
 //
-// Defined here (not inline in a content.config.ts) because TWO builds register it:
-// the standalone help site (src-help/content.config.ts — articles at the subdomain
-// root) and the main site (src/content.config.ts — kept registered so CloudCannon
-// editing builds can render /help/… previews). The glob base is root-relative, so
-// it resolves identically from both configs.
+// The marketing site renders one of these articles (the privacy policy) with the same
+// schema, kept in its own copy: src/lib/help-collection.ts. Keep the two identical.
 export const helpCollection = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/help' }),
   schema: z.object({

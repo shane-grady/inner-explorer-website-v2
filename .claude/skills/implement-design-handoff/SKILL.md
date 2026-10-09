@@ -15,6 +15,13 @@ description: >-
   so small design deltas stay tweakable in one place.
 ---
 
+> **STALE until the design-foundation PR lands (see `tasks/rebuild-plan.md`).** This
+> skill maps designs onto the PREVIOUS design system's tokens and components, which the
+> 2026-10 clean slate removed (recover with `git show 0c8cac2:<path>`). Until the
+> foundation PR rewrites it, build from the "Inner Explorer — Website" canvas
+> (https://claude.ai/artifact/6gx8tapeaDzTeSSMD7R31s, page FINAL V) following the plan's
+> page-PR playbook, and do not recreate the components named below.
+
 # Implement a Claude Design handoff (reuse-first)
 
 A Claude Design handoff is a **prototype** — hand-authored HTML/CSS/JS with inline

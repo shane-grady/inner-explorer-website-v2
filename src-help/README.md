@@ -1,9 +1,10 @@
 # Help Center (help.innerexplorer.com): sealed
 
 The Help Center is a second Astro site built from this repo (`astro.help.config.mjs` →
-`dist-help/`, deployed by `sites/help/netlify.toml`). It is **frozen** while the marketing
-site is rebuilt (see `tasks/rebuild-plan.md`). Every component, layout, style and helper it
-renders is a copy that lives here, so nothing done in `src/` can change it.
+`dist-help/`, deployed by `sites/help/netlify.toml`, and built by CloudCannon for editing
+with `pnpm verify:help`). It is **frozen** while the marketing site is rebuilt (see
+`tasks/rebuild-plan.md`). Every component, layout, style and helper it renders is a copy
+that lives here, so nothing done in `src/` can change it.
 
 ## The boundary
 
@@ -30,7 +31,7 @@ share-card renderer also reads three), `favicon.ico`, `apple-touch-icon.png`, `l
   worktree outside this repo, build it again on your branch, then compare:
 
   ```bash
-  git worktree add ../ie-baseline origin/main
+  git worktree add --detach ../ie-baseline origin/main
   (cd ../ie-baseline && pnpm install --frozen-lockfile && NETLIFY=true pnpm build:help)
   NETLIFY=true pnpm build:help
   node scripts/compare-builds.mjs ../ie-baseline/dist-help dist-help ../ie-compare --css-classes

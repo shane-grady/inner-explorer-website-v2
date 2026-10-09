@@ -59,7 +59,7 @@ const org = organizationSchema(Astro.site);
 
 // GA4 ships only for the real production build: skips `pnpm dev` and Netlify's
 // deploy-preview/branch-deploy contexts entirely (the script tag never renders for
-// those). See src/components/seo/Analytics.astro for the *.netlify.app runtime guard.
+// those). See components/seo/Analytics.astro for the *.netlify.app runtime guard.
 const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
 const isProductionBuild =
   import.meta.env.PROD && (!import.meta.env.CONTEXT || import.meta.env.CONTEXT === 'production');
@@ -68,7 +68,7 @@ const isProductionBuild =
 // `pnpm dev` and Netlify's deploy-preview / branch-deploy contexts never open a live
 // support channel. The env var is set per Netlify site, so each site (marketing + Help
 // Center) opts in independently. Unlike GA there is no *.netlify.app runtime guard —
-// see src/components/integrations/Intercom.astro for why.
+// see components/integrations/Intercom.astro for why.
 const intercomAppId = import.meta.env.PUBLIC_INTERCOM_APP_ID;
 ---
 

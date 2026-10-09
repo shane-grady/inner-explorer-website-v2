@@ -39,7 +39,9 @@ pull-request based. Before a developer branch touches CMS-owned content, confirm
 CloudCannon Syncs screen is clean and that editors have saved and left the affected
 files. Short Save cycles reduce, but cannot eliminate, same-file Git conflicts.
 
-The reliability work following this recovery standardizes one acceptance command,
-`pnpm verify:cms`, across local development, GitHub, CloudCannon, and both Netlify
-sites. See [cms-publishing-workflow.md](cms-publishing-workflow.md) for the operating
-contract.
+The reliability work following this recovery standardized one acceptance command
+across local development, GitHub, CloudCannon, and both Netlify sites. Since the
+2026-10 clean slate CloudCannon edits only the Help Center, and that command is split
+in two: `pnpm verify` (marketing site) and `pnpm verify:help` (Help Center, and what
+CloudCannon builds). See [cms-publishing-workflow.md](cms-publishing-workflow.md) for
+the operating contract.

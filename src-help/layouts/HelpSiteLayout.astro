@@ -9,9 +9,8 @@ import BaseLayout from './HelpBaseLayout.astro';
 import { MAIN_SITE } from '../lib/site';
 import { helpRootHref } from '../lib/help';
 import mark from '../assets/brand/inner-explorer-mark.png';
-// Shared Help Center UI copy. Same mechanism as the marketing header/footer
-// (src/data/navigation.json + footer.json): the JSON is the build-time default AND
-// the CloudCannon dataset the editable regions below write back to. Bindings use
+// Shared Help Center UI copy. The JSON is the build-time default AND the
+// CloudCannon dataset the editable regions below write back to. Bindings use
 // ABSOLUTE `@data[help-ui]...` paths because help pages other than articles have no
 // backing collection entry — a relative path would render a red error card there.
 import helpUi from '../../src/data/help-ui.json';
@@ -46,7 +45,7 @@ const mainSiteLabel = new URL(MAIN_SITE).host.replace(/^www\./, '');
 {
   /* surface="Help Center" tags every Intercom chat started here, so Help Center
 questions are distinguishable from marketing-site and in-platform chats in the
-shared inbox. See src/components/integrations/Intercom.astro. */
+shared inbox. See components/integrations/Intercom.astro. */
 }
 <BaseLayout
   title={title}
