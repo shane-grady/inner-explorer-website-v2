@@ -8,84 +8,16 @@ import test from 'node:test';
 
 const CHECKER = fileURLToPath(new URL('./check-editables.mjs', import.meta.url));
 
-const pageRoutes = {
-  about: ['about', '/about/'],
-  'blog-index': ['blog/index', '/blog/'],
-  'case-studies-index': ['case-studies/index', '/case-studies/'],
-  contact: ['contact', '/contact/'],
-  districts: ['districts', '/districts/'],
-  faq: ['faq', '/faq/'],
-  home: ['index', '/'],
-  'narrators-index': ['narrators/index', '/narrators/'],
-  newsroom: ['newsroom', '/newsroom/'],
-  platform: ['platform', '/platform/'],
-  pricing: ['pricing', '/pricing/'],
-  'privacy-policy': ['privacy-policy', '/privacy-policy/'],
-  research: ['research', '/research/'],
-};
-const pageIds = Object.keys(pageRoutes);
-const pageSchemas = pageIds
-  .map(
-    (id) => `      ${id}:
-        path: .cloudcannon/schemas/marketing-page.yml${
-          id === 'home'
-            ? `
-        _inputs:
-          hero:
-            type: object
-            options:
-              structures: _structures.hero`
-            : ''
-        }`,
-  )
-  .join('\n');
-
+// A minimal Help Center: one article (src/content/help/guide.mdx) built to
+// dist-help/guide/, plus the CloudCannon config, creation template and Zod schema the
+// checker reads. `hero` is fixture-only data that exercises image, object and array
+// bindings; real articles bind `title` and `@content`.
 const config = `
 collections_config:
-  pages:
-    path: src/content/pages
-    url: '{permalink}'
-    schema_key: _schema
-    disable_add: true
-    _inputs:
-      _schema: { type: text, hidden: true }
-      permalink: { type: text, hidden: true }
-      pageTitle: { type: text }
-      pageDescription: { type: textarea }
-    schemas:
-${pageSchemas}
-  blog:
-    schemas: null
-    path: src/content/blog
-    url: /blog/[slug]/
-    create:
-      path: '[relative_base_path]/{title|slugify}[count].mdx'
-    add_options:
-      - name: Blog post
-        default_content_file: .cloudcannon/schemas/blog-post.md
-    _inputs:
-      items:
-        type: array
-        options:
-          structures: _structures.blog_items
-  caseStudies:
-    schemas: null
-    path: src/content/case-studies
-    url: /case-studies/[slug]/
-    create:
-      path: '[relative_base_path]/{slug|slugify}[count].yaml'
-    add_options:
-      - name: Case study
-        default_content_file: .cloudcannon/schemas/case-study.yml
-    _inputs:
-      slug:
-        type: text
-        options:
-          required: true
   help:
     schemas: null
     path: src/content/help
-    url: /help/[slug]/
+    url: /[slug]/
     create:
       path: '[relative_base_path]/{title|slugify}[count].mdx'
     add_options:
@@ -97,33 +29,14 @@ ${pageSchemas}
         options:
           values: collections.help[*].keywords
           allow_create: true
-  narrators:
-    schemas: null
-    path: src/content/narrators
-    url: /narrators/[slug]/
-    create:
-      path: '[relative_base_path]/{name|slugify}[count].yml'
-    add_options:
-      - name: Narrator
-        default_content_file: .cloudcannon/schemas/narrator.yml
-  series:
-    schemas: null
-    path: src/content/series
-    url: /series/[slug]/
-    create:
-      path: '[relative_base_path]/{name|slugify}[count].yaml'
-    add_options:
-      - name: Practice series
-        default_content_file: .cloudcannon/schemas/series.yml
-  testimonials:
-    schemas: null
-    path: src/content/testimonials
-    disable_url: true
-    create:
-      path: '[relative_base_path]/{name|slugify}[count].yml'
-    add_options:
-      - name: Testimonial
-        default_content_file: .cloudcannon/schemas/testimonial.yml
+      hero:
+        type: object
+        options:
+          structures: _structures.hero
+      items:
+        type: array
+        options:
+          structures: _structures.help_items
 _inputs:
   title: { type: text }
 _snippets:
@@ -183,90 +96,66 @@ _structures:
     values:
       - value:
           label: ''
-  blog_items:
+  help_items:
     values:
       - value:
           label: ''
 `;
 
-const page = `
-_schema: home
-permalink: /
-pageTitle: Home
-pageDescription: Home page
+const article = `---
+title: Guide
+items: []
 hero:
   image: /images/hero.jpg
   imageAlt: Children learning
   title: Welcome
   items:
     - label: First item
+---
+Body text.
 `;
 
 const html = `<!doctype html>
-<editable-component data-component="hero" data-prop="hero">
-  <img data-editable="image" data-prop-src="image" data-prop-alt="imageAlt" alt="Children learning">
-  <h1 data-editable="text" data-prop="title">Welcome</h1>
-  <ul data-editable="array" data-prop="items">
-    <li data-editable="array-item"><span data-editable="text" data-prop="label">First item</span></li>
-  </ul>
-</editable-component>`;
+<h1 data-editable="text" data-prop="title">Guide</h1>
+<img data-editable="image" data-prop-src="hero.image" data-prop-alt="hero.imageAlt" alt="Children learning">
+<h2 data-editable="text" data-prop="hero.title">Welcome</h2>
+<ul data-editable="array" data-prop="hero.items">
+  <li data-editable="array-item"><span data-editable="text" data-prop="label">First item</span></li>
+</ul>
+<div data-editable="text" data-type="block" data-prop="@content"><p>Body text.</p></div>`;
+
+// A structured snippet: its JSX expression nests braces, including inside strings.
+const stepsUsage = `<Steps
+  items={[
+    { title: 'Open the menu', content: 'Braces in text: } {' },
+    { title: 'Choose', content: "It's done" },
+  ]}
+/>`;
+
+// The data file the help pages that are not entries (home, 404) bind to.
+const sharedData = `
+data_config:
+  shared:
+    path: src/data/shared.json
+file_config:
+  - glob: src/data/shared.json
+    _inputs:
+      title: { type: text }
+`;
 
 function baseFiles() {
-  const files = {
+  return {
     'cloudcannon.config.yml': config,
-    'src/cloudcannon/registerComponents.ts': "registerAstroComponent('hero', Hero);\n",
-    'dist/index.html': html,
-    'src/content.config.ts': `
-const blog = defineCollection({ schema: z.object({ title: z.string(), items: z.array(z.object({ label: z.string() })) }) });
-const caseStudies = defineCollection({ schema: z.object({ title: z.string() }) });
-const narrators = defineCollection({ schema: z.object({ title: z.string() }) });
-const series = defineCollection({ schema: z.object({ title: z.string() }) });
-const testimonials = defineCollection({ schema: z.object({ title: z.string() }) });
-`,
-    'src/lib/help-collection.ts':
-      'const helpCollection = defineCollection({ schema: z.object({ title: z.string() }) });\n',
-    '.cloudcannon/schemas/blog-post.md': '---\ntitle: New post\nitems: []\n---\n',
-    '.cloudcannon/schemas/marketing-page.yml':
-      '_schema: home\npermalink: /\npageTitle: Marketing page\npageDescription: Fixed layout\n',
-    '.cloudcannon/schemas/case-study.yml': 'title: New case study\n',
-    '.cloudcannon/schemas/help-article.md': '---\ntitle: New guide\n---\n',
-    '.cloudcannon/schemas/narrator.yml': 'title: New narrator\n',
-    '.cloudcannon/schemas/series.yml': 'title: New series\n',
-    '.cloudcannon/schemas/testimonial.yml': 'title: New testimonial\n',
-    'src/content/blog/example.md': '---\ntitle: Example\nitems: []\n---\n',
-    'src/content/blog/nested/article.md': '---\ntitle: Nested article\nitems: []\n---\n',
-    'src/content/case-studies/example.yml': 'title: Example\n',
-    'src/content/help/guide.mdx': '---\ntitle: Guide\n---\n',
-    'src/content/narrators/example.yml': 'title: Example\n',
-    'src/content/series/example.yml': 'title: Example\n',
-    'src/content/testimonials/example.yml': 'title: Example\n',
-    'dist/blog/nested/article/index.html':
-      '<!doctype html><h1 data-editable="text" data-prop="title">Nested article</h1>',
+    'src-help/lib/help-collection.ts':
+      'export const helpCollection = defineCollection({ schema: z.object({ title: z.string(), items: z.array(z.object({ label: z.string() })) }) });\n',
+    '.cloudcannon/schemas/help-article.md': '---\ntitle: New guide\nitems: []\n---\n',
+    'src/content/help/guide.mdx': article,
+    'dist-help/guide/index.html': html,
   };
-  const imports = [];
-  const calls = [];
-  for (const [index, id] of pageIds.entries()) {
-    const functionName = `page${index}`;
-    const [route, permalink] = pageRoutes[id];
-    imports.push(`import { ${functionName} } from './${id}';`);
-    calls.push(`${functionName}(ctx)`);
-    files[`src/lib/page-schemas/${id}.ts`] =
-      `export const ${functionName} = () => z.object({ _schema: z.literal('${id}') });\n`;
-    files[`src/pages/${route}.astro`] =
-      `---\nconst entry = await getEntry('pages', '${id}');\n---\n`;
-    files[`src/content/pages/${id}.yml`] =
-      id === 'home'
-        ? page
-        : `_schema: ${id}\npermalink: ${permalink}\npageTitle: ${id}\npageDescription: ${id}\n`;
-    const output = permalink === '/' ? 'dist/index.html' : `dist${permalink}index.html`;
-    files[output] ??= '<!doctype html><p>Built page</p>';
-  }
-  files['src/lib/page-schemas/index.ts'] =
-    `${imports.join('\n')}\nexport const pageSchemas = (ctx) => [${calls.join(', ')}] as const;\n`;
-  return files;
 }
 
-function runFixture(mutate = () => {}, roots = ['dist']) {
+// `roots` are passed to the checker; the default (none) checks dist-help.
+function runFixture(mutate = () => {}, roots = []) {
   const dir = mkdtempSync(join(tmpdir(), 'ie-editable-guard-'));
   const files = baseFiles();
   mutate(files);
@@ -286,6 +175,7 @@ function runFixture(mutate = () => {}, roots = ['dist']) {
 test('the complete fixture passes', () => {
   const result = runFixture();
   assert.equal(result.status, 0, result.output);
+  assert.match(result.output, /Scanned dist-help — 1 pages/);
 });
 
 const negativeFixtures = [
@@ -293,117 +183,80 @@ const negativeFixtures = [
     name: 'bad image path',
     error: 'INVALID_IMAGE_BINDING',
     mutate(files) {
-      files['dist/index.html'] = html.replace('data-prop-src="image"', 'data-prop-src="missing"');
+      files['dist-help/guide/index.html'] = html.replace(
+        'data-prop-src="hero.image"',
+        'data-prop-src="hero.missing"',
+      );
     },
   },
   {
     name: 'bad image alt path',
     error: 'INVALID_IMAGE_BINDING',
     mutate(files) {
-      files['dist/index.html'] = html.replace(
-        'data-prop-alt="imageAlt"',
-        'data-prop-alt="missingAlt"',
+      files['dist-help/guide/index.html'] = html.replace(
+        'data-prop-alt="hero.imageAlt"',
+        'data-prop-alt="hero.missingAlt"',
       );
     },
   },
   {
-    name: 'unknown component key',
+    name: 'component region on a site that registers no renderers',
     error: 'UNKNOWN_COMPONENT',
     mutate(files) {
-      files['dist/index.html'] = html.replace('data-component="hero"', 'data-component="missing"');
+      files['dist-help/guide/index.html'] = html.replace(
+        '<h2 data-editable="text" data-prop="hero.title">Welcome</h2>',
+        '<editable-component data-component="hero" data-prop="hero"><h2 data-editable="text" data-prop="title">Welcome</h2></editable-component>',
+      );
     },
   },
   {
-    name: 'comment-only component registration',
-    error: 'UNKNOWN_COMPONENT',
+    name: 'component region without a component key',
+    error: 'MISSING_COMPONENT_KEY',
     mutate(files) {
-      files['src/cloudcannon/registerComponents.ts'] = "// registerAstroComponent('hero', Hero);\n";
+      files['dist-help/guide/index.html'] = html.replace(
+        '<h2 data-editable="text" data-prop="hero.title">Welcome</h2>',
+        '<editable-component data-prop="hero"><h2 data-editable="text" data-prop="title">Welcome</h2></editable-component>',
+      );
     },
   },
   {
-    name: 'duplicate component registration',
-    error: 'DUPLICATE_COMPONENT_REGISTRATION',
+    name: 'text binding that resolves to nothing',
+    error: 'UNRESOLVED',
     mutate(files) {
-      files['src/cloudcannon/duplicate.ts'] = "registerAstroComponent('hero', OtherHero);\n";
-    },
-  },
-  {
-    name: 'registered renderer that emits its own component boundary',
-    error: 'SELF_WRAPPED_REGISTERED_COMPONENT',
-    mutate(files) {
-      files['src/cloudcannon/registerComponents.ts'] =
-        "import Hero from '../components/Hero.astro';\nregisterAstroComponent('hero', Hero);\n";
-      files['src/components/Hero.astro'] = `---
-import { editableItem } from '../lib/editable';
----
-{/* data-component="hero" in a comment must not satisfy the guard. */}
-<section data-component={true ? 'hero' : undefined} {...editableItem('')}></section>
-`;
-    },
-  },
-  {
-    name: 'registered renderer that emits a custom array-item boundary',
-    error: 'SELF_WRAPPED_REGISTERED_COMPONENT',
-    mutate(files) {
-      files['src/cloudcannon/registerComponents.ts'] =
-        "import Hero from '../components/Hero.astro';\nregisterAstroComponent('hero', Hero);\n";
-      files['src/components/Hero.astro'] =
-        '<editable-array-item data-component="hero"></editable-array-item>\n';
-    },
-  },
-  {
-    name: 'relative child binding under an external data component',
-    error: 'RELATIVE_EXTERNAL_DATA_BINDING',
-    mutate(files) {
-      files['cloudcannon.config.yml'] += `
-data_config:
-  shared:
-    path: src/data/shared.json
-file_config:
-  - glob: src/data/shared.json
-    _inputs:
-      title: { type: text }
-`;
-      files['src/data/shared.json'] = '{"title":"Shared title"}\n';
-      files['dist/index.html'] =
-        '<editable-component data-component="hero" data-prop="@data[shared]"><h1 data-editable="text" data-prop="title">Shared title</h1></editable-component>';
-    },
-  },
-  {
-    name: 'relative child binding under a nested external data component',
-    error: 'RELATIVE_EXTERNAL_DATA_BINDING',
-    mutate(files) {
-      files['cloudcannon.config.yml'] += `
-data_config:
-  shared:
-    path: src/data/shared.json
-file_config:
-  - glob: src/data/shared.json
-    _inputs:
-      title: { type: text }
-`;
-      files['src/data/shared.json'] = '{"nested":{"title":"Shared title"}}\n';
-      files['dist/index.html'] =
-        '<editable-component data-component="hero" data-prop="@data[shared].nested"><h1 data-editable="text" data-prop="title">Shared title</h1></editable-component>';
+      files['dist-help/guide/index.html'] = html.replace(
+        'data-prop="hero.title"',
+        'data-prop="hero.subtitle"',
+      );
     },
   },
   {
     name: 'absolute file binding whose file does not exist',
     error: 'UNRESOLVED',
     mutate(files) {
-      files['dist/index.html'] =
+      files['dist-help/guide/index.html'] =
         '<h1 data-editable="text" data-prop="@file[/src/data/missing.json].title">Missing title</h1>';
+    },
+  },
+  {
+    name: 'absolute data binding to a missing field',
+    error: 'UNRESOLVED',
+    mutate(files) {
+      files['cloudcannon.config.yml'] += sharedData;
+      files['src/data/shared.json'] = '{"title":"Shared title"}\n';
+      files['dist-help/index.html'] =
+        '<h1 data-editable="text" data-prop="@data[shared].heading">Shared title</h1>';
     },
   },
   {
     name: 'editable input path absent from configuration',
     error: 'MISSING_INPUT',
     mutate(files) {
-      files['src/content/pages/home.yml'] = `${page}  unconfigured: Visible but unavailable\n`;
-      files['dist/index.html'] = html.replace(
-        '</editable-component>',
-        '<p data-editable="text" data-prop="unconfigured">Visible but unavailable</p></editable-component>',
+      files['src/content/help/guide.mdx'] = article.replace(
+        'title: Guide\n',
+        'title: Guide\nunconfigured: Visible but unavailable\n',
       );
+      files['dist-help/guide/index.html'] =
+        `${html}\n<p data-editable="text" data-prop="unconfigured">Visible but unavailable</p>`;
     },
   },
   {
@@ -412,62 +265,69 @@ file_config:
     mutate(files) {
       files['cloudcannon.config.yml'] = files['cloudcannon.config.yml']
         .replace(
-          '          hero:\n            type: object\n            options:\n              structures: _structures.hero',
-          '          hero:\n            type: object\n            options:\n              structures: _structures.hero\n          other:\n            type: object\n            options:\n              structures: _structures.unrelated',
+          '      hero:\n        type: object\n        options:\n          structures: _structures.hero',
+          '      hero:\n        type: object\n        options:\n          structures: _structures.hero\n      other:\n        type: object\n        options:\n          structures: _structures.unrelated',
         )
         .replace(
-          '  blog_items:\n',
-          "  unrelated:\n    values:\n      - value:\n          ghost: ''\n  blog_items:\n",
+          '  help_items:\n',
+          "  unrelated:\n    values:\n      - value:\n          ghost: ''\n  help_items:\n",
         );
-      files['src/content/pages/home.yml'] = files['src/content/pages/home.yml']
+      files['src/content/help/guide.mdx'] = article
         .replace('  title: Welcome\n', '  title: Welcome\n  ghost: Wrong scope\n')
-        .concat('other:\n  ghost: Correct scope\n');
-      files['dist/index.html'] = html.replace(
-        '</editable-component>',
-        '<p data-editable="text" data-prop="ghost">Wrong scope</p></editable-component>',
-      );
+        .replace('---\nBody', 'other:\n  ghost: Correct scope\n---\nBody');
+      files['dist-help/guide/index.html'] =
+        `${html}\n<p data-editable="text" data-prop="hero.ghost">Wrong scope</p>`;
     },
   },
   {
     name: 'array item without a nested binding',
     error: 'MISSING_ARRAY_ITEM_BINDING',
     mutate(files) {
-      files['dist/index.html'] = html.replace(
+      files['dist-help/guide/index.html'] = html.replace(
         '<li data-editable="array-item"><span data-editable="text" data-prop="label">First item</span></li>',
         '<li data-editable="array-item">First item</li>',
       );
     },
   },
   {
-    name: 'missing marketing permalink',
-    error: 'MISSING_PERMALINK',
+    name: 'data file missing from the sidebar collection',
+    error: 'UNREACHABLE_DATA_FILE',
     mutate(files) {
-      files['src/content/pages/about.yml'] = files['src/content/pages/about.yml'].replace(
-        'permalink: /about/\n',
-        '',
-      );
+      files['cloudcannon.config.yml'] =
+        files['cloudcannon.config.yml'].replace(
+          'collections_config:\n',
+          'collections_config:\n  data:\n    path: src/data\n    disable_url: true\n    glob:\n      - other.json\n',
+        ) + sharedData;
+      files['src/data/shared.json'] = '{"title":"Shared title"}\n';
     },
   },
   {
-    name: 'duplicate marketing permalink',
-    error: 'DUPLICATE_PERMALINK',
+    name: 'MDX component without a snippet',
+    error: 'UNMATCHED_SNIPPET',
     mutate(files) {
-      files['src/content/pages/about.yml'] = page.replace('_schema: home', '_schema: about');
+      files['src/content/help/guide.mdx'] = `${article}\n<Banner tone="info" />\n`;
     },
   },
   {
-    name: 'marketing page without generated output',
-    error: 'MISSING_OUTPUT_PAGE',
+    name: 'MDX component with an array prop and no snippet',
+    error: 'UNMATCHED_SNIPPET',
     mutate(files) {
-      delete files['dist/index.html'];
-      files['dist/.keep'] = '';
+      files['src/content/help/guide.mdx'] = `${article}\n${stepsUsage}\n`;
+    },
+  },
+  {
+    name: 'MDX component attribute its snippet does not declare',
+    error: 'UNMATCHED_SNIPPET',
+    mutate(files) {
+      files['src/content/help/guide.mdx'] =
+        `${article}\n<Callout type="tip" tone="loud">Hi</Callout>\n`;
     },
   },
   {
     name: 'incomplete collection creation template',
     error: 'MISSING_CREATION_FIELD',
     mutate(files) {
-      files['src/content.config.ts'] = files['src/content.config.ts'].replace(
+      files['src-help/lib/help-collection.ts'] = files['src-help/lib/help-collection.ts'].replace(
         'title: z.string(), items:',
         'title: z.string(), summary: z.string(), items:',
       );
@@ -478,53 +338,50 @@ file_config:
     error: 'MISSING_CREATION_STRUCTURE_FIELD',
     mutate(files) {
       files['cloudcannon.config.yml'] = files['cloudcannon.config.yml'].replace(
-        "  blog_items:\n    values:\n      - value:\n          label: ''",
-        '  blog_items:\n    values:\n      - value: {}',
+        "  help_items:\n    values:\n      - value:\n          label: ''",
+        '  help_items:\n    values:\n      - value: {}',
       );
     },
   },
   {
-    name: 'missing required Marketing pages collection',
-    error: 'MISSING_PAGES_COLLECTION',
+    name: 'help schema the checker cannot read',
+    error: 'UNREADABLE_CREATION_CONTRACT',
     mutate(files) {
-      files['cloudcannon.config.yml'] = files['cloudcannon.config.yml'].replace(
-        '  pages:\n',
-        '  pages_missing:\n',
-      );
+      delete files['src-help/lib/help-collection.ts'];
     },
   },
   {
-    name: 'missing required creatable collection',
+    name: 'missing help collection',
     error: 'MISSING_CREATABLE_COLLECTION',
     mutate(files) {
       files['cloudcannon.config.yml'] = files['cloudcannon.config.yml'].replace(
-        '  blog:\n',
-        '  blog_missing:\n',
+        '  help:\n',
+        '  help_missing:\n',
       );
     },
   },
   {
-    name: 'disabled required creatable collection',
+    name: 'help collection with adding disabled',
     error: 'DISABLED_CREATABLE_COLLECTION',
     mutate(files) {
       files['cloudcannon.config.yml'] = files['cloudcannon.config.yml'].replace(
-        '  series:\n    schemas: null\n    path:',
-        '  series:\n    schemas: null\n    disable_add: true\n    path:',
+        '  help:\n    schemas: null\n    path:',
+        '  help:\n    schemas: null\n    disable_add: true\n    path:',
       );
     },
   },
   {
-    name: 'required creatable collection without an add option',
+    name: 'help collection without an add option',
     error: 'MISSING_CREATION_TEMPLATE',
     mutate(files) {
       files['cloudcannon.config.yml'] = files['cloudcannon.config.yml'].replace(
-        '    add_options:\n      - name: Narrator\n        default_content_file: .cloudcannon/schemas/narrator.yml',
-        '    missing_add_options:\n      - name: Narrator\n        default_content_file: .cloudcannon/schemas/narrator.yml',
+        '    add_options:\n      - name: Help article',
+        '    missing_add_options:\n      - name: Help article',
       );
     },
   },
   {
-    name: 'required creatable collection without a create path',
+    name: 'help collection without a create path',
     error: 'MISSING_CREATION_PATH',
     mutate(files) {
       files['cloudcannon.config.yml'] = files['cloudcannon.config.yml'].replace(
@@ -538,18 +395,8 @@ file_config:
     error: 'INVALID_CREATION_PATH',
     mutate(files) {
       files['cloudcannon.config.yml'] = files['cloudcannon.config.yml'].replace(
-        "{slug|slugify}[count].yaml'",
-        "{slug|slugify}[count].md'",
-      );
-    },
-  },
-  {
-    name: 'creation path without its required input',
-    error: 'INVALID_CREATION_PATH_INPUT',
-    mutate(files) {
-      files['cloudcannon.config.yml'] = files['cloudcannon.config.yml'].replace(
-        '      slug:\n        type: text\n        options:\n          required: true',
-        '      slug:\n        type: text',
+        "{title|slugify}[count].mdx'",
+        "{title|slugify}[count].md'",
       );
     },
   },
@@ -558,8 +405,8 @@ file_config:
     error: 'INVALID_CREATION_PATH',
     mutate(files) {
       files['cloudcannon.config.yml'] = files['cloudcannon.config.yml'].replace(
-        "{name|slugify}[count].yaml'",
-        "{title|slugify}[count].yaml'",
+        "{title|slugify}[count].mdx'",
+        "{name|slugify}[count].mdx'",
       );
     },
   },
@@ -568,7 +415,7 @@ file_config:
     error: 'UNCONFIGURED_CREATION_TEMPLATE',
     mutate(files) {
       files['cloudcannon.config.yml'] = files['cloudcannon.config.yml'].replace(
-        '        default_content_file: .cloudcannon/schemas/blog-post.md',
+        '        default_content_file: .cloudcannon/schemas/help-article.md',
         '',
       );
     },
@@ -578,7 +425,7 @@ file_config:
     error: 'UNCONFIGURED_CREATION_TEMPLATE',
     mutate(files) {
       files['cloudcannon.config.yml'] = files['cloudcannon.config.yml'].replace(
-        '        default_content_file: .cloudcannon/schemas/blog-post.md',
+        '        default_content_file: .cloudcannon/schemas/help-article.md',
         '        schema: default',
       );
     },
@@ -587,7 +434,7 @@ file_config:
     name: 'creation add option whose default content file is missing',
     error: 'MISSING_CREATION_TEMPLATE',
     mutate(files) {
-      delete files['.cloudcannon/schemas/blog-post.md'];
+      delete files['.cloudcannon/schemas/help-article.md'];
     },
   },
   {
@@ -595,8 +442,8 @@ file_config:
     error: 'CREATION_SCHEMA_POLLUTION_RISK',
     mutate(files) {
       files['cloudcannon.config.yml'] = files['cloudcannon.config.yml'].replace(
-        '  blog:\n    schemas: null\n    path:',
-        '  blog:\n    schemas:\n      default:\n        path: .cloudcannon/schemas/blog-post.md\n    path:',
+        '  help:\n    schemas: null\n    path:',
+        '  help:\n    schemas:\n      default:\n        path: .cloudcannon/schemas/help-article.md\n    path:',
       );
     },
   },
@@ -614,15 +461,17 @@ file_config:
     name: 'schema metadata leaked into single-shape content',
     error: 'MANAGED_SCHEMA_METADATA',
     mutate(files) {
-      files['src/content/help/guide.mdx'] = '---\n_schema: default\ntitle: Guide\n---\n';
+      files['src/content/help/guide.mdx'] = article.replace('---\n', '---\n_schema: default\n');
     },
   },
   {
     name: 'creation template placeholder leaked into content',
     error: 'CREATION_TEMPLATE_SENTINEL',
     mutate(files) {
-      files['src/content/help/guide.mdx'] =
-        '---\ntitle: Guide\nseoTitle: New help article | Inner Explorer\n---\n';
+      files['src/content/help/guide.mdx'] = article.replace(
+        'title: Guide\n',
+        'title: Guide\nseoTitle: New help article | Inner Explorer\n',
+      );
     },
   },
   {
@@ -714,115 +563,30 @@ file_config:
         '  help_video:\n    template: mdx_component\n    definitions:\n      component_name: HelpVideo\n      named_args:\n        - editor_key: label\n          type: string\n        - editor_key: ratio\n          type: string\n          default: 16 / 9\n        - editor_key: caption\n          type: string\n          optional: true\n    _inputs:',
       );
       files['src/content/help/guide.mdx'] =
-        '---\ntitle: Guide\n---\n<HelpVideo label="Test" caption="Test" ratio="16 / 9"/>\n';
-    },
-  },
-  {
-    name: 'required marketing page removed from the contract',
-    error: 'MISSING_MARKETING_PAGE',
-    mutate(files) {
-      delete files['src/content/pages/about.yml'];
-    },
-  },
-  {
-    name: 'marketing schema template placed inside its collection',
-    error: 'PAGE_SCHEMA_TEMPLATE_IN_COLLECTION',
-    mutate(files) {
-      files['cloudcannon.config.yml'] = files['cloudcannon.config.yml'].replaceAll(
-        '.cloudcannon/schemas/marketing-page.yml',
-        'src/content/pages/home.yml',
-      );
-    },
-  },
-  {
-    name: 'missing marketing schema template',
-    error: 'MISSING_PAGE_SCHEMA_TEMPLATE',
-    mutate(files) {
-      delete files['.cloudcannon/schemas/marketing-page.yml'];
+        `${article}<HelpVideo label="Test" caption="Test" ratio="16 / 9"/>\n`;
     },
   },
   {
     name: 'unbacked page with editable regions',
     error: 'UNBACKED_EDITABLE_PAGE',
     mutate(files) {
-      files['dist/orphan/index.html'] =
+      files['dist-help/orphan/index.html'] =
         '<!doctype html><h1 data-editable="text" data-prop="title">Orphan</h1>';
+    },
+  },
+  {
+    name: 'help article still built under the old /help/ prefix',
+    error: 'UNBACKED_EDITABLE_PAGE',
+    mutate(files) {
+      delete files['dist-help/guide/index.html'];
+      files['dist-help/help/guide/index.html'] = html;
     },
   },
   {
     name: 'duplicate collection output URL',
     error: 'DUPLICATE_OUTPUT_URL',
     mutate(files) {
-      files['src/content/blog/example.mdx'] = '---\ntitle: Duplicate URL\nitems: []\n---\n';
-    },
-  },
-  {
-    name: 'comment-only Zod discriminant',
-    error: 'INVALID_ZOD_SCHEMA_MODULE',
-    mutate(files) {
-      const path = 'src/lib/page-schemas/home.ts';
-      files[path] = files[path].replace(
-        "z.object({ _schema: z.literal('home') })",
-        "z.object({}) /* _schema: z.literal('home') */",
-      );
-    },
-  },
-  {
-    name: 'duplicate actual Zod discriminant registration',
-    error: 'DUPLICATE_ZOD_DISCRIMINANT',
-    mutate(files) {
-      files['src/lib/page-schemas/index.ts'] = files['src/lib/page-schemas/index.ts'].replace(
-        'page6(ctx)',
-        'page6(ctx), page6(ctx)',
-      );
-    },
-  },
-  {
-    name: 'comment-only marketing route',
-    error: 'MISSING_PAGE_ROUTE',
-    mutate(files) {
-      files['src/pages/index.astro'] = "---\n// getEntry('pages', 'home')\n---\n";
-    },
-  },
-  {
-    name: 'duplicate actual marketing route',
-    error: 'DUPLICATE_PAGE_ROUTE',
-    mutate(files) {
-      files['src/pages/duplicate.astro'] =
-        "---\nconst entry = await getEntry('pages', 'home');\n---\n";
-      files['dist/duplicate/index.html'] = '<!doctype html><p>Duplicate route</p>';
-    },
-  },
-  {
-    name: 'root-relative link to a known Help article',
-    error: 'ROOT_RELATIVE_HELP_LINK',
-    mutate(files) {
-      files['src/content/help/guide.mdx'] = '---\ntitle: Guide\n---\n';
-      files['src/content/help/other.mdx'] = '---\ntitle: Other\n---\n[Open the guide](/guide/)\n';
-    },
-  },
-  {
-    name: 'root-relative /help/ link to a known Help article',
-    error: 'ROOT_RELATIVE_HELP_LINK',
-    mutate(files) {
-      files['src/content/help/other.mdx'] =
-        '---\ntitle: Other\n---\n[Open the guide](/help/guide/)\n';
-    },
-  },
-  {
-    name: 'reference-style root-relative Help link',
-    error: 'ROOT_RELATIVE_HELP_LINK',
-    mutate(files) {
-      files['src/content/help/other.mdx'] =
-        '---\ntitle: Other\n---\n[Open the guide][guide]\n\n[guide]: /guide/\n';
-    },
-  },
-  {
-    name: 'JSX-expression root-relative Help link',
-    error: 'ROOT_RELATIVE_HELP_LINK',
-    mutate(files) {
-      files['src/content/help/other.mdx'] =
-        '---\ntitle: Other\n---\n<a href={"/guide/"}>Open the guide</a>\n';
+      files['src/content/help/guide.md'] = article;
     },
   },
 ];
@@ -835,20 +599,14 @@ for (const fixture of negativeFixtures) {
   });
 }
 
-test('absolute child bindings under external data components remain valid', () => {
+test('absolute data bindings on pages that are not entries remain valid', () => {
   const result = runFixture((files) => {
-    files['cloudcannon.config.yml'] += `
-data_config:
-  shared:
-    path: src/data/shared.json
-file_config:
-  - glob: src/data/shared.json
-    _inputs:
-      title: { type: text }
-`;
+    files['cloudcannon.config.yml'] += sharedData;
     files['src/data/shared.json'] = '{"title":"Shared title"}\n';
-    files['dist/index.html'] =
-      '<editable-component data-component="hero" data-prop="@data[shared]"><h1 data-editable="text" data-prop="@data[shared].title">Shared title</h1></editable-component>';
+    files['dist-help/index.html'] =
+      '<h1 data-editable="text" data-prop="@data[shared].title">Shared title</h1>';
+    files['dist-help/404.html'] =
+      '<h1 data-editable="text" data-prop="@data[shared].title">Shared title</h1>';
   });
   assert.equal(result.status, 0, result.output);
 });
@@ -862,45 +620,37 @@ file_config:
       title: { type: text }
 `;
     files['src/data/shared.json'] = '{"title":"Shared title"}\n';
-    files['dist/index.html'] =
+    files['dist-help/guide/index.html'] =
       '<h1 data-editable="text" data-prop="@file[/src/data/shared.json].title">Shared title</h1>';
   });
   assert.equal(result.status, 0, result.output);
 });
 
-test('call-site array wrappers with plain registered renderers remain valid', () => {
-  const result = runFixture((files) => {
-    files['src/cloudcannon/registerComponents.ts'] =
-      "import Hero from '../components/Hero';\nregisterAstroComponent('hero', Hero);\n";
-    files['src/components/Hero.astro'] =
-      '<section data-component="other" data-id="hero"><span>Rendered row</span></section>\n';
-    files['dist/index.html'] =
-      '<div data-editable="array" data-prop="hero.items"><div data-editable="array-item" data-component="hero"><span data-editable="text" data-prop="label">First item</span></div></div>';
-  });
-  assert.equal(result.status, 0, result.output);
-});
-
-test('same-key component boundaries without a self-emitted array item remain valid', () => {
-  const result = runFixture((files) => {
-    files['src/cloudcannon/registerComponents.ts'] =
-      "import Hero from '../components/Hero.astro';\nregisterAstroComponent('hero', Hero);\n";
-    files['src/components/Hero.astro'] =
-      '<editable-component data-component="hero"><span>Rendered component</span></editable-component>\n';
-  });
-  assert.equal(result.status, 0, result.output);
-});
-
 test('default invocation rejects a missing Help build root', () => {
-  const result = runFixture(() => {}, []);
+  const result = runFixture((files) => {
+    delete files['dist-help/guide/index.html'];
+  });
   assert.equal(result.status, 1, result.output);
   assert.match(result.output, /Missing build output: dist-help/);
 });
 
+test('explicit build roots replace the default', () => {
+  const result = runFixture(
+    (files) => {
+      files['scratch/guide/index.html'] = files['dist-help/guide/index.html'];
+      delete files['dist-help/guide/index.html'];
+    },
+    ['scratch'],
+  );
+  assert.equal(result.status, 0, result.output);
+  assert.match(result.output, /Scanned scratch — 1 pages/);
+});
+
 test('optional creation fields must still be present in the creation template', () => {
   const result = runFixture((files) => {
-    files['src/content.config.ts'] = files['src/content.config.ts'].replace(
-      'const narrators = defineCollection({ schema: z.object({ title: z.string() }) });',
-      'const narrators = defineCollection({ schema: z.object({ title: z.string(), voice: z.object({ audio: z.string() }).optional() }) });',
+    files['src-help/lib/help-collection.ts'] = files['src-help/lib/help-collection.ts'].replace(
+      'title: z.string(),',
+      'title: z.string(), voice: z.object({ audio: z.string() }).optional(),',
     );
   });
   assert.equal(result.status, 1, result.output);
@@ -910,11 +660,32 @@ test('optional creation fields must still be present in the creation template', 
 
 test('creation placeholders remain valid while an entry is a draft', () => {
   const result = runFixture((files) => {
-    files['src/content/help/guide.mdx'] =
-      '---\ntitle: New help article\nseoTitle: New help article | Inner Explorer\ndraft: true\n---\n';
+    files['src/content/help/guide.mdx'] = article.replace(
+      'title: Guide\n',
+      'title: New help article\nseoTitle: New help article | Inner Explorer\ndraft: true\n',
+    );
   });
   assert.equal(result.status, 0, result.output);
   assert.doesNotMatch(result.output, /\bCREATION_TEMPLATE_SENTINEL\b/);
+});
+
+test('MDX components with array props match their snippet', () => {
+  const result = runFixture((files) => {
+    files['cloudcannon.config.yml'] = files['cloudcannon.config.yml'].replace(
+      '_snippets:\n',
+      `_snippets:
+  steps:
+    template: mdx_component
+    definitions:
+      component_name: Steps
+      named_args:
+        - editor_key: items
+          type: array
+`,
+    );
+    files['src/content/help/guide.mdx'] = `${article}\n${stepsUsage}\n`;
+  });
+  assert.equal(result.status, 0, result.output);
 });
 
 test('unrelated optional snippet defaults remain valid', () => {
@@ -945,26 +716,27 @@ test('snippet arguments in CloudCannon serializer order remain valid', () => {
       '  help_video:\n    template: mdx_component\n    definitions:\n      component_name: HelpVideo\n      named_args:\n        - editor_key: label\n          type: string\n        - editor_key: ratio\n          type: string\n          default: 16 / 9\n        - editor_key: caption\n          type: string\n          optional: true\n    _inputs:',
     );
     files['src/content/help/guide.mdx'] =
-      '---\ntitle: Guide\n---\n<HelpVideo label="Test" ratio="16 / 9" caption="Test"/>\n';
+      `${article}<HelpVideo label="Test" ratio="16 / 9" caption="Test"/>\n`;
   });
   assert.equal(result.status, 0, result.output);
 });
 
 test('preprocessed optional objects retain nested creation-structure validation', () => {
   const result = runFixture((files) => {
-    files['src/content.config.ts'] = files['src/content.config.ts'].replace(
-      'const narrators = defineCollection({ schema: z.object({ title: z.string() }) });',
-      'const narrators = defineCollection({ schema: z.object({ title: z.string(), voice: z.preprocess((value) => value, z.object({ audio: z.string(), title: z.string() }).optional()) }) });',
+    files['src-help/lib/help-collection.ts'] = files['src-help/lib/help-collection.ts'].replace(
+      'title: z.string(),',
+      'title: z.string(), voice: z.preprocess((value) => value, z.object({ audio: z.string(), title: z.string() }).optional()),',
     );
-    files['.cloudcannon/schemas/narrator.yml'] = 'title: New narrator\nvoice: null\n';
+    files['.cloudcannon/schemas/help-article.md'] =
+      '---\ntitle: New guide\nitems: []\nvoice: null\n---\n';
     files['cloudcannon.config.yml'] = files['cloudcannon.config.yml']
       .replace(
-        '  narrators:\n    schemas: null\n    path:',
-        '  narrators:\n    schemas: null\n    _inputs:\n      voice:\n        type: object\n        options:\n          structures: _structures.voice\n    path:',
+        '    _inputs:\n      keywords:',
+        '    _inputs:\n      voice:\n        type: object\n        options:\n          structures: _structures.voice\n      keywords:',
       )
       .replace(
-        '  blog_items:\n',
-        "  voice:\n    values:\n      - value:\n          audio: ''\n  blog_items:\n",
+        '  help_items:\n',
+        "  voice:\n    values:\n      - value:\n          audio: ''\n  help_items:\n",
       );
   });
   assert.equal(result.status, 1, result.output);
@@ -972,21 +744,21 @@ test('preprocessed optional objects retain nested creation-structure validation'
   assert.match(result.output, /title/);
 });
 
-test('exact file configuration with a $ root structure scopes page inputs', () => {
+test('exact file configuration with a $ root structure scopes entry inputs', () => {
   const result = runFixture((files) => {
     files['cloudcannon.config.yml'] = files['cloudcannon.config.yml']
       .replace(
-        '        _inputs:\n          hero:\n            type: object\n            options:\n              structures: _structures.hero',
+        '      hero:\n        type: object\n        options:\n          structures: _structures.hero\n',
         '',
       )
       .replace(
         '_inputs:\n  title:',
-        'file_config:\n  - glob: src/content/pages/home.yml\n    _inputs:\n      $:\n        type: object\n        options:\n          structures: _structures.home_root\n_inputs:\n  title:',
+        'file_config:\n  - glob: src/content/help/guide.mdx\n    _inputs:\n      $:\n        type: object\n        options:\n          structures: _structures.guide_root\n_inputs:\n  title:',
       )
       .replace(
         '_structures:\n',
         `_structures:
-  home_root:
+  guide_root:
     values:
       - value:
           hero:
@@ -1008,10 +780,13 @@ test('exact file configuration with a $ root structure scopes page inputs', () =
 test('exact $.field inputs bind at the file root without matching nested names', () => {
   const result = runFixture((files) => {
     files['cloudcannon.config.yml'] = files['cloudcannon.config.yml'].replace(
-      '          hero:\n            type: object',
-      "          '$.hero':\n            type: object",
+      '      hero:\n        type: object',
+      "      '$.hero':\n        type: object",
     );
-    files['src/content/pages/home.yml'] += '\nother:\n  hero: Nested name with a different shape\n';
+    files['src/content/help/guide.mdx'] = article.replace(
+      '---\nBody',
+      'other:\n  hero: Nested name with a different shape\n---\nBody',
+    );
   });
   assert.equal(result.status, 0, result.output);
 });
