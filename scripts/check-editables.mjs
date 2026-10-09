@@ -622,29 +622,43 @@ function checkDataReachability() {
 // page still builds correctly, so nothing else catches it.
 
 // End index of the JSX expression `{…}` that opens at `start`, or -1. Braces inside
-// JS strings and template literals do not count, so `items={[{ title: '…' }]}` works.
+// JS strings, template literals and comments do not count, so `items={[{ title: '…' }]}`
+// and `{/* it's fine */}` both work.
 function jsxExpressionEnd(src, start) {
   let depth = 0;
   for (let i = start; i < src.length; i++) {
     const c = src[i];
     if (c === '"' || c === "'" || c === '`') {
       for (i++; i < src.length && src[i] !== c; i++) if (src[i] === '\\') i++;
+    } else if (src.startsWith('//', i)) {
+      i = src.indexOf('\n', i);
+      if (i === -1) return -1;
+    } else if (src.startsWith('/*', i)) {
+      i = src.indexOf('*/', i + 2);
+      if (i === -1) return -1;
+      i++;
     } else if (c === '{') depth++;
     else if (c === '}' && --depth === 0) return i + 1;
   }
   return -1;
 }
 
-// Every `<Component …>` opening tag in an MDX body, with its attribute names.
+// Every `<Component …>` opening tag in an MDX body, with its attribute names. A tag
+// whose attributes cannot be read comes back `unparsed`, so the caller reports it
+// rather than silently skipping a usage it cannot check.
 function* mdxComponentTags(src) {
   const open = /<([A-Z][A-Za-z0-9]*)(?=[\s/>])/g;
+  const skipSpace = (i) => {
+    while (/\s/.test(src[i] ?? '')) i++;
+    return i;
+  };
   let m;
   while ((m = open.exec(src))) {
     const attrs = [];
     let i = open.lastIndex;
     let closed = false;
     while (i !== -1 && i < src.length) {
-      while (/\s/.test(src[i] ?? '')) i++;
+      i = skipSpace(i);
       if (src[i] === '>' || src.startsWith('/>', i)) {
         closed = true;
         break;
@@ -652,16 +666,16 @@ function* mdxComponentTags(src) {
       const name = /^[a-zA-Z][\w-]*/.exec(src.slice(i, i + 100))?.[0];
       if (!name) break;
       attrs.push(name);
-      i += name.length;
-      if (src[i] !== '=') continue;
-      i++;
+      i = skipSpace(i + name.length);
+      if (src[i] !== '=') continue; // a boolean attribute
+      i = skipSpace(i + 1);
       if (src[i] === '{') i = jsxExpressionEnd(src, i);
       else if (src[i] === '"' || src[i] === "'") {
         const end = src.indexOf(src[i], i + 1);
         i = end === -1 ? -1 : end + 1;
       } else break;
     }
-    if (closed) yield { component: m[1], attrs };
+    yield { component: m[1], attrs, unparsed: !closed };
   }
 }
 
@@ -693,7 +707,20 @@ function checkSnippetCoverage() {
       if (!/\.mdx?$/.test(name)) continue;
       const full = join(dir, name);
       const src = readFileSync(full, 'utf8');
-      for (const { component, attrs } of mdxComponentTags(src)) {
+      for (const { component, attrs, unparsed } of mdxComponentTags(src)) {
+        if (unparsed) {
+          found.push({
+            kind: 'UNPARSED_MDX_TAG',
+            file: full,
+            url: full,
+            backing: full,
+            tag: component,
+            detail:
+              `could not read the attributes of <${component}>, so its snippet match is ` +
+              `unchecked — write each attribute as name="…" or name={…}`,
+          });
+          continue;
+        }
         const defs = byComponent[component];
         let detail;
         if (!defs) {

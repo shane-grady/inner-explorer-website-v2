@@ -12,9 +12,10 @@
 // --classes (marketing build): every class in a class="" attribute must exist as a
 // selector in the built CSS. Catches old utility names, Tailwind defaults that don't
 // exist in our theme, and typos, with no deny-list to maintain.
-import { existsSync } from 'node:fs';
-import { readdir, readFile } from 'node:fs/promises';
+import { existsSync, statSync } from 'node:fs';
+import { readFile } from 'node:fs/promises';
 import { basename, dirname, join, relative, resolve } from 'node:path';
+import { cssClassSet, walk } from './lib/build-files.mjs';
 
 const args = process.argv.slice(2);
 const dirs = args.filter((a) => !a.startsWith('--'));
@@ -28,21 +29,16 @@ const HOSTS = { 'www.innerexplorer.com': 'dist', 'help.innerexplorer.com': 'dist
 // Classes that never carry CSS of their own (state hooks for group-*/peer-* variants).
 const CLASS_ALLOW = new Set(['group', 'peer']);
 
-async function walk(dir) {
-  const out = [];
-  for (const entry of await readdir(dir, { withFileTypes: true })) {
-    const full = join(dir, entry.name);
-    if (entry.isDirectory()) out.push(...(await walk(full)));
-    else out.push(full);
-  }
-  return out;
-}
-
+// HTML attribute values as Astro writes them: `&` `<` `>` `"` `'` (and `/` in some
+// URLs) arrive entity-encoded. `&amp;` goes last so `&amp;lt;` stays `&lt;`.
 const decode = (s) =>
   s
-    .replace(/&amp;/g, '&')
     .replace(/&#x2F;/gi, '/')
-    .replace(/&quot;/g, '"');
+    .replace(/&quot;/g, '"')
+    .replace(/&#(?:39|x27);/gi, "'")
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&amp;/g, '&');
 
 function urlsFromHtml(html, file) {
   const urls = [];
@@ -87,7 +83,8 @@ function urlsFromCss(css) {
   return [...noData.matchAll(/url\(\s*(['"]?)([^'")]+)\1\s*\)/g)].map((m) => m[2]);
 }
 
-/** Map a URL to the [buildDir, path] it should resolve in, or null to skip it. */
+/** Map a URL to the [buildDir, path] it should resolve in, or null to skip it. Throws on
+ *  a malformed URL (the caller reports it). */
 function target(url, fromFile, root) {
   if (!url || /^(#|mailto:|tel:|javascript:|data:|blob:)/i.test(url)) return null;
   let path;
@@ -108,20 +105,13 @@ function target(url, fromFile, root) {
   return [dir, path];
 }
 
+// A served FILE, not just a directory: a link to a folder without index.html 404s.
+const isFile = (p) => existsSync(p) && statSync(p).isFile();
+
 function exists(dir, path) {
   const p = join(dir, path);
-  if (path.endsWith('/')) return existsSync(join(p, 'index.html'));
-  return existsSync(p) || existsSync(join(p, 'index.html')) || existsSync(`${p}.html`);
-}
-
-function cssClassSet(css) {
-  const classes = new Set();
-  for (const m of css.replace(/\/\*[\s\S]*?\*\//g, '').matchAll(/([^{};]*)\{/g)) {
-    if (m[1].trim().startsWith('@')) continue;
-    for (const c of m[1].matchAll(/\.((?:\\.|[A-Za-z0-9_-])+)/g))
-      if (!/^\d/.test(c[1])) classes.add(c[1].replace(/\\(.)/g, '$1'));
-  }
-  return classes;
+  if (path.endsWith('/')) return isFile(join(p, 'index.html'));
+  return isFile(p) || isFile(join(p, 'index.html')) || isFile(`${p}.html`);
 }
 
 let failures = 0;
@@ -132,6 +122,7 @@ for (const root of dirs) {
   }
   const files = await walk(root);
   const missing = new Map(); // "path" -> first file that references it
+  const malformed = new Map(); // url -> first file that references it
   let css = '';
   const classUse = new Map();
   for (const file of files) {
@@ -139,7 +130,13 @@ for (const root of dirs) {
     const text = await readFile(file, 'utf8');
     const urls = file.endsWith('.css') ? urlsFromCss(text) : urlsFromHtml(text, file);
     for (const url of urls) {
-      const t = target(url, file, root);
+      let t;
+      try {
+        t = target(url, file, root);
+      } catch {
+        if (!malformed.has(url)) malformed.set(url, relative(root, file));
+        continue;
+      }
       if (t && !exists(...t)) {
         const key = `${t[0]}${t[1]}`;
         if (!missing.has(key)) missing.set(key, relative(root, file));
@@ -150,13 +147,17 @@ for (const root of dirs) {
       else {
         for (const m of text.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)) css += m[1];
         for (const m of text.matchAll(/\sclass="([^"]*)"/g))
-          for (const c of m[1].split(/\s+/).filter(Boolean))
+          for (const c of decode(m[1]).split(/\s+/).filter(Boolean))
             if (!classUse.has(c)) classUse.set(c, relative(root, file));
       }
     }
   }
   for (const [path, from] of missing) {
     console.error(`  missing: ${path}  (referenced from ${from})`);
+    failures++;
+  }
+  for (const [url, from] of malformed) {
+    console.error(`  malformed URL: ${url}  (referenced from ${from})`);
     failures++;
   }
   if (checkClasses) {

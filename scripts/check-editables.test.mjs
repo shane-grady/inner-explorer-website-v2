@@ -324,6 +324,29 @@ const negativeFixtures = [
     },
   },
   {
+    name: 'undeclared snippet attribute written with spaces around =',
+    error: 'UNMATCHED_SNIPPET',
+    mutate(files) {
+      files['src/content/help/guide.mdx'] =
+        `${article}\n<Callout type = "tip" bogus = "x">Hi</Callout>\n`;
+    },
+  },
+  {
+    name: 'undeclared snippet attribute after a comment with an apostrophe',
+    error: 'UNMATCHED_SNIPPET',
+    mutate(files) {
+      files['src/content/help/guide.mdx'] =
+        `${article}\n<Callout type="tip" note={/* it's here */ 1} bogus="x">Hi</Callout>\n`;
+    },
+  },
+  {
+    name: 'MDX component tag whose attributes cannot be read',
+    error: 'UNPARSED_MDX_TAG',
+    mutate(files) {
+      files['src/content/help/guide.mdx'] = `${article}\n<Callout {...props}>Hi</Callout>\n`;
+    },
+  },
+  {
     name: 'incomplete collection creation template',
     error: 'MISSING_CREATION_FIELD',
     mutate(files) {

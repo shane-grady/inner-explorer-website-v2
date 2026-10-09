@@ -8,7 +8,9 @@
 // Normalization removes what changes on every build without changing the page:
 //   - content hashes in /_astro/ file names and in every reference to them
 //     (`Layout.Ab3x_9Kq.css` -> `Layout.css`, `photo.Ab3x_9Kq_Z1d2f.webp` -> `photo.webp`);
-//     names that still collide get a short hash of their normalized content
+//     names that still collide (image size variants, same-named files) get a short hash
+//     of their normalized content, in the file name AND in every reference, so a page
+//     that switches between two same-named assets still shows up in the diff
 //   - Astro scope ids (`data-astro-cid-<id>`, `astro-<id>-<n>`), renumbered in order of
 //     first appearance across the tree
 //   - one tag / declaration / statement per line, so `diff` shows the real change
@@ -21,8 +23,9 @@
 // Build baselines OUTSIDE the repo (a sibling `git worktree`) so neither tree's source
 // is scanned by the other's Tailwind. See src-help/README.md.
 import { createHash } from 'node:crypto';
-import { mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { dirname, join, relative } from 'node:path';
+import { cssClassSet, walk } from './lib/build-files.mjs';
 
 const args = process.argv.slice(2);
 const positional = args.filter((a) => !a.startsWith('--'));
@@ -41,16 +44,6 @@ const BINARY =
 // Astro/Vite hashed asset names: name.<8 url-safe chars>[_<image transform id>].ext
 const HASHED = /^(.+?)\.[A-Za-z0-9_-]{8}(?:_[A-Za-z0-9_-]+)?(\.[a-z0-9]+)$/;
 
-async function walk(root, dir = root) {
-  const out = [];
-  for (const entry of await readdir(dir, { withFileTypes: true })) {
-    const full = join(dir, entry.name);
-    if (entry.isDirectory()) out.push(...(await walk(root, full)));
-    else out.push(relative(root, full).split('\\').join('/'));
-  }
-  return out.sort();
-}
-
 function stripHash(path) {
   if (!path.includes('_astro/')) return path;
   const slash = path.lastIndexOf('/');
@@ -67,11 +60,23 @@ function splitLines(text, file) {
   return text;
 }
 
+const escapeRe = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const baseName = (path) => path.slice(path.lastIndexOf('/') + 1);
+
+/** `dir/name.ext` -> `dir/name~<tag>.ext` */
+function withTag(path, tag) {
+  const dot = path.lastIndexOf('.');
+  return dot > path.lastIndexOf('/')
+    ? `${path.slice(0, dot)}~${tag}${path.slice(dot)}`
+    : `${path}~${tag}`;
+}
+
 async function normalizeTree(root) {
-  const files = (await walk(root)).filter((f) => !excludes.some((p) => f.startsWith(p)));
-  // Map every hashed asset name to its hash-free name (resolved for collisions below).
-  const renamed = new Map();
-  for (const f of files) renamed.set(f, stripHash(f));
+  const files = (await walk(root))
+    .map((f) => relative(root, f).split('\\').join('/'))
+    .filter((f) => !excludes.some((p) => f.startsWith(p)));
+  const raw = new Map();
+  for (const f of files) raw.set(f, await readFile(join(root, f)));
 
   const cids = new Map();
   const cid = (id) => {
@@ -81,52 +86,56 @@ async function normalizeTree(root) {
   // Number scope ids by their order in the HTML first, so CSS-only changes (a dropped
   // stylesheet full of other components' ids) can't shift every page's numbering.
   for (const f of files.filter((f) => f.endsWith('.html')))
-    for (const m of (await readFile(join(root, f), 'utf8')).matchAll(/data-astro-cid-([a-z0-9]+)/g))
+    for (const m of raw
+      .get(f)
+      .toString('utf8')
+      .matchAll(/data-astro-cid-([a-z0-9]+)/g))
       cid(m[1]);
-  // Replace every reference to a hashed asset with its normalized name.
-  const hashedBasenames = [...renamed]
-    .filter(([from, to]) => from !== to)
-    .map(([from, to]) => [
-      from.slice(from.lastIndexOf('/') + 1),
-      to.slice(to.lastIndexOf('/') + 1),
-    ]);
-  const refMap = new Map(hashedBasenames);
-  const refPattern = hashedBasenames.length
-    ? new RegExp(
-        hashedBasenames.map(([b]) => b.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|'),
-        'g',
-      )
-    : null;
 
-  const result = new Map(); // normalized path -> list of { content }
-  for (const f of files) {
-    const buf = await readFile(join(root, f));
-    let content;
-    if (BINARY.test(f)) {
-      content = `sha256 ${sha(buf)} ${buf.length}\n`;
-    } else {
+  // Normalize one file, rewriting every hashed asset reference through `names`
+  // (source path -> normalized path).
+  const normalizer = (names) => {
+    const refMap = new Map(
+      [...names]
+        .filter(([from, to]) => from !== to)
+        .map(([from, to]) => [baseName(from), baseName(to)]),
+    );
+    const refPattern = refMap.size
+      ? new RegExp([...refMap.keys()].map(escapeRe).join('|'), 'g')
+      : null;
+    return (f) => {
+      const buf = raw.get(f);
+      if (BINARY.test(f)) return `sha256 ${sha(buf)} ${buf.length}\n`;
       let text = buf.toString('utf8');
       if (refPattern) text = text.replace(refPattern, (m) => refMap.get(m));
       text = text
         .replace(/data-astro-cid-([a-z0-9]+)/g, (_, id) => `data-astro-${cid(id)}`)
         .replace(/\bastro-([a-z0-9]{8})-(\d+)\b/g, (_, id, n) => `astro-${cid(id)}-${n}`);
-      content = splitLines(text, f);
-    }
-    const target = renamed.get(f);
-    if (!result.has(target)) result.set(target, []);
-    result.get(target).push(content);
+      return splitLines(text, f);
+    };
+  };
+
+  // Pass 1: strip hashes, so references point at bare names.
+  const stripped = new Map(files.map((f) => [f, stripHash(f)]));
+  const pass1 = normalizer(stripped);
+  // Names that still collide get a short hash of their pass-1 content (stable across
+  // builds, since pass 1 already removed every build-specific hash).
+  const byName = new Map();
+  for (const f of files) {
+    const name = stripped.get(f);
+    if (!byName.has(name)) byName.set(name, []);
+    byName.get(name).push(f);
   }
-  // Names that still collide after hash removal get a short content hash.
-  const final = new Map();
-  for (const [path, contents] of result) {
-    if (contents.length === 1) final.set(path, contents[0]);
-    else
-      for (const c of contents) {
-        const dot = path.lastIndexOf('.');
-        final.set(`${path.slice(0, dot)}~${sha(c).slice(0, 8)}${path.slice(dot)}`, c);
-      }
-  }
-  return final;
+  const finalNames = new Map();
+  for (const [name, group] of byName)
+    for (const f of group)
+      finalNames.set(f, group.length === 1 ? name : withTag(name, sha(pass1(f)).slice(0, 8)));
+
+  // Pass 2: references point at the final, collision-free names.
+  const pass2 = normalizer(finalNames);
+  const result = new Map();
+  for (const f of files) result.set(finalNames.get(f), pass2(f));
+  return result;
 }
 
 async function writeTree(tree, dir) {
@@ -147,21 +156,6 @@ function cssOf(tree) {
       for (const m of content.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)) css += m[1] + '\n';
   }
   return css;
-}
-
-export function cssClassSet(css) {
-  const classes = new Set();
-  const noComments = css.replace(/\/\*[\s\S]*?\*\//g, '');
-  // Selector text is whatever precedes a `{` back to the previous `{`, `}` or `;`.
-  for (const m of noComments.matchAll(/([^{};]*)\{/g)) {
-    const selector = m[1];
-    if (selector.trim().startsWith('@')) continue;
-    for (const c of selector.matchAll(/\.((?:\\.|[A-Za-z0-9_-])+)/g)) {
-      if (/^\d/.test(c[1])) continue; // a number like .5 inside a value, not a class
-      classes.add(c[1].replace(/\\(.)/g, '$1'));
-    }
-  }
-  return classes;
 }
 
 function htmlClasses(tree) {
