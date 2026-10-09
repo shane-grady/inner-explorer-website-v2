@@ -7,8 +7,6 @@ interface ImportMetaEnv {
 
 declare global {
   interface Window {
-    /** Set by CloudCannon before scripts run inside the Visual Editor iframe. */
-    inEditorMode?: boolean;
     dataLayer?: unknown[];
     gtag?: (...args: unknown[]) => void;
     /** Intercom Messenger JS API — see src/components/integrations/Intercom.astro. */

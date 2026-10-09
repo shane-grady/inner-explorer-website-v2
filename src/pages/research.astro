@@ -1,154 +1,18 @@
 ---
-import { getEntry } from 'astro:content';
+// Placeholder until this page is built from the "Inner Explorer — Website" canvas
+// (FINAL V). See tasks/rebuild-plan.md for the order pages are built in.
 import PageLayout from '../layouts/PageLayout.astro';
-import JsonLd from '../components/seo/JsonLd.astro';
-import ResearchOpeningVoid from '../components/blocks/research/ResearchOpeningVoid.astro';
-import EditableResearchHero from '../cloudcannon/components/EditableResearchHero.astro';
-import ResearchReceipts from '../components/blocks/research/ResearchReceipts.astro';
-import ResearchBrain from '../components/blocks/research/ResearchBrain.astro';
-import ResearchMissingLayer from '../components/blocks/research/ResearchMissingLayer.astro';
-import ResearchOutcomes from '../components/blocks/research/ResearchOutcomes.astro';
-import ResearchObjection from '../components/blocks/research/ResearchObjection.astro';
-import ResearchAIMoment from '../components/blocks/research/ResearchAIMoment.astro';
-import ResearchEndorsers from '../components/blocks/research/ResearchEndorsers.astro';
-import EditableResearchCTA from '../cloudcannon/components/EditableResearchCTA.astro';
-import ResearchCitations from '../components/blocks/research/ResearchCitations.astro';
-import BreathMeter from '../components/blocks/research/BreathMeter.astro';
 
-// ── Page content ────────────────────────────────────────────────────────────
-//
-// The copy lives in src/content/pages/research.yml (the `pages` collection) so
-// CloudCannon can read and write it. Only the copy moved — the chapter layout, the
-// scroll choreography, the brain illustration, and the JSON-LD below are still built
-// here. `editablePrefix` threads each block's data path down to its fields; see
-// src/lib/editable.ts.
-
-const entry = await getEntry('pages', 'research');
-if (!entry || entry.data._schema !== 'research') {
-  throw new Error('Missing or malformed src/content/pages/research.yml');
-}
-const {
-  opening,
-  hero,
-  receipts,
-  studies,
-  brain,
-  missingLayer,
-  outcomesHead,
-  outcomes,
-  objection,
-  aiMoment,
-  endorsers,
-  cta,
-  citations,
-  pageTitle,
-  pageDescription,
-} = entry.data;
-
-const base = new URL(Astro.site ?? 'https://www.innerexplorer.com').origin;
-const knownUrls: Record<string, string> = {
-  'bakosh-2016': 'https://link.springer.com/article/10.1007/s12671-015-0387-6',
-  'bakosh-2018': 'https://www.sciencedirect.com/science/article/abs/pii/S0959475217305820',
-  'treves-2023': 'https://link.springer.com/article/10.1007/s12671-023-02231-3',
-};
-const researchLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Article',
-  headline: 'The Research Behind Inner Explorer',
-  name: pageTitle,
-  description: pageDescription,
-  url: `${base}/research`,
-  inLanguage: 'en-US',
-  datePublished: '2026-05-28',
-  about: 'Mindfulness research in K-12 schools',
-  publisher: {
-    '@type': 'Organization',
-    name: 'Inner Explorer',
-    url: base,
-    logo: `${base}/logo.png`,
-  },
-  citation: studies.map((s) => ({
-    '@type': 'ScholarlyArticle',
-    name: s.title,
-    author: { '@type': 'Organization', name: s.authors },
-    datePublished: String(s.year),
-    publisher: { '@type': 'Organization', name: s.institution },
-    ...(knownUrls[s.id] ? { url: knownUrls[s.id] } : {}),
-  })),
+const content = {
+  title: 'Research — Inner Explorer',
+  description:
+    "Six independent controlled trials and a meta-analysis of 77 more. Forty years of MBSR research. The evidence behind Inner Explorer's daily mindfulness practice for K-12 schools.",
+  heading: 'Research',
+  lead: 'The evidence behind daily mindfulness in K-12 schools.',
 };
 ---
 
-<PageLayout title={pageTitle} description={pageDescription} flushTop>
-  <JsonLd slot="head" schema={researchLd} />
-
-  <div class="appearance-light">
-    <ResearchOpeningVoid
-      eyebrow={opening.eyebrow}
-      lines={opening.lines}
-      video="/videos/research/neurons.mp4"
-      poster="/videos/research/neurons-poster.jpg"
-      editablePrefix="opening"
-    />
-    <editable-component data-component="research-hero" data-prop="hero">
-      <EditableResearchHero {...hero} />
-    </editable-component>
-    {
-      /* `studies` is rendered in file order, so the array-item regions inside
-        ResearchReceipts line up with the rows in research.yml. */
-    }
-    <ResearchReceipts
-      chapterLabel={receipts.chapterLabel}
-      chapterNumber={receipts.chapterNumber}
-      headingHtml={receipts.headingHtml}
-      lede={receipts.lede}
-      studies={studies}
-      editablePrefix="receipts"
-      studiesPrefix=""
-    />
-    <ResearchBrain
-      chapterLabel={brain.chapterLabel}
-      chapterNumber={brain.chapterNumber}
-      headingHtml={brain.headingHtml}
-      paragraphs={brain.paragraphs}
-      pullQuoteHtml={brain.pullQuoteHtml}
-      editablePrefix="brain"
-    />
-    <ResearchMissingLayer
-      label={missingLayer.label}
-      headingHtml={missingLayer.headingHtml}
-      paragraphs={missingLayer.paragraphs}
-      pullQuoteHtml={missingLayer.pullQuoteHtml}
-      editablePrefix="missingLayer"
-    />
-    <ResearchOutcomes
-      chapterLabel={outcomesHead.chapterLabel}
-      chapterNumber={outcomesHead.chapterNumber}
-      headingHtml={outcomesHead.headingHtml}
-      jumpLabel={outcomesHead.jumpLabel}
-      outcomes={outcomes}
-      studies={studies}
-      editablePrefix="outcomesHead"
-      outcomesPrefix=""
-    />
-    <ResearchObjection
-      heading={objection.heading}
-      body={objection.body}
-      closing={objection.closing}
-      editablePrefix="objection"
-    />
-    <ResearchAIMoment {...aiMoment} editablePrefix="aiMoment" />
-    <ResearchEndorsers label={endorsers.label} items={endorsers.items} editablePrefix="endorsers" />
-    <editable-component data-component="research-cta" data-prop="cta">
-      <EditableResearchCTA {...cta} />
-    </editable-component>
-    <ResearchCitations
-      label={citations.label}
-      note={citations.note}
-      groups={citations.groups}
-      studies={studies}
-      studyUrls={knownUrls}
-      editablePrefix="citations"
-    />
-    <BreathMeter />
-  </div>
+<PageLayout title={content.title} description={content.description}>
+  <h1>{content.heading}</h1>
+  <p>{content.lead}</p>
 </PageLayout>

@@ -1,0 +1,5 @@
+/* Marketing site stylesheet. Intentionally bare until the design-foundation PR
+   (tasks/rebuild-plan.md) adds the Inner Explorer design system's tokens, theme and
+   components here. source('..') scans src/ only, so the frozen Help Center markup in
+   src-help/ never adds utilities to this build. */
+@import 'tailwindcss' source('..');

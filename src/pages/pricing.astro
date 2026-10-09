@@ -1,71 +1,18 @@
 ---
-import { getEntry } from 'astro:content';
+// Placeholder until this page is built from the "Inner Explorer — Website" canvas
+// (FINAL V). See tasks/rebuild-plan.md for the order pages are built in.
 import PageLayout from '../layouts/PageLayout.astro';
-import JsonLd from '../components/seo/JsonLd.astro';
-import EditablePricingMasthead from '../cloudcannon/components/EditablePricingMasthead.astro';
-import EditablePricingPlans from '../cloudcannon/components/EditablePricingPlans.astro';
-import PricingTable from '../components/blocks/pricing/PricingTable.astro';
-import EditableGlowCTA from '../cloudcannon/components/EditableGlowCTA.astro';
 
-// ── Page content ────────────────────────────────────────────────────────────
-//
-// Ported from the legacy /compare_program page. The copy lives in
-// src/content/pages/pricing.yml (the `pages` collection) so CloudCannon can read
-// and write it; only the copy moved — the layout and the JSON-LD below are still
-// built here. `editablePrefix` threads each block's data path down to its fields;
-// see src/lib/editable.ts.
-//
-// Comparison cells: 'yes' = included, 'no' = not included, 'na' = not applicable
-// to that plan, { price, note } = priced add-on, or free text.
-
-const entry = await getEntry('pages', 'pricing');
-if (!entry || entry.data._schema !== 'pricing') {
-  throw new Error('Missing or malformed src/content/pages/pricing.yml');
-}
-const { hero, plans, compare, cta, pageTitle, pageDescription } = entry.data;
-
-// Structured data: one Product with three annual site-license offers.
-const productLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Product',
-  name: 'Inner Explorer',
+const content = {
+  title: 'Pricing | Inner Explorer',
   description:
-    'Daily audio-guided mindfulness practices for PreK-12 schools, centers, and districts.',
-  brand: { '@type': 'Brand', name: 'Inner Explorer' },
-  offers: plans.items.map((p) => ({
-    '@type': 'Offer',
-    name: p.name,
-    description: p.blurb,
-    price: p.price.replace(/[$,]/g, ''),
-    priceCurrency: 'USD',
-    url: Astro.site ? new URL(p.ctaHref, Astro.site).href : p.ctaHref,
-    availability: 'https://schema.org/InStock',
-  })),
+    'Find the right Inner Explorer daily mindfulness license for your school, center, or district.',
+  heading: 'Pricing',
+  lead: 'Find the right plan for your school, center, or district.',
 };
 ---
 
-<PageLayout title={pageTitle} description={pageDescription}>
-  <JsonLd slot="head" schema={productLd} />
-
-  <editable-component data-component="pricing-masthead" data-prop="hero">
-    <EditablePricingMasthead {...hero} />
-  </editable-component>
-
-  <editable-component data-component="pricing-plans" data-prop="plans">
-    <EditablePricingPlans {...plans} />
-  </editable-component>
-
-  <PricingTable
-    eyebrow={compare.eyebrow}
-    titleHtml={compare.titleHtml}
-    intro={compare.intro}
-    plans={plans.items}
-    groups={compare.groups}
-    footnote={compare.footnote}
-    editablePrefix="compare"
-  />
-
-  <editable-component data-component="glow-cta" data-prop="cta">
-    <EditableGlowCTA {...cta} />
-  </editable-component>
+<PageLayout title={content.title} description={content.description}>
+  <h1>{content.heading}</h1>
+  <p>{content.lead}</p>
 </PageLayout>
