@@ -7,10 +7,11 @@ the type ramp, spacing, `ie-*` component classes, and the provisional site-only 
 
 Until then:
 
-- **Source of truth:** the "Inner Explorer" design system,
-  https://claude.ai/artifact/XSmeot9ufJMTTvGDh3GYxz, and the site design on the
+- **Source of truth:** the "Inner Explorer Design System" (V2),
+  https://claude.ai/artifact/DVAYqoSPn9uNeodz9HXVox, and the site design on the
   "Inner Explorer — Website" canvas, https://claude.ai/artifact/6gx8tapeaDzTeSSMD7R31s
-  (page FINAL V).
+  (page FINAL V). The system's README states the rules; its `tokens.json`,
+  `components/bundle.css` and component READMEs hold the values and markup the site ports.
 - **Marketing pages stay unstyled** (`src/styles/site.css` is plain Tailwind).
 - **The Help Center keeps its frozen styles** in `src-help/styles/help.css` until it is
   reskinned onto the new design system (see `src-help/README.md`).

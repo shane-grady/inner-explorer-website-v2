@@ -9,7 +9,7 @@
 
 ## Context
 
-The new site design lives on the Claude Design canvas **"Inner Explorer — Website"** (https://claude.ai/artifact/6gx8tapeaDzTeSSMD7R31s, page **FINAL V**). It is built on the **"Inner Explorer" design system** (https://claude.ai/artifact/XSmeot9ufJMTTvGDh3GYxz).
+The new site design lives on the Claude Design canvas **"Inner Explorer — Website"** (https://claude.ai/artifact/6gx8tapeaDzTeSSMD7R31s, page **FINAL V**). It is built on the **"Inner Explorer Design System" (V2)** (https://claude.ai/artifact/DVAYqoSPn9uNeodz9HXVox), which replaced the older "Inner Explorer" system (https://claude.ai/artifact/XSmeot9ufJMTTvGDh3GYxz) on 9 Oct.
 
 This repo was built for the previous design: 177 components (about 39k lines), a 6,930-line CloudCannon config bound to them, 13 page-schema YAMLs, and demo content. The marketing site is pre-launch on noindexed Netlify staging. help.innerexplorer.com is live and is built from this repo.
 
@@ -254,38 +254,37 @@ The new design foundation is the next PR, and is specified at the end of this fi
 
 ## Next PR: the design foundation (reference, not part of this PR)
 
-Built on the clean slate. One rule ties it together: code uses the design system's own token names and `ie-*` class names, so boards, design-system docs and code all say `text-primary`, `surface-card`, `ie-btn-primary`, `space-6`.
+Built on the clean slate. One rule ties it together: code uses the design system's own token names, `type-*` styles and `ie-*` classes, so the design system's docs and the code all say `foreground`, `surface`, `brand-emphasis`, `type-body`, `ie-btn-primary`, `space-6`. The system's components are React previews; their markup and classes are what the Astro components port.
 
 ### Board inventory and vendored inputs
 
-- **`design/inventory.md`:** one table of every repeating pattern across the 39 FINAL V boards: `pattern | boards | component name | status`. Build it by reading the boards with the Artifact tool, and flag the off-token values on the Research and Pricing boards.
+- **`design/inventory.md`:** one table of every repeating pattern across the 39 FINAL V boards: `pattern | boards | component name | status`. The design system's README already lists what is in the system and which one-page patterns stay in page builds; build the table from it and the boards, and flag the off-token values on the Research and Pricing boards.
 - **Vendored files (never hand-edited):**
-  - `design/tokens.json` and `design/components/bundle.css` (`ie-btn-*`; later `ie-cmp-*` and `ie-roi-*`), verbatim from the design system.
+  - `design/tokens.json` and `design/components/bundle.css` (the `ie-*` component classes), verbatim from the design system.
   - `design/README.md` with the sources and the sync steps.
 - **Fonts and logos:**
-  - The 13 woff2 fonts go into `src/assets/fonts/`.
+  - The 9 woff2 fonts (Inter 400/500/700/900, Libre Caslon Condensed 500 and 500 italic, Libre Caslon Text 400, 400 italic and 700) go into `src/assets/fonts/`.
   - The 4 logo PNGs (`lockup-primary`, `lockup-reversed`, `lockup-reversed-small`, `mark-compass`) go into `src/assets/brand/`.
 
 ### Token CSS and theme
 
 **`scripts/tokens.mjs`** writes `src/styles/tokens.css`.
 
-- It emits `@font-face` rules from `type.fonts`, plus `:root` with the design system's exact variable names.
-- `{ref}` values become `var(--ref)`, using the light values only.
+- It emits `@font-face` rules from `type.fonts`, plus `:root` with the design system's exact variable names (one light theme).
+- `{ref}` values become `var(--ref)`.
 - It rejects values containing `;`, `{` or `}`.
 - `--check` runs in `check`, and the output file is prettier-ignored.
 
 **`src/styles/theme.css`** is hand-written; it is the only place Tailwind meets the design system.
 
-- **Reset only the design system's namespaces:** `--color-*`, `--font-*`, `--text-*`, `--radius-*`, `--shadow-*`.
+- **Reset only the namespaces the design system replaces:** `--color-*`, `--font-*`, `--text-*`, `--radius-*`, `--shadow-*`.
   - Tailwind's spacing (4px, so `p-6` equals `space-6`), breakpoints, leading, tracking, containers and eases stay.
   - Re-declare `white`, `black`, `transparent` and `current`.
-- **Color aliases in `@theme inline`,** so utilities read the variable at the element, for example `--color-primary: var(--text-primary)` for `text-primary`. Likewise `bg-surface-card` and `border-divider`.
+- **Color aliases in `@theme inline`,** so utilities read the variable at the element: `--color-foreground: var(--foreground)` gives `text-foreground`; likewise `bg-surface`, `bg-tint`, `text-brand-emphasis`, `border-border`.
   - The raw palette is exposed for surfaces and data visualization (`bg-green-800` for Forest); the neutral palette is not.
-  - Never put the design system's `--text-*` names in `@theme`.
   - Never use `var(--color-…)` in CSS.
-- **`@theme static`** for `--font-sans`, `--font-serif`, `--font-display`, `--radius-card`, `--radius-button` and the shadows.
-- **Fluid values** use one clamp from 390px to 1440px, which matches both boards exactly. For example, `--spacing-section: clamp(4rem, calc(4rem + 48 * (100vw - 390px) / 1050), 7rem)`.
+- **`@theme static`** for `--font-sans`, `--font-serif`, `--font-display`, `--radius-sm`, `--radius-md`, `--radius-full` and the shadows.
+- **Fluid values** use one clamp from 390px to 1440px between a token and its `-mobile` twin, which matches both boards exactly. For example, `--spacing-section: clamp(4rem, calc(4rem + 48 * (100vw - 390px) / 1050), 7rem)` from `section-y` and `section-y-mobile`.
 
   | Spacing token | 390 → 1440 |
   | ------------- | ---------- |
@@ -299,8 +298,8 @@ Built on the clean slate. One rule ties it together: code uses the design system
 
   The container is `mx-auto max-w-page px-gutter`.
 
-- **Type ramp:** one `@utility type-<name>` per entry: page-title (40→64), section-title (32→44), header, title-md, title-sm, subhead, body, small, article-body, category, label, tag, quote.
-- **`[data-on-brand]`** remaps ink, divider and focus ring on Forest and Emerald panels.
+- **Type ramp:** one `@utility` per design-system style, named as in the system (`type-page-title`, 40→64), fluid between the style and its `-mobile` twin: hero-display, hero-display-serif, page-title, section-title, card-title-lg/md/sm, lead, body, small, article-body, quote, pull-quote, eyebrow, label, breadcrumb, tag, stat-xl/lg/md/sm.
+- **`.ie-on-brand`** (from the vendored `bundle.css`) switches text and the focus ring on Forest and Emerald panels.
 - **Site-only values** are commented `provisional` and listed in `DESIGN.md`.
 
 **`site.css`** imports, in order:
@@ -309,33 +308,26 @@ Built on the clean slate. One rule ties it together: code uses the design system
 2. `tokens.css`
 3. `theme.css`
 4. `base.css` (focus ring, links, reduced motion, `scroll-padding-top`)
-5. the vendored `bundle.css`
-6. `components.css`: the site-owned `ie-*` classes, with values only from `var(--…)`:
-   - `ie-link`, `ie-link-light`, `ie-nav`, `ie-nav-dark`, `ie-menu`
-   - `ie-card`, `ie-accent-bar`, `ie-icon-disc`, `ie-icon-btn`
-   - `ie-footer-grid`, `ie-prose`, `ie-swatch`
-   - `ie-field`, `ie-label`, which also style HubSpot's inputs
+5. the vendored `bundle.css`, imported with `layer(components)` so utilities win
+6. `components.css`: only what the system doesn't own, with values only from `var(--…)`; chiefly HubSpot's form markup mapped onto the `ie-field-*` look
 
 ### Components (`src/components/`, decided and shared only)
 
+The design system's 24 components, ported to Astro with the same markup and `ie-*` classes:
+
 - **`ui/`**
-  - Actions and labels:
-    - `Button`: primary, secondary, light or ghost; md or sm.
-    - `ArrowLink`, `Tag`, `Eyebrow`.
-  - Type: `Heading`, `Text`, `PageTitle` (H1 plus accent bar; `*emphasis*` marks the green words), `AccentBar`.
-  - Cards: `Card` (raised, floating or tint), `CardTitle` (stretched link).
-  - Icons:
-    - `Icon` and `FeatureIcon` share one typed registry. UI icons are 2px outline SVGs taken from the boards; feature icons are Phosphor fill from `@phosphor-icons/core`.
-    - `IconButton`.
-  - Lists and layout:
-    - `Checklist`, `Container`.
-    - `Section`: surface ground, white, tint, forest or emerald; spacing section, hero or strip.
-  - Plumbing: `Logo`, `SkipLink`, `VisuallyHidden`.
+  - Actions: `Button` (primary, secondary, light, ghost; md or sm), `ArrowLink`, `IconButton`, `Chip` (filter or show-more).
+  - Type: `Eyebrow`, `AccentBar`, `PageTitle` (H1, emphasis words, accent bar, lead), `SectionHeader` (stacked or split), `Breadcrumb`.
+  - Icons: `Icon` (the 2px outline interface set from the boards) and `FeatureIcon` (Phosphor 2.1.1 fill from `@phosphor-icons/core`; bare or the 48px Emerald disc).
+  - Content: `Card` (raised or floating; media with overlay label; linked), `Panel` (tint, Emerald, Forest), `Tag`, `Stat`, `Checklist`, `TextField`.
+  - Site plumbing the system leaves to the site: `Container`, `Section` (background, surface, tint, Emerald or Forest; section, hero or strip spacing), `Logo`, `VisuallyHidden`.
 - **`layout/`**
-  - `SiteHeader`: light or dark; sticky; 64→80px tall.
-  - `MobileMenu`: a native `<dialog>` with about 25 lines of JavaScript.
-  - `SiteFooter`: Footer A from the boards.
-- **`blocks/`:** `ClosingCta` (emerald or white, optional photo) and `Testimonial` (card or panel).
+  - `SiteHeader`: light or dark, current page, skip link; 64→80px tall.
+  - `MobileMenu`: a native `<dialog>` with a few lines of JavaScript.
+  - `SiteFooter`: Footer A; social links hidden until they have URLs.
+  - `StickyBar`: cta or prompt.
+- **`blocks/`:** `ClosingCta` (Emerald or white, optional photo; inset, bleed) and `Testimonial` (card or panel).
+- **`content/`:** `Prose` for Article bodies and the privacy policy.
 - **`/styleguide/`** (noindex): swatches, the type ramp and every component in every state.
 - **Guards:**
   - no `<style>` blocks;
@@ -373,19 +365,19 @@ Built on the clean slate. One rule ties it together: code uses the design system
 5. Case Studies: a new collection from the canvas content model; the 7 stories come from the "Case Study Detail Working" boards; restore the PDFs from the tag if the design keeps the gated PDF
 6. Newsroom and Article: a new collection; the 18 legacy posts word for word from the "Blog Posts Working" boards; the legacy blog 301s
 7. Research
-8. Pricing: the design system's `PricingTable`, with `pricing.yml` restored from the tag
+8. Pricing: build the comparison table in this PR from the Pricing boards (the older system's `PricingTable` spec is the reference), with `pricing.yml` restored from the tag
 9. About
 
 **Then launch:** the legacy 301 map, removing noindex, the favicon from `mark-compass`, the Help Center reskin, and CMS editing for marketing if wanted.
 
-### Design questions (each has a default in code)
+### Design decisions (resolved 9 Oct)
 
-| Question                                           | Default                                                               |
-| -------------------------------------------------- | --------------------------------------------------------------------- |
-| Big stat-number face                               | Libre Caslon Condensed 500, marked provisional                        |
-| Feature icon holder                                | Emerald disc per the design-system README (the board recommends mint) |
-| Accent-bar gap                                     | 16px (the README says 8px)                                            |
-| Input radius                                       | 12px (the Contact board uses 8px)                                     |
-| Primary CTA label                                  | "Contact us"                                                          |
-| Mobile menu open state                             | Built accessibly; not designed yet                                    |
-| Footer A versus B, the 501(c)(3) line, social URLs | Footer A; social icons hidden until URLs exist                        |
+| Question                                           | Decision                                                                           |
+| -------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| Big stat-number faces                              | Faces as each page draws them (serif, bold or medium); one size ramp, 112/72/56/44 |
+| Feature icon holder                                | Bare `icon-accent` icon, or the 48px Emerald disc on light grounds                 |
+| Accent-bar gap                                     | 8px, as wide as the title's longest line                                           |
+| Input radius                                       | 12px (`radius-md`), as the Component Library decided                               |
+| Primary CTA label                                  | "Contact us"; never "demo"                                                         |
+| Mobile menu open state                             | The system's `MobileMenu` (not drawn on the boards)                                |
+| Footer A versus B, the 501(c)(3) line, social URLs | Footer A; social links hidden until URLs exist; the 501(c)(3) line is still open   |

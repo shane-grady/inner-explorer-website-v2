@@ -2,8 +2,8 @@
 
 Open items; tick them off as PRs land. Plan and rules: `tasks/rebuild-plan.md`. Design:
 the canvas "Inner Explorer — Website", page **FINAL V**
-(https://claude.ai/artifact/6gx8tapeaDzTeSSMD7R31s), on the design system
-https://claude.ai/artifact/XSmeot9ufJMTTvGDh3GYxz. Old log: `tasks/archive/todo-pre-rebuild.md`;
+(https://claude.ai/artifact/6gx8tapeaDzTeSSMD7R31s), on the "Inner Explorer Design System" (V2)
+https://claude.ai/artifact/DVAYqoSPn9uNeodz9HXVox. Old log: `tasks/archive/todo-pre-rebuild.md`;
 removed code comes back with `git show 0c8cac2:<path>`.
 
 ## Before build: confirm
@@ -12,9 +12,8 @@ From the canvas's "Before build — confirm" notes (read 2026-10-09; About, Plat
 FINAL V, Home and Research on their working pages), plus the plan's design questions. Names are
 the owners the canvas gives.
 
-- [ ] **Site-wide:** one CTA label everywhere. Plan default "Contact us"; the canvas also proposes
-      "Talk to our team" / "Learn more" / "Contact us" and dropping "demo"; Home's header says
-      "Book a walkthrough"; Research lists four variants.
+- [x] **Site-wide:** one CTA label everywhere: "Contact us", never "demo" (decided 9 Oct; in the
+      design system's voice rules). Pages that say "Book a walkthrough" or "Talk to our team" change.
 - [ ] **Site-wide:** reconcile stats. Home/Why 60% / 43% / 28% vs Research −63% / −34% / +15%;
       Why's 15% higher GPA vs 28% higher grades; 43% less stress is student stress in one place,
       teacher stress in others; "CASEL-aligned" vs "CASEL approved" (verified: "SEL-Supportive
@@ -24,18 +23,16 @@ the owners the canvas gives.
       is new).
 - [ ] **Site-wide:** linked routes that don't exist: `/roi-calculator`; `/newsletter`,
       `/educators`, `/careers` only redirect today. Build, keep the redirect, or relink.
-- [ ] **Design:** big stat-number face. Plan default: Libre Caslon Condensed 500 at 72/56/44
-      (mobile 56/44/40). The canvas's Component decisions board (8 Oct) kept every face as drawn
-      instead, on one size ramp: 112/72/56/44 (mobile 72/56/44/40).
-- [ ] **Design:** feature icon holder, default Emerald disc (README) vs the board's mint. The
-      Remaining drift board (8 Oct) says "bare icon or a 48px Emerald disc", matching the default.
-- [ ] **Design:** accent-bar gap, README 8px vs boards 16px (default 16). Research puts the bar
-      under one word ("biology"); the design system draws it at title width.
-- [ ] **Design:** input radius, Library 12px vs Contact board 8px (default 12).
-- [ ] **Design:** mobile menu open state, sticky header, current-page indicator in the light
-      header are not designed (default: built accessibly, as `MobileMenu` describes).
-- [ ] **Design:** Footer A vs B, the "501(c)(3) nonprofit" line, social profile URLs (default:
-      Footer A, social icons hidden until URLs exist).
+- [x] **Design:** big stat-number face: faces as drawn (serif, bold, medium) on one size ramp,
+      112/72/56/44 (mobile 72/56/44/40). In the design system's `Stat`.
+- [x] **Design:** feature icon holder: bare icon or a 48px Emerald disc (`FeatureIcon`).
+- [x] **Design:** accent-bar gap 8px, as wide as the title's longest line (decided 9 Oct). Research
+      puts the bar under one word ("biology"); its page PR moves it under the title.
+- [x] **Design:** input radius 12px, as the Component Library decided (9 Oct).
+- [x] **Design:** mobile menu and the light header's current page: in the design system
+      (`MobileMenu`, `SiteHeader`), built from system parts; the boards don't draw them.
+- [ ] **Design:** the "501(c)(3) nonprofit" line and the social profile URLs. Footer A is decided
+      (`SiteFooter` hides social links until they have URLs).
 - [ ] **Home:** school logo files (with permission) and approved photos for the Section 3
       mosaic; the Section 10 sample practice and its transcript.
 - [ ] **Home:** keep the FAQ ("Questions leaders ask") beside Funding? It isn't in the outline.
@@ -77,8 +74,9 @@ the owners the canvas gives.
 ## Build order
 
 - [ ] Design-foundation PR (`rebuild-plan.md` › Next PR: the design foundation).
-- [ ] Contact, with the success state; style the HubSpot form (`ie-field`, `ie-label`).
-- [ ] Home.
+- [ ] Contact, with the success state; style the HubSpot form to the system's `TextField`
+      (`ie-field-*`).
+- [ ] Home: the testimonials' mint card (#e6f2ec) becomes the system's Raised `Testimonial`.
 - [ ] Platform.
 - [ ] Why Inner Explorer (SEO copy is on the canvas's "SEO (for build)" note).
 - [ ] Case Studies index and 7 details; PDFs from `0c8cac2:public/downloads/`; update the
@@ -86,11 +84,13 @@ the owners the canvas gives.
 - [ ] Newsroom and Article: the 18 legacy posts word for word ("Blog Posts Working" page), the 2
       real posts from `0c8cac2:src/content/blog/` (`inner-explorer-mtss-tiers`,
       `mindfulness-for-student-athletes`), legacy blog 301s, `/blog` vs `/newsroom` breadcrumbs.
-- [ ] Research: snap its off-ramp title sizes (68px sections, 36–38px cards; Remaining drift
-      board).
-- [ ] Pricing: port the design system's `PricingTable`; data from
-      `0c8cac2:src/content/pages/pricing.yml`; snap its 48px section title to the ramp.
-- [ ] About.
+- [ ] Research: snap its off-ramp title sizes (68px H1 and sections, 36–38px cards; Remaining drift
+      board); the dark header and footer use the system's; Inter 900 stats stay page-level.
+- [ ] Pricing: build the comparison table from the boards (the older system's `PricingTable` spec
+      is the reference); data from `0c8cac2:src/content/pages/pricing.yml`; snap its 48px section
+      title to the ramp; the recommended card's mint (#e6f2ec) is off-palette.
+- [ ] About: snap the 40px research H2 and 18/1.52 body to the ramp; Inter 600/800 to 700 (no 600
+      or 800 font ships).
 
 ## Launch
 

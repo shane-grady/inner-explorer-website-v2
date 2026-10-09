@@ -29,7 +29,9 @@ legacy blog post.
 
 - **Site design:** the Claude Design canvas "Inner Explorer — Website",
   https://claude.ai/artifact/6gx8tapeaDzTeSSMD7R31s, page **FINAL V**.
-- **Design system:** "Inner Explorer", https://claude.ai/artifact/XSmeot9ufJMTTvGDh3GYxz.
+- **Design system:** "Inner Explorer Design System" (V2), https://claude.ai/artifact/DVAYqoSPn9uNeodz9HXVox.
+  Read its README first; code uses its token names, `type-*` styles and `ie-*` classes. The
+  older "Inner Explorer" system (https://claude.ai/artifact/XSmeot9ufJMTTvGDh3GYxz) is history.
 - **Plan:** `tasks/rebuild-plan.md`. Next is the design-foundation PR (tokens, theme,
   shared components, `/styleguide/`), then one PR per page. `DESIGN.md` is written by
   the foundation PR.
