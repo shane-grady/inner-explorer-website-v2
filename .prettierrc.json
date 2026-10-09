@@ -1,10 +1,13 @@
 {
   "plugins": ["prettier-plugin-astro", "prettier-plugin-tailwindcss"],
-  "tailwindStylesheet": "./src/styles/global.css",
+  "tailwindStylesheet": "./src/styles/site.css",
   "tailwindFunctions": ["tv", "cn"],
   "printWidth": 100,
   "singleQuote": true,
   "semi": true,
   "trailingComma": "all",
-  "overrides": [{ "files": "*.astro", "options": { "parser": "astro" } }]
+  "overrides": [
+    { "files": "*.astro", "options": { "parser": "astro" } },
+    { "files": "src-help/**", "options": { "tailwindStylesheet": "./src-help/styles/help.css" } }
+  ]
 }

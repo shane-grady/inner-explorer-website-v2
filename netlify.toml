@@ -1,6 +1,6 @@
 # Netlify deploy config. pnpm + lockfile are auto-detected via package.json `packageManager`.
 [build]
-  command = "pnpm verify:cms"
+  command = "pnpm verify"
   publish = "dist"
 
 [build.environment]
@@ -25,20 +25,45 @@
   status = 301
   force = true
 
-# The /support FAQ moved to /faq (the Help Center now owns guided how-to docs).
-# 301 so existing links + search indexing carry over. `force` wins over the static
-# redirect page Astro also emits for /support.
+# The FAQ lives in the Help Center. /support was its old address. `force` wins over the
+# static redirect pages Astro also emits (astro.config.mjs mirrors these rules for dev).
+[[redirects]]
+  from = "/faq"
+  to = "https://help.innerexplorer.com/faq/"
+  status = 301
+  force = true
+
 [[redirects]]
   from = "/support"
-  to = "/faq"
+  to = "https://help.innerexplorer.com/faq/"
   status = 301
   force = true
 
 # /privacy is the short form people type and hand-link; the canonical policy page is
-# /privacy-policy. `force` wins over the static redirect page Astro also emits.
+# /privacy-policy.
 [[redirects]]
   from = "/privacy"
   to = "/privacy-policy/"
+  status = 301
+  force = true
+
+# Pages folded into the new information architecture. /blog is the index only: posts
+# return in the Newsroom with their own redirects.
+[[redirects]]
+  from = "/districts"
+  to = "/why-inner-explorer/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/blog"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/resources"
+  to = "/newsroom/"
   status = 301
   force = true
 
@@ -47,37 +72,27 @@
 # routes it does not own.
 [[redirects]]
   from = "/educators"
-  to = "/platform"
-  status = 301
-
-[[redirects]]
-  from = "/resources"
-  to = "/research"
-  status = 301
-
-[[redirects]]
-  from = "/pricing"
-  to = "/contact"
+  to = "/platform/"
   status = 301
 
 [[redirects]]
   from = "/app"
-  to = "/platform"
+  to = "/platform/"
   status = 301
 
 [[redirects]]
   from = "/careers"
-  to = "/about"
+  to = "/about/"
   status = 301
 
 [[redirects]]
   from = "/donate"
-  to = "/about"
+  to = "/about/"
   status = 301
 
 [[redirects]]
   from = "/newsletter"
-  to = "/newsroom"
+  to = "/newsroom/"
   status = 301
 
 # Long-cache Astro's content-hashed assets; they never change for a given hash.

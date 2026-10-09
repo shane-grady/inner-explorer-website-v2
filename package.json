@@ -23,12 +23,13 @@
     "check:dist": "node scripts/check-dist.mjs",
     "compare:builds": "node scripts/compare-builds.mjs",
     "lint:editables": "node scripts/check-editables.mjs",
+    "test:editables": "node --test scripts/check-editables.test.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "check": "pnpm typecheck && pnpm lint && pnpm lint:drift && pnpm lint:mirrors && pnpm format:check",
-    "build:all": "pnpm build && pnpm build:help",
+    "check": "pnpm typecheck && pnpm lint && pnpm lint:drift && pnpm lint:mirrors && pnpm format:check && pnpm test:editables",
     "validate:cloudcannon": "cloudcannon validate",
-    "verify:cms": "pnpm check && pnpm validate:cloudcannon && pnpm build:all && pnpm lint:editables && node --test scripts/check-editables.test.mjs && pnpm check:dist dist-help"
+    "verify": "pnpm check && pnpm build && pnpm check:dist dist --classes",
+    "verify:help": "pnpm validate:cloudcannon && pnpm build:help && pnpm lint:editables && pnpm check:dist dist-help"
   },
   "dependencies": {
     "@amplitude/unified": "^1.1.24",
