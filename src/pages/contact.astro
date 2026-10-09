@@ -2,7 +2,7 @@
 import PageLayout from '../layouts/PageLayout.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import HubSpotForm from '../components/integrations/HubSpotForm.astro';
-import { MAIN_SITE } from '../lib/site';
+import { HELP_SITE, MAIN_SITE } from '../lib/site';
 
 const content = {
   title: 'Contact Inner Explorer | Daily Mindfulness for Schools',
@@ -13,10 +13,14 @@ const content = {
   confirmation:
     'Thank you for reaching out. We just sent a confirmation to your inbox, and someone from our team will follow up to find a time to talk.',
   supportEmail: 'support@innerexplorer.com',
-  helpCenterHref: 'https://help.innerexplorer.com/',
+  helpCenterHref: `${HELP_SITE}/`,
   support: {
     heading: 'Already using Inner Explorer?',
     text: 'Our support team can help with your account, your login, or anything happening in the classroom.',
+    // "Email <supportEmail> or browse the <Help Center>."
+    emailLead: 'Email',
+    helpCenterLead: 'or browse the',
+    helpCenterLabel: 'Help Center',
   },
 };
 
@@ -72,7 +76,9 @@ const contactLd = {
   <h2>{content.support.heading}</h2>
   <p>{content.support.text}</p>
   <p>
-    Email <a href={`mailto:${content.supportEmail}`}>{content.supportEmail}</a> or browse the
-    <a href={content.helpCenterHref}>Help Center</a>.
+    {content.support.emailLead}
+    <a href={`mailto:${content.supportEmail}`}>{content.supportEmail}</a>
+    {content.support.helpCenterLead}
+    <a href={content.helpCenterHref}>{content.support.helpCenterLabel}</a>.
   </p>
 </PageLayout>

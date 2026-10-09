@@ -1,5 +1,8 @@
 /* Marketing site stylesheet. Intentionally bare until the design-foundation PR
    (tasks/rebuild-plan.md) adds the Inner Explorer design system's tokens, theme and
    components here. source('..') scans src/ only, so the frozen Help Center markup in
-   src-help/ never adds utilities to this build. */
+   src-help/ never adds utilities to this build. The CMS-edited help content is excluded
+   too: words in an article (block, grid, hidden…) must not become marketing classes. */
 @import 'tailwindcss' source('..');
+@source not '../content';
+@source not '../data/help-ui.json';

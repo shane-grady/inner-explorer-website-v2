@@ -6,6 +6,7 @@ import SEO from '../components/seo/SEO.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import Analytics from '../components/seo/Analytics.astro';
 import Intercom from '../components/integrations/Intercom.astro';
+import Amplitude from '../components/integrations/Amplitude.astro';
 import { organizationSchema } from '../lib/schema';
 
 interface Props {
@@ -38,9 +39,9 @@ const {
 }: Props = Astro.props;
 const org = organizationSchema(Astro.site);
 
-// GA4 ships only for the real production build: skips `pnpm dev` and Netlify's
-// deploy-preview/branch-deploy contexts entirely (the script tag never renders for
-// those). See src/components/seo/Analytics.astro for the *.netlify.app runtime guard.
+// GA4 and Amplitude ship only for the real production build: they skip `pnpm dev` and
+// Netlify's deploy-preview/branch-deploy contexts entirely (the script never renders for
+// those). See src/components/seo/Analytics.astro for GA4's *.netlify.app runtime guard.
 const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
 const isProductionBuild =
   import.meta.env.PROD && (!import.meta.env.CONTEXT || import.meta.env.CONTEXT === 'production');
@@ -79,19 +80,6 @@ const intercomAppId = import.meta.env.PUBLIC_INTERCOM_APP_ID;
   </head>
   <body>
     <slot />
-    <script>
-      // Amplitude Analytics + Session Replay. Bundled module scripts run in the browser
-      // only, once per page load; the window guard makes the init-once invariant explicit.
-      import * as amplitude from '@amplitude/unified';
-
-      const w = window as Window & { __amplitudeInitialized?: boolean };
-      if (!w.__amplitudeInitialized) {
-        w.__amplitudeInitialized = true;
-        amplitude.initAll('9eb782590a25fba8c96b5de6fd50bd73', {
-          analytics: { autocapture: true },
-          sessionReplay: { sampleRate: 1 },
-        });
-      }
-    </script>
+    {isProductionBuild && <Amplitude />}
   </body>
 </html>
