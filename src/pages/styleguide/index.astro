@@ -17,6 +17,7 @@ import ClosingCta from '../../components/blocks/ClosingCta.astro';
 import Testimonial from '../../components/blocks/Testimonial.astro';
 import StatStrip from '../../components/blocks/StatStrip.astro';
 import LogoStrip from '../../components/blocks/LogoStrip.astro';
+import EvidenceCard from '../../components/blocks/EvidenceCard.astro';
 import VideoPoster from '../../components/ui/VideoPoster.astro';
 import { ICONS } from '../../lib/icons';
 import { FEATURE_ICONS } from '../../lib/feature-icons';
@@ -387,6 +388,53 @@ const checklist = [
           class="font-bold text-brand-emphasis not-italic">emphasis in bold Emerald.</em
         >
       </Testimonial>
+    </div>
+    <div class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <EvidenceCard
+        tag="Academics"
+        value="+00%"
+        label="Evidence card, Emerald: academics and behavior"
+        source="Study type · Author 2000"
+      />
+      <EvidenceCard
+        tag="Inclusion"
+        value="+00%"
+        label="Evidence card, Vibrant: inclusion and well-being"
+        source="Study type · Author 2000"
+        tone="vibrant"
+      />
+      <div class="flex flex-col gap-4 rounded-sm bg-surface p-5 shadow-lifted lg:col-span-2">
+        <p class="m-0 type-eyebrow text-foreground">
+          Sample player (Platform), disabled until audio
+        </p>
+        <div class="flex items-center gap-4">
+          <button type="button" class="ie-play-btn" aria-label="Play the sample" disabled>
+            <Icon name="play" />
+          </button>
+          <span class="ie-play-btn" data-hover aria-hidden="true"><Icon name="pause" /></span>
+          <span class="ie-tag bg-brand-subtle type-tag text-on-brand-subtle">Add-on</span>
+          <FeatureIcon name="chart-line-up" size={40} />
+        </div>
+        <div class="ie-progress" style="--progress: 30%"></div>
+      </div>
+    </div>
+    <div class="ie-tabs mt-5 grid-cols-2 lg:grid-cols-4" role="tablist" aria-label="Segmented tabs">
+      <button type="button" role="tab" aria-selected="true" class="ie-tab min-h-16">
+        <span class="type-card-title-sm">Selected</span>
+        <span class="ie-tab-sub type-label">White lift</span>
+      </button>
+      <button type="button" role="tab" aria-selected="false" class="ie-tab min-h-16" data-hover>
+        <span class="type-card-title-sm">Hover</span>
+        <span class="ie-tab-sub type-label">White 12%</span>
+      </button>
+      <button type="button" role="tab" aria-selected="false" class="ie-tab min-h-16">
+        <span class="type-card-title-sm">At rest</span>
+        <span class="ie-tab-sub type-label">On Forest</span>
+      </button>
+      <button type="button" role="tab" aria-selected="false" class="ie-tab min-h-16">
+        <span class="type-card-title-sm">At rest</span>
+        <span class="ie-tab-sub type-label">On Forest</span>
+      </button>
     </div>
     <div class="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2">
       <div class="flex flex-col gap-6">

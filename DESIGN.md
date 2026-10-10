@@ -58,12 +58,13 @@ for it). Provenance is the comment beside each token in `tokens.css`.
   chips, the menu button), **radius-full**.
 - **Shadow:** **shadow-raised, -floating, -card-hover, -primary, -primary-hover, -primary-pressed,
   -light, -sticky**, plus Home's _-brand-panel, -brand-card, -on-photo, -text-on-photo, -video, -play_,
-  verbatim from the boards' CSS.
+  verbatim from the boards' CSS; _-lifted_ (provisional: Platform's player card, the cards over its
+  photos and its product screenshot).
 - _Photo treatment_ (Home): _scrim-photo_ (desktop) and _scrim-photo-mobile_, _scrim-video_,
   _on-photo-control_, _on-photo-dot_, _photo-tone_ (the boards' sepia filter).
 - **Size:** **control-height** 48, **control-height-sm** 44, **header-height** 80/64,
   **logo-height** 32/28, **accent-bar-height** 4, **container** 1200, **measure** 520,
-  _measure-short_ 320, **measure-article** 680, _form-card_ 576 (`w-form`), _figure-height_ 220 → 400 (`h-figure`), **icon-sm/md/lg/feature/disc**, _icon-check_ 22 and _icon-check-sm_ 18 (the filled check disc), _measure-wide_ 640 (Pricing's hero lead, `PageTitle leadWidth="wide"`), _measure-cta_ 560 (the inline closing CTA's lead), _measure-note_ 760 (a footnote under a table), _measure-narrow_ 480 (About's research intro), _measure-title_ 820 (a centered section title, About), _collapse-height_ 640 (Pricing's collapsed table), _hero-photo-height_ 560 → 640 (`h-hero-photo`).
+  _measure-short_ 320, _swatch-size_ 10 (the color key in an evidence tag: Platform, Research), **measure-article** 680, _form-card_ 576 (`w-form`), _figure-height_ 220 → 400 (`h-figure`), **icon-sm/md/lg/feature/disc**, _icon-check_ 22 and _icon-check-sm_ 18 (the filled check disc), _measure-wide_ 640 (Pricing's hero lead, `PageTitle leadWidth="wide"`), _measure-cta_ 560 (the inline closing CTA's lead), _measure-note_ 760 (a footnote under a table), _measure-narrow_ 480 (About's research intro), _measure-title_ 820 (a centered section title, About), _collapse-height_ 640 (Pricing's collapsed table), _hero-photo-height_ 560 → 640 (`h-hero-photo`).
 - _Motion:_ `220ms cubic-bezier(.16, 1, .3, 1)`, every transition on the boards; _motion-fade_
   700ms on the same curve, the hero carousel's crossfade.
 
@@ -103,13 +104,14 @@ class.
   `ui/ArrowLink` (`light` on green), `ui/PageTitle` (eyebrow, H1 with `*emphasis*`, accent bar,
   lead, `actions` slot; `leadWidth="wide"`; `breakFrom="md"` keeps the title's break to md up), `ui/Checklist` (`marker="disc"`, `size="xs"`, `flow="columns"`: Pricing's add-on list), `ui/Card` (raised · floating · tint; `title`, `titleSize`, `href` makes
   the title a stretched link), `ui/Icon` and `ui/FeatureIcon` (registries in `src/lib/icons.ts`
-  and `src/lib/feature-icons.ts`; feature icons are Phosphor fill, bare or `disc`),
+  and `src/lib/feature-icons.ts`; feature icons are Phosphor fill, bare at 16/20/24/32/40 or `disc`),
   `ui/IconButton`, `ui/Checklist`, `ui/Section` (tone ground · white · tint · emerald · forest;
   spacing section · hero · strip; owns the container), `ui/Logo`, `ui/VideoPoster` (a 16:9
   poster link that opens the video on its host).
 - `layout/SiteHeader` (light, `dark` over a Forest hero; the skip link; static, as on the boards),
   `layout/MobileMenu` (native `<dialog>`, one small script), `layout/SiteFooter` (Footer A).
-- `blocks/ClosingCta` (emerald · white, `floating` for Home's borderless white card, ± photo,
+- `blocks/ClosingCta` (emerald · white, `floating` for Home's borderless white card, ± photo (held
+  at 520 on Emerald and Floating; as tall as its copy on Raised, Platform),
   `layout="inline"` for copy left and buttons right from lg: Pricing, Case Studies, Research; on
   Emerald its `*words*` stay white, as the boards draw them),
   `blocks/Testimonial` (card · panel · accent: Mist ground, 6px Emerald top border, Emerald mark),
@@ -117,13 +119,18 @@ class.
   autoplay), `blocks/StatStrip` (numerals over labels, hairlines from lg; follows
   `[data-on-brand]`), `blocks/LogoStrip` (label and partner names, a logo where supplied;
   `layout="wall"`: a centered label over wrapping logo cells, grayscale at _logo-opacity_ until
-  hovered, optionally linked to coverage: About).
+  hovered, optionally linked to coverage: About), `blocks/EvidenceCard` (a Raised card: tag with
+  its color swatch, the numeral in Inter 500 on `type-stat-sm`, the finding, the source under a
+  rule; `emerald` or `vibrant` tone; a slot for Research's extras: Platform, Research).
 - Classes without a component: `.ie-accent-bar`, `.ie-tag` (+ `-on-brand`), `.ie-chip`,
   `.ie-icon-disc`, `.ie-field`, `.ie-label`, `.ie-field-error`, `.ie-card-*`, `.ie-nav`,
   `.ie-menu-*`, `.ie-footer-link`, `.ie-skip-link`, `.ie-photo-tone`, `.ie-sticky-bar`,
   `.ie-card-recommended` (Mist, 2px Emerald border: Pricing's recommended plan), `.ie-check-disc`,
   `.ie-switch` / `.ie-switch-track`, `.ie-collapse` (`data-collapsed`: clipped under a fade),
   `.ie-compare-highlight` (the recommended column's outline over a 40/20/20/20 table),
+  `.ie-swatch` (EvidenceCard's color key), `.ie-tabs` / `.ie-tab` / `.ie-tab-sub` (Platform's
+  segmented tabs: Forest track, white selected tab), `.ie-play-btn` and `.ie-progress` (Platform's
+  sample player),
   `.ie-logo-wall` / `.ie-logo-link` (LogoStrip's wall).
 - `[data-on-surface]` inside a `[data-on-brand]` panel restores the light ink for a white box
   (Pricing's add-on prices).
@@ -157,6 +164,7 @@ Article rails) are built by their page from these parts and listed in `design/in
 - `--brand-shade` (black 14% over Emerald, Pricing's add-on strip): drawn on one board.
 - `--measure-narrow` (480), `--measure-title` (820) and `--logo-opacity` (0.7, grayscale): drawn
   only on About.
+- `--shadow-lifted` (the player and overlay cards, the product screenshot): drawn only on Platform.
 - The switch's off-state track keeps a 1px `border-input` outline the board doesn't draw, so the
   control meets 3:1 against white (WCAG 1.4.11).
 
