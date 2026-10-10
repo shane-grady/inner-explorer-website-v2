@@ -21,6 +21,10 @@ interface Props {
   image?: { src: ImageMetadata; alt: string };
   /** `inline`: copy left, buttons right, bottom-aligned (no photo). */
   layout?: 'stacked' | 'inline';
+  /** Inline: `center` aligns the buttons with the title's middle (Research's title-only panel). */
+  align?: 'end' | 'center';
+  /** Balance the title's lines, as Research's panel sets it. */
+  balance?: boolean;
   id?: string;
 }
 const {
@@ -33,6 +37,8 @@ const {
   secondary,
   image,
   layout = 'stacked',
+  align = 'end',
+  balance = false,
   id = 'closing-cta',
 }: Props = Astro.props;
 const emerald = tone === 'emerald';
@@ -52,14 +58,18 @@ const inline = layout === 'inline' && !image;
     class:list={[
       'flex flex-col items-start justify-center px-cta-padding-x py-cta-padding',
       image && (emerald ? 'md:col-span-6' : 'md:col-span-7'),
-      inline && 'lg:flex-row lg:items-end lg:justify-between lg:gap-12',
+      inline && 'lg:flex-row lg:justify-between lg:gap-12',
+      inline && (align === 'center' ? 'lg:items-center' : 'lg:items-end'),
     ]}
   >
     <div class:list={['flex min-w-0 flex-col items-start', inline && 'lg:flex-1']}>
       {eyebrow && <p class="m-0 mb-4 type-eyebrow text-foreground">{eyebrow}</p>}
       <h2
         id={id}
-        class="ie-cta-title m-0 type-section-title text-foreground"
+        class:list={[
+          'ie-cta-title m-0 type-section-title text-foreground',
+          balance && 'text-balance',
+        ]}
         set:html={emphasize(title, emerald ? '' : undefined)}
       />
       {

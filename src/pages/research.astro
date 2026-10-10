@@ -1035,7 +1035,7 @@ const { brain } = hero;
       </button>
     </section>
 
-    <Section tone="forest" class="border-t border-on-brand-wash">
+    <Section tone="forest" class="border-t border-on-brand-wash lg:py-30">
       <div class="grid items-end gap-8 lg:flex lg:gap-18">
         <p class="m-0 type-section-title tracking-tight text-balance text-foreground lg:basis-7/12">
           {statement.text}
@@ -1055,16 +1055,16 @@ const { brain } = hero;
     </Section>
 
     {/* Explore: three jump cards. */}
-    <Section id="explore" aria-labelledby="explore-title">
+    <Section id="explore" aria-labelledby="explore-title" class="lg:pb-24">
       <p class="m-0 type-eyebrow text-brand-emphasis">{explore.eyebrow}</p>
-      <h2 id="explore-title" class="m-0 mt-4 type-section-title text-foreground">
+      <h2 id="explore-title" class="m-0 mt-4 type-section-title text-foreground lg:type-page-title">
         {explore.title}
       </h2>
       <nav aria-label={explore.nav} class="mt-7 lg:mt-12">
         <ul class="m-0 grid list-none gap-2 p-0 lg:grid-cols-3 lg:gap-4">
           {
             explore.items.map((item) => (
-              <li class="ie-card ie-card-raised flex gap-0 p-4 lg:min-h-65 lg:flex-col lg:p-7">
+              <li class="ie-card ie-card-raised flex gap-3 p-4 lg:min-h-65 lg:flex-col lg:gap-0 lg:p-7">
                 <span class="w-8 shrink-0 pt-0.5 type-small font-bold text-brand-emphasis tabular-nums lg:w-auto lg:pt-0">
                   {item.number}
                 </span>
@@ -1101,7 +1101,10 @@ const { brain } = hero;
             <span class="h-px w-6 bg-current opacity-50" aria-hidden="true"></span>
             {evidence.eyebrow}
           </p>
-          <h2 id="evidence-title" class="m-0 mt-4 type-section-title text-foreground">
+          <h2
+            id="evidence-title"
+            class="m-0 mt-4 type-section-title text-foreground lg:type-page-title"
+          >
             {evidence.title}
           </h2>
           <p class="m-0 mt-5">
@@ -1240,7 +1243,9 @@ const { brain } = hero;
         class="ie-card mt-4 flex flex-col gap-5 bg-brand-surface-deep p-5 lg:flex-row lg:gap-12 lg:p-10"
         data-on-brand
       >
-        <div class="flex flex-col gap-2.5 lg:w-75 lg:shrink-0">
+        <div
+          class="flex flex-col gap-2.5 lg:w-75 lg:shrink-0 lg:border-r lg:border-border lg:pr-12"
+        >
           <span class="type-eyebrow text-foreground">{evidence.review.eyebrow}</span>
           <span class="font-sans type-stat-lg font-black tracking-tighter text-foreground">
             {evidence.review.value}
@@ -1249,7 +1254,7 @@ const { brain } = hero;
           <span class="type-label text-foreground-muted">{evidence.review.reach}</span>
         </div>
         <div
-          class="flex min-w-0 grow flex-col gap-5 border-t border-border pt-5 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-12"
+          class="flex min-w-0 grow flex-col gap-5 border-t border-border pt-5 lg:border-t-0 lg:pt-0"
         >
           <div>
             <p class="m-0 flex items-center gap-2.5">
@@ -1312,7 +1317,9 @@ const { brain } = hero;
             <span class="type-eyebrow text-brand-emphasis">{evidence.district.eyebrow}</span>
             <span class="ie-tag bg-surface type-tag">{evidence.district.tag}</span>
           </p>
-          <h3 class="m-0 mt-4 type-card-title-lg text-balance text-foreground lg:mt-4.5">
+          <h3
+            class="m-0 mt-4 type-card-title-lg text-balance text-foreground lg:mt-4.5 lg:type-section-title-sm"
+          >
             {evidence.district.title}
           </h3>
           <p class="m-0 mt-3 max-w-140 type-body text-foreground-body lg:mt-3.5">
@@ -1360,7 +1367,9 @@ const { brain } = hero;
             <span class="type-eyebrow text-brand-emphasis">{evidence.foundation.eyebrow}</span>
             <span class="ie-tag bg-surface type-tag">{evidence.foundation.tag}</span>
           </p>
-          <h3 class="m-0 mt-4 type-card-title-lg text-balance text-foreground lg:mt-4.5">
+          <h3
+            class="m-0 mt-4 type-card-title-lg text-balance text-foreground lg:mt-4.5 lg:type-section-title-sm"
+          >
             {evidence.foundation.title}
           </h3>
         </div>
@@ -1383,7 +1392,10 @@ const { brain } = hero;
             <span class="h-px w-6 bg-current opacity-50" aria-hidden="true"></span>
             {science.eyebrow}
           </p>
-          <h2 id="why-title" class="m-0 mt-4 type-section-title text-foreground">
+          <h2
+            id="why-title"
+            class="m-0 mt-4 type-section-title text-balance text-foreground lg:max-w-200 lg:type-page-title"
+          >
             {science.title}
           </h2>
         </div>
@@ -1407,7 +1419,9 @@ const { brain } = hero;
               <span class="type-small font-bold text-brand-emphasis tabular-nums">
                 {step.number}
               </span>
-              <h3 class="m-0 type-card-title-md text-foreground">{step.title}</h3>
+              <h3 class="m-0 type-card-title-md text-foreground lg:type-card-title-lg">
+                {step.title}
+              </h3>
               <p class="m-0 type-body text-foreground-body">
                 {step.text}
                 {'strong' in step && (
@@ -1433,7 +1447,9 @@ const { brain } = hero;
         </div>
         <div id="pause" class="mt-10 border-t border-border-control pt-12 lg:mt-14">
           <p class="m-0 type-eyebrow text-brand-emphasis">{science.pause.eyebrow}</p>
-          <h3 class="m-0 mt-3 type-card-title-lg text-foreground">{science.pause.title}</h3>
+          <h3 class="m-0 mt-3 type-card-title-lg text-foreground lg:type-section-title-sm">
+            {science.pause.title}
+          </h3>
           <ol class="m-0 mt-7 list-none p-0">
             {
               science.pause.steps.map((step, i) => (
@@ -1624,7 +1640,7 @@ const { brain } = hero;
               <>
                 {s > 0 && <div class="h-px bg-border" aria-hidden="true" />}
                 <div class="flex flex-col gap-1.5">
-                  <span class="inline-flex items-center gap-2 type-small font-bold text-foreground-secondary">
+                  <span class="inline-flex items-center gap-2 type-small leading-tight font-bold text-foreground-secondary">
                     <span class:list={['size-2 rounded-full', DOSE_DOT[series.tone]]} />
                     {series.name}
                     {'cite' in series && (
@@ -1695,14 +1711,14 @@ const { brain } = hero;
     {/* The AI moment. */}
     <Section id="ai" tone="forest" aria-labelledby="ai-title">
       <p class="m-0 type-eyebrow text-on-brand-accent">{ai.eyebrow}</p>
-      <h2 id="ai-title" class="m-0 mt-4 type-section-title text-foreground">
+      <h2 id="ai-title" class="m-0 mt-4 type-section-title text-foreground lg:type-page-title">
         {ai.title[0]}<br />{ai.title[1]}
       </h2>
       <div
         class="mt-10 grid gap-8 border-t border-border pt-12 lg:mt-14 lg:flex lg:items-start lg:gap-18"
       >
         <div class="flex flex-col items-start lg:basis-5/12">
-          <p class="m-0 type-intro text-foreground-secondary">{ai.text}</p>
+          <p class="m-0 type-intro leading-relaxed text-foreground-secondary">{ai.text}</p>
           <Button
             variant="light"
             href={ai.download.href}
@@ -1713,29 +1729,31 @@ const { brain } = hero;
             {ai.download.label}
           </Button>
         </div>
-        <p class="m-0 type-card-title-lg text-balance text-foreground lg:basis-7/12">
+        <p
+          class="m-0 type-card-title-lg text-balance text-foreground lg:basis-7/12 lg:type-section-title-sm"
+        >
           {ai.statement}
         </p>
       </div>
     </Section>
 
     <Section tone="white" class="lg:py-24">
-      <ClosingCta layout="inline" title={cta.title} primary={cta.primary} />
+      <ClosingCta layout="inline" align="center" balance title={cta.title} primary={cta.primary} />
     </Section>
 
     {/* Full citations: collapsed under a fade until shown (whole without JS). */}
     <Section id="citations" tone="white" aria-labelledby="cit-title" class="lg:py-24">
       <div class="grid gap-6 md:grid-cols-2 md:items-end md:gap-16">
-        <h2 id="cit-title" class="m-0 type-section-title text-foreground">{citations.title}</h2>
+        <h2 id="cit-title" class="m-0 type-section-title-sm text-foreground">{citations.title}</h2>
         <p class="m-0 type-small text-foreground-muted">{citations.note}</p>
       </div>
       <div
         id="citations-list"
-        class="ie-collapse"
-        style="--collapse-height: var(--collapse-height-sm)"
+        class="ie-collapse pt-10"
+        style="--collapse-height: var(--collapse-height-sm); --collapse-fade: var(--collapse-fade-sm)"
         data-collapse
       >
-        <div class="mt-10 grid gap-10 border-t border-border pt-10 md:grid-cols-2 md:gap-16">
+        <div class="grid gap-10 border-t border-border pt-10 md:grid-cols-2 md:gap-16">
           {
             citationGroups.map((group) => (
               <div>
@@ -1744,10 +1762,10 @@ const { brain } = hero;
                   {group.items.map((item) => (
                     <li
                       id={`cite-${item.id}`}
-                      class="grid scroll-mt-6 grid-cols-12 gap-2 type-label text-foreground-body"
+                      class="flex scroll-mt-6 gap-2 type-label leading-normal text-foreground-body"
                     >
-                      <span class="col-span-1 font-bold text-brand-emphasis">{item.id}</span>
-                      <span class="col-span-11">
+                      <span class="w-8 shrink-0 font-bold text-brand-emphasis">{item.id}</span>
+                      <span class="min-w-0">
                         {item.text}
                         {item.em && <em>{item.em}</em>}
                         {item.after}
@@ -1882,7 +1900,8 @@ const { brain } = hero;
       button.addEventListener('click', () => show(button.getAttribute('aria-checked') !== 'true'));
     }
 
-    // Citations: collapsed under a fade; a citation link, the hash or focus under the fade opens it.
+    // Citations: collapsed under a fade (from 35%); a citation link, the hash or focus under the
+    // fade opens it.
     const panel = root.querySelector<HTMLElement>('[data-collapse]');
     const collapse = root.querySelector<HTMLButtonElement>('[data-collapse-toggle]');
     const collapseText = collapse?.querySelector('[data-collapse-text]');
@@ -1905,7 +1924,7 @@ const { brain } = hero;
       panel.addEventListener('focusin', (event) => {
         if (!panel.hasAttribute('data-collapsed') || !(event.target instanceof Element)) return;
         const box = panel.getBoundingClientRect();
-        if (event.target.getBoundingClientRect().bottom > box.top + box.height * 0.62)
+        if (event.target.getBoundingClientRect().bottom > box.top + box.height * 0.35)
           setCollapsed(false);
       });
       root.addEventListener('click', (event) => {

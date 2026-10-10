@@ -190,14 +190,18 @@ mark-compass.png`, 256px PNG) is the board's: an SVG from the design system woul
     motion starts on Mindful with the still frame, as the board note asks. The "Direction C ·
     Research timeline copy" board on FINAL V (a 7-card carousel) is not used by the page boards
     and was not built.
-  - Drift left after the side-by-side review (2026-10-10; sections within 20px of the boards except
-    where titles snap): titles snapped per the Remaining-drift board (68 → 44 section titles; 38 / 36
-    / 32 → 28 card titles), which makes Why it works ~120px and the AI band ~50px shorter on
-    desktop; step titles 24 → 20; the statement band 112 padding (board 120); 12–13px labels at 14
-    (the mobile wall's block labels wrap to three lines); the quote 22 → 20; the mobile
-    fair-question lead 20 → 18; the brain's glows and mindful label snapped (DESIGN.md); the
-    explore eyebrow is Emerald on both widths (mobile board charcoal); "Here is the proof." is
-    Spring on both widths (mobile board white).
+  - Drift left after the second, measured side-by-side review (2026-10-10; every text element on the
+    four boards aligned with the build): desktop sections within 5px of the boards, but the fair
+    question (21px shorter: its 52px title on the 44 step). Titles use the closest ramp step for
+    fidelity, chosen over the Remaining-drift board's 44 / 28: 68 → 64 from lg, 38 / 36 → 40,
+    32 → 28, step titles 24 → 28, rows 22 → 20; the hero H1 68 → 64 and lead 26 → 24. Labels drawn
+    at 12–13px are 14 (the mobile wall's block labels wrap to three lines). The quote is 20 / 18
+    (board 22), the mobile fair-question lead 18 (board 20) and the mobile statement 32 on four
+    lines (board 30 on three), which with the quote makes mobile Why it works and A fair question
+    ~80 and ~40px shorter. Study numerals 40 on mobile (board 44, EvidenceCard's step); the hero
+    switch's track is white 12% (board 6%) and the pause chip opaque Forest (board 60%); the
+    brain's glows and mindful label are snapped (DESIGN.md); Emerald eyebrows and the Spring "Here
+    is the proof." on mobile (desktop board).
 - [ ] **About (built from FINAL V; confirm before launch):**
   - The FINAL V boards have no voices section (so no voice avatars), no milestones, and none of
     "487M minutes", "94% calmer in 4 weeks", "14 countries" or "12+ university partners"; none

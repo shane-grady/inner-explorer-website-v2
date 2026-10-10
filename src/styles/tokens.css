@@ -298,6 +298,7 @@
   --icon-check-sm: 18px; /* new: the same disc leading a list item on green (Pricing add-ons) */
   --swatch-size: 10px; /* new: the color key in an evidence tag and a chart legend (Platform, Research) */
   --collapse-height-sm: 260px; /* new, provisional: the citations list shown collapsed (Research) */
+  --collapse-fade-sm: 35%; /* new, provisional: where that list's fade begins (Research) */
   --sand-dots: radial-gradient(
     rgba(40, 43, 47, 0.18) 1.2px,
     transparent 1.4px

@@ -69,7 +69,7 @@ for it). Provenance is the comment beside each token in `tokens.css`.
   and the pool behind the brain diagram, `.ie-hero-scrim` / `-figure`).
 - **Size:** **control-height** 48, **control-height-sm** 44, **header-height** 80/64,
   **logo-height** 32/28, **accent-bar-height** 4, **container** 1200, **measure** 520,
-  _measure-short_ 320, _swatch-size_ 10 (the color key in an evidence tag: Platform, Research), **measure-article** 680, _form-card_ 576 (`w-form`), _figure-height_ 220 → 400 (`h-figure`), **icon-sm/md/lg/feature/disc**, _icon-check_ 22 and _icon-check-sm_ 18 (the filled check disc), _measure-wide_ 640 (Pricing's hero lead, `PageTitle leadWidth="wide"`), _measure-cta_ 560 (the inline closing CTA's lead), _measure-note_ 760 (a footnote under a table), _measure-narrow_ 480 (About's research intro), _measure-title_ 820 (a centered section title, About), _collapse-height_ 640 (Pricing's collapsed table) and _collapse-height-sm_ 260 (Research's citations, provisional), _hero-photo-height_ 560 → 640 (`h-hero-photo`).
+  _measure-short_ 320, _swatch-size_ 10 (the color key in an evidence tag: Platform, Research), **measure-article** 680, _form-card_ 576 (`w-form`), _figure-height_ 220 → 400 (`h-figure`), **icon-sm/md/lg/feature/disc**, _icon-check_ 22 and _icon-check-sm_ 18 (the filled check disc), _measure-wide_ 640 (Pricing's hero lead, `PageTitle leadWidth="wide"`), _measure-cta_ 560 (the inline closing CTA's lead), _measure-note_ 760 (a footnote under a table), _measure-narrow_ 480 (About's research intro), _measure-title_ 820 (a centered section title, About), _collapse-height_ 640 (Pricing's collapsed table) and _collapse-height-sm_ 260 with _collapse-fade-sm_ 35% (Research's citations, provisional), _hero-photo-height_ 560 → 640 (`h-hero-photo`).
 - _Motion:_ `220ms cubic-bezier(.16, 1, .3, 1)`, every transition on the boards; _motion-fade_
   700ms on the same curve, the hero carousel's crossfade; Research's _marquee-duration_ 36s and
   _pulse-duration_ 1.6s (provisional).
@@ -125,7 +125,8 @@ class.
   `layout/MobileMenu` (native `<dialog>`, one small script), `layout/SiteFooter` (Footer A).
 - `blocks/ClosingCta` (emerald · white, `floating` for Home's borderless white card, ± photo (held
   at 520 on Emerald and Floating; as tall as its copy on Raised, Platform),
-  `layout="inline"` for copy left and buttons right from lg: Pricing, Case Studies, Research; on
+  `layout="inline"` for copy left and buttons right from lg: Pricing, Case Studies, Research, with
+  `align="center"` and `balance` for Research's title-only panel; on
   Emerald its `*words*` stay white, as the boards draw them),
   `blocks/Testimonial` (card · panel · accent: Mist ground, 6px Emerald top border, Emerald mark),
   `blocks/PhotoHero` (photo or carousel under a scrim, display H1, intro and `actions`; no
@@ -194,7 +195,9 @@ Article rails) are built by their page from these parts and listed in `design/in
   Why. The section clips the overflow (`overflow-x-clip`), since `100vw` counts a classic scrollbar.
 - The switch's off-state track keeps a 1px `border-input` outline the board doesn't draw, so the
   control meets 3:1 against white (WCAG 1.4.11).
-- Research only: `--scrim-hero` / `-figure`, `--collapse-height-sm`, `--sand-dots` / `-size`,
+- Research only: `--scrim-hero` / `-figure`, `--collapse-height-sm` and `--collapse-fade-sm` (the
+  citations clipped at 260 with the fade from 35%; `.ie-collapse` reads `--collapse-fade`),
+  `--sand-dots` / `-size`,
   `--marquee-fade`, `--marquee-duration`, `--pulse-duration`; the marquee's pause button (the board
   pauses only on hover; WCAG 2.2.2 needs a control); the brain's glows snapped to Leaf, coral-300
   and coral-600 (board #7fd67f, #ffc2b8, #ff8a75) and its mindful label to Spring (#7fd67f fails AA

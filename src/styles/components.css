@@ -296,7 +296,7 @@
 .ie-collapse[data-collapsed] {
   max-block-size: var(--collapse-height);
   overflow: clip;
-  mask-image: linear-gradient(to bottom, black 62%, transparent);
+  mask-image: linear-gradient(to bottom, black var(--collapse-fade, 62%), transparent);
 }
 /* The recommended column's outline over a comparison table (Pricing desktop): the first
    column is 40%, each plan column 20%; --col is the plan's index. */

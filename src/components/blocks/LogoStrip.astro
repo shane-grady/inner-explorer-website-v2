@@ -52,13 +52,13 @@ const labelId = `logos-${label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
 {
   layout === 'marquee' ? (
     <div class:list={['flex flex-col items-center gap-5 md:gap-6', className]} data-marquee>
-      <div class="flex items-center gap-3">
+      <div class="relative">
         <p id={labelId} class="m-0 type-eyebrow text-foreground-muted">
           {label}
         </p>
         <button
           type="button"
-          class="group ie-icon-btn ie-icon-btn-sm"
+          class="group ie-icon-btn ie-icon-btn-sm absolute top-1/2 left-full ml-3 -translate-y-1/2"
           aria-label={pauseLabel}
           aria-pressed="false"
           hidden
