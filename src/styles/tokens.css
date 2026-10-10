@@ -119,7 +119,10 @@
   --brand-wash: rgba(0, 135, 77, 0.06); /* secondary-button hover wash (.ie-btn-secondary:hover) */
   --brand-emphasis: var(--green-700); /* the green safe as text: H1 emphasis, links, current */
   --link-hover: var(--green-800); /* link and arrow-link hover on light grounds */
-  --icon-accent: var(--green-400); /* feature icons, checks, quote marks, numeral signs */
+  --icon-accent: var(--green-400); /* feature icons, checks, quote marks */
+  --numeral-sign: var(
+    --green-400
+  ); /* new: a stat's "+" or "%" (Home); Leaf on green (Why results) */
   --brand-surface: var(--green-700); /* Emerald panels and bands with copy */
   --brand-surface-deep: var(--green-800); /* Forest: heroes, results bands, photo scrims */
   --on-brand: var(--white); /* text, icons and ghost borders on every green */
@@ -173,6 +176,9 @@
     calc(24px + 48 * (100vw - 390px) / 1050),
     4.5rem
   ); /* new: 24 → 72 */
+  /* new, provisional: how far a half-bleed panel runs past the content edge to the viewport's
+     edge, the section gutter up to 1440, wider beyond (Why's reasons) */
+  --bleed: max(var(--section-x), calc((100vw - var(--container)) / 2));
 
   /* ---- Corners ---- */
   --radius-sm: 8px; /* containers, images, tags, inputs (Contact draws fields at 8px) */

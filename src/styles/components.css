@@ -196,6 +196,43 @@
   background: var(--on-brand);
   color: var(--brand-surface);
 }
+/* "Not included" beside the check disc: an outline disc with a dash (Why's curriculum table). */
+.ie-minus-disc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  inline-size: var(--icon-check);
+  block-size: var(--icon-check);
+  border: 2px solid var(--border-input);
+  border-radius: var(--radius-full);
+  color: var(--foreground-muted);
+}
+/* A half-bleed panel (Why's reasons): from lg up it runs from the content edge out to the
+   viewport's edge on its start or end side, its content kept on the content edge; rounded on
+   the inner side only. The section clips the overflow. */
+.ie-bleed-start,
+.ie-bleed-end {
+  @variant lg {
+    border-radius: var(--radius-sm);
+  }
+}
+.ie-bleed-start {
+  @variant lg {
+    margin-inline-start: calc(var(--bleed) * -1);
+    padding-inline: var(--bleed) var(--space-14);
+    border-start-start-radius: 0;
+    border-end-start-radius: 0;
+  }
+}
+.ie-bleed-end {
+  @variant lg {
+    margin-inline-end: calc(var(--bleed) * -1);
+    padding-inline: var(--space-14) var(--bleed);
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
+  }
+}
 /* An on/off switch (Pricing's "Show only differences"). The track keeps a 1px
    border-input outline so the off state meets 3:1 against white. */
 .ie-switch {

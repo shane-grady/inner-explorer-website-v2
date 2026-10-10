@@ -131,6 +131,17 @@ const sampleStats = [
   { value: '60%', label: 'fewer behavioral issues' },
   { value: '90%', label: 'renewal rate' },
 ];
+// The ruled strip (Why's results): three columns under hairlines, a source line.
+const sampleRuled = [
+  { value: '21', sign: '%', label: 'higher sample scores', source: '(Sample 2022)' },
+  { value: '56', sign: '%', label: 'fewer sample incidents' },
+  { value: '43', sign: '%', label: 'less sample stress' },
+];
+// A checklist item may lead with a bold phrase (Why's Reason 4).
+const leadChecklist = [
+  { lead: 'Zero prep required.', text: 'Log in, press play, and deliver a practice.' },
+  { lead: 'Designed for daily use.', text: 'Brief practices fit existing routines.' },
+];
 const samplePartners = [
   { name: 'Sample County' },
   { name: 'Sample ISD' },
@@ -355,6 +366,10 @@ const checklist = [
           <span class="ie-check-disc" aria-hidden="true"><Icon name="check" size={16} /></span>
           <code>.ie-check-disc</code>, the comparison table's "Included"
         </div>
+        <div class="flex items-center gap-3 type-label text-foreground-secondary">
+          <span class="ie-minus-disc" aria-hidden="true"><Icon name="minus" size={16} /></span>
+          <code>.ie-minus-disc</code>, "not this" beside it (Why's curriculum table)
+        </div>
         <button
           type="button"
           role="switch"
@@ -440,6 +455,8 @@ const checklist = [
       <div class="flex flex-col gap-6">
         <Checklist items={checklist} />
         <Checklist items={checklist} size="sm" />
+        <Checklist items={leadChecklist} />
+        <Checklist items={checklist} columns={3} size="sm" strong />
       </div>
       <div class="flex flex-col gap-4">
         <div class="flex items-center gap-4">
@@ -561,6 +578,7 @@ const checklist = [
   <Section tone="forest" aria-labelledby="strips-brand-title">
     <h2 id="strips-brand-title" class="m-0 type-section-title text-foreground">On Forest</h2>
     <StatStrip class="mt-8" stats={sampleStats} />
+    <StatStrip class="mt-8 max-w-160" variant="ruled" stats={sampleRuled} />
     <VideoPoster
       class="mt-8 max-w-160"
       href="https://youtu.be/GzRetBhE0To"

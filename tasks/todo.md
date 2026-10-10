@@ -53,7 +53,8 @@ the owners the canvas gives.
 - [ ] **Home, links the board leaves as `#`:** "Experience daily practice" (card and the mobile
       sticky bar's play button), "Explore the library" and the four grade bands go to
       `/platform/`; "See the research" to `/research/`. "See cost and funding options" goes to
-      `/why-inner-explorer/#funding`: the Why PR needs that id. Retarget once those pages exist.
+      `/why-inner-explorer/#funding` (the Why page has that id). Retarget the rest once those pages
+      exist.
 - [ ] **Home, video:** the poster opens YouTube in a new tab; the board's note proposes a
       captions-on `youtube-nocookie` embed instead. Linking out loads nothing third-party; keep it,
       or embed on click.
@@ -98,12 +99,47 @@ the owners the canvas gives.
     times and mock rows at 14 (board 12–13, the "nothing under 14 but tags" rule), so the mobile
     player meta wraps to two lines; the reflection prompt 20 (board 19); the closing CTA runs 38px
     shorter on desktop (the shared block's 72px padding and 520 lead, board 80×64 and 440).
-- [ ] **Why:** pick a Seven Reasons layout (options A–H on the canvas). Approve or cut what was
-      kept from the old design: hero stat strip and checks, green eyebrows, the 2 vs 25 Sarasota
-      band, Foundation diagram, MTSS pyramid, Funding guarantee tile, closing band.
-- [ ] **Why:** ROI estimator coverage 85/100/60/75% are draft values; $8 per student vs the
-      draft's $4.20; sources for $50 per avoided suspension or absence day and $20,000 per
-      teacher kept (the full calculator is parked while Laura reworks it). Swap borrowed photos.
+- [ ] **Why (built from FINAL V; confirm before launch):**
+  - Seven Reasons: built as the FINAL V boards draw it (each photo on a half-bleed Emerald
+    panel, "Reason N — 0N / 07"), chosen 2026-10-10. The A–H options board the canvas note
+    mentions is no longer on the canvas, so that pick is closed by the board.
+  - ROI estimator: not built. FINAL V doesn't draw it; the "Parked module" board (WHY IE Working)
+    says it was removed 2026-10-08 while Laura reworks the numbers (85/100/60/75% coverage, $8 per
+    student vs the draft's $4.20, $50 per avoided suspension or absence day, $20,000 per teacher
+    kept). The interactive estimator, and whether `/roi-calculator` exists, is a later PR.
+  - Kept from the old design, as the boards draw them (approve or cut): the green eyebrows, the 2
+    vs 25 Sarasota band, the Foundation diagram, the MTSS pyramid, the closing band. FINAL V has no
+    hero stat strip, "at a glance" checks or Funding guarantee tile, so none was built.
+  - Stand-ins (`src/assets/images/why/`), all as the boards draw them: the hero photo, the seven
+    reason photos (`reason-funding.jpg` is 320 × 146 and soft at its 512px size), the curriculum
+    photo, the closing photo. The canvas says they come from the case-study and About libraries;
+    none matched a file already in the repo. Reason 7's photo shows two teachers holding "Top 10"
+    certificates: confirm the people and the award. The compass mark (`src/assets/brand/
+mark-compass.png`, 256px PNG) is the board's: an SVG from the design system would be sharper.
+  - Facts, as drawn: 90% of schools renew; 43% less teacher stress (Bakosh 2018; Reason 7 says the
+    same 43%); 21% higher state math scores (Stager 2022); 56% fewer suspensions, Fulton County,
+    GA; the Sarasota principal's 2 vs 25 referrals; Under $8 per student per year, "about 0.07% of
+    per-student spending"; 372+ students per counselor; the reimbursement paragraph; "180 days a
+    year"; "5 to 10 minute practice"; the Killeen and Palm Springs principals' quotes (and the
+    site-wide stats and sources items above).
+  - SEO: title and meta description from the canvas's "SEO (for build)" note. Its Open Graph title
+    ("Why Inner Explorer") and description ("Learning starts with regulation. See how…") differ
+    from the meta ones; `PageLayout` uses one pair for both, so OG shows the meta pair. Add OG
+    props to `SEO`, or keep one pair. No Why page existed at `0c8cac2`; the JSON-LD follows the old
+    `/districts` page's shape (WebPage, EducationalAudience, Service).
+  - Built as rendered, not as written: the MTSS "The foundation" card's 4px Emerald top border is
+    overridden by the board's own `border` shorthand, so both boards show a 1px Raised card. Add
+    the top border back if it was meant.
+  - Copy: verbatim, the boards' non-breaking spaces kept; the Palm Springs quote takes the mobile
+    board's curly apostrophe ("students’"); "Why every day matters" is the mobile board's
+    sentence case (the desktop source is uppercase; it renders uppercase either way).
+  - Drift left after the side-by-side review (2026-10-10; desktop sections within 20px of the
+    boards, mobile within 40px): the hero's mobile lead and buttons sit 20px higher (PageTitle's
+    spacing); the reason photos sit on `shadow-floating` (.06, board .10) and run 32px narrower in
+    the container grid; the foundation figure is a flat Tint panel (the board's neumorphic shadows
+    dropped); type snapped to the ramp (the 68 statement 64, the curriculum cells 20, table heads
+    28, captions and panel titles 20/18, the criteria panel 24 on mobile, tier numerals 20/16);
+    the mobile legend uses the 10px swatch (board 16).
 - [ ] **Research:** ESSA Tier 1, name the study or review the badge cites. "Independent academic
       researchers": Bakosh 2016 and 2018 are led by Inner Explorer's co-founder and Chief
       Research Officer, so add a disclosure? Bakosh details disagree with About (2015, J. Applied
@@ -198,7 +234,9 @@ the owners the canvas gives.
       `ClosingCta` with photo; Testimonial emphasis.
 - [x] Platform: `blocks/EvidenceCard` (shared with Research), segmented tabs and sample players
       (page-only), `--shadow-lifted`; board assets as stand-ins (Before build › Platform).
-- [ ] Why Inner Explorer (SEO copy is on the canvas's "SEO (for build)" note).
+- [x] Why Inner Explorer: `StatStrip variant="ruled"`, Checklist lead-ins and `strong`, the
+      half-bleed panel (`--bleed`, `.ie-bleed-start` / `-end`), `.ie-minus-disc`, subject and
+      funding feature icons; board assets as stand-ins (Before build › Why). ROI estimator parked.
 - [ ] Case Studies index and 7 details; PDFs from `0c8cac2:public/downloads/`; update the
       `transfer-case-study` skill.
 - [ ] Newsroom and Article: the 18 legacy posts word for word ("Blog Posts Working" page), the 2

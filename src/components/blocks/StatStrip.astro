@@ -1,26 +1,49 @@
 ---
-// A row of headline numbers: the numeral over its label, hairlines between them from lg up
-// (two columns below). On a green Section the ink and hairlines follow the ground.
+// A row of headline numbers: the numeral over its label. `divided` (Home): hairlines between
+// them from lg up, two columns below. `ruled` (Why's results): three columns at every width,
+// each under a hairline, the larger numeral and a source line. On a green Section the ink,
+// hairlines and signs follow the ground.
 interface Stat {
   value: string;
-  /** A trailing sign ("+") set in icon-accent. */
+  /** A trailing sign ("+", "%") set in numeral-sign. */
   sign?: string;
   label: string;
+  /** A citation on its own line under the label ("(Stager 2022)"). */
+  source?: string;
 }
+const VARIANT = {
+  divided: {
+    list: 'grid-cols-2 gap-x-4 gap-y-6 lg:grid-cols-4',
+    item: 'gap-1 lg:border-l lg:border-border lg:pl-8 lg:first:border-l-0 lg:first:pl-0',
+    value: 'type-stat-sm',
+    label: 'type-stat-label text-foreground',
+  },
+  ruled: {
+    list: 'grid-cols-3 gap-4 lg:gap-6',
+    item: 'gap-2 border-t border-border pt-4',
+    value: 'type-stat-md',
+    label: 'type-small text-foreground-secondary md:type-list',
+  },
+} as const;
 interface Props {
   stats: readonly Stat[];
+  variant?: keyof typeof VARIANT;
   class?: string;
 }
-const { stats, class: className }: Props = Astro.props;
+const { stats, variant = 'divided', class: className }: Props = Astro.props;
+const v = VARIANT[variant];
 ---
 
-<dl class:list={['m-0 grid grid-cols-2 gap-x-4 gap-y-6 lg:grid-cols-4', className]}>
+<dl class:list={['m-0 grid', v.list, className]}>
   {
     stats.map((stat) => (
-      <div class="flex flex-col-reverse justify-end gap-1 lg:border-l lg:border-border lg:pl-8 lg:first:border-l-0 lg:first:pl-0">
-        <dt class="type-stat-label text-foreground">{stat.label}</dt>
-        <dd class="m-0 font-sans type-stat-sm font-bold text-foreground">
-          {[stat.value, stat.sign && <span class="text-icon-accent">{stat.sign}</span>]}
+      <div class:list={['flex flex-col-reverse justify-end', v.item]}>
+        <dt class={v.label}>
+          {stat.label}
+          {stat.source && [<br />, stat.source]}
+        </dt>
+        <dd class:list={['m-0 font-sans font-bold text-foreground', v.value]}>
+          {[stat.value, stat.sign && <span class="text-numeral-sign">{stat.sign}</span>]}
         </dd>
       </div>
     ))
