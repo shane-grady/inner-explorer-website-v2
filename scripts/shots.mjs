@@ -60,11 +60,13 @@ for (const viewport of VIEWPORTS) {
     const name = `${slug}-${viewport.width}`;
     await page.goto(`http://127.0.0.1:${PORT}${path}`, { waitUntil: 'networkidle' });
     // A full-page shot never scrolls, so lazy images below the fold must load first.
-    await page.evaluate(() => {
-      for (const img of document.images) img.loading = 'eager';
+    // `complete` can read true before a just-promoted image has loaded, so wait on decode().
+    await page.evaluate(async () => {
+      const images = [...document.images];
+      for (const img of images) img.loading = 'eager';
+      await Promise.all(images.map((img) => img.decode().catch(() => {})));
       return document.fonts.ready;
     });
-    await page.waitForFunction(() => [...document.images].every((img) => img.complete));
     await page.screenshot({ path: `${OUT}/${name}.png`, fullPage: true });
     await audit(page, name);
     if (viewport.width === 390 && path === '/') {

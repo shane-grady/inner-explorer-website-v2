@@ -244,6 +244,8 @@
   --measure-cta: 560px; /* new: the inline closing CTA's lead (Pricing, Case Studies) */
   --measure-short: 320px; /* new: the footer blurb and other short columns (10 boards) */
   --measure-article: 680px; /* the Article text column */
+  --measure-narrow: 480px; /* new, provisional: the research intro beside its stat tiles (About desktop) */
+  --measure-title: 820px; /* new, provisional: a centered section title (About: partners, team) */
   --form-card: 576px; /* new, provisional: the form card beside the hero copy (Contact desktop) */
   --hero-photo-height: clamp(
     35rem,
@@ -255,6 +257,7 @@
     calc(220px + 180 * (100vw - 390px) / 1050),
     25rem
   ); /* new, provisional: the hero photo above a form, 220 → 400 (Contact) */
+  --logo-opacity: 0.7; /* new, provisional: partner and press logos at rest, grayscale (About) */
   --icon-sm: 16px;
   --icon-md: 20px;
   --icon-lg: 24px;

@@ -65,6 +65,7 @@ const type = [
   ['type-page-title', '64 → 40 / 1.05 / 700 / −0.025em', 'Learning starts with regulation.'],
   [
     'type-section-title',
+    'type-section-title-sm',
     '44 → 32 / 1.1 / 700 / −0.02em',
     'Children can’t learn when they’re stressed.',
   ],
@@ -134,6 +135,15 @@ const samplePartners = [
   { name: 'Sample ISD' },
   { name: 'Sample Unified' },
   { name: 'Sample City' },
+];
+// The wall variant: names in type until a logo is supplied; a linked cell opens its coverage.
+const sampleWall = [
+  ...samplePartners,
+  {
+    name: 'Sample Press',
+    href: 'https://www.innerexplorer.com/',
+    linkLabel: 'Read the sample story',
+  },
 ];
 const checklist = [
   '5–10 minute audio-guided practices',
@@ -490,6 +500,13 @@ const checklist = [
       class="mt-8 border-t border-border pt-8"
       label="Trusted in districts including"
       partners={samplePartners}
+    />
+    <LogoStrip
+      class="mt-8 border-t border-border pt-8"
+      layout="wall"
+      cell="sm"
+      label="Logo wall (About)"
+      partners={sampleWall}
     />
   </Section>
 
