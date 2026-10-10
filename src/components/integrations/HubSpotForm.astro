@@ -9,7 +9,12 @@
 //
 // Slots: the default slot (a heading) renders above the form and `after` (a note) below
 // it; both are hidden by CSS once the form is submitted. `success` is the confirmation
-// that replaces the form, cloned from a <template> by the loader below.
+// that replaces the form, cloned from a <template> by the loader below. `fallback`
+// replaces the email / Help Center note shown when the embed cannot run (a case study's
+// PDF form falls back to the file itself).
+//
+// `layout="inline"`: a one-field form, its label above and the input and button in one row
+// from md (a case study's PDF request).
 //
 // -- Why `css: ''` is load-bearing -------------------------------------------------------
 //
@@ -33,10 +38,11 @@ interface Props {
   formId: string;
   /** HubSpot data-residency region, e.g. 'na1'. */
   region: string;
-  /** Fallback contact address used when the embed cannot run. */
-  supportEmail: string;
-  /** Fallback Help Center URL used when the embed cannot run. */
-  helpCenterHref: string;
+  /** Fallback contact address used when the embed cannot run (unless `fallback` is slotted). */
+  supportEmail?: string;
+  /** Fallback Help Center URL used when the embed cannot run (unless `fallback` is slotted). */
+  helpCenterHref?: string;
+  layout?: 'stacked' | 'inline';
   class?: string;
 }
 const {
@@ -45,8 +51,14 @@ const {
   region,
   supportEmail,
   helpCenterHref,
+  layout = 'stacked',
   class: className,
 }: Props = Astro.props;
+// Rendered once, placed twice (the <noscript> and the hidden twin below).
+const fallback = Astro.slots.has('fallback') ? await Astro.slots.render('fallback') : undefined;
+if (!fallback && !(supportEmail && helpCenterHref)) {
+  throw new Error('HubSpotForm needs supportEmail and helpCenterHref, or a fallback slot.');
+}
 
 // The fallback note, shown when the embed cannot run: a flat Tint panel.
 const NOTE = 'm-0 rounded-sm bg-tint p-card-padding type-body text-foreground-body';
@@ -55,7 +67,7 @@ const NOTE = 'm-0 rounded-sm bg-tint p-card-padding type-body text-foreground-bo
 const targetId = `hsform-${formId}`;
 ---
 
-<div class={className} data-hsform>
+<div class={className} data-hsform={layout === 'inline' ? 'inline' : ''}>
   {
     Astro.slots.has('default') && (
       <div data-hsform-chrome>
@@ -71,15 +83,31 @@ const targetId = `hsform-${formId}`;
        conversion path on the site, so an empty form is not an acceptable failure mode. */
   }
   <noscript>
-    <p class={NOTE}>
-      This form needs JavaScript. Email <a href={`mailto:${supportEmail}`}>{supportEmail}</a> and someone
-      on our team will follow up, or browse the <a href={helpCenterHref}>Help Center</a>.
-    </p>
+    {
+      fallback ? (
+        <Fragment set:html={fallback} />
+      ) : (
+        <p class={NOTE}>
+          This form needs JavaScript. Email <a href={`mailto:${supportEmail}`}>{supportEmail}</a>{' '}
+          and someone on our team will follow up, or browse the{' '}
+          <a href={helpCenterHref}>Help Center</a>.
+        </p>
+      )
+    }
   </noscript>
-  <p class={NOTE} data-hsform-fallback hidden>
-    This form could not load. Email <a href={`mailto:${supportEmail}`}>{supportEmail}</a> and someone
-    on our team will follow up, or browse the <a href={helpCenterHref}>Help Center</a>.
-  </p>
+  <div data-hsform-fallback hidden>
+    {
+      fallback ? (
+        <Fragment set:html={fallback} />
+      ) : (
+        <p class={NOTE}>
+          This form could not load. Email <a href={`mailto:${supportEmail}`}>{supportEmail}</a> and
+          someone on our team will follow up, or browse the <a href={helpCenterHref}>Help Center</a>
+          .
+        </p>
+      )
+    }
+  </div>
   {
     Astro.slots.has('after') && (
       <div data-hsform-chrome>

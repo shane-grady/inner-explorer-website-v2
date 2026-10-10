@@ -178,6 +178,37 @@
   background: var(--brand);
   color: var(--on-brand);
 }
+/* A chip's count badge (Case Studies filters): Tint at rest, white wash when pressed. */
+.ie-chip-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-inline-size: var(--space-6);
+  block-size: var(--space-6);
+  padding-inline: var(--space-2);
+  border-radius: var(--radius-md);
+  background: var(--tint);
+  color: var(--foreground-muted);
+}
+.ie-chip[aria-pressed='true'] .ie-chip-count {
+  background: var(--on-brand-wash);
+  color: var(--on-brand);
+}
+/* A row of chips: one scrolling line on a phone (Case Studies mobile), wrapping from md. */
+.ie-chip-row {
+  display: flex;
+  gap: var(--space-2);
+  overflow-x: auto;
+  scrollbar-width: none;
+  @variant md {
+    flex-wrap: wrap;
+    overflow-x: visible;
+  }
+}
+.ie-chip-row::-webkit-scrollbar {
+  display: none;
+}
 
 /* The filled check disc: "included" in a comparison table, a list marker on green. */
 .ie-check-disc {
@@ -488,6 +519,31 @@
 .ie-card:has(.ie-card-link:focus-visible) {
   outline: 2px solid var(--ring);
   outline-offset: 2px;
+}
+/* A linked card's photo eases in on hover (Case Studies story cards). */
+.ie-card-zoom {
+  transition: transform var(--motion-fade);
+}
+.ie-card:has(.ie-card-link):is(:hover, [data-hover]) .ie-card-zoom {
+  transform: scale(1.03);
+}
+.ie-card-arrow {
+  transition: transform var(--motion);
+}
+.ie-card:has(.ie-card-link):is(:hover, [data-hover]) .ie-card-arrow {
+  transform: translateX(2px);
+}
+/* The label laid on a card's photo (Case Studies level, Newsroom "Featured"). */
+.ie-photo-label {
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  block-size: calc(7 * var(--space-1)); /* 28 */
+  padding-inline: var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--foreground);
+  box-shadow: var(--shadow-raised);
 }
 .ie-accent-bar {
   block-size: var(--accent-bar-height);
@@ -833,6 +889,59 @@ textarea:is(.ie-field, [data-hsform] .hs-input) {
 }
 [data-hsform] .hs-submit .hs-button {
   inline-size: 100%;
+}
+/* A one-field form (a case study's PDF request): the label above, then the input and the
+   button in one row from md. Unverified until the HubSpot form exists (tasks/todo.md). */
+[data-hsform='inline'] form {
+  gap: var(--space-2);
+  @variant md {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+}
+[data-hsform='inline'] :is(form, fieldset) > * {
+  @variant md {
+    grid-column: auto;
+  }
+}
+[data-hsform='inline'] .hs-submit {
+  align-self: end;
+}
+[data-hsform='inline'] :is(.hs_error_rollup, .hs-richtext) {
+  grid-column: 1 / -1;
+}
+/* A bar chart's bars (Case Studies): before is Tint under a dashed rule, after and during
+   are Jade. The bar's share of the tallest bar comes in as --bar (0–1). */
+.ie-chart-bar {
+  display: block;
+  box-sizing: border-box;
+  block-size: calc(var(--bar) * var(--chart-height));
+  background: var(--brand);
+}
+.ie-chart-bar[data-tone='before'] {
+  border: 2px dashed var(--foreground-muted);
+  background: var(--tint);
+}
+/* The chart is one grid, a column per bar; each phase (before, after, during) spans its
+   bars' columns and shares the three rows (label, bars, years) through subgrid, so every
+   baseline lines up. */
+.ie-chart {
+  display: grid;
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  grid-template-rows: auto auto auto;
+}
+.ie-chart-phase {
+  display: grid;
+  grid-column: span var(--bars);
+  grid-row: span 3;
+  grid-template-columns: subgrid;
+  grid-template-rows: subgrid;
+}
+/* The rule between two phases: solid Emerald into "after", dashed into "during". */
+.ie-chart-phase[data-tone='after'] {
+  border-inline-start: 2px solid var(--brand-emphasis);
+}
+.ie-chart-phase[data-tone='during'] {
+  border-inline-start: 1px dashed var(--foreground-muted);
 }
 /* The color key in an evidence tag (Platform, Research); the tone sets currentColor. */
 .ie-swatch {

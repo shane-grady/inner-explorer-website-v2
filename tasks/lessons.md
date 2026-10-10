@@ -577,3 +577,9 @@ Explorer's"`).
   fractional bases (`lg:basis-5/12` with the default shrink): the gap comes off both sides in
   proportion, exactly as `fr` does. Measuring every text element's box against the board, not
   only section heights, is what found it (and a flattened shadow the board clearly draws).
+- **Generate verbatim copy from the board's HTML, don't retype it (Case Studies, 2026-10-10).**
+  A script that parses the board's elements and dumps YAML keeps curly quotes, en dashes and
+  `<b>` emphasis exactly; retyping 3,000 words of a legacy case study invites silent edits. And
+  a board's template loop (`<sc-for>`) renders one empty placeholder when the board is opened
+  standalone. Measure a looped card against another board that draws it with real data (the
+  index cards against the detail board's related row).

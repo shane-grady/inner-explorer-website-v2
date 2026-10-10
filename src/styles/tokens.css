@@ -287,6 +287,12 @@
     calc(220px + 180 * (100vw - 390px) / 1050),
     25rem
   ); /* new, provisional: the hero photo above a form, 220 → 400 (Contact) */
+  --ratio-story: 952 / 500; /* new, provisional: a case study's hero photo, 952 × 500 and 350 × 184 (Case Study Detail Working boards) */
+  --chart-height: clamp(
+    11.25rem,
+    calc(180px + 36 * (100vw - 390px) / 1050),
+    13.5rem
+  ); /* new, provisional: the tallest bar of a bar chart, 180 → 216 (Case Study Detail Working boards) */
   --logo-opacity: 0.7; /* new, provisional: partner and press logos at rest, grayscale (About) */
   --icon-sm: 16px;
   --icon-md: 20px;

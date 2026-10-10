@@ -1,0 +1,400 @@
+---
+// A case study, from the "Case Study Detail Working" boards (Webb School in the Valley, Desktop
+// and Mobile; FINAL V draws no detail page). One caseStudies entry drives the page; its body
+// blocks render in order. The hero is the boards' own: the five "Hero directions" on the
+// working page are undecided (tasks/todo.md › Case Studies). CTA labels verbatim.
+import { Image, getImage } from 'astro:assets';
+import PageLayout from '../../layouts/PageLayout.astro';
+import JsonLd from '../../components/seo/JsonLd.astro';
+import Section from '../../components/ui/Section.astro';
+import Button from '../../components/ui/Button.astro';
+import ArrowLink from '../../components/ui/ArrowLink.astro';
+import Checklist from '../../components/ui/Checklist.astro';
+import Testimonial from '../../components/blocks/Testimonial.astro';
+import BarChart from '../../components/blocks/BarChart.astro';
+import StoryCard from '../../components/blocks/StoryCard.astro';
+import ClosingCta from '../../components/blocks/ClosingCta.astro';
+import HubSpotForm from '../../components/integrations/HubSpotForm.astro';
+import { emphasize } from '../../lib/emphasize';
+import { breadcrumbSchema, organizationSchema } from '../../lib/schema';
+import { HUBSPOT, MAIN_SITE } from '../../lib/site';
+import {
+  caseStudyHeadline,
+  caseStudyHref,
+  getCaseStudies,
+  type CaseStudy,
+} from '../../lib/case-studies';
+
+export async function getStaticPaths() {
+  const stories = await getCaseStudies();
+  return stories.map((story) => ({
+    params: { slug: story.id },
+    props: {
+      story,
+      // The similar stories that are already built, in the entry's order.
+      related: story.data.related
+        .map((slug) => stories.find((s) => s.id === slug))
+        .filter((s): s is CaseStudy => s !== undefined),
+    },
+  }));
+}
+
+interface Props {
+  story: CaseStudy;
+  related: CaseStudy[];
+}
+const { story, related } = Astro.props;
+const d = story.data;
+
+// The template's own copy; the story's copy is the entry.
+const content = {
+  breadcrumb: { label: 'Breadcrumb', root: 'Case studies', href: '/case-studies/' },
+  resultsLabel: 'Results at a glance',
+  glance: { label: 'Story details', title: 'At a glance' },
+  pdf: {
+    eyebrow: (pages: number) => `Case study PDF · ${pages} pages`,
+    download: 'Download the PDF',
+    // Not on the boards: the HubSpot form's confirmation (tasks/todo.md › Case Studies).
+    success: 'Thanks. Your case study is ready.',
+  },
+  rail: {
+    label: 'Talk to our team',
+    eyebrow: 'For district leaders',
+    title: 'Bring this to your schools',
+    primary: { label: 'Talk to our team', href: '/contact/' },
+    pdf: 'Get the PDF',
+  },
+  related: { title: 'More stories like this', all: 'All case studies', href: '/case-studies/' },
+  cta: {
+    title: 'Your school could be *the next story*',
+    lead: 'See what a daily mindfulness practice could do for your classrooms.',
+    primary: { label: 'Talk to our team', href: '/contact/' },
+    secondary: { label: 'See the research', href: '/research/' },
+  },
+} as const;
+
+const RESULT_COLUMNS = {
+  1: '',
+  2: 'md:grid-cols-2',
+  3: 'md:grid-cols-3',
+  4: 'md:grid-cols-2 xl:grid-cols-4',
+} as const;
+const resultColumns = RESULT_COLUMNS[d.results.length as keyof typeof RESULT_COLUMNS];
+
+// The space above a body block: wide before a heading, tight under one.
+const blockGap = (i: number) => {
+  const block = d.body[i];
+  if (i === 0) return '';
+  if (block.type === 'heading') return 'mt-12';
+  if (block.type === 'subheading') return 'mt-8 lg:mt-10';
+  if (d.body[i - 1].type === 'heading') return 'mt-4 lg:mt-6';
+  return 'mt-6 lg:mt-8';
+};
+
+const path = caseStudyHref(story);
+const base = new URL(Astro.site ?? MAIN_SITE).origin;
+// The social-share card: the hero photo at the 1200 × 630 Open Graph crop.
+const ogImage = await getImage({
+  src: d.image.src,
+  width: 1200,
+  height: 630,
+  fit: 'cover',
+  format: 'jpg',
+});
+const articleLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: caseStudyHeadline(story),
+  description: d.seo.description,
+  image: [new URL(ogImage.src, base).href],
+  author: { '@type': 'Organization', name: 'Inner Explorer' },
+  datePublished: d.publishedDate.toISOString(),
+  ...(d.updatedDate ? { dateModified: d.updatedDate.toISOString() } : {}),
+  about: { '@type': 'EducationalOrganization', name: d.name, location: d.location },
+  mainEntityOfPage: `${base}${path}`,
+  publisher: organizationSchema(Astro.site),
+};
+const crumbLd = breadcrumbSchema(Astro.site, [
+  { name: content.breadcrumb.root, path: content.breadcrumb.href },
+  { name: d.name, path },
+]);
+---
+
+<PageLayout
+  title={d.seo.title}
+  description={d.seo.description}
+  type="article"
+  image={ogImage.src}
+  imageAlt={d.image.alt}
+  imageWidth={1200}
+  imageHeight={630}
+>
+  <JsonLd slot="head" schema={articleLd} />
+  <JsonLd slot="head" schema={crumbLd} />
+
+  <Section class="pt-8 pb-0 lg:pt-14 lg:pb-0">
+    <div class="lg:ml-62">
+      <nav aria-label={content.breadcrumb.label}>
+        <ol
+          class="m-0 flex list-none flex-wrap items-center gap-2 p-0 type-breadcrumb text-foreground-muted"
+        >
+          <li>
+            <a
+              class="text-foreground-muted no-underline hover:text-link-hover"
+              href={content.breadcrumb.href}>{content.breadcrumb.root}</a
+            >
+          </li>
+          <li aria-hidden="true">/</li>
+          <li>{d.level}</li>
+        </ol>
+      </nav>
+      <h1
+        class="m-0 mt-4 max-w-225 type-section-title text-foreground"
+        set:html={emphasize(`${d.title.lead} *${d.title.emph}*`)}
+      />
+      <div class="ie-accent-bar mt-2 lg:max-w-measure-article" aria-hidden="true"></div>
+      <p class="m-0 mt-5 max-w-measure-article type-lead text-foreground-secondary md:mt-6">
+        {d.lead}
+      </p>
+      <p class="m-0 mt-5 type-label text-foreground-muted md:mt-6">{d.location} · {d.level}</p>
+
+      <section aria-label={content.resultsLabel} class="mt-6 lg:mt-10">
+        <ul class:list={['m-0 grid list-none gap-2 p-0', resultColumns]}>
+          {
+            d.results.map((r) => (
+              <li class="flex min-w-0 flex-col gap-2 rounded-sm bg-tint p-4 md:p-6">
+                <span class="font-sans type-stat-sm font-bold text-brand-emphasis">{r.value}</span>
+                <span class="type-card-title-sm text-foreground-secondary">{r.label}</span>
+                <span class="type-label text-foreground-muted">{r.baseline}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <Image
+        class="mt-6 block aspect-story w-full rounded-sm bg-tint object-cover lg:mt-10"
+        src={d.image.src}
+        alt={d.image.alt}
+        widths={[700, 952, 1400]}
+        sizes="(min-width: 1024px) 952px, 100vw"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </div>
+
+    <div class="mt-6 flex flex-col lg:mt-14 lg:flex-row lg:items-start lg:gap-12">
+      <aside
+        aria-label={content.glance.label}
+        class="flex flex-col gap-4 rounded-sm bg-tint p-5 lg:sticky lg:top-24 lg:w-50 lg:shrink-0 lg:rounded-none lg:bg-transparent lg:p-0"
+      >
+        <h2 class="m-0 type-eyebrow text-foreground">{content.glance.title}</h2>
+        <dl class="m-0 grid grid-cols-2 gap-4 lg:flex lg:flex-col lg:gap-0">
+          {
+            d.glance.map((fact, i) => (
+              <div
+                class:list={[
+                  'flex flex-col gap-1 lg:border-t lg:border-border lg:py-3 lg:first:border-t-0 lg:first:pt-0 lg:last:pb-0',
+                  i === d.glance.length - 1 && 'col-span-2',
+                ]}
+              >
+                <dt class="type-label text-foreground-muted">{fact.label}</dt>
+                <dd class="m-0 type-small leading-snug font-bold text-foreground lg:type-card-title-sm">
+                  {fact.value}
+                </dd>
+              </div>
+            ))
+          }
+        </dl>
+      </aside>
+
+      <article class="mt-10 min-w-0 lg:mt-0 lg:max-w-measure-article lg:grow">
+        {
+          d.body.map((block, i) => {
+            const gap = blockGap(i);
+            switch (block.type) {
+              case 'heading':
+                return (
+                  <h2 id={block.id} class:list={['m-0 type-card-title-lg text-foreground', gap]}>
+                    {block.text}
+                  </h2>
+                );
+              case 'subheading':
+                return (
+                  <h3 class:list={['m-0 type-card-title-md text-foreground', gap]}>{block.text}</h3>
+                );
+              case 'paragraphs':
+                return (
+                  <div class:list={['flex flex-col gap-5', gap]}>
+                    {block.items.map((text) => (
+                      <p class="m-0 type-article-body text-foreground">{text}</p>
+                    ))}
+                  </div>
+                );
+              case 'quote':
+                return (
+                  <Testimonial
+                    class={gap}
+                    name={block.name}
+                    place={block.role}
+                    initials={block.initials}
+                  >
+                    <Fragment set:html={emphasize(block.text, 'font-bold not-italic')} />
+                  </Testimonial>
+                );
+              case 'chart':
+                return (
+                  <BarChart
+                    class={gap}
+                    title={block.title}
+                    summary={block.summary}
+                    phases={block.phases}
+                    note={block.note}
+                  />
+                );
+              case 'checklist':
+                return <Checklist class={gap} items={block.items} />;
+              case 'steps':
+                return (
+                  <ol class:list={['m-0 flex list-none flex-col gap-4 p-0 lg:gap-5', gap]}>
+                    {block.items.map((step, n) => (
+                      <li class="flex items-start gap-3 lg:gap-4">
+                        <span
+                          class="flex size-7 shrink-0 items-center justify-center rounded-full bg-brand type-label font-bold text-on-brand"
+                          aria-hidden="true"
+                        >
+                          {n + 1}
+                        </span>
+                        <span class="flex flex-col gap-1">
+                          <span class="type-body leading-snug font-bold text-foreground">
+                            {step.title}
+                          </span>
+                          <span class="type-body text-foreground">{step.text}</span>
+                        </span>
+                      </li>
+                    ))}
+                  </ol>
+                );
+            }
+          })
+        }
+
+        {
+          d.pdf && (
+            <section
+              id="download"
+              aria-labelledby="download-title"
+              class="ie-card ie-card-raised mt-10 flex scroll-mt-6 flex-col gap-2 p-5 md:flex-row md:items-start md:gap-6 md:p-6 lg:mt-12"
+            >
+              <div
+                class="mb-2 flex h-20 w-16 shrink-0 flex-col items-center justify-end gap-1 rounded-sm bg-tint px-2 py-3 md:mb-0 md:h-28 md:w-22 md:px-3 md:py-4"
+                aria-hidden="true"
+              >
+                <span class="h-2 w-5 bg-green-400 md:h-3 md:w-7" />
+                <span class="h-2 w-8 bg-green-500 md:h-3 md:w-11" />
+                <span class="h-2 w-11 bg-green-700 md:h-3 md:w-15" />
+              </div>
+              <div class="flex min-w-0 grow flex-col gap-2">
+                <p class="m-0 type-eyebrow text-foreground">{content.pdf.eyebrow(d.pdf.pages)}</p>
+                <h2 id="download-title" class="m-0 type-card-title-md text-foreground">
+                  {d.pdf.title}
+                </h2>
+                {HUBSPOT.caseStudyPdfFormId ? (
+                  <HubSpotForm
+                    class="mt-2"
+                    layout="inline"
+                    portalId={HUBSPOT.portalId}
+                    formId={HUBSPOT.caseStudyPdfFormId}
+                    region={HUBSPOT.region}
+                  >
+                    <Fragment slot="success">
+                      <p class="m-0 type-body text-foreground-body">{content.pdf.success}</p>
+                      <Button class="mt-3" variant="secondary" href={d.pdf.file} icon="download">
+                        {content.pdf.download}
+                      </Button>
+                    </Fragment>
+                    <Button slot="fallback" variant="secondary" href={d.pdf.file} icon="download">
+                      {content.pdf.download}
+                    </Button>
+                  </HubSpotForm>
+                ) : (
+                  <Button
+                    class="mt-2 self-start"
+                    variant="secondary"
+                    href={d.pdf.file}
+                    icon="download"
+                  >
+                    {content.pdf.download}
+                  </Button>
+                )}
+              </div>
+            </section>
+          )
+        }
+      </article>
+
+      <aside
+        aria-label={content.rail.label}
+        class="hidden xl:sticky xl:top-24 xl:block xl:w-56 xl:shrink-0"
+      >
+        <div class="ie-card ie-card-raised flex flex-col gap-2 p-5">
+          <p class="m-0 type-eyebrow text-foreground">{content.rail.eyebrow}</p>
+          <p class="m-0 type-card-title-md text-foreground">{content.rail.title}</p>
+          <Button class="mt-2" href={content.rail.primary.href} size="sm">
+            {content.rail.primary.label}
+          </Button>
+          {
+            d.pdf && (
+              <Button href="#download" variant="secondary" size="sm" icon="download">
+                {content.rail.pdf}
+              </Button>
+            )
+          }
+        </div>
+      </aside>
+    </div>
+
+    {
+      related.length > 0 && (
+        <section aria-labelledby="related-title" class="mt-12 lg:mt-18">
+          <div class="flex items-baseline justify-between gap-6">
+            <h2 id="related-title" class="m-0 type-card-title-lg text-foreground">
+              {content.related.title}
+            </h2>
+            <ArrowLink class="hidden md:inline-block" href={content.related.href}>
+              {content.related.all}
+            </ArrowLink>
+          </div>
+          <ul class="m-0 mt-4 grid list-none gap-4 p-0 md:mt-6 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
+            {related.map((s) => (
+              <li>
+                <StoryCard
+                  href={caseStudyHref(s)}
+                  image={s.data.image}
+                  level={s.data.level}
+                  name={s.data.name}
+                  place={s.data.place}
+                  stat={s.data.card.stat}
+                  statLabel={s.data.card.label}
+                />
+              </li>
+            ))}
+          </ul>
+          <ArrowLink class="mt-4 md:hidden" href={content.related.href}>
+            {content.related.all}
+          </ArrowLink>
+        </section>
+      )
+    }
+  </Section>
+
+  <Section class="pt-12 lg:pt-18">
+    <ClosingCta
+      layout="inline"
+      title={content.cta.title}
+      lead={content.cta.lead}
+      primary={content.cta.primary}
+      secondary={content.cta.secondary}
+    />
+  </Section>
+</PageLayout>

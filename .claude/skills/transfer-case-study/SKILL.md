@@ -1,202 +1,157 @@
 ---
 name: transfer-case-study
 description: >-
-  Transfer a legacy innerexplorer.com case study into this site as a new
-  /case-studies/<slug>/ page (Webb School pattern: one YAML drives the whole page),
-  then optimize its content to current SEO/GEO best practices with a research
-  workflow. Use this skill whenever the user asks to transfer, migrate, port,
-  rebuild, or "do the next" case study; pastes an innerexplorer.com/case-study*
-  URL or a legacy case-study PDF; or asks to add a new district/school success
-  story page — even if they don't say "case study" (e.g. "add the Newark story
-  like we did Webb School"). Also use it when asked to SEO-optimize or refresh the
-  content of an existing /case-studies/ page. Use it EVEN IF you could hand-build
-  the page: the point is full-fidelity extraction, the shared YAML/component
-  system, and the verified optimization workflow — not bespoke per-page work.
+  Add a school or district success story to this site as a new /case-studies/<slug>/ page:
+  read the story's boards on the "Case Study Detail Working" page of the canvas, copy them
+  verbatim into one caseStudies YAML entry (Webb School is the reference), restore its PDF,
+  and verify the page against the boards. Use this skill whenever the user asks to transfer,
+  migrate, port, rebuild, or "do the next" case study; names one of the stories (Kaiser,
+  Dwight Morrow, Goddard, John Marshall, La Joya, Mindful Michigan); pastes an
+  innerexplorer.com/case-study* URL or a legacy case-study PDF; or asks to add a new
+  district/school success story page — even if they don't say "case study" (e.g. "add the La
+  Joya story like we did Webb"). Also use it to refresh the SEO metadata of an existing
+  /case-studies/ page. Use it EVEN IF you could hand-build the page: the point is one entry in
+  the shared collection, copied word for word from the boards, not bespoke markup.
 ---
 
-> **STALE until the Case Studies PR lands (see `tasks/rebuild-plan.md`).** This skill
-> targets the PREVIOUS case-study template, YAML collection and components, which the
-> 2026-10 clean slate removed (recover with `git show 0c8cac2:<path>`). The Case Studies
-> PR rebuilds the collection from the new canvas's content model and rewrites this
-> skill; until then, don't run it. The case-study lessons it cites from `tasks/lessons.md`
-> now live in `tasks/archive/lessons-pre-rebuild.md`.
+# Add a case study
 
-# Transfer a legacy case study
+One schema-validated YAML file, `src/content/case-studies/<slug>.yaml`, drives the story's
+whole page. The template (`src/pages/case-studies/[slug].astro`), its card on the index, the
+related-stories rows, the Article and BreadcrumbList JSON-LD, the Open Graph crop and the
+sitemap entry all follow from the entry. A story needs no markup.
 
-Port a case study from the old innerexplorer.com site into this repo and make its
-content the strongest it can be for 2026 search and AI-citation visibility. This
-skill encodes the full process that produced `/case-studies/webb-school/`
-(PR #15, 2026-06-09) — including every trap hit along the way. Webb School is the
-reference and rough template; each new story must be personalized to its own
-facts, audience, and keyword space, not cloned.
+**Fidelity rule:** every string on the page is the original innerexplorer.com text as the
+boards carry it. Copy it verbatim, typos and title case included; fix only obvious typos and
+list them. The only words you write are the fields the canvas's content model leaves to the
+template: the card's short label, each result's baseline, the "At a glance" facts and the alt
+text. Never invent a quote, a figure, a portrait or a source.
 
-**The shape of the job:** one schema-validated YAML file
-(`src/content/case-studies/<slug>.yaml`) drives the entire page. The route
-(`src/pages/case-studies/[slug].astro`), the `/case-studies/` hub card, the
-next-study cross-link, the explore band, the Article JSON-LD (headline = duet H1,
-`about` from `district.name`/`location`, `citation` from sources with `href`),
-the OG-image pipeline, and the sitemap are ALL automatic once the YAML exists.
-The only manual surfaces are a story card in `src/pages/newsroom.astro` and the
-PDF copy in `public/downloads/`.
+## Step 0: Orient
 
-## Step 0 — Orient (main context)
+Read these before anything else:
 
-Read before doing anything: `tasks/lessons.md`, `tasks/seo-playbook.md`,
-`src/content/case-studies/webb-school.yaml` (the gold standard — study its
-comment conventions, PUBLISH GATE markers, and copy patterns), the `caseStudies`
-schema in `src/content.config.ts`, and `src/pages/case-studies/[slug].astro`.
+- `CLAUDE.md` (the page-PR playbook) and `tasks/lessons.md` (the Design foundation section,
+  above all "Compare against the rendered board").
+- The `caseStudies` schema in `src/content.config.ts`.
+- `src/content/case-studies/webb-school.yaml`, the reference entry.
+- `src/pages/case-studies/[slug].astro`.
+- `tasks/todo.md` › Before build › Case Studies (open items, and the legacy YAMLs' PUBLISH GATE
+  warnings).
 
-Environment facts that shape how you work here:
+## Step 1: Read the story's boards
 
-- The **Workflow tool runs reliably** in this environment (10–13-agent runs
-  verified). Direct Explore/Plan Agent spawns are flaky (prompt overflow from the
-  inherited MCP surface) — do exploration in the main context, use Workflow for
-  fan-out.
-- Run `higgsfield account status` **now**, not when you reach the imagery step.
-  If the session is expired, ask the user to run `higgsfield auth login` and keep
-  building with placeholders — never block the page on imagery.
-- Components already exist for everything the Webb story needed: `ResultsChart`
-  (grouped bars, tones muted/brand/accent), `Pillars` (3 or 4 cards, 7 icons),
-  linked `sources` (optional `href`), optional `faq` (rendered by the shared
-  FAQAccordion), `CaseStudyExplore`. Extend the schema only for a genuinely new
-  story shape — additive and optional, so existing pages never change.
+The canvas is "Inner Explorer — Website", https://claude.ai/artifact/6gx8tapeaDzTeSSMD7R31s.
 
-## Step 1 — Extract everything, verbatim
+1. List its files with the Artifact tool (`action: "list"`, `scope: "files"`).
+2. Read `project/Case-Study-<Story>-Desktop.dc.html` and `-Mobile.dc.html`. These are on the
+   page "Case Study Detail Working"; Kaiser also has a `-Mobile-First-Screen` board.
+3. Read the canvas notes in `project/canvas.json`:
+   - `case-study-model`: the content model.
+   - `cs-row-<story>`: the story's source.
+   - Any note on the story's page, such as Webb's "Hold … waiting for approval". Report every
+     such note to the user before building.
 
-WebFetch summarizes; you need exact words. `curl -sL` the raw HTML to /tmp.
+Extract the strings with a script, not by retyping them. Parse each `<h1>`, `<h2>`, `<h3>`,
+`<p>`, `<blockquote>`, `<li>`, `<dt>`/`<dd>` and the chart's absolutely positioned labels in the
+board HTML, unescape the entities, and keep the curly quotes and dashes. The Webb entry was
+generated this way, with PyYAML's `safe_dump(allow_unicode=True, sort_keys=False)` plus a
+hand-written header comment. Turn `<b>` inside a quote into `*…*`.
 
-- **Find and download the PDF** (legacy pages have a DOWNLOAD link). The PDF
-  often holds facts the web page dropped — Webb's PDF contained the decisive
-  "40+ outbursts → ONE" detail and the research citations. `pdftotext`/`pdftoppm`
-  are not installed and the Read tool can't render PDFs here; run
-  `python3 scripts/extract_pdf_text.py <file.pdf>` (bundled with this skill) to
-  pull the text via zlib stream decompression. PDFs with CID-encoded fonts
-  (Type0/CIDFontType2 — e.g. Goddard-MS.pdf) yield nothing from the regex pass;
-  the script then falls back to pypdf (`pip3 install --user pypdf` if prompted).
-  To RENDER pages visually, split to single-page PDFs with pypdf and convert
-  each with `sips -s format png -Z 1400` (sips only converts a PDF's first page).
-- **Download every chart image and Read it** (vision) — the data values you read
-  off the bars become the `chart` block and metric values.
-- Record in your plan file: every fact, number, name, role, funder, quote (prefer
-  the fuller PDF version), chart series, image alt, and citation. These are the
-  ONLY claims the new page may make. Cross-check web vs PDF; note discrepancies.
+Also extract the card fields from `project/Case-Studies-Desktop.dc.html` (the `stories` array in
+its script): `level`, `name`, `place`, `stat`, `statLabel`, `tags`, the photo blob and its alt.
+The index card uses those exact values.
 
-## Step 2 — Ask the user before writing (AskUserQuestion)
+## Step 2: Map the board to the schema
 
-Settled precedents from the Webb build (present them; let the user redecide for
-this page):
+| Board | Entry field |
+| --- | --- |
+| Breadcrumb level, card badge | `level` |
+| H1 black half / green half | `title.lead` / `title.emph` |
+| Lead paragraph under the accent bar | `lead` |
+| Meta line "City, State · Level" | `location` (the city and state) |
+| Result tiles (numeral, label, small grey line) | `results[]` `{ value, label, baseline }` (1–4) |
+| Hero photo and its alt | `image.src` (relative path to `src/assets/images/case-studies/<slug>/`), `image.alt` |
+| "At a glance" rows | `glance[]` `{ label, value }` |
+| Article body, top to bottom | `body[]`: `heading` (h2, with the board's `id`) · `subheading` (h3) · `paragraphs` (a run of `<p>`) · `quote` `{ text, name, role, initials }` · `chart` · `checklist` · `steps` `{ title, text }` |
+| Chart | `chart`: `title` (its figcaption), `summary` (the board's `aria-label` up to the first period), `phases[]` (`before` / `after` / `during`, each with `bars[]` `{ label, value }`), `note` (the line under the rule) |
+| "Case study PDF · N pages" card | `pdf` `{ file: /downloads/<slug>-case-study.pdf, pages, title }` |
+| "More stories like this" | `related[]`: the three slugs the board links |
+| Index card | `card` `{ stat, label }`, `place`, `tags`, `order` (the index board's order) |
 
-1. **Fidelity where the source is thin** — Webb's call: fill the template with
-   representative copy, every invented item carrying a `# PUBLISH GATE` comment.
-   Know the history: two independent audits later flagged invented student quotes
-   and an unsourced trust rating as the top E-E-A-T risk (fabricated content is a
-   Quality-Rater-Guidelines "Lowest" trigger), and the user chose "keep until
-   launch review". Don't re-litigate silently in either direction.
-2. **Imagery** — Webb's call: generate via the `inner-explorer-covers` skill
-   conventions (GPT Image 2, 16:9, lived-in modern schools).
-3. **Portraits of real named people** — stand-ins allowed, but alt text must
-   never assert identity ("Portrait of a school administrator (placeholder
-   image)"), with a PUBLISH GATE comment. Never caption a synthetic face with a
-   real person's name.
-4. Confirm the slug.
+Also set:
 
-## Step 3 — Build the page
+- `seo.title`: at most 60 characters plus " | Inner Explorer".
+- `seo.description`: at most 155 characters. Prefer one of the board's own sentences that
+  carries the headline result.
+- `publishedDate` and `updatedDate`.
 
-- Copy placeholder images under the **final filenames** first (a later swap is
-  then a pure file overwrite — no YAML churn). Stand-ins from
-  `src/assets/images/case-studies/webb-school/` are fine.
-- Write the YAML modeled on `webb-school.yaml`: real facts in every required
-  field; timeline derived from the story's actual arc; metrics grid mixing the
-  story's own numbers with its cited research (separate `sourceId`s); chart block
-  if the legacy page had one; FAQ answering real buyer questions (training, cost,
-  durability) from established facts only.
-- Add the newsroom story card (`src/pages/newsroom.astro`, unique id, newest
-  date) and copy the legacy PDF to `public/downloads/<slug>-case-study.pdf`,
-  wired as the CTA's secondary link.
-- Verify any external source URL resolves before shipping it
-  (`curl -sIL -o /dev/null -w "%{http_code}"`).
+**A board draws something the schema lacks** (an "In brief" panel, a results table, read time):
+add it to the schema as an optional field, render it in the template, show it on
+`/styleguide/` if it is a new visual pattern, and add a row to `design/inventory.md`. Never
+put markup in the entry.
 
-Known traps (full write-ups in `tasks/lessons.md` — read it):
+## Step 3: Assets
 
-- `sr-only` on a `<table>` does NOT collapse it (tables refuse sub-min-content
-  width) → invisible page-wide mobile overflow. Wrap tables in a `div.sr-only`.
-- In a column flex container, `flex: 1` on a child silently overrides its
-  explicit `height` (basis 0) — bars/cells collapse to min-content.
-- The preview screenshot tool intermittently captures `data-cs-reveal` content as
-  hidden and ignores viewport resizes. Verify reveal-gated UI via DOM eval
-  (classList / computed opacity / `scrollWidth` for overflow), not pixels.
-- The dev server's Sharp can break after an `astro.config.mjs` edit ("Could not
-  find Sharp" on new image transforms) — restart the preview server.
-- Run `pnpm format` before `pnpm check`; Prettier reformats YAML/astro files and
-  `check` includes `format:check`.
-- The dev `/_image` endpoint sends `Cache-Control: max-age=31536000`, so after
-  overwriting a source image the preview browser shows the OLD pixels forever —
-  restarts and clearing `node_modules/.astro` don't help. Verify swapped imagery
-  with `fetch(src, {cache:'no-store'})` byte comparisons, not reloads.
-- `preview_start` may reuse a server from a DIFFERENT worktree (same port).
-  Check `preview_list` cwd matches your worktree before trusting any render.
+- **Photos:** read each `/_blob/<id>` the boards use, with the Artifact tool's `path` set to the
+  bare 32-hex id (one call per id). Save it under
+  `src/assets/images/case-studies/<slug>/<descriptive-name>.jpg`. These are the legacy site's
+  photos as drawn. List each one in `tasks/todo.md` for approval.
+- **PDF:** restore it with `git show 0c8cac2:public/downloads/<slug>-case-study.pdf >
+  public/downloads/<slug>-case-study.pdf`, then confirm its page count with pypdf
+  (`PdfReader(f).pages`). `scripts/extract_pdf_text.py` (bundled) pulls its text. Compare the PDF
+  with the boards and list what the boards dropped (Webb's boards dropped one quote sentence and
+  two footnotes). Raise those differences; don't silently restore them.
+- **Slug:** the one in `tasks/todo.md` › Launch › legacy 301 map (`kaiser-elementary`,
+  `dwight-morrow`, `goddard-middle-school`, `webb-school`, `john-marshall-hs`, `la-joya-isd`,
+  `mindful-michigan`).
 
-## Step 4 — Imagery (Higgsfield)
+## Step 4: Verify against the boards
 
-Follow the `inner-explorer-covers` skill conventions (prompt template, mindful
-subject rules, modern lived-in environments, the color-boost closing clause).
-Scenes must illustrate THIS story's specifics — the practices, age range, and
-moments the source material describes. Adult environmental portraits go through
-the same pipeline. Then:
+1. Run `pnpm verify`. CI also runs `pnpm verify:help`.
+2. Run `pnpm build && pnpm shots`, and confirm axe is clean for `case-studies-<slug>-1440/390`.
+3. **Measure; don't eyeball.** Render each board's HTML in Playwright:
+   - inline its `<helmet>` CSS;
+   - point its `@font-face` rules at `src/assets/fonts/`;
+   - swap the `/_blob/` photo for the local file;
+   - fill `{{t1}}` with `#f0efeb` and drop the `<sc-if>` tags.
 
-- Review EVERY image by Reading it before installing — check posture, eyes,
-  whiteboards-not-chalkboards, and any on-image text.
-- Install at 1600px: `sips -Z 1600 -s format jpeg -s formatOptions 78`; re-encode
-  anything over ~300KB at quality 68. Copy the hero to
-  `src/assets/images/newsroom/<slug>.jpg` for the story card.
+   Then collect every text element's box on the board and on `pnpm preview`, at 1440 and 390,
+   and pair them by text. Expect the drift `tasks/todo.md` › Case Studies already lists:
 
-## Step 5 — Content-SEO workflow (use the Workflow tool)
+   - 48 → 44 numerals;
+   - 52 → 48 heading margins;
+   - an 18px quote on mobile;
+   - 14px chart labels.
 
-Do NOT re-research generic 2026 SEO — `tasks/seo-playbook.md` already holds the
-evidence-backed playbook (canonical stat sentence; entity-complete H1 duet;
-descriptive first sentences; quotes wrapping statistics; linked verified sources;
-buyer-FAQ with no FAQPage JSON-LD; % always paired with absolute counts; the
-folklore reject-list). Run a workflow scoped to what is page-specific. The full
-script template with schemas and prompt patterns is in
-`references/seo-workflow.md` — read it when you reach this step.
+   Anything else is a bug or a missing variant.
+4. Check behavior:
+   - The index lists the story, and its filter chips appear with the right counts.
+   - Every related row now shows the stories that exist.
+   - The PDF link returns 200 with `application/pdf`.
+   - The JSON-LD reads Article and BreadcrumbList.
+5. Update `tasks/todo.md`:
+   - stand-ins;
+   - unconfirmed facts, every figure and quote, as drawn;
+   - board vs PDF differences;
+   - template-written fields;
+   - remaining drift.
 
-The shape that worked (13 agents on Webb):
+   Add new lessons to `tasks/lessons.md`. One PR per story.
 
-1. **Research** (parallel; agents load WebSearch/WebFetch via ToolSearch; 2024–
-   2026 reputable sources; every finding carries URLs): the keyword/SERP
-   landscape for THIS story's topic and outcomes (run real searches, note who
-   ranks and the People-Also-Ask questions), the buyer vocabulary for THIS
-   school/district type, and competitor case studies on THIS topic.
-2. **Synthesize** into a page playbook + keyword map (primary / secondary /
-   questions / entities / procurement), merged with `tasks/seo-playbook.md`.
-3. **Apply** in three scopes — head/meta/hero · body narrative · structure gaps —
-   exact paste-ready copy only, no invented facts, duet-headline brand voice as a
-   hard constraint.
-4. **Adversarial verify** per scope: verifiers re-read the YAML to fact-check
-   every claim and default to REJECT (keyword stuffing, anything worse-written
-   than current copy, change-for-change's-sake).
+## SEO
 
-Apply only verifier-accepted proposals, in the main context. The verifiers work
-per-scope and can't see each other — resolve cross-set redundancies yourself
-(two scopes will sometimes add the same stat to adjacent paragraphs; dedupe).
+The body stays verbatim, so SEO work is limited to `seo.title`, `seo.description`, the alt
+text and the JSON-LD the template already emits. `tasks/seo-playbook.md` holds the
+evidence-backed rules. Rewriting or adding body copy for search (a FAQ, a restated stat
+sentence, keyword phrasing) is a proposal for the content owner, never an edit made in this
+skill. `references/seo-workflow.md` describes the optional research pass that produces those
+proposals.
 
-## Step 6 — Verify and ship
+**Definition of done:**
 
-- Preview desktop + mobile; check `document.documentElement.scrollWidth ===
-clientWidth` (overflow), the chart/FAQ/voices render, and all links resolve.
-- Existing case-study pages (Broward, Webb School, …) must be byte-unchanged —
-  run `pnpm build` and snapshot their dist HTML BEFORE your first edit, then diff
-  at the end (expected deltas only: CSS bundle hash if a shared component
-  changed deliberately, and the previous study's next-card retargeting to the
-  new story).
-- `pnpm check` green; `pnpm build`, then inspect the dist HTML: title ≤60 chars /
-  description ≤155 with the headline stat front-loaded, OG image is this page's
-  hero crop, Article JSON-LD headline/about/citation, sitemap entry, canonical
-  stat sentence present in prose.
-- Update `tasks/todo.md`; append any NEW lessons to `tasks/lessons.md`; commit on
-  a branch and open a PR to main with a body listing what the workflow accepted
-  and rejected.
-
-**Definition of done:** every fact on the legacy page and PDF exists on the new
-page; every claim on the new page traces back to the source material; checks and
-build are green; the PR tells the reviewer what changed and why.
+- Every string on the page traces to the story's boards, or to a template-written field listed
+  in todo.
+- The page measures against both boards with only the listed drift.
+- Checks, build and axe are green.
+- The PR lists stand-ins, unconfirmed facts and open questions.

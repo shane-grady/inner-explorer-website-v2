@@ -69,7 +69,7 @@ for it). Provenance is the comment beside each token in `tokens.css`.
   and the pool behind the brain diagram, `.ie-hero-scrim` / `-figure`).
 - **Size:** **control-height** 48, **control-height-sm** 44, **header-height** 80/64,
   **logo-height** 32/28, **accent-bar-height** 4, **container** 1200, **measure** 520,
-  _measure-short_ 320, _swatch-size_ 10 (the color key in an evidence tag: Platform, Research), **measure-article** 680, _form-card_ 576 (`w-form`), _figure-height_ 220 → 400 (`h-figure`), **icon-sm/md/lg/feature/disc**, _icon-check_ 22 and _icon-check-sm_ 18 (the filled check disc), _measure-wide_ 640 (Pricing's hero lead, `PageTitle leadWidth="wide"`), _measure-cta_ 560 (the inline closing CTA's lead), _measure-note_ 760 (a footnote under a table), _measure-narrow_ 480 (About's research intro), _measure-title_ 820 (a centered section title, About), _collapse-height_ 640 (Pricing's collapsed table) and _collapse-height-sm_ 260 with _collapse-fade-sm_ 35% (Research's citations, provisional), _hero-photo-height_ 560 → 640 (`h-hero-photo`).
+  _measure-short_ 320, _swatch-size_ 10 (the color key in an evidence tag: Platform, Research), **measure-article** 680, _form-card_ 576 (`w-form`), _figure-height_ 220 → 400 (`h-figure`), **icon-sm/md/lg/feature/disc**, _icon-check_ 22 and _icon-check-sm_ 18 (the filled check disc), _measure-wide_ 640 (Pricing's hero lead, `PageTitle leadWidth="wide"`), _measure-cta_ 560 (the inline closing CTA's lead), _measure-note_ 760 (a footnote under a table), _measure-narrow_ 480 (About's research intro), _measure-title_ 820 (a centered section title, About), _collapse-height_ 640 (Pricing's collapsed table) and _collapse-height-sm_ 260 with _collapse-fade-sm_ 35% (Research's citations, provisional), _hero-photo-height_ 560 → 640 (`h-hero-photo`), _ratio-story_ 952 : 500 (`aspect-story`, a case study's hero photo) and _chart-height_ 180 → 216 (the tallest bar, `BarChart`), both provisional.
 - _Motion:_ `220ms cubic-bezier(.16, 1, .3, 1)`, every transition on the boards; _motion-fade_
   700ms on the same curve, the hero carousel's crossfade; Research's _marquee-duration_ 36s and
   _pulse-duration_ 1.6s (provisional).
@@ -92,7 +92,7 @@ for it). Provenance is the comment beside each token in `tokens.css`.
 | `type-intro`                         | 18/1.5/500 → 17                              | a section intro beside its title (Pricing); bold, the add-on panel's statements and the table's group titles                                       |
 | `type-body`                          | 17/1.6/500                                   | body copy                                                                                                                                          |
 | `type-small`                         | 15/1.5/500                                   | captions, notes, the footer                                                                                                                        |
-| `type-article-body`                  | 18/1.7/400 → 17/1.65                         | long-form articles only                                                                                                                            |
+| `type-article-body`                  | 18/1.7/400 → 17/1.65                         | long-form articles and case-study bodies                                                                                                           |
 | `type-quote` · `type-pull-quote`     | Caslon Text 20/1.5 → 18 · italic 28/1.4 → 24 | testimonials · editorial pull quotes                                                                                                               |
 | `type-eyebrow` · `type-breadcrumb`   | 14/1.12/700, +0.08em · +0.06em, uppercase    | labels above titles · trails                                                                                                                       |
 | `type-label` · `type-tag`            | 14/1.4/500 · 13/1/700                        | dates, roles, sources · tags                                                                                                                       |
@@ -112,7 +112,7 @@ class.
   trailing icon: Research's download; `block`; link or button),
   `ui/ArrowLink` (`light` on green; `icon="arrow-down"` for a jump down the page, nudging down on
   hover: Research; the label is trimmed and its last word kept with the arrow), `ui/PageTitle` (eyebrow, H1 with `*emphasis*`, accent bar,
-  lead, `actions` slot; `leadWidth="wide"`; `breakFrom="md"` keeps the title's break to md up), `ui/Checklist` (`marker="disc"`, `size="xs"`, `flow="columns"`: Pricing's add-on list), `ui/Card` (raised · floating · tint; `title`, `titleSize`, `href` makes
+  lead, `actions` slot; `leadWidth="wide"`; `breakFrom="md"` keeps the title's break to md up; `layout="split"`: title left, lead and buttons right from lg, Case Studies and Newsroom), `ui/Checklist` (`marker="disc"`, `size="xs"`, `flow="columns"`: Pricing's add-on list), `ui/Card` (raised · floating · tint; `title`, `titleSize`, `href` makes
   the title a stretched link), `ui/Icon` and `ui/FeatureIcon` (registries in `src/lib/icons.ts`
   and `src/lib/feature-icons.ts`; feature icons are Phosphor fill, bare at 16/20/24/32/40 or `disc`),
   `ui/IconButton`, `ui/Checklist` (`{ lead, text }` items with a bold lead-in, `strong` bold claims: Why), `ui/Section` (tone ground · white · tint · emerald · forest;
@@ -128,7 +128,13 @@ class.
   `layout="inline"` for copy left and buttons right from lg: Pricing, Case Studies, Research, with
   `align="center"` and `balance` for Research's title-only panel; on
   Emerald its `*words*` stay white, as the boards draw them),
-  `blocks/Testimonial` (card · panel · accent: Mist ground, 6px Emerald top border, Emerald mark),
+  `blocks/Testimonial` (card · panel · accent: Mist ground, 6px Emerald top border, Emerald mark; `initials` in a Spring disc beside the name: Case Studies),
+  `blocks/StoryCard` (a case study's card: photo with `.ie-photo-label`, school, place, headline
+  result, "Read the story"; the name's link covers it, the photo eases in on hover; at least the
+  boards' 580px row from lg: Case Studies index and a story's related row), `blocks/BarChart` (bars
+  grouped by phase, before in Tint under a dashed rule, after and during in Jade, a rule between
+  phases, values and periods, a note; one `role="img"` named from the data; in a Raised card:
+  Case Studies),
   `blocks/PhotoHero` (photo or carousel under a scrim, display H1, intro and `actions`; no
   autoplay), `blocks/StatStrip` (numerals over labels: `divided`, hairlines from lg (Home); `ruled`, three
   columns under hairlines with a source line (Why); follows `[data-on-brand]`), `blocks/LogoStrip` (label and partner names, a logo where supplied;
@@ -139,7 +145,11 @@ class.
   with its color swatch and plain extra `tags`, the numeral in Inter 500 on `type-stat-sm`, the
   finding, the source under a rule (optional: Research puts the title and byline in the slot),
   a `details` slot after the rule; `emerald` or `vibrant` tone: Platform, Research).
-- Classes without a component: `.ie-accent-bar`, `.ie-tag` (+ `-on-brand`), `.ie-chip`,
+- Classes without a component: `.ie-accent-bar`, `.ie-tag` (+ `-on-brand`), `.ie-chip`
+  (+ `.ie-chip-count`, the count badge; `.ie-chip-row`, one scrolling line on a phone, wrapping
+  from md: Case Studies), `.ie-photo-label` (the label on a card's photo), `.ie-card-zoom` /
+  `.ie-card-arrow` (a linked card's photo and arrow on hover), `.ie-chart` / `.ie-chart-phase` /
+  `.ie-chart-bar` (`BarChart`'s grid),
   `.ie-icon-disc`, `.ie-field`, `.ie-label`, `.ie-field-error`, `.ie-card-*`, `.ie-nav`,
   `.ie-menu-*`, `.ie-footer-link`, `.ie-skip-link`, `.ie-photo-tone`, `.ie-sticky-bar`,
   `.ie-card-recommended` (Mist, 2px Emerald border: Pricing's recommended plan), `.ie-check-disc`,
@@ -158,6 +168,9 @@ class.
   `.ie-wall-block` and `.ie-sand` (the wall).
 - `[data-on-surface]` inside a `[data-on-brand]` panel restores the light ink for a white box
   (Pricing's add-on prices).
+- `integrations/HubSpotForm`: `layout="inline"` (`[data-hsform='inline']`: one field, the input
+  and button in a row from md) and a `fallback` slot replacing the email / Help Center note (a
+  case study's PDF form falls back to the file). The HubSpot ids live in `src/lib/site.ts`.
 
 Page-local patterns (tabs, players, charts, stat strips, steps, tables, sticky bars, the
 Article rails) are built by their page from these parts and listed in `design/inventory.md`.
@@ -195,6 +208,8 @@ Article rails) are built by their page from these parts and listed in `design/in
   Why. The section clips the overflow (`overflow-x-clip`), since `100vw` counts a classic scrollbar.
 - The switch's off-state track keeps a 1px `border-input` outline the board doesn't draw, so the
   control meets 3:1 against white (WCAG 1.4.11).
+- Case Studies only: `--ratio-story` and `--chart-height` (FINAL V draws no detail page; read off
+  the "Case Study Detail Working" boards), the inline HubSpot layout (no PDF form exists yet).
 - Research only: `--scrim-hero` / `-figure`, `--collapse-height-sm` and `--collapse-fade-sm` (the
   citations clipped at 260 with the fade from 35%; `.ie-collapse` reads `--collapse-fade`),
   `--sand-dots` / `-size`,

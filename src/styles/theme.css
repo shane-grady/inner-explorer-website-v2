@@ -109,6 +109,7 @@
   --spacing-icon-check: var(--icon-check);
   --spacing-figure: var(--figure-height);
   --spacing-hero-photo: var(--hero-photo-height);
+  --spacing-chart: var(--chart-height);
   --container-page: var(--container);
   --container-measure: var(--measure);
   --container-measure-wide: var(--measure-wide);
@@ -119,6 +120,7 @@
   --container-measure-narrow: var(--measure-narrow);
   --container-measure-title: var(--measure-title);
   --container-form: var(--form-card);
+  --aspect-story: var(--ratio-story);
 }
 
 /* On a green panel the ink, hairline, ring and marks follow the ground. */
@@ -258,7 +260,11 @@
 @utility type-article-body {
   font-family: var(--font-sans);
   font-size: clamp(1.0625rem, calc(17px + 1 * (100vw - 390px) / 1050), 1.125rem); /* 17 → 18 */
-  line-height: 1.7;
+  line-height: clamp(
+    1.753rem,
+    calc(28.05px + 2.55 * (100vw - 390px) / 1050),
+    1.9125rem
+  ); /* 17/1.65 → 18/1.7 */
   font-weight: 400;
 }
 @utility type-quote {

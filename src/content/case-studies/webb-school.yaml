@@ -1,0 +1,217 @@
+# The Webb School in the Valley: one file drives /case-studies/webb-school/ and its card.
+#
+# Every string on the page is verbatim from the canvas boards "Webb School in the Valley ·
+# Desktop / Mobile" (page "Case Study Detail Working"), which carry the original
+# innerexplorer.com text (legacy /case-study4 and its PDF). Written for the template, not from
+# the source: the card's label, the result's baseline, the "At a glance" facts and the alt text
+# (the canvas's content model). Open items (tasks/todo.md › Case Studies): the school's approval
+# to publish (a launch gate), the chart values (read off the original chart), the photo.
+order: 6
+draft: false
+seo:
+  title: 'Mindfulness Case Study: 65% Fewer Restraints & Seclusions | Inner Explorer'
+  description: After using Inner Explorer, The Webb School in the Valley reported a 65% decrease in restraints
+    and seclusion.
+publishedDate: '2026-06-09'
+updatedDate: '2026-10-10'
+level: Therapeutic school
+name: The Webb School in the Valley
+place: Avon, CT
+location: Avon, Connecticut
+tags:
+- behavior
+title:
+  lead: Transforming Student Behavioral Challenges
+  emph: Through Mindfulness at the Webb School in the Valley
+lead: The Webb School in the Valley, along with The Webb School at Cheshire, and The Grace S. Webb School
+  in Hartford are part of the Institute of Living in Hartford, Connecticut. The focus of these schools
+  is to help students with mental health challenges realize their potential and become self-regulated
+  in a safe, supportive, and respectful environment.
+card:
+  stat: 65%
+  label: decrease in restraints and seclusion
+results:
+- value: 65%
+  label: decrease in restraints and seclusion after using Inner Explorer
+  baseline: In the school year following the Inner Explorer pilot
+image:
+  src: ../../assets/images/case-studies/webb-school/students-electronics.jpg
+  alt: Three students working together on an electronics project at a table
+glance:
+- label: Location
+  value: Avon, Connecticut
+- label: School
+  value: The Webb School in the Valley, part of the Institute of Living
+- label: Practice
+  value: Daily 5-10 minute audio-guided mindfulness practices
+- label: Partners
+  value: Aetna Foundation and LG Electronics
+body:
+- type: heading
+  id: background
+  text: Background
+- type: paragraphs
+  items:
+  - In working through student challenges, The Webb School in the Valley recognized a need for a support
+    system that could translate beyond the classroom. Rather than trying to change behavior through external
+    factors, such as a point and level system, staff aimed to transition towards transforming behavior
+    from the inside out through social-emotional learning and the development of coping strategies.
+  - This new approach included integrating daily mindfulness practice in the classroom. While some of
+    the school counselors were already using mindfulness in isolated instances, School Administrator Jill
+    DeVane knew that implementing a consistent practice for all students was the key to maximizing the
+    benefits mindfulness has to offer. Inner Explorer programs offered the perfect solution – daily 5-10
+    minute audio-guided mindfulness practices that required no prep work from educators. Through the generosity
+    of the Aetna Foundation and LG Electronics, The Webb School in the Valley had the opportunity to pilot
+    Inner Explorer programs at no cost.
+- type: heading
+  id: impact
+  text: Impact
+- type: paragraphs
+  items:
+  - After using Inner Explorer, The Webb School in the Valley reported a 65% decrease in restraints and
+    seclusion.
+  - Both The Webb School in the Valley and Inner Explorer recognize that oftentimes, it is not the curriculum
+    that is a struggle for students, but rather, internal and external challenges that interfere with
+    their ability to learn. By teaching Mindfulness-Based Social Emotional Learning (MBSEL) skills, students
+    learn to process emotions, reduce chronic stress, and focus in school.
+- type: quote
+  text: There was one student in particular who suffered from extreme social anxiety – even being in a
+    classroom of eight was a lot for him, but he did well with a small group or 1:1. In the year before
+    using Inner Explorer, he had a significant number of outbursts (40+), resulting in restraint or seclusion.
+    The change in behavior was so significant that his mother asked why she wasn't talking to us as much
+    – the answer was that we had no behavior issues to review with her.
+  name: Jill DeVane
+  role: School Administrator, The Webb School in the Valley
+  initials: JD
+- type: chart
+  title: Number of Restraints and Seclusions by School Year
+  summary: Bar chart of restraints and seclusions by school year, approximate values read from the original
+    chart
+  phases:
+  - &id001
+    label: Before Inner Explorer
+    tone: before
+    bars:
+    - label: 2016–17
+      value: 116
+    - label: 2017–18
+      value: 180
+  - label: After Inner Explorer
+    tone: after
+    bars:
+    - label: 2018–19
+      value: 63
+  note: The number of behavioral issues at The Webb School in the Valley dropped significantly in the
+    school year following the pilot of Inner Explorer.
+- type: heading
+  id: preventative
+  text: Mindfulness-Based Social Emotional Learning (MBSEL) as a preventative measure
+- type: paragraphs
+  items:
+  - The Webb School in the Valley recognized that behavioral issues in the classroom can often lead to
+    lifelong challenges. Students who are suspended or expelled from school are shown to have higher dropout
+    rates and feel disconnected from their school community; often contributing to the school-to-prison
+    pipeline and the achievement gap.
+  - Young students who are expelled or suspended are as much as 10 times more likely to drop out of high
+    school, experience academic failure and grade retention, hold negative school attitudes, and face
+    incarceration than those who are not.
+  - Suspension and expulsion deny the fact that these students may be experiencing trauma and require
+    support; this ultimately prevents students from receiving the help that they need to create lasting
+    positive change in their lives and keep them stuck in a repetitive cycle.
+- type: quote
+  text: Children and young adults today are experiencing more stress, anxiety, and trauma than ever before.
+    Trauma and stress negatively impact brain function and often lead to impulsive, behavioral outbursts;
+    as a result, they may find themselves entangled in the juvenile justice system. Students need tools
+    that will help them slow down, make better choices, and avoid acting out of anger. Mindfulness is
+    a practice that teaches individuals to do just that. Through mindfulness, children learn skills such
+    as self-awareness and self-control, which allows them to avoid the pitfalls of impulsive behavior.
+    As a juvenile judge, I work with some of the most troubled youth in America – *if we can teach them
+    (and all students) to practice mindfulness, they will have a better chance to be successful, law-abiding
+    citizens.*
+  name: Judge Frank Szymanski
+  role: Third Circuit Court, Juvenile Division
+  initials: JF
+- type: paragraphs
+  items:
+  - A single in-school suspension is predictive of a significant risk for academic failure (greater than
+    25% chance of failure) on a state-wide standardized test.
+  - Mindfulness-Based Social Emotional Learning (MBSEL) acts as a preventative measure by teaching the
+    core competencies of self-awareness, social awareness, responsible decision making, self-management,
+    and relationship skills of cooperation and communication.
+- type: subheading
+  text: 'MBSEL programs work to:'
+- type: checklist
+  items:
+  - Reduce the biological effects of stress, which decreases fight/flight/freeze reactivity.
+  - De-escalate conflict through self-regulation.
+  - Aid in executive functioning and higher-order thinking, which promotes mindful listening and speech.
+  - Develop empathy, compassion, and resilience.
+- type: heading
+  id: implementation
+  text: MBSEL implementation
+- type: paragraphs
+  items:
+  - Educators at The Webb Schools utilize the relational model, a strengths-based program, as well as
+    trauma-informed teaching methods – which provided a strong foundation for introducing Inner Explorer
+    MBSEL programs in the classroom. When implementing Inner Explorer, they came up with several helpful
+    strategies that ensured the program was a success for their students.
+- type: steps
+  items:
+  - title: Structure
+    text: Giving students a set routine and consistency with their practice was a priority. Inner Explorer
+      was incorporated at the same time each day in every classroom. This allowed both students and teachers
+      the opportunity to practice mindfulness together – setting the stage for a productive day of learning
+      and improved academic outcomes.
+  - title: Adaptation
+    text: With a little creative thinking, The Webb School in the Valley adapted Inner Explorer for students
+      who initially found it difficult to sit still with their thoughts. Educators were encouraged to
+      work with students to find a strategy that allowed them to participate in the Inner Explorer practices.
+      For example, a student may draw or color while they listen to the daily mindfulness practice.
+  - title: Support
+    text: When a student is resistant to participate in mindfulness practice, educators work with them
+      to understand the underlying reason. They also work to establish the “why” for students to help
+      them make sense of the exercises they learn in class.
+  - title: Application
+    text: The Webb School Programs remind students to utilize the mindfulness techniques they are learning
+      throughout the day, whether that be during the school day or otherwise. This encourages success
+      both in and out of the classroom. One example teachers use to instill this ‘best practice’ is by
+      writing the mindfulness technique that they are practicing with Inner Explorer on the board each
+      day, such as belly breathing or a body scan exercise; then, if a student is having a difficult moment
+      during the day, the teacher can refer back to the mindfulness technique written on the board as
+      a way to help the student cope. For older students who may have access to technology such as smartphones
+      and headphones, teachers encourage students to listen to a mindfulness practice through their devices
+      during moments where they feel anxious, stressed, or overwhelmed.
+- type: paragraphs
+  items:
+  - By setting up a strong foundation for daily mindfulness practice with Inner Explorer, The Webb School
+    in the Valley continued using the program throughout remote learning during COVID-19. When they returned
+    to in-person learning, restraint and seclusion numbers remained low; daily mindfulness helped students
+    cope with the unprecedented challenges and stress of the pandemic.
+- type: chart
+  title: Number of Restraints and Seclusions by School Year
+  summary: Bar chart of restraints and seclusions by school year, approximate values read from the original
+    chart
+  phases:
+  - *id001
+  - label: After Inner Explorer
+    tone: after
+    bars:
+    - label: 2018–19
+      value: 63
+    - label: 2019–20
+      value: 63
+  - label: During COVID-19
+    tone: during
+    bars:
+    - label: 2020–21
+      value: 68
+  note: The Webb School in the Valley maintained a lower number of behavioral issues throughout COVID-19,
+    after the initial decrease in the school year following the Inner Explorer pilot program.
+pdf:
+  file: /downloads/webb-school-case-study.pdf
+  pages: 5
+  title: Get the Webb School in the Valley case study
+related:
+- kaiser-elementary
+- la-joya-isd
+- dwight-morrow
