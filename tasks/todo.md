@@ -93,8 +93,8 @@ the owners the canvas gives.
   - Copy casing as drawn: "Evidence-Based Mindfulness That Fits Into Every Classroom", "Just Press
     Play", "Student Privacy, Built In" (the site-wide CTA item); every contact CTA says "Contact us".
   - Not built: the "Programs, green version" compare board (the main boards' white section won).
-  - Drift left after the side-by-side review (2026-10-10; desktop sections within 13px of the
-    board, mobile within 45px): the hero buttons sit 8px lower (PageTitle's 40); player meta,
+  - Drift left after the second side-by-side review (2026-10-10; desktop sections within 5px of
+    the board, mobile within 45px; mobile H2s balance their lines, as the mobile boards set): the hero buttons sit 8px lower (PageTitle's 40); player meta,
     times and mock rows at 14 (board 12–13, the "nothing under 14 but tags" rule), so the mobile
     player meta wraps to two lines; the reflection prompt 20 (board 19); the closing CTA runs 38px
     shorter on desktop (the shared block's 72px padding and 520 lead, board 80×64 and 440).
