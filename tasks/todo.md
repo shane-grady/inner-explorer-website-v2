@@ -143,17 +143,65 @@ mark-compass.png`, 256px PNG) is the board's: an SVG from the design system woul
     the result statement 20 → 19); the curriculum discs are 22 (board 24); the mobile legend uses
     the 10px swatch (board 16); copy follows the desktop board where the boards disagree (the
     Palm Springs quote's straight apostrophe).
-- [ ] **Research:** ESSA Tier 1, name the study or review the badge cites. "Independent academic
-      researchers": Bakosh 2016 and 2018 are led by Inner Explorer's co-founder and Chief
-      Research Officer, so add a disclosure? Bakosh details disagree with About (2015, J. Applied
-      School Psychology, 50% fewer incidents vs 2016, Mindfulness, +18% reading, "Univ of London").
-- [ ] **Research:** charts. +15% GPA and +11% science trace to no single study; "quarterly grade
-      points" vs % values; "Burnout +12%" reads as rising and says "vs. baseline" though Lopez
-      2020 used a waitlist control; are the week 2/4/6 student-stress points reported values?
-- [ ] **Research:** unsourced "Two of every three children", "16,000+ studies", "40+ years of
-      MBSR", "tens of thousands of classrooms", the EEG/eye-tracking finding, "roughly half the
-      rate"; Loyola Marymount missing from citations; status of Lopez 2020 and Dunlap; URLs for
-      Lopez, Stager, Dunlap, Phan; the summary PDF and the AI brief link.
+- [ ] **Research (built from FINAL V; confirm before launch):** built from the four
+      Research-Experiment boards (FINAL V since Oct 8). Every stat, study detail, citation and
+      partner is as drawn and unconfirmed. Kept flagged:
+  - ESSA Tier 1 · Strong evidence: name the study or review the badge cites.
+  - "Six independent controlled studies" / "all led by academic researchers": Bakosh 2016 and
+    2018 are led by Inner Explorer's co-founder and Chief Research Officer. Add a disclosure?
+  - Bakosh details disagree with About (2015, J. Applied School Psychology, 50% fewer incidents vs
+    2016, Mindfulness, +18.8% reading, "University of London"). The boards disagree on S1's "Overall
+    GPA": +15% on desktop, +16% on mobile (built +15%). The Outcomes card links "Higher overall GPA"
+    to Bakosh 2016: confirm the source of the GPA claim.
+  - Unsourced on the page: "Two of every three children" (hero, deeper science, missing layer),
+    "16,000+ studies", "four decades of science", the EEG/eye-tracking finding, "roughly half the
+    rate", the 77 studies / 12,358 students / five continents.
+  - Lopez 2020 is "Under review" with no URL; Dunlap 2023 is "Journal publication forthcoming,
+    2026": confirm both. Phan et al. is "University of Pennsylvania" here and "Utah State Univ." on
+    the timeline board.
+  - Research partners: built with the board's five visible names. The board's hidden loop copy
+    swaps "University of London" for "Loyola Marymount", and Loyola is in no citation. Add it
+    (with its study) or drop it.
+  - District results (MeckPreK −80%, Stephens Elementary −48%, GVSA −39%, PATHS −56%
+    suspensions, "+10% Attendance" with no school named), "School- and district-supplied data,
+    2025–26 school year": sources and permission to name each school.
+  - The stats-reconcile item above (−60% / −43% / −28% here are the Home and Why figures; the
+    old −63% / −34% / +15% are gone).
+  - The AI library button goes to
+    learn.innerexplorer.com/download-the-ai-and-mindfulness-resource-library, as drawn: confirm
+    the page.
+  - CTA copy verbatim: "Talk to our team" (hero and closing panel) against the site-wide "Contact
+    us" item; the header keeps "Contact us".
+  - SEO: the title is kept. The meta description is new (board phrases, PreK–12); the old one said
+    "a meta-analysis of 77 more", "Forty years of MBSR" and "K-12". JSON-LD ported from `0c8cac2`
+    (Article + the seven studies as ScholarlyArticle, now with Person authors and the board's DOI
+    and ProQuest links).
+  - No longer drawn on FINAL V, so closed with this note: the GPA/science, burnout ("+12%") and
+    week-2/4/6 student-stress charts, "40+ years of MBSR", "tens of thousands of classrooms", the
+    summary PDF and its form, `/newsletter`.
+  - Where the boards disagree, desktop is built: the dose figure's "Practiced once" / "Practiced
+    daily" (mobile "About once" / "Every school day", "practiced outside of class…"); S1's GPA.
+  - Stand-ins: the neuron footage and still are the board's own (`public/videos/research/`,
+    `src/assets/images/research/neurons.jpg`). The footage is decorative and silent, so it has
+    no captions.
+  - Built beyond the boards: a pause button beside the partners marquee (the board pauses it on
+    hover only; WCAG 2.2.2); the controls (brain, wall, Show our work, Pause motion, citations)
+    appear once the script runs, and without JS the details and citations render whole. Reduced
+    motion starts on Mindful with the still frame, as the board note asks. The "Direction C ·
+    Research timeline copy" board on FINAL V (a 7-card carousel) is not used by the page boards
+    and was not built.
+  - Drift left after the second, measured side-by-side review (2026-10-10; every text element on the
+    four boards aligned with the build): desktop sections within 5px of the boards, but the fair
+    question (21px shorter: its 52px title on the 44 step). Titles use the closest ramp step for
+    fidelity, chosen over the Remaining-drift board's 44 / 28: 68 → 64 from lg, 38 / 36 → 40,
+    32 → 28, step titles 24 → 28, rows 22 → 20; the hero H1 68 → 64 and lead 26 → 24. Labels drawn
+    at 12–13px are 14 (the mobile wall's block labels wrap to three lines). The quote is 20 / 18
+    (board 22), the mobile fair-question lead 18 (board 20) and the mobile statement 32 on four
+    lines (board 30 on three), which with the quote makes mobile Why it works and A fair question
+    ~80 and ~40px shorter. Study numerals 40 on mobile (board 44, EvidenceCard's step); the hero
+    switch's track is white 12% (board 6%) and the pause chip opaque Forest (board 60%); the
+    brain's glows and mindful label are snapped (DESIGN.md); Emerald eyebrows and the Spring "Here
+    is the proof." on mobile (desktop board).
 - [ ] **About (built from FINAL V; confirm before launch):**
   - The FINAL V boards have no voices section (so no voice avatars), no milestones, and none of
     "487M minutes", "94% calmer in 4 weeks", "14 countries" or "12+ university partners"; none
@@ -245,8 +293,9 @@ mark-compass.png`, 256px PNG) is the board's: an SVG from the design system woul
 - [ ] Newsroom and Article: the 18 legacy posts word for word ("Blog Posts Working" page), the 2
       real posts from `0c8cac2:src/content/blog/` (`inner-explorer-mtss-tiers`,
       `mindfulness-for-student-athletes`), legacy blog 301s, `/blog` vs `/newsroom` breadcrumbs.
-- [ ] Research: snap its off-ramp title sizes (68px sections, 36–38px cards; Remaining drift
-      board).
+- [x] Research: the brain diagram and dose waffles (inline SVG), the wall, Show our work,
+      `LogoStrip layout="marquee"`, EvidenceCard extra tags and details slot, `PageLayout
+header="dark"`; title sizes snapped per the Remaining-drift board (Before build › Research).
 - [x] Pricing: plan cards, the comparison table (built from the FINAL V boards, not the design
       system's `PricingTable`), the Advanced Wellness panel, `ClosingCta layout="inline"`; data
       from `0c8cac2:src/content/pages/pricing.yml`, board wins; the 48px title snapped to 44.

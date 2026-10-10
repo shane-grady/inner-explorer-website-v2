@@ -1,15 +1,17 @@
 ---
 // The lockup: primary on light grounds, reversed on green and photos. Sized by the
-// header and footer (28px on mobile, 32px from xl).
+// header and footer (28px on mobile, 32px from xl); `size="sm"` holds 28px at every width
+// (Research's foundation bar).
 import { Image } from 'astro:assets';
 import primary from '../../assets/brand/lockup-primary.png';
 import reversed from '../../assets/brand/lockup-reversed.png';
 
 interface Props {
   reversed?: boolean;
+  size?: 'md' | 'sm';
   class?: string;
 }
-const { reversed: isReversed = false, class: className }: Props = Astro.props;
+const { reversed: isReversed = false, size = 'md', class: className }: Props = Astro.props;
 ---
 
 <Image
@@ -18,5 +20,9 @@ const { reversed: isReversed = false, class: className }: Props = Astro.props;
   height={64}
   densities={[1, 2]}
   loading="eager"
-  class:list={['block h-(--logo-height-mobile) w-auto xl:h-(--logo-height)', className]}
+  class:list={[
+    'block h-(--logo-height-mobile) w-auto',
+    size === 'md' && 'xl:h-(--logo-height)',
+    className,
+  ]}
 />

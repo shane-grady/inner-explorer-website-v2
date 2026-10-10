@@ -242,6 +242,17 @@
     rgba(30, 71, 60, 0) 55%,
     rgba(30, 71, 60, 0.75) 100%
   ); /* Forest fade under the video poster's caption (Home) */
+  --scrim-hero: radial-gradient(
+    ellipse 75% 70% at 50% 42%,
+    rgba(30, 71, 60, 0.35) 0%,
+    rgba(30, 71, 60, 0.82) 62%,
+    rgba(30, 71, 60, 1) 100%
+  ); /* provisional: the Forest vignette over the neuron footage (Research hero) */
+  --scrim-hero-figure: radial-gradient(
+    ellipse 42% 60% at 74% 52%,
+    rgba(30, 71, 60, 0.9) 0%,
+    rgba(30, 71, 60, 0) 100%
+  ); /* provisional: the darker pool behind the brain diagram (Research hero) */
   --on-photo-control: rgba(255, 255, 255, 0.88); /* carousel buttons (Home hero) */
   --on-photo-dot: rgba(255, 255, 255, 0.5); /* carousel dots at rest (Home hero) */
   --photo-tone: sepia(0.15) saturate(1.05); /* the warm filter on classroom photos (Home) */
@@ -286,8 +297,24 @@
   --icon-check: 22px; /* new: the filled check disc (Pricing table) */
   --icon-check-sm: 18px; /* new: the same disc leading a list item on green (Pricing add-ons) */
   --swatch-size: 10px; /* new: the color key in an evidence tag and a chart legend (Platform, Research) */
+  --collapse-height-sm: 260px; /* new, provisional: the citations list shown collapsed (Research) */
+  --collapse-fade-sm: 35%; /* new, provisional: where that list's fade begins (Research) */
+  --sand-dots: radial-gradient(
+    rgba(40, 43, 47, 0.18) 1.2px,
+    transparent 1.4px
+  ); /* new, provisional: the dotted "sand" under the district initiatives (Research) */
+  --sand-dots-size: 12px;
+  --marquee-fade: linear-gradient(
+    90deg,
+    transparent 0%,
+    black 14%,
+    black 86%,
+    transparent 100%
+  ); /* new, provisional: the faded edges of the partners marquee (Research) */
 
   /* ---- Motion (new family): every transition on the boards ---- */
   --motion: 220ms cubic-bezier(0.16, 1, 0.3, 1);
   --motion-fade: 700ms cubic-bezier(0.16, 1, 0.3, 1); /* the hero carousel's crossfade (Home) */
+  --marquee-duration: 36s; /* new, provisional: one loop of the partners marquee (Research) */
+  --pulse-duration: 1.6s; /* new, provisional: one ring of the amygdala's alarm, three in all (Research hero) */
 }

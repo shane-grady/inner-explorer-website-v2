@@ -555,6 +555,22 @@ Explorer's"`).
 - **Random ids differ every build** (`randomUUID()` newsletter field ids, SVG gradient ids,
   island `uid`s). Expect them in any marketing diff; they are not changes.
 
+- **A remap reaches everything inside it (Research, 2026-10-10).** The mobile menu `<dialog>`
+  lives inside the header, so the dark header's `[data-on-brand]` turned its ink white on a white
+  dialog. Anything with its own light ground inside a green region needs `data-on-surface`.
+- **A working board's "fix" is not the page's source of truth (Research, 2026-10-10).** The
+  Remaining-drift board said to snap Research's 68px titles to 44; applying it made the page read
+  visibly smaller than its FINAL V boards, and the owner chose fidelity (the 64 / 40 steps) instead.
+  When a working board's instruction conflicts with the page boards, ask before applying it.
+- **Measure every element, not sections (Research, 2026-10-10).** Aligning all text elements of the
+  boards and the build by their text (position, size, color, gap to the previous) found what
+  section heights hid: a divider on the wrong column, a centered label pushed by a new button, a
+  margin escaping an `overflow: clip` box, a 12px column gap. The scripts live in the session's
+  scratchpad (`collect.mjs`, `align.py`); rebuild them from this note when needed.
+- **Check the raw board before trusting a summary of it (Research, 2026-10-10).** A condensed
+  outline that kept only some style properties dropped `border-top`, and a review built on it said
+  the study cards had no rule; the raw HTML and the render both draw one. Measure or read the
+  source markup before changing a shared component on a claim.
 - **Board `fr` splits are not flex ratios (Why, 2026-10-10).** `flex: 5` / `flex: 7` on padded
   boxes counts the padding before sharing the space, so a 5fr/7fr split drawn with 40px padding
   came out 12px wide on one side, and a 12-column grid with a 96px gap overflowed at 1024. Use

@@ -1,7 +1,8 @@
 ---
 // The site header: skip link, logo, primary navigation, Sign in and the Contact button;
 // the menu button (and MobileMenu) below xl. `dark` is the transparent header over a
-// Forest hero (Research). Static, as on the boards.
+// Forest hero (Research); `overlay` lays it over the top of the page's first section, so the
+// hero's video runs under it (PageLayout header="dark"). Static, as on the boards.
 import Button from '../ui/Button.astro';
 import Icon from '../ui/Icon.astro';
 import Logo from '../ui/Logo.astro';
@@ -10,15 +11,19 @@ import { contactCta, primaryNav, signIn } from '../../data/navigation';
 
 interface Props {
   dark?: boolean;
+  overlay?: boolean;
   /** A static sample on the styleguide: no menu, and a distinct navigation name. */
   sample?: boolean;
 }
-const { dark = false, sample = false }: Props = Astro.props;
+const { dark = false, overlay = false, sample = false }: Props = Astro.props;
 const current = (href: string) => (!sample && Astro.url.pathname === href ? 'page' : undefined);
 ---
 
 <header
-  class="ie-header relative flex items-center justify-between px-section-x"
+  class:list={[
+    'ie-header flex items-center justify-between px-section-x',
+    overlay ? 'absolute inset-x-0 top-0 z-10' : 'relative',
+  ]}
   data-on-brand={dark ? '' : undefined}
 >
   {

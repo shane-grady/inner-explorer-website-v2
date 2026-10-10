@@ -142,6 +142,9 @@
 :is(.ie-link, .ie-link-light):is(:hover, [data-hover]) svg {
   transform: translateX(2px);
 }
+:is(.ie-link, .ie-link-light)[data-down]:is(:hover, [data-hover]) svg {
+  transform: translateY(2px);
+}
 .ie-chip {
   display: inline-flex;
   align-items: center;
@@ -268,19 +271,32 @@
   box-shadow: var(--shadow-raised);
   transition: transform var(--motion);
 }
-.ie-switch[aria-checked='true'] .ie-switch-track {
+:is(.ie-switch, .ie-chip)[aria-checked='true'] .ie-switch-track {
   background: var(--brand);
   box-shadow: none;
 }
-.ie-switch[aria-checked='true'] .ie-switch-track::after {
+:is(.ie-switch, .ie-chip)[aria-checked='true'] .ie-switch-track::after {
   transform: translateX(var(--space-4));
+}
+/* A chip holding the switch ("Show our work", Research): Emerald with a white knob when on. */
+.ie-chip[role='switch'] {
+  gap: var(--space-3);
+  padding-inline-end: var(--space-2);
+}
+.ie-chip[aria-checked='true'] {
+  border-color: var(--brand-surface);
+  background: var(--brand-surface);
+  color: var(--on-brand);
+}
+.ie-chip[aria-checked='true'] .ie-switch-track {
+  background: var(--on-brand-wash);
 }
 /* A long table shown collapsed: clipped under a fade until expanded. `clip`, not
    `hidden`, so a sticky header inside keeps working. */
 .ie-collapse[data-collapsed] {
   max-block-size: var(--collapse-height);
   overflow: clip;
-  mask-image: linear-gradient(to bottom, black 62%, transparent);
+  mask-image: linear-gradient(to bottom, black var(--collapse-fade, 62%), transparent);
 }
 /* The recommended column's outline over a comparison table (Pricing desktop): the first
    column is 40%, each plan column 20%; --col is the plan's index. */
@@ -327,6 +343,10 @@
   font-weight: 700;
   color: var(--foreground);
   box-shadow: inset 0 -2px 0 var(--brand-emphasis);
+}
+/* The dark header draws its rule in Leaf (Research). */
+.ie-header[data-on-brand] .ie-nav[aria-current='page'] {
+  box-shadow: inset 0 -2px 0 var(--green-300);
 }
 .ie-menu-btn {
   display: inline-flex;
@@ -902,5 +922,173 @@ textarea:is(.ie-field, [data-hsform] .hs-input) {
   .ie-tab,
   .ie-play-btn {
     transition: none;
+  }
+}
+
+/* ---------- Research: motion, the brain, segmented switches, the wall, the marquee ---------- */
+/* Two or more choices on one track, the pressed one Emerald (Research's wall). */
+.ie-segmented {
+  display: flex;
+  gap: var(--space-1);
+  padding: var(--space-1);
+  border-radius: var(--radius-md);
+  background: var(--tint);
+}
+.ie-segmented > button {
+  display: inline-flex;
+  flex: 1 1 0;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  box-sizing: border-box;
+  min-block-size: var(--control-height-sm);
+  padding-inline: var(--space-4);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--foreground-secondary);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.2;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color var(--motion),
+    color var(--motion),
+    box-shadow var(--motion);
+}
+.ie-segmented > button:is(:hover, [data-hover]):not([aria-pressed='true']) {
+  color: var(--foreground);
+}
+.ie-segmented > button[aria-pressed='true'] {
+  background: var(--brand-surface);
+  color: var(--on-brand);
+}
+/* On Forest (the hero's Stressed / Mindful): a glassy track; Mindful pressed is Jade, a
+   choice marked data-alarm is coral. */
+.ie-segmented-on-brand {
+  border: 1px solid var(--border-on-brand);
+  background: var(--on-brand-wash);
+  box-shadow: var(--shadow-light);
+}
+.ie-segmented-on-brand > button {
+  color: var(--on-brand-muted);
+}
+.ie-segmented-on-brand > button:is(:hover, [data-hover]):not([aria-pressed='true']) {
+  background: var(--on-brand-wash);
+  color: var(--on-brand);
+}
+.ie-segmented-on-brand > button[aria-pressed='true'] {
+  background: var(--brand);
+  box-shadow: var(--shadow-primary);
+}
+.ie-segmented-on-brand > button[data-alarm][aria-pressed='true'] {
+  background: var(--coral-600);
+  box-shadow: var(--shadow-light);
+}
+
+/* The hero's footage under two Forest scrims. */
+.ie-hero-scrim {
+  background: var(--scrim-hero);
+}
+.ie-hero-scrim-figure {
+  background: var(--scrim-hero-figure);
+}
+
+/* The brain diagram: data-brain on the wrapper shows one state's glows and labels. The alarm
+   ring pulses three times on entering Stressed; Pause motion and reduced motion drop it. */
+.ie-stop-leaf {
+  stop-color: var(--green-300);
+}
+.ie-stop-alarm {
+  stop-color: var(--coral-300);
+}
+.ie-stop-alarm-fade {
+  stop-color: var(--coral-600);
+}
+[data-brain='stressed'] [data-brain-only='mindful'],
+[data-brain='mindful'] [data-brain-only='stressed'] {
+  display: none;
+}
+.ie-brain-pulse {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: ie-brain-pulse var(--pulse-duration) linear 3;
+}
+[data-motion-paused] .ie-brain-pulse {
+  display: none;
+}
+@keyframes ie-brain-pulse {
+  from {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(3.14);
+  }
+}
+
+/* The wall of district initiatives: tilted on sand (--dx, --dy, --tilt per block). */
+.ie-wall-block {
+  translate: var(--dx, 0) var(--dy, 0);
+  rotate: var(--tilt, 0deg);
+}
+.ie-sand {
+  background-color: var(--orange-200);
+  background-image: var(--sand-dots);
+  background-size: var(--sand-dots-size) var(--sand-dots-size);
+}
+
+/* The partners marquee (LogoStrip layout="marquee"): one loop of the names twice over. */
+.ie-marquee {
+  inline-size: 100%;
+  overflow: hidden;
+  padding-block: var(--space-2);
+  mask-image: var(--marquee-fade);
+}
+.ie-marquee-track {
+  display: flex;
+  inline-size: max-content;
+  animation: ie-marquee var(--marquee-duration) linear infinite;
+}
+.ie-marquee-track > li {
+  flex-shrink: 0;
+  padding-inline-end: var(--space-18);
+  white-space: nowrap;
+}
+.ie-marquee:hover .ie-marquee-track,
+[data-marquee][data-paused] .ie-marquee-track,
+[data-motion-paused] .ie-marquee-track {
+  animation-play-state: paused;
+}
+@keyframes ie-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ie-segmented > button {
+    transition: none;
+  }
+  .ie-brain-pulse {
+    display: none;
+  }
+  .ie-marquee {
+    mask-image: none;
+  }
+  .ie-marquee-track {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-3) var(--space-10);
+    inline-size: auto;
+    animation: none;
+  }
+  .ie-marquee-track > li {
+    padding-inline-end: 0;
+  }
+  .ie-marquee-track > [aria-hidden] {
+    display: none;
   }
 }
