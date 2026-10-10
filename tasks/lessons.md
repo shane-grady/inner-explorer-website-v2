@@ -25,7 +25,9 @@ editing) are in `tasks/archive/lessons-pre-rebuild.md`; general points from them
   `font-medium` can override; list utility names as literals (the styleguide) or they are not
   emitted.
 - **Full-page screenshots don't scroll:** lazy images below the fold never load, so a CTA photo
-  rendered empty in `pnpm shots`. Set `img.loading = 'eager'` and wait for `complete` first.
+  rendered empty in `pnpm shots`. Set `img.loading = 'eager'`, then await each `img.decode()`:
+  `complete` can read true before a just-promoted image loads (About's Journey and CTA photos
+  shot blank that way, 2026-10-10).
 - **Compare against the rendered board, not memory (Home, 2026-10-10).** Eyeballing screenshots
   missed real drift (a 30px statement snapped to 28, 16/1.45 checklists drawn at 17/1.6, a
   borderless CTA card, a zoomed photo, a tinted testimonial). Render the board's own HTML in

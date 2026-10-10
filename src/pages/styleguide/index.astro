@@ -135,6 +135,15 @@ const samplePartners = [
   { name: 'Sample Unified' },
   { name: 'Sample City' },
 ];
+// The wall variant: names in type until a logo is supplied; a linked cell opens its coverage.
+const sampleWall = [
+  ...samplePartners,
+  {
+    name: 'Sample Press',
+    href: 'https://www.innerexplorer.com/',
+    linkLabel: 'Read the sample story',
+  },
+];
 const checklist = [
   '5–10 minute audio-guided practices',
   'No lesson planning, prep, or specialized training required',
@@ -490,6 +499,13 @@ const checklist = [
       class="mt-8 border-t border-border pt-8"
       label="Trusted in districts including"
       partners={samplePartners}
+    />
+    <LogoStrip
+      class="mt-8 border-t border-border pt-8"
+      layout="wall"
+      cell="sm"
+      label="Logo wall (About)"
+      partners={sampleWall}
     />
   </Section>
 

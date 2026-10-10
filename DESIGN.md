@@ -63,7 +63,7 @@ for it). Provenance is the comment beside each token in `tokens.css`.
   _on-photo-control_, _on-photo-dot_, _photo-tone_ (the boards' sepia filter).
 - **Size:** **control-height** 48, **control-height-sm** 44, **header-height** 80/64,
   **logo-height** 32/28, **accent-bar-height** 4, **container** 1200, **measure** 520,
-  _measure-short_ 320, **measure-article** 680, _form-card_ 576 (`w-form`), _figure-height_ 220 → 400 (`h-figure`), **icon-sm/md/lg/feature/disc**, _icon-check_ 22 and _icon-check-sm_ 18 (the filled check disc), _measure-wide_ 640 (Pricing's hero lead, `PageTitle leadWidth="wide"`), _measure-cta_ 560 (the inline closing CTA's lead), _measure-note_ 760 (a footnote under a table), _collapse-height_ 640 (Pricing's collapsed table), _hero-photo-height_ 560 → 640 (`h-hero-photo`).
+  _measure-short_ 320, **measure-article** 680, _form-card_ 576 (`w-form`), _figure-height_ 220 → 400 (`h-figure`), **icon-sm/md/lg/feature/disc**, _icon-check_ 22 and _icon-check-sm_ 18 (the filled check disc), _measure-wide_ 640 (Pricing's hero lead, `PageTitle leadWidth="wide"`), _measure-cta_ 560 (the inline closing CTA's lead), _measure-note_ 760 (a footnote under a table), _measure-narrow_ 480 (About's research intro), _measure-title_ 820 (a centered section title, About), _collapse-height_ 640 (Pricing's collapsed table), _hero-photo-height_ 560 → 640 (`h-hero-photo`).
 - _Motion:_ `220ms cubic-bezier(.16, 1, .3, 1)`, every transition on the boards; _motion-fade_
   700ms on the same curve, the hero carousel's crossfade.
 
@@ -114,13 +114,16 @@ class.
   `blocks/Testimonial` (card · panel · accent: Mist ground, 6px Emerald top border, Emerald mark),
   `blocks/PhotoHero` (photo or carousel under a scrim, display H1, intro and `actions`; no
   autoplay), `blocks/StatStrip` (numerals over labels, hairlines from lg; follows
-  `[data-on-brand]`), `blocks/LogoStrip` (label and partner names, a logo where supplied).
+  `[data-on-brand]`), `blocks/LogoStrip` (label and partner names, a logo where supplied;
+  `layout="wall"`: a centered label over wrapping logo cells, grayscale at _logo-opacity_ until
+  hovered, optionally linked to coverage: About).
 - Classes without a component: `.ie-accent-bar`, `.ie-tag` (+ `-on-brand`), `.ie-chip`,
   `.ie-icon-disc`, `.ie-field`, `.ie-label`, `.ie-field-error`, `.ie-card-*`, `.ie-nav`,
   `.ie-menu-*`, `.ie-footer-link`, `.ie-skip-link`, `.ie-photo-tone`, `.ie-sticky-bar`,
   `.ie-card-recommended` (Mist, 2px Emerald border: Pricing's recommended plan), `.ie-check-disc`,
   `.ie-switch` / `.ie-switch-track`, `.ie-collapse` (`data-collapsed`: clipped under a fade),
-  `.ie-compare-highlight` (the recommended column's outline over a 40/20/20/20 table).
+  `.ie-compare-highlight` (the recommended column's outline over a 40/20/20/20 table),
+  `.ie-logo-wall` / `.ie-logo-link` (LogoStrip's wall).
 - `[data-on-surface]` inside a `[data-on-brand]` panel restores the light ink for a white box
   (Pricing's add-on prices).
 
@@ -151,6 +154,8 @@ Article rails) are built by their page from these parts and listed in `design/in
   photo): drawn only on Contact.
 - The dark header's hairline and menu-button border snap to `border-on-brand`.
 - `--brand-shade` (black 14% over Emerald, Pricing's add-on strip): drawn on one board.
+- `--measure-narrow` (480), `--measure-title` (820) and `--logo-opacity` (0.7, grayscale): drawn
+  only on About.
 - The switch's off-state track keeps a 1px `border-input` outline the board doesn't draw, so the
   control meets 3:1 against white (WCAG 1.4.11).
 

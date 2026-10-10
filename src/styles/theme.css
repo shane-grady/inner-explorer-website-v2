@@ -108,6 +108,8 @@
   --container-measure-note: var(--measure-note);
   --container-measure-short: var(--measure-short);
   --container-measure-article: var(--measure-article);
+  --container-measure-narrow: var(--measure-narrow);
+  --container-measure-title: var(--measure-title);
   --container-form: var(--form-card);
 }
 

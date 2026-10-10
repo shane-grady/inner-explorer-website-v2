@@ -1,18 +1,575 @@
 ---
-// Placeholder until this page is built from the "Inner Explorer — Website" canvas
-// (FINAL V). See tasks/rebuild-plan.md for the order pages are built in.
+// About, from the FINAL V boards About-Desktop and About-Mobile-1/2/3. Copy is verbatim, title
+// case included. Every photo, headshot and logo is the board's stand-in until the owner
+// supplies the files, and the facts, team titles and press links await confirmation:
+// tasks/todo.md › About.
+import { Image } from 'astro:assets';
 import PageLayout from '../layouts/PageLayout.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import Section from '../components/ui/Section.astro';
+import PageTitle from '../components/ui/PageTitle.astro';
+import Button from '../components/ui/Button.astro';
+import Card from '../components/ui/Card.astro';
+import ClosingCta from '../components/blocks/ClosingCta.astro';
+import LogoStrip from '../components/blocks/LogoStrip.astro';
+import { MAIN_SITE } from '../lib/site';
+
+import heroPhoto from '../assets/images/about/hero-classroom-practice.jpg';
+import journeySigns from '../assets/images/about/journey-thank-you-signs.jpg';
+import journeyTeens from '../assets/images/about/journey-teens-practice.jpg';
+import ctaPhoto from '../assets/images/about/cta-shared-table.jpg';
+import lauraBakosh from '../assets/images/about/team-laura-bakosh.jpg';
+import lisaGrady from '../assets/images/about/team-lisa-grady.jpg';
+import jillianSullivan from '../assets/images/about/team-jillian-sullivan.jpg';
+import laurieGrossman from '../assets/images/about/team-laurie-grossman.jpg';
+import travisGrady from '../assets/images/about/team-travis-grady.jpg';
+import fardMorales from '../assets/images/about/team-fard-morales.jpg';
+import jonathanFilzen from '../assets/images/about/team-jonathan-filzen.jpg';
+import lizWhite from '../assets/images/about/team-liz-white.jpg';
+import lawrenceLove from '../assets/images/about/team-lawrence-love.jpg';
+import julianaPulselli from '../assets/images/about/team-juliana-pulselli.jpg';
+import arthurBlank from '../assets/images/about/logos/arthur-blank-foundation.png';
+import greenlight from '../assets/images/about/logos/greenlight-fund.png';
+import annieCasey from '../assets/images/about/logos/annie-e-casey-foundation.png';
+import lg from '../assets/images/about/logos/lg-electronics.png';
+import allstate from '../assets/images/about/logos/allstate.png';
+import unicef from '../assets/images/about/logos/unicef.png';
+import foundation1440 from '../assets/images/about/logos/1440-foundation.png';
+import wisdom from '../assets/images/about/logos/wisdom-2-0.png';
+import aetna from '../assets/images/about/logos/aetna.png';
+import pnc from '../assets/images/about/logos/pnc.png';
+import hearst from '../assets/images/about/logos/hearst.png';
+import logictry from '../assets/images/about/logos/logictry-mark.png';
+import brainfutures from '../assets/images/about/logos/brainfutures.png';
+import cnn from '../assets/images/about/logos/cnn.png';
+import npr from '../assets/images/about/logos/npr.png';
+import edweek from '../assets/images/about/logos/education-week.png';
+import ap from '../assets/images/about/logos/associated-press.png';
+import fox from '../assets/images/about/logos/fox-news.png';
+import nbc from '../assets/images/about/logos/nbc.png';
+import fortune from '../assets/images/about/logos/fortune.png';
+import mindful from '../assets/images/about/logos/mindful.png';
 
 const content = {
-  title: 'About — Inner Explorer',
+  title: 'About Inner Explorer | Daily Mindfulness for Schools',
   description:
-    'Fifteen years of daily, audio-guided mindfulness in K-12 schools. The story of Inner Explorer — our founders, our research, our team, and the practice we share with 2.4 million students.',
-  heading: 'About Inner Explorer',
-  lead: 'Fifteen years of daily, audio-guided mindfulness in K-12 schools.',
+    'Founded in 2011, Inner Explorer was created to make daily mindfulness simple, accessible, and sustainable for every school community. Our story, our research, and the people behind it.',
+  hero: {
+    eyebrow: 'About Inner Explorer',
+    title: '15 Years of\n*Inner Explorer*',
+    lead: 'Founded in 2011, Inner Explorer was created to make daily mindfulness simple, accessible, and sustainable for every school community.',
+    primary: { label: 'Contact Us', href: '/contact/' },
+    secondary: { label: 'Discover the program', href: '/platform/' },
+    image: {
+      src: heroPhoto,
+      alt: 'Students sit with eyes closed during a classroom mindfulness practice as educators look on',
+    },
+    facts: [
+      { label: 'Founded', value: '2011' },
+      { label: 'Headquartered', value: 'Sarasota, FL' },
+      { label: 'Reach', value: 'All 50 states' },
+    ],
+  },
+  partners: {
+    title: 'Supported by organizations that believe in the power of daily practice',
+    // Logos are the board's files; each `logoSize` is the box the board draws it in.
+    supporters: {
+      label: 'Partners',
+      items: [
+        {
+          name: 'Arthur M. Blank Family Foundation',
+          logo: arthurBlank,
+          logoSize: { w: 176, h: 40 },
+        },
+        { name: 'GreenLight Fund', logo: greenlight, logoSize: { w: 176, h: 40 } },
+        { name: 'The Annie E. Casey Foundation', logo: annieCasey, logoSize: { w: 200, h: 40 } },
+        { name: 'LG Electronics', logo: lg, logoSize: { w: 176, h: 40 } },
+        { name: 'Allstate', logo: allstate, logoSize: { w: 168, h: 46 } },
+        { name: 'UNICEF', logo: unicef, logoSize: { w: 176, h: 40 } },
+        { name: '1440 Foundation', logo: foundation1440, logoSize: { w: 176, h: 48 } },
+        { name: 'Wisdom 2.0', logo: wisdom, logoSize: { w: 176, h: 40 } },
+        { name: 'Aetna', logo: aetna, logoSize: { w: 160, h: 36 } },
+        { name: 'PNC', logo: pnc, logoSize: { w: 140, h: 40 } },
+        { name: 'Hearst', logo: hearst, logoSize: { w: 160, h: 22 } },
+        { name: 'Logictry', logo: logictry, logoSize: { w: 36, h: 36 }, showName: true },
+      ],
+    },
+    // Four links are HubSpot sales-engage redirects as drawn; tasks/todo.md › About.
+    press: {
+      label: 'Featured and recognized by',
+      items: [
+        {
+          name: 'BrainFutures',
+          logo: brainfutures,
+          logoSize: { w: 150, h: 28 },
+          href: 'https://www.brainfutures.org/featured-programs/',
+          linkLabel: 'Read the BrainFutures recognition',
+        },
+        {
+          name: 'CNN',
+          logo: cnn,
+          logoSize: { w: 96, h: 40 },
+          href: 'https://www.youtube.com/watch?v=nRuVHTgsHbE',
+          linkLabel: 'Watch the CNN segment',
+        },
+        {
+          name: 'NPR',
+          logo: npr,
+          logoSize: { w: 90, h: 30 },
+          href: 'https://www.npr.org/sections/health-shots/2024/01/26/1227056527/to-help-these-school-kids-deal-with-trauma-mindfulness-lessons-over-the-loudspea',
+          linkLabel: 'Listen to the NPR story',
+        },
+        {
+          name: 'Education Week',
+          logo: edweek,
+          logoSize: { w: 160, h: 24 },
+          href: 'https://www.edweek.org/technology/opinion-in-the-race-to-build-smarter-ai-we-forgot-to-build-smarter-humans/2026/07',
+          linkLabel: 'Read the EdWeek article',
+        },
+        {
+          name: 'Associated Press',
+          logo: ap,
+          logoSize: { w: 60, h: 40 },
+          href: 'https://d5hf9n04.na1.hs-sales-engage.com/Ctc/Y+23284/d5hF9N04/JlY2-6qcW95jsWP6lZ3mSW4jZxrz64y2fpW97rJN03zMw4tW4FHmvv39764fW6BcGNf40CTvZW5-K9fr4c67gxW6rFz_J8h6bNyW8S6lNj41WNPbW4VPqGq5YWbTWW3FMg9r14bDrtW7W60HW2cyZytW4sSmWN7JsSjDW8XF3dR1Y3b35W95wSHV6wrvTmN5BvZKWdxvSXW6CLRhD3GQY5pW4XDt6R3zTr5JN3qyL8rBLbyMN8s8SvJZFpPCW534GxJ7bNlcxW7NrKBP6_wczyW7xznpB7NB_h5W80K3MP6j62_YW92D8Th2DG8SsW4y157S70JrZqW8GNMGX3syXmJW2hlR5r4kJjq1W19kT4Z2nxH2XW876TwY2X6GBqW5S_BT05whh1yW6ZmH2T23T5zwf11bw9T04',
+          linkLabel: 'Read the Associated Press story',
+        },
+        {
+          name: 'Fox News',
+          logo: fox,
+          logoSize: { w: 44, h: 44 },
+          href: 'https://d5hf9n04.na1.hs-sales-engage.com/Ctc/Y+23284/d5hF9N04/Jk84YGXpW5BWr2F6lZ3p4VTqD5l1ZnHxzW6SCggc2tnMGpW3Mqzxk55kbkZW39Qwwh6cYhkdW256Wjg83PDB_W2DSfqX8Hy97BW1Z5P6s1ZxgMxW2lCD444Lz72GW5Mm7gn3S1mjtW7vFp342zJF2gW3lFTGY5pZ7krW3GfMBz61C1jTW81wdD936Bj5sN4mSxfhvBf7NW5J97Nd1lV1JMW8ph6zB3N4vJnW82bp4s4pC-MKW7Qnj0y5Wz0h_W6lLKps64gVxFV5N-F_9klxMRW3-4lxD91_gf9W3jX7Fz1-8YVlN81GjwbNkxbRVZc6Yk25sbC8W4mcqY543Vv7sW6RCVnc3-3tCVW7233Hp7YtqKLN4qZCFfyCp-vW1TbGXR6NmdDYW7W-2ZJ868t4KN3qBv7-r96CgW3b3_kx3mC_pDW5qhVcC6ZnwPRN6ML8N6zd_Ywf960YHC04',
+          linkLabel: 'Read the Fox News story',
+        },
+        {
+          name: 'NBC',
+          logo: nbc,
+          logoSize: { w: 60, h: 32 },
+          caption: 'Chicago',
+          href: 'https://d5hf9n04.na1.hs-sales-engage.com/Ctc/Y+23284/d5hF9N04/JlY2-6qcW95jsWP6lZ3kwW7y9BFC821_HVVdJ-ln6VWSVyW77HbPd2Vh58XW2ny-RF5sJTCZW5c3bss8ZYHY6W2fR5Zs51kTynW3F3Z_Z9m5Dl5W65pxrf8brPpZVYpvYD5_xnMVVcDRYq3tDnDtW2BqrsX6pVjLtM5JF9phjhkRW7HHvhr1pq-m9W66VbpQ5K5hlPW5rTgV-58pDtHW67-R0m3lQ56XW3_Lh1C5Vj2nvN9crq6WCZx81W5hNt9D999s5MW8yGNtt8jw15HW79J6tj1D6NxjN8Q2F6--9VmYW3Lg7H32SF-pFW4SbpRs652rD8W1PTlV-2Njjr4W6GzDJH3kx-PkVkhfzj1mK76bW2WQJfs45JNqDW3C6n738sC50ZW5wyvjq7f5Xy_f1NNs8M04',
+          linkLabel: 'Watch the NBC Chicago story',
+        },
+        {
+          name: 'NBC',
+          logo: nbc,
+          logoSize: { w: 60, h: 32 },
+          caption: 'Atlanta',
+          href: 'https://11alive.com/article/news/daily-audio-sessions-help-students-manage-stress-improve-mental-health/85-600056849',
+          linkLabel: 'Watch the NBC Atlanta (11Alive) story',
+        },
+        {
+          name: 'Fortune',
+          logo: fortune,
+          logoSize: { w: 130, h: 26 },
+          href: 'https://fortune.com/2024/08/04/schools-meditation-mindfulness-yoga-students-education-cdc-mental-health/',
+          linkLabel: 'Read the Fortune article',
+        },
+        {
+          name: 'Mindful',
+          logo: mindful,
+          logoSize: { w: 120, h: 30 },
+          href: 'https://www.mindful.org/using-mindfulness-to-reduce-bullying/',
+          linkLabel: 'Read the Mindful magazine article',
+        },
+        {
+          name: 'People',
+          href: 'https://d5hf9n04.na1.hs-sales-engage.com/Ctc/Y+23284/d5hF9N04/JlF2-6qcW8wLKSR6lZ3npW8_TDX31B9D43W6szwHK4P-zdfW7Z0j1N4KWg34W4jNf2S6Q0Xw2W7T0NsR1wntHsN1s_xSNcQdWzW6Rr8q46_vJS4N2BGT9PBnqS1W7LWXqy6gyjyLW7RJN1K1fK7dsW57C2052ThTTZW7q_BJZ6LjsZNW4kjTHJ2rSxFTW7nqXbt2XLklLN7nT_V0ttKmRW7TXyQG5j_Sj1W3jFfgQ5DJw-MW7ylY1J8-ngGwW3dqXbs2yXzh5W8XsyNh2ldn16W5FGXpv59HrdpVCMVs634-9S2W5vPYbf62FN7MW2RrtL82XZy_TW17QPXf32bbgrN41y0pk2tymTW3vVR085ZKhccW2b4_zg8SbqXsf3ThtJ604',
+          linkLabel: 'Read the People magazine story',
+        },
+      ],
+    },
+  },
+  journey: {
+    eyebrow: 'The Journey',
+    title: 'It started with a simple idea: Bring mindfulness where students are every day',
+    lead: 'In 2011, Inner Explorer was founded as a nonprofit with a mission of bringing daily mindfulness to education.',
+    body: [
+      'Rather than adding another curriculum for teachers to deliver, Inner Explorer built an audio-guided approach that could fit naturally into the school day, giving classrooms a consistent way to practice attention, self-awareness, and emotional regulation together. Inner Explorer’s approach was informed by the sequencing and principles of Mindfulness-Based Stress Reduction (MBSR), adapting daily practice for students from early learning through high school.',
+      'From the beginning, the goal was not simply to introduce mindfulness. It was to make daily practice practical enough to last.',
+      "In 2025, Inner Explorer became a hybrid organization, a structure built to grow our impact over time. Inner Explorer, Inc. is a mission-aligned company focused on innovation and reach, continually improving how daily mindfulness gets into classrooms. Inner Explorer Institute operates through fiscal sponsorship with Legacy Global Programs, a 501(c)(3), so donors can fund access for schools and classrooms that couldn't otherwise afford it. Together, they share one goal: daily mindfulness for every student, regardless of a school's ability to pay.",
+    ],
+    photos: [
+      {
+        src: journeySigns,
+        alt: 'Smiling students hold up handmade thank-you and peace signs in their classroom',
+        position: '50% 45%',
+        height: 'h-60 xl:h-105',
+      },
+      {
+        src: journeyTeens,
+        alt: 'Teenage students sit with heads bowed during a mindfulness practice',
+        position: '50% 40%',
+        height: 'h-50 xl:h-85',
+      },
+    ],
+    entities: [
+      {
+        label: 'Nonprofit · 501(c)(3)',
+        name: 'Inner Explorer Institute',
+        body: 'Channels philanthropic capital to fund classrooms where school communities are under-resourced, underwrites the research base, and drives policy toward mandates and reimbursement.',
+      },
+      {
+        label: 'For-profit',
+        name: 'Inner Explorer Inc.',
+        body: 'Builds and delivers Inner Explorer’s programs at scale, drives adoption across schools and districts, and innovates to meet the evolving needs of students and educators.',
+      },
+    ],
+  },
+  beliefs: {
+    title: 'The idea has stayed simple',
+    items: [
+      {
+        number: '01',
+        title: 'Practice every day',
+        body: 'Lasting change comes from small moments repeated every day. Inner Explorer is designed around brief practice that fits into real school routines.',
+      },
+      {
+        number: '02',
+        title: 'Make it easy for educators',
+        body: 'Audio-guided practice means there is no curriculum to teach and no extensive prep or specialized training required.',
+      },
+      {
+        number: '03',
+        title: 'Make it available to everyone',
+        body: 'Students practice together as a classroom community, creating universal access for prevention and intervention without stigma. Classrooms report a greater sense of belonging and connection.',
+      },
+    ],
+  },
+  research: {
+    eyebrow: 'Evidence from the beginning',
+    title: 'Built on practice. Strengthened by research.',
+    lead: 'Research has been part of Inner Explorer’s story from its earliest years. Studies have examined the impact of daily practice across outcomes including academic performance, classroom behavior, and teacher stress.',
+    cta: { label: 'Explore the Research', href: '/research/' },
+    stats: [
+      { value: '4,000+', label: 'schools using Inner Explorer, across all 50 states' },
+      {
+        value: '6',
+        label: 'controlled studies of Inner Explorer, four of them randomized trials',
+      },
+      { value: '77', label: 'studies in a meta-review covering 12,358 students' },
+    ],
+  },
+  team: {
+    title: 'The People Behind Inner Explorer',
+    lead: 'Inner Explorer brings together people across education, research, technology, partnerships, and mindfulness around one shared goal: making daily practice easier for school communities.',
+    leaders: [
+      { name: 'Laura Bakosh', label: 'Co-Owner', role: 'CEO', photo: lauraBakosh },
+      { name: 'Lisa Grady', label: 'Co-Owner', role: 'Chief of Strategy', photo: lisaGrady },
+    ],
+    members: [
+      { name: 'Jillian Sullivan', role: 'Regional Director', photo: jillianSullivan },
+      { name: 'Laurie Grossman', role: 'Regional Director', photo: laurieGrossman },
+      { name: 'Travis Grady', role: 'Data Scientist', photo: travisGrady },
+      { name: 'Fard Morales', role: 'Regional Director', photo: fardMorales },
+      { name: 'Jonathan Filzen', role: 'Regional Director', photo: jonathanFilzen },
+      { name: 'Liz White', role: 'Product Operations Manager', photo: lizWhite },
+      { name: 'Lawrence Love', role: 'Regional Director', photo: lawrenceLove },
+      { name: 'Juliana Pulselli', role: 'Marketing Manager', photo: julianaPulselli },
+    ],
+    advisoryTitle: 'Advisory Board',
+    advisors: [
+      { name: 'Saideep Raj', role: 'Former Senior Managing Director, Accenture' },
+      {
+        name: 'Dr. Kathi Kemper',
+        role: 'Professor of Pediatrics and Founding Director, Center for Integrative Health and Wellness, The Ohio State University',
+      },
+      {
+        name: 'Dr. Devonya Govan-Hunt',
+        role: 'President, BCDI-Carolinas (Black Child Development Institute)',
+      },
+      // The board leaves this role empty.
+      { name: 'Lori Katz, J.D.' },
+      {
+        name: 'Dr. Rebecca Shore',
+        role: 'Associate Professor Emeritus, Educational Leadership, UNC Charlotte',
+      },
+      {
+        name: 'Dr. Valerie Paine',
+        role: 'Assistant Superintendent for Student Achievement and Family and Community Engagement, Greece Central School District',
+      },
+      {
+        name: 'Judge Frank Szymanski',
+        role: 'Former Judge, Wayne County Probate Court (Michigan)',
+      },
+    ] as { name: string; role?: string }[],
+  },
+  cta: {
+    title: 'Helping more students start from a place of readiness',
+    lead: 'For more than a decade, Inner Explorer has worked to make mindfulness a simple, consistent part of the school day. The platform has evolved. The reach has grown. The purpose remains the same: help students and educators build the regulation, focus, and resilience that support learning and well-being.',
+    primary: { label: 'Contact Us', href: '/contact/' },
+    secondary: { label: 'See How Inner Explorer Works', href: '/platform/' },
+    image: {
+      src: ctaPhoto,
+      alt: 'Elementary students focused on their work around a shared classroom table',
+    },
+  },
+};
+
+// Ported from `0c8cac2:src/pages/about.astro`. Its description's "A 501(c)(3) nonprofit." was
+// dropped: the board's 2025 hybrid structure makes Inner Explorer, Inc. a company
+// (tasks/todo.md › About).
+const base = new URL(Astro.site ?? MAIN_SITE).origin;
+const aboutLd = {
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  name: content.title,
+  url: `${base}/about/`,
+  description: content.description,
+  mainEntity: {
+    '@type': 'Organization',
+    name: 'Inner Explorer',
+    url: base,
+    logo: `${base}/logo.png`,
+    foundingDate: '2011',
+    description: 'Daily audio-guided mindfulness practices for PreK-12 schools.',
+    founder: [
+      { '@type': 'Person', name: 'Dr. Laura Bakosh' },
+      { '@type': 'Person', name: 'Janice Houlihan' },
+    ],
+  },
 };
 ---
 
 <PageLayout title={content.title} description={content.description}>
-  <h1>{content.heading}</h1>
-  <p>{content.lead}</p>
+  <JsonLd slot="head" schema={aboutLd} />
+
+  <Section spacing="hero" as="div">
+    <div class="grid gap-8 xl:grid-cols-2 xl:items-center xl:gap-20">
+      <PageTitle eyebrow={content.hero.eyebrow} title={content.hero.title} lead={content.hero.lead}>
+        <Fragment slot="actions">
+          <Button href={content.hero.primary.href} arrow>{content.hero.primary.label}</Button>
+          <Button variant="secondary" href={content.hero.secondary.href}>
+            {content.hero.secondary.label}
+          </Button>
+        </Fragment>
+      </PageTitle>
+      <div class="relative flex flex-col">
+        <Image
+          class="h-70 w-full rounded-sm object-cover xl:h-150"
+          style="object-position: 40% 40%"
+          src={content.hero.image.src}
+          alt={content.hero.image.alt}
+          width={1120}
+          densities={[1, 2]}
+          loading="eager"
+        />
+        <dl
+          class="relative m-0 mx-3 -mt-10 flex flex-col gap-3 rounded-sm bg-surface px-5 py-4 shadow-floating xl:absolute xl:inset-x-6 xl:bottom-6 xl:m-0 xl:flex-row xl:justify-between xl:gap-4 xl:px-6 xl:py-5"
+        >
+          {
+            content.hero.facts.map((fact) => (
+              <div class="flex items-baseline justify-between gap-3 xl:flex-col xl:items-start xl:justify-start xl:gap-1">
+                <dt class="type-eyebrow text-foreground">{fact.label}</dt>
+                <dd class="m-0 type-card-title-sm text-foreground">{fact.value}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+    </div>
+  </Section>
+
+  <Section tone="white" spacing="strip" aria-labelledby="partners-title">
+    <h2
+      id="partners-title"
+      class="m-0 mx-auto max-w-measure-title text-center type-section-title text-foreground"
+    >
+      {content.partners.title}
+    </h2>
+    <LogoStrip
+      class="mt-9 md:mt-12"
+      layout="wall"
+      label={content.partners.supporters.label}
+      partners={content.partners.supporters.items}
+    />
+    <LogoStrip
+      class="mt-9 md:mt-20"
+      layout="wall"
+      cell="sm"
+      label={content.partners.press.label}
+      partners={content.partners.press.items}
+    />
+  </Section>
+
+  <Section aria-labelledby="journey-title">
+    <div class="flex flex-col gap-8 xl:flex-row-reverse xl:items-start xl:gap-24">
+      <div class="flex flex-col xl:w-130 xl:shrink-0">
+        <p class="m-0 mb-4 type-eyebrow text-foreground md:mb-6">{content.journey.eyebrow}</p>
+        <h2 id="journey-title" class="m-0 type-section-title text-foreground">
+          {content.journey.title}
+        </h2>
+        <p class="m-0 mt-5 type-lead text-foreground-secondary md:mt-6">{content.journey.lead}</p>
+        <div class="mt-6 flex flex-col gap-4 border-t border-border pt-6 md:mt-8 md:pt-8">
+          {
+            content.journey.body.map((paragraph) => (
+              <p class="m-0 type-body text-foreground-body">{paragraph}</p>
+            ))
+          }
+        </div>
+      </div>
+      <div class="flex min-w-0 flex-1 flex-col gap-2">
+        {
+          content.journey.photos.map((photo) => (
+            <Image
+              class:list={['w-full rounded-sm object-cover', photo.height]}
+              style={`object-position: ${photo.position}`}
+              src={photo.src}
+              alt={photo.alt}
+              width={1168}
+              densities={[1, 2]}
+            />
+          ))
+        }
+      </div>
+    </div>
+    <div class="mt-8 grid gap-2 md:mt-14 md:grid-cols-2 md:gap-4">
+      {
+        content.journey.entities.map((entity) => (
+          <article
+            class="ie-card flex flex-col gap-3 bg-brand-surface px-6 py-7 md:gap-4 md:p-10"
+            data-on-brand
+          >
+            <p class="m-0 type-eyebrow text-foreground">{entity.label}</p>
+            <h3 class="m-0 type-card-title-lg text-foreground">{entity.name}</h3>
+            <p class="m-0 type-body text-foreground">{entity.body}</p>
+          </article>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section tone="white" aria-labelledby="beliefs-title">
+    <h2 id="beliefs-title" class="m-0 type-section-title text-foreground">
+      {content.beliefs.title}
+    </h2>
+    <div class="mt-7 grid gap-card-gap md:mt-14 lg:grid-cols-3">
+      {
+        content.beliefs.items.map((item) => (
+          <article
+            class="ie-card flex flex-col gap-3 bg-brand-surface p-6 md:gap-4 md:p-8"
+            data-on-brand
+          >
+            <p class="m-0 type-eyebrow text-foreground">{item.number}</p>
+            <h3 class="m-0 type-card-title-md text-foreground">{item.title}</h3>
+            <p class="m-0 type-body text-foreground">{item.body}</p>
+          </article>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section aria-labelledby="research-title">
+    <div class="grid gap-7 xl:grid-cols-2 xl:items-center xl:gap-24">
+      <div class="flex flex-col">
+        <p class="m-0 mb-4 type-eyebrow text-brand-emphasis md:mb-6">{content.research.eyebrow}</p>
+        <h2 id="research-title" class="m-0 type-section-title text-foreground">
+          {content.research.title}
+        </h2>
+        <p
+          class="m-0 mt-5 max-w-measure-narrow type-lead text-foreground-body md:mt-6 xl:type-intro"
+        >
+          {content.research.lead}
+        </p>
+        <div class="mt-7 flex flex-col md:mt-8 md:flex-row">
+          <Button variant="secondary" href={content.research.cta.href}>
+            {content.research.cta.label}
+          </Button>
+        </div>
+      </div>
+      <ul class="m-0 flex list-none flex-col gap-2 p-0">
+        {
+          content.research.stats.map((stat) => (
+            <li
+              class="ie-card flex flex-col gap-2 bg-brand-surface px-6 py-7 md:flex-row md:items-center md:gap-6 md:px-8"
+              data-on-brand
+            >
+              <p class="m-0 font-sans type-stat-sm font-bold text-foreground md:w-44 md:shrink-0">
+                {stat.value}
+              </p>
+              <p class="m-0 type-lead font-bold text-foreground xl:type-intro">{stat.label}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </Section>
+
+  <Section tone="white" aria-labelledby="team-title">
+    <div class="flex flex-col gap-4 md:items-center md:gap-5 md:text-center">
+      <h2 id="team-title" class="m-0 max-w-measure-title type-section-title text-brand-emphasis">
+        {content.team.title}
+      </h2>
+      <p class="m-0 max-w-measure-note type-lead text-foreground-secondary">{content.team.lead}</p>
+    </div>
+    <div class="mt-7 grid gap-2 md:mt-14 xl:grid-cols-2">
+      {
+        content.team.leaders.map((leader) => (
+          <article class="ie-card ie-card-tint flex">
+            <Image
+              class="h-44 w-34 shrink-0 object-cover md:h-75 md:w-60"
+              style="object-position: center 25%"
+              src={leader.photo}
+              alt={`Portrait of ${leader.name}`}
+              width={480}
+              densities={[1]}
+            />
+            <div class="flex flex-col justify-end gap-2 p-5 md:p-8">
+              <p class="m-0 mb-2 type-eyebrow text-foreground">{leader.label}</p>
+              <h3 class="m-0 type-card-title-lg text-foreground">{leader.name}</h3>
+              <p class="m-0 type-list text-foreground-body">{leader.role}</p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+    <ul
+      class="m-0 mt-7 grid list-none grid-cols-2 gap-x-2 gap-y-6 p-0 md:mt-14 md:grid-cols-4 xl:grid-cols-8 xl:gap-y-2"
+    >
+      {
+        content.team.members.map((member) => (
+          <li class="flex flex-col gap-3">
+            <Image
+              class="h-50 w-full rounded-sm object-cover xl:h-45"
+              style="object-position: center 25%"
+              src={member.photo}
+              alt={`Portrait of ${member.name}`}
+              width={340}
+              densities={[1, 2]}
+            />
+            <div class="flex flex-col gap-1">
+              <p class="m-0 type-card-title-sm text-foreground">{member.name}</p>
+              <p class="m-0 type-label text-foreground-muted">{member.role}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+    <div class="mt-7 flex flex-col gap-5 border-t border-border pt-8 md:mt-14 md:gap-6 md:pt-12">
+      <h3 class="m-0 type-card-title-lg text-foreground">{content.team.advisoryTitle}</h3>
+      <ul class="m-0 grid list-none gap-card-gap p-0 md:grid-cols-2 xl:grid-cols-4">
+        {
+          content.team.advisors.map((advisor) => (
+            <Card
+              as="li"
+              class="px-5 py-4 md:px-6 md:py-5"
+              title={advisor.name}
+              titleSize="sm"
+              titleAs="h4"
+            >
+              {advisor.role && <p class="m-0 type-small text-foreground-muted">{advisor.role}</p>}
+            </Card>
+          ))
+        }
+      </ul>
+    </div>
+  </Section>
+
+  <Section>
+    <ClosingCta
+      title={content.cta.title}
+      lead={content.cta.lead}
+      primary={content.cta.primary}
+      secondary={content.cta.secondary}
+      image={content.cta.image}
+    />
+  </Section>
 </PageLayout>

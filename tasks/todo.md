@@ -86,11 +86,35 @@ the owners the canvas gives.
       MBSR", "tens of thousands of classrooms", the EEG/eye-tracking finding, "roughly half the
       rate"; Loyola Marymount missing from citations; status of Lopez 2020 and Dunlap; URLs for
       Lopez, Stager, Dunlap, Phan; the summary PDF and the AI brief link.
-- [ ] **About:** real team headshots (stand-ins don't match names: Rachel Park, Jamal Carter,
-      David Chen); partner logo files, with permission; voice avatars are initials and quotes
-      anonymized: OK? Milestones cut from 9 to 5: approve.
-- [ ] **About:** verify 487M minutes (2025), 94% calmer in 4 weeks, 14 countries, 12+ university
-      partners.
+- [ ] **About (built from FINAL V; confirm before launch):**
+  - The FINAL V boards have no voices section (so no voice avatars), no milestones, and none of
+    "487M minutes", "94% calmer in 4 weeks", "14 countries" or "12+ university partners"; none
+    was built. The earlier items about them are closed by the board.
+  - Stand-ins (`src/assets/images/about/`), all as the board draws them: the 10 headshots
+    (Laura Bakosh, Lisa Grady, Jillian Sullivan, Laurie Grossman, Travis Grady, Fard Morales,
+    Jonathan Filzen, Liz White, Lawrence Love, Juliana Pulselli; Laurie Grossman's file is 121px
+    and Lisa Grady's 272px, soft at their sizes); the 12 partner logos + Logictry's mark
+    (`logos/`, with permission to show each); the 9 press logos (NBC is one file for Chicago and
+    Atlanta; "People" is set in type, no logo); the hero, the two Journey photos, the closing-CTA
+    photo. Supply or approve each.
+  - Facts: headquartered in Sarasota, FL; all 50 states; 4,000+ schools; 6 controlled studies,
+    four of them randomized trials; a 77-study meta-review of 12,358 students; the 2025 hybrid
+    structure and the Legacy Global Programs fiscal sponsorship; the Institute card's label
+    "Nonprofit · 501(c)(3)" (the copy says the sponsor is the 501(c)(3)); every team title and
+    advisory role (Lori Katz, J.D. has none on the board); the partner list.
+  - Links: AP, Fox News, NBC Chicago and People point at HubSpot sales-engage tracking redirects
+    (`d5hf9n04.na1.hs-sales-engage.com`), as drawn: replace with the stories' own URLs. The board
+    notes the press row moves to Newsroom Press posts later.
+  - JSON-LD (ported from `0c8cac2`): the old Organization description's "A 501(c)(3)
+    nonprofit." was dropped against the 2025 structure; founders stay Dr. Laura Bakosh and
+    Janice Houlihan (the board names Laura Bakosh and Lisa Grady as co-owners): confirm. The
+    meta description is new, from the hero lead (the old one said "2.4 million students").
+  - Copy casing as drawn: "Contact Us", "Explore the Research", "The People Behind Inner
+    Explorer", "See How Inner Explorer Works" (the site-wide CTA item).
+  - Drift left after the side-by-side review (2026-10-10): research H2 44 (board 40) and its
+    section 112 (board 120); the hybrid paragraph's trailing empty line dropped (27px shorter);
+    "People" and "Logictry" 19 on mobile (board 24 / 20); Logictry's mark 36 at both widths
+    (board 30 on mobile).
 - [ ] **Contact:** the hero photo is the board's stand-in (`src/assets/images/contact/`):
       approve it or supply one. The H1 is title case on the boards ("Get in Touch With Inner
       Explorer") against the sentence-case rule: keep or change.
@@ -152,7 +176,8 @@ the owners the canvas gives.
 - [x] Pricing: plan cards, the comparison table (built from the FINAL V boards, not the design
       system's `PricingTable`), the Advanced Wellness panel, `ClosingCta layout="inline"`; data
       from `0c8cac2:src/content/pages/pricing.yml`, board wins; the 48px title snapped to 44.
-- [ ] About.
+- [x] About: `LogoStrip layout="wall"` (partners and press), Emerald panels, the facts card
+      over the hero photo; board assets as stand-ins (Before build › About).
 
 ## Launch
 

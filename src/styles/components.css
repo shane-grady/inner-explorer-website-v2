@@ -593,6 +593,40 @@
   inline-size: calc(var(--space-6) + var(--space-1));
   background: var(--on-brand);
 }
+/* The logo wall (LogoStrip layout="wall", About): two cells a row below md, each logo inside
+   the box the board draws for it (--logo-w × --logo-h, capped to the narrow cell on mobile),
+   grayscale until its cell is hovered or its link focused. */
+.ie-logo-wall > li {
+  flex: 0 0 calc(50% - var(--space-1));
+}
+.ie-logo-wall img {
+  display: block;
+  inline-size: auto;
+  block-size: auto;
+  max-inline-size: min(var(--logo-w, 100%), 77%);
+  max-block-size: var(--logo-h, var(--space-10));
+  filter: grayscale(1);
+  opacity: var(--logo-opacity);
+  transition:
+    filter var(--motion),
+    opacity var(--motion);
+  @variant md {
+    max-inline-size: var(--logo-w, 100%);
+  }
+}
+.ie-logo-wall li:hover img,
+.ie-logo-link:focus-visible img {
+  filter: none;
+  opacity: 1;
+}
+.ie-logo-link {
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  transition: background-color var(--motion);
+}
+.ie-logo-link:hover {
+  background: var(--background);
+}
 .ie-video {
   box-shadow: var(--shadow-video);
   text-decoration: none;
