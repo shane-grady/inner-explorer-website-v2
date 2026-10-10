@@ -42,6 +42,7 @@ for it). Provenance is the comment beside each token in `tokens.css`.
   foreground-muted; brand, brand-hover, brand-wash, brand-emphasis, link-hover, icon-accent;
   brand-surface** (Emerald panels), **brand-surface-deep** (Forest heroes and bands);
   _brand-tint_ and _border-brand_ (the accent testimonial);
+  _brand-shade_ (provisional: the darker strip closing Pricing's Advanced Wellness panel);
   **on-brand, on-brand-muted, on-brand-accent, on-brand-wash, border-on-brand; brand-subtle,
   on-brand-subtle; border, border-control, border-input; ring, ring-on-brand; danger;
   accent-bar-1/2/3**.
@@ -62,7 +63,7 @@ for it). Provenance is the comment beside each token in `tokens.css`.
   _on-photo-control_, _on-photo-dot_, _photo-tone_ (the boards' sepia filter).
 - **Size:** **control-height** 48, **control-height-sm** 44, **header-height** 80/64,
   **logo-height** 32/28, **accent-bar-height** 4, **container** 1200, **measure** 520,
-  _measure-short_ 320, **measure-article** 680, _form-card_ 576 (`w-form`), _figure-height_ 220 → 400 (`h-figure`), **icon-sm/md/lg/feature/disc**, _hero-photo-height_ 560 → 640 (`h-hero-photo`).
+  _measure-short_ 320, **measure-article** 680, _form-card_ 576 (`w-form`), _figure-height_ 220 → 400 (`h-figure`), **icon-sm/md/lg/feature/disc**, _icon-check_ 22 and _icon-check-sm_ 18 (the filled check disc), _measure-wide_ 640 (Pricing's hero lead, `PageTitle leadWidth="wide"`), _measure-cta_ 560 (the inline closing CTA's lead), _measure-note_ 760 (a footnote under a table), _collapse-height_ 640 (Pricing's collapsed table), _hero-photo-height_ 560 → 640 (`h-hero-photo`).
 - _Motion:_ `220ms cubic-bezier(.16, 1, .3, 1)`, every transition on the boards; _motion-fade_
   700ms on the same curve, the hero carousel's crossfade.
 
@@ -78,6 +79,7 @@ for it). Provenance is the comment beside each token in `tokens.css`.
 | `type-list`                          | 16/1.45/500                                  | `Checklist size="sm"` (Home's program cards)                                                                                                       |
 | `type-lead-lg`                       | 24/1.45/500 → 19                             | the intro under the photo hero                                                                                                                     |
 | `type-lead`                          | 20/1.5/500 → 18                              | the one intro under a title                                                                                                                        |
+| `type-intro`                         | 18/1.5/500 → 17                              | a section intro beside its title (Pricing); bold, the add-on panel's statements and the table's group titles                                       |
 | `type-body`                          | 17/1.6/500                                   | body copy                                                                                                                                          |
 | `type-small`                         | 15/1.5/500                                   | captions, notes, the footer                                                                                                                        |
 | `type-article-body`                  | 18/1.7/400 → 17/1.65                         | long-form articles only                                                                                                                            |
@@ -98,7 +100,7 @@ class.
 
 - `ui/Button` (primary · secondary · light · ghost; md · sm; `arrow`; `block`; link or button),
   `ui/ArrowLink` (`light` on green), `ui/PageTitle` (eyebrow, H1 with `*emphasis*`, accent bar,
-  lead, `actions` slot), `ui/Card` (raised · floating · tint; `title`, `titleSize`, `href` makes
+  lead, `actions` slot; `leadWidth="wide"`; `breakFrom="md"` keeps the title's break to md up), `ui/Checklist` (`marker="disc"`, `size="xs"`, `flow="columns"`: Pricing's add-on list), `ui/Card` (raised · floating · tint; `title`, `titleSize`, `href` makes
   the title a stretched link), `ui/Icon` and `ui/FeatureIcon` (registries in `src/lib/icons.ts`
   and `src/lib/feature-icons.ts`; feature icons are Phosphor fill, bare or `disc`),
   `ui/IconButton`, `ui/Checklist`, `ui/Section` (tone ground · white · tint · emerald · forest;
@@ -106,14 +108,21 @@ class.
   poster link that opens the video on its host).
 - `layout/SiteHeader` (light, `dark` over a Forest hero; the skip link; static, as on the boards),
   `layout/MobileMenu` (native `<dialog>`, one small script), `layout/SiteFooter` (Footer A).
-- `blocks/ClosingCta` (emerald · white, `floating` for Home's borderless white card, ± photo),
+- `blocks/ClosingCta` (emerald · white, `floating` for Home's borderless white card, ± photo,
+  `layout="inline"` for copy left and buttons right from lg: Pricing, Case Studies, Research; on
+  Emerald its `*words*` stay white, as the boards draw them),
   `blocks/Testimonial` (card · panel · accent: Mist ground, 6px Emerald top border, Emerald mark),
   `blocks/PhotoHero` (photo or carousel under a scrim, display H1, intro and `actions`; no
   autoplay), `blocks/StatStrip` (numerals over labels, hairlines from lg; follows
   `[data-on-brand]`), `blocks/LogoStrip` (label and partner names, a logo where supplied).
 - Classes without a component: `.ie-accent-bar`, `.ie-tag` (+ `-on-brand`), `.ie-chip`,
   `.ie-icon-disc`, `.ie-field`, `.ie-label`, `.ie-field-error`, `.ie-card-*`, `.ie-nav`,
-  `.ie-menu-*`, `.ie-footer-link`, `.ie-skip-link`, `.ie-photo-tone`, `.ie-sticky-bar`.
+  `.ie-menu-*`, `.ie-footer-link`, `.ie-skip-link`, `.ie-photo-tone`, `.ie-sticky-bar`,
+  `.ie-card-recommended` (Mist, 2px Emerald border: Pricing's recommended plan), `.ie-check-disc`,
+  `.ie-switch` / `.ie-switch-track`, `.ie-collapse` (`data-collapsed`: clipped under a fade),
+  `.ie-compare-highlight` (the recommended column's outline over a 40/20/20/20 table).
+- `[data-on-surface]` inside a `[data-on-brand]` panel restores the light ink for a white box
+  (Pricing's add-on prices).
 
 Page-local patterns (tabs, players, charts, stat strips, steps, tables, sticky bars, the
 Article rails) are built by their page from these parts and listed in `design/inventory.md`.
@@ -141,6 +150,9 @@ Article rails) are built by their page from these parts and listed in `design/in
 - `--form-card` (576, the Contact form card) and `--figure-height` (220 → 400, the Contact hero
   photo): drawn only on Contact.
 - The dark header's hairline and menu-button border snap to `border-on-brand`.
+- `--brand-shade` (black 14% over Emerald, Pricing's add-on strip): drawn on one board.
+- The switch's off-state track keeps a 1px `border-input` outline the board doesn't draw, so the
+  control meets 3:1 against white (WCAG 1.4.11).
 
 ## Rules and guards
 

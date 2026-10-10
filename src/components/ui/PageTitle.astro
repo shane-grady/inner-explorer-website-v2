@@ -8,18 +8,41 @@ interface Props {
   title: string;
   eyebrow?: string;
   lead?: string;
+  /** `wide`: the 640 lead Pricing draws; otherwise the 520 measure. */
+  leadWidth?: 'measure' | 'wide';
+  /** `md`: the title's "\n" breaks only from md up; below, the line wraps where it falls. */
+  breakFrom?: 'md';
   class?: string;
 }
-const { title, eyebrow, lead, class: className }: Props = Astro.props;
+const {
+  title,
+  eyebrow,
+  lead,
+  leadWidth = 'measure',
+  breakFrom,
+  class: className,
+}: Props = Astro.props;
+const LEAD_WIDTH = { measure: 'max-w-measure', wide: 'max-w-measure-wide' } as const;
 ---
 
 <div class:list={['flex flex-col items-start', className]}>
   {eyebrow && <p class="m-0 mb-5 type-eyebrow text-foreground md:mb-6">{eyebrow}</p>}
   <div class="inline-flex flex-col gap-2">
-    <h1 class="m-0 type-page-title text-foreground" set:html={emphasize(title)} />
+    <h1
+      class="m-0 type-page-title text-foreground"
+      set:html={emphasize(title, undefined, breakFrom ? 'hidden md:inline' : '')}
+    />
     <div class="ie-accent-bar" aria-hidden="true"></div>
   </div>
-  {lead && <p class="m-0 mt-5 max-w-measure type-lead text-foreground-secondary md:mt-8">{lead}</p>}
+  {
+    lead && (
+      <p
+        class:list={['m-0 mt-5 type-lead text-foreground-secondary md:mt-8', LEAD_WIDTH[leadWidth]]}
+      >
+        {lead}
+      </p>
+    )
+  }
   {
     Astro.slots.has('actions') && (
       <div class="mt-6 flex flex-col gap-3 self-stretch md:mt-10 md:flex-row md:self-auto">

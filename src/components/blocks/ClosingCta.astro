@@ -1,7 +1,8 @@
 ---
 // The closing call to action: an Emerald panel (light + ghost buttons) or a white Raised
-// card (primary + secondary), with or without a photo on the right. The page gives it a
-// Section; this is the panel. One per page.
+// card (primary + secondary), with or without a photo on the right; `layout="inline"` puts
+// the buttons to the right of the copy from lg up (Pricing, Case Studies, Research). The page
+// gives it a Section; this is the panel. One per page.
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import Button from '../ui/Button.astro';
@@ -11,13 +12,15 @@ interface Props {
   tone?: 'emerald' | 'white';
   /** White only: the borderless Floating card (Home) instead of Raised (Platform). */
   floating?: boolean;
-  /** `*words*` are set in the italic display face, as the boards draw "the next story". */
+  /** `*words*` are set in the italic display face (white on Emerald, brand emphasis on white), as the boards draw "the next story". */
   title: string;
   eyebrow?: string;
   lead?: string;
   primary: { label: string; href: string };
   secondary?: { label: string; href: string };
   image?: { src: ImageMetadata; alt: string };
+  /** `inline`: copy left, buttons right, bottom-aligned (no photo). */
+  layout?: 'stacked' | 'inline';
   id?: string;
 }
 const {
@@ -29,9 +32,11 @@ const {
   primary,
   secondary,
   image,
+  layout = 'stacked',
   id = 'closing-cta',
 }: Props = Astro.props;
 const emerald = tone === 'emerald';
+const inline = layout === 'inline' && !image;
 ---
 
 <section
@@ -47,20 +52,36 @@ const emerald = tone === 'emerald';
     class:list={[
       'flex flex-col items-start justify-center px-cta-padding-x py-cta-padding',
       image && (emerald ? 'md:col-span-6' : 'md:col-span-7'),
+      inline && 'lg:flex-row lg:items-end lg:justify-between lg:gap-12',
     ]}
   >
-    {eyebrow && <p class="m-0 mb-4 type-eyebrow text-foreground">{eyebrow}</p>}
-    <h2
-      id={id}
-      class="ie-cta-title m-0 type-section-title text-foreground"
-      set:html={emphasize(title)}
-    />
-    {
-      lead && (
-        <p class="m-0 mt-5 max-w-measure type-lead text-foreground-secondary md:mt-6">{lead}</p>
-      )
-    }
-    <div class="mt-6 flex flex-col gap-3 self-stretch md:mt-8 md:flex-row md:self-auto">
+    <div class:list={['flex min-w-0 flex-col items-start', inline && 'lg:flex-1']}>
+      {eyebrow && <p class="m-0 mb-4 type-eyebrow text-foreground">{eyebrow}</p>}
+      <h2
+        id={id}
+        class="ie-cta-title m-0 type-section-title text-foreground"
+        set:html={emphasize(title, emerald ? '' : undefined)}
+      />
+      {
+        lead && (
+          <p
+            class:list={[
+              'm-0 mt-5 type-lead md:mt-6',
+              inline ? 'max-w-measure-cta' : 'max-w-measure',
+              emerald ? 'text-foreground' : 'text-foreground-secondary',
+            ]}
+          >
+            {lead}
+          </p>
+        )
+      }
+    </div>
+    <div
+      class:list={[
+        'mt-6 flex flex-col gap-3 self-stretch md:mt-8 md:flex-row md:self-auto',
+        inline && 'lg:mt-0 lg:shrink-0',
+      ]}
+    >
       <Button variant={emerald ? 'light' : 'primary'} href={primary.href} arrow
         >{primary.label}</Button
       >

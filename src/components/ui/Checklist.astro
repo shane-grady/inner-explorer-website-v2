@@ -1,28 +1,65 @@
 ---
-// A list of claims, each led by the 22px outline check circle in icon-accent.
+// A list of claims, each led by the 22px outline check circle in icon-accent, or by the
+// filled check disc (`marker="disc"`, Pricing's add-on list on green).
 import Icon from './Icon.astro';
 
 interface Props {
   items: readonly string[];
   /** Columns from md up; one column below. */
   columns?: 1 | 2 | 3;
-  /** `sm`: 16/1.45 in foreground-secondary, as Home's program cards draw it. */
-  size?: 'md' | 'sm';
+  /** `sm`: 16/1.45 in foreground-secondary, as Home's program cards draw it; `xs`: 15/1.5 in
+   *  foreground with the 18px disc and a 10px gap, Pricing's add-on list on green. */
+  size?: 'md' | 'sm' | 'xs';
+  marker?: 'outline' | 'disc';
+  /** `columns`: the items flow down each column in turn (Pricing), not across rows. */
+  flow?: 'rows' | 'columns';
   class?: string;
 }
-const { items, columns = 1, size = 'md', class: className }: Props = Astro.props;
+const {
+  items,
+  columns = 1,
+  size = 'md',
+  marker = 'outline',
+  flow = 'rows',
+  class: className,
+}: Props = Astro.props;
 const SIZE = {
   md: 'type-body text-foreground-body',
   sm: 'type-list text-foreground-secondary',
+  xs: 'type-small text-foreground',
 } as const;
 const COLUMNS = { 1: '', 2: 'md:grid-cols-2', 3: 'md:grid-cols-3' } as const;
+const FLOW_COLUMNS = { 1: '', 2: 'md:columns-2', 3: 'md:columns-3' } as const;
+const byColumn = flow === 'columns';
 ---
 
-<ul class:list={['m-0 grid list-none gap-3 p-0 md:gap-x-6', COLUMNS[columns], className]}>
+<ul
+  class:list={[
+    'm-0 list-none p-0',
+    byColumn ? ['gap-x-8', FLOW_COLUMNS[columns]] : ['grid gap-3 md:gap-x-6', COLUMNS[columns]],
+    className,
+  ]}
+>
   {
     items.map((item) => (
-      <li class:list={['flex gap-3', SIZE[size]]}>
-        <Icon name="check-circle" size={22} class="mt-0.5 text-icon-accent" />
+      <li
+        class:list={[
+          'flex',
+          size === 'xs' ? 'gap-2.5' : 'gap-3',
+          SIZE[size],
+          byColumn && 'mb-3 break-inside-avoid',
+        ]}
+      >
+        {marker === 'disc' ? (
+          <span
+            class:list={['ie-check-disc', size === 'xs' && 'ie-check-disc-sm mt-0.5']}
+            aria-hidden="true"
+          >
+            <Icon name="check" size={16} />
+          </span>
+        ) : (
+          <Icon name="check-circle" size={22} class="mt-0.5 text-icon-accent" />
+        )}
         <span>{item}</span>
       </li>
     ))

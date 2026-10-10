@@ -105,6 +105,30 @@ the owners the canvas gives.
       untouched: accept it, or ask HubSpot for a fix.
 - [ ] **Contact:** the boards' "support panel" state (Back to the form, Copy the address) has no
       control that opens it, so it wasn't built. Confirm it's dropped.
+- [ ] **Pricing (built from FINAL V; confirm before launch):**
+  - Facts: the three prices ($1,200 / $2,800 / $3,600) and every add-on price; the Advanced
+    Wellness Program's $5,800 / $2,200, its includes, and "Pricing is set independently of any
+    reimbursement…"; "Our team replies within 1 business day"; "FETC finalist 2025",
+    "BrainFutures named top 10 executive functioning", "CASEL approved" (the site-wide item:
+    "SEL-Supportive Program"); "Districts of 10 or more schools qualify for districtwide pricing"
+    and the Title IV-A / BSCA / state SEL funding line; what "the Inner Explorer guarantee" /
+    "performance guarantee" promises.
+  - Board vs the old YAML: the board renames two Overview rows ("BrainFutures top 10
+    recommendation", "FETC finalist, top edtech program") and moves Reflective journaling to
+    Programming; built as the board draws it.
+  - Community Pro blurb: the desktop board's wording (no "roster management", which the mobile
+    board and the old YAML have), chosen 2026-10-10.
+  - CTA labels: every contact CTA says "Contact us" (the board's "Contact us for districtwide
+    pricing" and "Talk to our team" included), per the site-wide CTA item.
+  - Behavior the board leaves static: "Show only differences" works (hides the 22 rows whose
+    three cells match, updates the counts); the table starts collapsed at 640px and expands on
+    Expand or when focus moves under the fade; without JS it renders whole.
+  - Drift left after the side-by-side review (2026-10-10): 11–13px micro text set at 13–14 (the
+    "Nothing under 14 but tags" rule), so the mobile table header's units and the add-on notes
+    wrap to two lines and the table runs about 35px (desktop) / 100px (mobile) taller; group
+    and footer titles on the ramp (20 for 22); "Programs and add-ons" 28 (board 32); the
+    switch track has a 1px outline for 3:1.
+  - No stand-in images on this page.
 - [ ] **Case Studies:** the 7 pre-rebuild YAMLs (`0c8cac2:src/content/case-studies/`) carry
       PUBLISH GATE and REVIEW comments: stand-in portraits, invented student voices,
       representative trust figures, inferred dates, La Joya's 85% vs 80%, the 43% educator-stress
@@ -125,8 +149,9 @@ the owners the canvas gives.
       `mindfulness-for-student-athletes`), legacy blog 301s, `/blog` vs `/newsroom` breadcrumbs.
 - [ ] Research: snap its off-ramp title sizes (68px sections, 36–38px cards; Remaining drift
       board).
-- [ ] Pricing: port the design system's `PricingTable`; data from
-      `0c8cac2:src/content/pages/pricing.yml`; snap its 48px section title to the ramp.
+- [x] Pricing: plan cards, the comparison table (built from the FINAL V boards, not the design
+      system's `PricingTable`), the Advanced Wellness panel, `ClosingCta layout="inline"`; data
+      from `0c8cac2:src/content/pages/pricing.yml`, board wins; the 48px title snapped to 44.
 - [ ] About.
 
 ## Launch

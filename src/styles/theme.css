@@ -28,6 +28,9 @@
   --color-icon-accent: var(--icon-accent);
   --color-brand-surface: var(--brand-surface);
   --color-brand-surface-deep: var(--brand-surface-deep);
+  --color-brand-tint: var(--brand-tint);
+  --color-brand-shade: var(--brand-shade);
+  --color-border-brand: var(--border-brand);
   --color-on-brand: var(--on-brand);
   --color-on-brand-muted: var(--on-brand-muted);
   --color-on-brand-accent: var(--on-brand-accent);
@@ -95,10 +98,14 @@
   --spacing-icon-lg: var(--icon-lg);
   --spacing-icon-feature: var(--icon-feature);
   --spacing-icon-disc: var(--icon-disc);
+  --spacing-icon-check: var(--icon-check);
   --spacing-figure: var(--figure-height);
   --spacing-hero-photo: var(--hero-photo-height);
   --container-page: var(--container);
   --container-measure: var(--measure);
+  --container-measure-wide: var(--measure-wide);
+  --container-measure-cta: var(--measure-cta);
+  --container-measure-note: var(--measure-note);
   --container-measure-short: var(--measure-short);
   --container-measure-article: var(--measure-article);
   --container-form: var(--form-card);
@@ -115,6 +122,19 @@
   --icon-accent: var(--on-brand);
   --border: var(--border-on-brand);
   --ring: var(--ring-on-brand);
+}
+
+/* A white box inside a green panel (Pricing's add-on prices): the light ink comes back. */
+[data-on-brand] [data-on-surface] {
+  --foreground: var(--charcoal);
+  --foreground-secondary: var(--dark-slate);
+  --foreground-body: var(--slate);
+  --foreground-muted: var(--storm);
+  --brand-emphasis: var(--green-700);
+  --link-hover: var(--green-800);
+  --icon-accent: var(--green-400);
+  --border: var(--light-warm);
+  --ring: var(--green-700);
 }
 
 /* The website type ramp, one clamp per step from the 390 board to the 1440 board.
@@ -190,6 +210,12 @@
   line-height: 1.35;
   font-weight: 700;
   letter-spacing: -0.01em;
+}
+@utility type-intro {
+  font-family: var(--font-sans);
+  font-size: clamp(1.0625rem, calc(17px + 1 * (100vw - 390px) / 1050), 1.125rem); /* 17 → 18 */
+  line-height: 1.5;
+  font-weight: 500;
 }
 @utility type-lead {
   font-family: var(--font-sans);
