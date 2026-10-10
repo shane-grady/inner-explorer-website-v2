@@ -5,7 +5,11 @@
 // The field set is NOT defined here — it lives on the HubSpot form and is built from
 // scripts/hubspot-contact-form.mjs. This component owns the loader only, so adding or
 // reordering a field is a HubSpot change with no deploy. Styling for the injected fields
-// (HubSpot's .hs-* classes) belongs in the site stylesheet.
+// (HubSpot's .hs-* classes) belongs in the site stylesheet (components.css, [data-hsform]).
+//
+// Slots: the default slot (a heading) renders above the form and `after` (a note) below
+// it; both are hidden by CSS once the form is submitted. `success` is the confirmation
+// that replaces the form, cloned from a <template> by the loader below.
 //
 // -- Why `css: ''` is load-bearing -------------------------------------------------------
 //
@@ -29,20 +33,36 @@ interface Props {
   formId: string;
   /** HubSpot data-residency region, e.g. 'na1'. */
   region: string;
-  /** Copy shown in place of the form after a successful submit. */
-  confirmation: string;
   /** Fallback contact address used when the embed cannot run. */
   supportEmail: string;
   /** Fallback Help Center URL used when the embed cannot run. */
   helpCenterHref: string;
+  class?: string;
 }
-const { portalId, formId, region, confirmation, supportEmail, helpCenterHref }: Props = Astro.props;
+const {
+  portalId,
+  formId,
+  region,
+  supportEmail,
+  helpCenterHref,
+  class: className,
+}: Props = Astro.props;
+
+// The fallback note, shown when the embed cannot run: a flat Tint panel.
+const NOTE = 'm-0 rounded-sm bg-tint p-card-padding type-body text-foreground-body';
 
 // Deterministic, so the markup is stable across builds.
 const targetId = `hsform-${formId}`;
 ---
 
-<div data-hsform>
+<div class={className} data-hsform>
+  {
+    Astro.slots.has('default') && (
+      <div data-hsform-chrome>
+        <slot />
+      </div>
+    )
+  }
   <div id={targetId}></div>
   {
     /* The fallback copy is rendered twice on purpose. <noscript> covers JavaScript being
@@ -51,18 +71,25 @@ const targetId = `hsform-${formId}`;
        conversion path on the site, so an empty form is not an acceptable failure mode. */
   }
   <noscript>
-    <p>
+    <p class={NOTE}>
       This form needs JavaScript. Email <a href={`mailto:${supportEmail}`}>{supportEmail}</a> and someone
       on our team will follow up, or browse the <a href={helpCenterHref}>Help Center</a>.
     </p>
   </noscript>
-  <p data-hsform-fallback hidden>
+  <p class={NOTE} data-hsform-fallback hidden>
     This form could not load. Email <a href={`mailto:${supportEmail}`}>{supportEmail}</a> and someone
     on our team will follow up, or browse the <a href={helpCenterHref}>Help Center</a>.
   </p>
+  {
+    Astro.slots.has('after') && (
+      <div data-hsform-chrome>
+        <slot name="after" />
+      </div>
+    )
+  }
   <template data-hsform-success>
     <div role="status" aria-live="polite">
-      <p>{confirmation}</p>
+      <slot name="success" />
     </div>
   </template>
 </div>

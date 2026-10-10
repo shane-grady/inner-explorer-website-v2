@@ -479,26 +479,54 @@ textarea:is(.ie-field, [data-hsform] .hs-input) {
   color: inherit;
 }
 [aria-invalid='true']:is(.ie-field, [data-hsform] .hs-input),
-[data-hsform] .hs-input.invalid {
+[data-hsform] .hs-input:is(.invalid, .error) {
   border-color: var(--danger);
 }
-/* HubSpot's form markup: fields stack space-6 apart, two-column rows at md, the submit
-   fills the row. HubSpot's own sheet is suppressed (HubSpotForm.astro), so this is all of it. */
-[data-hsform] .hs-form-field {
-  margin-block-end: var(--space-6);
+/* HubSpot's form markup, laid out as the Contact boards draw it. HubSpot's own sheet is
+   suppressed (HubSpotForm.astro), so this is all of it. Its row fieldsets dissolve into one
+   10-column grid on the form and each field is placed by HubSpot's wrapper class (the
+   field's internal name), so the board's rows hold whatever grouping the HubSpot form
+   uses. A field not named here (a new one) takes the full row. */
+[data-hsform] form {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: var(--space-6) var(--space-4);
+}
+[data-hsform] form > *,
+[data-hsform] fieldset > * {
+  grid-column: 1 / -1;
 }
 [data-hsform] fieldset {
-  max-inline-size: none;
-  margin: 0;
-  padding: 0;
-  border: 0;
+  display: contents;
 }
-[data-hsform] fieldset.form-columns-2 {
-  display: grid;
-  gap: 0 var(--space-6);
+[data-hsform] :is(.hs_firstname, .hs_lastname) {
+  grid-column: span 5;
+}
+[data-hsform] .hs_job_role {
   @variant md {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-column: span 6;
   }
+}
+[data-hsform] .hs_stateabreviation {
+  @variant md {
+    grid-column: span 4;
+  }
+}
+[data-hsform] :is(.hs_district_name, .hs_school_name) {
+  @variant md {
+    grid-column: span 5;
+  }
+}
+[data-hsform] .hs_error_rollup .hs-error-msgs {
+  margin: 0;
+}
+/* The embed's target takes no gap until HubSpot fills it (the fallback shows instead). */
+[data-hsform] > :empty {
+  display: none;
+}
+/* The page's heading and privacy line around the form go once the confirmation replaces it. */
+[data-hsform]:has([data-hsform-done]) [data-hsform-chrome] {
+  display: none;
 }
 [data-hsform] .hs-form-required {
   color: var(--danger);

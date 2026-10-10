@@ -64,6 +64,20 @@ the owners the canvas gives.
       anonymized: OK? Milestones cut from 9 to 5: approve.
 - [ ] **About:** verify 487M minutes (2025), 94% calmer in 4 weeks, 14 countries, 12+ university
       partners.
+- [ ] **Contact:** the hero photo is the board's stand-in (`src/assets/images/contact/`):
+      approve it or supply one. The H1 is title case on the boards ("Get in Touch With Inner
+      Explorer") against the sentence-case rule: keep or change.
+- [ ] **Contact (HubSpot, run `scripts/hubspot-contact-form.mjs`):** labels "School name
+      (optional)" and "Message for our team (optional)" as the boards draw them, then drop the
+      red required asterisk; placeholders "you@yourschool.org" (Email) and "e.g. Brightwater
+      Unified" (District name); submit text "Contact us" (it says "Submit"; the board "Contact Us",
+      and the board's arrow can't sit on HubSpot's `<input>`); make ROWS mirror the board's
+      grouping (CSS already places each field by name, `components.css` › `[data-hsform]`).
+- [ ] **Contact:** HubSpot's error lists put `role="alert"` on the `<ul>`, so axe flags
+      `listitem` once an empty form is submitted. It's HubSpot's markup and the loader stays
+      untouched: accept it, or ask HubSpot for a fix.
+- [ ] **Contact:** the boards' "support panel" state (Back to the form, Copy the address) has no
+      control that opens it, so it wasn't built. Confirm it's dropped.
 - [ ] **Case Studies:** the 7 pre-rebuild YAMLs (`0c8cac2:src/content/case-studies/`) carry
       PUBLISH GATE and REVIEW comments: stand-in portraits, invented student voices,
       representative trust figures, inferred dates, La Joya's 85% vs 80%, the 43% educator-stress
@@ -72,7 +86,7 @@ the owners the canvas gives.
 ## Build order
 
 - [x] Design-foundation PR (`rebuild-plan.md` › The design-foundation PR).
-- [ ] Contact, with the success state; style the HubSpot form (`ie-field`, `ie-label`).
+- [x] Contact, with the success state; style the HubSpot form (`ie-field`, `ie-label`).
 - [ ] Home.
 - [ ] Platform.
 - [ ] Why Inner Explorer (SEO copy is on the canvas's "SEO (for build)" note).

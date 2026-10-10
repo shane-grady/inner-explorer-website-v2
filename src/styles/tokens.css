@@ -191,6 +191,12 @@
   --measure: 520px; /* leads under page and section titles */
   --measure-short: 320px; /* new: the footer blurb and other short columns (10 boards) */
   --measure-article: 680px; /* the Article text column */
+  --form-card: 576px; /* new, provisional: the form card beside the hero copy (Contact desktop) */
+  --figure-height: clamp(
+    13.75rem,
+    calc(220px + 180 * (100vw - 390px) / 1050),
+    25rem
+  ); /* new, provisional: the hero photo above a form, 220 → 400 (Contact) */
   --icon-sm: 16px;
   --icon-md: 20px;
   --icon-lg: 24px;

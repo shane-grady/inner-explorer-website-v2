@@ -58,7 +58,7 @@ for it). Provenance is the comment beside each token in `tokens.css`.
   -light, -sticky**, verbatim from the boards' CSS.
 - **Size:** **control-height** 48, **control-height-sm** 44, **header-height** 80/64,
   **logo-height** 32/28, **accent-bar-height** 4, **container** 1200, **measure** 520,
-  _measure-short_ 320, **measure-article** 680, **icon-sm/md/lg/feature/disc**.
+  _measure-short_ 320, **measure-article** 680, _form-card_ 576 (`w-form`), _figure-height_ 220 → 400 (`h-figure`), **icon-sm/md/lg/feature/disc**.
 - _Motion:_ `220ms cubic-bezier(.16, 1, .3, 1)`, every transition on the boards.
 
 ### Type ramp (`type-*` utilities, desktop → mobile as one clamp each)
@@ -124,6 +124,8 @@ Article rails) are built by their page from these parts and listed in `design/in
 - The light header's current-page style (bold with a 2px Emerald rule, mirroring the dark header).
 - The social row: hidden until profile URLs exist (`tasks/todo.md`).
 - Field error state (`danger` border and message; the boards draw no error).
+- `--form-card` (576, the Contact form card) and `--figure-height` (220 → 400, the Contact hero
+  photo): drawn only on Contact.
 - The dark header's hairline and menu-button border snap to `border-on-brand`.
 
 ## Rules and guards
