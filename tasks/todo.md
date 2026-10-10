@@ -69,7 +69,8 @@ the owners the canvas gives.
       Explorer") against the sentence-case rule: keep or change.
 - [ ] **Contact (HubSpot, run `scripts/hubspot-contact-form.mjs`):** labels "School name
       (optional)" and "Message for our team (optional)" as the boards draw them, then drop the
-      red required asterisk; submit text "Contact us" (it says "Submit"; the board "Contact Us",
+      red required asterisk; placeholders "you@yourschool.org" (Email) and "e.g. Brightwater
+      Unified" (District name); submit text "Contact us" (it says "Submit"; the board "Contact Us",
       and the board's arrow can't sit on HubSpot's `<input>`); make ROWS mirror the board's
       grouping (CSS already places each field by name, `components.css` › `[data-hsform]`).
 - [ ] **Contact:** HubSpot's error lists put `role="alert"` on the `<ul>`, so axe flags

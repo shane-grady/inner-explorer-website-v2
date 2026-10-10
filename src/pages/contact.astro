@@ -123,15 +123,15 @@ const contactLd = {
   <JsonLd slot="head" schema={contactLd} />
 
   <Section spacing="hero" as="div">
-    <div class="flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-18">
-      <div class="flex min-w-0 flex-1 flex-col lg:pt-4">
+    <div class="flex flex-col gap-8 xl:flex-row xl:items-start xl:gap-18">
+      <div class="flex min-w-0 flex-1 flex-col xl:pt-4">
         <PageTitle
           eyebrow={content.hero.eyebrow}
           title={content.hero.title}
           lead={content.hero.lead}
         />
         <Image
-          class="mt-8 h-figure w-full rounded-sm object-cover lg:mt-12"
+          class="mt-8 h-figure w-full rounded-sm object-cover xl:mt-12"
           style="object-position: 60% 35%"
           src={content.hero.image.src}
           alt={content.hero.image.alt}
@@ -140,20 +140,21 @@ const contactLd = {
         />
       </div>
 
-      <Card variant="floating" class="lg:w-form lg:shrink-0 lg:p-10">
+      <Card variant="floating" class="xl:w-form xl:shrink-0 xl:p-10">
         <HubSpotForm
-          class="flex flex-col gap-6 lg:gap-8"
           portalId={hubspot.portalId}
           formId={hubspot.formId}
           region={hubspot.region}
           supportEmail={content.supportEmail}
           helpCenterHref={content.helpCenterHref}
         >
-          <h2 class="m-0 type-card-title-lg text-foreground">{content.form.heading}</h2>
+          <h2 class="m-0 mb-6 type-card-title-lg text-foreground xl:mb-8">
+            {content.form.heading}
+          </h2>
 
           <p
             slot="after"
-            class="m-0 flex items-center justify-center gap-2 text-center type-label text-foreground-secondary"
+            class="m-0 mt-3 flex items-center justify-center gap-2 text-center type-label text-foreground-secondary"
           >
             <Icon name="lock" size={16} class="text-brand-emphasis" />
             <span>
@@ -220,17 +221,17 @@ const contactLd = {
     <h2 id="next-title" class="m-0 mt-2 type-section-title text-foreground md:mt-3">
       {content.next.heading}
     </h2>
-    <ol class="m-0 mt-8 grid list-none gap-8 p-0 md:mt-12 md:grid-cols-3 md:gap-12">
+    <ol class="m-0 mt-8 grid list-none gap-8 p-0 md:mt-12 lg:grid-cols-3 lg:gap-12">
       {
         content.next.steps.map((step, i) => (
-          <li class="flex items-start gap-4 md:flex-col">
+          <li class="flex items-start gap-4 lg:flex-col">
             <span
-              class="inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-brand-subtle type-card-title-md text-on-brand-subtle md:size-control"
+              class="inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-brand-subtle type-card-title-md text-on-brand-subtle lg:size-control"
               aria-hidden="true"
             >
               {i + 1}
             </span>
-            <div class="flex flex-col gap-2 md:gap-4">
+            <div class="flex flex-col gap-2 lg:gap-4">
               <h3 class="m-0 type-card-title-md text-foreground">{step.title}</h3>
               <p class="m-0 max-w-measure-short type-body text-foreground-body">{step.text}</p>
             </div>
@@ -241,21 +242,23 @@ const contactLd = {
   </Section>
 
   <Section aria-labelledby="support-title">
-    <Card class="gap-3 lg:flex-row lg:items-center lg:gap-12 lg:px-18 lg:py-16">
+    <Card class="gap-3 xl:flex-row xl:items-center xl:gap-12 xl:px-18 xl:py-16">
       <FeatureIcon name="question" disc />
-      <div class="flex min-w-0 flex-1 flex-col gap-3 lg:gap-4">
+      <div class="flex min-w-0 flex-1 flex-col gap-3 xl:gap-4">
         <h2 id="support-title" class="m-0 type-card-title-lg text-foreground">
           {content.support.heading}
         </h2>
-        <p class="m-0 type-lead text-foreground-secondary">{content.support.text}</p>
+        <p class="m-0 type-body text-foreground-body xl:type-lead xl:text-foreground-secondary">
+          {content.support.text}
+        </p>
       </div>
       <div
-        class="flex shrink-0 flex-col items-start gap-2 lg:gap-4 lg:border-l lg:border-border lg:pl-12"
+        class="flex shrink-0 flex-col items-start gap-2 xl:gap-4 xl:border-l xl:border-border xl:pl-12"
       >
         <ArrowLink href={content.helpCenterHref} data-intercom-launcher>
           {content.support.chatLabel}
         </ArrowLink>
-        <a class="type-lead font-bold" href={`mailto:${content.supportEmail}`}>
+        <a class="type-body font-bold xl:type-lead" href={`mailto:${content.supportEmail}`}>
           {content.supportEmail}
         </a>
         <ArrowLink href={content.helpCenterHref}>{content.support.helpCenterLabel}</ArrowLink>
