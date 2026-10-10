@@ -98,7 +98,18 @@
   --surface: var(--white); /* white bands, cards, header, footer, sticky bar */
   --tint: var(--off-white); /* flat Tint panel: single quotes, takeaways, series tiles */
   --brand-tint: var(--green-50); /* new: the accent testimonial card (Home) */
-  --border-brand: rgba(0, 110, 81, 0.25); /* new: the rule inside an accent testimonial (Home) */
+  --border-brand: rgba(
+    0,
+    110,
+    81,
+    0.25
+  ); /* new: the rule inside an accent testimonial (Home), the recommended plan card (Pricing) */
+  --brand-shade: rgba(
+    0,
+    0,
+    0,
+    0.14
+  ); /* new, provisional: the darker strip closing an Emerald panel (Pricing, Advanced Wellness Program) */
   --foreground: var(--charcoal); /* headings, card titles, eyebrows, names */
   --foreground-secondary: var(--dark-slate); /* leads, nav and footer links */
   --foreground-body: var(--slate); /* body copy */
@@ -246,6 +257,8 @@
   --icon-lg: 24px;
   --icon-feature: 32px; /* bare feature icon leading a card */
   --icon-disc: 48px; /* Emerald feature-icon disc */
+  --collapse-height: 640px; /* new: a long table shown collapsed under a fade (Pricing) */
+  --icon-check: 22px; /* new: the filled check disc (Pricing table and add-on list) */
 
   /* ---- Motion (new family): every transition on the boards ---- */
   --motion: 220ms cubic-bezier(0.16, 1, 0.3, 1);

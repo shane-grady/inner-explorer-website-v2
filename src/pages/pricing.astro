@@ -1,18 +1,780 @@
 ---
-// Placeholder until this page is built from the "Inner Explorer — Website" canvas
-// (FINAL V). See tasks/rebuild-plan.md for the order pages are built in.
+// Pricing, from the FINAL V boards Pricing-Desktop and Pricing-Mobile. Plan data started from
+// the pre-rebuild `0c8cac2:src/content/pages/pricing.yml`; where the two disagree the board
+// wins (rows renamed and regrouped). Every contact CTA reads "Contact us" (the boards' "Contact
+// us for districtwide pricing" and "Talk to our team" included). Prices, awards and the AWP
+// figures are unconfirmed: tasks/todo.md › Pricing.
 import PageLayout from '../layouts/PageLayout.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import Section from '../components/ui/Section.astro';
+import PageTitle from '../components/ui/PageTitle.astro';
+import Button from '../components/ui/Button.astro';
+import Icon from '../components/ui/Icon.astro';
+import Checklist from '../components/ui/Checklist.astro';
+import ClosingCta from '../components/blocks/ClosingCta.astro';
+import { emphasize } from '../lib/emphasize';
+
+/** A comparison cell: included, not included, not applicable, a priced add-on, or text. */
+type Cell = 'yes' | 'no' | 'na' | { price: string; note?: string } | string;
+interface Row {
+  feat: string;
+  /** Small qualifier under the feature name. */
+  note?: string;
+  /** One per plan, in `plans` order. */
+  cells: readonly [Cell, Cell, Cell];
+}
 
 const content = {
   title: 'Pricing | Inner Explorer',
   description:
-    'Find the right Inner Explorer daily mindfulness license for your school, center, or district.',
-  heading: 'Pricing',
-  lead: 'Find the right plan for your school, center, or district.',
+    'Compare Inner Explorer’s Early Learning, Community, and Community Pro plans feature by feature and find the right daily mindfulness license for your school, center, or district.',
+  hero: {
+    eyebrow: 'Plans & pricing',
+    title: 'Find the ideal plan for\n*your learning community.*',
+    lead: 'Every plan includes the full library of daily audio-guided practices, PreK through 12, in English and Spanish. Compare the three site licenses below and choose the one that fits your school, center, or district.',
+  },
+  recommendedLabel: 'Recommended',
+  ctaLabel: 'Contact us',
+  ctaHref: '/contact/',
+  plans: [
+    {
+      name: 'Early Learning',
+      price: '$1,200',
+      unit: 'per center, per year',
+      blurb:
+        'Annual per site license for early learning, out-of-school-time, and after-school centers.',
+      highlight: false,
+    },
+    {
+      name: 'Community',
+      price: '$2,800',
+      unit: 'per school, per year',
+      blurb:
+        'Annual per site license for a single school, with admin dashboards, single sign-on, and onboarding.',
+      highlight: true,
+    },
+    {
+      name: 'Community Pro',
+      price: '$3,600',
+      unit: 'per school, per year',
+      // The desktop board's wording; the mobile board adds "roster management" (tasks/todo.md).
+      blurb:
+        'Annual per site license with full family access, a dedicated coordinator, and the Inner Explorer guarantee.',
+      highlight: false,
+    },
+  ],
+  plansNote:
+    'All plans are annual per site licenses. Reach out with any questions about which plan fits your school, center, or district.',
+  compare: {
+    eyebrow: 'Compare plans',
+    title: 'Every feature,\n*side by side.*',
+    intro:
+      'The full breakdown of what each license includes, and what can be added on. Items priced in a column are optional add-ons for that plan.',
+    tableLabel: 'Inner Explorer plans compared feature by feature',
+    legend: {
+      heading: 'What’s included',
+      included: 'Included',
+      addon: 'Optional add-on, priced per site',
+      notIncluded: 'Not included',
+    },
+    diffLabel: 'Show only differences',
+    expandLabel: 'Expand',
+    collapseLabel: 'Show fewer features',
+    countLabel: 'features',
+    notApplicable: 'Not applicable',
+    addonLabel: 'add-on',
+    footer: { title: 'Ready when you are', text: 'Our team replies within 1 business day.' },
+    footnote:
+      'Prices are annual per site licenses in U.S. dollars. Districts of 10 or more schools qualify for districtwide pricing, and most partners fund the program through Title IV-A, BSCA mental health, or state SEL grants. Talk to us and we will map the plan to the funding you already have.',
+    groups: [
+      {
+        title: 'Overview',
+        rows: [
+          {
+            feat: 'Mindfulness Based Stress Reduction (MBSR) protocol',
+            cells: ['yes', 'yes', 'yes'],
+          },
+          { feat: 'Mental health mandate aligned', cells: ['yes', 'yes', 'yes'] },
+          { feat: 'BrainFutures named top 10 executive functioning', cells: ['yes', 'yes', 'yes'] },
+          { feat: 'CASEL approved', cells: ['yes', 'yes', 'yes'] },
+          { feat: 'FETC finalist 2025', cells: ['yes', 'yes', 'yes'] },
+          {
+            feat: 'Published research on improved academics, behavior, and wellbeing',
+            cells: ['yes', 'yes', 'yes'],
+          },
+          { feat: 'Backed by the Inner Explorer guarantee', cells: ['no', 'no', 'yes'] },
+        ],
+      },
+      {
+        title: 'Programming',
+        rows: [
+          {
+            feat: '180 days of sequenced audio-guided practices by age group (PreK-12)',
+            cells: ['yes', 'yes', 'yes'],
+          },
+          { feat: 'Brief transition and sound practices', cells: ['yes', 'yes', 'yes'] },
+          { feat: 'Spanish language practices', cells: ['yes', 'yes', 'yes'] },
+          {
+            feat: 'Dynamic Practices module with 5 and 10 minute practice series',
+            note: 'Middle and high school',
+            cells: ['yes', 'yes', 'yes'],
+          },
+          { feat: 'School Safety series', cells: ['yes', 'yes', 'yes'] },
+          { feat: 'Educator and staff wellness series', cells: ['yes', 'yes', 'yes'] },
+          { feat: 'Counselor and social worker series', cells: ['na', 'yes', 'yes'] },
+          {
+            feat: 'STEM+M (mindfulness) project-based learning modules',
+            note: 'Elementary and middle school, per bundle of 10',
+            cells: [
+              'na',
+              { price: '$600', note: 'Annual per site license' },
+              {
+                price: '$600',
+                note: 'Annual per site license with full family access and performance guarantee',
+              },
+            ],
+          },
+          { feat: 'Out-of-school-time (OST) access', cells: ['yes', { price: '$225' }, 'yes'] },
+          {
+            feat: 'Summer extension experience',
+            cells: [{ price: '$200' }, { price: '$200' }, 'yes'],
+          },
+          {
+            feat: 'Asynchronous professional development',
+            note: '10 hours',
+            cells: [{ price: '$800' }, { price: '$800' }, 'yes'],
+          },
+          { feat: 'Reflective journaling', cells: ['yes', 'yes', 'yes'] },
+        ],
+      },
+      {
+        title: 'Innovative features',
+        rows: [
+          { feat: 'Tune In for families and caregivers', cells: ['yes', 'yes', 'yes'] },
+          { feat: '21 Day Quest and 30 Day Quest', cells: ['yes', 'yes', 'yes'] },
+          { feat: 'Advanced Quest feature with multiple quests', cells: ['no', 'yes', 'yes'] },
+          { feat: 'School level admin dashboard', cells: ['no', 'yes', 'yes'] },
+          { feat: 'District level admin dashboard', cells: ['no', 'yes', 'yes'] },
+          {
+            feat: 'Clever single sign-on (SSO) for educators and students',
+            cells: ['no', 'yes', 'yes'],
+          },
+          { feat: 'Clever sync with roster management', cells: ['no', 'no', 'yes'] },
+          { feat: 'ClassLink SSO for educators', cells: ['no', 'yes', 'yes'] },
+          { feat: 'ClassLink with roster management', cells: ['no', 'no', 'yes'] },
+          { feat: 'Google SSO for educators', cells: ['no', 'yes', 'yes'] },
+          { feat: 'Canvas SSO for educators', cells: ['no', 'yes', 'yes'] },
+          { feat: 'Schoology SSO for educators', cells: ['no', 'yes', 'yes'] },
+          { feat: 'One Profile', cells: ['yes', 'yes', 'yes'] },
+          { feat: 'Usage analytics trends and charts', cells: ['yes', 'yes', 'yes'] },
+          { feat: 'Advanced analytics dashboard', cells: ['yes', 'yes', 'yes'] },
+          { feat: 'QR code based signups and invitations', cells: ['yes', 'yes', 'yes'] },
+          {
+            feat: 'Access on all devices for families',
+            cells: [
+              { price: '$250', note: 'Up to 50 families' },
+              { price: '$600', note: 'Up to 300 families' },
+              'yes',
+            ],
+          },
+          {
+            feat: 'Impact analytics study and ROI calculations',
+            cells: [{ price: '$200' }, { price: '$200' }, 'yes'],
+          },
+          {
+            feat: 'Mindful Classroom Journey digital book',
+            cells: [
+              { price: '$195', note: 'Up to 15 classes' },
+              { price: '$395', note: 'Up to 50 classes' },
+              'yes',
+            ],
+          },
+        ],
+      },
+      {
+        title: 'Support and resources',
+        rows: [
+          { feat: 'Online technical support', cells: ['yes', 'yes', 'yes'] },
+          { feat: 'Mindful toolkit for educators', cells: ['yes', 'yes', 'yes'] },
+          { feat: 'Tech support with screen sharing', cells: ['yes', 'yes', 'yes'] },
+          { feat: 'Online webinars', cells: ['no', '1 included', '3 included'] },
+          {
+            feat: 'Mental health and resilience mandate supplements',
+            cells: ['no', 'yes', 'yes'],
+          },
+          { feat: 'Onboarding module', cells: ['no', 'yes', 'yes'] },
+          {
+            feat: 'Dedicated portal',
+            note: 'Not available for single schools',
+            cells: ['no', 'no', 'yes'],
+          },
+          { feat: 'Dedicated Inner Explorer coordinator', cells: ['no', 'no', 'yes'] },
+          {
+            feat: 'Monthly check-ins with analytics and insights',
+            note: '10 or more schools',
+            cells: ['no', 'no', 'yes'],
+          },
+        ],
+      },
+    ] satisfies { title: string; rows: Row[] }[],
+  },
+  addons: {
+    heading: 'Programs and add-ons',
+    title: 'Advanced Wellness Program',
+    lead: 'Put your practitioners in every classroom. Daily mindfulness, delivered as a documented Tier 1 service, with a path to Tier 2 and 3 support.',
+    text: 'The Advanced Wellness Program equips school psychologists, counselors, LMFTs, social workers, and Certified Wellness Coaches to lead Inner Explorer’s daily practice in classrooms, document every session, and connect the work to your district’s screening, plans, and, where your state allows, reimbursement. Every student in the classroom benefits. Your practitioners get the training, tools, and support to make it count. Simply and sustainably.',
+    includesLabel: 'Includes',
+    includes: [
+      'Inner Explorer platform for every classroom, early learning through grade 12, English and Spanish',
+      'Expanded professional development for practitioners, live and on demand',
+      'Priority practitioner support',
+      'Pre and Post assessments',
+      'Dedicated implementation lead',
+      'Practitioner Toolkit: general and reimbursement implementation guide, research base, family communication, student-facing content, templates',
+      'Certified Wellness Coach Toolkit with State Specific Appendix',
+      'Monthly check-ins with your practitioner team',
+      'Quarterly reporting and a year-end outcomes report',
+      'Family engagement kit and home app access',
+      'Board and leadership presentation materials',
+    ],
+    prices: [
+      {
+        title: 'Standalone',
+        price: '$5,800',
+        unit: 'per year',
+        text: 'The Inner Explorer platform license plus every Advanced Wellness Program component above',
+      },
+      {
+        title: 'Upgrade to an existing Community Pro license',
+        price: '$2,200',
+        unit: 'per year',
+        text: 'Every Advanced Wellness Program component above, added to the district’s current license',
+      },
+    ],
+    prompt: 'Talk with our team about bringing the Advanced Wellness Program to your district.',
+    disclaimer:
+      'Pricing is set independently of any reimbursement a district receives and does not vary with claim volume.',
+  },
+  cta: {
+    title: 'Not sure which plan fits? *Let us help.*',
+    lead: 'Reach out to our team so we can learn more about your school community and choose the plan that’s right for you.',
+    primary: { label: 'Contact us', href: '/contact/' },
+    secondary: { label: 'See the platform', href: '/platform/' },
+  },
+} as const;
+
+const { compare } = content;
+const recommended = content.plans.findIndex((p) => p.highlight);
+const legendItems = [
+  { kind: 'yes', label: compare.legend.included },
+  { kind: 'addon', label: compare.legend.addon },
+  { kind: 'no', label: compare.legend.notIncluded },
+] as const;
+const isPrice = (c: Cell): c is { price: string; note?: string } => typeof c === 'object';
+// A row whose three cells match is hidden by "Show only differences".
+const sameCells = (cells: readonly Cell[]) =>
+  cells.every((c) => JSON.stringify(c) === JSON.stringify(cells[0]));
+
+// Structured data: one Product with three annual site-license offers (ported from 0c8cac2).
+const productLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: 'Inner Explorer',
+  description:
+    'Daily audio-guided mindfulness practices for PreK-12 schools, centers, and districts.',
+  brand: { '@type': 'Brand', name: 'Inner Explorer' },
+  offers: content.plans.map((p) => ({
+    '@type': 'Offer',
+    name: p.name,
+    description: p.blurb,
+    price: p.price.replace(/[$,]/g, ''),
+    priceCurrency: 'USD',
+    url: Astro.site ? new URL(content.ctaHref, Astro.site).href : content.ctaHref,
+    availability: 'https://schema.org/InStock',
+  })),
 };
 ---
 
 <PageLayout title={content.title} description={content.description}>
-  <h1>{content.heading}</h1>
-  <p>{content.lead}</p>
+  <JsonLd slot="head" schema={productLd} />
+
+  <Section spacing="hero">
+    <PageTitle eyebrow={content.hero.eyebrow} title={content.hero.title} lead={content.hero.lead} />
+
+    <div class="mt-8 grid gap-4 md:mt-12 lg:grid-cols-3 lg:gap-6">
+      {
+        content.plans.map((plan) => (
+          <article
+            class:list={[
+              'ie-card flex min-w-0 flex-col gap-5 px-6 py-7 md:p-8',
+              plan.highlight ? 'ie-card-recommended' : 'ie-card-raised',
+            ]}
+          >
+            <div class="flex min-h-6.5 items-center justify-between gap-3">
+              <h2
+                class:list={[
+                  'm-0 type-eyebrow',
+                  plan.highlight ? 'text-brand-emphasis' : 'text-foreground',
+                ]}
+              >
+                {plan.name}
+              </h2>
+              {plan.highlight && (
+                <span class="rounded-full bg-brand-surface px-3 py-1 type-tag text-on-brand">
+                  {content.recommendedLabel}
+                </span>
+              )}
+            </div>
+            <p class="m-0 flex flex-col gap-1.5">
+              <span class="font-sans type-stat-md font-bold text-foreground tabular-nums">
+                {plan.price}
+              </span>
+              <span class="type-small text-foreground-muted">{plan.unit}</span>
+            </p>
+            <p class="m-0 border-t border-border pt-5 type-list text-foreground-secondary">
+              {plan.blurb}
+            </p>
+            <Button
+              variant={plan.highlight ? 'primary' : 'secondary'}
+              href={content.ctaHref}
+              block
+              arrow
+              class="mt-auto"
+            >
+              {content.ctaLabel}
+              <span class="sr-only"> about the {plan.name} plan</span>
+            </Button>
+          </article>
+        ))
+      }
+    </div>
+    <p class="m-0 mt-5 type-small text-foreground-muted">{content.plansNote}</p>
+  </Section>
+
+  <Section tone="white" class="border-t border-border" aria-labelledby="compare-title">
+    <div class="grid gap-6 lg:grid-cols-4 lg:items-end lg:gap-2">
+      <div class="flex flex-col gap-6 lg:col-span-2">
+        <p class="m-0 type-eyebrow text-foreground">{compare.eyebrow}</p>
+        <h2
+          id="compare-title"
+          class="m-0 type-section-title text-foreground"
+          set:html={emphasize(compare.title)}
+        />
+      </div>
+      <p
+        class="m-0 max-w-measure type-lead text-foreground-secondary lg:col-span-2 lg:justify-self-end"
+      >
+        {compare.intro}
+      </p>
+    </div>
+
+    <div class="mt-6 flex flex-col gap-5 lg:mt-12 lg:gap-6" data-compare>
+      <div class="flex flex-col gap-3.5 lg:hidden">
+        <p class="m-0 type-eyebrow text-foreground-muted">{compare.legend.heading}</p>
+        <ul class="m-0 flex list-none flex-col gap-2 p-0">
+          {
+            legendItems.map((item) => (
+              <li class="flex items-center gap-2 type-label text-foreground-secondary">
+                {item.kind === 'yes' ? (
+                  <span class="ie-check-disc" aria-hidden="true">
+                    <Icon name="check" size={16} />
+                  </span>
+                ) : item.kind === 'addon' ? (
+                  <span
+                    class="flex size-icon-check shrink-0 items-center justify-center rounded-full bg-orange-200 type-tag text-foreground"
+                    aria-hidden="true"
+                  >
+                    $
+                  </span>
+                ) : (
+                  <Icon name="minus" size={22} class="text-foreground-muted" />
+                )}
+                <span>{item.label}</span>
+              </li>
+            ))
+          }
+        </ul>
+        <button
+          type="button"
+          role="switch"
+          aria-checked="false"
+          class="ie-switch type-small font-bold"
+          hidden
+          data-diff-switch
+        >
+          <span class="ie-switch-track" aria-hidden="true"></span>
+          {compare.diffLabel}
+        </button>
+      </div>
+      <div class="-mx-section-x lg:mx-0">
+        <div id="compare-table" class="ie-collapse lg:pt-4" data-collapse>
+          <div class="relative">
+            <div class="border-t border-border lg:overflow-hidden lg:rounded-sm lg:border">
+              <table
+                aria-label={compare.tableLabel}
+                class="block w-full border-collapse lg:table lg:table-fixed"
+              >
+                <colgroup class="hidden lg:table-column-group">
+                  <col class="w-2/5" />
+                  <col class="w-1/5" />
+                  <col class="w-1/5" />
+                  <col class="w-1/5" />
+                </colgroup>
+                <thead class="sticky top-0 z-10 block bg-surface lg:static lg:table-header-group">
+                  <tr class="grid grid-cols-3 border-b border-border lg:table-row lg:align-bottom">
+                    <td class="hidden px-6 pt-7 pb-6 lg:table-cell">
+                      <div class="flex flex-col gap-3.5">
+                        <p class="m-0 type-eyebrow text-foreground-muted">
+                          {compare.legend.heading}
+                        </p>
+                        <ul class="m-0 flex list-none flex-col gap-2 p-0">
+                          {
+                            legendItems.map((item) => (
+                              <li class="flex items-center gap-2 type-label text-foreground-secondary">
+                                {item.kind === 'yes' ? (
+                                  <span class="ie-check-disc" aria-hidden="true">
+                                    <Icon name="check" size={16} />
+                                  </span>
+                                ) : item.kind === 'addon' ? (
+                                  <span
+                                    class="flex size-icon-check shrink-0 items-center justify-center rounded-full bg-orange-200 type-tag text-foreground"
+                                    aria-hidden="true"
+                                  >
+                                    $
+                                  </span>
+                                ) : (
+                                  <Icon name="minus" size={22} class="text-foreground-muted" />
+                                )}
+                                <span>{item.label}</span>
+                              </li>
+                            ))
+                          }
+                        </ul>
+                        <button
+                          type="button"
+                          role="switch"
+                          aria-checked="false"
+                          class="ie-switch type-small font-bold"
+                          hidden
+                          data-diff-switch
+                        >
+                          <span class="ie-switch-track" aria-hidden="true"></span>
+                          {compare.diffLabel}
+                        </button>
+                      </div>
+                    </td>
+                    {
+                      content.plans.map((plan) => (
+                        <th
+                          scope="col"
+                          class:list={[
+                            'min-w-0 px-1 py-3 text-center font-normal lg:px-5 lg:pt-8 lg:pb-6',
+                            plan.highlight &&
+                              'rounded-t-sm border-2 border-b-0 border-brand-emphasis bg-brand-tint lg:rounded-none lg:border-0 lg:bg-transparent',
+                          ]}
+                        >
+                          <span class="flex flex-col items-center gap-0.5 lg:gap-1">
+                            {plan.highlight && (
+                              <span
+                                class="mb-1 rounded-full bg-brand-surface px-2 py-0.5 type-tag text-on-brand lg:hidden"
+                                aria-hidden="true"
+                              >
+                                {content.recommendedLabel}
+                              </span>
+                            )}
+                            <span class="type-label font-bold text-foreground lg:type-card-title-md">
+                              {plan.name}
+                              {plan.highlight && (
+                                <span class="sr-only"> ({content.recommendedLabel})</span>
+                              )}
+                            </span>
+                            <span class="type-card-title-sm text-foreground lg:mt-1 lg:type-card-title-lg">
+                              {plan.price}
+                            </span>
+                            <span class="type-label text-foreground-muted">{plan.unit}</span>
+                            <Button
+                              variant={plan.highlight ? 'primary' : 'secondary'}
+                              size="sm"
+                              href={content.ctaHref}
+                              block
+                              class="mt-3.5 hidden lg:inline-flex"
+                            >
+                              {content.ctaLabel}
+                              <span class="sr-only"> about the {plan.name} plan</span>
+                            </Button>
+                          </span>
+                        </th>
+                      ))
+                    }
+                  </tr>
+                </thead>
+                {
+                  compare.groups.map((group) => (
+                    <tbody class="block lg:table-row-group" data-group>
+                      <tr class="block border-b border-border bg-tint lg:table-row">
+                        <th
+                          scope="rowgroup"
+                          colspan="4"
+                          class="block px-4 py-3.5 text-left font-normal lg:table-cell lg:px-6 lg:py-4"
+                        >
+                          <span class="flex items-center justify-between gap-2.5 lg:justify-start">
+                            <h3 class="m-0 type-card-title-md text-foreground">{group.title}</h3>
+                            <span class="type-label text-foreground-muted">
+                              <span data-count>{group.rows.length}</span> {compare.countLabel}
+                            </span>
+                          </span>
+                        </th>
+                      </tr>
+                      {group.rows.map((row: Row) => (
+                        <tr
+                          class="grid grid-cols-3 gap-y-2.5 border-b border-border bg-surface py-3.5 lg:table-row lg:h-13 lg:py-0"
+                          data-row
+                          data-same={sameCells(row.cells) ? '' : undefined}
+                        >
+                          <th
+                            scope="row"
+                            class="col-span-3 px-4 text-left font-normal lg:px-6 lg:py-3.5"
+                          >
+                            <span class="block type-list text-foreground">{row.feat}</span>
+                            {row.note && (
+                              <span class="mt-0.5 block type-label text-foreground-muted">
+                                {row.note}
+                              </span>
+                            )}
+                          </th>
+                          {row.cells.map((cell) => (
+                            <td class="min-w-0 px-0.5 text-center align-middle lg:px-4 lg:py-3.5">
+                              <span class="flex min-h-7 items-center justify-center">
+                                {cell === 'yes' ? (
+                                  <>
+                                    <span class="ie-check-disc" aria-hidden="true">
+                                      <Icon name="check" size={16} />
+                                    </span>
+                                    <span class="sr-only">{compare.legend.included}</span>
+                                  </>
+                                ) : cell === 'no' ? (
+                                  <>
+                                    <Icon name="minus" size={20} class="text-foreground-muted" />
+                                    <span class="sr-only">{compare.legend.notIncluded}</span>
+                                  </>
+                                ) : cell === 'na' ? (
+                                  <span class="type-label text-foreground-muted">
+                                    {compare.notApplicable}
+                                  </span>
+                                ) : isPrice(cell) ? (
+                                  <span class="block">
+                                    <span class="type-body font-bold text-foreground">
+                                      {cell.price}
+                                    </span>{' '}
+                                    <span class="type-label text-foreground-muted">
+                                      {compare.addonLabel}
+                                    </span>
+                                    {cell.note && (
+                                      <span class="mt-0.5 block type-label text-balance text-foreground-muted">
+                                        {cell.note}
+                                      </span>
+                                    )}
+                                  </span>
+                                ) : (
+                                  <span class="type-small font-bold text-foreground">{cell}</span>
+                                )}
+                              </span>
+                            </td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  ))
+                }
+                <tfoot class="block lg:table-footer-group">
+                  <tr class="hidden bg-tint lg:table-row">
+                    <th scope="row" class="p-6 text-left font-normal">
+                      <span class="flex flex-col gap-1">
+                        <span class="type-card-title-md text-foreground">
+                          {compare.footer.title}
+                        </span>
+                        <span class="type-small text-foreground-secondary">
+                          {compare.footer.text}
+                        </span>
+                      </span>
+                    </th>
+                    {
+                      content.plans.map((plan) => (
+                        <td class="px-5 py-6 align-middle">
+                          <Button
+                            variant={plan.highlight ? 'primary' : 'secondary'}
+                            size="sm"
+                            href={content.ctaHref}
+                            block
+                          >
+                            {content.ctaLabel}
+                            <span class="sr-only"> about the {plan.name} plan</span>
+                          </Button>
+                        </td>
+                      ))
+                    }
+                  </tr>
+                  <tr class="block bg-tint lg:hidden">
+                    <td class="flex flex-col gap-3 px-5 py-6">
+                      <span class="type-card-title-md text-foreground">{compare.footer.title}</span>
+                      <span class="type-small text-foreground-secondary">
+                        {compare.footer.text}
+                      </span>
+                      <Button href={content.ctaHref} arrow class="mt-1">
+                        {content.ctaLabel}
+                      </Button>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+            <div
+              class="ie-compare-highlight hidden lg:block"
+              style={`--col: ${recommended}`}
+              aria-hidden="true"
+            >
+              <span
+                class="absolute top-0 left-1/2 -translate-1/2 rounded-full bg-brand-surface px-3 py-1 type-tag whitespace-nowrap text-on-brand"
+              >
+                {content.recommendedLabel}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-center">
+        <button
+          type="button"
+          class="group ie-chip"
+          aria-controls="compare-table"
+          aria-expanded="true"
+          hidden
+          data-collapse-toggle
+          data-expand={compare.expandLabel}
+          data-collapse-label={compare.collapseLabel}
+        >
+          <span data-collapse-text>{compare.collapseLabel}</span>
+          <Icon name="chevron-down" class="group-data-open:rotate-180" />
+        </button>
+      </div>
+    </div>
+
+    <p class="m-0 mt-6 max-w-measure-article type-small text-foreground-muted">
+      {compare.footnote}
+    </p>
+
+    <div class="mt-8 flex flex-col gap-5 md:gap-6">
+      <h2 class="m-0 type-card-title-lg text-foreground">{content.addons.heading}</h2>
+      <article aria-labelledby="awp-title" class="ie-card bg-brand-surface" data-on-brand>
+        <div class="grid lg:grid-cols-12">
+          <div class="flex flex-col gap-3.5 px-5 py-6 lg:col-span-5 lg:gap-4 lg:p-10">
+            <h3 id="awp-title" class="m-0 type-card-title-lg text-foreground">
+              {content.addons.title}
+            </h3>
+            <p class="m-0 type-stat-label text-foreground">{content.addons.lead}</p>
+            <p class="m-0 type-small text-foreground-muted">{content.addons.text}</p>
+          </div>
+          <div
+            class="flex flex-col gap-3.5 border-t border-border px-5 pt-6 pb-3 lg:col-span-7 lg:gap-4.5 lg:border-t-0 lg:border-l lg:px-10 lg:pt-10 lg:pb-7"
+          >
+            <p class="m-0 type-eyebrow text-foreground">{content.addons.includesLabel}</p>
+            <Checklist items={content.addons.includes} columns={2} size="sm" marker="disc" />
+            <div
+              class="mt-auto grid gap-3 border-t border-border pt-6 pb-3 md:grid-cols-2 md:gap-4 lg:pb-0"
+            >
+              {
+                content.addons.prices.map((box) => (
+                  <div
+                    class="flex min-w-0 flex-col gap-2 rounded-sm bg-surface p-5"
+                    data-on-surface
+                  >
+                    <h4 class="m-0 type-small font-bold text-foreground">{box.title}</h4>
+                    <p class="m-0 flex items-baseline gap-1.5">
+                      <span class="font-sans type-stat-sm font-bold text-foreground tabular-nums">
+                        {box.price}
+                      </span>
+                      <span class="type-label text-foreground-muted">{box.unit}</span>
+                    </p>
+                    <p class="m-0 type-label text-foreground-secondary">{box.text}</p>
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+        </div>
+        <div
+          class="flex flex-col gap-3 border-t border-border bg-brand-shade px-5 py-6 lg:flex-row lg:items-center lg:justify-between lg:gap-10 lg:px-10"
+        >
+          <div class="flex min-w-0 flex-col gap-1">
+            <p class="m-0 type-stat-label text-foreground">{content.addons.prompt}</p>
+            <p class="m-0 type-label text-foreground-muted">{content.addons.disclaimer}</p>
+          </div>
+          <Button variant="light" href={content.ctaHref} arrow class="mt-1 shrink-0 lg:mt-0">
+            {content.ctaLabel}
+            <span class="sr-only"> about the {content.addons.title}</span>
+          </Button>
+        </div>
+      </article>
+    </div>
+  </Section>
+
+  <Section>
+    <ClosingCta
+      layout="inline"
+      title={content.cta.title}
+      lead={content.cta.lead}
+      primary={content.cta.primary}
+      secondary={content.cta.secondary}
+    />
+  </Section>
 </PageLayout>
+
+<script>
+  // The comparison table: collapsed under a fade until expanded (whole without JS), and
+  // "Show only differences" hides the rows whose three cells match.
+  for (const root of document.querySelectorAll<HTMLElement>('[data-compare]')) {
+    const panel = root.querySelector<HTMLElement>('[data-collapse]');
+    const toggle = root.querySelector<HTMLButtonElement>('[data-collapse-toggle]');
+    const toggleText = toggle?.querySelector('[data-collapse-text]');
+    const switches = [...root.querySelectorAll<HTMLButtonElement>('[data-diff-switch]')];
+    if (!panel || !toggle || !toggleText) continue;
+
+    const setCollapsed = (collapsed: boolean) => {
+      panel.toggleAttribute('data-collapsed', collapsed);
+      toggle.setAttribute('aria-expanded', String(!collapsed));
+      toggle.toggleAttribute('data-open', !collapsed);
+      toggleText.textContent = collapsed
+        ? (toggle.dataset.expand ?? '')
+        : (toggle.dataset.collapseLabel ?? '');
+    };
+    toggle.hidden = false;
+    setCollapsed(true);
+    toggle.addEventListener('click', () => {
+      const expanding = panel.hasAttribute('data-collapsed');
+      setCollapsed(!expanding);
+      if (!expanding) panel.scrollIntoView({ block: 'nearest' });
+    });
+    // Nothing focused stays under the fade: focus past where it starts (62%) expands.
+    panel.addEventListener('focusin', (event) => {
+      if (!panel.hasAttribute('data-collapsed') || !(event.target instanceof Element)) return;
+      const box = panel.getBoundingClientRect();
+      if (event.target.getBoundingClientRect().bottom > box.top + box.height * 0.62) {
+        setCollapsed(false);
+      }
+    });
+
+    const setDiffOnly = (on: boolean) => {
+      for (const s of switches) s.setAttribute('aria-checked', String(on));
+      for (const row of root.querySelectorAll<HTMLElement>('[data-same]')) row.hidden = on;
+      for (const group of root.querySelectorAll<HTMLElement>('[data-group]')) {
+        const count = group.querySelector('[data-count]');
+        if (count)
+          count.textContent = String(group.querySelectorAll('tr[data-row]:not([hidden])').length);
+      }
+    };
+    for (const s of switches) {
+      s.hidden = false;
+      s.addEventListener('click', () => setDiffOnly(s.getAttribute('aria-checked') !== 'true'));
+    }
+  }
+</script>

@@ -286,6 +286,20 @@ const checklist = [
         <FeatureIcon name="shield-check" size={32} />
       </div>
       <Checklist items={checklist} columns={3} />
+      <Checklist items={checklist} columns={3} size="sm" marker="disc" />
+      <div class="grid gap-4 md:grid-cols-2">
+        <div class="flex flex-col gap-2 rounded-sm bg-surface p-5" data-on-surface>
+          <span class="type-small font-bold text-foreground">A white box on green</span>
+          <span class="type-label text-foreground-secondary">
+            <code>data-on-surface</code> brings the light ink back (Pricing's add-on prices).
+          </span>
+        </div>
+        <div class="flex items-center rounded-sm bg-brand-shade p-5">
+          <span class="type-label text-foreground">
+            <code>bg-brand-shade</code>: the strip closing an Emerald panel (provisional).
+          </span>
+        </div>
+      </div>
     </div>
   </Section>
 
@@ -312,6 +326,44 @@ const checklist = [
         </p>
       </Card>
     </ul>
+    <div class="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2">
+      <div class="ie-card ie-card-recommended flex flex-col gap-5 p-8">
+        <div class="flex items-center justify-between gap-3">
+          <span class="type-eyebrow text-brand-emphasis">Recommended plan</span>
+          <span class="rounded-full bg-brand-surface px-3 py-1 type-tag text-on-brand">
+            Recommended
+          </span>
+        </div>
+        <p class="m-0 border-t border-border pt-5 type-list text-foreground-secondary">
+          <code>.ie-card-recommended</code>: Mist ground, a 2px Emerald border, Emerald rules
+          (Pricing).
+        </p>
+      </div>
+      <div class="flex flex-col gap-4">
+        <div class="flex items-center gap-3 type-label text-foreground-secondary">
+          <span class="ie-check-disc" aria-hidden="true"><Icon name="check" size={16} /></span>
+          <code>.ie-check-disc</code>, the comparison table's "Included"
+        </div>
+        <button
+          type="button"
+          role="switch"
+          aria-checked="false"
+          class="ie-switch type-small font-bold"
+        >
+          <span class="ie-switch-track" aria-hidden="true"></span>
+          Switch, off
+        </button>
+        <button
+          type="button"
+          role="switch"
+          aria-checked="true"
+          class="ie-switch type-small font-bold"
+        >
+          <span class="ie-switch-track" aria-hidden="true"></span>
+          Switch, on
+        </button>
+      </div>
+    </div>
     <div class="mt-8 grid grid-cols-1 gap-card-gap md:grid-cols-2">
       <Testimonial name="Sample educator" place="Sample school, Sample district">
         A row of quotes sits in Raised cards: the green mark, the quote in Libre Caslon Text, and
@@ -464,6 +516,14 @@ const checklist = [
         lead="Tell us about your schools and a member of our team will reach out within one business day."
         primary={{ label: 'Contact us', href: '/contact/' }}
         secondary={{ label: 'See the research', href: '/research/' }}
+      />
+      <ClosingCta
+        id="cta-inline"
+        layout="inline"
+        title="Not sure which plan fits? *Let us help.*"
+        lead="Inline: copy left, buttons right from lg up (Pricing, Case Studies, Research)."
+        primary={{ label: 'Contact us', href: '/contact/' }}
+        secondary={{ label: 'See the platform', href: '/platform/' }}
       />
       <ClosingCta
         id="cta-white"

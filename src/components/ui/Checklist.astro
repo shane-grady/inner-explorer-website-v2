@@ -1,5 +1,6 @@
 ---
-// A list of claims, each led by the 22px outline check circle in icon-accent.
+// A list of claims, each led by the 22px outline check circle in icon-accent, or by the
+// filled check disc (`marker="disc"`, Pricing's add-on list on green).
 import Icon from './Icon.astro';
 
 interface Props {
@@ -8,9 +9,16 @@ interface Props {
   columns?: 1 | 2 | 3;
   /** `sm`: 16/1.45 in foreground-secondary, as Home's program cards draw it. */
   size?: 'md' | 'sm';
+  marker?: 'outline' | 'disc';
   class?: string;
 }
-const { items, columns = 1, size = 'md', class: className }: Props = Astro.props;
+const {
+  items,
+  columns = 1,
+  size = 'md',
+  marker = 'outline',
+  class: className,
+}: Props = Astro.props;
 const SIZE = {
   md: 'type-body text-foreground-body',
   sm: 'type-list text-foreground-secondary',
@@ -22,7 +30,13 @@ const COLUMNS = { 1: '', 2: 'md:grid-cols-2', 3: 'md:grid-cols-3' } as const;
   {
     items.map((item) => (
       <li class:list={['flex gap-3', SIZE[size]]}>
-        <Icon name="check-circle" size={22} class="mt-0.5 text-icon-accent" />
+        {marker === 'disc' ? (
+          <span class="ie-check-disc" aria-hidden="true">
+            <Icon name="check" size={16} />
+          </span>
+        ) : (
+          <Icon name="check-circle" size={22} class="mt-0.5 text-icon-accent" />
+        )}
         <span>{item}</span>
       </li>
     ))
