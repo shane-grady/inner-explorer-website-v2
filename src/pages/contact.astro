@@ -1,28 +1,82 @@
 ---
+import { Image } from 'astro:assets';
 import PageLayout from '../layouts/PageLayout.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import HubSpotForm from '../components/integrations/HubSpotForm.astro';
+import Section from '../components/ui/Section.astro';
+import PageTitle from '../components/ui/PageTitle.astro';
+import Card from '../components/ui/Card.astro';
+import ArrowLink from '../components/ui/ArrowLink.astro';
+import Icon from '../components/ui/Icon.astro';
+import FeatureIcon from '../components/ui/FeatureIcon.astro';
 import { HELP_SITE, MAIN_SITE } from '../lib/site';
+// Stand-in: the photo the boards draw, pending approval (tasks/todo.md › Contact).
+import heroPhoto from '../assets/images/contact/student-classroom-practice.jpg';
 
 const content = {
   title: 'Contact Inner Explorer | Daily Mindfulness for Schools',
   description:
     'Reach the Inner Explorer team to learn how daily mindfulness could support your school community. Send a message and hear back within one business day.',
-  heading: 'Get in touch',
-  lead: 'Send us a note and a member of our team will reach out within one business day.',
-  confirmation:
-    'Thank you for reaching out. We just sent a confirmation to your inbox, and someone from our team will follow up to find a time to talk.',
   supportEmail: 'support@innerexplorer.com',
   helpCenterHref: `${HELP_SITE}/`,
+  hero: {
+    eyebrow: 'Contact us',
+    // Title case as the boards draw it (tasks/todo.md › Contact).
+    title: 'Get in Touch With\n*Inner Explorer*',
+    lead: 'Whether you’re just curious about daily mindfulness or ready to bring Inner Explorer to your schools, we’d love to hear from you.',
+    image: {
+      src: heroPhoto,
+      alt: 'A student sits with eyes closed in a sunlit classroom during a daily mindfulness practice',
+    },
+  },
+  form: {
+    heading: 'Start the conversation',
+    privacy: 'We never share your details.',
+    privacyLabel: 'Privacy',
+    privacyHref: '/privacy-policy/',
+  },
+  // Contact-Success board. "We just sent a confirmation" is unconfirmed (tasks/todo.md).
+  success: {
+    heading: 'Thank you for reaching out',
+    text: 'We just sent a confirmation to your inbox, and someone from our team will follow up within 1 business day to find a time to talk.',
+    doneLabel: 'Done',
+    steps: [
+      { label: 'You told us about your school', state: 'done' },
+      { label: 'Next: we reply within 1 business day', state: 'current' },
+      { label: 'Your questions are answered', state: 'upcoming' },
+    ],
+    linksHeading: 'While you wait',
+    links: [
+      { label: 'See the research behind the practice', href: '/research/' },
+      { label: 'Read how districts use Inner Explorer', href: '/case-studies/' },
+      { label: 'Experience a practice', href: '/platform/' },
+    ],
+  },
+  next: {
+    eyebrow: 'What happens next',
+    heading: 'Three simple steps, at your pace',
+    steps: [
+      {
+        title: 'Tell us about your school',
+        text: 'A few quick details so we can connect you with the right person on our team.',
+      },
+      {
+        title: 'Hear back within 1 business day',
+        text: 'Someone from our team follows up personally to find a time to talk.',
+      },
+      {
+        title: 'Your questions answered',
+        text: 'We learn about your students and goals, walk through the platform, and share pricing and pilot options. No obligation.',
+      },
+    ],
+  },
   support: {
     heading: 'Already using Inner Explorer?',
-    text: 'Our support team can help with your account, your login, or anything happening in the classroom.',
-    // "Email <supportEmail> or browse the <Help Center>."
-    emailLead: 'Email',
-    helpCenterLead: 'or browse the',
-    helpCenterLabel: 'Help Center',
+    text: 'Our support team helps current educators and administrators with accounts, sign-in and the classroom.',
+    chatLabel: 'Chat with support',
+    helpCenterLabel: 'Visit the Help Center',
   },
-};
+} as const;
 
 // HubSpot owns the form's fields, labels and dropdown options. What lives here is form
 // IDENTITY — configuration, not copy: changing these would silently break lead capture.
@@ -33,6 +87,12 @@ const hubspot = {
   formId: '48e37214-69e4-479f-b03b-1ae2ab5dfbd4',
   region: 'na1',
 };
+
+const STEP_MARKER = {
+  done: 'border-2 border-brand text-brand',
+  current: 'border-2 border-brand text-brand-emphasis',
+  upcoming: 'border border-foreground-muted text-foreground',
+} as const;
 
 const base = new URL(Astro.site ?? MAIN_SITE).origin;
 const contactLd = {
@@ -62,23 +122,157 @@ const contactLd = {
 <PageLayout title={content.title} description={content.description}>
   <JsonLd slot="head" schema={contactLd} />
 
-  <h1>{content.heading}</h1>
-  <p>{content.lead}</p>
-  <HubSpotForm
-    portalId={hubspot.portalId}
-    formId={hubspot.formId}
-    region={hubspot.region}
-    confirmation={content.confirmation}
-    supportEmail={content.supportEmail}
-    helpCenterHref={content.helpCenterHref}
-  />
+  <Section spacing="hero" as="div">
+    <div class="flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-18">
+      <div class="flex min-w-0 flex-1 flex-col lg:pt-4">
+        <PageTitle
+          eyebrow={content.hero.eyebrow}
+          title={content.hero.title}
+          lead={content.hero.lead}
+        />
+        <Image
+          class="mt-8 h-figure w-full rounded-sm object-cover lg:mt-12"
+          style="object-position: 60% 35%"
+          src={content.hero.image.src}
+          alt={content.hero.image.alt}
+          width={1152}
+          densities={[1, 2]}
+        />
+      </div>
 
-  <h2>{content.support.heading}</h2>
-  <p>{content.support.text}</p>
-  <p>
-    {content.support.emailLead}
-    <a href={`mailto:${content.supportEmail}`}>{content.supportEmail}</a>
-    {content.support.helpCenterLead}
-    <a href={content.helpCenterHref}>{content.support.helpCenterLabel}</a>.
-  </p>
+      <Card variant="floating" class="lg:w-form lg:shrink-0 lg:p-10">
+        <HubSpotForm
+          class="flex flex-col gap-6 lg:gap-8"
+          portalId={hubspot.portalId}
+          formId={hubspot.formId}
+          region={hubspot.region}
+          supportEmail={content.supportEmail}
+          helpCenterHref={content.helpCenterHref}
+        >
+          <h2 class="m-0 type-card-title-lg text-foreground">{content.form.heading}</h2>
+
+          <p
+            slot="after"
+            class="m-0 flex items-center justify-center gap-2 text-center type-label text-foreground-secondary"
+          >
+            <Icon name="lock" size={16} class="text-brand-emphasis" />
+            <span>
+              {content.form.privacy}
+              <a class="font-bold" href={content.form.privacyHref}>{content.form.privacyLabel}</a>
+            </span>
+          </p>
+
+          <div slot="success" class="flex flex-col gap-8">
+            <div class="flex flex-col gap-4">
+              <span class="ie-icon-disc" aria-hidden="true"><Icon name="check" size={24} /></span>
+              <h2 class="m-0 type-card-title-lg text-foreground">{content.success.heading}</h2>
+              <p class="m-0 type-body text-foreground-body">{content.success.text}</p>
+            </div>
+            <ol class="m-0 flex list-none flex-col gap-4 p-0">
+              {
+                content.success.steps.map((step, i) => (
+                  <li
+                    class:list={[
+                      'flex items-center gap-3 type-body text-foreground',
+                      step.state === 'done' && 'font-bold',
+                    ]}
+                    aria-current={step.state === 'current' ? 'step' : undefined}
+                  >
+                    <span
+                      class:list={[
+                        'inline-flex size-8 shrink-0 items-center justify-center rounded-full type-tag',
+                        STEP_MARKER[step.state],
+                      ]}
+                    >
+                      {step.state === 'done' ? (
+                        <Icon name="check" size={16} label={content.success.doneLabel} />
+                      ) : (
+                        <span aria-hidden="true">{i + 1}</span>
+                      )}
+                    </span>
+                    {step.label}
+                  </li>
+                ))
+              }
+            </ol>
+            <div class="flex flex-col gap-4 border-t border-border pt-6">
+              <h3 class="m-0 type-small font-bold text-foreground">
+                {content.success.linksHeading}
+              </h3>
+              <ul class="m-0 flex list-none flex-col gap-3 p-0">
+                {
+                  content.success.links.map((link) => (
+                    <li>
+                      <ArrowLink href={link.href}>{link.label}</ArrowLink>
+                    </li>
+                  ))
+                }
+              </ul>
+            </div>
+          </div>
+        </HubSpotForm>
+      </Card>
+    </div>
+  </Section>
+
+  <Section tone="emerald" aria-labelledby="next-title">
+    <p class="m-0 type-eyebrow text-foreground">{content.next.eyebrow}</p>
+    <h2 id="next-title" class="m-0 mt-2 type-section-title text-foreground md:mt-3">
+      {content.next.heading}
+    </h2>
+    <ol class="m-0 mt-8 grid list-none gap-8 p-0 md:mt-12 md:grid-cols-3 md:gap-12">
+      {
+        content.next.steps.map((step, i) => (
+          <li class="flex items-start gap-4 md:flex-col">
+            <span
+              class="inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-brand-subtle type-card-title-md text-on-brand-subtle md:size-control"
+              aria-hidden="true"
+            >
+              {i + 1}
+            </span>
+            <div class="flex flex-col gap-2 md:gap-4">
+              <h3 class="m-0 type-card-title-md text-foreground">{step.title}</h3>
+              <p class="m-0 max-w-measure-short type-body text-foreground-body">{step.text}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </Section>
+
+  <Section aria-labelledby="support-title">
+    <Card class="gap-3 lg:flex-row lg:items-center lg:gap-12 lg:px-18 lg:py-16">
+      <FeatureIcon name="question" disc />
+      <div class="flex min-w-0 flex-1 flex-col gap-3 lg:gap-4">
+        <h2 id="support-title" class="m-0 type-card-title-lg text-foreground">
+          {content.support.heading}
+        </h2>
+        <p class="m-0 type-lead text-foreground-secondary">{content.support.text}</p>
+      </div>
+      <div
+        class="flex shrink-0 flex-col items-start gap-2 lg:gap-4 lg:border-l lg:border-border lg:pl-12"
+      >
+        <ArrowLink href={content.helpCenterHref} data-intercom-launcher>
+          {content.support.chatLabel}
+        </ArrowLink>
+        <a class="type-lead font-bold" href={`mailto:${content.supportEmail}`}>
+          {content.supportEmail}
+        </a>
+        <ArrowLink href={content.helpCenterHref}>{content.support.helpCenterLabel}</ArrowLink>
+      </div>
+    </Card>
+  </Section>
 </PageLayout>
+
+<script>
+  // "Chat with support" opens the Intercom Messenger where it loads (production only);
+  // anywhere else the link's own href, the Help Center, stands.
+  document.querySelectorAll<HTMLAnchorElement>('[data-intercom-launcher]').forEach((link) => {
+    link.addEventListener('click', (event) => {
+      const intercom = (window as { Intercom?: (command: string) => void }).Intercom;
+      if (typeof intercom !== 'function') return;
+      event.preventDefault();
+      intercom('show');
+    });
+  });
+</script>

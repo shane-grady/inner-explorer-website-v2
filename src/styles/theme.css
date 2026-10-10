@@ -94,10 +94,12 @@
   --spacing-icon-lg: var(--icon-lg);
   --spacing-icon-feature: var(--icon-feature);
   --spacing-icon-disc: var(--icon-disc);
+  --spacing-figure: var(--figure-height);
   --container-page: var(--container);
   --container-measure: var(--measure);
   --container-measure-short: var(--measure-short);
   --container-measure-article: var(--measure-article);
+  --container-form: var(--form-card);
 }
 
 /* On a green panel the ink, hairline, ring and marks follow the ground. */
