@@ -313,13 +313,13 @@ Built on the clean slate. One rule ties it together: code uses the design system
 
 ### Components (`src/components/`, decided and shared only)
 
-The design system's 24 components, ported to Astro with the same markup and `ie-*` classes:
+The design system's 32 components (version 8, after the fidelity audit), ported to Astro with the same markup and `ie-*` classes. Text wraps with `text-wrap-style: pretty` everywhere, set once on the root, as on the boards:
 
 - **`ui/`**
-  - Actions: `Button` (primary, secondary, light, ghost; md or sm), `ArrowLink`, `IconButton`, `Chip` (filter or show-more).
-  - Type: `Eyebrow`, `AccentBar`, `PageTitle` (H1, emphasis words, accent bar, lead), `SectionHeader` (stacked or split), `Breadcrumb`.
+  - Actions: `Button` (primary, secondary, light, ghost; md or sm; leading icon), `ArrowLink` (right, down or back arrow), `IconButton`, `Chip` (filter or show-more), `ChipRow`, `Switch`.
+  - Type: `Eyebrow`, `AccentBar`, `PageTitle` (H1, emphasis words, accent bar, lead; stacked or split; actions), `SectionHeader` (stacked or split), `Breadcrumb`.
   - Icons: `Icon` (the 2px outline interface set from the boards) and `FeatureIcon` (Phosphor 2.1.1 fill from `@phosphor-icons/core`; bare or the 48px Emerald disc).
-  - Content: `Card` (raised or floating; media with overlay label; linked), `Panel` (tint, Emerald, Forest), `Tag`, `Stat`, `Checklist`, `TextField`.
+  - Content: `Card` (raised or floating; vertical or horizontal; media with overlay label; linked), `Panel` (tint, Emerald, Forest), `Tag`, `Stat` (bold, serif, medium, black; inline; tile), `StatStrip`, `Checklist` (columns), `Steps` (numeral or disc), `FactList`, `Figure`, `ComparisonTable`, `Marquee`, `TextField`.
   - Site plumbing the system leaves to the site: `Container`, `Section` (background, surface, tint, Emerald or Forest; section, hero or strip spacing), `Logo`, `VisuallyHidden`.
 - **`layout/`**
   - `SiteHeader`: light or dark, current page, skip link; 64→80px tall.

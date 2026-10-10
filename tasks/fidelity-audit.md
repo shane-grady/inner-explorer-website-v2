@@ -229,10 +229,57 @@ covers them. A page build would have to invent them.
 - the form error state;
 - the 1280/768 switch points.
 
-## Next steps
+## Decisions taken (10 October) and result
 
-1. Owner answers the 4 decisions and confirms where the patterns with no component go.
-2. Apply the defect fixes and the decisions to the system, re-run this audit, and republish.
-   The audit scripts live in the session scratchpad; rebuild them from this method if needed.
-3. Update `tasks/rebuild-plan.md`: drop "snap within 4px", and add "re-run the fidelity audit
-   per page PR".
+The owner answered the four questions:
+
+- **Defects:** fix all, then re-audit.
+- **No-orphans:** dropped. Text wraps with `pretty` everywhere, as the boards do.
+- **Board disagreements:** standardize on the instance majority. A decision board's explicit
+  value wins, a tie keeps the system value, and values with no token snap to the nearest token.
+- **Missing patterns:** add the patterns that appear on 2+ pages to the system.
+
+**Design system version 8** (https://claude.ai/artifact/DVAYqoSPn9uNeodz9HXVox, version id
+`1791596694-9b4b`) applies all four:
+
+- **Defects:** every defect group above is fixed in `bundle.css`, `bundle.js` and `tokens.json`.
+  New tokens: `type-hero-lead` and `-mobile` (Home's 24px intro), and `space-20`.
+- **Standardized:** the board-majority values, each recounted from the boards, for example:
+  - card part gap 8;
+  - green panel padding 32/24;
+  - neutral tag ink;
+  - bold and serif numerals proportional;
+  - CTA lead-to-buttons gap 32;
+  - eyebrow-to-H1 gap 24;
+  - chevron paths.
+- **Kept, because the counts tied or ran the other way:**
+  - the overlay label shadow;
+  - no hover on cards without a link;
+  - no rule under card media.
+- **A decision board won:**
+  - nav and footer link hover use `link-hover`;
+  - Steps keep their numbered discs on Contact.
+- **New components:** Figure, FactList, StatStrip, Steps, ComparisonTable, Switch, ChipRow and
+  Marquee.
+- **New variants:**
+  - Card horizontal layout;
+  - Stat black face, inline layout and tiles;
+  - Checklist columns;
+  - PageTitle split layout and actions;
+  - Button leading icon;
+  - ArrowLink down and back arrows;
+  - Steps disc marker.
+- **Line breaks:** page titles match the boards line for line, except Newsroom mobile. That board
+  glues "Inner Explorer" with a non-breaking space, which the site rules don't allow.
+- **Single-page patterns** stay in their page builds; the README lists them.
+
+**Verification:** each agent proved its changes against the board instances; their reports are
+kept with the audit work. Then:
+
+- the static checks pass (32 components);
+- every one of the 33 previews renders with no console errors and a clean axe scan;
+- a spot-check confirmed each defect fix in the shipped CSS.
+
+The owner stopped the second, agent-run re-audit for being more than this needed.
+
+**Re-check per page PR:** compare each built page with its boards at 1440 and 390.
