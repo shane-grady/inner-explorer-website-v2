@@ -1,8 +1,9 @@
 # Inner Explorer website rebuild plan
 
-> **Status (2026-10-09):** the clean-slate PR is done: the Help Center seal (A1) plus
-> the cleanup below. **Next: the design-foundation PR** (end of this file), then one PR
-> per page. Open items live in `tasks/todo.md`.
+> **Status (2026-10-10):** the clean-slate PR and the design-foundation PR are done (the
+> seal, the cleanup below, then tokens, components, styleguide and guards; see the end of
+> this file). **Next: one PR per page**, in the order at the end. Open items live in
+> `tasks/todo.md`; the design reference is `DESIGN.md`.
 >
 > Everything the clean slate removed is recoverable with `git show 0c8cac2:<path>`
 > (0c8cac2 = `main` before it).
@@ -252,117 +253,46 @@ The new design foundation is the next PR, and is specified at the end of this fi
 
 ---
 
-## Next PR: the design foundation (reference, not part of this PR)
+## The design-foundation PR (done)
 
-Built on the clean slate. One rule ties it together: code uses the design system's own token names and `ie-*` class names, so boards, design-system docs and code all say `text-primary`, `surface-card`, `ie-btn-primary`, `space-6`.
+Built on the clean slate, from the FINAL V boards. One rule ties it together: every value is
+read off a board and lives once in `src/styles/tokens.css`; code uses the V2 design system's
+token names and `ie-*` class names, so boards, docs and code all say `surface`,
+`foreground-body`, `brand-emphasis`, `ie-btn-primary`, `space-6`. `DESIGN.md` is the
+reference; `design/inventory.md` maps every board pattern to its component.
 
-### Board inventory and vendored inputs
+### As built: where it differs from the plan as first written
 
-- **`design/inventory.md`:** one table of every repeating pattern across the 39 FINAL V boards: `pattern | boards | component name | status`. Build it by reading the boards with the Artifact tool, and flag the off-token values on the Research and Pricing boards.
-- **Vendored files (never hand-edited):**
-  - `design/tokens.json` and `design/components/bundle.css` (`ie-btn-*`; later `ie-cmp-*` and `ie-roi-*`), verbatim from the design system.
-  - `design/README.md` with the sources and the sync steps.
-- **Fonts and logos:**
-  - The 13 woff2 fonts go into `src/assets/fonts/`.
-  - The 4 logo PNGs (`lockup-primary`, `lockup-reversed`, `lockup-reversed-small`, `mark-compass`) go into `src/assets/brand/`.
+- **Tokens are built from FINAL V, not vendored.** No `design/tokens.json`, no
+  `bundle.css`, no generator: `tokens.css` is hand-written with the source board beside each
+  value, `theme.css` aliases it for Tailwind, and `/styleguide/` reads `tokens.css` to render
+  the swatches. Values that both design systems got wrong against the boards (V1's green-400
+  "surface-brand", V2's 12px inputs, the plan's 16px accent-bar gap) follow the boards.
+- **Eight fonts, not thirteen:** the boards load only Inter 400/500/700/900, Libre Caslon
+  Condensed 500 + italic and Libre Caslon Text 400 + italic. Three logo PNGs (`lockup-primary`,
+  `lockup-reversed`, `lockup-reversed-small`); `mark-compass` waits for the favicon task.
+- **The header is static**, as on every board (the plan said sticky); no `scroll-padding-top`.
+- **Fewer components:** `Heading`, `Text`, `Container`, `VisuallyHidden`, `AccentBar`,
+  `Eyebrow`, `Tag`, `CardTitle` and `SkipLink` are a `type-*` utility, an `ie-*` class, or
+  part of `Section`, `Card` and `SiteHeader`. Variants no board draws (`bleed`/`inline` CTAs,
+  split page titles, left and down arrow links) are listed as page-local, not built.
+- **No social row:** every board draws the profile links as `#`; it ships with the URLs.
+- **Guards:** `check-drift` also forbids `<style>` blocks, non-custom-property `style=`
+  attributes and raw lengths in `base.css`/`components.css`; `check-dist --classes` also
+  fails on an `ie-*` class no page uses. `pnpm shots` (Playwright + axe) is local only.
 
-### Token CSS and theme
+### Design questions, settled from the boards
 
-**`scripts/tokens.mjs`** writes `src/styles/tokens.css`.
-
-- It emits `@font-face` rules from `type.fonts`, plus `:root` with the design system's exact variable names.
-- `{ref}` values become `var(--ref)`, using the light values only.
-- It rejects values containing `;`, `{` or `}`.
-- `--check` runs in `check`, and the output file is prettier-ignored.
-
-**`src/styles/theme.css`** is hand-written; it is the only place Tailwind meets the design system.
-
-- **Reset only the design system's namespaces:** `--color-*`, `--font-*`, `--text-*`, `--radius-*`, `--shadow-*`.
-  - Tailwind's spacing (4px, so `p-6` equals `space-6`), breakpoints, leading, tracking, containers and eases stay.
-  - Re-declare `white`, `black`, `transparent` and `current`.
-- **Color aliases in `@theme inline`,** so utilities read the variable at the element, for example `--color-primary: var(--text-primary)` for `text-primary`. Likewise `bg-surface-card` and `border-divider`.
-  - The raw palette is exposed for surfaces and data visualization (`bg-green-800` for Forest); the neutral palette is not.
-  - Never put the design system's `--text-*` names in `@theme`.
-  - Never use `var(--color-…)` in CSS.
-- **`@theme static`** for `--font-sans`, `--font-serif`, `--font-display`, `--radius-card`, `--radius-button` and the shadows.
-- **Fluid values** use one clamp from 390px to 1440px, which matches both boards exactly. For example, `--spacing-section: clamp(4rem, calc(4rem + 48 * (100vw - 390px) / 1050), 7rem)`.
-
-  | Spacing token | 390 → 1440 |
-  | ------------- | ---------- |
-  | section       | 64 → 112   |
-  | gutter        | 20 → 120   |
-  | hero-top      | 40 → 72    |
-  | hero-bottom   | 48 → 96    |
-  | strip         | 40 → 64    |
-  | card          | 20 → 24    |
-  | CTA padding   | 32/24 → 72 |
-
-  The container is `mx-auto max-w-page px-gutter`.
-
-- **Type ramp:** one `@utility type-<name>` per entry: page-title (40→64), section-title (32→44), header, title-md, title-sm, subhead, body, small, article-body, category, label, tag, quote.
-- **`[data-on-brand]`** remaps ink, divider and focus ring on Forest and Emerald panels.
-- **Site-only values** are commented `provisional` and listed in `DESIGN.md`.
-
-**`site.css`** imports, in order:
-
-1. `tailwindcss` with `source('..')`
-2. `tokens.css`
-3. `theme.css`
-4. `base.css` (focus ring, links, reduced motion, `scroll-padding-top`)
-5. the vendored `bundle.css`
-6. `components.css`: the site-owned `ie-*` classes, with values only from `var(--…)`:
-   - `ie-link`, `ie-link-light`, `ie-nav`, `ie-nav-dark`, `ie-menu`
-   - `ie-card`, `ie-accent-bar`, `ie-icon-disc`, `ie-icon-btn`
-   - `ie-footer-grid`, `ie-prose`, `ie-swatch`
-   - `ie-field`, `ie-label`, which also style HubSpot's inputs
-
-### Components (`src/components/`, decided and shared only)
-
-- **`ui/`**
-  - Actions and labels:
-    - `Button`: primary, secondary, light or ghost; md or sm.
-    - `ArrowLink`, `Tag`, `Eyebrow`.
-  - Type: `Heading`, `Text`, `PageTitle` (H1 plus accent bar; `*emphasis*` marks the green words), `AccentBar`.
-  - Cards: `Card` (raised, floating or tint), `CardTitle` (stretched link).
-  - Icons:
-    - `Icon` and `FeatureIcon` share one typed registry. UI icons are 2px outline SVGs taken from the boards; feature icons are Phosphor fill from `@phosphor-icons/core`.
-    - `IconButton`.
-  - Lists and layout:
-    - `Checklist`, `Container`.
-    - `Section`: surface ground, white, tint, forest or emerald; spacing section, hero or strip.
-  - Plumbing: `Logo`, `SkipLink`, `VisuallyHidden`.
-- **`layout/`**
-  - `SiteHeader`: light or dark; sticky; 64→80px tall.
-  - `MobileMenu`: a native `<dialog>` with about 25 lines of JavaScript.
-  - `SiteFooter`: Footer A from the boards.
-- **`blocks/`:** `ClosingCta` (emerald or white, optional photo) and `Testimonial` (card or panel).
-- **`/styleguide/`** (noindex): swatches, the type ramp and every component in every state.
-- **Guards:**
-  - no `<style>` blocks;
-  - `style=` sets only `--*` properties or `object-position`;
-  - no raw colors or lengths in `base.css` or `components.css`;
-  - `pnpm shots` (Playwright plus axe, screenshots at 1440 and 390, Amplitude blocked).
-
-### Page-PR playbook (goes into `CLAUDE.md` with the foundation)
-
-1. **Map before coding.** List each board section as existing component, new variant, new shared block or page-only, using `design/inventory.md`. List each off-system value and how it was resolved.
-2. **Where code goes.**
-   - Page files hold a `content` object at the top, then `<Section>`s, then JSON-LD (port it from `0c8cac2`).
-   - Component folders: `ui/` (single elements), `layout/` (site chrome), `blocks/` (patterns on two or more boards), `content/` (MDX).
-   - No per-page folders. Name components by pattern, never by page.
-3. **Styling.**
-   - Utilities handle layout and spacing.
-   - Token utilities handle single visual values.
-   - `ie-*` classes handle multi-property patterns and interaction states.
-   - Variants are a prop mapped to classes through an `as const` object.
-   - No `<style>` blocks and no arbitrary values.
-4. **Values not in tokens.**
-   - Colors must equal a token; otherwise, ask.
-   - Text uses `type-*`.
-   - Spacing within 4px snaps to the nearest token. Anything else becomes a `provisional` site token.
-5. **Behavior:** vanilla `<script>` on `data-*` attributes. No React.
-6. **Images:** in `src/assets/images/<page>/`, rendered through `<Image>`.
-7. **Done means:** `pnpm verify`, then `pnpm shots` beside the boards, axe clean, and `/styleguide/` and the inventory updated.
+| Question                  | Answer                                                                                                                                                                              |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Big stat-number face      | Four faces as drawn on one size ramp: `type-stat-*` plus `font-display font-medium` (Home, Article, Newsroom), `font-sans font-bold` (Why, Pricing, About), `font-black` (Research) |
+| Feature icon holder       | 48px Emerald disc, 24px white icon                                                                                                                                                  |
+| Accent-bar gap            | 8px                                                                                                                                                                                 |
+| Input radius              | 8px                                                                                                                                                                                 |
+| Primary CTA label         | "Contact us" (the chrome); "Talk to our team" stays an open item                                                                                                                    |
+| Mobile menu open state    | V2's MobileMenu spec, native `<dialog>` (provisional)                                                                                                                               |
+| Light-header current page | bold with a 2px Emerald rule, mirroring the dark header (provisional)                                                                                                               |
+| Footer                    | Footer A; no 501(c)(3) line; social row hidden until URLs exist                                                                                                                     |
 
 ### Page order after the foundation
 
@@ -373,19 +303,7 @@ Built on the clean slate. One rule ties it together: code uses the design system
 5. Case Studies: a new collection from the canvas content model; the 7 stories come from the "Case Study Detail Working" boards; restore the PDFs from the tag if the design keeps the gated PDF
 6. Newsroom and Article: a new collection; the 18 legacy posts word for word from the "Blog Posts Working" boards; the legacy blog 301s
 7. Research
-8. Pricing: the design system's `PricingTable`, with `pricing.yml` restored from the tag
+8. Pricing: port the comparison table from the Pricing boards, with `pricing.yml` restored from the tag
 9. About
 
 **Then launch:** the legacy 301 map, removing noindex, the favicon from `mark-compass`, the Help Center reskin, and CMS editing for marketing if wanted.
-
-### Design questions (each has a default in code)
-
-| Question                                           | Default                                                               |
-| -------------------------------------------------- | --------------------------------------------------------------------- |
-| Big stat-number face                               | Libre Caslon Condensed 500, marked provisional                        |
-| Feature icon holder                                | Emerald disc per the design-system README (the board recommends mint) |
-| Accent-bar gap                                     | 16px (the README says 8px)                                            |
-| Input radius                                       | 12px (the Contact board uses 8px)                                     |
-| Primary CTA label                                  | "Contact us"                                                          |
-| Mobile menu open state                             | Built accessibly; not designed yet                                    |
-| Footer A versus B, the 501(c)(3) line, social URLs | Footer A; social icons hidden until URLs exist                        |

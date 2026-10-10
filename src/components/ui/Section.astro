@@ -1,0 +1,43 @@
+---
+// A page band: its ground and its vertical rhythm, with the content container inside.
+// Green tones set data-on-brand so ink, hairlines and the focus ring follow the ground.
+import type { HTMLAttributes } from 'astro/types';
+
+const TONE = {
+  ground: 'bg-background',
+  white: 'bg-surface',
+  tint: 'bg-tint',
+  emerald: 'bg-brand-surface',
+  forest: 'bg-brand-surface-deep',
+} as const satisfies Record<string, string>;
+const SPACING = {
+  section: 'py-section-y',
+  hero: 'pt-hero-top pb-hero-bottom',
+  strip: 'border-y border-border py-strip-y',
+} as const satisfies Record<string, string>;
+
+interface Props extends HTMLAttributes<'section'> {
+  tone?: keyof typeof TONE;
+  spacing?: keyof typeof SPACING;
+  as?: 'section' | 'div' | 'header';
+  class?: string;
+}
+const {
+  tone = 'ground',
+  spacing = 'section',
+  as: Tag = 'section',
+  class: className,
+  ...rest
+}: Props = Astro.props;
+const onBrand = tone === 'emerald' || tone === 'forest';
+---
+
+<Tag
+  class:list={[TONE[tone], SPACING[spacing], 'px-section-x', className]}
+  data-on-brand={onBrand ? '' : undefined}
+  {...rest}
+>
+  <div class="mx-auto max-w-page">
+    <slot />
+  </div>
+</Tag>

@@ -1,0 +1,58 @@
+---
+// The mobile navigation: a full-screen native <dialog> opened by the header's menu button.
+// showModal() traps focus, makes the page inert and closes on Escape; the script only
+// wires the button and the close controls. Not on FINAL V: built to the V2 MobileMenu spec.
+import Button from '../ui/Button.astro';
+import IconButton from '../ui/IconButton.astro';
+import Logo from '../ui/Logo.astro';
+import { contactCta, primaryNav, signIn } from '../../data/navigation';
+
+const current = (href: string) => (Astro.url.pathname === href ? 'page' : undefined);
+---
+
+<dialog class="ie-menu" id="mobile-menu" aria-label="Navigation menu" data-mobile-menu>
+  <div
+    class="flex h-(--header-height-mobile) items-center justify-between border-b border-border px-section-x"
+  >
+    <a class="flex min-h-control-sm items-center" href="/" aria-label="Inner Explorer home">
+      <Logo />
+    </a>
+    <IconButton icon="close" label="Close menu" size="sm" data-menu-close />
+  </div>
+  <nav aria-label="Menu">
+    <ul class="m-0 list-none px-section-x py-2">
+      {
+        primaryNav.map((link) => (
+          <li>
+            <a
+              class="ie-menu-link type-card-title-md"
+              href={link.href}
+              aria-current={current(link.href)}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+  <div class="flex flex-col gap-3 px-section-x py-6">
+    <Button href={contactCta.href} block>{contactCta.label}</Button>
+    <Button variant="secondary" href={signIn.href} block>{signIn.label}</Button>
+  </div>
+</dialog>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>('[data-mobile-menu]');
+  const button = document.querySelector<HTMLButtonElement>('[data-menu-open]');
+  if (dialog && button) {
+    button.addEventListener('click', () => {
+      dialog.showModal();
+      button.setAttribute('aria-expanded', 'true');
+    });
+    dialog.addEventListener('close', () => button.setAttribute('aria-expanded', 'false'));
+    dialog.addEventListener('click', (event) => {
+      if ((event.target as Element).closest('[data-menu-close]')) dialog.close();
+    });
+  }
+</script>

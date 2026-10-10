@@ -1,0 +1,240 @@
+/* The only place Tailwind meets the tokens. Utilities read the token variables at the
+   element (inline aliases), so a [data-on-brand] remap re-resolves text-foreground and
+   friends. Tailwind's own palette, type scale, radii and shadows are removed; its 4px
+   spacing scale (p-6 = space-6), breakpoints, leading and tracking stay. */
+@theme {
+  --color-*: initial;
+  --font-*: initial;
+  --text-*: initial;
+  --radius-*: initial;
+  --shadow-*: initial;
+  --color-white: #fff;
+  --color-black: #000;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-tint: var(--tint);
+  --color-foreground: var(--foreground);
+  --color-foreground-secondary: var(--foreground-secondary);
+  --color-foreground-body: var(--foreground-body);
+  --color-foreground-muted: var(--foreground-muted);
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-wash: var(--brand-wash);
+  --color-brand-emphasis: var(--brand-emphasis);
+  --color-link-hover: var(--link-hover);
+  --color-icon-accent: var(--icon-accent);
+  --color-brand-surface: var(--brand-surface);
+  --color-brand-surface-deep: var(--brand-surface-deep);
+  --color-on-brand: var(--on-brand);
+  --color-on-brand-muted: var(--on-brand-muted);
+  --color-on-brand-accent: var(--on-brand-accent);
+  --color-on-brand-wash: var(--on-brand-wash);
+  --color-border: var(--border);
+  --color-border-control: var(--border-control);
+  --color-border-input: var(--border-input);
+  --color-border-on-brand: var(--border-on-brand);
+  --color-brand-subtle: var(--brand-subtle);
+  --color-on-brand-subtle: var(--on-brand-subtle);
+  --color-ring: var(--ring);
+  --color-ring-on-brand: var(--ring-on-brand);
+  --color-danger: var(--danger);
+  --color-accent-bar-1: var(--accent-bar-1);
+  --color-accent-bar-2: var(--accent-bar-2);
+  --color-accent-bar-3: var(--accent-bar-3);
+  /* The raw palette, for surfaces and data visualization; the neutrals stay semantic-only. */
+  --color-green-900: var(--green-900);
+  --color-green-800: var(--green-800);
+  --color-green-700: var(--green-700);
+  --color-green-500: var(--green-500);
+  --color-green-400: var(--green-400);
+  --color-green-300: var(--green-300);
+  --color-green-100: var(--green-100);
+  --color-cyan-600: var(--cyan-600);
+  --color-cyan-400: var(--cyan-400);
+  --color-cyan-200: var(--cyan-200);
+  --color-yellow-400: var(--yellow-400);
+  --color-yellow-200: var(--yellow-200);
+  --color-orange-500: var(--orange-500);
+  --color-orange-200: var(--orange-200);
+  --color-coral-600: var(--coral-600);
+  --color-coral-300: var(--coral-300);
+}
+
+/* Same-named families: tokens.css already emits the variables, so these only teach
+   Tailwind the names (font-sans, rounded-sm, shadow-raised, py-section-y, max-w-page…). */
+@theme inline reference {
+  --font-sans: var(--font-sans);
+  --font-display: var(--font-display);
+  --font-serif: var(--font-serif);
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-full: var(--radius-full);
+  --shadow-raised: var(--shadow-raised);
+  --shadow-floating: var(--shadow-floating);
+  --shadow-card-hover: var(--shadow-card-hover);
+  --shadow-primary: var(--shadow-primary);
+  --shadow-light: var(--shadow-light);
+  --shadow-sticky: var(--shadow-sticky);
+  --spacing-section-y: var(--section-y);
+  --spacing-section-x: var(--section-x);
+  --spacing-hero-top: var(--hero-top);
+  --spacing-hero-bottom: var(--hero-bottom);
+  --spacing-strip-y: var(--strip-y);
+  --spacing-card-padding: var(--card-padding);
+  --spacing-card-gap: var(--card-gap);
+  --spacing-cta-padding: var(--cta-padding);
+  --spacing-cta-padding-x: var(--cta-padding-x);
+  --spacing-control: var(--control-height);
+  --spacing-control-sm: var(--control-height-sm);
+  --spacing-icon-sm: var(--icon-sm);
+  --spacing-icon-md: var(--icon-md);
+  --spacing-icon-lg: var(--icon-lg);
+  --spacing-icon-feature: var(--icon-feature);
+  --spacing-icon-disc: var(--icon-disc);
+  --container-page: var(--container);
+  --container-measure: var(--measure);
+  --container-measure-short: var(--measure-short);
+  --container-measure-article: var(--measure-article);
+}
+
+/* On a green panel the ink, hairline, ring and marks follow the ground. */
+[data-on-brand] {
+  --foreground: var(--on-brand);
+  --foreground-secondary: var(--on-brand-muted);
+  --foreground-body: var(--on-brand);
+  --foreground-muted: var(--on-brand-muted);
+  --brand-emphasis: var(--on-brand-accent);
+  --link-hover: var(--on-brand-accent);
+  --icon-accent: var(--on-brand);
+  --border: var(--border-on-brand);
+  --ring: var(--ring-on-brand);
+}
+
+/* The website type ramp, one clamp per step from the 390 board to the 1440 board.
+   Longhands only, so font-* and tracking-* utilities layered on top win. */
+@utility type-page-title {
+  font-family: var(--font-sans);
+  font-size: clamp(2.5rem, calc(40px + 24 * (100vw - 390px) / 1050), 4rem); /* 40 → 64 */
+  line-height: 1.05;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+@utility type-section-title {
+  font-family: var(--font-sans);
+  font-size: clamp(2rem, calc(32px + 12 * (100vw - 390px) / 1050), 2.75rem); /* 32 → 44 */
+  line-height: 1.1;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+@utility type-card-title-lg {
+  font-family: var(--font-sans);
+  font-size: clamp(1.5rem, calc(24px + 4 * (100vw - 390px) / 1050), 1.75rem); /* 24 → 28 */
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+@utility type-card-title-md {
+  font-family: var(--font-sans);
+  font-size: clamp(1.125rem, calc(18px + 2 * (100vw - 390px) / 1050), 1.25rem); /* 18 → 20 */
+  line-height: 1.3;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+@utility type-card-title-sm {
+  font-family: var(--font-sans);
+  font-size: 1rem; /* 16 */
+  line-height: 1.35;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+@utility type-lead {
+  font-family: var(--font-sans);
+  font-size: clamp(1.125rem, calc(18px + 2 * (100vw - 390px) / 1050), 1.25rem); /* 18 → 20 */
+  line-height: 1.5;
+  font-weight: 500;
+}
+@utility type-body {
+  font-family: var(--font-sans);
+  font-size: 1.0625rem; /* 17 */
+  line-height: 1.6;
+  font-weight: 500;
+}
+@utility type-small {
+  font-family: var(--font-sans);
+  font-size: 0.9375rem; /* 15 */
+  line-height: 1.5;
+  font-weight: 500;
+}
+@utility type-article-body {
+  font-family: var(--font-sans);
+  font-size: clamp(1.0625rem, calc(17px + 1 * (100vw - 390px) / 1050), 1.125rem); /* 17 → 18 */
+  line-height: 1.7;
+  font-weight: 400;
+}
+@utility type-quote {
+  font-family: var(--font-serif);
+  font-size: clamp(1.125rem, calc(18px + 2 * (100vw - 390px) / 1050), 1.25rem); /* 18 → 20 */
+  line-height: 1.5;
+  font-weight: 400;
+}
+@utility type-pull-quote {
+  font-family: var(--font-serif);
+  font-size: clamp(1.5rem, calc(24px + 4 * (100vw - 390px) / 1050), 1.75rem); /* 24 → 28 */
+  line-height: 1.4;
+  font-weight: 400;
+  font-style: italic;
+}
+@utility type-eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.875rem; /* 14 */
+  line-height: 1.12;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+@utility type-label {
+  font-family: var(--font-sans);
+  font-size: 0.875rem; /* 14 */
+  line-height: 1.4;
+  font-weight: 500;
+}
+@utility type-breadcrumb {
+  font-family: var(--font-sans);
+  font-size: 0.875rem; /* 14 */
+  line-height: 1.12;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+@utility type-tag {
+  font-family: var(--font-sans);
+  font-size: 0.8125rem; /* 13 */
+  line-height: 1;
+  font-weight: 700;
+}
+/* Stat numerals: one size ramp, the face as drawn per page (font-display font-medium on
+   Home, Article and Newsroom; font-sans font-bold on Why, Pricing and About; font-black on
+   Research). */
+@utility type-stat-xl {
+  font-size: clamp(4.5rem, calc(72px + 40 * (100vw - 390px) / 1050), 7rem); /* 72 → 112 */
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+}
+@utility type-stat-lg {
+  font-size: clamp(3.5rem, calc(56px + 16 * (100vw - 390px) / 1050), 4.5rem); /* 56 → 72 */
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+@utility type-stat-md {
+  font-size: clamp(2.75rem, calc(44px + 12 * (100vw - 390px) / 1050), 3.5rem); /* 44 → 56 */
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+@utility type-stat-sm {
+  font-size: clamp(2.5rem, calc(40px + 4 * (100vw - 390px) / 1050), 2.75rem); /* 40 → 44 */
+  line-height: 1;
+  letter-spacing: -0.03em;
+}

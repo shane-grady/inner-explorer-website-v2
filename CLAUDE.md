@@ -9,14 +9,16 @@ audio-guided mindfulness practices in K-12 schools — and its Help Center. Audi
 school/district administrators, principals, teachers, parents. Brand feel: calm,
 trustworthy, credible, accessible.
 
-**The marketing site is being rebuilt from a new design, from a clean slate.** What is
-here now:
+**The marketing site is being rebuilt from a new design.** What is here now:
 
 - **The bones:** Astro, two Netlify sites, GA4, Amplitude, Intercom, the HubSpot contact
   form, SEO (canonical, Open Graph, JSON-LD, sitemap), redirects, CI.
-- **Bare placeholder pages** (`src/pages/`): unstyled semantic HTML with a `content`
-  object at the top of each file. `/contact/` has the working HubSpot form;
-  `/privacy-policy/` renders the real policy.
+- **The design foundation:** tokens, theme and component CSS (`src/styles/`), the shared
+  components (`src/components/ui/`, `layout/`, `blocks/`), the site header and footer in
+  `PageLayout`, `/styleguide/`, the guards and `pnpm shots`. `DESIGN.md` is the reference.
+- **Placeholder pages** (`src/pages/`): semantic HTML with a `content` object at the top of
+  each file, inside the real chrome, waiting for their page PR. `/contact/` has the working
+  HubSpot form; `/privacy-policy/` renders the real policy.
 - **The Help Center** (help.innerexplorer.com, live): a second, **sealed** Astro build in
   `src-help/`, edited by marketing in CloudCannon. Read `src-help/README.md` before
   touching it. Never import across the `src/` ↔ `src-help/` boundary (ESLint enforces it).
@@ -27,12 +29,15 @@ legacy blog post.
 
 ## Design sources
 
-- **Site design:** the Claude Design canvas "Inner Explorer — Website",
-  https://claude.ai/artifact/6gx8tapeaDzTeSSMD7R31s, page **FINAL V**.
-- **Design system:** "Inner Explorer", https://claude.ai/artifact/XSmeot9ufJMTTvGDh3GYxz.
-- **Plan:** `tasks/rebuild-plan.md`. Next is the design-foundation PR (tokens, theme,
-  shared components, `/styleguide/`), then one PR per page. `DESIGN.md` is written by
-  the foundation PR.
+- **Source of truth: the FINAL V page** of the canvas "Inner Explorer — Website",
+  https://claude.ai/artifact/6gx8tapeaDzTeSSMD7R31s. Read its boards with the Artifact
+  tool. The canvas's other pages are working pages, not the source.
+- **Secondary references:** the design systems "Inner Explorer"
+  (https://claude.ai/artifact/XSmeot9ufJMTTvGDh3GYxz) and V2
+  (https://claude.ai/artifact/DVAYqoSPn9uNeodz9HXVox). Where they disagree with FINAL V,
+  FINAL V wins; `DESIGN.md` lists the disagreements.
+- **Plan:** `tasks/rebuild-plan.md`. `design/inventory.md` maps every board pattern to its
+  component. Next: one PR per page, in the plan's order.
 
 ## Tech stack
 
@@ -50,7 +55,8 @@ pnpm dev:help         # Help Center dev server (localhost:4322)
 pnpm check            # typecheck + lint + drift + mirrors + format:check
 pnpm verify           # marketing gate: check, build, check:dist dist --classes
 pnpm verify:help      # Help Center gate (what CloudCannon and its Netlify site run)
-pnpm check:dist <dir> # every link/asset in a build resolves (--classes: every class has CSS)
+pnpm check:dist <dir> # every link/asset in a build resolves (--classes: every class has CSS, every ie-* class is used)
+pnpm shots            # after pnpm build: screenshots at 1440 and 390 in .screenshots/, axe clean
 pnpm test:editables   # tests for the CloudCannon checker (run when you change scripts/)
 pnpm compare:builds   # normalized diff of two builds (see src-help/README.md)
 ```
@@ -71,11 +77,33 @@ reads) before considering work done. CI runs both, the checker tests, and
   data through the `head` slot.
 - **Page copy is structured data at the top of the page file** (a `content` object), not
   buried in markup, so it can move to a CMS later.
-- **No off-system styling.** No arbitrary Tailwind values or raw colors in components
-  (`pnpm lint:drift`). The foundation PR defines the tokens; until then pages stay
-  unstyled.
+- **No off-system styling.** Every value comes from `src/styles/tokens.css` (`DESIGN.md`):
+  no `<style>` blocks, arbitrary Tailwind values or raw colors in components, and `style=`
+  only sets `--custom` properties (`pnpm lint:drift`).
 - **Analytics stay production-only.** GA4, Amplitude and Intercom render only in
   production builds (`BaseLayout`); GA4 also skips `*.netlify.app`.
+
+## Page-PR playbook
+
+1. **Map before coding.** Read the page's FINAL V boards (desktop and mobile). List each
+   section as an existing component, a new variant, a new shared block (a pattern on two or
+   more pages) or page-only, using `design/inventory.md`. List each off-token value and how
+   it is resolved (the inventory's second table).
+2. **Where code goes.** The page file holds a `content` object at the top, then `<Section>`s,
+   then JSON-LD (port it from `0c8cac2`). Components: `ui/` (single elements), `layout/`
+   (site chrome), `blocks/` (patterns on two or more boards), `content/` (MDX). No per-page
+   folders; name components by pattern, never by page.
+3. **Styling.** Utilities handle layout and spacing; `type-*` handles text; token utilities
+   (`bg-surface`, `text-foreground-body`, `border-border`) handle single visual values;
+   `ie-*` classes handle multi-property patterns and interaction states. Variants are a prop
+   mapped to classes through an `as const` object. No `<style>` blocks, no arbitrary values.
+4. **Values not in tokens.** Colors must equal a token; otherwise ask. Text uses `type-*`.
+   Spacing within 4px snaps to the nearest token; anything else becomes a token in
+   `tokens.css` commented `provisional` and listed in `DESIGN.md`.
+5. **Behavior:** a small vanilla `<script>` on `data-*` attributes. No React.
+6. **Images:** in `src/assets/images/<page>/`, rendered through `<Image>`.
+7. **Done means:** `pnpm verify`, then `pnpm shots` compared with the boards, axe clean,
+   `/styleguide/` and `design/inventory.md` updated.
 
 ---
 

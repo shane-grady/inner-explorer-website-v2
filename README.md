@@ -32,6 +32,7 @@ GA4 and the Intercom Messenger only render in production builds with their ids s
 ```bash
 pnpm verify       # marketing: typecheck, lint, format, tests, build, link/asset check
 pnpm verify:help  # Help Center: CloudCannon config, build, editable regions, link/asset check
+pnpm shots        # after pnpm build: screenshots at 1440 and 390 in .screenshots/, axe clean
 ```
 
 CI runs both on every pull request and on `main`.
@@ -39,6 +40,7 @@ CI runs both on every pull request and on `main`.
 ## Where things are
 
 - `CLAUDE.md`: project context and rules (start here, human or agent).
+- `DESIGN.md`: the design system in code (tokens, type ramp, components, guards).
 - `tasks/rebuild-plan.md`: the rebuild plan; `tasks/todo.md`: what's open.
 - `src/pages/`: marketing routes; each keeps its copy in a `content` object at the top.
 - `src/content/help/`, `src/data/help-ui.json`: Help Center content (CloudCannon-owned).

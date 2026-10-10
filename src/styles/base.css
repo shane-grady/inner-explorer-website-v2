@@ -1,0 +1,40 @@
+/* Document defaults: html, body, links and focus. No element rules beyond that; pages
+   build their type from the type-* utilities and their chrome from ie-* classes. */
+html {
+  color-scheme: light;
+  font-family: var(--font-sans);
+  text-wrap: pretty;
+  -webkit-font-smoothing: antialiased;
+}
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground-body);
+}
+/* Links in running text are underlined (the preflight removes the default); the ie-*
+   chrome classes set their own decoration. */
+a {
+  color: var(--brand-emphasis);
+  text-decoration: underline;
+  text-underline-offset: var(--space-1);
+}
+a:hover {
+  color: var(--link-hover);
+}
+:is(:focus-visible, [data-focus]) {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+/* The mobile menu is a modal dialog; the page behind it does not scroll. */
+html:has(dialog[open]) {
+  overflow: hidden;
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

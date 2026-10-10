@@ -1,0 +1,202 @@
+/* Inner Explorer design tokens: the single source of every value the site uses.
+   Every value is read off the FINAL V boards of the "Inner Explorer — Website" canvas; the
+   comment beside each token names where. Names follow the "Inner Explorer Design System"
+   (V2) where it names the same value; "new" marks a name that is ours. "provisional" marks a
+   value FINAL V does not settle. Tailwind reads these through src/styles/theme.css. */
+
+/* Fonts: the eight faces the boards load, latin subset (Fontsource, SIL Open Font License). */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/Inter-400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../assets/fonts/Inter-500.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../assets/fonts/Inter-700.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url('../assets/fonts/Inter-900.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Libre Caslon Condensed';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../assets/fonts/LibreCaslonCondensed-500.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Libre Caslon Condensed';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../assets/fonts/LibreCaslonCondensed-500-Italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Libre Caslon Text';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/LibreCaslonText-400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Libre Caslon Text';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/LibreCaslonText-400-Italic.woff2') format('woff2');
+}
+
+:root {
+  /* ---- Palette: only the colors FINAL V draws (two or more boards) ---- */
+  --green-900: #152f2f; /* Deep Forest: light-button label, ink on Spring (every board) */
+  --green-800: #1e473c; /* Forest: Home hero, Why results band, Research hero, link hover */
+  --green-700: #006e51; /* Emerald: panels, emphasis words, links, focus ring (every board) */
+  --green-500: #00874d; /* Jade: primary button, chips, play discs (38 boards) */
+  --green-400: #02a451; /* Vibrant: feature icons, checks, quote marks, "+" signs (22 boards) */
+  --green-300: #44bb4a; /* Leaf: accents on Forest (dark nav rule, Why "%" signs) */
+  --green-100: #bffaa2; /* Spring: tags, step discs, link hover on green (38 boards) */
+  --charcoal: #282b2f; /* headings and titles (every board) */
+  --dark-slate: #31373e; /* leads, nav and footer links (38 boards) */
+  --slate: #424850; /* body copy (every board) */
+  --storm: #59606a; /* labels, captions, placeholders (37 boards) */
+  --gray: #676d75; /* field borders (Contact, Article newsletter) */
+  --warm-gray: #cccbc4; /* chip, menu-button and icon-button outlines (every board) */
+  --light-warm: #dfddd6; /* the 1px hairline: cards, rules, header, footer (37 boards) */
+  --off-white: #f0efeb; /* tint panels, light-button hover (every board) */
+  --near-white: #f7f7f5; /* page ground (every board) */
+  --white: #ffffff;
+  --black: #000000; /* video letterboxing only */
+  --cyan-600: #057692; /* Teal: accent bar stripe 2; Newsroom data bar */
+  --cyan-400: #26bdce; /* data fill (Research) */
+  --cyan-200: #bef5fc; /* stat-tile tint (Article, Research, Newsroom) */
+  --yellow-400: #cdd61b; /* MTSS tier 2 (Why) */
+  --yellow-200: #f3ffae; /* stat-tile tint (Article, Research) */
+  --orange-500: #fa7739; /* accent bar stripe 3 */
+  --orange-200: #ffddca; /* stat-tile tint, Research "sand" */
+  --coral-600: #c7311a; /* "stressed" marker (Home, Research), MTSS tier 3, field errors */
+  --coral-300: #ffa394; /* Research "alarm" glow */
+
+  /* ---- Semantic (V2 names) ---- */
+  --background: var(--near-white); /* page ground */
+  --surface: var(--white); /* white bands, cards, header, footer, sticky bar */
+  --tint: var(--off-white); /* flat Tint panel: single quotes, takeaways, series tiles */
+  --foreground: var(--charcoal); /* headings, card titles, eyebrows, names */
+  --foreground-secondary: var(--dark-slate); /* leads, nav and footer links */
+  --foreground-body: var(--slate); /* body copy */
+  --foreground-muted: var(--storm); /* labels, captions, sources, placeholders */
+  --brand: var(--green-500); /* primary button, pressed chip, play discs, progress */
+  --brand-hover: var(--green-700); /* primary hover; secondary-button hover border */
+  --brand-wash: rgba(0, 135, 77, 0.06); /* secondary-button hover wash (.ie-btn-secondary:hover) */
+  --brand-emphasis: var(--green-700); /* the green safe as text: H1 emphasis, links, current */
+  --link-hover: var(--green-800); /* link and arrow-link hover on light grounds */
+  --icon-accent: var(--green-400); /* feature icons, checks, quote marks, numeral signs */
+  --brand-surface: var(--green-700); /* Emerald panels and bands with copy */
+  --brand-surface-deep: var(--green-800); /* Forest: heroes, results bands, photo scrims */
+  --on-brand: var(--white); /* text, icons and ghost borders on every green */
+  --on-brand-muted: var(--off-white); /* secondary text on green (dark header links) */
+  --on-brand-accent: var(--green-100); /* link hover and current-page rule on green */
+  --on-brand-wash: rgba(255, 255, 255, 0.12); /* ghost-button hover (.ie-btn-ghost:hover) */
+  --border-on-brand: rgba(255, 255, 255, 0.24); /* hairlines on green (stat strips, dark header) */
+  --brand-subtle: var(--green-100); /* Spring fills: evidence tags, step discs */
+  --on-brand-subtle: var(--green-900); /* ink on Spring and the light button's label */
+  --border: var(--light-warm); /* the 1px hairline */
+  --border-control: var(--warm-gray); /* chip, menu-button and icon-button outlines */
+  --border-input: var(--gray); /* text fields and selects */
+  --ring: var(--green-700); /* focus ring on light grounds (every board's :focus-visible) */
+  --ring-on-brand: var(--white); /* focus ring on green and photos */
+  --danger: var(--coral-600); /* field errors; provisional: no error state on FINAL V */
+  --accent-bar-1: var(--green-700); /* accent bar, first stripe */
+  --accent-bar-2: var(--cyan-600); /* accent bar, second stripe */
+  --accent-bar-3: var(--orange-500); /* accent bar, third stripe */
+
+  /* ---- Type families (the ramp itself is src/styles/theme.css) ---- */
+  --font-sans: Inter, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Libre Caslon Condensed', Georgia, serif;
+  --font-serif: 'Libre Caslon Text', Georgia, serif;
+
+  /* ---- Spacing: the 4px scale the boards use ---- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-14: 56px; /* new: menu rows and the mobile card gap (Home, Why, Research) */
+  --space-16: 64px;
+  --space-18: 72px;
+  --space-20: 80px;
+
+  /* ---- Layout: one clamp from the 390 board to the 1440 board ---- */
+  --section-y: clamp(4rem, calc(64px + 48 * (100vw - 390px) / 1050), 7rem); /* 64 → 112 */
+  --section-x: clamp(1.25rem, calc(20px + 100 * (100vw - 390px) / 1050), 7.5rem); /* 20 → 120 */
+  --hero-top: clamp(2.5rem, calc(40px + 32 * (100vw - 390px) / 1050), 4.5rem); /* 40 → 72 */
+  --hero-bottom: clamp(3rem, calc(48px + 48 * (100vw - 390px) / 1050), 6rem); /* 48 → 96 */
+  --strip-y: clamp(2.5rem, calc(40px + 24 * (100vw - 390px) / 1050), 4rem); /* 40 → 64 */
+  --card-padding: clamp(1.25rem, calc(20px + 4 * (100vw - 390px) / 1050), 1.5rem); /* 20 → 24 */
+  --card-gap: var(--space-2); /* gap between cards in a grid */
+  --cta-padding: clamp(2rem, calc(32px + 40 * (100vw - 390px) / 1050), 4.5rem); /* 32 → 72 */
+  --cta-padding-x: clamp(
+    1.5rem,
+    calc(24px + 48 * (100vw - 390px) / 1050),
+    4.5rem
+  ); /* new: 24 → 72 */
+
+  /* ---- Corners ---- */
+  --radius-sm: 8px; /* containers, images, tags, inputs (Contact draws fields at 8px) */
+  --radius-md: 12px; /* buttons, chips, the menu button */
+  --radius-full: 999px; /* discs, dots, avatars */
+
+  /* ---- Elevation (verbatim from the boards' CSS) ---- */
+  --shadow-raised: 0 1px 2px rgba(40, 43, 47, 0.05); /* Raised card, with the 1px border */
+  --shadow-floating: 0 1px 2px rgba(40, 43, 47, 0.05), 0 12px 32px rgba(40, 43, 47, 0.06);
+  --shadow-card-hover: 0 2px 4px rgba(40, 43, 47, 0.06), 0 12px 28px rgba(40, 43, 47, 0.08);
+  --shadow-primary:
+    0 1px 2px rgba(0, 58, 33, 0.32), 0 8px 20px rgba(0, 135, 77, 0.26),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  --shadow-primary-hover:
+    0 2px 4px rgba(0, 58, 33, 0.3), 0 12px 26px rgba(0, 135, 77, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.32);
+  --shadow-primary-pressed: 0 1px 2px rgba(0, 58, 33, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  --shadow-light: 0 1px 2px rgba(0, 0, 0, 0.2), 0 8px 20px rgba(0, 0, 0, 0.18); /* light button */
+  --shadow-sticky: 0 -4px 14px rgba(40, 43, 47, 0.07); /* mobile sticky bar */
+
+  /* ---- Sizes ---- */
+  --control-height: 48px; /* buttons, fields, discs */
+  --control-height-sm: 44px; /* small buttons, chips, the menu button: the minimum target */
+  --header-height: 80px;
+  --header-height-mobile: 64px;
+  --logo-height: 32px;
+  --logo-height-mobile: 28px;
+  --accent-bar-height: 4px;
+  --container: 1200px; /* content width inside the 120px gutters */
+  --measure: 520px; /* leads under page and section titles */
+  --measure-short: 320px; /* new: the footer blurb and other short columns (10 boards) */
+  --measure-article: 680px; /* the Article text column */
+  --icon-sm: 16px;
+  --icon-md: 20px;
+  --icon-lg: 24px;
+  --icon-feature: 32px; /* bare feature icon leading a card */
+  --icon-disc: 48px; /* Emerald feature-icon disc */
+
+  /* ---- Motion (new family): every transition on the boards ---- */
+  --motion: 220ms cubic-bezier(0.16, 1, 0.3, 1);
+}

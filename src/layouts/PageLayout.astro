@@ -1,9 +1,9 @@
 ---
-// Standard marketing-page shell: document + skip link + header nav + <main> + footer.
-// Unstyled semantic HTML until the design-foundation PR replaces the header and footer
-// with SiteHeader / SiteFooter (tasks/rebuild-plan.md).
+// Standard marketing-page shell: document, site header, <main>, site footer. Pages
+// build their content from Section and the shared components (DESIGN.md).
 import BaseLayout from './BaseLayout.astro';
-import { contactCta, footerNav, primaryNav, signIn } from '../data/navigation';
+import SiteHeader from '../components/layout/SiteHeader.astro';
+import SiteFooter from '../components/layout/SiteFooter.astro';
 
 interface Props {
   title: string;
@@ -20,43 +20,15 @@ interface Props {
   noindex?: boolean;
 }
 const props: Props = Astro.props;
-const year = new Date().getFullYear();
 ---
 
 <BaseLayout {...props}>
   <slot name="head" slot="head" />
-  <a href="#main" class="sr-only focus:not-sr-only">Skip to content</a>
-  <header>
-    <a href="/">Inner Explorer</a>
-    <nav aria-label="Primary">
-      <ul>
-        {
-          primaryNav.map((link) => (
-            <li>
-              <a href={link.href}>{link.label}</a>
-            </li>
-          ))
-        }
-      </ul>
-    </nav>
-    <a href={signIn.href}>{signIn.label}</a>
-    <a href={contactCta.href}>{contactCta.label}</a>
-  </header>
-  <main id="main">
-    <slot />
-  </main>
-  <footer>
-    <nav aria-label="Footer">
-      <ul>
-        {
-          footerNav.map((link) => (
-            <li>
-              <a href={link.href}>{link.label}</a>
-            </li>
-          ))
-        }
-      </ul>
-    </nav>
-    <p>© 2011–{year} Inner Explorer, Inc.</p>
-  </footer>
+  <div class="flex min-h-dvh flex-col">
+    <SiteHeader />
+    <main id="main" class="grow">
+      <slot />
+    </main>
+    <SiteFooter />
+  </div>
 </BaseLayout>

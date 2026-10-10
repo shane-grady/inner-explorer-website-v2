@@ -24,18 +24,13 @@ the owners the canvas gives.
       is new).
 - [ ] **Site-wide:** linked routes that don't exist: `/roi-calculator`; `/newsletter`,
       `/educators`, `/careers` only redirect today. Build, keep the redirect, or relink.
-- [ ] **Design:** big stat-number face. Plan default: Libre Caslon Condensed 500 at 72/56/44
-      (mobile 56/44/40). The canvas's Component decisions board (8 Oct) kept every face as drawn
-      instead, on one size ramp: 112/72/56/44 (mobile 72/56/44/40).
-- [ ] **Design:** feature icon holder, default Emerald disc (README) vs the board's mint. The
-      Remaining drift board (8 Oct) says "bare icon or a 48px Emerald disc", matching the default.
-- [ ] **Design:** accent-bar gap, README 8px vs boards 16px (default 16). Research puts the bar
-      under one word ("biology"); the design system draws it at title width.
-- [ ] **Design:** input radius, Library 12px vs Contact board 8px (default 12).
-- [ ] **Design:** mobile menu open state, sticky header, current-page indicator in the light
-      header are not designed (default: built accessibly, as `MobileMenu` describes).
-- [ ] **Design:** Footer A vs B, the "501(c)(3) nonprofit" line, social profile URLs (default:
-      Footer A, social icons hidden until URLs exist).
+- [x] **Design:** settled from the FINAL V boards in the foundation PR (`rebuild-plan.md` ›
+      Design questions): four stat faces on one ramp, Emerald disc, 8px accent-bar gap, 8px
+      inputs, Footer A without the 501(c)(3) line, static header.
+- [ ] **Design (provisional, confirm):** the open mobile menu (V2's spec), the light header's
+      current-page rule, the field error state. All on `/styleguide/`.
+- [ ] **Footer:** social profile URLs (LinkedIn, Instagram, Facebook, YouTube, X); the row ships
+      when they exist. The boards' sign-off line was dropped on 2026-10-10.
 - [ ] **Home:** school logo files (with permission) and approved photos for the Section 3
       mosaic; the Section 10 sample practice and its transcript.
 - [ ] **Home:** keep the FAQ ("Questions leaders ask") beside Funding? It isn't in the outline.
@@ -76,7 +71,7 @@ the owners the canvas gives.
 
 ## Build order
 
-- [ ] Design-foundation PR (`rebuild-plan.md` › Next PR: the design foundation).
+- [x] Design-foundation PR (`rebuild-plan.md` › The design-foundation PR).
 - [ ] Contact, with the success state; style the HubSpot form (`ie-field`, `ie-label`).
 - [ ] Home.
 - [ ] Platform.

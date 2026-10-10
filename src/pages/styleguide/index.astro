@@ -1,0 +1,434 @@
+---
+// The styleguide: every token, type style and shared component in every state, as a
+// reference for page PRs and a target for `pnpm shots`. noindex; not in the sitemap.
+// The page's own header and footer are the light header and footer samples.
+import PageLayout from '../../layouts/PageLayout.astro';
+import SiteHeader from '../../components/layout/SiteHeader.astro';
+import Section from '../../components/ui/Section.astro';
+import PageTitle from '../../components/ui/PageTitle.astro';
+import Button from '../../components/ui/Button.astro';
+import ArrowLink from '../../components/ui/ArrowLink.astro';
+import Card from '../../components/ui/Card.astro';
+import Checklist from '../../components/ui/Checklist.astro';
+import Icon from '../../components/ui/Icon.astro';
+import FeatureIcon from '../../components/ui/FeatureIcon.astro';
+import IconButton from '../../components/ui/IconButton.astro';
+import ClosingCta from '../../components/blocks/ClosingCta.astro';
+import Testimonial from '../../components/blocks/Testimonial.astro';
+import { ICONS } from '../../lib/icons';
+import { FEATURE_ICONS } from '../../lib/feature-icons';
+import tokensCss from '../../styles/tokens.css?raw';
+import photo from '../../assets/images/styleguide/neurons.jpg';
+
+const content = {
+  title: 'Styleguide | Inner Explorer',
+  description: 'Every token, type style and shared component of the Inner Explorer website.',
+  eyebrow: 'Design foundation',
+  heading: 'The *Inner Explorer* styleguide',
+  lead: 'Every token, type style and shared component in every state. Values come from the FINAL V boards; names from the design system. See DESIGN.md.',
+};
+
+// Tokens, read from the one source so nothing is listed twice.
+const TOKEN = /^\s*(--[\w-]+):\s*([^;]+);[ \t]*(?:\/\*\s*(.*?)\s*\*\/)?/gms;
+const families = tokensCss
+  .slice(tokensCss.indexOf(':root {'))
+  .split(/\/\* ---- (.+?) ---- \*\//)
+  .slice(1)
+  .reduce<{ title: string; tokens: { name: string; value: string; note?: string }[] }[]>(
+    (acc, part, i, parts) => {
+      if (i % 2 === 0) {
+        acc.push({
+          title: part.replace(/:.*$/, ''),
+          tokens: [...parts[i + 1].matchAll(TOKEN)].map((m) => ({
+            name: m[1],
+            value: m[2].replace(/\s+/g, ' ').trim(),
+            note: m[3]?.replace(/\s+/g, ' '),
+          })),
+        });
+      }
+      return acc;
+    },
+    [],
+  );
+const isColorFamily = (title: string) => /Palette|Semantic/.test(title);
+
+const type = [
+  ['type-page-title', '64 → 40 / 1.05 / 700 / −0.025em', 'Learning starts with regulation.'],
+  [
+    'type-section-title',
+    '44 → 32 / 1.1 / 700 / −0.02em',
+    'Children can’t learn when they’re stressed.',
+  ],
+  ['type-card-title-lg', '28 → 24 / 1.2 / 700 / −0.01em', 'A universal foundation'],
+  ['type-card-title-md', '20 → 18 / 1.3 / 700 / −0.01em', 'Five guided minutes a day'],
+  ['type-card-title-sm', '16 / 1.35 / 700 / −0.01em', 'Awareness of breath'],
+  [
+    'type-lead',
+    '20 → 18 / 1.5 / 500',
+    'Stress disrupts attention, working memory, impulse control, and cognitive flexibility.',
+  ],
+  [
+    'type-body',
+    '17 / 1.6 / 500',
+    'Daily practice, launched when the teacher presses play, lowers stress and improves classroom climate.',
+  ],
+  [
+    'type-small',
+    '15 / 1.5 / 500',
+    'Daily audio-guided mindfulness for PreK-12 schools, founded 2011.',
+  ],
+  [
+    'type-article-body',
+    '18 → 17 / 1.7 → 1.65 / 400',
+    'Most district leaders know the MTSS framework. The problem is the fragmented set of programs running underneath it.',
+  ],
+  ['type-quote', 'Libre Caslon Text 20 → 18 / 1.5', 'The past year has been our calmest yet.'],
+  [
+    'type-pull-quote',
+    'Libre Caslon Text italic 28 → 24 / 1.4',
+    'It is not one more thing for teachers to do.',
+  ],
+  ['type-eyebrow', '14 / 1.12 / 700 / +0.08em / uppercase', 'The programs'],
+  ['type-label', '14 / 1.4 / 500', 'Co-founder & Chief Research Officer'],
+  ['type-breadcrumb', '14 / 1.12 / 700 / +0.06em / uppercase', 'Blog / Leadership'],
+  ['type-tag', '13 / 1 / 700', 'Add-on'],
+] as const;
+const stats = [
+  ['type-stat-xl', '112 → 72', 'font-display font-medium'],
+  ['type-stat-lg', '72 → 56', 'font-display font-medium'],
+  ['type-stat-md', '56 → 44', 'font-sans font-bold'],
+  ['type-stat-sm', '44 → 40', 'font-sans font-black'],
+] as const;
+
+const buttonVariants = ['primary', 'secondary'] as const;
+const brandVariants = ['light', 'ghost'] as const;
+const states = [
+  { label: 'Rest', attrs: {} },
+  { label: 'Hover', attrs: { 'data-hover': '' } },
+  { label: 'Active', attrs: { 'data-active': '' } },
+  { label: 'Focus', attrs: { 'data-focus': '' } },
+  { label: 'Disabled', attrs: { disabled: true } },
+] as const;
+const checklist = [
+  '5–10 minute audio-guided practices',
+  'No lesson planning, prep, or specialized training required',
+  'Only staff sign in; no student data collected',
+];
+---
+
+<PageLayout title={content.title} description={content.description} noindex>
+  <Section spacing="hero">
+    <PageTitle eyebrow={content.eyebrow} title={content.heading} lead={content.lead}>
+      <Fragment slot="actions">
+        <Button href="#tokens" arrow>Tokens</Button>
+        <Button variant="secondary" href="#components">Components</Button>
+      </Fragment>
+    </PageTitle>
+  </Section>
+
+  <Section tone="white" id="tokens" aria-labelledby="tokens-title">
+    <h2 id="tokens-title" class="m-0 type-section-title text-foreground">Tokens</h2>
+    <p class="m-0 mt-5 max-w-measure type-lead text-foreground-secondary">
+      From <code>src/styles/tokens.css</code>; the note names the FINAL V board each value comes
+      from.
+    </p>
+    {
+      families.map((family) => (
+        <div class="mt-12">
+          <h3 class="m-0 type-card-title-lg text-foreground">{family.title}</h3>
+          {isColorFamily(family.title) ? (
+            <ul class="m-0 mt-6 grid list-none grid-cols-2 gap-card-gap p-0 md:grid-cols-4 xl:grid-cols-6">
+              {family.tokens.map((t) => (
+                <li class="ie-card ie-card-raised flex flex-col gap-2 p-3">
+                  <div
+                    class="h-12 rounded-sm border border-border bg-(--swatch)"
+                    style={`--swatch: var(${t.name})`}
+                  />
+                  <code class="type-tag text-foreground">{t.name.slice(2)}</code>
+                  <span class="type-label text-foreground-muted">{t.value}</span>
+                  {t.note && <span class="type-label text-foreground-body">{t.note}</span>}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <dl class="m-0 mt-6 grid grid-cols-1 gap-x-6 gap-y-3 md:grid-cols-2">
+              {family.tokens.map((t) => (
+                <div class="flex flex-col gap-1 border-b border-border pb-3">
+                  <dt class="type-tag text-foreground">
+                    <code>{t.name.slice(2)}</code>
+                  </dt>
+                  <dd class="m-0 type-label text-foreground-muted">
+                    {t.value}
+                    {t.note && <span class="text-foreground-body"> · {t.note}</span>}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          )}
+        </div>
+      ))
+    }
+  </Section>
+
+  <Section aria-labelledby="type-title">
+    <h2 id="type-title" class="m-0 type-section-title text-foreground">Type ramp</h2>
+    <dl class="m-0 mt-12 flex flex-col gap-8">
+      {
+        type.map(([name, spec, sample]) => (
+          <div class="flex flex-col gap-2 border-b border-border pb-8">
+            <dt class="type-label text-foreground-muted">
+              <code>{name}</code> · {spec}
+            </dt>
+            <dd class:list={['m-0 text-foreground', name]}>{sample}</dd>
+          </div>
+        ))
+      }
+      {
+        stats.map(([name, spec, face]) => (
+          <div class="flex flex-col gap-2 border-b border-border pb-8">
+            <dt class="type-label text-foreground-muted">
+              <code>{name}</code> · {spec} · <code>{face}</code>
+            </dt>
+            <dd class:list={['m-0 text-foreground', name, face]}>
+              60<span class="text-icon-accent">%</span>
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+  </Section>
+
+  <Section tone="white" id="components" aria-labelledby="buttons-title">
+    <h2 id="buttons-title" class="m-0 type-section-title text-foreground">
+      Buttons, links and chips
+    </h2>
+    <p class="m-0 mt-5 type-body text-foreground-body">
+      Primary and secondary on light grounds, 48px and 44px.
+    </p>
+    <div class="mt-8 flex flex-col gap-6">
+      {
+        buttonVariants.map((variant) => (
+          <div class="flex flex-wrap items-center gap-3">
+            {states.map((s) => (
+              <Button variant={variant} {...s.attrs}>
+                {s.label}
+              </Button>
+            ))}
+            <Button variant={variant} size="sm" arrow>
+              Small, arrow
+            </Button>
+          </div>
+        ))
+      }
+      <div class="flex flex-wrap items-center gap-6">
+        <ArrowLink href="#tokens">Read the research</ArrowLink>
+        <ArrowLink href="#tokens" data-hover>Hover</ArrowLink>
+        <button type="button" class="ie-chip">All</button>
+        <button type="button" class="ie-chip" data-hover>Hover</button>
+        <button type="button" class="ie-chip" aria-pressed="true">Pressed</button>
+        <span class="ie-tag type-tag">Add-on</span>
+      </div>
+      <div class="max-w-measure">
+        <Button block>Full width, a long label wraps instead of overflowing</Button>
+      </div>
+    </div>
+  </Section>
+
+  <Section tone="emerald" aria-labelledby="on-brand-title">
+    <h2 id="on-brand-title" class="m-0 type-section-title text-foreground">
+      On green: light and ghost
+    </h2>
+    <div class="mt-8 flex flex-col gap-6">
+      {
+        brandVariants.map((variant) => (
+          <div class="flex flex-wrap items-center gap-3">
+            {states.map((s) => (
+              <Button variant={variant} {...s.attrs}>
+                {s.label}
+              </Button>
+            ))}
+            <Button variant={variant} size="sm" arrow>
+              Small, arrow
+            </Button>
+          </div>
+        ))
+      }
+      <div class="flex flex-wrap items-center gap-6">
+        <ArrowLink href="#tokens" light>Here is the proof</ArrowLink>
+        <ArrowLink href="#tokens" light data-hover>Hover</ArrowLink>
+        <span class="ie-tag ie-tag-on-brand type-tag">Evidence</span>
+        <FeatureIcon name="shield-check" size={32} />
+      </div>
+      <Checklist items={checklist} columns={3} />
+    </div>
+  </Section>
+
+  <Section aria-labelledby="cards-title">
+    <h2 id="cards-title" class="m-0 type-section-title text-foreground">
+      Cards, testimonials, lists
+    </h2>
+    <ul class="m-0 mt-8 grid list-none grid-cols-1 gap-card-gap p-0 md:grid-cols-3">
+      <Card as="li" title="Raised" href="#cards-title">
+        <p class="m-0 type-body text-foreground-body">
+          For grids: 1px border and the faint lift. Linked: the title covers the card and it lifts
+          on hover.
+        </p>
+        <span class="mt-auto type-label text-foreground-muted">Read the story</span>
+      </Card>
+      <Card as="li" variant="floating" title="Floating" titleSize="lg">
+        <p class="m-0 type-body text-foreground-body">
+          Forms, confirmations and charts: no border, a soft shadow.
+        </p>
+      </Card>
+      <Card as="li" variant="tint" title="Tint panel" titleSize="sm">
+        <p class="m-0 type-body text-foreground-body">
+          A flat panel for a single quote or key takeaways, not a card.
+        </p>
+      </Card>
+    </ul>
+    <div class="mt-8 grid grid-cols-1 gap-card-gap md:grid-cols-2">
+      <Testimonial name="Sample educator" place="Sample school, Sample district">
+        A row of quotes sits in Raised cards: the green mark, the quote in Libre Caslon Text, and
+        the name and place under a rule.
+      </Testimonial>
+      <Testimonial variant="panel" name="Sample principal" place="Sample school">
+        A single quote beside other content sits in a Tint panel.
+      </Testimonial>
+    </div>
+    <div class="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2">
+      <Checklist items={checklist} />
+      <div class="flex flex-col gap-4">
+        <div class="flex items-center gap-4">
+          <FeatureIcon name="headphones" disc />
+          <span class="type-card-title-md text-foreground">Emerald disc, 48px</span>
+        </div>
+        <div class="flex items-center gap-4">
+          <FeatureIcon name="book-open" size={32} />
+          <span class="type-card-title-md text-foreground">Bare, 32px</span>
+        </div>
+        <ul class="m-0 flex list-none flex-wrap gap-4 p-0 type-label text-foreground-muted">
+          {
+            Object.keys(FEATURE_ICONS).map((name) => (
+              <li class="flex items-center gap-2">
+                <FeatureIcon name={name as keyof typeof FEATURE_ICONS} /> {name}
+              </li>
+            ))
+          }
+        </ul>
+        <ul class="m-0 flex list-none flex-wrap gap-4 p-0 type-label text-foreground-muted">
+          {
+            Object.keys(ICONS).map((name) => (
+              <li class="flex items-center gap-2 text-foreground">
+                <Icon name={name as keyof typeof ICONS} />{' '}
+                <span class="text-foreground-muted">{name}</span>
+              </li>
+            ))
+          }
+        </ul>
+        <div class="flex items-center gap-3">
+          <IconButton icon="arrow-left" label="Previous" />
+          <IconButton icon="arrow-right" label="Next" data-hover />
+          <IconButton icon="close" label="Close" size="sm" />
+          <IconButton icon="arrow-right" label="Disabled" disabled />
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <Section tone="white" aria-labelledby="fields-title">
+    <h2 id="fields-title" class="m-0 type-section-title text-foreground">Fields</h2>
+    <p class="m-0 mt-5 max-w-measure type-body text-foreground-body">
+      The Contact form's fields, as HubSpot renders them: the same classes style its injected
+      markup.
+    </p>
+    <form class="mt-8 grid max-w-measure grid-cols-1 gap-6" action="#fields-title" method="get">
+      <div>
+        <label class="ie-label" for="sg-name">First name</label>
+        <input
+          class="ie-field"
+          id="sg-name"
+          name="name"
+          type="text"
+          autocomplete="given-name"
+          placeholder="Jordan"
+        />
+      </div>
+      <div>
+        <label class="ie-label" for="sg-role"
+          >Job role <span class="font-medium text-foreground-secondary">(optional)</span></label
+        >
+        <select class="ie-field" id="sg-role" name="role">
+          <option value="">Select one</option>
+          <option>Principal</option>
+          <option>Teacher</option>
+        </select>
+      </div>
+      <div>
+        <label class="ie-label" for="sg-message">Message</label>
+        <textarea class="ie-field" id="sg-message" name="message" rows="4"></textarea>
+      </div>
+      <div>
+        <label class="ie-label" for="sg-email">Work email</label>
+        <input
+          class="ie-field"
+          id="sg-email"
+          name="email"
+          type="email"
+          value="jordan@school"
+          aria-invalid="true"
+          aria-describedby="sg-email-error"
+        />
+        <p class="ie-field-error" id="sg-email-error">Enter a valid email address.</p>
+      </div>
+      <Button type="submit" block>Contact us</Button>
+      <p class="m-0 text-center type-label text-foreground-secondary">
+        We never share your details.
+      </p>
+    </form>
+  </Section>
+
+  <Section aria-labelledby="cta-title">
+    <h2 id="cta-title" class="m-0 type-section-title text-foreground">Closing call to action</h2>
+    <div class="mt-8 flex flex-col gap-8">
+      <ClosingCta
+        id="cta-emerald"
+        eyebrow="Start the conversation"
+        title="Your school could be *the next story.*"
+        lead="Tell us about your schools and a member of our team will reach out within one business day."
+        primary={{ label: 'Contact us', href: '/contact/' }}
+        secondary={{ label: 'See the research', href: '/research/' }}
+      />
+      <ClosingCta
+        id="cta-white"
+        tone="white"
+        title="Bring daily mindfulness to your classrooms"
+        lead="The white card, with a photo on the right."
+        primary={{ label: 'Contact us', href: '/contact/' }}
+        secondary={{ label: 'See pricing', href: '/pricing/' }}
+        image={{ src: photo, alt: '' }}
+      />
+      <ClosingCta
+        id="cta-photo"
+        title="Helping more students start from a place of readiness"
+        primary={{ label: 'Contact us', href: '/contact/' }}
+        image={{ src: photo, alt: '' }}
+      />
+    </div>
+  </Section>
+
+  <Section tone="white" aria-labelledby="chrome-title">
+    <h2 id="chrome-title" class="m-0 type-section-title text-foreground">Site chrome</h2>
+    <p class="m-0 mt-5 max-w-measure type-body text-foreground-body">
+      This page's own header and footer are the light header and Footer A. The dark header sits over
+      a Forest hero (Research):
+    </p>
+  </Section>
+  <div class="bg-brand-surface-deep pb-section-y">
+    <SiteHeader dark sample />
+  </div>
+  <Section tone="tint" spacing="strip" aria-label="Section tones">
+    <p class="m-0 type-body text-foreground-body">
+      Section tones: ground, white, tint, emerald, forest; spacing: section, hero, strip (this one).
+    </p>
+  </Section>
+</PageLayout>
