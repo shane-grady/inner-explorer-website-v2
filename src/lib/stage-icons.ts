@@ -1,0 +1,13 @@
+// The four growth stages that mark the grade bands (seed, sprout, sapling, tree), drawn on
+// the Home boards inside the 48px Emerald disc: white strokes on currentColor, leaves in
+// icon-accent. A 32px grid, rendered at 30.
+export const STAGE_ICONS = {
+  seed: '<path d="M6 25h20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M9.5 25c1.4-2.6 3.8-4 6.5-4s5.1 1.4 6.5 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><ellipse cx="16" cy="16.5" rx="3.2" ry="4.3" transform="rotate(24 16 16.5)" fill="var(--icon-accent)" stroke="currentColor" stroke-width="1.6"/><path d="M17.6 12.6c.5-1.5 1.7-2.5 3.2-2.7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
+  sprout:
+    '<path d="M6 25h20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M16 25V15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M16 19c-1-3.3-3.7-5-7.2-4.8c.4 3.3 3.1 5.1 7.2 4.8z" fill="var(--icon-accent)" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M16 16c.8-3.7 3.5-5.7 7.4-5.6c-.2 3.7-3 5.8-7.4 5.6z" fill="var(--icon-accent)" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>',
+  sapling:
+    '<path d="M6 25h20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M16 25V7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M16 21c-1-3.1-3.5-4.7-6.8-4.5c.4 3.1 2.9 4.8 6.8 4.5z" fill="var(--icon-accent)" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M16 17c.9-3.2 3.3-4.9 6.8-4.8c-.2 3.3-2.7 5-6.8 4.8z" fill="var(--icon-accent)" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M16 13c-.8-2.7-2.9-4.1-5.8-4c.3 2.8 2.5 4.2 5.8 4z" fill="var(--icon-accent)" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M16 9.2c.6-2.3 2.3-3.5 4.8-3.4c-.2 2.4-1.9 3.6-4.8 3.4z" fill="var(--icon-accent)" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>',
+  tree: '<path d="M6 25h20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M16 25V15" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M16 20l-3.2-2.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M16 18.6l3.4-2.9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="16" cy="11" r="7.6" fill="var(--icon-accent)" stroke="currentColor" stroke-width="1.8"/><path d="M11.8 9.6a4.8 4.8 0 0 1 3.6-3.2" stroke="currentColor" stroke-opacity="0.75" stroke-width="1.6" stroke-linecap="round"/>',
+} as const;
+
+export type StageIconName = keyof typeof STAGE_ICONS;

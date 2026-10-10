@@ -26,6 +26,14 @@ editing) are in `tasks/archive/lessons-pre-rebuild.md`; general points from them
   emitted.
 - **Full-page screenshots don't scroll:** lazy images below the fold never load, so a CTA photo
   rendered empty in `pnpm shots`. Set `img.loading = 'eager'` and wait for `complete` first.
+- **Compare against the rendered board, not memory (Home, 2026-10-10).** Eyeballing screenshots
+  missed real drift (a 30px statement snapped to 28, 16/1.45 checklists drawn at 17/1.6, a
+  borderless CTA card, a zoomed photo, a tinted testimonial). Render the board's own HTML in
+  Playwright (inline its `<helmet>` CSS, swap `/_blob/` ids for the assets read with the Artifact
+  tool, fill the `{{…}}` slots), measure each section's height against the build, and set crops
+  side by side. A snap the board can see is drift: add the variant or type step instead.
+- **Copy casing stays as drawn.** Sentence-casing the boards' title case read as drift to the
+  owner; keep headings and buttons verbatim and raise casing as a question, not a change.
 - **axe `link-in-text-block`:** the preflight removes link underlines; running-text links need
   `text-decoration: underline` in `base.css`, with the chrome classes opting out.
 

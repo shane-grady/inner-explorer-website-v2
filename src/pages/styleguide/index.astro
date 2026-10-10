@@ -15,6 +15,9 @@ import FeatureIcon from '../../components/ui/FeatureIcon.astro';
 import IconButton from '../../components/ui/IconButton.astro';
 import ClosingCta from '../../components/blocks/ClosingCta.astro';
 import Testimonial from '../../components/blocks/Testimonial.astro';
+import StatStrip from '../../components/blocks/StatStrip.astro';
+import LogoStrip from '../../components/blocks/LogoStrip.astro';
+import VideoPoster from '../../components/ui/VideoPoster.astro';
 import { ICONS } from '../../lib/icons';
 import { FEATURE_ICONS } from '../../lib/feature-icons';
 import tokensCss from '../../styles/tokens.css?raw';
@@ -53,6 +56,12 @@ const families = tokensCss
 const isColorFamily = (title: string) => /Palette|Semantic/.test(title);
 
 const type = [
+  ['type-display', '96 → 52 / 0.98 / 700 / −0.035em (photo hero only)', 'Calm minds'],
+  [
+    'type-statement',
+    '30 → 22 / 1.3 / 700 / −0.02em',
+    'Mindfulness helps students regulate stress.',
+  ],
   ['type-page-title', '64 → 40 / 1.05 / 700 / −0.025em', 'Learning starts with regulation.'],
   [
     'type-section-title',
@@ -62,6 +71,11 @@ const type = [
   ['type-card-title-lg', '28 → 24 / 1.2 / 700 / −0.01em', 'A universal foundation'],
   ['type-card-title-md', '20 → 18 / 1.3 / 700 / −0.01em', 'Five guided minutes a day'],
   ['type-card-title-sm', '16 / 1.35 / 700 / −0.01em', 'Awareness of breath'],
+  [
+    'type-lead-lg',
+    '24 → 19 / 1.45 / 500 / −0.005em (photo hero intro only)',
+    'Inner Explorer brings daily mindfulness to PreK–12 classrooms.',
+  ],
   [
     'type-lead',
     '20 → 18 / 1.5 / 500',
@@ -109,6 +123,18 @@ const states = [
   { label: 'Focus', attrs: { 'data-focus': '' } },
   { label: 'Disabled', attrs: { disabled: true } },
 ] as const;
+const sampleStats = [
+  { value: '2M', sign: '+', label: 'students who have practiced' },
+  { value: '4,000+', label: 'schools adopted' },
+  { value: '60%', label: 'fewer behavioral issues' },
+  { value: '90%', label: 'renewal rate' },
+];
+const samplePartners = [
+  { name: 'Sample County' },
+  { name: 'Sample ISD' },
+  { name: 'Sample Unified' },
+  { name: 'Sample City' },
+];
 const checklist = [
   '5–10 minute audio-guided practices',
   'No lesson planning, prep, or specialized training required',
@@ -294,9 +320,17 @@ const checklist = [
       <Testimonial variant="panel" name="Sample principal" place="Sample school">
         A single quote beside other content sits in a Tint panel.
       </Testimonial>
+      <Testimonial variant="accent" name="Sample superintendent" place="Sample district">
+        Home's row: Mist ground, the Emerald top border and mark, <em
+          class="font-bold text-brand-emphasis not-italic">emphasis in bold Emerald.</em
+        >
+      </Testimonial>
     </div>
     <div class="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2">
-      <Checklist items={checklist} />
+      <div class="flex flex-col gap-6">
+        <Checklist items={checklist} />
+        <Checklist items={checklist} size="sm" />
+      </div>
       <div class="flex flex-col gap-4">
         <div class="flex items-center gap-4">
           <FeatureIcon name="headphones" disc />
@@ -391,6 +425,35 @@ const checklist = [
     </form>
   </Section>
 
+  <Section tone="white" spacing="strip" aria-labelledby="strips-title">
+    <h2 id="strips-title" class="m-0 type-section-title text-foreground">
+      Stat strip, logo strip, video poster
+    </h2>
+    <p class="m-0 mt-4 max-w-measure type-body text-foreground-body">
+      The photo hero (<code>blocks/PhotoHero</code>: display title, scrim, carousel) carries the
+      page's H1, so it is shown on Home only.
+    </p>
+    <StatStrip class="mt-8" stats={sampleStats} />
+    <LogoStrip
+      class="mt-8 border-t border-border pt-8"
+      label="Trusted in districts including"
+      partners={samplePartners}
+    />
+  </Section>
+
+  <Section tone="forest" aria-labelledby="strips-brand-title">
+    <h2 id="strips-brand-title" class="m-0 type-section-title text-foreground">On Forest</h2>
+    <StatStrip class="mt-8" stats={sampleStats} />
+    <VideoPoster
+      class="mt-8 max-w-160"
+      href="https://youtu.be/GzRetBhE0To"
+      title="Sample video"
+      poster={photo}
+      caption={['Watch the video', '2 min']}
+      captions
+    />
+  </Section>
+
   <Section aria-labelledby="cta-title">
     <h2 id="cta-title" class="m-0 type-section-title text-foreground">Closing call to action</h2>
     <div class="mt-8 flex flex-col gap-8">
@@ -405,8 +468,9 @@ const checklist = [
       <ClosingCta
         id="cta-white"
         tone="white"
+        floating
         title="Bring daily mindfulness to your classrooms"
-        lead="The white card, with a photo on the right."
+        lead="The white card (here Floating, as on Home), with a photo on the right."
         primary={{ label: 'Contact us', href: '/contact/' }}
         secondary={{ label: 'See pricing', href: '/pricing/' }}
         image={{ src: photo, alt: '' }}

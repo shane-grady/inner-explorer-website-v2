@@ -1,0 +1,38 @@
+---
+// "Trusted in districts including": a label and a row of partner names, each a logo when
+// one is supplied (with permission) and the name in type until then.
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Partner {
+  name: string;
+  logo?: ImageMetadata;
+}
+interface Props {
+  label: string;
+  partners: readonly Partner[];
+  class?: string;
+}
+const { label, partners, class: className }: Props = Astro.props;
+---
+
+<div
+  class:list={['flex flex-col items-start gap-3 lg:flex-row lg:items-center lg:gap-10', className]}
+>
+  <p class="m-0 shrink-0 type-eyebrow text-foreground">{label}</p>
+  <ul
+    class="m-0 flex list-none flex-wrap items-center gap-x-5 gap-y-2 p-0 lg:grow lg:justify-between"
+  >
+    {
+      partners.map((partner) => (
+        <li class="type-card-title-md text-foreground-secondary">
+          {partner.logo ? (
+            <Image class="h-8 w-auto" src={partner.logo} alt={partner.name} height={64} />
+          ) : (
+            partner.name
+          )}
+        </li>
+      ))
+    }
+  </ul>
+</div>
