@@ -111,10 +111,13 @@ the owners the canvas gives.
     meta description is new, from the hero lead (the old one said "2.4 million students").
   - Copy casing as drawn: "Contact Us", "Explore the Research", "The People Behind Inner
     Explorer", "See How Inner Explorer Works" (the site-wide CTA item).
-  - Drift left after the side-by-side review (2026-10-10): research H2 44 (board 40) and its
-    section 112 (board 120); the hybrid paragraph's trailing empty line dropped (27px shorter);
-    "People" and "Logictry" 19 on mobile (board 24 / 20); Logictry's mark 36 at both widths
-    (board 30 on mobile).
+  - Drift left after the second side-by-side review (2026-10-10; where the boards disagree the
+    desktop board wins, so the stat labels and research intro let "Inner Explorer" break as
+    desktop does): the hybrid paragraph's trailing empty line dropped (Journey 27px shorter at
+    both widths); the closing CTA's buttons sit 32px under the lead (board 40; the shared block,
+    as Home draws it); "People" and "Logictry" 19 on mobile (board 24 / 20); Logictry's mark 36
+    at both widths (board 30 on mobile); the mobile gap above "Advisory Board" follows the
+    desktop rhythm (the mobile board splits there).
 - [ ] **Contact:** the hero photo is the board's stand-in (`src/assets/images/contact/`):
       approve it or supply one. The H1 is title case on the boards ("Get in Touch With Inner
       Explorer") against the sentence-case rule: keep or change.

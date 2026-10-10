@@ -172,6 +172,7 @@ const content = {
         },
         {
           name: 'People',
+          heavy: true,
           href: 'https://d5hf9n04.na1.hs-sales-engage.com/Ctc/Y+23284/d5hF9N04/JlF2-6qcW8wLKSR6lZ3npW8_TDX31B9D43W6szwHK4P-zdfW7Z0j1N4KWg34W4jNf2S6Q0Xw2W7T0NsR1wntHsN1s_xSNcQdWzW6Rr8q46_vJS4N2BGT9PBnqS1W7LWXqy6gyjyLW7RJN1K1fK7dsW57C2052ThTTZW7q_BJZ6LjsZNW4kjTHJ2rSxFTW7nqXbt2XLklLN7nT_V0ttKmRW7TXyQG5j_Sj1W3jFfgQ5DJw-MW7ylY1J8-ngGwW3dqXbs2yXzh5W8XsyNh2ldn16W5FGXpv59HrdpVCMVs634-9S2W5vPYbf62FN7MW2RrtL82XZy_TW17QPXf32bbgrN41y0pk2tymTW3vVR085ZKhccW2b4_zg8SbqXsf3ThtJ604',
           linkLabel: 'Read the People magazine story',
         },
@@ -240,10 +241,11 @@ const content = {
     lead: 'Research has been part of Inner Explorer’s story from its earliest years. Studies have examined the impact of daily practice across outcomes including academic performance, classroom behavior, and teacher stress.',
     cta: { label: 'Explore the Research', href: '/research/' },
     stats: [
-      { value: '4,000+', label: 'schools using Inner Explorer, across all 50 states' },
+      // The desktop board's wording: "Inner Explorer" may break here (the mobile board ties it).
+      { value: '4,000+', label: 'schools using Inner Explorer, across all 50 states' },
       {
         value: '6',
-        label: 'controlled studies of Inner Explorer, four of them randomized trials',
+        label: 'controlled studies of Inner Explorer, four of them randomized trials',
       },
       { value: '77', label: 'studies in a meta-review covering 12,358 students' },
     ],
@@ -457,11 +459,11 @@ const aboutLd = {
     </div>
   </Section>
 
-  <Section aria-labelledby="research-title">
+  <Section class="xl:py-30" aria-labelledby="research-title">
     <div class="grid gap-7 xl:grid-cols-2 xl:items-center xl:gap-24">
       <div class="flex flex-col">
         <p class="m-0 mb-4 type-eyebrow text-brand-emphasis md:mb-6">{content.research.eyebrow}</p>
-        <h2 id="research-title" class="m-0 type-section-title text-foreground">
+        <h2 id="research-title" class="m-0 type-section-title-sm text-foreground">
           {content.research.title}
         </h2>
         <p
@@ -485,7 +487,9 @@ const aboutLd = {
               <p class="m-0 font-sans type-stat-sm font-bold text-foreground md:w-44 md:shrink-0">
                 {stat.value}
               </p>
-              <p class="m-0 type-lead font-bold text-foreground xl:type-intro">{stat.label}</p>
+              <p class="m-0 type-lead leading-snug font-bold text-foreground xl:type-stat-label">
+                {stat.label}
+              </p>
             </li>
           ))
         }

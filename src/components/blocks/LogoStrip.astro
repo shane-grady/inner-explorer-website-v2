@@ -14,6 +14,8 @@ interface Partner {
   logoSize?: { w: number; h: number };
   /** Wall: set the name in type beside the logo (a mark without a wordmark). */
   showName?: boolean;
+  /** Wall: a typeset name in Inter 900, as the board sets "People" (its 800 resolves to 900). */
+  heavy?: boolean;
   /** Wall: a small line under the logo ("Chicago"). */
   caption?: string;
   /** Wall: the coverage this cell links to, opened in a new tab. */
@@ -79,7 +81,9 @@ const labelId = `logos-${label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
                 />
               )}
               {(!partner.logo || partner.showName) && (
-                <span class="type-lead-lg font-bold">{partner.name}</span>
+                <span class:list={['type-lead-lg', partner.heavy ? 'font-black' : 'font-bold']}>
+                  {partner.name}
+                </span>
               )}
               {partner.caption && <span class="type-tag">{partner.caption}</span>}
             </>
