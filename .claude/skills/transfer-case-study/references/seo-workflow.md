@@ -1,5 +1,15 @@
 # Content-SEO workflow template
 
+> **Scope since the 2026-10 rebuild.** A case study's body is the boards' verbatim original
+> text, so this workflow no longer edits it. Apply only metadata the skill owns: `seo.title`,
+> `seo.description` and `image.alt` in `src/content/case-studies/<slug>.yaml`. Every body
+> proposal (a FAQ, a restated stat sentence, a heading rewrite, a keyword phrase) goes to the
+> content owner as a list in the PR, and is applied only on their sign-off. The field paths
+> below (`meta.*`, `district.*`, `faq`, `sources`) belong to the pre-rebuild schema; map them
+> to the current one in `src/content.config.ts`. The template carries no FAQ or sources block
+> today, so adding one is a schema change. Keep the structure and the REJECT-by-default
+> verification; drop anything that would put words in the school's mouth.
+
 The Workflow-tool script shape that produced the Webb School optimization
 (13 agents: 6 researchers → synthesis → 3 appliers → 3 adversarial verifiers,
 ~1.5M subagent tokens). Adapt the topic-specific parts to the new story; keep the

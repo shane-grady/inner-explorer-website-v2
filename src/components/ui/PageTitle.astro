@@ -1,6 +1,8 @@
 ---
 // The page title block, once per page: eyebrow, the H1 with its emphasis words, the accent
 // bar as wide as the title's longest line, the lead, and up to two buttons in `actions`.
+// `layout="split"`: the title left and the lead and buttons right, bottom-aligned from lg
+// (Case Studies, Newsroom); stacked 24px apart below.
 import { emphasize } from '../../lib/emphasize';
 
 interface Props {
@@ -12,6 +14,7 @@ interface Props {
   leadWidth?: 'measure' | 'wide';
   /** `md`: the title's "\n" breaks only from md up; below, the line wraps where it falls. */
   breakFrom?: 'md';
+  layout?: 'stacked' | 'split';
   class?: string;
 }
 const {
@@ -20,34 +23,59 @@ const {
   lead,
   leadWidth = 'measure',
   breakFrom,
+  layout = 'stacked',
   class: className,
 }: Props = Astro.props;
+const split = layout === 'split';
 const LEAD_WIDTH = { measure: 'max-w-measure', wide: 'max-w-measure-wide' } as const;
 ---
 
-<div class:list={['flex flex-col items-start', className]}>
-  {eyebrow && <p class="m-0 mb-5 type-eyebrow text-foreground md:mb-6">{eyebrow}</p>}
-  <div class="inline-flex flex-col gap-2">
-    <h1
-      class="m-0 type-page-title text-foreground"
-      set:html={emphasize(title, undefined, breakFrom ? 'hidden md:inline' : '')}
-    />
-    <div class="ie-accent-bar" aria-hidden="true"></div>
+<div
+  class:list={[
+    split ? 'grid gap-6 lg:grid-cols-2 lg:items-end lg:gap-x-2' : 'flex flex-col items-start',
+    className,
+  ]}
+>
+  <div class:list={[split ? 'flex flex-col items-start' : 'contents']}>
+    {
+      eyebrow && (
+        <p class:list={['m-0 type-eyebrow text-foreground', split ? 'mb-6' : 'mb-5 md:mb-6']}>
+          {eyebrow}
+        </p>
+      )
+    }
+    <div class="inline-flex flex-col gap-2">
+      <h1
+        class="m-0 type-page-title text-foreground"
+        set:html={emphasize(title, undefined, breakFrom ? 'hidden md:inline' : '')}
+      />
+      <div class="ie-accent-bar" aria-hidden="true"></div>
+    </div>
   </div>
-  {
-    lead && (
-      <p
-        class:list={['m-0 mt-5 type-lead text-foreground-secondary md:mt-8', LEAD_WIDTH[leadWidth]]}
-      >
-        {lead}
-      </p>
-    )
-  }
-  {
-    Astro.slots.has('actions') && (
-      <div class="mt-6 flex flex-col gap-3 self-stretch md:mt-10 md:flex-row md:self-auto">
-        <slot name="actions" />
-      </div>
-    )
-  }
+  <div class:list={[split ? 'flex flex-col gap-6 lg:max-w-measure' : 'contents']}>
+    {
+      lead && (
+        <p
+          class:list={[
+            'm-0 type-lead text-foreground-secondary',
+            !split && ['mt-5 md:mt-8', LEAD_WIDTH[leadWidth]],
+          ]}
+        >
+          {lead}
+        </p>
+      )
+    }
+    {
+      Astro.slots.has('actions') && (
+        <div
+          class:list={[
+            'flex flex-col gap-3 md:flex-row',
+            !split && 'mt-6 self-stretch md:mt-10 md:self-auto',
+          ]}
+        >
+          <slot name="actions" />
+        </div>
+      )
+    }
+  </div>
 </div>

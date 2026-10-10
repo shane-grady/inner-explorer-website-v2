@@ -18,6 +18,8 @@ import Testimonial from '../../components/blocks/Testimonial.astro';
 import StatStrip from '../../components/blocks/StatStrip.astro';
 import LogoStrip from '../../components/blocks/LogoStrip.astro';
 import EvidenceCard from '../../components/blocks/EvidenceCard.astro';
+import StoryCard from '../../components/blocks/StoryCard.astro';
+import BarChart from '../../components/blocks/BarChart.astro';
 import VideoPoster from '../../components/ui/VideoPoster.astro';
 import { ICONS } from '../../lib/icons';
 import { FEATURE_ICONS } from '../../lib/feature-icons';
@@ -277,6 +279,17 @@ const checklist = [
         <button type="button" class="ie-chip" aria-pressed="true">Pressed</button>
         <span class="ie-tag type-tag">Add-on</span>
       </div>
+      <div class="ie-chip-row" role="group" aria-label="Chip row sample">
+        <button type="button" class="ie-chip" aria-pressed="true">
+          All stories<span class="ie-chip-count type-tag">7</span>
+        </button>
+        <button type="button" class="ie-chip" aria-pressed="false">
+          Chip count (Case Studies)<span class="ie-chip-count type-tag">3</span>
+        </button>
+        <button type="button" class="ie-chip" aria-pressed="false">
+          A row scrolls on a phone, wraps from md<span class="ie-chip-count type-tag">1</span>
+        </button>
+      </div>
       <div class="flex flex-wrap items-center gap-6">
         <button type="button" class="ie-chip" role="switch" aria-checked="false">
           Show our work<span class="ie-switch-track" aria-hidden="true"></span>
@@ -338,6 +351,24 @@ const checklist = [
         </div>
       </div>
     </div>
+  </Section>
+
+  <Section tone="white" aria-labelledby="split-title">
+    <p id="split-title" class="m-0 mb-8 type-label text-foreground-muted">
+      <code>PageTitle layout="split"</code>: the title left, the lead and buttons right from lg
+      (Case Studies, Newsroom).
+    </p>
+    <PageTitle
+      layout="split"
+      eyebrow="Eyebrow"
+      title="A split title with *emphasis words*"
+      lead="The lead and the buttons sit on the right, bottom-aligned with the accent bar."
+    >
+      <Fragment slot="actions">
+        <Button href="#split-title" arrow>Primary</Button>
+        <Button variant="secondary" href="#split-title">Secondary</Button>
+      </Fragment>
+    </PageTitle>
   </Section>
 
   <Section aria-labelledby="cards-title">
@@ -419,6 +450,44 @@ const checklist = [
         >
       </Testimonial>
     </div>
+    <div class="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <StoryCard
+        href="#cards-title"
+        image={{ src: photo, alt: 'Sample photo' }}
+        level="Photo label"
+        name="Story card (Case Studies)"
+        place="Sample place, ST"
+        stat="00%"
+        statLabel="the headline result, over a rule and Read the story"
+      />
+      <Testimonial
+        name="Sample administrator"
+        place="Role, Sample school"
+        initials="SA"
+        class="lg:col-span-2"
+      >
+        A case study's quote: <code>initials</code> lead the name in a Spring disc where no portrait exists,
+        and <em class="font-bold not-italic">marked words are set bold.</em>
+      </Testimonial>
+    </div>
+    <BarChart
+      class="mt-8 max-w-measure-article"
+      title="Bar chart (Case Studies)"
+      summary="Sample bar chart of incidents by school year"
+      phases={[
+        {
+          label: 'Before',
+          tone: 'before',
+          bars: [
+            { label: 'Year 1', value: 120 },
+            { label: 'Year 2', value: 180 },
+          ],
+        },
+        { label: 'After', tone: 'after', bars: [{ label: 'Year 3', value: 60 }] },
+        { label: 'During', tone: 'during', bars: [{ label: 'Year 4', value: 70 }] },
+      ]}
+      note="The note under the hairline. Heights scale to the tallest bar."
+    />
     <div class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
       <EvidenceCard
         tag="Academics"

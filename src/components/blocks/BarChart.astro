@@ -1,0 +1,85 @@
+---
+// A bar chart in a Raised card: the title, then bars grouped by phase (before Inner Explorer
+// in Tint under a dashed rule, after and during in Jade), each with its value above and its
+// period below, a rule between phases, and a note under a hairline. Heights scale to the
+// tallest bar. One image to assistive tech, named from the data (Case Studies). Below md the
+// labels take the 13px tag step, as chart chrome may (the boards draw 12).
+interface Bar {
+  readonly label: string;
+  readonly value: number;
+}
+interface Phase {
+  readonly label: string;
+  readonly tone: 'before' | 'after' | 'during';
+  readonly bars: readonly Bar[];
+}
+interface Props {
+  title: string;
+  phases: readonly Phase[];
+  /** Leads the accessible name, e.g. what the chart counts and where the values come from. */
+  summary: string;
+  note?: string;
+  class?: string;
+}
+const { title, phases, summary, note, class: className }: Props = Astro.props;
+
+const max = Math.max(...phases.flatMap((p) => p.bars.map((b) => b.value)));
+const cols = phases.reduce((n, p) => n + p.bars.length, 0);
+const and = (items: string[]) =>
+  items.length > 1 ? `${items.slice(0, -1).join(', ')} and ${items.at(-1)}` : items[0];
+const label = [
+  summary,
+  ...phases.map((p) => `${p.label}: ${and(p.bars.map((b) => `${b.value} in ${b.label}`))}`),
+].join('. ');
+// The labels are presentational inside the role="img" (its name comes from the data above),
+// so a non-breaking hyphen keeps "COVID-19" whole in a narrow column.
+const keepHyphens = (text: string) => text.replace(/-/g, '\u2011');
+const LABEL_INK = {
+  before: 'text-foreground-body',
+  after: 'text-brand-emphasis',
+  during: 'text-foreground-body',
+} as const;
+const VALUE_INK = {
+  before: 'text-foreground',
+  after: 'text-brand-emphasis',
+  during: 'text-brand-emphasis',
+} as const;
+---
+
+<figure
+  class:list={['ie-card ie-card-raised m-0 flex flex-col gap-5 p-6 md:gap-6 md:p-8', className]}
+>
+  <figcaption class="type-card-title-md text-balance text-foreground">{title}</figcaption>
+  <div class="ie-chart" role="img" aria-label={`${label}.`} style={`--cols: ${cols}`}>
+    {
+      phases.map((phase) => (
+        <div class="ie-chart-phase" data-tone={phase.tone} style={`--bars: ${phase.bars.length}`}>
+          <span
+            class:list={[
+              'col-span-full text-center type-tag leading-snug text-balance md:px-2 md:type-label md:font-bold',
+              LABEL_INK[phase.tone],
+            ]}
+          >
+            {keepHyphens(phase.label)}
+          </span>
+          {phase.bars.map((bar) => (
+            <div class="flex flex-col items-center justify-end gap-2 border-b border-border pt-4">
+              <span class:list={['type-card-title-sm', VALUE_INK[phase.tone]]}>{bar.value}</span>
+              <span
+                class="ie-chart-bar w-3/5"
+                data-tone={phase.tone}
+                style={`--bar: ${(bar.value / max).toFixed(4)}`}
+              />
+            </div>
+          ))}
+          {phase.bars.map((bar) => (
+            <span class="pt-2 text-center type-tag leading-normal font-medium whitespace-nowrap text-foreground-muted md:type-label">
+              {bar.label}
+            </span>
+          ))}
+        </div>
+      ))
+    }
+  </div>
+  {note && <p class="m-0 border-t border-border pt-4 type-label text-foreground-muted">{note}</p>}
+</figure>
