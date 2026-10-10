@@ -63,7 +63,7 @@ for it). Provenance is the comment beside each token in `tokens.css`.
   _on-photo-control_, _on-photo-dot_, _photo-tone_ (the boards' sepia filter).
 - **Size:** **control-height** 48, **control-height-sm** 44, **header-height** 80/64,
   **logo-height** 32/28, **accent-bar-height** 4, **container** 1200, **measure** 520,
-  _measure-short_ 320, **measure-article** 680, _form-card_ 576 (`w-form`), _figure-height_ 220 → 400 (`h-figure`), **icon-sm/md/lg/feature/disc**, _icon-check_ 22 (the filled check disc), _collapse-height_ 640 (Pricing's collapsed table), _hero-photo-height_ 560 → 640 (`h-hero-photo`).
+  _measure-short_ 320, **measure-article** 680, _form-card_ 576 (`w-form`), _figure-height_ 220 → 400 (`h-figure`), **icon-sm/md/lg/feature/disc**, _icon-check_ 22 and _icon-check-sm_ 18 (the filled check disc), _measure-wide_ 640 (Pricing's hero lead, `PageTitle leadWidth="wide"`), _measure-cta_ 560 (the inline closing CTA's lead), _measure-note_ 760 (a footnote under a table), _collapse-height_ 640 (Pricing's collapsed table), _hero-photo-height_ 560 → 640 (`h-hero-photo`).
 - _Motion:_ `220ms cubic-bezier(.16, 1, .3, 1)`, every transition on the boards; _motion-fade_
   700ms on the same curve, the hero carousel's crossfade.
 
@@ -79,6 +79,7 @@ for it). Provenance is the comment beside each token in `tokens.css`.
 | `type-list`                          | 16/1.45/500                                  | `Checklist size="sm"` (Home's program cards)                                                                                                       |
 | `type-lead-lg`                       | 24/1.45/500 → 19                             | the intro under the photo hero                                                                                                                     |
 | `type-lead`                          | 20/1.5/500 → 18                              | the one intro under a title                                                                                                                        |
+| `type-intro`                         | 18/1.5/500 → 17                              | a section intro beside its title (Pricing); bold, the add-on panel's statements and the table's group titles                                       |
 | `type-body`                          | 17/1.6/500                                   | body copy                                                                                                                                          |
 | `type-small`                         | 15/1.5/500                                   | captions, notes, the footer                                                                                                                        |
 | `type-article-body`                  | 18/1.7/400 → 17/1.65                         | long-form articles only                                                                                                                            |
@@ -99,7 +100,7 @@ class.
 
 - `ui/Button` (primary · secondary · light · ghost; md · sm; `arrow`; `block`; link or button),
   `ui/ArrowLink` (`light` on green), `ui/PageTitle` (eyebrow, H1 with `*emphasis*`, accent bar,
-  lead, `actions` slot), `ui/Checklist` (`marker="disc"`: the filled check disc, Pricing), `ui/Card` (raised · floating · tint; `title`, `titleSize`, `href` makes
+  lead, `actions` slot; `leadWidth="wide"`; `breakFrom="md"` keeps the title's break to md up), `ui/Checklist` (`marker="disc"`, `size="xs"`, `flow="columns"`: Pricing's add-on list), `ui/Card` (raised · floating · tint; `title`, `titleSize`, `href` makes
   the title a stretched link), `ui/Icon` and `ui/FeatureIcon` (registries in `src/lib/icons.ts`
   and `src/lib/feature-icons.ts`; feature icons are Phosphor fill, bare or `disc`),
   `ui/IconButton`, `ui/Checklist`, `ui/Section` (tone ground · white · tint · emerald · forest;

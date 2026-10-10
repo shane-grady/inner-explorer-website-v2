@@ -188,6 +188,10 @@
   background: var(--brand);
   color: var(--on-brand);
 }
+.ie-check-disc-sm {
+  inline-size: var(--icon-check-sm);
+  block-size: var(--icon-check-sm);
+}
 [data-on-brand] .ie-check-disc {
   background: var(--on-brand);
   color: var(--brand-surface);
@@ -198,7 +202,7 @@
   display: inline-flex;
   align-items: center;
   gap: var(--space-3);
-  min-block-size: var(--control-height-sm);
+  min-block-size: var(--space-6);
   padding: 0;
   border: 0;
   background: none;

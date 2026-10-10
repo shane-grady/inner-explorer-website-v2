@@ -31,7 +31,7 @@ const content = {
   hero: {
     eyebrow: 'Plans & pricing',
     title: 'Find the ideal plan for\n*your learning community.*',
-    lead: 'Every plan includes the full library of daily audio-guided practices, PreK through 12, in English and Spanish. Compare the three site licenses below and choose the one that fits your school, center, or district.',
+    lead: 'Every plan includes the full library of daily audio-guided practices, PreK through 12, in English and Spanish. Compare the three site licenses below and choose the one that fits your school, center, or\u00a0district.',
   },
   recommendedLabel: 'Recommended',
   ctaLabel: 'Contact us',
@@ -64,12 +64,12 @@ const content = {
     },
   ],
   plansNote:
-    'All plans are annual per site licenses. Reach out with any questions about which plan fits your school, center, or district.',
+    'All plans are annual per site licenses. Reach out with any questions about which plan fits your school, center, or\u00a0district.',
   compare: {
     eyebrow: 'Compare plans',
     title: 'Every feature,\n*side by side.*',
     intro:
-      'The full breakdown of what each license includes, and what can be added on. Items priced in a column are optional add-ons for that plan.',
+      'The full breakdown of what each license includes, and what can be added on. Items priced in a column are optional add-ons for that\u00a0plan.',
     tableLabel: 'Inner Explorer plans compared feature by feature',
     legend: {
       heading: 'What’s included',
@@ -85,7 +85,7 @@ const content = {
     addonLabel: 'add-on',
     footer: { title: 'Ready when you are', text: 'Our team replies within 1 business day.' },
     footnote:
-      'Prices are annual per site licenses in U.S. dollars. Districts of 10 or more schools qualify for districtwide pricing, and most partners fund the program through Title IV-A, BSCA mental health, or state SEL grants. Talk to us and we will map the plan to the funding you already have.',
+      'Prices are annual per site licenses in U.S. dollars. Districts of 10 or more schools qualify for districtwide pricing, and most partners fund the program through Title IV-A, BSCA mental health, or state SEL grants. Talk to us and we will map the plan to the funding you already\u00a0have.',
     groups: [
       {
         title: 'Overview',
@@ -221,19 +221,19 @@ const content = {
   addons: {
     heading: 'Programs and add-ons',
     title: 'Advanced Wellness Program',
-    lead: 'Put your practitioners in every classroom. Daily mindfulness, delivered as a documented Tier 1 service, with a path to Tier 2 and 3 support.',
-    text: 'The Advanced Wellness Program equips school psychologists, counselors, LMFTs, social workers, and Certified Wellness Coaches to lead Inner Explorer’s daily practice in classrooms, document every session, and connect the work to your district’s screening, plans, and, where your state allows, reimbursement. Every student in the classroom benefits. Your practitioners get the training, tools, and support to make it count. Simply and sustainably.',
+    lead: 'Put your practitioners in every classroom. Daily mindfulness, delivered as a documented Tier\u00a01 service, with a path to Tier\u00a02 and 3\u00a0support.',
+    text: 'The Advanced Wellness Program equips school psychologists, counselors, LMFTs, social workers, and Certified Wellness Coaches to lead Inner Explorer’s daily practice in classrooms, document every session, and connect the work to your district’s screening, plans, and, where your state allows, reimbursement. Every student in the classroom benefits. Your practitioners get the training, tools, and support to make it count. Simply and\u00a0sustainably.',
     includesLabel: 'Includes',
     includes: [
-      'Inner Explorer platform for every classroom, early learning through grade 12, English and Spanish',
-      'Expanded professional development for practitioners, live and on demand',
+      'Inner Explorer platform for every classroom, early learning through grade 12, English and\u00a0Spanish',
+      'Expanded professional development for practitioners, live and on\u00a0demand',
       'Priority practitioner support',
       'Pre and Post assessments',
       'Dedicated implementation lead',
-      'Practitioner Toolkit: general and reimbursement implementation guide, research base, family communication, student-facing content, templates',
-      'Certified Wellness Coach Toolkit with State Specific Appendix',
+      'Practitioner Toolkit: general and reimbursement implementation guide, research base, family communication, student-facing content,\u00a0templates',
+      'Certified Wellness Coach Toolkit with State Specific\u00a0Appendix',
       'Monthly check-ins with your practitioner team',
-      'Quarterly reporting and a year-end outcomes report',
+      'Quarterly reporting and a year-end outcomes\u00a0report',
       'Family engagement kit and home app access',
       'Board and leadership presentation materials',
     ],
@@ -242,22 +242,23 @@ const content = {
         title: 'Standalone',
         price: '$5,800',
         unit: 'per year',
-        text: 'The Inner Explorer platform license plus every Advanced Wellness Program component above',
+        text: 'The Inner Explorer platform license plus every Advanced Wellness Program component\u00a0above',
       },
       {
         title: 'Upgrade to an existing Community Pro license',
         price: '$2,200',
         unit: 'per year',
-        text: 'Every Advanced Wellness Program component above, added to the district’s current license',
+        text: 'Every Advanced Wellness Program component above, added to the district’s current\u00a0license',
       },
     ],
-    prompt: 'Talk with our team about bringing the Advanced Wellness Program to your district.',
+    prompt:
+      'Talk with our team about bringing the Advanced Wellness Program to your\u00a0district.',
     disclaimer:
-      'Pricing is set independently of any reimbursement a district receives and does not vary with claim volume.',
+      'Pricing is set independently of any reimbursement a district receives and does not vary with claim\u00a0volume.',
   },
   cta: {
     title: 'Not sure which plan fits? *Let us help.*',
-    lead: 'Reach out to our team so we can learn more about your school community and choose the plan that’s right for you.',
+    lead: 'Reach out to our team so we can learn more about your school community and choose the plan that’s right for\u00a0you.',
     primary: { label: 'Contact us', href: '/contact/' },
     secondary: { label: 'See the platform', href: '/platform/' },
   },
@@ -299,7 +300,13 @@ const productLd = {
   <JsonLd slot="head" schema={productLd} />
 
   <Section spacing="hero">
-    <PageTitle eyebrow={content.hero.eyebrow} title={content.hero.title} lead={content.hero.lead} />
+    <PageTitle
+      eyebrow={content.hero.eyebrow}
+      title={content.hero.title}
+      lead={content.hero.lead}
+      leadWidth="wide"
+      breakFrom="md"
+    />
 
     <div class="mt-8 grid gap-4 md:mt-12 lg:grid-cols-3 lg:gap-6">
       {
@@ -351,7 +358,11 @@ const productLd = {
     <p class="m-0 mt-5 type-small text-foreground-muted">{content.plansNote}</p>
   </Section>
 
-  <Section tone="white" class="border-t border-border" aria-labelledby="compare-title">
+  <Section
+    tone="white"
+    class="border-t border-border pt-hero-bottom"
+    aria-labelledby="compare-title"
+  >
     <div class="grid gap-6 lg:grid-cols-4 lg:items-end lg:gap-2">
       <div class="flex flex-col gap-6 lg:col-span-2">
         <p class="m-0 type-eyebrow text-foreground">{compare.eyebrow}</p>
@@ -362,7 +373,7 @@ const productLd = {
         />
       </div>
       <p
-        class="m-0 max-w-measure type-lead text-foreground-secondary lg:col-span-2 lg:justify-self-end"
+        class="m-0 max-w-measure type-intro text-foreground-secondary lg:col-span-2 lg:justify-self-end"
       >
         {compare.intro}
       </p>
@@ -518,7 +529,9 @@ const productLd = {
                           class="block px-4 py-3.5 text-left font-normal lg:table-cell lg:px-6 lg:py-4"
                         >
                           <span class="flex items-center justify-between gap-2.5 lg:justify-start">
-                            <h3 class="m-0 type-card-title-md text-foreground">{group.title}</h3>
+                            <h3 class="m-0 type-intro leading-tight font-bold text-foreground">
+                              {group.title}
+                            </h3>
                             <span class="type-label text-foreground-muted">
                               <span data-count>{group.rows.length}</span> {compare.countLabel}
                             </span>
@@ -544,7 +557,7 @@ const productLd = {
                           </th>
                           {row.cells.map((cell) => (
                             <td class="min-w-0 px-0.5 text-center align-middle lg:px-4 lg:py-3.5">
-                              <span class="flex min-h-7 items-center justify-center">
+                              <span class="flex min-h-7 items-center justify-center lg:min-h-0">
                                 {cell === 'yes' ? (
                                   <>
                                     <span class="ie-check-disc" aria-hidden="true">
@@ -659,11 +672,11 @@ const productLd = {
       </div>
     </div>
 
-    <p class="m-0 mt-6 max-w-measure-article type-small text-foreground-muted">
+    <p class="m-0 mt-6 max-w-measure-note type-small text-foreground-muted lg:mt-12">
       {compare.footnote}
     </p>
 
-    <div class="mt-8 flex flex-col gap-5 md:gap-6">
+    <div class="mt-14 flex flex-col gap-5 md:gap-6 lg:mt-20">
       <h2 class="m-0 type-card-title-lg text-foreground">{content.addons.heading}</h2>
       <article aria-labelledby="awp-title" class="ie-card bg-brand-surface" data-on-brand>
         <div class="grid lg:grid-cols-12">
@@ -671,16 +684,22 @@ const productLd = {
             <h3 id="awp-title" class="m-0 type-card-title-lg text-foreground">
               {content.addons.title}
             </h3>
-            <p class="m-0 type-stat-label text-foreground">{content.addons.lead}</p>
+            <p class="m-0 type-intro font-bold text-foreground">{content.addons.lead}</p>
             <p class="m-0 type-small text-foreground-muted">{content.addons.text}</p>
           </div>
           <div
             class="flex flex-col gap-3.5 border-t border-border px-5 pt-6 pb-3 lg:col-span-7 lg:gap-4.5 lg:border-t-0 lg:border-l lg:px-10 lg:pt-10 lg:pb-7"
           >
             <p class="m-0 type-eyebrow text-foreground">{content.addons.includesLabel}</p>
-            <Checklist items={content.addons.includes} columns={2} size="sm" marker="disc" />
+            <Checklist
+              items={content.addons.includes}
+              columns={2}
+              size="xs"
+              marker="disc"
+              flow="columns"
+            />
             <div
-              class="mt-auto grid gap-3 border-t border-border pt-6 pb-3 md:grid-cols-2 md:gap-4 lg:pb-0"
+              class="-mx-5 mt-auto grid gap-3 border-t border-border px-5 pt-6 pb-3 md:grid-cols-2 md:gap-4 lg:mx-0 lg:px-0 lg:pb-0"
             >
               {
                 content.addons.prices.map((box) => (
@@ -706,7 +725,7 @@ const productLd = {
           class="flex flex-col gap-3 border-t border-border bg-brand-shade px-5 py-6 lg:flex-row lg:items-center lg:justify-between lg:gap-10 lg:px-10"
         >
           <div class="flex min-w-0 flex-col gap-1">
-            <p class="m-0 type-stat-label text-foreground">{content.addons.prompt}</p>
+            <p class="m-0 type-intro font-bold text-foreground">{content.addons.prompt}</p>
             <p class="m-0 type-label text-foreground-muted">{content.addons.disclaimer}</p>
           </div>
           <Button variant="light" href={content.ctaHref} arrow class="mt-1 shrink-0 lg:mt-0">

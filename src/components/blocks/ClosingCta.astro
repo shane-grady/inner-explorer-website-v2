@@ -64,7 +64,15 @@ const inline = layout === 'inline' && !image;
       />
       {
         lead && (
-          <p class="m-0 mt-5 max-w-measure type-lead text-foreground-secondary md:mt-6">{lead}</p>
+          <p
+            class:list={[
+              'm-0 mt-5 type-lead md:mt-6',
+              inline ? 'max-w-measure-cta' : 'max-w-measure',
+              emerald ? 'text-foreground' : 'text-foreground-secondary',
+            ]}
+          >
+            {lead}
+          </p>
         )
       }
     </div>

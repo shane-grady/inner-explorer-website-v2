@@ -103,6 +103,9 @@
   --spacing-hero-photo: var(--hero-photo-height);
   --container-page: var(--container);
   --container-measure: var(--measure);
+  --container-measure-wide: var(--measure-wide);
+  --container-measure-cta: var(--measure-cta);
+  --container-measure-note: var(--measure-note);
   --container-measure-short: var(--measure-short);
   --container-measure-article: var(--measure-article);
   --container-form: var(--form-card);
@@ -207,6 +210,12 @@
   line-height: 1.35;
   font-weight: 700;
   letter-spacing: -0.01em;
+}
+@utility type-intro {
+  font-family: var(--font-sans);
+  font-size: clamp(1.0625rem, calc(17px + 1 * (100vw - 390px) / 1050), 1.125rem); /* 17 → 18 */
+  line-height: 1.5;
+  font-weight: 500;
 }
 @utility type-lead {
   font-family: var(--font-sans);

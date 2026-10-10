@@ -239,6 +239,9 @@
   --quote-mark-width: 44px; /* new: the accent testimonial's mark from md up, 44 × 33 (Home desktop) */
   --container: 1200px; /* content width inside the 120px gutters */
   --measure: 520px; /* leads under page and section titles */
+  --measure-wide: 640px; /* new: the hero lead on Pricing desktop */
+  --measure-note: 760px; /* new: the footnote under a table (Pricing) */
+  --measure-cta: 560px; /* new: the inline closing CTA's lead (Pricing, Case Studies) */
   --measure-short: 320px; /* new: the footer blurb and other short columns (10 boards) */
   --measure-article: 680px; /* the Article text column */
   --form-card: 576px; /* new, provisional: the form card beside the hero copy (Contact desktop) */
@@ -258,7 +261,8 @@
   --icon-feature: 32px; /* bare feature icon leading a card */
   --icon-disc: 48px; /* Emerald feature-icon disc */
   --collapse-height: 640px; /* new: a long table shown collapsed under a fade (Pricing) */
-  --icon-check: 22px; /* new: the filled check disc (Pricing table and add-on list) */
+  --icon-check: 22px; /* new: the filled check disc (Pricing table) */
+  --icon-check-sm: 18px; /* new: the same disc leading a list item on green (Pricing add-ons) */
 
   /* ---- Motion (new family): every transition on the boards ---- */
   --motion: 220ms cubic-bezier(0.16, 1, 0.3, 1);
