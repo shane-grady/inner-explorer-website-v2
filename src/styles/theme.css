@@ -26,6 +26,7 @@
   --color-brand-emphasis: var(--brand-emphasis);
   --color-link-hover: var(--link-hover);
   --color-icon-accent: var(--icon-accent);
+  --color-numeral-sign: var(--numeral-sign);
   --color-brand-surface: var(--brand-surface);
   --color-brand-surface-deep: var(--brand-surface-deep);
   --color-brand-tint: var(--brand-tint);
@@ -84,6 +85,11 @@
   --shadow-brand-panel: var(--shadow-brand-panel);
   --shadow-on-photo: var(--shadow-on-photo);
   --shadow-lifted: var(--shadow-lifted);
+  --shadow-photo: var(--shadow-photo);
+  --shadow-figure: var(--shadow-figure);
+  --shadow-tile: var(--shadow-tile);
+  --shadow-tile-sm: var(--shadow-tile-sm);
+  --shadow-brand-bar: var(--shadow-brand-bar);
   --spacing-section-y: var(--section-y);
   --spacing-section-x: var(--section-x);
   --spacing-hero-top: var(--hero-top);
@@ -124,6 +130,7 @@
   --brand-emphasis: var(--on-brand-accent);
   --link-hover: var(--on-brand-accent);
   --icon-accent: var(--on-brand);
+  --numeral-sign: var(--green-300);
   --border: var(--border-on-brand);
   --ring: var(--ring-on-brand);
 }
@@ -137,6 +144,7 @@
   --brand-emphasis: var(--green-700);
   --link-hover: var(--green-800);
   --icon-accent: var(--green-400);
+  --numeral-sign: var(--green-400);
   --border: var(--light-warm);
   --ring: var(--green-700);
 }

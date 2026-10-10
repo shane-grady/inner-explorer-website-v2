@@ -554,3 +554,10 @@ Explorer's"`).
   against a baseline-vs-baseline noise run.
 - **Random ids differ every build** (`randomUUID()` newsletter field ids, SVG gradient ids,
   island `uid`s). Expect them in any marketing diff; they are not changes.
+
+- **Board `fr` splits are not flex ratios (Why, 2026-10-10).** `flex: 5` / `flex: 7` on padded
+  boxes counts the padding before sharing the space, so a 5fr/7fr split drawn with 40px padding
+  came out 12px wide on one side, and a 12-column grid with a 96px gap overflowed at 1024. Use
+  fractional bases (`lg:basis-5/12` with the default shrink): the gap comes off both sides in
+  proportion, exactly as `fr` does. Measuring every text element's box against the board, not
+  only section heights, is what found it (and a flattened shadow the board clearly draws).

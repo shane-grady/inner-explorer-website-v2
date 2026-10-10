@@ -1,18 +1,1045 @@
 ---
-// Placeholder until this page is built from the "Inner Explorer — Website" canvas
-// (FINAL V). See tasks/rebuild-plan.md for the order pages are built in.
+// Why Inner Explorer, from the FINAL V boards Why-Desktop-1/2 and Why-Mobile-1 to 4. Copy is
+// verbatim, the boards' non-breaking spaces included. Every photo is the board's stand-in, and
+// the figures (90% renew, the results band, Under $8, 372+ per counselor) are unconfirmed as
+// drawn. The Seven Reasons layout is the one the boards draw; the ROI estimator is parked and
+// not built: tasks/todo.md › Why.
+import { Image } from 'astro:assets';
 import PageLayout from '../layouts/PageLayout.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import Section from '../components/ui/Section.astro';
+import PageTitle from '../components/ui/PageTitle.astro';
+import Button from '../components/ui/Button.astro';
+import ArrowLink from '../components/ui/ArrowLink.astro';
+import Checklist from '../components/ui/Checklist.astro';
+import FeatureIcon from '../components/ui/FeatureIcon.astro';
+import Icon from '../components/ui/Icon.astro';
+import Testimonial from '../components/blocks/Testimonial.astro';
+import StatStrip from '../components/blocks/StatStrip.astro';
+import type { FeatureIconName } from '../lib/feature-icons';
+import { emphasize } from '../lib/emphasize';
+import { MAIN_SITE } from '../lib/site';
+
+import mark from '../assets/brand/mark-compass.png';
+import heroPhoto from '../assets/images/why/hero-eyes-closed.jpg';
+import reasonEvidence from '../assets/images/why/reason-evidence.jpg';
+import reasonReady from '../assets/images/why/reason-ready-to-learn.jpg';
+import reasonLeaders from '../assets/images/why/reason-leaders.jpg';
+import reasonEasy from '../assets/images/why/reason-easy.jpg';
+import reasonMtss from '../assets/images/why/reason-mtss.jpg';
+import reasonFunding from '../assets/images/why/reason-funding.jpg';
+import reasonEducators from '../assets/images/why/reason-educators.jpg';
+import curriculumPhoto from '../assets/images/why/curriculum-shared-table.jpg';
+import ctaPhoto from '../assets/images/why/cta-class-at-board.jpg';
 
 const content = {
-  title: 'Why Inner Explorer',
+  title: 'Why Inner Explorer | Daily Mindfulness for Schools',
   description:
-    'Why schools and districts choose Inner Explorer: daily, audio-guided mindfulness that fits the school day, backed by independent research.',
-  heading: 'Why Inner Explorer',
-  lead: 'Why schools and districts choose daily mindfulness with Inner Explorer.',
+    'Discover why schools choose Inner Explorer for daily mindfulness that strengthens student regulation, focus, resilience, and learning readiness across every tier of MTSS.',
+  hero: {
+    eyebrow: 'Why Inner Explorer',
+    title: 'Learning starts with *regulation.*',
+    lead: 'Inner Explorer helps students build the focus, resilience, and readiness that make everything else possible.',
+    primary: { label: 'Contact us', href: '/contact/' },
+    secondary: { label: 'Why daily mindfulness', href: '#foundation' },
+    image: {
+      src: heroPhoto,
+      alt: 'A young student sits with eyes closed during a quiet classroom mindfulness practice',
+      position: '60% 35%',
+    },
+  },
+  reasons: {
+    eyebrow: 'Seven reasons schools choose Inner Explorer',
+    title: '90% of schools renew. Here is why.',
+    items: [
+      {
+        title: 'It is evidence-based',
+        text: 'Randomized controlled trials, university studies, and district data show improvements across academics, stress, behavior, and attendance. Inner Explorer is built on research, not trends.',
+        link: { label: 'Discover the studies and evidence', href: '/research/' },
+        image: {
+          src: reasonEvidence,
+          alt: 'A student raising her hand in class while her teacher helps a classmate',
+          position: '50% 50%',
+        },
+      },
+      {
+        title: 'Mindfulness prepares the brain to learn',
+        text: 'Before students can access instruction, interventions, or counseling, they need a regulated nervous system. Daily mindfulness gives every student a foundation for learning, self-regulation, and resilience.',
+        link: {
+          label: 'Learn why mindfulness is the foundation for learning',
+          href: '#foundation',
+        },
+        image: {
+          src: reasonReady,
+          alt: 'A young student smiles with eyes closed at her desk during a mindfulness practice',
+          position: '50% 30%',
+        },
+      },
+      {
+        title: 'Leaders can see whether it is working',
+        text: 'Track adoption, practice, and engagement across classrooms and schools. Pair implementation data with the outcomes your district already measures to understand what is changing over time.',
+        image: {
+          src: reasonLeaders,
+          alt: 'Middle school students practice with eyes closed while a school leader looks on',
+          position: '50% 35%',
+        },
+      },
+      {
+        title: 'Easy to implement, easy to sustain',
+        list: [
+          {
+            lead: 'Zero prep required.',
+            text: 'Log in, press play, and deliver a consistent 5 to 10 minute practice.',
+          },
+          {
+            lead: 'Designed for daily use.',
+            text: 'Brief, audio-guided practices fit into existing school routines without requiring specialized mindfulness training.',
+          },
+          {
+            lead: 'Screen-free for students.',
+            text: 'Students listen rather than interact with another screen.',
+          },
+        ],
+        image: {
+          src: reasonEasy,
+          alt: 'A class follows a guided practice at their desks, eyes closed and hands raised',
+          position: '50% 40%',
+        },
+      },
+      {
+        title: 'Strengthens every tier of MTSS',
+        text: 'One shared daily practice supports and strengthens MTSS without adding another fragmented program.',
+        link: { label: 'See how Inner Explorer supports every tier', href: '#mtss' },
+        image: {
+          src: reasonMtss,
+          alt: 'Older students sit in quiet focus during a classroom practice',
+          position: '30% 40%',
+        },
+      },
+      {
+        title: 'Affordable, fundable, and reimbursable',
+        text: 'Priced for prevention, with funding paths that fit the budgets schools already have.',
+        link: { label: 'See cost and funding options', href: '#funding' },
+        image: {
+          src: reasonFunding,
+          alt: 'Two young students working side by side at a classroom table',
+          position: '50% 40%',
+        },
+      },
+      {
+        title: 'Educators benefit as much as students',
+        text: 'Teachers practice with their class rather than supervising it. Those shared few minutes lower stress for the adult in the room by 43% too, and it is the part principals tell us they did not expect.',
+        image: {
+          src: reasonEducators,
+          alt: 'Two teachers smiling and holding Top 10 Inner Explorer certificates',
+          position: '50% 25%',
+        },
+      },
+    ],
+  },
+  result: {
+    label: 'A result from the field',
+    statement: '2 discipline referrals compared with an average of 25',
+    ours: { value: '2', label: 'discipline referrals' },
+    theirs: { value: '25', label: 'average in the other classrooms' },
+    quote:
+      'The one class that ran Inner Explorer last year had only two discipline referrals all year! The average in the other classrooms was 25 referrals! We’re putting Inner Explorer in every classroom this year.',
+    name: 'Principal',
+    place: 'Sarasota, Florida',
+    link: { label: 'Read district case studies', href: '/case-studies/' },
+  },
+  foundation: {
+    eyebrow: 'The foundation',
+    title: 'Daily mindfulness is the foundation for learning',
+    lead: 'A nervous system running on stress cannot hold attention, store new information, or pause before reacting. Daily practice settles that system first, which is what makes everything taught afterward possible.',
+    figureLabel: 'Inner Explorer sits underneath every subject',
+    caption: '1% of the day improves the other 99%',
+    subjectsLabel: 'Every subject in the school day',
+    subjects: [
+      { name: 'Math', icon: 'sigma' },
+      { name: 'ELA', icon: 'book-open' },
+      { name: 'Science', icon: 'flask' },
+      { name: 'History', icon: 'bank' },
+      { name: 'SEL', icon: 'heart' },
+    ] satisfies { name: string; icon: FeatureIconName }[],
+    base: {
+      eyebrow: 'Inner Explorer',
+      text: '5 to 10 minutes of daily mindfulness practice that prepares students to learn.',
+    },
+    note: 'Inner Explorer sits underneath every other lesson structured into the day.',
+  },
+  results: {
+    label: 'Results',
+    title:
+      'Having daily mindfulness at the core foundation has transformed academic performance, behavior, and well-being across the country.',
+    stats: [
+      { value: '21', sign: '%', label: 'higher state math scores', source: '(Stager 2022)' },
+      { value: '56', sign: '%', label: 'fewer suspensions, Fulton County, GA' },
+      { value: '43', sign: '%', label: 'less teacher stress (Bakosh 2018)' },
+    ],
+    action: { label: 'See the evidence', href: '/research/' },
+  },
+  curriculum: {
+    eyebrow: 'Practice, not curriculum',
+    title: 'How we are different from a traditional curriculum',
+    caption: 'A curriculum compared with daily practice',
+    columns: { curriculum: 'A curriculum', practice: 'Daily practice' },
+    rows: [
+      {
+        curriculum: 'Outside-in learning: explains why students should pause and regulate.',
+        practice: 'Inside-out learning: trains the brain to pause and regulate.',
+      },
+      {
+        curriculum: 'Shows up a few times a year.',
+        practice: 'Shows up every morning, 180 days a year.',
+      },
+      {
+        curriculum: 'Adds one more thing to learn and teach.',
+        practice: 'Makes everything else easier to teach.',
+      },
+    ],
+    daily: {
+      eyebrow: 'Why every day matters',
+      statement: 'We brush our teeth every day for prevention.',
+      text: 'Why should mental well-being be any different? Daily mindfulness works the same way: a few minutes of consistent practice builds regulation before students reach the point where intervention is needed.',
+      image: {
+        src: curriculumPhoto,
+        alt: 'Students at work around a shared table, one boy absorbed in a drawing book',
+      },
+    },
+    statement:
+      'Inner Explorer is not *one more thing* students have to learn. It is what helps prepare them to learn *everything else*.',
+  },
+  mtss: {
+    eyebrow: 'Across the system',
+    title: 'One shared approach for every tier of MTSS',
+    figureLabel:
+      'The MTSS pyramid: Tier 3 individualized support, Tier 2 targeted support, Tier 1 universal prevention',
+    tiersLabel: 'The three tiers of MTSS',
+    tiers: [
+      {
+        number: '3',
+        eyebrow: 'Tier 3',
+        title: 'Individualized support',
+        text: 'Specialists, counselors, and clinicians can incorporate familiar mindfulness practices into individualized plans, complementing more intensive support rather than replacing it.',
+      },
+      {
+        number: '2',
+        eyebrow: 'Tier 2',
+        title: 'Targeted support',
+        text: 'Counselors can build on those same daily skills through small-group support that deepens the self-regulation students already practice.',
+      },
+      {
+        number: '1',
+        eyebrow: 'Tier 1',
+        title: 'Universal prevention',
+        text: 'Students and staff practice together each day, creating a schoolwide routine for self-regulation, focus, and prevention across every classroom.',
+      },
+    ],
+    foundation: {
+      eyebrow: 'The foundation',
+      title: 'One daily practice,\nunder every tier',
+      items: [
+        '372+ students per counselor on average',
+        'One platform, all three tiers',
+        'Easy to implement: log in, press play',
+      ],
+    },
+  },
+  funding: {
+    eyebrow: 'Cost and funding',
+    title: 'Affordable, fundable, and built for scale',
+    price: {
+      value: 'Under $8',
+      label: 'avg per student, per year',
+      note: 'about 0.07% of per-student spending',
+    },
+    points: [
+      {
+        icon: 'tag',
+        title: 'Affordable by design',
+        text: 'Prevention costs less than intervention. Inner Explorer delivers universal support at a fraction of the cost of more intensive downstream services.',
+      },
+      {
+        icon: 'hand-coins',
+        title: 'Expanding reimbursement opportunities',
+        text: 'School-based behavioral health reimbursement is evolving, creating new opportunities for districts to fund preventive supports like mindfulness.',
+      },
+    ] satisfies { icon: FeatureIconName; title: string; text: string }[],
+    panel: {
+      title: 'Reach out to discuss funding options for your school community',
+      text: 'Talk with our team about what daily practice would look like across your schools, and which funding you already have for it.',
+      action: { label: 'Contact us', href: '/contact/' },
+    },
+  },
+  questions: {
+    eyebrow: 'Before you choose',
+    title: 'What to ask before choosing a mindfulness program',
+    lead: 'The right program should fit your school system, not ask your school system to bend around it.',
+    items: [
+      {
+        title: 'Will teachers actually use it consistently?',
+        text: 'If implementation depends on extensive training, prep, or individual champions, adoption may fade over time.',
+      },
+      {
+        title: 'Can it fit into the school day without replacing instruction?',
+        text: 'Look for something that supports learning readiness without becoming another curriculum block.',
+      },
+      {
+        title: 'Is it designed for prevention, not just intervention?',
+        text: 'The strongest programs support all students before challenges escalate.',
+      },
+      {
+        title: 'Can leaders see whether it is being used?',
+        text: 'District and school leaders should be able to track implementation and connect usage to the outcomes they already measure.',
+      },
+      {
+        title: 'Will it work across schools, grade levels, and tiers?',
+        text: 'A solution should create consistency rather than adding another disconnected program to the system.',
+      },
+      {
+        title: 'Can we sustain it financially?',
+        text: 'Consider not only the purchase price, but also training, staff time, implementation burden, and long-term funding.',
+      },
+      {
+        title: 'Does the evidence match the outcomes we care about?',
+        text: 'Look beyond engagement. Ask whether there is credible evidence tied to academics, behavior, attendance, stress, or other district priorities.',
+      },
+    ],
+    verdict: 'Inner Explorer meets all the criteria',
+    action: { label: 'Contact us', href: '/contact/' },
+  },
+  voices: {
+    eyebrow: 'From the field',
+    title: 'What leaders see after implementation',
+    items: [
+      {
+        quote:
+          'In our school, we experienced a 50% reduction in student visits to my office, detentions, etc. since implementing the Inner Explorer Program. The more interesting phenomenon is the increase in compassion...',
+        name: 'School Principal',
+        place: 'Killeen, Texas',
+      },
+      {
+        quote:
+          "Students are learning to use the mindfulness strategies from Inner Explorer to better manage their emotions and practice self-regulation throughout the day. We appreciate the positive impact the Inner Explorer has made on our students' well-being and campus climate.",
+        name: 'School Principal',
+        place: 'Palm Springs, California',
+      },
+    ],
+  },
+  cta: {
+    eyebrow: 'Start the conversation',
+    title: 'Start with the layer everything else rests on.',
+    lead: 'Talk with our team about what daily practice would look like across your schools, and which funding you already have for it.',
+    primary: { label: 'Contact us', href: '/contact/' },
+    secondary: { label: 'See the research', href: '/research/' },
+    image: { src: ctaPhoto, alt: 'A class listening as their teacher works at the board' },
+  },
+} as const;
+
+/** "01 / 07": a reason's place in the list. */
+const pad = (n: number) => String(n).padStart(2, '0');
+const reasonCount = pad(content.reasons.items.length);
+const TIER_COLOR = {
+  '3': 'bg-coral-600 text-on-brand',
+  '2': 'bg-yellow-400 text-foreground',
+  '1': 'bg-green-500 text-on-brand',
+} as const;
+// The pyramid as each board draws it: desktop 540 × 484, mobile 350 × 384 with smaller labels.
+const PYRAMID = {
+  desktop: {
+    width: 540,
+    height: 484,
+    eyebrowSize: 13,
+    titleSize: 17,
+    bands: [
+      { tier: '3', points: '270,9.2 365.3,177 174.7,177', lines: [122, 144, 164] },
+      { tier: '2', points: '164.7,195 375.3,195 450.1,329 89.9,329', lines: [260, 280] },
+      { tier: '1', points: '79.9,347 460.1,347 534.9,481 5.1,481', lines: [412, 432] },
+    ],
+  },
+  mobile: {
+    width: 350,
+    height: 384,
+    eyebrowSize: 11,
+    titleSize: 14,
+    bands: [
+      { tier: '3', points: '175,10.2 248.7,169 101.3,169', lines: [122, 141, 158] },
+      { tier: '2', points: '94,185 256,185 297,275 53,275', lines: [228, 248] },
+      { tier: '1', points: '45.7,291 304.3,291 345.3,381 4.7,381', lines: [334, 354] },
+    ],
+  },
+} as const;
+const BAND = {
+  '3': {
+    shape: 'fill-coral-600 stroke-coral-600',
+    ink: 'fill-on-brand',
+    words: ['Individualized', 'support'],
+  },
+  '2': {
+    shape: 'fill-yellow-400 stroke-yellow-400',
+    ink: 'fill-foreground',
+    words: ['Targeted support'],
+  },
+  '1': {
+    shape: 'fill-green-500 stroke-green-500',
+    ink: 'fill-on-brand',
+    words: ['Universal prevention'],
+  },
+} as const;
+// Desktop tier rows are as tall as their band of the pyramid, so each sits beside its band.
+const TIER_HEIGHT = { '3': 'lg:h-46.5', '2': 'lg:h-38', '1': 'lg:h-36.5' } as const;
+
+// No Why page existed at `0c8cac2`; the shape is ported from its `/districts` page (which now
+// redirects here): a WebPage for district leaders about the service.
+const base = new URL(Astro.site ?? MAIN_SITE).origin;
+const whyLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: content.title,
+  url: `${base}/why-inner-explorer/`,
+  description: content.description,
+  isPartOf: { '@type': 'WebSite', name: 'Inner Explorer', url: base },
+  audience: { '@type': 'EducationalAudience', audienceType: 'PreK-12 school and district leaders' },
+  about: {
+    '@type': 'Service',
+    name: 'Inner Explorer daily mindfulness for schools',
+    provider: {
+      '@type': 'Organization',
+      name: 'Inner Explorer',
+      url: base,
+      logo: `${base}/logo.png`,
+    },
+  },
 };
 ---
 
 <PageLayout title={content.title} description={content.description}>
-  <h1>{content.heading}</h1>
-  <p>{content.lead}</p>
+  <JsonLd slot="head" schema={whyLd} />
+
+  <Section spacing="hero" as="div">
+    <div class="flex flex-col gap-9 lg:grid lg:grid-cols-2 lg:items-center lg:gap-18">
+      <PageTitle eyebrow={content.hero.eyebrow} title={content.hero.title} lead={content.hero.lead}>
+        <Fragment slot="actions">
+          <Button href={content.hero.primary.href} arrow>{content.hero.primary.label}</Button>
+          <Button variant="secondary" href={content.hero.secondary.href}>
+            {content.hero.secondary.label}
+          </Button>
+        </Fragment>
+      </PageTitle>
+      <Image
+        class="h-65 w-full rounded-sm object-cover lg:h-140"
+        style={`object-position: ${content.hero.image.position}`}
+        src={content.hero.image.src}
+        alt={content.hero.image.alt}
+        widths={[640, 1280]}
+        sizes="(min-width: 1024px) 50vw, 100vw"
+        loading="eager"
+      />
+    </div>
+  </Section>
+
+  <Section tone="white" id="reasons" aria-labelledby="reasons-title" class="overflow-x-clip">
+    <p class="m-0 type-eyebrow text-foreground">{content.reasons.eyebrow}</p>
+    <h2
+      id="reasons-title"
+      class="m-0 mt-4 max-w-measure-note type-section-title text-balance text-foreground"
+    >
+      {content.reasons.title}
+    </h2>
+    <ol class="m-0 mt-10 flex list-none flex-col gap-12 p-0 lg:mt-14 lg:gap-8">
+      {
+        content.reasons.items.map((reason, i) => {
+          const photoStart = i % 2 === 0;
+          return (
+            <li class="flex flex-col gap-6 lg:grid lg:grid-cols-2 lg:items-center lg:gap-16">
+              <div
+                class:list={[
+                  'bg-brand-surface max-lg:-mx-section-x max-lg:px-section-x max-lg:py-5 lg:py-8',
+                  photoStart ? 'ie-bleed-start' : 'ie-bleed-end lg:order-last',
+                ]}
+              >
+                <Image
+                  class="h-50 w-full rounded-sm object-cover shadow-photo lg:h-75"
+                  style={`object-position: ${reason.image.position}`}
+                  src={reason.image.src}
+                  alt={reason.image.alt}
+                  widths={[560, 1120]}
+                  sizes="(min-width: 1024px) 512px, 100vw"
+                />
+              </div>
+              <div class:list={[photoStart ? 'lg:ps-4' : 'lg:pe-4']}>
+                <p class="m-0 flex items-center gap-3 type-eyebrow text-foreground">
+                  <span>Reason {i + 1}</span>
+                  <span class="h-px w-8 bg-brand-surface opacity-50" aria-hidden="true" />
+                  <span class="text-foreground-muted">
+                    {pad(i + 1)} / {reasonCount}
+                  </span>
+                </p>
+                <h3 class="m-0 mt-4 type-card-title-lg text-foreground">{reason.title}</h3>
+                {'text' in reason && (
+                  <p class="m-0 mt-4 max-w-measure-narrow type-body text-pretty text-foreground-body">
+                    {reason.text}
+                  </p>
+                )}
+                {'list' in reason && (
+                  <Checklist class="mt-5 max-w-measure-narrow" items={reason.list} />
+                )}
+                {'link' in reason && (
+                  <p class="m-0 mt-4">
+                    <ArrowLink href={reason.link.href}>{reason.link.label}</ArrowLink>
+                  </p>
+                )}
+              </div>
+            </li>
+          );
+        })
+      }
+    </ol>
+  </Section>
+
+  <Section aria-label={content.result.label} class="border-b border-border">
+    <div class="flex flex-col gap-10 lg:flex-row lg:items-center lg:gap-24">
+      <div class="flex min-w-0 flex-col gap-7 lg:basis-5/12">
+        <p class="m-0 max-w-110 type-lead-lg leading-tight font-bold text-foreground">
+          {content.result.statement}
+        </p>
+        <div class="grid auto-cols-max items-end justify-start gap-x-4 gap-y-2 md:gap-x-6">
+          <p
+            class="col-start-1 row-start-1 m-0 font-sans type-stat-xl leading-none font-bold text-brand-emphasis"
+          >
+            {content.result.ours.value}
+          </p>
+          <span
+            class="col-start-2 row-start-1 h-0.5 w-8 self-center bg-border md:w-12"
+            aria-hidden="true"></span>
+          <p
+            class="col-start-3 row-start-1 m-0 font-sans type-stat-xl leading-none font-bold text-foreground-muted"
+          >
+            {content.result.theirs.value}
+          </p>
+          <p
+            class="col-start-1 row-start-2 m-0 max-w-42.5 self-start type-label font-bold text-foreground-secondary"
+          >
+            {content.result.ours.label}
+          </p>
+          <p
+            class="col-start-3 row-start-2 m-0 max-w-42.5 self-start type-label font-bold text-foreground-muted"
+          >
+            {content.result.theirs.label}
+          </p>
+        </div>
+      </div>
+      <div class="flex min-w-0 flex-col gap-6 lg:basis-7/12">
+        <Testimonial name={content.result.name} place={content.result.place} variant="panel">
+          {content.result.quote}
+        </Testimonial>
+        <p class="m-0">
+          <ArrowLink href={content.result.link.href}>{content.result.link.label}</ArrowLink>
+        </p>
+      </div>
+    </div>
+  </Section>
+
+  <Section tone="white" id="foundation" aria-labelledby="foundation-title">
+    <div class="flex flex-col gap-6 lg:grid lg:grid-cols-2 lg:items-end lg:gap-20">
+      <div>
+        <p class="m-0 type-eyebrow text-foreground">{content.foundation.eyebrow}</p>
+        <h2
+          id="foundation-title"
+          class="m-0 mt-4 max-w-measure-note type-section-title text-balance text-foreground"
+        >
+          {content.foundation.title}
+        </h2>
+      </div>
+      <p class="m-0 max-w-measure type-lead text-pretty text-foreground-secondary">
+        {content.foundation.lead}
+      </p>
+    </div>
+    <figure
+      class="ie-card ie-card-tint m-0 mt-10 px-4 py-6 shadow-figure md:px-14 md:py-12 lg:mt-14"
+      aria-label={content.foundation.figureLabel}
+    >
+      <figcaption class="mb-6 text-center type-card-title-md text-foreground md:mb-8">
+        {content.foundation.caption}
+      </figcaption>
+      <ul
+        class="m-0 grid list-none grid-cols-5 gap-2 p-0 md:gap-4"
+        aria-label={content.foundation.subjectsLabel}
+      >
+        {
+          content.foundation.subjects.map((subject) => (
+            <li class="flex flex-col items-center">
+              <div class="ie-card flex h-14 w-full flex-col items-center justify-center gap-1 bg-background type-label font-bold text-foreground shadow-tile-sm max-md:*:*:size-5 md:h-22 md:flex-row md:gap-2 md:type-intro md:font-bold md:shadow-tile">
+                <FeatureIcon name={subject.icon} />
+                {subject.name}
+              </div>
+              <div class="h-5 w-px bg-brand opacity-50 md:h-8" aria-hidden="true" />
+            </li>
+          ))
+        }
+      </ul>
+      <div
+        class="ie-card flex flex-col items-start gap-4 bg-brand-surface p-6 shadow-brand-bar md:flex-row md:items-center md:gap-6 md:px-9 md:py-7"
+        data-on-brand
+      >
+        <Image
+          class="size-11 shrink-0 md:size-14"
+          src={mark}
+          alt=""
+          width={56}
+          densities={[1, 2]}
+        />
+        <div class="flex flex-col gap-1">
+          <p class="m-0 type-eyebrow text-foreground">{content.foundation.base.eyebrow}</p>
+          <p class="m-0 type-card-title-md text-foreground">{content.foundation.base.text}</p>
+        </div>
+      </div>
+      <p class="m-0 mt-6 text-center type-small text-foreground-muted">
+        {content.foundation.note}
+      </p>
+    </figure>
+  </Section>
+
+  <Section tone="forest" aria-label={content.results.label}>
+    <div class="flex flex-col gap-9 lg:grid lg:grid-cols-2 lg:items-center lg:gap-20">
+      <h3 class="m-0 max-w-140 type-card-title-lg text-balance text-foreground">
+        {content.results.title}
+      </h3>
+      <div class="flex flex-col gap-8">
+        <StatStrip variant="ruled" stats={content.results.stats} />
+        <div>
+          <Button variant="light" href={content.results.action.href} arrow class="max-md:w-full">
+            {content.results.action.label}
+          </Button>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <Section id="not-a-curriculum" aria-labelledby="not-a-curriculum-title">
+    <p class="m-0 type-eyebrow text-foreground">{content.curriculum.eyebrow}</p>
+    <h2
+      id="not-a-curriculum-title"
+      class="m-0 mt-4 max-w-140 type-section-title text-balance text-foreground"
+    >
+      {content.curriculum.title}
+    </h2>
+
+    <div class="-mx-4 mt-10 max-md:hidden lg:mt-16">
+      <table class="w-full table-fixed border-separate border-spacing-x-4">
+        <caption class="sr-only">{content.curriculum.caption}</caption>
+        <thead>
+          <tr>
+            <th
+              scope="col"
+              class="w-1/2 rounded-t-sm bg-tint px-10 pt-8 pb-6 text-left align-bottom type-card-title-lg text-foreground-secondary"
+            >
+              {content.curriculum.columns.curriculum}
+            </th>
+            <th
+              scope="col"
+              class="w-1/2 rounded-t-sm bg-brand-surface px-10 pt-8 pb-6 text-left align-bottom type-card-title-lg text-foreground"
+              data-on-brand
+            >
+              {content.curriculum.columns.practice}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            content.curriculum.rows.map((row, i) => {
+              const last = i === content.curriculum.rows.length - 1;
+              return (
+                <tr>
+                  <td
+                    class:list={[
+                      'border-t border-border-control bg-tint px-10 pt-6 align-top',
+                      last ? 'rounded-b-sm pb-9' : 'pb-6',
+                    ]}
+                  >
+                    <span class="flex items-start gap-4 type-lead text-foreground-body">
+                      <span class="ie-minus-disc mt-1" aria-hidden="true">
+                        <Icon name="minus" size={16} />
+                      </span>
+                      <span>{row.curriculum}</span>
+                    </span>
+                  </td>
+                  <td
+                    class:list={[
+                      'border-t border-border bg-brand-surface px-10 pt-6 align-top',
+                      last ? 'rounded-b-sm pb-9' : 'pb-6',
+                    ]}
+                    data-on-brand
+                  >
+                    <span class="flex items-start gap-4 type-lead font-bold text-foreground">
+                      <span class="ie-check-disc mt-1" aria-hidden="true">
+                        <Icon name="check" size={16} />
+                      </span>
+                      <span>{row.practice}</span>
+                    </span>
+                  </td>
+                </tr>
+              );
+            })
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <div class="mt-10 md:hidden">
+      <div class="mb-4 flex flex-wrap items-center gap-x-6 gap-y-2" aria-hidden="true">
+        <span class="inline-flex items-center gap-2 type-eyebrow text-foreground">
+          <span class="ie-swatch text-border-control"></span>
+          {content.curriculum.columns.curriculum}
+        </span>
+        <span class="inline-flex items-center gap-2 type-eyebrow text-foreground">
+          <span class="ie-swatch text-brand-surface"></span>
+          {content.curriculum.columns.practice}
+        </span>
+      </div>
+      <ul class="m-0 flex list-none flex-col gap-3 p-0" aria-label={content.curriculum.caption}>
+        {
+          content.curriculum.rows.map((row) => (
+            <li class="flex flex-col">
+              <div class="flex items-start gap-3 rounded-t-sm bg-tint px-5 py-4 type-body leading-normal text-foreground-body">
+                <span class="ie-minus-disc mt-0.5" aria-hidden="true">
+                  <Icon name="minus" size={16} />
+                </span>
+                <span>
+                  <span class="sr-only">{content.curriculum.columns.curriculum}: </span>
+                  {row.curriculum}
+                </span>
+              </div>
+              <div
+                class="flex items-start gap-3 rounded-b-sm bg-brand-surface px-5 py-4 type-body leading-normal font-bold text-foreground"
+                data-on-brand
+              >
+                <span class="ie-check-disc mt-0.5" aria-hidden="true">
+                  <Icon name="check" size={16} />
+                </span>
+                <span>
+                  <span class="sr-only">{content.curriculum.columns.practice}: </span>
+                  {row.practice}
+                </span>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="mt-12 flex flex-col gap-8 lg:mt-16 lg:flex-row lg:items-center lg:gap-16">
+      <Image
+        class="mb-2 h-60 w-full rounded-sm object-cover lg:mb-0 lg:h-85 lg:min-w-0 lg:basis-6/11"
+        src={content.curriculum.daily.image.src}
+        alt={content.curriculum.daily.image.alt}
+        widths={[640, 1280]}
+        sizes="(min-width: 1024px) 640px, 100vw"
+      />
+      <div
+        class="flex min-w-0 flex-col gap-3 border-t border-border pt-6 lg:basis-5/11 lg:gap-4 lg:border-t-0 lg:pt-0"
+      >
+        <h3 class="m-0 type-eyebrow text-foreground">{content.curriculum.daily.eyebrow}</h3>
+        <p class="m-0 type-statement leading-tight text-balance text-foreground">
+          {content.curriculum.daily.statement}
+        </p>
+        <p class="m-0 max-w-measure type-body text-pretty text-foreground-body">
+          {content.curriculum.daily.text}
+        </p>
+      </div>
+    </div>
+
+    <p
+      class="m-0 mt-16 border-t border-border pt-10 text-center type-card-title-lg text-balance text-foreground md:type-section-title lg:pt-22 lg:pb-6 lg:type-page-title"
+      set:html={emphasize(
+        content.curriculum.statement,
+        'text-brand-emphasis not-italic whitespace-nowrap',
+      )}
+    />
+  </Section>
+
+  <Section tone="white" id="mtss" aria-labelledby="mtss-title">
+    <p class="m-0 type-eyebrow text-foreground">{content.mtss.eyebrow}</p>
+    <h2
+      id="mtss-title"
+      class="m-0 mt-4 max-w-measure-note type-section-title text-balance text-foreground"
+    >
+      {content.mtss.title}
+    </h2>
+    <div class="mt-10 flex flex-col gap-10 lg:mt-14 lg:flex-row lg:items-start lg:gap-16">
+      <figure
+        class="m-0 flex justify-center lg:w-135 lg:shrink-0"
+        aria-label={content.mtss.figureLabel}
+      >
+        {
+          (['mobile', 'desktop'] as const).map((size) => {
+            const p = PYRAMID[size];
+            return (
+              <svg
+                class:list={[
+                  'block h-auto w-full overflow-visible font-sans font-bold',
+                  size === 'mobile' ? 'max-w-87.5 lg:hidden' : 'max-lg:hidden',
+                ]}
+                width={p.width}
+                height={p.height}
+                viewBox={`0 0 ${p.width} ${p.height}`}
+                aria-hidden="true"
+              >
+                {p.bands.map((band) => {
+                  const b = BAND[band.tier];
+                  const [eyebrowY, ...wordY] = band.lines;
+                  return (
+                    <g>
+                      <polygon
+                        class={b.shape}
+                        points={band.points}
+                        stroke-width="6"
+                        stroke-linejoin="round"
+                      />
+                      <text
+                        class={b.ink}
+                        x={p.width / 2}
+                        y={eyebrowY}
+                        text-anchor="middle"
+                        font-size={p.eyebrowSize}
+                        letter-spacing="1.2"
+                      >
+                        TIER {band.tier}
+                      </text>
+                      {b.words.map((word, w) => (
+                        <text
+                          class={b.ink}
+                          x={p.width / 2}
+                          y={wordY[w]}
+                          text-anchor="middle"
+                          font-size={p.titleSize}
+                        >
+                          {word}
+                        </text>
+                      ))}
+                    </g>
+                  );
+                })}
+              </svg>
+            );
+          })
+        }
+      </figure>
+      <ol
+        class="m-0 flex min-w-0 flex-1 list-none flex-col p-0"
+        aria-label={content.mtss.tiersLabel}
+      >
+        {
+          content.mtss.tiers.map((tier) => (
+            <li
+              class:list={[
+                'flex items-start gap-4 border-t border-border py-5 lg:items-center lg:gap-6 lg:border-t-0 lg:py-0',
+                TIER_HEIGHT[tier.number],
+              ]}
+            >
+              <span
+                class:list={[
+                  'flex size-8 shrink-0 items-center justify-center rounded-sm type-card-title-sm lg:size-12 lg:rounded-md lg:type-card-title-md',
+                  TIER_COLOR[tier.number],
+                ]}
+                aria-hidden="true"
+              >
+                {tier.number}
+              </span>
+              <div class="flex min-w-0 flex-1 flex-col gap-2">
+                <p class="m-0 type-eyebrow text-foreground">{tier.eyebrow}</p>
+                <h3 class="m-0 type-card-title-md text-foreground">{tier.title}</h3>
+                <p class="m-0 mt-0.5 max-w-140 type-body text-pretty text-foreground-body lg:max-w-measure">
+                  {tier.text}
+                </p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+    <div
+      class="ie-card ie-card-raised mt-10 flex flex-col gap-5 px-5 py-6 lg:mt-14 lg:flex-row lg:items-center lg:gap-12 lg:p-10"
+    >
+      <div class="flex min-w-0 flex-col gap-2 lg:basis-1/3">
+        <p class="m-0 type-eyebrow text-foreground">{content.mtss.foundation.eyebrow}</p>
+        <h3 class="m-0 type-card-title-lg text-foreground">
+          {
+            content.mtss.foundation.title
+              .split('\n')
+              .map((line, i) => (i === 0 ? line : [<br />, line]))
+          }
+        </h3>
+      </div>
+      <Checklist
+        class="border-t border-border pt-5 lg:min-w-0 lg:basis-2/3 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10"
+        items={content.mtss.foundation.items}
+        columns={3}
+        size="sm"
+        strong
+      />
+    </div>
+  </Section>
+
+  <Section id="funding" aria-labelledby="funding-title">
+    <p class="m-0 type-eyebrow text-foreground">{content.funding.eyebrow}</p>
+    <h2
+      id="funding-title"
+      class="m-0 mt-4 max-w-measure-note type-section-title text-balance text-foreground"
+    >
+      {content.funding.title}
+    </h2>
+    <div class="mt-10 flex flex-col gap-card-gap lg:mt-14 lg:flex-row">
+      <div
+        class="ie-card flex flex-col justify-center gap-3 bg-brand-surface-deep px-6 py-7 md:p-10 lg:min-w-0 lg:basis-5/12"
+        data-on-brand
+      >
+        <p class="m-0 font-sans type-stat-lg font-bold text-foreground">
+          {content.funding.price.value}
+        </p>
+        <p class="m-0 type-card-title-md text-foreground">{content.funding.price.label}</p>
+        <p class="m-0 type-small text-foreground-secondary md:type-list">
+          {content.funding.price.note}
+        </p>
+      </div>
+      <div
+        class="ie-card ie-card-raised flex flex-col justify-center gap-6 px-5 py-6 md:gap-7 md:p-10 lg:min-w-0 lg:basis-7/12"
+      >
+        {
+          content.funding.points.map((point, i) => [
+            i > 0 && <div class="border-t border-border" aria-hidden="true" />,
+            <div class="flex items-start gap-4 md:gap-5">
+              <FeatureIcon name={point.icon} disc />
+              <div class="flex min-w-0 flex-col gap-2">
+                <h3 class="m-0 type-card-title-md text-foreground">{point.title}</h3>
+                <p class="m-0 max-w-140 type-body text-pretty text-foreground-body">{point.text}</p>
+              </div>
+            </div>,
+          ])
+        }
+      </div>
+    </div>
+    <div
+      class="ie-card ie-card-tint mt-10 flex flex-col items-start gap-5 px-5 py-6 lg:mt-14 lg:flex-row lg:items-center lg:justify-between lg:gap-10 lg:px-10 lg:py-8"
+    >
+      <div class="flex flex-col gap-2">
+        <p class="m-0 type-card-title-md text-foreground">{content.funding.panel.title}</p>
+        <p class="m-0 max-w-155 type-body text-foreground-body">{content.funding.panel.text}</p>
+      </div>
+      <Button href={content.funding.panel.action.href} arrow class="max-lg:w-full lg:shrink-0">
+        {content.funding.panel.action.label}
+      </Button>
+    </div>
+  </Section>
+
+  <Section tone="white" id="before-you-choose" aria-labelledby="before-you-choose-title">
+    <div class="flex flex-col gap-6 lg:grid lg:grid-cols-2 lg:items-end lg:gap-20">
+      <div>
+        <p class="m-0 type-eyebrow text-foreground">{content.questions.eyebrow}</p>
+        <h2
+          id="before-you-choose-title"
+          class="m-0 mt-4 max-w-measure-note type-section-title text-balance text-foreground"
+        >
+          {content.questions.title}
+        </h2>
+      </div>
+      <p class="m-0 max-w-measure type-lead text-pretty text-foreground-secondary">
+        {content.questions.lead}
+      </p>
+    </div>
+    <ol
+      class="m-0 mt-10 grid list-none border-b border-border p-0 md:grid-cols-2 md:gap-x-20 lg:mt-14"
+    >
+      {
+        content.questions.items.map((item, i) => (
+          <li class="flex border-t border-border py-6 md:py-7">
+            <span
+              class="w-10 shrink-0 self-start type-card-title-sm text-brand-emphasis tabular-nums md:w-14 md:type-intro md:leading-snug md:font-bold"
+              aria-hidden="true"
+            >
+              {pad(i + 1)}
+            </span>
+            <div class="flex min-w-0 flex-1 flex-col gap-2">
+              <h3 class="m-0 type-card-title-md text-foreground">{item.title}</h3>
+              <p class="m-0 max-w-measure-narrow type-body text-pretty text-foreground-body">
+                {item.text}
+              </p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+    <div
+      class="ie-card mt-10 flex flex-col items-start gap-5 bg-brand-surface p-6 lg:mt-14 lg:flex-row lg:items-center lg:justify-between lg:gap-14 lg:px-16 lg:py-14"
+      data-on-brand
+    >
+      <div class="flex items-start gap-4 lg:items-center lg:gap-7">
+        <Image
+          class="size-11 shrink-0 lg:size-18"
+          src={mark}
+          alt=""
+          width={72}
+          densities={[1, 2]}
+        />
+        <p class="m-0 type-card-title-lg text-balance text-foreground lg:type-section-title-sm">
+          {content.questions.verdict}
+        </p>
+      </div>
+      <Button
+        variant="light"
+        href={content.questions.action.href}
+        arrow
+        class="max-lg:w-full lg:shrink-0"
+      >
+        {content.questions.action.label}
+      </Button>
+    </div>
+  </Section>
+
+  <Section id="from-the-field" aria-labelledby="from-the-field-title">
+    <p class="m-0 type-eyebrow text-foreground">{content.voices.eyebrow}</p>
+    <h2
+      id="from-the-field-title"
+      class="m-0 mt-4 max-w-measure-note type-section-title text-balance text-foreground"
+    >
+      {content.voices.title}
+    </h2>
+    <div class="mt-10 grid gap-card-gap md:grid-cols-2 lg:mt-14">
+      {
+        content.voices.items.map((voice) => (
+          <Testimonial name={voice.name} place={voice.place}>
+            {voice.quote}
+          </Testimonial>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section tone="emerald" aria-labelledby="closing-cta">
+    <div class="flex flex-col gap-9 lg:grid lg:grid-cols-2 lg:items-center lg:gap-20">
+      <div class="flex flex-col items-start gap-5">
+        <p class="m-0 type-eyebrow text-foreground">{content.cta.eyebrow}</p>
+        <h2 id="closing-cta" class="m-0 max-w-140 type-section-title text-balance text-foreground">
+          {content.cta.title}
+        </h2>
+        <p class="m-0 max-w-measure type-lead text-foreground-secondary">{content.cta.lead}</p>
+        <div class="mt-3 flex flex-col gap-3 self-stretch md:flex-row md:self-auto">
+          <Button variant="light" href={content.cta.primary.href} arrow>
+            {content.cta.primary.label}
+          </Button>
+          <Button variant="ghost" href={content.cta.secondary.href}>
+            {content.cta.secondary.label}
+          </Button>
+        </div>
+      </div>
+      <Image
+        class="h-55 w-full rounded-sm object-cover lg:h-110"
+        src={content.cta.image.src}
+        alt={content.cta.image.alt}
+        widths={[640, 1280]}
+        sizes="(min-width: 1024px) 50vw, 100vw"
+      />
+    </div>
+  </Section>
 </PageLayout>

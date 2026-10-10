@@ -43,7 +43,7 @@ for it). Provenance is the comment beside each token in `tokens.css`.
   brand-surface** (Emerald panels), **brand-surface-deep** (Forest heroes and bands);
   _brand-tint_ and _border-brand_ (the accent testimonial);
   _brand-shade_ (provisional: the darker strip closing Pricing's Advanced Wellness panel);
-  **on-brand, on-brand-muted, on-brand-accent, on-brand-wash, border-on-brand; brand-subtle,
+  **on-brand, on-brand-muted, on-brand-accent, on-brand-wash, border-on-brand; _numeral-sign_ (a stat's "+" or "%": Vibrant, Leaf on green); brand-subtle,
   on-brand-subtle; border, border-control, border-input; ring, ring-on-brand; danger;
   accent-bar-1/2/3**.
 - **Type families:** **font-sans** (Inter 400/500/700/900), **font-display** (Libre Caslon
@@ -53,13 +53,16 @@ for it). Provenance is the comment beside each token in `tokens.css`.
   _space-14_; the fluid layout tokens **section-y** 64→112, **section-x** 20→120,
   **hero-top** 40→72, **hero-bottom** 48→96, **strip-y** 40→64, **card-padding** 20→24,
   **card-gap** 8, **cta-padding** 32→72 and _cta-padding-x_ 24→72, each one `clamp()` from the
-  390 board to the 1440 board.
+  390 board to the 1440 board; _bleed_ (provisional), how far a half-bleed panel runs past the
+  content edge (the gutter up to 1440, wider beyond: Why's reasons).
 - **Radius:** **radius-sm** 8 (containers, images, tags, inputs), **radius-md** 12 (buttons,
   chips, the menu button), **radius-full**.
 - **Shadow:** **shadow-raised, -floating, -card-hover, -primary, -primary-hover, -primary-pressed,
   -light, -sticky**, plus Home's _-brand-panel, -brand-card, -on-photo, -text-on-photo, -video, -play_,
   verbatim from the boards' CSS; _-lifted_ (provisional: Platform's player card, the cards over its
-  photos and its product screenshot).
+  photos and its product screenshot); Why's _-photo_, _-figure_, _-tile_ / _-tile-sm_ and
+  _-brand-bar_ (provisional: the reason photos, the foundation figure, its subject tiles and its
+  Emerald base bar).
 - _Photo treatment_ (Home): _scrim-photo_ (desktop) and _scrim-photo-mobile_, _scrim-video_,
   _on-photo-control_, _on-photo-dot_, _photo-tone_ (the boards' sepia filter).
 - **Size:** **control-height** 48, **control-height-sm** 44, **header-height** 80/64,
@@ -101,11 +104,11 @@ a variant map). Everything else is a plain element with a `type-*` utility or an
 class.
 
 - `ui/Button` (primary · secondary · light · ghost; md · sm; `arrow`; `block`; link or button),
-  `ui/ArrowLink` (`light` on green), `ui/PageTitle` (eyebrow, H1 with `*emphasis*`, accent bar,
+  `ui/ArrowLink` (`light` on green; the label is trimmed and its last word kept with the arrow), `ui/PageTitle` (eyebrow, H1 with `*emphasis*`, accent bar,
   lead, `actions` slot; `leadWidth="wide"`; `breakFrom="md"` keeps the title's break to md up), `ui/Checklist` (`marker="disc"`, `size="xs"`, `flow="columns"`: Pricing's add-on list), `ui/Card` (raised · floating · tint; `title`, `titleSize`, `href` makes
   the title a stretched link), `ui/Icon` and `ui/FeatureIcon` (registries in `src/lib/icons.ts`
   and `src/lib/feature-icons.ts`; feature icons are Phosphor fill, bare at 16/20/24/32/40 or `disc`),
-  `ui/IconButton`, `ui/Checklist`, `ui/Section` (tone ground · white · tint · emerald · forest;
+  `ui/IconButton`, `ui/Checklist` (`{ lead, text }` items with a bold lead-in, `strong` bold claims: Why), `ui/Section` (tone ground · white · tint · emerald · forest;
   spacing section · hero · strip; owns the container), `ui/Logo`, `ui/VideoPoster` (a 16:9
   poster link that opens the video on its host).
 - `layout/SiteHeader` (light, `dark` over a Forest hero; the skip link; static, as on the boards),
@@ -116,8 +119,8 @@ class.
   Emerald its `*words*` stay white, as the boards draw them),
   `blocks/Testimonial` (card · panel · accent: Mist ground, 6px Emerald top border, Emerald mark),
   `blocks/PhotoHero` (photo or carousel under a scrim, display H1, intro and `actions`; no
-  autoplay), `blocks/StatStrip` (numerals over labels, hairlines from lg; follows
-  `[data-on-brand]`), `blocks/LogoStrip` (label and partner names, a logo where supplied;
+  autoplay), `blocks/StatStrip` (numerals over labels: `divided`, hairlines from lg (Home); `ruled`, three
+  columns under hairlines with a source line (Why); follows `[data-on-brand]`), `blocks/LogoStrip` (label and partner names, a logo where supplied;
   `layout="wall"`: a centered label over wrapping logo cells, grayscale at _logo-opacity_ until
   hovered, optionally linked to coverage: About), `blocks/EvidenceCard` (a Raised card: tag with
   its color swatch, the numeral in Inter 500 on `type-stat-sm`, the finding, the source under a
@@ -126,6 +129,8 @@ class.
   `.ie-icon-disc`, `.ie-field`, `.ie-label`, `.ie-field-error`, `.ie-card-*`, `.ie-nav`,
   `.ie-menu-*`, `.ie-footer-link`, `.ie-skip-link`, `.ie-photo-tone`, `.ie-sticky-bar`,
   `.ie-card-recommended` (Mist, 2px Emerald border: Pricing's recommended plan), `.ie-check-disc`,
+  `.ie-minus-disc` (its "not this" partner: Why's curriculum table), `.ie-bleed-start` /
+  `.ie-bleed-end` (a panel running to the viewport's edge from lg: Why's reasons),
   `.ie-switch` / `.ie-switch-track`, `.ie-collapse` (`data-collapsed`: clipped under a fade),
   `.ie-compare-highlight` (the recommended column's outline over a 40/20/20/20 table),
   `.ie-swatch` (EvidenceCard's color key), `.ie-tabs` / `.ie-tab` / `.ie-tab-sub` (Platform's
@@ -165,6 +170,10 @@ Article rails) are built by their page from these parts and listed in `design/in
 - `--measure-narrow` (480), `--measure-title` (820) and `--logo-opacity` (0.7, grayscale): drawn
   only on About.
 - `--shadow-lifted` (the player and overlay cards, the product screenshot): drawn only on Platform.
+- `--shadow-photo`, `--shadow-figure`, `--shadow-tile` / `-tile-sm`, `--shadow-brand-bar`: drawn
+  only on Why.
+- `--bleed` and `.ie-bleed-start` / `-end` (the reasons' half-bleed Emerald panels): drawn only on
+  Why. The section clips the overflow (`overflow-x-clip`), since `100vw` counts a classic scrollbar.
 - The switch's off-state track keeps a 1px `border-input` outline the board doesn't draw, so the
   control meets 3:1 against white (WCAG 1.4.11).
 
