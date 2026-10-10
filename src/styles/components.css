@@ -777,3 +777,93 @@ textarea:is(.ie-field, [data-hsform] .hs-input) {
 [data-hsform] .hs-submit .hs-button {
   inline-size: 100%;
 }
+/* The color key in an evidence tag (Platform, Research); the tone sets currentColor. */
+.ie-swatch {
+  flex-shrink: 0;
+  inline-size: var(--swatch-size);
+  block-size: var(--swatch-size);
+  border-radius: 2px;
+  background: currentColor;
+}
+/* Segmented tabs (Platform programs): a Forest track, the selected tab a white lift. */
+.ie-tabs {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-2);
+  border-radius: var(--radius-md);
+  background: var(--brand-surface-deep);
+  box-shadow: var(--shadow-brand-panel);
+}
+.ie-tab {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  box-sizing: border-box;
+  padding: var(--space-2) var(--space-3);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--on-brand);
+  font-family: var(--font-sans);
+  text-align: start;
+  cursor: pointer;
+  transition:
+    background-color var(--motion),
+    box-shadow var(--motion);
+  @variant md {
+    padding-inline: var(--space-4);
+  }
+}
+.ie-tab-sub {
+  color: var(--on-brand-accent);
+}
+.ie-tab:is(:hover, [data-hover]):not([aria-selected='true']) {
+  background: var(--on-brand-wash);
+}
+.ie-tab[aria-selected='true'] {
+  background: var(--surface);
+  box-shadow: var(--shadow-on-photo);
+  color: var(--foreground);
+}
+.ie-tab[aria-selected='true'] .ie-tab-sub {
+  color: var(--brand-emphasis);
+}
+.ie-tab:focus-visible {
+  outline: 2px solid var(--ring-on-brand);
+  outline-offset: 2px;
+}
+/* The play disc of an audio player (Platform): 48px, the primary button's green and lift. */
+.ie-play-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  inline-size: var(--control-height);
+  block-size: var(--control-height);
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--brand);
+  color: var(--on-brand);
+  box-shadow: var(--shadow-primary);
+  cursor: pointer;
+  transition: background-color var(--motion);
+}
+.ie-play-btn:is(:hover, [data-hover]):not(:disabled) {
+  background: var(--brand-hover);
+}
+.ie-play-btn:disabled {
+  cursor: not-allowed;
+}
+/* A 4px progress track; the page sets --progress (a percentage). */
+.ie-progress {
+  block-size: var(--space-1);
+  border-radius: var(--radius-full);
+  background: linear-gradient(to right, var(--brand) var(--progress, 0%), var(--border) 0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .ie-tab,
+  .ie-play-btn {
+    transition: none;
+  }
+}

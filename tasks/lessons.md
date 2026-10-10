@@ -34,6 +34,12 @@ editing) are in `tasks/archive/lessons-pre-rebuild.md`; general points from them
   Playwright (inline its `<helmet>` CSS, swap `/_blob/` ids for the assets read with the Artifact
   tool, fill the `{{…}}` slots), measure each section's height against the build, and set crops
   side by side. A snap the board can see is drift: add the variant or type step instead.
+- **Mobile boards restructure, not just restack (Platform, 2026-10-10).** Desktop's stacked metric
+  cards and ruled privacy items become icon-left rows on mobile (one rule for the list), which a
+  desktop-first build ran 250–350px long. Measure every section at 390 too before calling a page
+  done, and read the mobile board's markup for each section that differs.
+- **Board assets:** the Artifact tool reads a `/_blob/<id>` image by its bare 32-hex id with
+  `path`, one call per id; `paths` and the `_blob/` prefix both fail.
 - **Copy casing stays as drawn.** Sentence-casing the boards' title case read as drift to the
   owner; keep headings and buttons verbatim and raise casing as a question, not a change.
 - **axe `link-in-text-block`:** the preflight removes link underlines; running-text links need

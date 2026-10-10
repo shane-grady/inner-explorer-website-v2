@@ -1,18 +1,912 @@
 ---
-// Placeholder until this page is built from the "Inner Explorer — Website" canvas
-// (FINAL V). See tasks/rebuild-plan.md for the order pages are built in.
+// Platform, from the FINAL V boards Platform-Desktop-1/2 and Platform-Mobile-1/2. Copy is
+// verbatim, title case included. Every photo and screenshot is the board's stand-in, the four
+// sample practices have no audio yet (the players stay disabled until a file is set), and the
+// product mocks (the daily-practice card, Recommended actions, the reflection card) stand in for
+// screenshots: tasks/todo.md › Platform.
+import { Image } from 'astro:assets';
 import PageLayout from '../layouts/PageLayout.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import Section from '../components/ui/Section.astro';
+import PageTitle from '../components/ui/PageTitle.astro';
+import Button from '../components/ui/Button.astro';
+import ArrowLink from '../components/ui/ArrowLink.astro';
+import Card from '../components/ui/Card.astro';
+import Icon from '../components/ui/Icon.astro';
+import FeatureIcon from '../components/ui/FeatureIcon.astro';
+import Testimonial from '../components/blocks/Testimonial.astro';
+import EvidenceCard from '../components/blocks/EvidenceCard.astro';
+import ClosingCta from '../components/blocks/ClosingCta.astro';
+import { MAIN_SITE } from '../lib/site';
+
+import heroPlayer from '../assets/images/platform/hero-practice-player.jpg';
+import earlyLearning from '../assets/images/platform/program-early-learning.jpg';
+import elementary from '../assets/images/platform/program-elementary.jpg';
+import middleSchool from '../assets/images/platform/program-middle-school.jpg';
+import highSchool from '../assets/images/platform/program-high-school.jpg';
+import dailyPractice from '../assets/images/platform/daily-practice-students.jpg';
+import dashboard from '../assets/images/platform/dashboard-overview.webp';
+import pressPlay from '../assets/images/platform/classroom-press-play.jpg';
+import ctaPhoto from '../assets/images/platform/cta-high-school-student.jpg';
+
+/** A sample practice. Its player works once both `audio` (a file under public/) and its
+ *  `transcript` are set: audio never ships without its text alternative. */
+interface Practice {
+  name: string;
+  length: string;
+  audio?: string;
+  transcript?: string;
+}
 
 const content = {
   title: 'Platform — daily mindfulness for every classroom | Inner Explorer',
   description:
-    'One platform, three connected apps — the Classroom practice player, the District impact dashboard, and the Home family app — bringing daily, research-backed mindfulness to K-12.',
-  heading: 'Platform',
-  lead: 'One platform for daily mindfulness in every classroom.',
+    'Bring daily, audio-guided mindfulness to PreK-12th Grade classrooms on one platform. 5 to 10 minute practices in English and Spanish sequenced across all 180 school days.',
+  hero: {
+    title: 'Evidence-Based Mindfulness That Fits\n*Into Every Classroom*',
+    lead: 'Bring daily, audio-guided mindfulness to PreK-12th Grade classrooms on one platform. 5 to 10 minute practices in English and Spanish sequenced across all 180 school days.',
+    primary: { label: 'Contact us', href: '/contact/' },
+    secondary: { label: 'See the evidence', href: '#evidence' },
+    image: {
+      src: heroPlayer,
+      alt: 'The Inner Explorer daily practice player showing Day 42, Breathing: Mindful Minute, with 5 and 10 minute options.',
+    },
+  },
+  programs: {
+    eyebrow: 'The programs',
+    title: 'Intentionally designed for each age group',
+    lead: 'All four programs follow the same daily rhythm. Experience a practice from each one below.',
+    note: '*Available in English and Spanish',
+    tabsLabel: 'Programs by age group',
+    sampleLabel: 'Sample practice',
+    transcriptLabel: 'Read the transcript',
+    items: [
+      {
+        id: 'early',
+        name: 'Early Learning',
+        grades: 'PreK to Grade 1',
+        text: 'Young children’s brains are building the foundations for self-regulation, so a few minutes of daily practice helps them learn to notice their feelings, calm their bodies, and get ready to learn before those habits take hold. Each practice includes the popular Inner Explorer song.',
+        image: {
+          src: earlyLearning,
+          alt: 'Young students sitting cross-legged on a classroom rug, eyes closed, breathing with a practice',
+          position: '50% 45%',
+        },
+        practice: { name: 'Shark Fin', length: '[length]' } as Practice,
+      },
+      {
+        id: 'elementary',
+        name: 'Elementary',
+        grades: 'Grades 2 to 4',
+        text: 'Reading by third grade shapes everything that follows. Daily mindfulness builds the focus and calm elementary students need to stay engaged, persist through challenges and grow in every subject.',
+        image: {
+          src: elementary,
+          alt: 'A whole class practicing at their desks with their teacher, eyes closed',
+          position: '50% 45%',
+        },
+        practice: { name: 'Relaxation Train', length: '[length]' } as Practice,
+      },
+      {
+        id: 'middle',
+        name: 'Middle School',
+        grades: 'Grades 5 to 7',
+        text: 'During years of rapid change, social pressure and big emotions, a daily pause gives middle school students steady tools to manage stress, respond instead of react, and stay connected to who they are.',
+        image: {
+          src: middleSchool,
+          alt: 'A class sitting with eyes closed and hands flat on their desks during a practice, their teacher moving between the rows',
+          position: '50% 45%',
+        },
+        practice: { name: 'Body Scan', length: '[length]' } as Practice,
+      },
+      {
+        id: 'high',
+        name: 'High School',
+        grades: 'Grades 8 to 12',
+        text: 'With academic demands, future decisions and constant digital distraction all growing, daily mindfulness helps teens handle pressure, sharpen their focus and build habits of well-being they can carry into adulthood.',
+        image: {
+          src: highSchool,
+          alt: 'A teenager wearing headphones sits with eyes closed in a school library.',
+          position: '40% 40%',
+        },
+        practice: { name: '[High School sample practice: TBD]', length: '[length]' } as Practice,
+      },
+    ],
+  },
+  daily: {
+    eyebrow: 'The daily practice',
+    title: 'What classrooms experience each day',
+    lead: 'Daily Practice is the foundation of the program. Every day, the teacher presses play on the daily practice in the classroom, and students listen and follow along. This routine cultivates consistent regulation to prepare minds for learning and give back time from managing behavior throughout the school day.',
+    link: { label: 'See why this works', href: '/why-inner-explorer/' },
+    image: {
+      src: dailyPractice,
+      alt: 'Middle school students sit upright at their desks with eyes closed during a daily mindfulness practice',
+    },
+    // A stand-in for a product screenshot (aria-hidden).
+    mock: {
+      day: 'Day 14 of 180',
+      label: 'Daily practice',
+      title: 'Belly Breathing',
+      meta: 'Today · 5 min',
+      nextLabel: 'Up next',
+      next: [
+        { name: 'Day 15 · Forest Walk', length: '5 min' },
+        { name: 'Day 16 · Kind Words', length: '5 min' },
+      ],
+    },
+    items: [
+      {
+        icon: 'clock',
+        title: '180 daily practices',
+        text: 'One practice for every day of the school year, five to ten minutes each, played in sequence.',
+      },
+      {
+        icon: 'notebook',
+        title: 'Journaling inside the practice',
+        text: 'Every practice in Elementary, Middle, and High School ends with a prompted reflection. A teacher can submit one for the class, or students can write in their own journals.',
+      },
+      {
+        icon: 'heart',
+        title: 'Feedback after every practice',
+        text: 'Optionally, the class shares how each practice made them feel for deeper exploration of their experience.',
+      },
+    ],
+  },
+  series: {
+    eyebrow: 'The series library',
+    title: 'Additional mindfulness series beyond the daily practice',
+    lead: 'The supplemental series are built for common situational experiences throughout the school day that use the same science of practicing mindfulness for regulation and support to meet specific needs.',
+    link: { label: 'See pricing', href: '/pricing/' },
+    addOnLabel: 'Add-on',
+    items: [
+      {
+        icon: 'shield-check',
+        title: 'School Safety Series and Toolkit',
+        text: 'Practices for after active shooter or lockdown drills when students need to settle and soothe before returning to the normal school day.',
+      },
+      {
+        icon: 'users',
+        title: 'Support Staff Series',
+        text: 'Topic-specific practices on handling big emotions, test-taking anxiety, connection, change, and more. For student services staff, including counselors, school psychologists, etc., to use with individual students or small groups. Ideal for Tier 2 and Tier 3.',
+      },
+      {
+        icon: 'arrows-clockwise',
+        title: 'Transition Practices and Sound Series',
+        text: 'Short 1 to 3 minute guided practices for moving between subjects or coming back from lunch, including listening practices built on instruments from around the world and sounds from nature.',
+      },
+      {
+        icon: 'flame',
+        title: 'Educator Wellbeing Series',
+        text: 'Adult-focused practices for educators and staff to use on their own, in staff meetings, or before a parent conference.',
+      },
+      {
+        icon: 'stack',
+        title: 'STEM + M Bundle',
+        text: 'Daily mindfulness blended with STEM lessons, delivered in a project-based learning format aligned to the Next Generation Science Standards and other core curriculum standards. Includes an Educator Preview and Student View.',
+        addOn: true,
+      },
+      {
+        icon: 'medal',
+        title: 'Asynchronous Professional Development for Mindfulness',
+        text: 'Ten hours of asynchronous professional development to extend beyond the classroom and deepen one’s understanding and experience of mindfulness-based stress reduction.',
+        addOn: true,
+      },
+    ],
+  },
+  visibility: {
+    title: 'Full visibility into the engagement statistics administrators care about',
+    lead: 'Track usage across the school year by school and classroom to measure impact.',
+    analytics: {
+      eyebrow: 'Analytics',
+      title: 'Track engagement over time',
+      text: 'View adoption, mindful minutes, retention, and practice sessions by day, week, or month to spot trends, identify champions, and understand engagement across your schools.',
+      image: {
+        src: dashboard,
+        alt: 'Inner Explorer analytics dashboard Overview: User Adoption chart (7 registered, 3 active, 3 engaged), 45 mindful minutes split between teachers and district admins, plus Retention, Practice Sessions, Active Educators and an Insights card showing engagement up 29 points',
+      },
+    },
+    rollout: {
+      eyebrow: 'Guided rollout',
+      title: 'A dashboard with direction',
+      text: 'Recommended Actions walks you through onboarding schools and building the daily habit.',
+      // A stand-in for a product screenshot (aria-hidden).
+      mock: {
+        title: 'Recommended actions',
+        progress: '2 of 4 done',
+        actions: [
+          { label: 'Invite your schools', done: true },
+          { label: 'Hold a staff kickoff', done: true },
+          { label: 'Set a daily practice time', current: true },
+          { label: 'Share your first impact story' },
+        ],
+      },
+    },
+    metrics: [
+      {
+        icon: 'chart-line-up',
+        title: 'Adoption',
+        text: 'Registered, active, and engaged users, tracked week over week.',
+      },
+      {
+        icon: 'clock',
+        title: 'Mindful minutes',
+        text: 'Total practice time, with a breakdown by role.',
+      },
+      {
+        icon: 'arrows-clockwise',
+        title: 'Retention',
+        text: 'Whether practice is holding, and how often classrooms come back to it.',
+      },
+      {
+        icon: 'file-text',
+        title: 'Impact Hub',
+        text: 'Stories and reflections from across your schools. We build this hub together to reflect your journey.',
+      },
+    ],
+  },
+  play: {
+    title: 'Just Press Play',
+    lead: 'Educators press play and take part alongside their students, creating a shared experience in the classroom. Zero prep, no lesson to teach, and nothing to plan.',
+    image: { src: pressPlay, alt: 'A teacher and students mid-practice in a calm classroom' },
+    // A stand-in for a product screenshot (aria-hidden).
+    mock: {
+      label: 'Reflection',
+      tag: 'Gratitude',
+      prompt: 'What is one small thing you’re grateful for today?',
+      saved: 'Saved · 9:14 AM',
+    },
+    items: [
+      {
+        icon: 'play',
+        title: 'Audio-guided practice',
+        text: 'Audio-guided practices that help settle the room in minutes, giving students and educators a moment to pause, be present, and prepare their minds for learning.',
+      },
+      {
+        icon: 'notebook',
+        title: 'Reflection',
+        text: 'Every practice in Elementary through High School ends with a prompted reflection for the class.',
+      },
+    ],
+    // The board's placeholder until an approved quote on ease of use arrives (tasks/todo.md).
+    quote: {
+      text: 'Inner Explorer is a wonderful way of assisting the teachers and students with getting in the right frame of mind to learn and deal with the daily stressors!!!',
+      name: 'Educator',
+      place: 'Massachusetts',
+    },
+    note: '*Counselors and other student support staff use the same platform and have access to the daily program. The additional Support Staff Series is built for their small-group and one-to-one work.',
+  },
+  privacy: {
+    title: 'Student Privacy, Built In',
+    link: { label: 'See our privacy policy', href: '/privacy-policy/' },
+    items: [
+      {
+        icon: 'lock',
+        title: 'No student accounts',
+        text: 'Only staff sign in. Nothing to set up for students, and no student data collected.',
+      },
+      {
+        icon: 'shield-check',
+        title: 'COPPA, FERPA, and SOPIPA',
+        text: 'Data privacy agreements available on request.',
+      },
+      {
+        icon: 'plant',
+        title: 'Reviewed for age',
+        text: 'Every practice is checked for developmental fit, Early Learning through High School.',
+      },
+      {
+        icon: 'headphones',
+        title: 'Screen-free for students',
+        text: 'Practices are audio guided, so students listen instead of watching a screen. A still image is there for anyone who would rather keep their eyes open.',
+      },
+    ],
+  },
+  // Kept from the old Platform page on the boards; "5 mindful minutes" awaits review, and the
+  // first card is the desktop board's (mobile draws +20.6% higher science grades): tasks/todo.md.
+  evidence: {
+    eyebrow: 'The evidence',
+    title: '5 mindful minutes, measurable outcomes',
+    lead: 'Inner Explorer grows from four decades of mindfulness science, then proves itself in real PreK–12 classrooms. The effects show up in grades, test scores, and behavior.',
+    link: { label: 'View the research', href: '/research/' },
+    items: [
+      {
+        tag: 'Academics',
+        value: '+15%',
+        label: 'Higher average GPA',
+        source: 'Controlled study · Bakosh 2016',
+        tone: 'emerald',
+      },
+      {
+        tag: 'Behavior',
+        value: '−80%',
+        label: 'Fewer behavior referrals',
+        source: 'District data · MeckPreK, NC',
+        tone: 'emerald',
+      },
+      {
+        tag: 'Inclusion',
+        value: '+26.6%',
+        label: 'Reading test scores, students with disabilities',
+        source: 'Randomized controlled trial · Dunlap 2023',
+        tone: 'vibrant',
+      },
+      {
+        tag: 'Inclusion',
+        value: '+22%',
+        label: 'Math test scores, students with disabilities',
+        source: 'Randomized controlled trial · Dunlap 2023',
+        tone: 'vibrant',
+      },
+    ],
+  },
+  cta: {
+    title: 'Bring daily practice to your schools',
+    lead: 'Reach out to our team and discover what daily mindfulness could look like in your classrooms.',
+    primary: { label: 'Contact us', href: '/contact/' },
+    secondary: { label: 'See pricing', href: '/pricing/' },
+    image: {
+      src: ctaPhoto,
+      alt: 'A high school student sits at a classroom table with eyes closed during a mindfulness practice.',
+    },
+  },
+} as const;
+
+// Ported from `0c8cac2:src/pages/platform.astro`. Its `about` list named the old page's three
+// apps (Classroom app, District dashboard, Home family app); it now lists the board's four
+// programs, so the family app doesn't come back (tasks/todo.md › Platform).
+const base = new URL(Astro.site ?? MAIN_SITE).origin;
+const platformLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: content.title,
+  url: `${base}/platform/`,
+  description: content.description,
+  isPartOf: { '@type': 'WebSite', name: 'Inner Explorer', url: base },
+  about: {
+    '@type': 'ItemList',
+    itemListElement: content.programs.items.map((program, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: `${program.name} (${program.grades})`,
+    })),
+  },
 };
 ---
 
 <PageLayout title={content.title} description={content.description}>
-  <h1>{content.heading}</h1>
-  <p>{content.lead}</p>
+  <JsonLd slot="head" schema={platformLd} />
+
+  <Section spacing="hero" as="div">
+    <div class="flex flex-col gap-10 xl:flex-row xl:items-center xl:gap-16">
+      <PageTitle title={content.hero.title} lead={content.hero.lead} class="xl:flex-1">
+        <Fragment slot="actions">
+          <Button href={content.hero.primary.href} arrow>{content.hero.primary.label}</Button>
+          <Button variant="secondary" href={content.hero.secondary.href}>
+            {content.hero.secondary.label}
+          </Button>
+        </Fragment>
+      </PageTitle>
+      <Image
+        class="h-auto w-full rounded-sm bg-foreground object-cover shadow-lifted xl:h-140 xl:w-120 xl:shrink-0"
+        src={content.hero.image.src}
+        alt={content.hero.image.alt}
+        widths={[480, 960]}
+        sizes="(min-width: 1280px) 480px, 100vw"
+        loading="eager"
+      />
+    </div>
+  </Section>
+
+  <Section tone="white" id="programs" aria-labelledby="programs-title">
+    <p class="m-0 type-eyebrow text-foreground">{content.programs.eyebrow}</p>
+    <h2 id="programs-title" class="m-0 mt-4 max-w-220 type-section-title text-foreground">
+      {content.programs.title}
+    </h2>
+    <p class="m-0 mt-5 max-w-180 type-lead text-foreground-secondary">{content.programs.lead}</p>
+    <p class="m-0 mt-3 type-label text-foreground-muted">{content.programs.note}</p>
+
+    <div class="mt-8 flex flex-col gap-4 md:mt-12" data-tabs>
+      <div
+        class="ie-tabs grid-cols-2 lg:grid-cols-4"
+        role="tablist"
+        aria-label={content.programs.tabsLabel}
+        hidden
+      >
+        {
+          content.programs.items.map((program, i) => (
+            <button
+              type="button"
+              role="tab"
+              id={`tab-${program.id}`}
+              aria-controls={`panel-${program.id}`}
+              aria-selected={i === 0 ? 'true' : 'false'}
+              tabindex={i === 0 ? 0 : -1}
+              class="ie-tab min-h-14 md:min-h-16"
+            >
+              <span class="type-label font-bold md:type-card-title-sm">{program.name}</span>
+              <span class="ie-tab-sub type-label">{program.grades}</span>
+            </button>
+          ))
+        }
+      </div>
+      {
+        content.programs.items.map((program) => (
+          <div
+            role="tabpanel"
+            id={`panel-${program.id}`}
+            aria-labelledby={`tab-${program.id}`}
+            class="grid gap-6 rounded-sm bg-tint p-5 md:p-12 lg:grid-cols-12 lg:items-center lg:gap-16"
+          >
+            <div class="flex flex-col gap-3 lg:col-span-7 lg:gap-5">
+              <p class="m-0 type-eyebrow text-foreground">{program.grades}</p>
+              <h3 class="m-0 type-card-title-lg text-foreground">{program.name}</h3>
+              <p class="m-0 max-w-measure type-body text-foreground-body">{program.text}</p>
+            </div>
+            <div class="flex flex-col overflow-hidden rounded-sm bg-surface shadow-lifted lg:col-span-5">
+              <Image
+                class="h-45 w-full object-cover md:h-50"
+                style={`object-position: ${program.image.position}`}
+                src={program.image.src}
+                alt={program.image.alt}
+                widths={[480, 960]}
+                sizes="(min-width: 1024px) 440px, 100vw"
+              />
+              <div class="flex flex-col gap-4 p-4 lg:p-5" data-player>
+                <p class="m-0 type-eyebrow text-foreground">{content.programs.sampleLabel}</p>
+                <div class="flex items-center gap-4">
+                  <button
+                    type="button"
+                    class="ie-play-btn"
+                    aria-label={`Play the ${program.name} sample practice`}
+                    disabled={!(program.practice.audio && program.practice.transcript)}
+                    data-player-toggle
+                  >
+                    <span class="flex" data-player-icon="play">
+                      <Icon name="play" />
+                    </span>
+                    <span class="hidden" data-player-icon="pause">
+                      <Icon name="pause" />
+                    </span>
+                  </button>
+                  <div class="flex flex-col gap-1">
+                    <p class="m-0 type-intro leading-tight font-bold text-foreground">
+                      {program.practice.name}
+                    </p>
+                    <p class="m-0 type-label text-foreground-muted">
+                      {program.name} · {program.grades}
+                    </p>
+                  </div>
+                </div>
+                <div class="flex flex-col gap-2">
+                  <div class="ie-progress" data-player-progress />
+                  <div class="flex justify-between type-label text-foreground-muted">
+                    <span data-player-current>0:00</span>
+                    <span data-player-total>{program.practice.length}</span>
+                  </div>
+                </div>
+                {program.practice.audio && program.practice.transcript && (
+                  <>
+                    {/* An audio-only practice's alternative is its transcript below (WCAG 1.2.1), not a caption track. */}
+                    {/* eslint-disable-next-line astro/jsx-a11y/media-has-caption */}
+                    <audio preload="metadata" src={program.practice.audio} data-player-audio />
+                  </>
+                )}
+                {program.practice.transcript && (
+                  <details>
+                    <summary class="ie-link cursor-pointer">
+                      {content.programs.transcriptLabel}
+                    </summary>
+                    <p class="m-0 mt-2 type-body text-foreground-body">
+                      {program.practice.transcript}
+                    </p>
+                  </details>
+                )}
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section id="daily-practice" aria-labelledby="daily-title">
+    <div class="grid gap-8 lg:grid-cols-2 lg:gap-x-20">
+      <div class="flex flex-col items-start lg:col-start-2 lg:self-end">
+        <p class="m-0 flex items-center gap-2 type-eyebrow text-foreground">
+          <FeatureIcon name="play" size={20} />{content.daily.eyebrow}
+        </p>
+        <h2 id="daily-title" class="m-0 mt-4 type-section-title text-foreground lg:mt-6">
+          {content.daily.title}
+        </h2>
+        <p class="m-0 mt-4 type-lead text-foreground-secondary lg:mt-6 lg:max-w-115">
+          {content.daily.lead}
+        </p>
+        <ArrowLink href={content.daily.link.href} class="mt-2 md:mt-4"
+          >{content.daily.link.label}</ArrowLink
+        >
+      </div>
+      <div class="relative lg:col-start-1 lg:row-span-2 lg:row-start-1 lg:h-160 lg:self-center">
+        <Image
+          class="h-75 w-full rounded-sm object-cover lg:h-full"
+          style="object-position: 50% 40%"
+          src={content.daily.image.src}
+          alt={content.daily.image.alt}
+          widths={[600, 1200]}
+          sizes="(min-width: 1024px) 560px, 100vw"
+        />
+        <div
+          class="relative mx-4 -mt-16 flex flex-col gap-3 rounded-sm bg-surface p-4 shadow-lifted lg:absolute lg:-right-10 lg:bottom-10 lg:m-0 lg:w-80 lg:gap-4 lg:p-5"
+          aria-hidden="true"
+        >
+          <div class="flex items-baseline justify-between">
+            <span class="type-small font-display text-brand-emphasis italic">
+              {content.daily.mock.day}
+            </span>
+            <span class="type-eyebrow text-foreground">{content.daily.mock.label}</span>
+          </div>
+          <div class="flex items-center gap-4">
+            <span class="ie-play-btn">
+              <Icon name="play" />
+            </span>
+            <span class="flex flex-col gap-1">
+              <span class="type-intro leading-tight font-bold text-foreground">
+                {content.daily.mock.title}
+              </span>
+              <span class="type-label text-foreground-muted">{content.daily.mock.meta}</span>
+            </span>
+          </div>
+          <div class="ie-progress" style="--progress: 8%"></div>
+          <div class="border-t border-border"></div>
+          <span class="type-label font-bold text-foreground">{content.daily.mock.nextLabel}</span>
+          {
+            content.daily.mock.next.map((item) => (
+              <span class="flex justify-between type-label text-foreground-body">
+                <span>{item.name}</span>
+                <span class="text-foreground-muted">{item.length}</span>
+              </span>
+            ))
+          }
+        </div>
+      </div>
+      <ul
+        class="m-0 flex list-none flex-col gap-5 border-t border-border p-0 pt-6 lg:col-start-2 lg:gap-6 lg:self-start lg:pt-8"
+      >
+        {
+          content.daily.items.map((item) => (
+            <li class="flex gap-4">
+              <FeatureIcon name={item.icon} />
+              <div class="flex flex-col gap-1 lg:gap-2">
+                <h3 class="m-0 type-card-title-sm text-foreground">{item.title}</h3>
+                <p class="m-0 type-body text-foreground-body">{item.text}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </Section>
+
+  <Section tone="white" id="series" aria-labelledby="series-title">
+    <p class="m-0 flex items-center gap-2 type-eyebrow text-foreground">
+      <FeatureIcon name="stack" size={20} />{content.series.eyebrow}
+    </p>
+    <h2 id="series-title" class="m-0 mt-4 max-w-220 type-section-title text-foreground">
+      {content.series.title}
+    </h2>
+    <p class="m-0 mt-5 max-w-180 type-lead text-foreground-secondary">{content.series.lead}</p>
+    <ArrowLink href={content.series.link.href} class="mt-2 md:mt-4"
+      >{content.series.link.label}</ArrowLink
+    >
+    <ul class="m-0 mt-8 grid list-none gap-card-gap p-0 md:mt-12 md:grid-cols-2 lg:grid-cols-3">
+      {
+        content.series.items.map((item) => (
+          <Card as="li" variant="tint" title={item.title} class="gap-3 md:gap-4">
+            <div class="order-first flex items-start justify-between gap-3">
+              <FeatureIcon name={item.icon} size={32} class="*:size-7 md:*:size-8" />
+              {'addOn' in item && (
+                <span class="ie-tag bg-brand-subtle type-tag text-on-brand-subtle">
+                  {content.series.addOnLabel}
+                </span>
+              )}
+            </div>
+            <p class="m-0 type-body text-foreground-body">{item.text}</p>
+          </Card>
+        ))
+      }
+    </ul>
+  </Section>
+
+  <Section id="visibility" aria-labelledby="visibility-title">
+    <h2 id="visibility-title" class="m-0 max-w-220 type-section-title text-foreground">
+      {content.visibility.title}
+    </h2>
+    <p class="m-0 mt-5 max-w-180 type-lead text-foreground-secondary">
+      {content.visibility.lead}
+    </p>
+    <div class="mt-8 flex flex-col gap-card-gap md:mt-12">
+      <div class="grid gap-card-gap lg:grid-cols-2">
+        <div
+          class="ie-card flex flex-col gap-5 bg-surface p-4 md:gap-7 md:p-8 lg:row-span-2 lg:grid lg:grid-rows-subgrid"
+        >
+          <Image
+            class="h-auto w-full rounded-sm border border-border"
+            src={content.visibility.analytics.image.src}
+            alt={content.visibility.analytics.image.alt}
+            widths={[540, 1080]}
+            sizes="(min-width: 1024px) 536px, 100vw"
+          />
+          <div class="flex flex-col gap-2 px-1 pb-1 md:gap-3 md:p-0">
+            <p class="m-0 flex items-center gap-2 type-eyebrow text-foreground">
+              <FeatureIcon name="chart-bar" />{content.visibility.analytics.eyebrow}
+            </p>
+            <h3 class="m-0 type-card-title-lg text-foreground">
+              {content.visibility.analytics.title}
+            </h3>
+            <p class="m-0 max-w-measure-narrow type-body text-foreground-body">
+              {content.visibility.analytics.text}
+            </p>
+          </div>
+        </div>
+        <div
+          class="ie-card flex flex-col gap-5 bg-surface p-4 md:gap-7 md:p-8 lg:row-span-2 lg:grid lg:grid-rows-subgrid"
+        >
+          <div
+            class="flex flex-col gap-3 rounded-sm bg-tint p-4 md:gap-4 md:p-5"
+            aria-hidden="true"
+          >
+            <div class="flex items-baseline justify-between">
+              <span class="type-intro font-bold text-foreground">
+                {content.visibility.rollout.mock.title}
+              </span>
+              <span class="type-label font-bold text-brand-emphasis">
+                {content.visibility.rollout.mock.progress}
+              </span>
+            </div>
+            <ul class="m-0 flex list-none flex-col gap-2 p-0">
+              {
+                content.visibility.rollout.mock.actions.map((action) => (
+                  <li
+                    class:list={[
+                      'flex items-center gap-3 rounded-sm bg-surface px-3 py-2 type-label',
+                      'done' in action
+                        ? 'text-foreground-muted line-through'
+                        : 'current' in action
+                          ? 'font-bold text-foreground outline outline-brand'
+                          : 'text-foreground',
+                    ]}
+                  >
+                    {'done' in action ? (
+                      <FeatureIcon name="check-circle" size={20} />
+                    ) : (
+                      <span class="m-0.5 size-4 shrink-0 rounded-full border-2 border-border-control" />
+                    )}
+                    {action.label}
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+          <div class="flex flex-col gap-2 px-1 pb-1 md:gap-3 md:p-0">
+            <p class="m-0 flex items-center gap-2 type-eyebrow text-foreground">
+              <FeatureIcon name="check-circle" />{content.visibility.rollout.eyebrow}
+            </p>
+            <h3 class="m-0 type-card-title-lg text-foreground">
+              {content.visibility.rollout.title}
+            </h3>
+            <p class="m-0 max-w-measure-narrow type-body text-foreground-body">
+              {content.visibility.rollout.text}
+            </p>
+          </div>
+        </div>
+      </div>
+      <ul class="m-0 grid list-none gap-card-gap p-0 lg:grid-cols-4">
+        {
+          content.visibility.metrics.map((metric) => (
+            <li class="ie-card flex gap-4 bg-surface p-card-padding lg:flex-col lg:gap-3">
+              <FeatureIcon name={metric.icon} size={40} class="*:size-8 lg:*:size-10" />
+              <div class="flex flex-col gap-1 lg:gap-3">
+                <h3 class="m-0 type-card-title-md text-foreground">{metric.title}</h3>
+                <p class="m-0 type-body text-foreground-body">{metric.text}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </Section>
+
+  <Section tone="white" id="classroom" aria-labelledby="play-title">
+    <div class="grid gap-8 lg:grid-cols-2 lg:gap-x-20">
+      <div class="lg:col-start-2 lg:self-end">
+        <h2 id="play-title" class="m-0 type-section-title text-foreground">
+          {content.play.title}
+        </h2>
+        <p class="m-0 mt-4 type-lead text-foreground-secondary lg:mt-6 lg:max-w-115">
+          {content.play.lead}
+        </p>
+      </div>
+      <div class="relative lg:col-start-1 lg:row-span-2 lg:row-start-1 lg:h-170 lg:self-center">
+        <Image
+          class="h-75 w-full rounded-sm object-cover lg:h-full"
+          src={content.play.image.src}
+          alt={content.play.image.alt}
+          widths={[600, 1200]}
+          sizes="(min-width: 1024px) 560px, 100vw"
+        />
+        <div
+          class="relative mx-4 -mt-16 flex flex-col gap-3 rounded-sm bg-surface p-4 shadow-lifted lg:absolute lg:-right-10 lg:bottom-10 lg:m-0 lg:w-80 lg:gap-4 lg:p-5"
+          aria-hidden="true"
+        >
+          <div class="flex items-center justify-between">
+            <span class="type-eyebrow text-foreground">{content.play.mock.label}</span>
+            <span class="ie-tag bg-brand-subtle type-tag text-on-brand-subtle">
+              {content.play.mock.tag}
+            </span>
+          </div>
+          <p class="m-0 type-quote text-foreground italic">{content.play.mock.prompt}</p>
+          <div class="flex flex-col gap-2">
+            <div class="h-2 w-full rounded-full bg-tint"></div>
+            <div class="h-2 w-5/6 rounded-full bg-tint"></div>
+            <div class="h-2 w-4/7 rounded-full bg-tint"></div>
+          </div>
+          <span class="flex items-center gap-2 type-label text-foreground-muted">
+            <FeatureIcon name="check-circle" size={16} />{content.play.mock.saved}
+          </span>
+        </div>
+      </div>
+      <div class="flex flex-col gap-8 lg:col-start-2 lg:self-start">
+        <ul
+          class="m-0 grid list-none gap-6 border-t border-border p-0 pt-6 md:grid-cols-2 md:gap-x-8 md:gap-y-7 md:pt-8"
+        >
+          {
+            content.play.items.map((item) => (
+              <li class="flex flex-col gap-2">
+                <h3 class="m-0 flex items-center gap-2 type-eyebrow text-foreground">
+                  <FeatureIcon name={item.icon} size={20} />
+                  {item.title}
+                </h3>
+                <p class="m-0 type-body text-foreground-body">{item.text}</p>
+              </li>
+            ))
+          }
+        </ul>
+        <Testimonial
+          variant="panel"
+          name={content.play.quote.name}
+          place={content.play.quote.place}
+        >
+          {content.play.quote.text}
+        </Testimonial>
+        <p class="m-0 border-t border-border pt-5 type-small text-foreground-muted">
+          {content.play.note}
+        </p>
+      </div>
+    </div>
+  </Section>
+
+  <Section tone="emerald" id="privacy" aria-labelledby="privacy-title">
+    <div class="flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-14">
+      <div class="flex flex-col items-start gap-2 md:gap-6 lg:w-86 lg:shrink-0">
+        <h2 id="privacy-title" class="m-0 type-section-title text-foreground">
+          {content.privacy.title}
+        </h2>
+        <ArrowLink href={content.privacy.link.href} light>{content.privacy.link.label}</ArrowLink>
+      </div>
+      <ul
+        class="m-0 grid list-none gap-5 border-t border-border p-0 pt-6 md:grid-cols-2 md:gap-x-8 md:gap-y-10 md:border-t-0 md:pt-0 lg:flex-1"
+      >
+        {
+          content.privacy.items.map((item) => (
+            <li class="flex items-start gap-4 md:flex-col md:border-t md:border-border md:pt-7">
+              <FeatureIcon name={item.icon} size={32} class="*:size-7 md:*:size-8" />
+              <div class="flex flex-col gap-1 md:gap-4">
+                <h3 class="m-0 type-card-title-sm text-foreground">{item.title}</h3>
+                <p class="m-0 type-body text-foreground-body">{item.text}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </Section>
+
+  <Section tone="white" id="evidence" aria-labelledby="evidence-title">
+    <p class="m-0 type-eyebrow text-foreground">{content.evidence.eyebrow}</p>
+    <h2 id="evidence-title" class="m-0 mt-4 max-w-220 type-section-title text-foreground">
+      {content.evidence.title}
+    </h2>
+    <p class="m-0 mt-5 max-w-180 type-lead text-foreground-secondary">{content.evidence.lead}</p>
+    <ArrowLink href={content.evidence.link.href} class="mt-2 md:mt-4">
+      {content.evidence.link.label}
+    </ArrowLink>
+    <div class="mt-8 grid gap-5 sm:grid-cols-2 md:mt-12 lg:grid-cols-4">
+      {content.evidence.items.map((item) => <EvidenceCard {...item} />)}
+    </div>
+  </Section>
+
+  <Section>
+    <ClosingCta
+      tone="white"
+      title={content.cta.title}
+      lead={content.cta.lead}
+      primary={content.cta.primary}
+      secondary={content.cta.secondary}
+      image={content.cta.image}
+    />
+  </Section>
 </PageLayout>
+
+<script>
+  // The programs: ARIA tabs over the four panels (all four stack without JS), and a small
+  // player per sample practice once its audio file is set.
+  for (const root of document.querySelectorAll<HTMLElement>('[data-tabs]')) {
+    const list = root.querySelector<HTMLElement>('[role="tablist"]');
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+    if (!list || !tabs.length) continue;
+
+    const select = (index: number, focus = false) => {
+      tabs.forEach((tab, i) => {
+        const on = i === index;
+        tab.setAttribute('aria-selected', String(on));
+        tab.tabIndex = on ? 0 : -1;
+        const panel = document.getElementById(tab.getAttribute('aria-controls') ?? '');
+        if (panel) {
+          panel.hidden = !on;
+          panel.tabIndex = 0;
+        }
+      });
+      for (const audio of root.querySelectorAll<HTMLAudioElement>('[data-player-audio]')) {
+        audio.pause();
+      }
+      if (focus) tabs[index]?.focus();
+    };
+    list.hidden = false;
+    select(0);
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => select(i));
+      tab.addEventListener('keydown', (event) => {
+        const last = tabs.length - 1;
+        const next = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: last }[event.key];
+        if (next === undefined) return;
+        event.preventDefault();
+        select(next > last ? 0 : next < 0 ? last : next, true);
+      });
+    });
+  }
+
+  const clock = (seconds: number) =>
+    `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}`;
+
+  for (const player of document.querySelectorAll<HTMLElement>('[data-player]')) {
+    const audio = player.querySelector<HTMLAudioElement>('[data-player-audio]');
+    const toggle = player.querySelector<HTMLButtonElement>('[data-player-toggle]');
+    const progress = player.querySelector<HTMLElement>('[data-player-progress]');
+    const current = player.querySelector('[data-player-current]');
+    const total = player.querySelector('[data-player-total]');
+    if (!audio || !toggle) continue;
+
+    const playLabel = toggle.getAttribute('aria-label') ?? '';
+    const setPlaying = (playing: boolean) => {
+      toggle.setAttribute('aria-label', playing ? playLabel.replace(/^Play/, 'Pause') : playLabel);
+      toggle.querySelector('[data-player-icon="play"]')?.classList.toggle('hidden', playing);
+      toggle.querySelector('[data-player-icon="pause"]')?.classList.toggle('hidden', !playing);
+    };
+    toggle.addEventListener('click', () => {
+      if (audio.paused) {
+        for (const other of document.querySelectorAll<HTMLAudioElement>('[data-player-audio]')) {
+          if (other !== audio) other.pause();
+        }
+        void audio.play();
+      } else audio.pause();
+    });
+    audio.addEventListener('play', () => setPlaying(true));
+    audio.addEventListener('pause', () => setPlaying(false));
+    audio.addEventListener('loadedmetadata', () => {
+      if (total && Number.isFinite(audio.duration)) total.textContent = clock(audio.duration);
+    });
+    audio.addEventListener('timeupdate', () => {
+      if (current) current.textContent = clock(audio.currentTime);
+      if (progress && audio.duration) {
+        progress.style.setProperty('--progress', `${(audio.currentTime / audio.duration) * 100}%`);
+      }
+    });
+  }
+</script>

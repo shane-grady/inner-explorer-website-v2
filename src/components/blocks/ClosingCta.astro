@@ -98,8 +98,11 @@ const inline = layout === 'inline' && !image;
     image && (
       <div
         class:list={[
-          'ie-cta-photo relative order-first h-55 md:order-none md:h-auto md:min-h-130',
+          'ie-cta-photo relative order-first h-55 md:order-none md:h-auto',
           emerald ? 'md:col-span-6' : 'md:col-span-5',
+          // The Emerald (About) and Floating (Home) cards hold the photo at 520; the Raised card
+          // (Platform) is as tall as its copy.
+          (emerald || floating) && 'md:min-h-130',
         ]}
       >
         <Image src={image.src} alt={image.alt} width={1040} densities={[1, 2]} />

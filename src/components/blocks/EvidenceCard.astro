@@ -1,0 +1,48 @@
+---
+// One finding from the research: a tag with its color key, the numeral, what it measures, and
+// the source under a rule, in a Raised card (Platform's evidence, Research's study cards). The
+// tone keys the swatch and the numeral: Emerald for academics and behavior, Vibrant for
+// inclusion and well-being. The slot takes what Research adds under the source.
+const TONE = {
+  emerald: 'text-brand-emphasis',
+  vibrant: 'text-icon-accent',
+} as const satisfies Record<string, string>;
+
+interface Props {
+  tag: string;
+  value: string;
+  label: string;
+  source: string;
+  tone?: keyof typeof TONE;
+  as?: 'div' | 'article' | 'li';
+  class?: string;
+}
+const {
+  tag,
+  value,
+  label,
+  source,
+  tone = 'emerald',
+  as: Tag = 'article',
+  class: className,
+}: Props = Astro.props;
+---
+
+<Tag class:list={['ie-card ie-card-raised flex flex-col gap-2 p-card-padding', className]}>
+  <span class="ie-tag self-start type-tag text-foreground-secondary">
+    <span class:list={['ie-swatch', TONE[tone]]} aria-hidden="true"></span>{tag}
+  </span>
+  <p
+    class:list={[
+      'm-0 mt-2 font-sans type-stat-sm font-medium whitespace-nowrap tabular-nums',
+      TONE[tone],
+    ]}
+  >
+    {value}
+  </p>
+  <p class="m-0 type-body leading-snug text-foreground">{label}</p>
+  <div class="mt-auto flex flex-col gap-2 border-t border-border pt-5">
+    <p class="m-0 type-label text-foreground-muted">{source}</p>
+    <slot />
+  </div>
+</Tag>

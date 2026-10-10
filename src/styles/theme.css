@@ -82,6 +82,8 @@
   --shadow-light: var(--shadow-light);
   --shadow-sticky: var(--shadow-sticky);
   --shadow-brand-panel: var(--shadow-brand-panel);
+  --shadow-on-photo: var(--shadow-on-photo);
+  --shadow-lifted: var(--shadow-lifted);
   --spacing-section-y: var(--section-y);
   --spacing-section-x: var(--section-x);
   --spacing-hero-top: var(--hero-top);

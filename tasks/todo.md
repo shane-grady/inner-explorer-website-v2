@@ -62,13 +62,42 @@ the owners the canvas gives.
       mobile closing-CTA photo 240 drawn, 220 (the shared block, as About draws it); the carousel
       dots 16px apart (24px targets, WCAG 2.5.8); mobile Research follows the desktop study (item
       above); Footer A has no social row (footer item above).
-- [ ] **Platform:** High School sample practice name; an approved educator quote on ease of use
-      (Section 6); confirm the practice feedback feature exists as described (Section 3). Juliana.
-- [ ] **Platform:** four sample audio practices with transcripts, one per age level (Shane,
-      Lisa); nine platform screenshots for Sections 3, 5, 6 (Shane); student images from the
-      internal library (Lisa, Juliana) and a better hero photo.
-- [ ] **Platform:** Evidence and "In their words" still say "five mindful minutes", "K–12",
-      "district-wide" and quote the family app: update or cut.
+- [ ] **Platform (built from FINAL V; confirm before launch):**
+  - Stand-ins (`src/assets/images/platform/`), all as the boards draw them: the hero product
+    screenshot, the four program photos, the daily-practice photo, the dashboard screenshot, the
+    classroom photo and the closing-CTA photo (9 files; the board note asks for a better hero photo
+    and student images from the internal library: Lisa, Juliana). The three product mocks built in
+    markup (the "Day 14 of 180" card, Recommended actions, the Gratitude reflection card) stand in
+    for platform screenshots (Shane); they are `aria-hidden`.
+  - Sample practices (Shane, Lisa): four audio files with written transcripts, one per program,
+    and their lengths (the players show 0:00 / [length]). Each player is built and stays disabled
+    until both `audio` and `transcript` are set in the page's `content` (a "Read the transcript"
+    disclosure then appears; audio never ships without its text alternative). The High School
+    practice name still reads "[High School sample practice: TBD]" (Juliana).
+  - Facts (Juliana): the practice feedback feature as described ("Feedback after every practice");
+    180 daily practices of five to ten minutes; ten hours of asynchronous PD; "COPPA, FERPA, and
+    SOPIPA", DPAs on request; "Every practice is checked for developmental fit"; the four evidence
+    figures and sources (+15% GPA, Bakosh 2016; −80% referrals, MeckPreK; +26.6% / +22%, Dunlap 2023) and the site-wide stats item. The boards disagree on the first evidence card: desktop
+    "+15% / Higher average GPA", mobile "+20.6% / Higher science grades"; built the desktop card at
+    both widths: pick one. Grade ranges: the main boards say Middle School 5 to 7 and High School 8
+    to 12; the "Programs, green version" compare board says 5 to 8 and 9 to 12.
+  - Copy flagged by the board's note: Evidence still says "5 mindful minutes" (title) and
+    "four decades of mindfulness science". "K–12" now reads "PreK–12" on the boards. "In their
+    words" (the family-app quote, "district-wide") was removed from the main boards and saved on a
+    working-page mockup, so it was not built; the family app appears nowhere on the page.
+  - The "Just Press Play" quote ("Educator, Massachusetts") is the board's placeholder until an
+    approved educator quote on ease of use arrives (Juliana).
+  - SEO: the JSON-LD ported from `0c8cac2` listed the old three apps (Classroom app, District
+    dashboard, Home family app); it now lists the four programs. The meta description is new (the
+    hero lead; the old one named the three apps and K-12). The title is kept.
+  - Copy casing as drawn: "Evidence-Based Mindfulness That Fits Into Every Classroom", "Just Press
+    Play", "Student Privacy, Built In" (the site-wide CTA item); every contact CTA says "Contact us".
+  - Not built: the "Programs, green version" compare board (the main boards' white section won).
+  - Drift left after the side-by-side review (2026-10-10; desktop sections within 13px of the
+    board, mobile within 45px): the hero buttons sit 8px lower (PageTitle's 40); player meta,
+    times and mock rows at 14 (board 12–13, the "nothing under 14 but tags" rule), so the mobile
+    player meta wraps to two lines; the reflection prompt 20 (board 19); the closing CTA runs 38px
+    shorter on desktop (the shared block's 72px padding and 520 lead, board 80×64 and 440).
 - [ ] **Why:** pick a Seven Reasons layout (options A–H on the canvas). Approve or cut what was
       kept from the old design: hero stat strip and checks, green eyebrows, the 2 vs 25 Sarasota
       band, Foundation diagram, MTSS pyramid, Funding guarantee tile, closing band.
@@ -167,7 +196,8 @@ the owners the canvas gives.
 - [x] Contact, with the success state; style the HubSpot form (`ie-field`, `ie-label`).
 - [x] Home: `blocks/PhotoHero`, `StatStrip`, `LogoStrip`, `ui/VideoPoster`; the white
       `ClosingCta` with photo; Testimonial emphasis.
-- [ ] Platform.
+- [x] Platform: `blocks/EvidenceCard` (shared with Research), segmented tabs and sample players
+      (page-only), `--shadow-lifted`; board assets as stand-ins (Before build › Platform).
 - [ ] Why Inner Explorer (SEO copy is on the canvas's "SEO (for build)" note).
 - [ ] Case Studies index and 7 details; PDFs from `0c8cac2:public/downloads/`; update the
       `transfer-case-study` skill.
