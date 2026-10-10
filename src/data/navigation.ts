@@ -19,7 +19,7 @@ export const primaryNav: NavLink[] = [
 export const signIn: NavLink = { label: 'Sign in', href: 'https://app.innerexplorer.com' };
 export const contactCta: NavLink = { label: 'Contact us', href: '/contact/' };
 
-// Footer A from the boards. No social row yet: every board draws the profile links as "#"
+// Footer A from the boards, without its sign-off line. No social row yet: every board draws the profile links as "#"
 // (tasks/todo.md tracks the URLs; the row ships with them).
 export const footer = {
   blurb: 'Daily audio-guided mindfulness for PreK-12 schools, founded 2011.',
@@ -50,5 +50,4 @@ export const footer = {
     },
   ] satisfies { heading: string; links: NavLink[] }[],
   privacy: { label: 'Privacy policy', href: '/privacy-policy/' },
-  signoff: 'Made with quiet, in Boston and Chicago.',
 };

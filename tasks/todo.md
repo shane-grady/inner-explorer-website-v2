@@ -30,8 +30,7 @@ the owners the canvas gives.
 - [ ] **Design (provisional, confirm):** the open mobile menu (V2's spec), the light header's
       current-page rule, the field error state. All on `/styleguide/`.
 - [ ] **Footer:** social profile URLs (LinkedIn, Instagram, Facebook, YouTube, X); the row ships
-      when they exist. Confirm the sign-off "Made with quiet, in Boston and Chicago." (on every
-      board) is final copy.
+      when they exist. The boards' sign-off line was dropped on 2026-10-10.
 - [ ] **Home:** school logo files (with permission) and approved photos for the Section 3
       mosaic; the Section 10 sample practice and its transcript.
 - [ ] **Home:** keep the FAQ ("Questions leaders ask") beside Funding? It isn't in the outline.
