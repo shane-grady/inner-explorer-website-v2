@@ -304,6 +304,20 @@
 .ie-card-tint {
   background: var(--tint);
 }
+/* The accent testimonial (Home): Mist ground, a 6px Emerald top border, an Emerald rule. */
+.ie-card-accent {
+  --border: var(--border-brand);
+  --icon-accent: var(--brand-emphasis);
+  border-block-start: var(--card-accent-width) solid var(--brand-surface);
+  background: var(--brand-tint);
+  box-shadow: var(--shadow-brand-card);
+}
+.ie-card-accent .ie-quote-mark {
+  @variant md {
+    inline-size: var(--quote-mark-width);
+    block-size: auto;
+  }
+}
 /* A linked card: the title's link covers the card, the card lifts on hover. */
 .ie-card-link {
   color: inherit;

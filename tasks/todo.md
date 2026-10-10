@@ -38,21 +38,18 @@ the owners the canvas gives.
       the three product screens (routine steps), the program photo, the closing-CTA photo, and
       the "One shared foundation" dashboard (Brightwater Unified, sample figures; decorative).
       Approve or replace each.
-- [ ] **Home, partner row:** the desktop board hides "Trusted in districts including" "until
-      approved"; the mobile board shows it. Built on both as names (Broward County, La Joya ISD,
-      Racine Unified, LAUSD, Greece). Confirm the names may be used, supply logo files (with
-      permission) for `blocks/LogoStrip`, or empty `content.glance.partners` to hide it.
+- [ ] **Home, partner row:** hidden (2026-10-10, as the desktop board has it "until approved";
+      the mobile board shows it). `blocks/LogoStrip` is built and on `/styleguide/`; to restore,
+      add `<LogoStrip>` after the pillars with the names (Broward County, La Joya ISD, Racine
+      Unified, LAUSD, Greece) or approved logo files.
 - [ ] **Home, research panel:** the desktop board cites Bakosh 2016 (eight 3rd-grade classrooms,
       one bar pair); the mobile board cites Lopez 2020 (RCT, 39 Head Start classrooms, with a
       control group at +10%). Built the desktop version at both widths: pick one. Also confirm 2M+
       students, 4,000+ schools, 90% renewal, 15% GPA, 43% educator stress, 16,000+ studies,
       "Top EdTech Products 2025" and "BrainFutures Top 10" (and the site-wide items above).
-- [ ] **Home, copy:** headings and buttons set in sentence case against the boards' title case
-      ("Calm minds / learn better", "How daily practice works", "Simple adoption. Built to
-      scale.", "Trusted by school communities everywhere", "Affordable and fundable", "Give
-      students the foundation…", "Discover the program", "Explore pricing"); grade-band names
-      kept as product names. The foundation card's "Talk to Our Team" is "Contact us" (the
-      site-wide CTA item). Confirm.
+- [ ] **Home, copy:** verbatim from the boards, title case included ("Calm Minds / Learn
+      Better", "Talk to Our Team", "Contact Us"), against the plan's sentence-case and "Contact
+      us" defaults (the site-wide CTA item). The header and footer keep "Contact us".
 - [ ] **Home, links the board leaves as `#`:** "Experience daily practice" (card and the mobile
       sticky bar's play button), "Explore the library" and the four grade bands go to
       `/platform/`; "See the research" to `/research/`. "See cost and funding options" goes to
@@ -60,9 +57,11 @@ the owners the canvas gives.
 - [ ] **Home, video:** the poster opens YouTube in a new tab; the board's note proposes a
       captions-on `youtube-nocookie` embed instead. Linking out loads nothing third-party; keep it,
       or embed on click.
-- [ ] **Home, testimonials:** the board's #e6f2ec cards with a 6px Emerald top border are drawn
-      as the shared Raised `Testimonial card` (the inventory's call). Keep, or add a tinted
-      variant.
+- [ ] **Home, remaining drift (snapped to the ramp):** pillar titles 26 → 22 drawn, 28 → 24
+      built; Settled 22 drawn, 24 built at desktop; grade-band names 20 on mobile, 18 built; the
+      mobile closing-CTA photo 240 drawn, 220 (the shared block, as About draws it); the carousel
+      dots 16px apart (24px targets, WCAG 2.5.8); mobile Research follows the desktop study (item
+      above); Footer A has no social row (footer item above).
 - [ ] **Platform:** High School sample practice name; an approved educator quote on ease of use
       (Section 6); confirm the practice feedback feature exists as described (Section 3). Juliana.
 - [ ] **Platform:** four sample audio practices with transcripts, one per age level (Shane,

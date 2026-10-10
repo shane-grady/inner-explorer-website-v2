@@ -1,24 +1,33 @@
 ---
 // One quote style for every educator quote: the green mark, the quote in Libre Caslon
 // Text, and the name and place under a rule. `card` (Raised) for a row of quotes,
-// `panel` (Tint) for a single quote beside other content. No typed quotation marks.
+// `panel` (Tint) for a single quote beside other content, `accent` (Mist, Emerald top
+// border and mark) for Home's row. No typed quotation marks.
+const VARIANT = {
+  card: 'ie-card-raised',
+  panel: 'ie-card-tint',
+  accent: 'ie-card-accent',
+} as const satisfies Record<string, string>;
+
 interface Props {
   name: string;
   place?: string;
-  variant?: 'card' | 'panel';
+  variant?: keyof typeof VARIANT;
   class?: string;
 }
 const { name, place, variant = 'card', class: className }: Props = Astro.props;
 ---
 
 <figure
-  class:list={[
-    'ie-card m-0 flex flex-col gap-5 p-6 md:gap-6 md:p-8',
-    variant === 'card' ? 'ie-card-raised' : 'ie-card-tint',
-    className,
-  ]}
+  class:list={['ie-card m-0 flex flex-col gap-5 p-6 md:gap-6 md:p-8', VARIANT[variant], className]}
 >
-  <svg class="text-icon-accent" width="32" height="24" viewBox="0 0 32 24" aria-hidden="true">
+  <svg
+    class="ie-quote-mark text-icon-accent"
+    width="32"
+    height="24"
+    viewBox="0 0 32 24"
+    aria-hidden="true"
+  >
     <path
       fill="currentColor"
       d="M0 24V14c0-7.7 4.4-12.5 12-14l1.6 3.4C9.2 5 7 7.8 6.8 11H12v13H0zm18 0V14c0-7.7 4.4-12.5 12-14l1.6 3.4C27.2 5 25 7.8 24.8 11H30v13H18z"

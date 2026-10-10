@@ -13,7 +13,6 @@ import Icon from '../components/ui/Icon.astro';
 import VideoPoster from '../components/ui/VideoPoster.astro';
 import PhotoHero from '../components/blocks/PhotoHero.astro';
 import StatStrip from '../components/blocks/StatStrip.astro';
-import LogoStrip from '../components/blocks/LogoStrip.astro';
 import Testimonial from '../components/blocks/Testimonial.astro';
 import ClosingCta from '../components/blocks/ClosingCta.astro';
 import { emphasize } from '../lib/emphasize';
@@ -37,7 +36,7 @@ const content = {
   hero: {
     label: 'Inner Explorer in classrooms',
     eyebrow: 'Daily mindfulness for PreK–12',
-    title: 'Calm minds\n*learn better*',
+    title: 'Calm Minds\n*Learn Better*',
     lead: 'Inner Explorer brings daily mindfulness to PreK–12 classrooms, helping students build the regulation, focus, and resilience they need to learn and thrive.',
     slides: [
       {
@@ -56,8 +55,8 @@ const content = {
         position: '50% 30%',
       },
     ],
-    primary: { label: 'Contact us', href: '/contact/' },
-    secondary: { label: 'Discover the program', href: '/platform/' },
+    primary: { label: 'Contact Us', href: '/contact/' },
+    secondary: { label: 'Discover the Program', href: '/platform/' },
   },
   glance: {
     label: 'Inner Explorer at a glance',
@@ -78,19 +77,9 @@ const content = {
         text: 'Prevention for every student in Tier 1, with the same approach extended to targeted support when more help is needed.',
       },
       {
-        title: 'Built to scale',
+        title: 'Built to Scale',
         text: 'From one classroom to a whole district, it grows with your schools and stays simple to run.',
       },
-    ],
-    // Names only until logo files are approved; the desktop board hides this row "until
-    // approved" (tasks/todo.md › Home).
-    partnersLabel: 'Trusted in districts including',
-    partners: [
-      { name: 'Broward County' },
-      { name: 'La Joya ISD' },
-      { name: 'Racine Unified' },
-      { name: 'LAUSD' },
-      { name: 'Greece' },
     ],
   },
   video: {
@@ -119,11 +108,11 @@ const content = {
   },
   routine: {
     eyebrow: 'The routine',
-    title: 'How daily practice works',
+    title: 'How Daily Practice Works',
     // Product screens are stand-ins from the boards (tasks/todo.md › Home).
     steps: [
       {
-        title: 'Press play',
+        title: 'Press Play',
         text: 'Press play on the daily practice in your grade-level sequence.',
         image: {
           src: stepPlay,
@@ -153,9 +142,9 @@ const content = {
   },
   program: {
     eyebrow: 'The program',
-    title: 'Simple adoption. Built to scale.',
+    title: 'Simple Adoption. Built to Scale.',
     practice: {
-      title: 'The daily practice',
+      title: 'The Daily Practice',
       text: 'Brief, audio-guided practices fit naturally into the school day with no lesson planning, prep, or specialized training required.',
       image: {
         src: programPhoto,
@@ -174,7 +163,7 @@ const content = {
       action: { label: 'Experience daily practice', href: '/platform/' },
     },
     foundation: {
-      title: 'One shared foundation',
+      title: 'One Shared Foundation',
       text: 'Connect classrooms, schools, and support systems through one consistent approach to regulation, while giving leaders visibility into engagement and adoption.',
       // A stand-in dashboard with sample figures, decorative (aria-hidden).
       dashboard: {
@@ -199,7 +188,7 @@ const content = {
         'Prevention that costs less than intervention',
         'One shared language across the community',
       ],
-      action: { label: 'Contact us', href: '/contact/' },
+      action: { label: 'Talk to Our Team', href: '/contact/' },
     },
     grades: {
       title: 'Mindfulness that grows with students',
@@ -254,7 +243,7 @@ const content = {
   },
   voices: {
     eyebrow: 'From the field',
-    title: 'Trusted by school communities everywhere',
+    title: 'Trusted by School Communities Everywhere',
     lead: 'Hear from our partners about the impact of mindfulness at the foundation of their school day.',
     action: { label: 'Read their stories', href: '/case-studies/' },
     quotes: [
@@ -279,19 +268,19 @@ const content = {
     ],
   },
   funding: {
-    title: 'Affordable and fundable',
+    title: 'Affordable and Fundable',
     text: 'Under $8 per student per year, with funding paths that fit the budgets schools already have.',
     action: { label: 'See cost and funding options', href: '/why-inner-explorer/#funding' },
   },
   cta: {
-    title: 'Give students the foundation they need to learn',
+    title: 'Give Students the Foundation They Need to Learn',
     lead: '5 audio-guided minutes is all it takes to settle a room. See how it fits your classrooms, schools or district.',
-    primary: { label: 'Contact us', href: '/contact/' },
-    secondary: { label: 'Explore pricing', href: '/pricing/' },
+    primary: { label: 'Contact Us', href: '/contact/' },
+    secondary: { label: 'Explore Pricing', href: '/pricing/' },
     image: { src: ctaPhoto, alt: 'Two smiling boys stand arm in arm in a sunny grassy field' },
   },
   sticky: {
-    primary: { label: 'Contact us', href: '/contact/' },
+    primary: { label: 'Contact Us', href: '/contact/' },
     practice: { label: 'Experience daily practice', href: '/platform/' },
   },
 } as const;
@@ -359,15 +348,10 @@ const homeLd = {
         ))
       }
     </ul>
-    <LogoStrip
-      class="mt-7 md:mt-9"
-      label={content.glance.partnersLabel}
-      partners={content.glance.partners}
-    />
   </Section>
 
   <Section tone="forest" aria-labelledby="video-title">
-    <div class="flex flex-col gap-4 lg:w-7/12">
+    <div class="flex flex-col gap-4 lg:w-165">
       <h2 id="video-title" class="m-0 type-section-title text-balance text-foreground">
         {content.video.title}
       </h2>
@@ -402,7 +386,7 @@ const homeLd = {
         data-on-brand
       >
         <p class="m-0 type-eyebrow text-foreground">{content.whyNow.solution.eyebrow}</p>
-        <p class="m-0 type-card-title-lg text-foreground">{content.whyNow.solution.text}</p>
+        <p class="m-0 type-statement text-foreground">{content.whyNow.solution.text}</p>
         <Button
           variant="light"
           href={content.whyNow.solution.action.href}
@@ -434,7 +418,7 @@ const homeLd = {
           <span class="size-2 rounded-full bg-brand-surface" aria-hidden="true"></span>
           {content.whyNow.after.label}
         </p>
-        <p class="m-0 type-card-title-md text-foreground">{content.whyNow.after.text}</p>
+        <p class="m-0 type-lead-lg font-bold text-foreground">{content.whyNow.after.text}</p>
       </div>
     </div>
   </Section>
@@ -475,7 +459,7 @@ const homeLd = {
       <div class="ie-card ie-card-raised flex flex-col gap-5 px-5 py-6 md:gap-6 md:p-10">
         <div>
           <h3 class="m-0 type-card-title-lg text-foreground">{content.program.practice.title}</h3>
-          <p class="m-0 mt-3 max-w-measure type-body text-foreground-body">
+          <p class="m-0 mt-3 max-w-125 type-body text-foreground-body">
             {content.program.practice.text}
           </p>
         </div>
@@ -510,6 +494,7 @@ const homeLd = {
         <Checklist
           items={content.program.practice.items}
           columns={2}
+          size="sm"
           class="md:grid-flow-col md:grid-rows-3"
         />
         <Button
@@ -526,7 +511,7 @@ const homeLd = {
           <h3 class="m-0 type-card-title-lg text-foreground">
             {content.program.foundation.title}
           </h3>
-          <p class="m-0 mt-3 max-w-measure type-body text-foreground-body">
+          <p class="m-0 mt-3 max-w-125 type-body text-foreground-body">
             {content.program.foundation.text}
           </p>
         </div>
@@ -579,6 +564,7 @@ const homeLd = {
         <Checklist
           items={content.program.foundation.items}
           columns={2}
+          size="sm"
           class="md:grid-flow-col md:grid-rows-3"
         />
         <Button href={content.program.foundation.action.href} arrow class="md:self-start">
@@ -633,7 +619,7 @@ const homeLd = {
             {content.research.title}
           </h2>
         </div>
-        <p class="m-0 max-w-measure type-lead text-foreground">{content.research.lead}</p>
+        <p class="m-0 max-w-135 type-lead text-foreground">{content.research.lead}</p>
       </div>
 
       <div
@@ -727,7 +713,7 @@ const homeLd = {
         </h2>
       </div>
       <div class="flex flex-col gap-6">
-        <p class="m-0 max-w-measure type-lead text-foreground-secondary">{content.voices.lead}</p>
+        <p class="m-0 max-w-135 type-lead text-foreground-secondary">{content.voices.lead}</p>
         <Button href={content.voices.action.href} arrow class="lg:self-start">
           {content.voices.action.label}
         </Button>
@@ -738,7 +724,7 @@ const homeLd = {
     >
       {
         content.voices.quotes.map((q) => (
-          <Testimonial name={q.name} place={q.place}>
+          <Testimonial variant="accent" name={q.name} place={q.place} class="md:pt-9">
             <Fragment set:html={emphasize(q.quote, quoteEmphasis)} />
           </Testimonial>
         ))
@@ -746,7 +732,7 @@ const homeLd = {
     </div>
   </Section>
 
-  <Section aria-labelledby="funding-title">
+  <Section aria-labelledby="funding-title" class="max-md:pt-0">
     <div
       class="ie-card ie-card-floating flex flex-col gap-5 px-6 py-7 lg:flex-row lg:items-center lg:justify-between lg:gap-12 lg:px-12 lg:py-10"
     >
@@ -765,6 +751,7 @@ const homeLd = {
     <div class="mt-section-y">
       <ClosingCta
         tone="white"
+        floating
         title={content.cta.title}
         lead={content.cta.lead}
         primary={content.cta.primary}

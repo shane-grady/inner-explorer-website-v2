@@ -18,7 +18,7 @@ const { stats, class: className }: Props = Astro.props;
   {
     stats.map((stat) => (
       <div class="flex flex-col-reverse justify-end gap-1 lg:border-l lg:border-border lg:pl-8 lg:first:border-l-0 lg:first:pl-0">
-        <dt class="type-body font-bold text-foreground">{stat.label}</dt>
+        <dt class="type-stat-label text-foreground">{stat.label}</dt>
         <dd class="m-0 font-sans type-stat-sm font-bold text-foreground">
           {[stat.value, stat.sign && <span class="text-icon-accent">{stat.sign}</span>]}
         </dd>

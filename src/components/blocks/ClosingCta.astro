@@ -9,6 +9,8 @@ import { emphasize } from '../../lib/emphasize';
 
 interface Props {
   tone?: 'emerald' | 'white';
+  /** White only: the borderless Floating card (Home) instead of Raised (Platform). */
+  floating?: boolean;
   /** `*words*` are set in the italic display face, as the boards draw "the next story". */
   title: string;
   eyebrow?: string;
@@ -20,6 +22,7 @@ interface Props {
 }
 const {
   tone = 'emerald',
+  floating = false,
   title,
   eyebrow,
   lead,
@@ -35,7 +38,7 @@ const emerald = tone === 'emerald';
   aria-labelledby={id}
   class:list={[
     'ie-card grid',
-    emerald ? 'bg-brand-surface' : 'ie-card-raised',
+    emerald ? 'bg-brand-surface' : floating ? 'ie-card-floating' : 'ie-card-raised',
     image && 'md:grid-cols-12',
   ]}
   data-on-brand={emerald ? '' : undefined}

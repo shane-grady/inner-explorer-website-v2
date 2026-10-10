@@ -35,12 +35,13 @@ Names in **bold** are V2's; _italic_ names are new (FINAL V draws the value, V2 
 for it). Provenance is the comment beside each token in `tokens.css`.
 
 - **Palette** (only the colors FINAL V draws on two or more boards): **green-900 … green-100**
-  (seven brand greens), **charcoal, dark-slate, slate, storm, gray, warm-gray, light-warm,
+  (seven brand greens) and _green-50_ Mist (Home testimonials, Pricing's recommended plan), **charcoal, dark-slate, slate, storm, gray, warm-gray, light-warm,
   off-white, near-white, white, black**, **cyan-600/400/200, yellow-400/200, orange-500/200,
   coral-600/300**. The neutrals are not exposed to Tailwind; use the semantic names.
 - **Semantic:** **background, surface, tint; foreground, foreground-secondary, foreground-body,
   foreground-muted; brand, brand-hover, brand-wash, brand-emphasis, link-hover, icon-accent;
   brand-surface** (Emerald panels), **brand-surface-deep** (Forest heroes and bands);
+  _brand-tint_ and _border-brand_ (the accent testimonial);
   **on-brand, on-brand-muted, on-brand-accent, on-brand-wash, border-on-brand; brand-subtle,
   on-brand-subtle; border, border-control, border-input; ring, ring-on-brand; danger;
   accent-bar-1/2/3**.
@@ -55,7 +56,7 @@ for it). Provenance is the comment beside each token in `tokens.css`.
 - **Radius:** **radius-sm** 8 (containers, images, tags, inputs), **radius-md** 12 (buttons,
   chips, the menu button), **radius-full**.
 - **Shadow:** **shadow-raised, -floating, -card-hover, -primary, -primary-hover, -primary-pressed,
-  -light, -sticky**, plus Home's _-brand-panel, -on-photo, -text-on-photo, -video, -play_,
+  -light, -sticky**, plus Home's _-brand-panel, -brand-card, -on-photo, -text-on-photo, -video, -play_,
   verbatim from the boards' CSS.
 - _Photo treatment_ (Home): _scrim-photo_ (desktop) and _scrim-photo-mobile_, _scrim-video_,
   _on-photo-control_, _on-photo-dot_, _photo-tone_ (the boards' sepia filter).
@@ -73,6 +74,8 @@ for it). Provenance is the comment beside each token in `tokens.css`.
 | `type-page-title`                    | 64/1.05/700/−0.025em → 40                    | the H1                                                                                                                                             |
 | `type-section-title`                 | 44/1.1/700/−0.02em → 32                      | H2s, CTA titles                                                                                                                                    |
 | `type-card-title-lg` / `-md` / `-sm` | 28 → 24 · 20 → 18 · 16, bold, −0.01em        | feature cards · grid cards · list items, names                                                                                                     |
+| `type-statement` · `type-stat-label` | 30/1.3/700 → 22 · 18/1.35/700 → 15           | Home's solution statement · stat-strip labels                                                                                                      |
+| `type-list`                          | 16/1.45/500                                  | `Checklist size="sm"` (Home's program cards)                                                                                                       |
 | `type-lead-lg`                       | 24/1.45/500 → 19                             | the intro under the photo hero                                                                                                                     |
 | `type-lead`                          | 20/1.5/500 → 18                              | the one intro under a title                                                                                                                        |
 | `type-body`                          | 17/1.6/500                                   | body copy                                                                                                                                          |
@@ -103,7 +106,8 @@ class.
   poster link that opens the video on its host).
 - `layout/SiteHeader` (light, `dark` over a Forest hero; the skip link; static, as on the boards),
   `layout/MobileMenu` (native `<dialog>`, one small script), `layout/SiteFooter` (Footer A).
-- `blocks/ClosingCta` (emerald · white, ± photo), `blocks/Testimonial` (card · panel),
+- `blocks/ClosingCta` (emerald · white, `floating` for Home's borderless white card, ± photo),
+  `blocks/Testimonial` (card · panel · accent: Mist ground, 6px Emerald top border, Emerald mark),
   `blocks/PhotoHero` (photo or carousel under a scrim, display H1, intro and `actions`; no
   autoplay), `blocks/StatStrip` (numerals over labels, hairlines from lg; follows
   `[data-on-brand]`), `blocks/LogoStrip` (label and partner names, a logo where supplied).

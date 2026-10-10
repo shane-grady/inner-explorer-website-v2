@@ -71,6 +71,7 @@
   --green-400: #02a451; /* Vibrant: feature icons, checks, quote marks, "+" signs (22 boards) */
   --green-300: #44bb4a; /* Leaf: accents on Forest (dark nav rule, Why "%" signs) */
   --green-100: #bffaa2; /* Spring: tags, step discs, link hover on green (38 boards) */
+  --green-50: #e6f2ec; /* new: Mist, the accent testimonial (Home), recommended plan (Pricing) */
   --charcoal: #282b2f; /* headings and titles (every board) */
   --dark-slate: #31373e; /* leads, nav and footer links (38 boards) */
   --slate: #424850; /* body copy (every board) */
@@ -96,6 +97,8 @@
   --background: var(--near-white); /* page ground */
   --surface: var(--white); /* white bands, cards, header, footer, sticky bar */
   --tint: var(--off-white); /* flat Tint panel: single quotes, takeaways, series tiles */
+  --brand-tint: var(--green-50); /* new: the accent testimonial card (Home) */
+  --border-brand: rgba(0, 110, 81, 0.25); /* new: the rule inside an accent testimonial (Home) */
   --foreground: var(--charcoal); /* headings, card titles, eyebrows, names */
   --foreground-secondary: var(--dark-slate); /* leads, nav and footer links */
   --foreground-body: var(--slate); /* body copy */
@@ -186,6 +189,7 @@
   --shadow-text-on-photo: 0 2px 24px rgba(0, 20, 15, 0.35); /* new: the display title on a photo (Home hero) */
   --shadow-video:
     0 2px 4px rgba(0, 0, 0, 0.2), 0 24px 56px rgba(0, 0, 0, 0.35); /* new: video poster (Home) */
+  --shadow-brand-card: 0 6px 20px rgba(0, 110, 81, 0.12); /* new: accent testimonial (Home) */
   --shadow-play:
     0 2px 4px rgba(0, 58, 33, 0.4), 0 16px 40px rgba(0, 0, 0, 0.35),
     inset 0 1px 0 rgba(255, 255, 255, 0.28); /* new: the video poster's play disc (Home) */
@@ -220,6 +224,8 @@
   --logo-height: 32px;
   --logo-height-mobile: 28px;
   --accent-bar-height: 4px;
+  --card-accent-width: 6px; /* new: the Emerald top border of an accent testimonial (Home) */
+  --quote-mark-width: 44px; /* new: the accent testimonial's mark from md up, 44 × 33 (Home desktop) */
   --container: 1200px; /* content width inside the 120px gutters */
   --measure: 520px; /* leads under page and section titles */
   --measure-short: 320px; /* new: the footer blurb and other short columns (10 boards) */
