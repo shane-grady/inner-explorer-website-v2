@@ -207,11 +207,9 @@ the archive has the full story.
   `transition-delay` (Scroll-reveal).
 - **Verification:** run a regression probe against the broken build too; a probe that can't
   fail proves nothing (Scroll-reveal). Pick button sizes by measuring the designed column, not
-  by matching pixel height (Series). Orphan check: scan each block's last line with Range rects
-  at 320/390/768/1440, counting only avoidable hits (the last two words would fit on a line),
-  and group words into lines by the middle of the line box: at tight leading the glyph boxes
-  of neighbouring lines overlap. Fix with `.ie-keep` (CLAUDE.md), not U+00A0, which overflows
-  big type at 320px; `text-wrap: pretty` alone leaves many (Research; No-orphans rule).
+  by matching pixel height (Series). Line-break checks: group words into lines with Range rects by
+  the middle of the line box; at tight leading the glyph boxes of neighbouring lines overlap
+  (Research; fidelity audit).
 - **YAML:** a list item containing `: ` parses as a mapping, so quote citation-style strings
   (Research).
 - **Sources:** legacy innerexplorer.com pages are authoritative for a school's own data only.
@@ -520,3 +518,18 @@ Explorer's"`).
   against a baseline-vs-baseline noise run.
 - **Random ids differ every build** (`randomUUID()` newsletter field ids, SVG gradient ids,
   island `uid`s). Expect them in any marketing diff; they are not changes.
+
+## 2026-10-10 — Fidelity first: measure a rule against the approved boards before adopting it
+
+- **The owner dropped the no-orphans rule after one day.** Gluing the last two words (span,
+  nowrap or U+00A0) fixed the boards' 53 orphans, but it also re-flowed about 110 other
+  approved blocks at 1440/390. Chrome's `text-wrap: pretty` treats a glued pair as one short
+  last word and rebalances the paragraph. The approved boards are the contract, so before
+  adopting any rule that changes rendering (line breaks, spacing, color), measure its effect
+  on the FINAL V boards and report the cost with the proposal.
+- **Copy the boards' CSS, not best practice.** The boards set `body * { text-wrap-style:
+pretty }`. The system's "balance on headings" (common advice) changed 43% of multi-line
+  headings. Match the source's own rules first.
+- **Audit by rendering, not by reading values.** The fidelity audit rendered every board and
+  every component with board copy at board width and compared computed styles. That found
+  ~45 defects a value-by-value review of the decision boards had missed (`tasks/fidelity-audit.md`).

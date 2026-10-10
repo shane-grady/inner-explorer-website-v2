@@ -76,13 +76,9 @@ reads) before considering work done. CI runs both, the checker tests, and
 - **No off-system styling.** No arbitrary Tailwind values or raw colors in components
   (`pnpm lint:drift`). The foundation PR defines the tokens; until then pages stay
   unstyled.
-- **No orphans.** No heading, paragraph, list item, quote or caption ends with one word
-  alone on a line. The last two words of each line of copy (with any punctuation after them)
-  go in `<span class="ie-keep">`, an inline-block, so they share a line whenever they fit:
-  components add it to their text, and Markdown/MDX gets it from a rehype pass. The page
-  title and hero rely on `text-wrap: balance` instead (at 40px+ the pair is often wider than
-  a phone line). `text-wrap: pretty` alone is not enough: Chrome only fixes short last
-  words and Firefox has no `pretty`. Never glue words with U+00A0; it overflows at 320px.
+- **Line breaks follow the boards.** Text wraps with `text-wrap-style: pretty` everywhere,
+  headings included, exactly as the FINAL V boards do (the design system sets it on the root).
+  Don't add `balance`, non-breaking spaces or spans to change where lines break.
 - **Analytics stay production-only.** GA4, Amplitude and Intercom render only in
   production builds (`BaseLayout`); GA4 also skips `*.netlify.app`.
 
