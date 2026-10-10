@@ -212,6 +212,17 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.28); /* new: the video poster's play disc (Home) */
   --shadow-lifted:
     0 1px 2px rgba(40, 43, 47, 0.06), 0 16px 40px rgba(40, 43, 47, 0.16); /* new, provisional: a card floating over a photo or panel, the sample player, the product screenshot (Platform) */
+  --shadow-photo: 0 12px 32px rgba(40, 43, 47, 0.1); /* new, provisional: a photo on an Emerald panel (Why reasons) */
+  --shadow-figure:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 1px 2px rgba(0, 58, 33, 0.06),
+    0 18px 40px rgba(0, 110, 81, 0.08); /* new, provisional: the Tint figure (Why foundation) */
+  --shadow-tile:
+    6px 6px 14px rgba(0, 110, 81, 0.14), -6px -6px 14px rgba(255, 255, 255, 0.95); /* new, provisional: a raised tile on Tint (Why subjects, desktop) */
+  --shadow-tile-sm:
+    3px 3px 8px rgba(0, 110, 81, 0.14), -3px -3px 8px rgba(255, 255, 255, 0.95); /* new, provisional: the same tile on mobile */
+  --shadow-brand-bar:
+    0 2px 4px rgba(0, 58, 33, 0.18), 0 14px 32px rgba(0, 110, 81, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18); /* new, provisional: the Emerald base bar (Why foundation) */
 
   /* ---- Photo treatment (new family): scrims and controls over photography ---- */
   --scrim-photo: linear-gradient(

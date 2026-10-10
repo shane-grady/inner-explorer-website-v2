@@ -60,7 +60,9 @@ for it). Provenance is the comment beside each token in `tokens.css`.
 - **Shadow:** **shadow-raised, -floating, -card-hover, -primary, -primary-hover, -primary-pressed,
   -light, -sticky**, plus Home's _-brand-panel, -brand-card, -on-photo, -text-on-photo, -video, -play_,
   verbatim from the boards' CSS; _-lifted_ (provisional: Platform's player card, the cards over its
-  photos and its product screenshot).
+  photos and its product screenshot); Why's _-photo_, _-figure_, _-tile_ / _-tile-sm_ and
+  _-brand-bar_ (provisional: the reason photos, the foundation figure, its subject tiles and its
+  Emerald base bar).
 - _Photo treatment_ (Home): _scrim-photo_ (desktop) and _scrim-photo-mobile_, _scrim-video_,
   _on-photo-control_, _on-photo-dot_, _photo-tone_ (the boards' sepia filter).
 - **Size:** **control-height** 48, **control-height-sm** 44, **header-height** 80/64,
@@ -102,7 +104,7 @@ a variant map). Everything else is a plain element with a `type-*` utility or an
 class.
 
 - `ui/Button` (primary · secondary · light · ghost; md · sm; `arrow`; `block`; link or button),
-  `ui/ArrowLink` (`light` on green), `ui/PageTitle` (eyebrow, H1 with `*emphasis*`, accent bar,
+  `ui/ArrowLink` (`light` on green; the label is trimmed and its last word kept with the arrow), `ui/PageTitle` (eyebrow, H1 with `*emphasis*`, accent bar,
   lead, `actions` slot; `leadWidth="wide"`; `breakFrom="md"` keeps the title's break to md up), `ui/Checklist` (`marker="disc"`, `size="xs"`, `flow="columns"`: Pricing's add-on list), `ui/Card` (raised · floating · tint; `title`, `titleSize`, `href` makes
   the title a stretched link), `ui/Icon` and `ui/FeatureIcon` (registries in `src/lib/icons.ts`
   and `src/lib/feature-icons.ts`; feature icons are Phosphor fill, bare at 16/20/24/32/40 or `disc`),
@@ -168,6 +170,8 @@ Article rails) are built by their page from these parts and listed in `design/in
 - `--measure-narrow` (480), `--measure-title` (820) and `--logo-opacity` (0.7, grayscale): drawn
   only on About.
 - `--shadow-lifted` (the player and overlay cards, the product screenshot): drawn only on Platform.
+- `--shadow-photo`, `--shadow-figure`, `--shadow-tile` / `-tile-sm`, `--shadow-brand-bar`: drawn
+  only on Why.
 - `--bleed` and `.ie-bleed-start` / `-end` (the reasons' half-bleed Emerald panels): drawn only on
   Why. The section clips the overflow (`overflow-x-clip`), since `100vw` counts a classic scrollbar.
 - The switch's off-state track keeps a 1px `border-input` outline the board doesn't draw, so the

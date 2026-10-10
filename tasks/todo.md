@@ -130,16 +130,19 @@ mark-compass.png`, 256px PNG) is the board's: an SVG from the design system woul
   - Built as rendered, not as written: the MTSS "The foundation" card's 4px Emerald top border is
     overridden by the board's own `border` shorthand, so both boards show a 1px Raised card. Add
     the top border back if it was meant.
-  - Copy: verbatim, the boards' non-breaking spaces kept; the Palm Springs quote takes the mobile
-    board's curly apostrophe ("students’"); "Why every day matters" is the mobile board's
-    sentence case (the desktop source is uppercase; it renders uppercase either way).
-  - Drift left after the side-by-side review (2026-10-10; desktop sections within 20px of the
-    boards, mobile within 40px): the hero's mobile lead and buttons sit 20px higher (PageTitle's
-    spacing); the reason photos sit on `shadow-floating` (.06, board .10) and run 32px narrower in
-    the container grid; the foundation figure is a flat Tint panel (the board's neumorphic shadows
-    dropped); type snapped to the ramp (the 68 statement 64, the curriculum cells 20, table heads
-    28, captions and panel titles 20/18, the criteria panel 24 on mobile, tier numerals 20/16);
-    the mobile legend uses the 10px swatch (board 16).
+  - Copy: verbatim, the boards' non-breaking spaces kept; where the boards disagree the desktop
+    board wins (the Palm Springs quote's "students'"). "Why every day matters" is stored in
+    sentence case and renders uppercase, as the desktop board shows it.
+  - Drift left after the second side-by-side review (2026-10-10, measured element by element;
+    every image within 4px at both widths, desktop sections within 5px of the boards but the
+    curriculum section, 19px shorter for its 64 statement): the hero's eyebrow, lead and buttons
+    sit 4–8px off (PageTitle's shared 24/32/40 spacing, boards 20/28/36); type snapped to the ramp
+    (the 68 statement 64, curriculum cells 22 → 20 and heads 26 → 28, the figure caption, base
+    bar and funding-panel titles 22 → 20, tier numerals 22 → 20, mobile: the statement 28 → 24, the
+    criteria panel 26 → 24, the funding-panel title 20 → 18 (wrapping to two lines, board three),
+    the result statement 20 → 19); the curriculum discs are 22 (board 24); the mobile legend uses
+    the 10px swatch (board 16); copy follows the desktop board where the boards disagree (the
+    Palm Springs quote's straight apostrophe).
 - [ ] **Research:** ESSA Tier 1, name the study or review the badge cites. "Independent academic
       researchers": Bakosh 2016 and 2018 are led by Inner Explorer's co-founder and Chief
       Research Officer, so add a disclosure? Bakosh details disagree with About (2015, J. Applied
