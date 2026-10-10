@@ -413,6 +413,108 @@
   object-fit: cover;
 }
 
+/* ---------- Photo hero, video poster, sticky bar (Home) ---------- */
+/* The display title's second line: Caslon Condensed italic at 1.25em (120 on 96, 66 on 52). */
+.ie-display em {
+  font-family: var(--font-display);
+  font-size: 1.25em;
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -0.01em;
+}
+.ie-display {
+  text-shadow: var(--shadow-text-on-photo);
+}
+.ie-photo-tone {
+  filter: var(--photo-tone);
+}
+.ie-photo-scrim {
+  background: var(--scrim-photo-mobile);
+  @variant md {
+    background: var(--scrim-photo);
+  }
+}
+/* Slides stack and crossfade; the one with data-active shows. */
+.ie-slide {
+  opacity: 0;
+  transition: opacity var(--motion-fade);
+}
+.ie-slide[data-active] {
+  opacity: 1;
+}
+/* The controls only exist once the script has wired them. */
+[data-carousel]:not([data-ready]) [data-carousel-controls] {
+  display: none;
+}
+.ie-carousel-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--control-height);
+  block-size: var(--control-height);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--on-photo-control);
+  color: var(--on-brand-subtle);
+  box-shadow: var(--shadow-on-photo);
+  cursor: pointer;
+  transition: background-color var(--motion);
+}
+.ie-carousel-btn:is(:hover, [data-hover]) {
+  background: var(--surface);
+}
+/* A dot: the button is the 24px target, the bar inside it is what the board draws. */
+.ie-dot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: var(--space-6);
+  padding: var(--space-2) var(--space-1);
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.ie-dot::before {
+  content: '';
+  inline-size: var(--space-2);
+  block-size: var(--space-2);
+  border-radius: var(--radius-full);
+  background: var(--on-photo-dot);
+  transition:
+    inline-size var(--motion),
+    background-color var(--motion);
+}
+.ie-dot[aria-current='true']::before {
+  inline-size: calc(var(--space-6) + var(--space-1));
+  background: var(--on-brand);
+}
+.ie-video {
+  box-shadow: var(--shadow-video);
+  text-decoration: none;
+}
+.ie-video-scrim {
+  background: var(--scrim-video);
+}
+.ie-video-play {
+  background: var(--brand);
+  color: var(--on-brand);
+  box-shadow: var(--shadow-play);
+  transition:
+    transform var(--motion),
+    background-color var(--motion);
+}
+.ie-video:is(:hover, [data-hover]) .ie-video-play {
+  transform: scale(1.06);
+  background: var(--brand-hover);
+}
+.ie-sticky-bar {
+  border-block-start: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow: var(--shadow-sticky);
+}
+
 /* ---------- Fields (Contact, the Article newsletter, and HubSpot's injected form) ---------- */
 .ie-label,
 [data-hsform] .hs-form-field > label {

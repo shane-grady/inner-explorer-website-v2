@@ -55,19 +55,25 @@ for it). Provenance is the comment beside each token in `tokens.css`.
 - **Radius:** **radius-sm** 8 (containers, images, tags, inputs), **radius-md** 12 (buttons,
   chips, the menu button), **radius-full**.
 - **Shadow:** **shadow-raised, -floating, -card-hover, -primary, -primary-hover, -primary-pressed,
-  -light, -sticky**, verbatim from the boards' CSS.
+  -light, -sticky**, plus Home's _-brand-panel, -on-photo, -text-on-photo, -video, -play_,
+  verbatim from the boards' CSS.
+- _Photo treatment_ (Home): _scrim-photo_ (desktop) and _scrim-photo-mobile_, _scrim-video_,
+  _on-photo-control_, _on-photo-dot_, _photo-tone_ (the boards' sepia filter).
 - **Size:** **control-height** 48, **control-height-sm** 44, **header-height** 80/64,
   **logo-height** 32/28, **accent-bar-height** 4, **container** 1200, **measure** 520,
-  _measure-short_ 320, **measure-article** 680, _form-card_ 576 (`w-form`), _figure-height_ 220 → 400 (`h-figure`), **icon-sm/md/lg/feature/disc**.
-- _Motion:_ `220ms cubic-bezier(.16, 1, .3, 1)`, every transition on the boards.
+  _measure-short_ 320, **measure-article** 680, _form-card_ 576 (`w-form`), _figure-height_ 220 → 400 (`h-figure`), **icon-sm/md/lg/feature/disc**, _hero-photo-height_ 560 → 640 (`h-hero-photo`).
+- _Motion:_ `220ms cubic-bezier(.16, 1, .3, 1)`, every transition on the boards; _motion-fade_
+  700ms on the same curve, the hero carousel's crossfade.
 
 ### Type ramp (`type-*` utilities, desktop → mobile as one clamp each)
 
 | Utility                              | Desktop → mobile                             | Use                                                                                                                                                |
 | ------------------------------------ | -------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `type-display`                       | 96/0.98/700/−0.035em → 52                    | the photo hero's H1; `.ie-display` sets its `*second line*` in Caslon Condensed italic at 1.25em                                                   |
 | `type-page-title`                    | 64/1.05/700/−0.025em → 40                    | the H1                                                                                                                                             |
 | `type-section-title`                 | 44/1.1/700/−0.02em → 32                      | H2s, CTA titles                                                                                                                                    |
 | `type-card-title-lg` / `-md` / `-sm` | 28 → 24 · 20 → 18 · 16, bold, −0.01em        | feature cards · grid cards · list items, names                                                                                                     |
+| `type-lead-lg`                       | 24/1.45/500 → 19                             | the intro under the photo hero                                                                                                                     |
 | `type-lead`                          | 20/1.5/500 → 18                              | the one intro under a title                                                                                                                        |
 | `type-body`                          | 17/1.6/500                                   | body copy                                                                                                                                          |
 | `type-small`                         | 15/1.5/500                                   | captions, notes, the footer                                                                                                                        |
@@ -93,13 +99,17 @@ class.
   the title a stretched link), `ui/Icon` and `ui/FeatureIcon` (registries in `src/lib/icons.ts`
   and `src/lib/feature-icons.ts`; feature icons are Phosphor fill, bare or `disc`),
   `ui/IconButton`, `ui/Checklist`, `ui/Section` (tone ground · white · tint · emerald · forest;
-  spacing section · hero · strip; owns the container), `ui/Logo`.
+  spacing section · hero · strip; owns the container), `ui/Logo`, `ui/VideoPoster` (a 16:9
+  poster link that opens the video on its host).
 - `layout/SiteHeader` (light, `dark` over a Forest hero; the skip link; static, as on the boards),
   `layout/MobileMenu` (native `<dialog>`, one small script), `layout/SiteFooter` (Footer A).
-- `blocks/ClosingCta` (emerald · white, ± photo), `blocks/Testimonial` (card · panel).
+- `blocks/ClosingCta` (emerald · white, ± photo), `blocks/Testimonial` (card · panel),
+  `blocks/PhotoHero` (photo or carousel under a scrim, display H1, intro and `actions`; no
+  autoplay), `blocks/StatStrip` (numerals over labels, hairlines from lg; follows
+  `[data-on-brand]`), `blocks/LogoStrip` (label and partner names, a logo where supplied).
 - Classes without a component: `.ie-accent-bar`, `.ie-tag` (+ `-on-brand`), `.ie-chip`,
   `.ie-icon-disc`, `.ie-field`, `.ie-label`, `.ie-field-error`, `.ie-card-*`, `.ie-nav`,
-  `.ie-menu-*`, `.ie-footer-link`, `.ie-skip-link`.
+  `.ie-menu-*`, `.ie-footer-link`, `.ie-skip-link`, `.ie-photo-tone`, `.ie-sticky-bar`.
 
 Page-local patterns (tabs, players, charts, stat strips, steps, tables, sticky bars, the
 Article rails) are built by their page from these parts and listed in `design/inventory.md`.

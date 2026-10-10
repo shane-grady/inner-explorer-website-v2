@@ -9,7 +9,9 @@ import heart from '@phosphor-icons/core/assets/fill/heart-fill.svg?raw';
 import lock from '@phosphor-icons/core/assets/fill/lock-fill.svg?raw';
 import play from '@phosphor-icons/core/assets/fill/play-fill.svg?raw';
 import question from '@phosphor-icons/core/assets/fill/question-fill.svg?raw';
+import sealCheck from '@phosphor-icons/core/assets/fill/seal-check-fill.svg?raw';
 import shieldCheck from '@phosphor-icons/core/assets/fill/shield-check-fill.svg?raw';
+import star from '@phosphor-icons/core/assets/fill/star-fill.svg?raw';
 import users from '@phosphor-icons/core/assets/fill/users-fill.svg?raw';
 
 export const FEATURE_ICONS = {
@@ -21,7 +23,9 @@ export const FEATURE_ICONS = {
   lock,
   play,
   question,
+  'seal-check': sealCheck,
   'shield-check': shieldCheck,
+  star,
   users,
 } as const;
 

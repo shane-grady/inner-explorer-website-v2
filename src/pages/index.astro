@@ -1,18 +1,804 @@
 ---
-// Placeholder until this page is built from the "Inner Explorer — Website" canvas
-// (FINAL V). See tasks/rebuild-plan.md for the order pages are built in.
+// Home, from the FINAL V boards Main (desktop 1 of 2), Home-Desktop-2, Home-Mobile,
+// Home-Mobile-2 and Home-Mobile-Scrolled. Stand-ins and open questions: tasks/todo.md › Home.
+import { Image } from 'astro:assets';
 import PageLayout from '../layouts/PageLayout.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import Section from '../components/ui/Section.astro';
+import Button from '../components/ui/Button.astro';
+import ArrowLink from '../components/ui/ArrowLink.astro';
+import Checklist from '../components/ui/Checklist.astro';
+import FeatureIcon from '../components/ui/FeatureIcon.astro';
+import Icon from '../components/ui/Icon.astro';
+import VideoPoster from '../components/ui/VideoPoster.astro';
+import PhotoHero from '../components/blocks/PhotoHero.astro';
+import StatStrip from '../components/blocks/StatStrip.astro';
+import LogoStrip from '../components/blocks/LogoStrip.astro';
+import Testimonial from '../components/blocks/Testimonial.astro';
+import ClosingCta from '../components/blocks/ClosingCta.astro';
+import { emphasize } from '../lib/emphasize';
+import { STAGE_ICONS } from '../lib/stage-icons';
+import { MAIN_SITE } from '../lib/site';
+// Stand-ins: the photos and product screens the boards draw, pending approval.
+import heroCalm from '../assets/images/home/hero-calm-moment.png';
+import heroSunlit from '../assets/images/home/hero-sunlit-classroom.jpg';
+import heroPolo from '../assets/images/home/hero-red-polo.jpg';
+import videoPoster from '../assets/images/home/video-poster.jpg';
+import stepPlay from '../assets/images/home/step-press-play.webp';
+import stepTogether from '../assets/images/home/step-practice-together.webp';
+import stepReflect from '../assets/images/home/step-reflect.webp';
+import programPhoto from '../assets/images/home/program-student-sunlit.jpg';
+import ctaPhoto from '../assets/images/home/cta-two-boys.jpg';
 
 const content = {
-  title: 'Inner Explorer — Daily mindfulness for K-12 schools',
+  title: 'Inner Explorer | Daily Mindfulness for PreK–12 Schools',
   description:
-    'Five minutes of guided audio mindfulness, every morning, in every classroom. Calmer rooms, fewer disruptions, and measurable gains — proven across two million students and ready for your whole district.',
-  heading: 'Daily mindfulness for K-12 schools',
-  lead: 'Five minutes of guided audio mindfulness, every morning, in every classroom.',
+    'Inner Explorer brings daily mindfulness to PreK–12 classrooms, helping students build the regulation, focus, and resilience they need to learn and thrive.',
+  hero: {
+    label: 'Inner Explorer in classrooms',
+    eyebrow: 'Daily mindfulness for PreK–12',
+    title: 'Calm minds\n*learn better*',
+    lead: 'Inner Explorer brings daily mindfulness to PreK–12 classrooms, helping students build the regulation, focus, and resilience they need to learn and thrive.',
+    slides: [
+      {
+        src: heroCalm,
+        alt: 'A student sits quietly with lowered eyes during a calm moment in a busy classroom.',
+        position: '60% 40%',
+      },
+      {
+        src: heroSunlit,
+        alt: 'Students sit upright at their desks with eyes closed during a guided mindfulness practice in a sunlit classroom',
+        position: '55% 40%',
+      },
+      {
+        src: heroPolo,
+        alt: 'A student in a red school polo sits with eyes closed during a daily mindfulness practice in his classroom',
+        position: '50% 30%',
+      },
+    ],
+    primary: { label: 'Contact us', href: '/contact/' },
+    secondary: { label: 'Discover the program', href: '/platform/' },
+  },
+  glance: {
+    label: 'Inner Explorer at a glance',
+    // Unconfirmed figures (tasks/todo.md › Site-wide: reconcile stats, sources).
+    stats: [
+      { value: '2M', sign: '+', label: 'students who have practiced' },
+      { value: '4,000+', label: 'schools adopted' },
+      { value: '60%', label: 'fewer behavioral issues' },
+      { value: '90%', label: 'renewal rate' },
+    ],
+    pillars: [
+      {
+        title: 'Daily',
+        text: 'Mindfulness works through consistency. Inner Explorer builds it into every school day.',
+      },
+      {
+        title: 'Universal',
+        text: 'Prevention for every student in Tier 1, with the same approach extended to targeted support when more help is needed.',
+      },
+      {
+        title: 'Built to scale',
+        text: 'From one classroom to a whole district, it grows with your schools and stays simple to run.',
+      },
+    ],
+    // Names only until logo files are approved; the desktop board hides this row "until
+    // approved" (tasks/todo.md › Home).
+    partnersLabel: 'Trusted in districts including',
+    partners: [
+      { name: 'Broward County' },
+      { name: 'La Joya ISD' },
+      { name: 'Racine Unified' },
+      { name: 'LAUSD' },
+      { name: 'Greece' },
+    ],
+  },
+  video: {
+    title: 'In such a loud world, how does one find inner quiet?',
+    href: 'https://youtu.be/GzRetBhE0To',
+    caption: ['Watch the video', '2 min'],
+  },
+  whyNow: {
+    label: 'Why this, why now',
+    problem: {
+      eyebrow: 'The problem',
+      title: 'Children can’t learn when they’re stressed.',
+      text: 'Stress disrupts attention, working memory, impulse control, and cognitive flexibility: the same executive functions students rely on to learn.',
+      action: { label: 'Discover the science', href: '/research/' },
+    },
+    solution: {
+      eyebrow: 'The solution',
+      text: 'Mindfulness helps students strengthen their ability to regulate stress and return their attention to the present, better preparing them for everything the school day asks of them.',
+      action: { label: 'Why Inner Explorer', href: '/why-inner-explorer/' },
+    },
+    before: {
+      label: 'Stressed',
+      text: 'Behavioral disruptions steal weeks of instructional time every single year.',
+    },
+    after: { label: 'Settled', text: 'Five guided minutes a day give that time back to teaching.' },
+  },
+  routine: {
+    eyebrow: 'The routine',
+    title: 'How daily practice works',
+    // Product screens are stand-ins from the boards (tasks/todo.md › Home).
+    steps: [
+      {
+        title: 'Press play',
+        text: 'Press play on the daily practice in your grade-level sequence.',
+        image: {
+          src: stepPlay,
+          alt: 'Inner Explorer Daily Practice screen: the Day 10 practice card, Introduction to Start with the Heart, with 5 and 10 minute options and the Day 9 and Day 11 cards on either side',
+          position: '50% 73%',
+        },
+      },
+      {
+        title: 'Practice together.',
+        text: 'Students and educators follow the 5–10 minute audio-guided practice together.',
+        image: {
+          src: stepTogether,
+          alt: 'A classroom of students with eyes closed during a guided practice, with a laptop at the front showing the Inner Explorer Anchoring practice',
+          position: '50% 40%',
+        },
+      },
+      {
+        title: 'Reflect & track',
+        text: 'A short journal prompt closes the practice. Progress logs automatically for each classroom.',
+        image: {
+          src: stepReflect,
+          alt: 'Inner Explorer check-in after Day 2 Daily Practice: How did the room feel after? A slider from Restless to Bright set to Calm, an optional note on what stood out, and a Submit button',
+          position: 'center',
+        },
+      },
+    ],
+  },
+  program: {
+    eyebrow: 'The program',
+    title: 'Simple adoption. Built to scale.',
+    practice: {
+      title: 'The daily practice',
+      text: 'Brief, audio-guided practices fit naturally into the school day with no lesson planning, prep, or specialized training required.',
+      image: {
+        src: programPhoto,
+        alt: 'A student sits with eyes closed in a sunlit classroom during a daily mindfulness practice',
+      },
+      nowPlaying: { title: 'Awareness of Breath', meta: 'Day 1 · 5 min' },
+      items: [
+        '5–10 minute audio-guided practices',
+        '180 days of sequenced content',
+        'PreK–12th grade',
+        'English and Spanish',
+        'Screen-free for students',
+        'Educators practice alongside students',
+      ],
+      // The board links "#": the sample practice isn't built yet (tasks/todo.md › Home).
+      action: { label: 'Experience daily practice', href: '/platform/' },
+    },
+    foundation: {
+      title: 'One shared foundation',
+      text: 'Connect classrooms, schools, and support systems through one consistent approach to regulation, while giving leaders visibility into engagement and adoption.',
+      // A stand-in dashboard with sample figures, decorative (aria-hidden).
+      dashboard: {
+        district: 'Brightwater Unified · Fall 2026',
+        change: '▲ 12%',
+        heading: 'Adoption funnel',
+        rows: [
+          { label: 'Invited', value: '11,820', width: '96%', fill: 'bg-green-700' },
+          { label: 'Active', value: '9,210', width: '74%', fill: 'bg-green-500' },
+          { label: 'Weekly', value: '4,490', width: '42%', fill: 'bg-green-400' },
+        ],
+        totals: [
+          { value: '342', label: 'schools active' },
+          { value: '487k', label: 'mindful minutes' },
+        ],
+      },
+      items: [
+        'District-wide adoption funnels and engagement',
+        'Impact and outcomes reporting, ready for the board',
+        'Implementation visibility across classrooms and schools',
+        'Programming that supports every tier of MTSS',
+        'Prevention that costs less than intervention',
+        'One shared language across the community',
+      ],
+      action: { label: 'Contact us', href: '/contact/' },
+    },
+    grades: {
+      title: 'Mindfulness that grows with students',
+      // The board links "#"; Platform's grade tabs are the target once built.
+      link: { label: 'Explore the library', href: '/platform/' },
+      bands: [
+        { icon: 'seed', grades: 'PreK–Grade 1', name: 'Early Learning', href: '/platform/' },
+        { icon: 'sprout', grades: 'Grades 2–4', name: 'Elementary', href: '/platform/' },
+        { icon: 'sapling', grades: 'Grades 5–7', name: 'Middle School', href: '/platform/' },
+        { icon: 'tree', grades: 'Grades 8–12', name: 'High School', href: '/platform/' },
+      ],
+    },
+  },
+  research: {
+    eyebrow: 'The research',
+    title: 'Evidence-based from the beginning.',
+    lead: 'Built on Mindfulness-Based Stress Reduction, the most studied mindfulness method in the world. Studied in real school environments, with published research demonstrating impact across the outcomes schools care about most.',
+    // The desktop board's study; the mobile board cites Lopez 2020 with a control group
+    // instead (tasks/todo.md › Home).
+    feature: {
+      value: '60%',
+      label: 'fewer behavioral issues',
+      note: 'Controlled study, eight 3rd-grade classrooms (Bakosh 2016)',
+    },
+    chart: {
+      title: 'Behavior referrals in Inner Explorer classrooms',
+      groups: [
+        {
+          name: 'Inner Explorer classrooms',
+          note: 'Daily practice',
+          change: '−60%',
+          bars: [
+            { label: 'Start', value: '100', width: '100%', fill: 'bg-on-brand' },
+            { label: 'End', value: '40', width: '40%', fill: 'bg-green-400' },
+          ],
+        },
+      ],
+      source:
+        'Source: Bakosh et al. 2016, controlled study of eight 3rd-grade classrooms, University of London. Published in Mindfulness.',
+    },
+    stats: [
+      { value: '15%', label: 'higher average GPA' },
+      { value: '43%', label: 'less educator stress' },
+      { value: '16,000+', label: 'studies behind the MBSR method it’s built on' },
+    ],
+    awards: [
+      { icon: 'seal-check', label: 'Top EdTech Products 2025' },
+      { icon: 'star', label: 'BrainFutures Top 10 evidence-based program' },
+      { icon: 'shield-check', label: 'Rooted in MBSR' },
+    ],
+    link: { label: 'See the research', href: '/research/' },
+  },
+  voices: {
+    eyebrow: 'From the field',
+    title: 'Trusted by school communities everywhere',
+    lead: 'Hear from our partners about the impact of mindfulness at the foundation of their school day.',
+    action: { label: 'Read their stories', href: '/case-studies/' },
+    quotes: [
+      {
+        quote:
+          'The past seven months, we had *50% less office referrals* compared to last school year. And the only thing we’ve changed as far as discipline goes is implementing Inner Explorer.',
+        name: 'Principal',
+        place: 'Alexander City, Alabama',
+      },
+      {
+        quote:
+          'Inner Explorer has proven to be a pivotal tool in supporting our students and staff mental well-being, thereby contributing significantly to the *overall improvement in academic performance across all domains.*',
+        name: 'Principal',
+        place: 'Portsmouth, Virginia',
+      },
+      {
+        quote:
+          'Inner Explorer *helps students make good decisions, developing good clear minds, free of stress.* I like those chances and circumstances in terms of a kid making better decisions.',
+        name: 'Former Superintendent',
+        place: 'Clayton County Public Schools',
+      },
+    ],
+  },
+  funding: {
+    title: 'Affordable and fundable',
+    text: 'Under $8 per student per year, with funding paths that fit the budgets schools already have.',
+    action: { label: 'See cost and funding options', href: '/why-inner-explorer/#funding' },
+  },
+  cta: {
+    title: 'Give students the foundation they need to learn',
+    lead: '5 audio-guided minutes is all it takes to settle a room. See how it fits your classrooms, schools or district.',
+    primary: { label: 'Contact us', href: '/contact/' },
+    secondary: { label: 'Explore pricing', href: '/pricing/' },
+    image: { src: ctaPhoto, alt: 'Two smiling boys stand arm in arm in a sunny grassy field' },
+  },
+  sticky: {
+    primary: { label: 'Contact us', href: '/contact/' },
+    practice: { label: 'Experience daily practice', href: '/platform/' },
+  },
+} as const;
+
+const quoteEmphasis = 'font-bold not-italic text-brand-emphasis';
+
+const base = new URL(Astro.site ?? MAIN_SITE).origin;
+const homeLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: content.title,
+  url: `${base}/`,
+  description: content.description,
+  about: {
+    '@type': 'Service',
+    name: 'Inner Explorer',
+    serviceType: 'Daily audio-guided mindfulness for PreK-12 schools',
+    provider: {
+      '@type': 'Organization',
+      name: 'Inner Explorer',
+      url: base,
+      logo: `${base}/logo.png`,
+    },
+    audience: { '@type': 'EducationalAudience', audienceType: 'PreK-12 schools and districts' },
+  },
 };
 ---
 
 <PageLayout title={content.title} description={content.description}>
-  <h1>{content.heading}</h1>
-  <p>{content.lead}</p>
+  <JsonLd slot="head" schema={homeLd} />
+
+  <PhotoHero
+    label={content.hero.label}
+    eyebrow={content.hero.eyebrow}
+    title={content.hero.title}
+    slides={content.hero.slides}
+    lead={content.hero.lead}
+  >
+    <Button slot="actions" href={content.hero.primary.href} arrow>
+      {content.hero.primary.label}
+    </Button>
+    <Button slot="actions" variant="secondary" href={content.hero.secondary.href}>
+      {content.hero.secondary.label}
+    </Button>
+  </PhotoHero>
+
+  <Section tone="white" spacing="strip" aria-labelledby="glance-title">
+    <h2 id="glance-title" class="sr-only">{content.glance.label}</h2>
+    <StatStrip stats={content.glance.stats} />
+    <ul
+      class="m-0 mt-7 grid list-none gap-2 border-y border-border p-0 py-7 md:mt-9 md:gap-4 md:py-9 lg:grid-cols-3"
+    >
+      {
+        content.glance.pillars.map((pillar) => (
+          <li
+            class="ie-card flex flex-col gap-4 bg-brand-surface p-6 shadow-brand-panel md:p-8"
+            data-on-brand
+          >
+            <h3 class="m-0 flex items-center gap-2 type-card-title-lg text-foreground uppercase">
+              <span class="size-2 shrink-0 rounded-full bg-green-300" aria-hidden="true" />
+              {pillar.title}
+            </h3>
+            <p class="m-0 type-body text-foreground-body">{pillar.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+    <LogoStrip
+      class="mt-7 md:mt-9"
+      label={content.glance.partnersLabel}
+      partners={content.glance.partners}
+    />
+  </Section>
+
+  <Section tone="forest" aria-labelledby="video-title">
+    <div class="flex flex-col gap-4 lg:w-7/12">
+      <h2 id="video-title" class="m-0 type-section-title text-balance text-foreground">
+        {content.video.title}
+      </h2>
+      <div class="ie-accent-bar" aria-hidden="true"></div>
+    </div>
+    <VideoPoster
+      class="mx-auto mt-7 max-w-280 md:mt-10"
+      href={content.video.href}
+      title={content.video.title}
+      poster={videoPoster}
+      caption={content.video.caption}
+      captions
+    />
+  </Section>
+
+  <Section tone="tint" aria-label={content.whyNow.label}>
+    <div class="grid gap-2 md:gap-4 lg:grid-cols-2">
+      <div class="ie-card ie-card-floating flex flex-col gap-4 px-6 py-7 md:gap-5 md:p-12">
+        <p class="m-0 type-eyebrow text-foreground">{content.whyNow.problem.eyebrow}</p>
+        <h2 class="m-0 type-section-title text-foreground">{content.whyNow.problem.title}</h2>
+        <p class="m-0 type-lead text-foreground-secondary">{content.whyNow.problem.text}</p>
+        <Button
+          variant="secondary"
+          href={content.whyNow.problem.action.href}
+          class="mt-2 lg:mt-auto lg:self-start"
+        >
+          {content.whyNow.problem.action.label}
+        </Button>
+      </div>
+      <div
+        class="ie-card flex flex-col gap-4 bg-brand-surface px-6 py-7 md:gap-5 md:p-12"
+        data-on-brand
+      >
+        <p class="m-0 type-eyebrow text-foreground">{content.whyNow.solution.eyebrow}</p>
+        <p class="m-0 type-card-title-lg text-foreground">{content.whyNow.solution.text}</p>
+        <Button
+          variant="light"
+          href={content.whyNow.solution.action.href}
+          arrow
+          class="mt-2 lg:mt-auto lg:self-start"
+        >
+          {content.whyNow.solution.action.label}
+        </Button>
+      </div>
+    </div>
+    <div
+      class="ie-card ie-card-floating mt-2 flex flex-col items-start gap-4 px-6 py-7 md:mt-4 md:flex-row md:items-center md:gap-6 md:px-12 md:py-9"
+    >
+      <div class="flex flex-col gap-2 md:flex-1">
+        <p class="m-0 flex items-center gap-2 type-eyebrow text-foreground">
+          <span class="size-2 rounded-full bg-coral-600" aria-hidden="true"></span>
+          {content.whyNow.before.label}
+        </p>
+        <p class="m-0 type-lead text-foreground-secondary">{content.whyNow.before.text}</p>
+      </div>
+      <span
+        class="inline-flex size-11 shrink-0 rotate-90 items-center justify-center rounded-full bg-brand-surface text-on-brand md:mx-2 md:size-14 md:rotate-0"
+        aria-hidden="true"
+      >
+        <Icon name="arrow-right" size={24} />
+      </span>
+      <div class="flex flex-col gap-2 md:flex-1">
+        <p class="m-0 flex items-center gap-2 type-eyebrow text-foreground">
+          <span class="size-2 rounded-full bg-brand-surface" aria-hidden="true"></span>
+          {content.whyNow.after.label}
+        </p>
+        <p class="m-0 type-card-title-md text-foreground">{content.whyNow.after.text}</p>
+      </div>
+    </div>
+  </Section>
+
+  <Section aria-labelledby="routine-title">
+    <p class="m-0 type-eyebrow text-foreground">{content.routine.eyebrow}</p>
+    <h2 id="routine-title" class="m-0 mt-4 type-section-title text-foreground">
+      {content.routine.title}
+    </h2>
+    <ol class="m-0 mt-7 grid list-none gap-3 p-0 md:mt-12 md:gap-4 lg:grid-cols-3">
+      {
+        content.routine.steps.map((step) => (
+          <li class="ie-card ie-card-floating flex flex-col gap-5 p-card-padding">
+            <Image
+              class="h-50 w-full rounded-sm bg-brand-surface-deep object-cover"
+              style={`object-position: ${step.image.position}`}
+              src={step.image.src}
+              alt={step.image.alt}
+              widths={[400, 800]}
+              sizes="(min-width: 1024px) 360px, 100vw"
+            />
+            <div>
+              <h3 class="m-0 type-card-title-md text-foreground">{step.title}</h3>
+              <p class="m-0 mt-2 type-body text-foreground-body">{step.text}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </Section>
+
+  <Section tone="white" aria-labelledby="program-title">
+    <p class="m-0 type-eyebrow text-foreground">{content.program.eyebrow}</p>
+    <h2 id="program-title" class="m-0 mt-4 type-section-title text-foreground">
+      {content.program.title}
+    </h2>
+    <div class="mt-7 grid gap-3 md:mt-12 md:gap-4 lg:grid-cols-2">
+      <div class="ie-card ie-card-raised flex flex-col gap-5 px-5 py-6 md:gap-6 md:p-10">
+        <div>
+          <h3 class="m-0 type-card-title-lg text-foreground">{content.program.practice.title}</h3>
+          <p class="m-0 mt-3 max-w-measure type-body text-foreground-body">
+            {content.program.practice.text}
+          </p>
+        </div>
+        <div class="relative h-55 md:h-70">
+          <Image
+            class="ie-photo-tone size-full rounded-sm object-cover"
+            style="object-position: 30% 35%"
+            src={content.program.practice.image.src}
+            alt={content.program.practice.image.alt}
+            widths={[600, 1100]}
+            sizes="(min-width: 1024px) 520px, 100vw"
+          />
+          <div
+            class="absolute bottom-4 left-4 flex items-center gap-3 rounded-sm bg-surface px-4 py-3 shadow-floating"
+          >
+            <span
+              class="inline-flex size-8 items-center justify-center rounded-full bg-brand text-on-brand"
+              aria-hidden="true"
+            >
+              <Icon name="play" size={16} />
+            </span>
+            <span class="flex flex-col">
+              <span class="type-label font-bold text-foreground">
+                {content.program.practice.nowPlaying.title}
+              </span>
+              <span class="type-label text-foreground-muted">
+                {content.program.practice.nowPlaying.meta}
+              </span>
+            </span>
+          </div>
+        </div>
+        <Checklist
+          items={content.program.practice.items}
+          columns={2}
+          class="md:grid-flow-col md:grid-rows-3"
+        />
+        <Button
+          variant="secondary"
+          href={content.program.practice.action.href}
+          class="md:self-start"
+        >
+          {content.program.practice.action.label}
+        </Button>
+      </div>
+
+      <div class="ie-card ie-card-raised flex flex-col gap-5 px-5 py-6 md:gap-6 md:p-10">
+        <div>
+          <h3 class="m-0 type-card-title-lg text-foreground">
+            {content.program.foundation.title}
+          </h3>
+          <p class="m-0 mt-3 max-w-measure type-body text-foreground-body">
+            {content.program.foundation.text}
+          </p>
+        </div>
+        <div
+          class="ie-card ie-card-raised flex flex-col gap-4 p-5 md:h-70 md:p-6"
+          aria-hidden="true"
+        >
+          <div class="flex items-start justify-between gap-3">
+            <span class="type-small font-bold text-foreground">
+              {content.program.foundation.dashboard.district}
+            </span>
+            <span
+              class="shrink-0 rounded-md bg-brand-subtle px-2 py-1 type-tag whitespace-nowrap text-on-brand-subtle"
+            >
+              {content.program.foundation.dashboard.change}
+            </span>
+          </div>
+          <span class="type-breadcrumb text-foreground-muted">
+            {content.program.foundation.dashboard.heading}
+          </span>
+          <div class="flex flex-col gap-2">
+            {
+              content.program.foundation.dashboard.rows.map((row) => (
+                <div class="flex items-center gap-3 type-label text-foreground-secondary">
+                  <span class="w-16 shrink-0">{row.label}</span>
+                  <span class="flex h-3 grow rounded-full bg-tint">
+                    <span
+                      class:list={['w-(--w) rounded-full', row.fill]}
+                      style={`--w: ${row.width}`}
+                    />
+                  </span>
+                  <span class="w-16 shrink-0 text-right font-bold text-foreground">
+                    {row.value}
+                  </span>
+                </div>
+              ))
+            }
+          </div>
+          <div class="mt-auto flex gap-10 border-t border-border pt-4">
+            {
+              content.program.foundation.dashboard.totals.map((total) => (
+                <div class="flex flex-col">
+                  <span class="type-card-title-lg text-foreground">{total.value}</span>
+                  <span class="type-label text-foreground-muted">{total.label}</span>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+        <Checklist
+          items={content.program.foundation.items}
+          columns={2}
+          class="md:grid-flow-col md:grid-rows-3"
+        />
+        <Button href={content.program.foundation.action.href} arrow class="md:self-start">
+          {content.program.foundation.action.label}
+        </Button>
+      </div>
+    </div>
+
+    <div class="mt-7 flex flex-col gap-5 md:mt-12">
+      <div class="flex flex-col items-start gap-2 md:flex-row md:items-baseline md:justify-between">
+        <h3 class="m-0 type-card-title-lg text-foreground">{content.program.grades.title}</h3>
+        <ArrowLink href={content.program.grades.link.href}>
+          {content.program.grades.link.label}
+        </ArrowLink>
+      </div>
+      <ul class="m-0 grid list-none gap-2 p-0 md:grid-cols-2 md:gap-4 xl:grid-cols-4">
+        {
+          content.program.grades.bands.map((band) => (
+            <li class="ie-card ie-card-raised flex items-center justify-between gap-4 px-5 py-4 md:px-6 md:py-5">
+              <span class="flex items-center gap-4">
+                <span class="ie-icon-disc" aria-hidden="true">
+                  <svg
+                    width="30"
+                    height="30"
+                    viewBox="0 0 32 32"
+                    fill="none"
+                    set:html={STAGE_ICONS[band.icon]}
+                  />
+                </span>
+                <a class="ie-card-link flex flex-col gap-1" href={band.href}>
+                  <span class="type-eyebrow text-foreground">{band.grades}</span>
+                  <span class="type-card-title-md text-foreground">{band.name}</span>
+                </a>
+              </span>
+              <Icon name="arrow-right" class="text-brand-emphasis" />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </Section>
+
+  <Section aria-labelledby="research-title">
+    <div
+      class="ie-card flex flex-col gap-8 bg-brand-surface px-cta-padding-x py-cta-padding md:gap-12"
+      data-on-brand
+    >
+      <div class="grid gap-4 lg:grid-cols-2 lg:items-end lg:gap-18">
+        <div>
+          <p class="m-0 type-eyebrow text-foreground">{content.research.eyebrow}</p>
+          <h2 id="research-title" class="m-0 mt-4 type-section-title text-foreground">
+            {content.research.title}
+          </h2>
+        </div>
+        <p class="m-0 max-w-measure type-lead text-foreground">{content.research.lead}</p>
+      </div>
+
+      <div
+        class="grid gap-8 border-y border-border py-8 lg:grid-cols-12 lg:items-center lg:gap-12 lg:py-10"
+      >
+        <div class="lg:col-span-5">
+          <p class="m-0 font-display type-stat-xl font-medium text-foreground">
+            {content.research.feature.value}
+          </p>
+          <p class="m-0 mt-4 type-lead font-bold text-foreground">
+            {content.research.feature.label}
+          </p>
+          <p class="m-0 mt-2 type-label text-foreground">{content.research.feature.note}</p>
+        </div>
+        <figure class="m-0 flex flex-col gap-6 lg:col-span-7">
+          <figcaption class="type-card-title-sm text-foreground">
+            {content.research.chart.title}
+          </figcaption>
+          <ul class="m-0 flex list-none flex-col gap-7 p-0">
+            {
+              content.research.chart.groups.map((group) => (
+                <li class="flex flex-col gap-2">
+                  <div class="flex items-baseline justify-between gap-4">
+                    <span class="flex flex-wrap items-baseline gap-x-2">
+                      <span class="type-card-title-sm text-foreground">{group.name}</span>
+                      <span class="type-label text-foreground">{group.note}</span>
+                    </span>
+                    <span class="type-card-title-lg text-foreground tabular-nums">
+                      {group.change}
+                    </span>
+                  </div>
+                  {group.bars.map((bar) => (
+                    <div class="flex items-center gap-3">
+                      <span class="w-11 shrink-0 type-tag text-foreground">{bar.label}</span>
+                      <span class="flex h-4.5 grow rounded-sm bg-on-brand-wash" aria-hidden="true">
+                        <span
+                          class:list={['w-(--w) rounded-sm', bar.fill]}
+                          style={`--w: ${bar.width}`}
+                        />
+                      </span>
+                      <span class="w-10 shrink-0 text-right type-tag text-foreground tabular-nums">
+                        {bar.value}
+                      </span>
+                    </div>
+                  ))}
+                </li>
+              ))
+            }
+          </ul>
+          <p class="m-0 type-small text-foreground">{content.research.chart.source}</p>
+        </figure>
+      </div>
+
+      <dl class="m-0 grid gap-6 md:grid-cols-3 md:gap-12">
+        {
+          content.research.stats.map((stat) => (
+            <div class="flex flex-col-reverse justify-end gap-2 md:gap-3">
+              <dt class="type-lead font-bold text-foreground">{stat.label}</dt>
+              <dd class="m-0 font-display type-stat-lg font-medium text-foreground">
+                {stat.value}
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+
+      <div class="flex flex-col items-start gap-5 lg:flex-row lg:items-center lg:justify-between">
+        <ul class="m-0 flex list-none flex-wrap gap-2 p-0 md:gap-3">
+          {
+            content.research.awards.map((award) => (
+              <li class="flex items-center gap-2 rounded-md border border-border px-4 py-2 type-label font-bold text-foreground">
+                <FeatureIcon name={award.icon} size={16} />
+                {award.label}
+              </li>
+            ))
+          }
+        </ul>
+        <ArrowLink href={content.research.link.href} light>
+          {content.research.link.label}
+        </ArrowLink>
+      </div>
+    </div>
+  </Section>
+
+  <Section tone="white" aria-labelledby="voices-title">
+    <div class="grid gap-4 lg:grid-cols-2 lg:items-end lg:gap-18">
+      <div>
+        <p class="m-0 type-eyebrow text-foreground">{content.voices.eyebrow}</p>
+        <h2 id="voices-title" class="m-0 mt-4 type-section-title text-foreground">
+          {content.voices.title}
+        </h2>
+      </div>
+      <div class="flex flex-col gap-6">
+        <p class="m-0 max-w-measure type-lead text-foreground-secondary">{content.voices.lead}</p>
+        <Button href={content.voices.action.href} arrow class="lg:self-start">
+          {content.voices.action.label}
+        </Button>
+      </div>
+    </div>
+    <div
+      class="mt-8 grid gap-3 border-t border-border pt-8 md:mt-14 md:gap-4 md:pt-14 lg:grid-cols-3"
+    >
+      {
+        content.voices.quotes.map((q) => (
+          <Testimonial name={q.name} place={q.place}>
+            <Fragment set:html={emphasize(q.quote, quoteEmphasis)} />
+          </Testimonial>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section aria-labelledby="funding-title">
+    <div
+      class="ie-card ie-card-floating flex flex-col gap-5 px-6 py-7 lg:flex-row lg:items-center lg:justify-between lg:gap-12 lg:px-12 lg:py-10"
+    >
+      <div class="flex flex-col gap-3">
+        <h2 id="funding-title" class="m-0 type-section-title text-foreground">
+          {content.funding.title}
+        </h2>
+        <p class="m-0 max-w-measure type-lead text-foreground-secondary lg:max-w-155">
+          {content.funding.text}
+        </p>
+      </div>
+      <Button variant="secondary" href={content.funding.action.href} class="lg:shrink-0">
+        {content.funding.action.label}
+      </Button>
+    </div>
+    <div class="mt-section-y">
+      <ClosingCta
+        tone="white"
+        title={content.cta.title}
+        lead={content.cta.lead}
+        primary={content.cta.primary}
+        secondary={content.cta.secondary}
+        image={content.cta.image}
+      />
+    </div>
+  </Section>
+
+  <div
+    class="ie-sticky-bar sticky bottom-0 z-10 flex items-center gap-3 px-5 py-3 md:hidden"
+    data-sticky-cta
+    hidden
+  >
+    <Button href={content.sticky.primary.href} arrow class="grow">
+      {content.sticky.primary.label}
+    </Button>
+    <a
+      class="ie-icon-btn rounded-md text-brand"
+      href={content.sticky.practice.href}
+      aria-label={content.sticky.practice.label}
+    >
+      <Icon name="play" size={16} />
+    </a>
+  </div>
 </PageLayout>
+
+<script>
+  // Mobile: the sticky bar appears once the hero's own buttons have scrolled away.
+  const bar = document.querySelector<HTMLElement>('[data-sticky-cta]');
+  const actions = document.querySelector('[data-hero-actions]');
+  if (bar && actions) {
+    new IntersectionObserver(([entry]) => {
+      bar.hidden = entry.isIntersecting || entry.boundingClientRect.top > 0;
+    }).observe(actions);
+  }
+</script>

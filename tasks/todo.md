@@ -31,10 +31,38 @@ the owners the canvas gives.
       current-page rule, the field error state. All on `/styleguide/`.
 - [ ] **Footer:** social profile URLs (LinkedIn, Instagram, Facebook, YouTube, X); the row ships
       when they exist. The boards' sign-off line was dropped on 2026-10-10.
-- [ ] **Home:** school logo files (with permission) and approved photos for the Section 3
-      mosaic; the Section 10 sample practice and its transcript.
-- [ ] **Home:** keep the FAQ ("Questions leaders ask") beside Funding? It isn't in the outline.
-      The Dwight Morrow quote ends "the stress day" (as on the live site): "stressful day"?
+- [ ] **Home (built from FINAL V; these came from the working page):** FINAL V's Home has no
+      photo mosaic, sample-practice player, FAQ or Dwight Morrow quote, so none was built. Bring
+      any back, or close this.
+- [ ] **Home, stand-ins (`src/assets/images/home/`):** the three hero photos, the video poster,
+      the three product screens (routine steps), the program photo, the closing-CTA photo, and
+      the "One shared foundation" dashboard (Brightwater Unified, sample figures; decorative).
+      Approve or replace each.
+- [ ] **Home, partner row:** the desktop board hides "Trusted in districts including" "until
+      approved"; the mobile board shows it. Built on both as names (Broward County, La Joya ISD,
+      Racine Unified, LAUSD, Greece). Confirm the names may be used, supply logo files (with
+      permission) for `blocks/LogoStrip`, or empty `content.glance.partners` to hide it.
+- [ ] **Home, research panel:** the desktop board cites Bakosh 2016 (eight 3rd-grade classrooms,
+      one bar pair); the mobile board cites Lopez 2020 (RCT, 39 Head Start classrooms, with a
+      control group at +10%). Built the desktop version at both widths: pick one. Also confirm 2M+
+      students, 4,000+ schools, 90% renewal, 15% GPA, 43% educator stress, 16,000+ studies,
+      "Top EdTech Products 2025" and "BrainFutures Top 10" (and the site-wide items above).
+- [ ] **Home, copy:** headings and buttons set in sentence case against the boards' title case
+      ("Calm minds / learn better", "How daily practice works", "Simple adoption. Built to
+      scale.", "Trusted by school communities everywhere", "Affordable and fundable", "Give
+      students the foundation…", "Discover the program", "Explore pricing"); grade-band names
+      kept as product names. The foundation card's "Talk to Our Team" is "Contact us" (the
+      site-wide CTA item). Confirm.
+- [ ] **Home, links the board leaves as `#`:** "Experience daily practice" (card and the mobile
+      sticky bar's play button), "Explore the library" and the four grade bands go to
+      `/platform/`; "See the research" to `/research/`. "See cost and funding options" goes to
+      `/why-inner-explorer/#funding`: the Why PR needs that id. Retarget once those pages exist.
+- [ ] **Home, video:** the poster opens YouTube in a new tab; the board's note proposes a
+      captions-on `youtube-nocookie` embed instead. Linking out loads nothing third-party; keep it,
+      or embed on click.
+- [ ] **Home, testimonials:** the board's #e6f2ec cards with a 6px Emerald top border are drawn
+      as the shared Raised `Testimonial card` (the inventory's call). Keep, or add a tinted
+      variant.
 - [ ] **Platform:** High School sample practice name; an approved educator quote on ease of use
       (Section 6); confirm the practice feedback feature exists as described (Section 3). Juliana.
 - [ ] **Platform:** four sample audio practices with transcripts, one per age level (Shane,
@@ -87,7 +115,8 @@ the owners the canvas gives.
 
 - [x] Design-foundation PR (`rebuild-plan.md` › The design-foundation PR).
 - [x] Contact, with the success state; style the HubSpot form (`ie-field`, `ie-label`).
-- [ ] Home.
+- [x] Home: `blocks/PhotoHero`, `StatStrip`, `LogoStrip`, `ui/VideoPoster`; the white
+      `ClosingCta` with photo; Testimonial emphasis.
 - [ ] Platform.
 - [ ] Why Inner Explorer (SEO copy is on the canvas's "SEO (for build)" note).
 - [ ] Case Studies index and 7 details; PDFs from `0c8cac2:public/downloads/`; update the

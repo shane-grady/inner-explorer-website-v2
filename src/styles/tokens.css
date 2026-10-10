@@ -178,6 +178,39 @@
   --shadow-primary-pressed: 0 1px 2px rgba(0, 58, 33, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
   --shadow-light: 0 1px 2px rgba(0, 0, 0, 0.2), 0 8px 20px rgba(0, 0, 0, 0.18); /* light button */
   --shadow-sticky: 0 -4px 14px rgba(40, 43, 47, 0.07); /* mobile sticky bar */
+  --shadow-brand-panel:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 2px rgba(0, 40, 25, 0.2),
+    0 12px 28px rgba(0, 58, 33, 0.16); /* new: Emerald cards in a light band (Home pillars) */
+  --shadow-on-photo:
+    0 1px 2px rgba(0, 40, 25, 0.25), 0 8px 20px rgba(0, 40, 25, 0.25); /* new: carousel buttons (Home hero) */
+  --shadow-text-on-photo: 0 2px 24px rgba(0, 20, 15, 0.35); /* new: the display title on a photo (Home hero) */
+  --shadow-video:
+    0 2px 4px rgba(0, 0, 0, 0.2), 0 24px 56px rgba(0, 0, 0, 0.35); /* new: video poster (Home) */
+  --shadow-play:
+    0 2px 4px rgba(0, 58, 33, 0.4), 0 16px 40px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28); /* new: the video poster's play disc (Home) */
+
+  /* ---- Photo treatment (new family): scrims and controls over photography ---- */
+  --scrim-photo: linear-gradient(
+    0deg,
+    rgba(30, 71, 60, 0.82) 0%,
+    rgba(30, 71, 60, 0.45) 38%,
+    rgba(30, 71, 60, 0) 68%
+  ); /* Forest scrim under the hero title (Home desktop) */
+  --scrim-photo-mobile: linear-gradient(
+    0deg,
+    rgba(30, 71, 60, 0.88) 0%,
+    rgba(30, 71, 60, 0.55) 45%,
+    rgba(30, 71, 60, 0) 78%
+  ); /* the same, taller and darker under the stacked mobile title (Home mobile) */
+  --scrim-video: linear-gradient(
+    180deg,
+    rgba(30, 71, 60, 0) 55%,
+    rgba(30, 71, 60, 0.75) 100%
+  ); /* Forest fade under the video poster's caption (Home) */
+  --on-photo-control: rgba(255, 255, 255, 0.88); /* carousel buttons (Home hero) */
+  --on-photo-dot: rgba(255, 255, 255, 0.5); /* carousel dots at rest (Home hero) */
+  --photo-tone: sepia(0.15) saturate(1.05); /* the warm filter on classroom photos (Home) */
 
   /* ---- Sizes ---- */
   --control-height: 48px; /* buttons, fields, discs */
@@ -192,6 +225,11 @@
   --measure-short: 320px; /* new: the footer blurb and other short columns (10 boards) */
   --measure-article: 680px; /* the Article text column */
   --form-card: 576px; /* new, provisional: the form card beside the hero copy (Contact desktop) */
+  --hero-photo-height: clamp(
+    35rem,
+    calc(560px + 80 * (100vw - 390px) / 1050),
+    40rem
+  ); /* new: the photo hero, 560 → 640 (Home) */
   --figure-height: clamp(
     13.75rem,
     calc(220px + 180 * (100vw - 390px) / 1050),
@@ -205,4 +243,5 @@
 
   /* ---- Motion (new family): every transition on the boards ---- */
   --motion: 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  --motion-fade: 700ms cubic-bezier(0.16, 1, 0.3, 1); /* the hero carousel's crossfade (Home) */
 }
