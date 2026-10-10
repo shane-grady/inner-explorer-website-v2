@@ -1,0 +1,1908 @@
+[
+  {
+    "component": "Card",
+    "part": "shell",
+    "property": "fill, border, radius, shadows, title ramp, eyebrow, meta, body, disc, footer type, label box, linked hover",
+    "boards": [
+      {
+        "board": "About-Desktop",
+        "value": "Raised #fff, 1px rgb(223,221,214), 0 1px 2px rgba(40,43,47,.05), r8",
+        "count": 7
+      },
+      {
+        "board": "About-Mobile-3",
+        "value": "Raised",
+        "count": 7
+      },
+      {
+        "board": "Article-Desktop-1",
+        "value": "Raised",
+        "count": 2
+      },
+      {
+        "board": "Article-Desktop-2",
+        "value": "Raised",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-1",
+        "value": "Raised",
+        "count": 1
+      },
+      {
+        "board": "Case-Studies-Desktop",
+        "value": "Raised + media + label + footer",
+        "count": 1
+      },
+      {
+        "board": "Case-Studies-Mobile",
+        "value": "Raised + media + label + footer",
+        "count": 1
+      },
+      {
+        "board": "Contact-Desktop",
+        "value": "Raised + disc; Floating form",
+        "count": 2
+      },
+      {
+        "board": "Contact-Mobile",
+        "value": "Raised + disc; Floating form",
+        "count": 2
+      },
+      {
+        "board": "Main",
+        "value": "Raised 7 / Floating 5",
+        "count": 12
+      },
+      {
+        "board": "Home-Mobile",
+        "value": "Raised 7 / Floating 5",
+        "count": 12
+      },
+      {
+        "board": "Home-Desktop-2",
+        "value": "Floating",
+        "count": 2
+      },
+      {
+        "board": "Home-Mobile-2",
+        "value": "Floating",
+        "count": 2
+      },
+      {
+        "board": "Home-Mobile-Scrolled",
+        "value": "Floating",
+        "count": 2
+      },
+      {
+        "board": "Newsroom-Desktop",
+        "value": "Raised + media",
+        "count": 3
+      },
+      {
+        "board": "Platform-Desktop-2",
+        "value": "Raised",
+        "count": 5
+      },
+      {
+        "board": "Platform-Mobile-2",
+        "value": "Raised",
+        "count": 5
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Raised 12 / Floating 1",
+        "count": 13
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "Raised 12 / Floating 1",
+        "count": 13
+      },
+      {
+        "board": "Research-Experiment-Mobile-2",
+        "value": "Raised 4 / Floating 1",
+        "count": 5
+      },
+      {
+        "board": "Research-Studies-C-Timeline-065o",
+        "value": "Raised",
+        "count": 6
+      },
+      {
+        "board": "Contact-Success",
+        "value": "Floating",
+        "count": 1
+      },
+      {
+        "board": "Why-Desktop-2",
+        "value": "Raised",
+        "count": 4
+      },
+      {
+        "board": "Why-Mobile-3",
+        "value": "Raised",
+        "count": 2
+      },
+      {
+        "board": "Why-Mobile-4",
+        "value": "Raised",
+        "count": 2
+      }
+    ],
+    "system": "ie-card-raised: #fff, 1px var(--border) rgb(223,221,214), shadow-raised 0 1px 2px rgba(40,43,47,.05), r8; ie-card-floating: shadow 0 1px 2px .05 + 0 12px 32px .06; titles 28/1.2, 20/1.3, 16/1.35 (24/18/16 compact) -0.01em charcoal; eyebrow 14/1.12/700/+0.08em; meta 14/1.4/500 storm; body 17/1.6/500 slate; disc 48 Emerald + 24 white; footer 700 14px emerald, 16px arrow, gap 8, 1px top rule, right-aligned; label 28px tall, 0 12px, 16/16 inset, r8, #fff; linked hover translateY(-2px) + 0 2px 4px .06, 0 12px 28px .08",
+    "class": "MATCH",
+    "evidence": "Census records for every white r8 box with the Raised border+shadow (91) or the Floating shadow (22) compared with work/cards/sys.json (system Card rendered with board copy at 294/350/389/592/680/1200 widths, desktop and compact). Exact rgb/shadow strings match; ramp titles on boards (h3 28/33.6/-0.28 x18 desktop, 20/26/-0.2 x23, 16/21.6/-0.16 x7; mobile 24/28.8 x15, 18/23.4 x27) match type-card-title-*. The board's '.ie-card:hover' rule (Platform-Desktop-2, Platform-Mobile-2, Timeline, and CSS on About-Desktop/Mobile-1/Mobile-3 and four Research boards) equals the system's linked hover exactly.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "Card",
+    "part": "media",
+    "property": "aspect ratio of the media box",
+    "boards": [
+      {
+        "board": "Case-Studies-Desktop",
+        "value": "398x216 frame (height:216px; overflow:hidden), photo cropped",
+        "count": 1
+      },
+      {
+        "board": "Case-Studies-Mobile",
+        "value": "356x200 frame (16:9)",
+        "count": 1
+      },
+      {
+        "board": "Newsroom-Desktop",
+        "value": "790x445 and 382x216 (img aspect-ratio:16/9)",
+        "count": 3
+      }
+    ],
+    "system": ".ie-card-media {aspect-ratio:16/9} grows to the image's own ratio when the photo is taller: at 398 wide a 3:2 photo renders 265 tall, a square photo 398 tall; media.ratio '398 / 216' still renders 265",
+    "class": "DEFECT",
+    "evidence": "work/cards/media.html probed with 1200x800, 1600x900, 800x800, 2100x900 and a broken src at 400px: media boxes 265 / 224 / 398 / 224 / 224. aspect-ratio's automatic minimum size lets the img content (block-size:100% of an intrinsic-ratio image) stretch the box. Boards always crop to a fixed frame. Verified fix (work/cards/media-fix.json): every case renders 224, and 216 with ratio '398 / 216'.",
+    "fix": "components/bundle.css: add `overflow: hidden;` to `.ie-card-media` (or `min-block-size: 0;`).",
+    "visible": "high"
+  },
+  {
+    "component": "Card",
+    "part": "media label",
+    "property": "box-shadow",
+    "boards": [
+      {
+        "board": "Case-Studies-Desktop",
+        "value": "0 1px 2px rgba(40,43,47,.16)",
+        "count": 1
+      },
+      {
+        "board": "Case-Studies-Mobile",
+        "value": "0 1px 2px rgba(40,43,47,.16)",
+        "count": 1
+      },
+      {
+        "board": "Newsroom-Desktop",
+        "value": "none",
+        "count": 1
+      },
+      {
+        "board": "Newsroom-Mobile",
+        "value": "none (unboxed featured image)",
+        "count": 1
+      }
+    ],
+    "system": "var(--shadow-raised) = 0 1px 2px rgba(40,43,47,.05)",
+    "class": "DEFECT",
+    "evidence": "The system value matches no board. Case Studies set .16 inline (board HTML span style); Newsroom labels have no shadow. Detail-Decisions: 'Chips (44px filters) and image overlay labels are separate components and stay as they are.'",
+    "fix": "components/bundle.css `.ie-card-label`: `box-shadow: none;` (Newsroom), or `box-shadow: 0 1px 2px rgba(40,43,47,.16);` if Case Studies is the reference (an extra shadow the README would then list).",
+    "visible": "low"
+  },
+  {
+    "component": "Card",
+    "part": "media label",
+    "property": "height / inline padding",
+    "boards": [
+      {
+        "board": "Case-Studies-Desktop",
+        "value": "28px / 12px",
+        "count": 1
+      },
+      {
+        "board": "Case-Studies-Mobile",
+        "value": "28px / 12px",
+        "count": 1
+      },
+      {
+        "board": "Newsroom-Desktop",
+        "value": "32px / 12px",
+        "count": 1
+      },
+      {
+        "board": "Newsroom-Mobile",
+        "value": "28px / 8px",
+        "count": 1
+      }
+    ],
+    "system": "28px / 12px (space-3)",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "Census rects of the absolutely positioned label spans; system follows the majority (28/12). Inset 16/16 and type (14px/700/+0.08em uppercase charcoal) match on all four.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "Card",
+    "part": "footer (linked CTA)",
+    "property": "line-height",
+    "boards": [
+      {
+        "board": "Case-Studies-Desktop",
+        "value": "14px/1.4 (19.6px), footer row 37px",
+        "count": 1
+      },
+      {
+        "board": "Case-Studies-Mobile",
+        "value": "14px/1.4 (19.6px), footer row 37px",
+        "count": 1
+      }
+    ],
+    "system": "font: 700 14px/1.5 (21px), footer row 38px",
+    "class": "DEFECT",
+    "evidence": "Board span sa 'font-size:14px; line-height:1.4'; system render case-d footer r h=38 vs board 37. Color rgb(0,110,81), weight 700, 16px arrow, gap 8, 16px top padding, 1px rule and right alignment match.",
+    "fix": "components/bundle.css `.ie-card-footer`: `font: 700 14px/1.4 var(--font-sans);`",
+    "visible": "low"
+  },
+  {
+    "component": "Card",
+    "part": "footer (linked CTA)",
+    "property": "anatomy",
+    "boards": [
+      {
+        "board": "Case-Studies-Desktop",
+        "value": "emerald 14px + 16px arrow, 1px top rule, right-aligned",
+        "count": 1
+      },
+      {
+        "board": "Case-Studies-Mobile",
+        "value": "same as desktop",
+        "count": 1
+      },
+      {
+        "board": "Newsroom-Desktop",
+        "value": "featured: 'Read the article' 14px charcoal + 16px arrow in icon-accent, left-aligned, no rule, meta on the same row",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "nav cards: 'Jump to section' 15px emerald + 16px arrow-down, 24px top padding, no rule",
+        "count": 3
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "nav cards: 14px emerald + 16px arrow-down, no rule",
+        "count": 3
+      },
+      {
+        "board": "Card-Options (decision board)",
+        "value": "sample cards end in an ArrowLink: 16px/24 emerald, 20px arrow, 44px tall, left, no rule",
+        "count": 12
+      }
+    ],
+    "system": "footer: 700 14px emerald, 16px arrow, top rule, flex-end",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "Four footer treatments. The system follows Case Studies (the only FINAL V cards with a rule). Card-Options' text decides type, corners, padding and gap only, not the footer.",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "component": "Card",
+    "part": "body",
+    "property": "padding",
+    "boards": [
+      {
+        "board": "About-Desktop",
+        "value": "20/24",
+        "count": 7
+      },
+      {
+        "board": "About-Mobile-3",
+        "value": "16/20",
+        "count": 7
+      },
+      {
+        "board": "Article-Desktop-1",
+        "value": "24 (resource), 20 (sidebar)",
+        "count": 2
+      },
+      {
+        "board": "Article-Desktop-2",
+        "value": "20 (sidebar)",
+        "count": 1
+      },
+      {
+        "board": "Contact-Desktop",
+        "value": "64/72 support card; 40 form",
+        "count": 2
+      },
+      {
+        "board": "Contact-Mobile",
+        "value": "24",
+        "count": 2
+      },
+      {
+        "board": "Contact-Success",
+        "value": "40",
+        "count": 1
+      },
+      {
+        "board": "Main",
+        "value": "40 (daily practice x2), 48 (problem), 36/48 (banner), 20/24 (programs x4)",
+        "count": 8
+      },
+      {
+        "board": "Home-Mobile",
+        "value": "24/20 (daily x2), 28/24 (floating x2), 16/20 (programs x4)",
+        "count": 8
+      },
+      {
+        "board": "Home-Desktop-2",
+        "value": "40/48 (pricing banner)",
+        "count": 1
+      },
+      {
+        "board": "Newsroom-Desktop",
+        "value": "featured 32/40/36/40; grid 20/24/24/24",
+        "count": 3
+      },
+      {
+        "board": "Platform-Desktop-2",
+        "value": "32 (visibility x2)",
+        "count": 2
+      },
+      {
+        "board": "Platform-Mobile-2",
+        "value": "24 (evidence x4), 16 (visibility x2)",
+        "count": 6
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "28 (nav x3), 32 (outcomes x3, why x3), 32 chart",
+        "count": 10
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "16 (nav x3), 24/20/12/20 (outcomes x3), 24 (studies x6)",
+        "count": 12
+      },
+      {
+        "board": "Research-Experiment-Mobile-2",
+        "value": "24/20 (x4)",
+        "count": 4
+      },
+      {
+        "board": "Why-Desktop-2",
+        "value": "40 (foundation, funding)",
+        "count": 2
+      },
+      {
+        "board": "Why-Mobile-3",
+        "value": "24/20",
+        "count": 2
+      }
+    ],
+    "system": "24px (card-padding); compact 20px (card-padding-mobile)",
+    "class": "DECIDED",
+    "evidence": "Card-Options (decided 8 Oct): 'Both types: white fill, 8px corners, 24px padding (20px on mobile), 8px gap between cards' and lists these sections by name (Simple Adoption, evidence and studies, team and advisory board, MTSS/funding, story cards, Contact form and confirmation, Research charts). 24/20 already on: Platform-Desktop-2 evidence, Timeline studies, Research studies (desktop), Home how-it-works, Case Studies, Article-Mobile-1.",
+    "fix": "",
+    "visible": "high"
+  },
+  {
+    "component": "Card",
+    "part": "grid",
+    "property": "gap between cards",
+    "boards": [
+      {
+        "board": "About-Desktop",
+        "value": "8",
+        "count": 1
+      },
+      {
+        "board": "Platform-Desktop-1",
+        "value": "8 (series tiles)",
+        "count": 1
+      },
+      {
+        "board": "Platform-Desktop-2",
+        "value": "8 (visibility), 20 (evidence)",
+        "count": 2
+      },
+      {
+        "board": "Why-Desktop-2",
+        "value": "8",
+        "count": 1
+      },
+      {
+        "board": "Main",
+        "value": "16 (green cards, how-it-works, daily practice)",
+        "count": 3
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "16 (outcomes, studies, why)",
+        "count": 3
+      },
+      {
+        "board": "Research-Studies-C-Timeline-065o",
+        "value": "20",
+        "count": 1
+      },
+      {
+        "board": "Home-Mobile",
+        "value": "12 (stacks)",
+        "count": 2
+      },
+      {
+        "board": "Platform-Mobile-2",
+        "value": "12 (evidence)",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "12 (study scroller)",
+        "count": 1
+      }
+    ],
+    "system": "--card-gap 8px",
+    "class": "DECIDED",
+    "evidence": "Sibling-rect distances in census. Card-Options: '8px gap between cards in a grid.'",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "component": "Card",
+    "part": "body",
+    "property": "stack gap (title to next part, eyebrow/icon to title)",
+    "boards": [
+      {
+        "board": "About-Desktop",
+        "value": "8 (name to role)",
+        "count": 7
+      },
+      {
+        "board": "About-Mobile-3",
+        "value": "8",
+        "count": 7
+      },
+      {
+        "board": "Main",
+        "value": "8 (how-it-works x3), 12 (daily x2), 4 (program eyebrow to title x4)",
+        "count": 9
+      },
+      {
+        "board": "Home-Mobile",
+        "value": "8 (x3), 12 (x2), 4 (x4)",
+        "count": 9
+      },
+      {
+        "board": "Article-Desktop-1",
+        "value": "8",
+        "count": 2
+      },
+      {
+        "board": "Article-Desktop-2",
+        "value": "8",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-1",
+        "value": "12",
+        "count": 1
+      },
+      {
+        "board": "Case-Studies-Desktop",
+        "value": "4 (title to place)",
+        "count": 1
+      },
+      {
+        "board": "Case-Studies-Mobile",
+        "value": "4",
+        "count": 1
+      },
+      {
+        "board": "Contact-Desktop",
+        "value": "16",
+        "count": 1
+      },
+      {
+        "board": "Contact-Mobile",
+        "value": "12",
+        "count": 1
+      },
+      {
+        "board": "Newsroom-Desktop",
+        "value": "12 (grid x2), 16 (featured)",
+        "count": 3
+      },
+      {
+        "board": "Platform-Desktop-2",
+        "value": "12 (visibility x4)",
+        "count": 4
+      },
+      {
+        "board": "Platform-Mobile-2",
+        "value": "4",
+        "count": 4
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "12 (outcomes x3)",
+        "count": 3
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "8 (outcomes x3)",
+        "count": 3
+      },
+      {
+        "board": "Research-Experiment-Mobile-2",
+        "value": "16 (x3)",
+        "count": 3
+      },
+      {
+        "board": "Why-Desktop-2",
+        "value": "8",
+        "count": 2
+      },
+      {
+        "board": "Why-Mobile-3",
+        "value": "8",
+        "count": 2
+      }
+    ],
+    "system": "gap: var(--space-3) 12px between icon, eyebrow, title, meta, text, footer",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "Measured title-rect bottom to next text-rect top. 8px is the most common (~32 cards), then 12px (~19), 4px (~14), 16px (~5). The system follows 12, which the Card-Options sample cards also use (rowGap 12); no decision text names it.",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "component": "Card",
+    "part": "type",
+    "property": "card shells other than Raised/Floating",
+    "boards": [
+      {
+        "board": "Pricing-Desktop",
+        "value": "white + border, no shadow (plans)",
+        "count": 2
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "white + border, no shadow",
+        "count": 2
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "white + border, no shadow, r12 (why it works)",
+        "count": 3
+      },
+      {
+        "board": "Platform-Desktop-2",
+        "value": "white, no border, no shadow (visibility)",
+        "count": 6
+      },
+      {
+        "board": "Platform-Mobile-2",
+        "value": "white flat",
+        "count": 6
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "white flat on Emerald (AWP options)",
+        "count": 2
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "white flat on Emerald",
+        "count": 2
+      },
+      {
+        "board": "About-Desktop",
+        "value": "tint team cards; facts box shadow 0 4px 14px rgba(40,43,47,.07)",
+        "count": 3
+      },
+      {
+        "board": "About-Mobile-2",
+        "value": "tint team cards",
+        "count": 2
+      },
+      {
+        "board": "About-Mobile-1",
+        "value": "facts box shadow .07",
+        "count": 1
+      }
+    ],
+    "system": "Raised or Floating only",
+    "class": "DECIDED",
+    "evidence": "Card-Options: 'Two card types... Each section uses one type only... The off-white Tint stays as a flat panel'; Raised is 'Used for ... team and advisory board (About)'. Detail-Decisions: 'One-off shadows ... They retire with the feature-icon decision and the card rule.'",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "component": "Card",
+    "part": "shell",
+    "property": "border-radius",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "12px (nav cards x3, why-it-works x3)",
+        "count": 6
+      }
+    ],
+    "system": "8px (radius-sm)",
+    "class": "DECIDED",
+    "evidence": "Card-Options: '8px corners'. Component-Library: '8px for containers, badges and tags'. Research-Experiment-Mobile-1/-2 already use 8px for the same cards.",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "component": "Card",
+    "part": "title",
+    "property": "size / line-height / letter-spacing off the ramp",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "28/1.1 -0.02em (nav x3); 24/1.2 -0.02em (why x3); 22/1.25 (h4 x4)",
+        "count": 10
+      },
+      {
+        "board": "Article-Desktop-1",
+        "value": "20/1.3, letter-spacing normal (resource card)",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-1",
+        "value": "20/1.3 normal on mobile",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-2",
+        "value": "18/1.3 normal",
+        "count": 1
+      },
+      {
+        "board": "Main",
+        "value": "20/normal (program tiles x4)",
+        "count": 4
+      },
+      {
+        "board": "Home-Mobile",
+        "value": "20/normal on mobile (x4)",
+        "count": 4
+      },
+      {
+        "board": "Newsroom-Desktop",
+        "value": "featured card title is an h2 at 44/1.1",
+        "count": 1
+      }
+    ],
+    "system": "type-card-title-lg/md/sm 28/1.2, 20/1.3, 16/1.35 at -0.01em; compact 24/18/16",
+    "class": "DECIDED",
+    "evidence": "Type-Icon-Decisions decision 2: 'Large 28 / 1.2 for feature cards, Medium 20 / 1.3 for grid cards, Small 16 / 1.35 for list items. Mobile: 24 / 18 / 16... A mobile title takes the same step as its desktop twin. 122 titles changed, all with -0.01em letter-spacing.' Remaining-Drift: 'Snap to the ramp: 44 for section titles (32 mobile), 28 for large card titles (24 mobile).'",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "component": "Card",
+    "part": "body / meta",
+    "property": "text style",
+    "boards": [
+      {
+        "board": "About-Desktop",
+        "value": "role 15/1.45 storm",
+        "count": 7
+      },
+      {
+        "board": "About-Mobile-3",
+        "value": "role 15/1.45 storm",
+        "count": 7
+      },
+      {
+        "board": "Article-Desktop-1",
+        "value": "sidebar text 14/1.5 slate",
+        "count": 1
+      },
+      {
+        "board": "Article-Desktop-2",
+        "value": "14/1.5",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "outcome summary 15/1.55 slate",
+        "count": 3
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "15/1.55",
+        "count": 3
+      },
+      {
+        "board": "Contact-Desktop",
+        "value": "support text 19/1.5 dark-slate",
+        "count": 1
+      }
+    ],
+    "system": "meta type-label 14/1.4 storm; children type-body 17/1.6 slate",
+    "class": "DECIDED",
+    "evidence": "Detail-Decisions decision 2: 'One label size, 14px' for 'dates and read times, roles, sources'. Type-Icon-Decisions decision 1: 'Body (17 / 1.6, #424850) is all running text. Small (15 / 1.5, #59606a) is for captions, notes and footnotes.'",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "component": "Card",
+    "part": "media",
+    "property": "placement (inset media)",
+    "boards": [
+      {
+        "board": "Main",
+        "value": "image inside the 24px padding, r8, 341x200, 20px to title (How it works x3); 510x280 r8 image in Daily Practice card",
+        "count": 4
+      },
+      {
+        "board": "Home-Mobile",
+        "value": "310x200 r8 image inside 20px padding (x3); 308x220 in Daily Practice card",
+        "count": 4
+      }
+    ],
+    "system": "media is full-bleed above the body only (no inset/rounded media option)",
+    "class": "MISSING",
+    "evidence": "Card README: 'Media runs full-bleed above the body'. The Home boards place the photo/mock-up inside the padding with its own 8px corners; no prop produces that.",
+    "fix": "",
+    "visible": "high"
+  },
+  {
+    "component": "Card",
+    "part": "layout",
+    "property": "horizontal card (icon or media beside the text)",
+    "boards": [
+      {
+        "board": "About-Desktop",
+        "value": "team: 240px photo left, text 32px padding",
+        "count": 2
+      },
+      {
+        "board": "About-Mobile-2",
+        "value": "team: 136px photo left",
+        "count": 2
+      },
+      {
+        "board": "Main",
+        "value": "program tiles: 48px disc + eyebrow/title + arrow right",
+        "count": 4
+      },
+      {
+        "board": "Home-Mobile",
+        "value": "program tiles",
+        "count": 4
+      },
+      {
+        "board": "Contact-Desktop",
+        "value": "disc | title+text | links column with 1px left rule",
+        "count": 1
+      },
+      {
+        "board": "Why-Desktop-2",
+        "value": "funding card: two disc+text rows split by a 1px rule",
+        "count": 1
+      },
+      {
+        "board": "Why-Mobile-3",
+        "value": "same, stacked rows",
+        "count": 1
+      },
+      {
+        "board": "Platform-Mobile-2",
+        "value": "visibility cards: 32px icon left of title+text",
+        "count": 4
+      },
+      {
+        "board": "Article-Desktop-1",
+        "value": "resource card: tint thumbnail left",
+        "count": 1
+      },
+      {
+        "board": "Newsroom-Mobile",
+        "value": "story list rows: 104x80 thumbnail left",
+        "count": 10
+      }
+    ],
+    "system": "Card stacks vertically: icon, eyebrow, title, meta, text, footer",
+    "class": "MISSING",
+    "evidence": "Census rects show the leading element and the text column side by side (flex row) on 9 boards. Card has no orientation/media-side prop, so each page would hand-build the row.",
+    "fix": "",
+    "visible": "high"
+  },
+  {
+    "component": "Card",
+    "part": "media",
+    "property": "bottom rule under media",
+    "boards": [
+      {
+        "board": "Newsroom-Desktop",
+        "value": "1px solid #dfddd6 under the image",
+        "count": 3
+      },
+      {
+        "board": "Case-Studies-Desktop",
+        "value": "none",
+        "count": 1
+      },
+      {
+        "board": "Case-Studies-Mobile",
+        "value": "none",
+        "count": 1
+      }
+    ],
+    "system": "none",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "img sa 'border-bottom: 1px solid #dfddd6' on Newsroom; system follows Case Studies.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "Card",
+    "part": "hover (boards' <style>)",
+    "property": "linked/hover treatment",
+    "boards": [
+      {
+        "board": "Platform-Desktop-2",
+        "value": ".ie-card:hover translateY(-2px), 0 2px 4px .06 + 0 12px 28px .08 on non-linked evidence cards",
+        "count": 4
+      },
+      {
+        "board": "Platform-Mobile-2",
+        "value": "same, non-linked",
+        "count": 4
+      },
+      {
+        "board": "Research-Studies-C-Timeline-065o",
+        "value": "same, non-linked study cards",
+        "count": 6
+      },
+      {
+        "board": "Case-Studies-Desktop",
+        "value": ".lift translateY(-1px); .story:hover 0 4px 14px rgba(40,43,47,.07), border #dfddd6; image scale(1.03); arrow +2px; :active scale(.98)",
+        "count": 1
+      },
+      {
+        "board": "Case-Studies-Mobile",
+        "value": ".story:hover same; .card:active scale(.98)",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": ".ie-box:hover translateY(-3px), border #00874d, 0 2px 4px .06 + 0 16px 32px .10 (nav cards)",
+        "count": 3
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": ".ie-box rule",
+        "count": 3
+      }
+    ],
+    "system": "only href cards hover: translateY(-2px) + shadow-card-hover; footer arrow +2px; no image zoom, no press scale",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "Board CSS extracted to work/cards/css/*.css. The 'Study card (Research pattern)' rule (most boards) equals the system values; the system drops it from non-linked cards ('Cards without href have no hover'). Case Studies and Research nav cards use other values.",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "component": "Card",
+    "part": "focus",
+    "property": "focus ring around a linked card",
+    "boards": [],
+    "system": "outline 2px ring at 2px offset wrapping the card (:has(.ie-card-link:focus-visible))",
+    "class": "NOT-ON-BOARDS",
+    "evidence": "Boards draw no card-level focus state.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "Panel",
+    "part": "tones",
+    "property": "fill, radius, text colour; tint padding",
+    "boards": [
+      {
+        "board": "Article-Desktop-1",
+        "value": "tint 24 (key takeaways)",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-1",
+        "value": "tint 20",
+        "count": 1
+      },
+      {
+        "board": "Article-Desktop-2",
+        "value": "tint 24 (author)",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-2",
+        "value": "tint 20 (author)",
+        "count": 1
+      },
+      {
+        "board": "Platform-Desktop-1",
+        "value": "tint 24 (series tiles)",
+        "count": 6
+      },
+      {
+        "board": "Platform-Mobile-1",
+        "value": "tint 20 (series tiles)",
+        "count": 6
+      },
+      {
+        "board": "About-Desktop",
+        "value": "emerald #006e51 r8 white text",
+        "count": 8
+      },
+      {
+        "board": "Main",
+        "value": "emerald",
+        "count": 4
+      },
+      {
+        "board": "Why-Desktop-2",
+        "value": "forest #1e473c r8",
+        "count": 1
+      },
+      {
+        "board": "Why-Mobile-3",
+        "value": "forest",
+        "count": 1
+      },
+      {
+        "board": "Research-Studies-C-Timeline-065o",
+        "value": "emerald 24",
+        "count": 1
+      }
+    ],
+    "system": "tint #f0efeb / emerald #006e51 / forest #1e473c, r8, no border or shadow, 24px (compact 20px), on-brand text on green",
+    "class": "MATCH",
+    "evidence": "System render pem-d / pfo-d / ptint-d/m in work/cards/sys.json vs census. Green cards/panels on the boards are rendered by Panel: About 'Inner Explorer Institute / Inc.' (emerald x2+2), About principles '01-03' (emerald x3+3), About stat cards (emerald + Stat, x3+3), Home 'DAILY / UNIVERSAL / BUILT TO SCALE' (emerald x3 on Main + x3 Home-Mobile; title as a card title, body type-body), Home 'The solution' (emerald), Home research band (emerald), Timeline 'Meta-analysis' card (emerald), Why 'Under $8' (forest + Stat), Research 'Plus the wider field' (forest). Emerald CTA panels are ClosingCta, quote panels are Testimonial (other groups).",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "Panel",
+    "part": "emerald / forest",
+    "property": "padding (desktop)",
+    "boards": [
+      {
+        "board": "Research-Studies-C-Timeline-065o",
+        "value": "24",
+        "count": 1
+      },
+      {
+        "board": "About-Desktop",
+        "value": "28/32 (stats x3), 32 (principles x3), 40 (structure x2)",
+        "count": 8
+      },
+      {
+        "board": "Main",
+        "value": "32 (DAILY cards x3), 48 (The solution)",
+        "count": 4
+      },
+      {
+        "board": "Home-Desktop-2",
+        "value": "72 (research band)",
+        "count": 1
+      },
+      {
+        "board": "Why-Desktop-2",
+        "value": "40 (Under $8)",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "40 (wider field)",
+        "count": 1
+      },
+      {
+        "board": "Platform-Programs-Green",
+        "value": "48 (programs x4)",
+        "count": 4
+      }
+    ],
+    "system": "24px (card-padding)",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "No decision board names green-panel padding (Component-Library's 72px/32x24 applies to the closing CTA only). The system follows the Tint value; it matches 1 of 20 green panels.",
+    "fix": "",
+    "visible": "high"
+  },
+  {
+    "component": "Panel",
+    "part": "emerald / forest",
+    "property": "padding (compact / mobile)",
+    "boards": [
+      {
+        "board": "About-Mobile-1",
+        "value": "28/24 (structure)",
+        "count": 2
+      },
+      {
+        "board": "About-Mobile-2",
+        "value": "24/24 (principles x3), 28/24 (stats x3)",
+        "count": 6
+      },
+      {
+        "board": "Home-Mobile",
+        "value": "24/24 (DAILY x3), 28/24 (The solution)",
+        "count": 4
+      },
+      {
+        "board": "Home-Mobile-Scrolled",
+        "value": "28/24",
+        "count": 1
+      },
+      {
+        "board": "Home-Mobile-2",
+        "value": "32/24 (research band)",
+        "count": 1
+      },
+      {
+        "board": "Why-Mobile-3",
+        "value": "28/24 (Under $8)",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "28/20 (wider field)",
+        "count": 1
+      }
+    ],
+    "system": "20px all sides (card-padding-mobile) for every tone",
+    "class": "DEFECT",
+    "evidence": "Inline padding is 24px on 15 of 16 mobile green panels (and on the six padded mobile emerald ClosingCta panels); mobile tint panels use 20 (Article, Platform, Why). Block padding is 24 (x6), 28 (x9) or 32 (x1); the system's 20/20 matches none of the 16.",
+    "fix": "components/bundle.css: `.ie-panel-compact:is(.ie-panel-emerald, .ie-panel-forest) { padding: var(--space-6); }` (24 all round: matches all 16 inline values but one, and the 6 with 24px block padding; the 28px ones stay 4px short).",
+    "visible": "medium"
+  },
+  {
+    "component": "Panel",
+    "part": "tint",
+    "property": "padding exceptions",
+    "boards": [
+      {
+        "board": "Platform-Desktop-1",
+        "value": "48 (program panels)",
+        "count": 4
+      },
+      {
+        "board": "Article-Desktop-2",
+        "value": "40 (newsletter)",
+        "count": 1
+      },
+      {
+        "board": "Why-Desktop-2",
+        "value": "32/40 (funding CTA)",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-2",
+        "value": "24/20 (newsletter)",
+        "count": 1
+      },
+      {
+        "board": "Why-Mobile-3",
+        "value": "24/20",
+        "count": 1
+      }
+    ],
+    "system": "24px / compact 20px",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "16 tint panels use 24/20; these 8 don't. System follows the majority.",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "component": "Panel",
+    "part": "emerald / tint",
+    "property": "box-shadow (one-off)",
+    "boards": [
+      {
+        "board": "Main",
+        "value": "DAILY/UNIVERSAL/BUILT TO SCALE: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 2px rgba(0,40,25,.2), 0 12px 28px rgba(0,58,33,.16)",
+        "count": 3
+      },
+      {
+        "board": "Home-Mobile",
+        "value": "same",
+        "count": 3
+      },
+      {
+        "board": "Platform-Programs-Green",
+        "value": "emerald program panels with 3-layer shadow, r12",
+        "count": 4
+      },
+      {
+        "board": "Why-Desktop-1",
+        "value": "soft-3D tint chart panel + emerald bar with shadow",
+        "count": 2
+      },
+      {
+        "board": "Why-Mobile-2",
+        "value": "same",
+        "count": 2
+      }
+    ],
+    "system": "Panel is flat (no shadow)",
+    "class": "DECIDED",
+    "evidence": "Detail-Decisions: 'One-off shadows: Why's soft-3D cards, Platform's deep drop and Home's 10% drop are still there, as you asked. They retire with the feature-icon decision and the card rule.' Card-Options: 'Tint ... flat'. The DAILY cards' 8px green-300 dot marker becomes on-brand-accent (SYSTEM-CHANGE 3).",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "component": "Panel",
+    "part": "emerald / forest",
+    "property": "border-radius",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "12px (forest 'Plus the wider field')",
+        "count": 1
+      },
+      {
+        "board": "Platform-Programs-Green",
+        "value": "12px (emerald program panels)",
+        "count": 4
+      }
+    ],
+    "system": "8px",
+    "class": "DECIDED",
+    "evidence": "Component-Library 'Corner radius': '8px for containers'. Research-Experiment-Mobile-1 draws the same forest panel at 8px.",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "component": "Panel",
+    "part": "Platform programs",
+    "property": "tone",
+    "boards": [
+      {
+        "board": "Platform-Desktop-1",
+        "value": "tint",
+        "count": 4
+      },
+      {
+        "board": "Platform-Mobile-1",
+        "value": "tint",
+        "count": 4
+      },
+      {
+        "board": "Platform-Programs-Green",
+        "value": "emerald + shadow + r12",
+        "count": 4
+      }
+    ],
+    "system": "either tone, flat, r8",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "Platform-Programs-Green is titled 'Green version (compare with Desktop 1 of 2)'; both versions are on FINAL V.",
+    "fix": "",
+    "visible": "high"
+  },
+  {
+    "component": "Panel",
+    "part": "page-ground panel",
+    "property": "tone #f7f7f5 on a white band",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "#f7f7f5 r8 48px panels (district data, framework) + #f7f7f5 r10 fact boxes in study cards",
+        "count": 8
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "#f7f7f5 r8 panels (28/20) + fact boxes",
+        "count": 8
+      }
+    ],
+    "system": "Panel tones: tint #f0efeb, emerald, forest",
+    "class": "MISSING",
+    "evidence": "No Panel tone draws the page ground. Detail-Decisions calls them 'Research's tinted study cards' (white tags 'so it still shows'); as Panel tone tint they would render #f0efeb.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "Tag",
+    "part": "box",
+    "property": "height, type, padding, radius, gap, swatch, evidence and white tones",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "24px, 13/700, 0 8px, r8, swatch 10x10 r2 gap 8",
+        "count": 9
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "same",
+        "count": 9
+      },
+      {
+        "board": "Research-Studies-C-Timeline-065o",
+        "value": "same",
+        "count": 6
+      },
+      {
+        "board": "Platform-Desktop-1",
+        "value": "evidence 'Add-on' #bffaa2 / #152f2f, 24px",
+        "count": 2
+      },
+      {
+        "board": "Platform-Mobile-1",
+        "value": "evidence",
+        "count": 2
+      },
+      {
+        "board": "Platform-Desktop-2",
+        "value": "evidence (mock)",
+        "count": 1
+      },
+      {
+        "board": "Platform-Mobile-2",
+        "value": "evidence (mock)",
+        "count": 1
+      }
+    ],
+    "system": "24px, type-tag 13/700, padding-inline 8, r8, gap 8, swatch 10x10 r2; evidence brand-subtle + on-brand-subtle; white surface; 16px icon brand-emphasis",
+    "class": "MATCH",
+    "evidence": "System render (tag-* in work/cards/sys.json) vs census. Line-height differs (boards 'normal', system 1) but the 24px box and centred text render the same height.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "Tag",
+    "part": "neutral",
+    "property": "text colour",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "#31373e rgb(49,55,62)",
+        "count": 9
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "#31373e",
+        "count": 9
+      },
+      {
+        "board": "Research-Studies-C-Timeline-065o",
+        "value": "#31373e",
+        "count": 6
+      },
+      {
+        "board": "Platform-Desktop-2",
+        "value": "#31373e",
+        "count": 4
+      },
+      {
+        "board": "Platform-Mobile-2",
+        "value": "#31373e",
+        "count": 4
+      },
+      {
+        "board": "Detail-Decisions (decision board)",
+        "value": "#282b2f on tint (chosen option A samples)",
+        "count": 3
+      },
+      {
+        "board": "Component-Library (decision board)",
+        "value": "#282b2f",
+        "count": 1
+      }
+    ],
+    "system": "var(--foreground) #282b2f rgb(40,43,47)",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "All 32 neutral tags on FINAL V use dark slate; the decision boards' tag samples use charcoal. Decision text names fills only ('Tint fill for facts, mint for evidence, translucent white on green'). System follows the decision samples.",
+    "fix": "If FINAL V wins: components/bundle.css `.ie-tag-neutral { color: var(--foreground-secondary); }`",
+    "visible": "low"
+  },
+  {
+    "component": "Tag",
+    "part": "box",
+    "property": "height",
+    "boards": [
+      {
+        "board": "Platform-Desktop-2",
+        "value": "28px (evidence-card tags)",
+        "count": 4
+      },
+      {
+        "board": "Platform-Mobile-2",
+        "value": "28px",
+        "count": 4
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "28px (white 'District data', 'Framework'); 26px on-brand 'Meta-review'; 36px evidence 'ESSA Tier 1 · Strong evidence'",
+        "count": 4
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "28px white x2; 28px on-brand; 36px evidence",
+        "count": 4
+      }
+    ],
+    "system": "24px",
+    "class": "DECIDED",
+    "evidence": "Detail-Decisions decision 3: 'Decided 8 October · applied A · One 13px tag, 24px tall, 8px corners.'",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "component": "Tag",
+    "part": "on-brand",
+    "property": "fill",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "rgba(255,255,255,.16)",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": ".16",
+        "count": 1
+      },
+      {
+        "board": "Research-Studies-C-Timeline-065o",
+        "value": ".16",
+        "count": 1
+      }
+    ],
+    "system": "on-brand-wash rgba(255,255,255,.12)",
+    "class": "SYSTEM-CHANGE",
+    "evidence": "Known change 1 (12% white for 4.5:1).",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "Tag",
+    "part": "award badge",
+    "property": "pattern",
+    "boards": [
+      {
+        "board": "Home-Desktop-2",
+        "value": "outlined pill: 34px tall, r12, 1px rgba(255,255,255,.4), no fill, 8/16 padding, gap 8, 16px white Phosphor icon, 14px/700 white",
+        "count": 3
+      },
+      {
+        "board": "Home-Mobile-2",
+        "value": "same",
+        "count": 3
+      }
+    ],
+    "system": "closest: Tag tone on-brand = 24px, 12% white fill, no border, r8, 13px, 8px padding",
+    "class": "MISSING",
+    "evidence": "Type-Icon-Decisions: 'Home's award chips went to Phosphor fill' (icons decided, holder not). No Tag tone or Chip variant draws an outlined badge on green.",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "component": "Tag",
+    "part": "link",
+    "property": "href underline on hover",
+    "boards": [],
+    "system": "a.ie-tag:hover underline",
+    "class": "NOT-ON-BOARDS",
+    "evidence": "No linked tag on the boards.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "FeatureIcon",
+    "part": "glyphs, colour, disc",
+    "property": "paths, fill colours, disc size",
+    "boards": [
+      {
+        "board": "Platform-Desktop-1",
+        "value": "stack x2, users, arrows-clockwise, flame, medal, shield-check, clock, notebook, heart (#02a451)",
+        "count": 10
+      },
+      {
+        "board": "Platform-Desktop-2",
+        "value": "chart-bar, chart-line-up, file-text, clock, arrows-clockwise, notebook; lock/plant/headphones/shield-check white on Emerald",
+        "count": 10
+      },
+      {
+        "board": "Platform-Mobile-1",
+        "value": "same as desktop",
+        "count": 10
+      },
+      {
+        "board": "Platform-Mobile-2",
+        "value": "same as desktop",
+        "count": 10
+      },
+      {
+        "board": "Why-Desktop-1",
+        "value": "sigma, book-open, flask, bank, heart",
+        "count": 5
+      },
+      {
+        "board": "Why-Mobile-2",
+        "value": "same",
+        "count": 5
+      },
+      {
+        "board": "Why-Desktop-2",
+        "value": "tag, hand-coins in 48px Emerald disc, 24px white",
+        "count": 2
+      },
+      {
+        "board": "Why-Mobile-3",
+        "value": "same",
+        "count": 2
+      },
+      {
+        "board": "Contact-Desktop",
+        "value": "question in 48px disc",
+        "count": 1
+      },
+      {
+        "board": "Contact-Mobile",
+        "value": "question in 48px disc",
+        "count": 1
+      },
+      {
+        "board": "Home-Desktop-2",
+        "value": "seal-check, star, shield-check 16px white",
+        "count": 3
+      },
+      {
+        "board": "Home-Mobile-2",
+        "value": "same",
+        "count": 3
+      }
+    ],
+    "system": "Phosphor 2.1.1 fill FILL map; bare icon-accent #02a451, onBrand white, disc 48px brand-surface + 24px on-brand, 16px brand-emphasis in a tag",
+    "class": "MATCH",
+    "evidence": "Rendered SVGs dumped from every board (work/cards/svgs.json) and compared path-for-path with FILL from bundle.js: all 24 FILL glyphs appear and match exactly; colours match; disc 48px r24 (= radius-full) with 24px icon.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "FeatureIcon",
+    "part": "glyph set",
+    "property": "missing glyphs",
+    "boards": [
+      {
+        "board": "Platform-Desktop-1",
+        "value": "Phosphor play (fill) 20px in 'The daily practice' eyebrow",
+        "count": 1
+      },
+      {
+        "board": "Platform-Mobile-1",
+        "value": "play 18px",
+        "count": 1
+      },
+      {
+        "board": "Platform-Desktop-2",
+        "value": "play 20px ('Audio-guided practice'); check-circle (fill) 24px 'Guided rollout' + 3 in the dashboard mock",
+        "count": 5
+      },
+      {
+        "board": "Platform-Mobile-2",
+        "value": "play 18px; check-circle 18px + mock",
+        "count": 5
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "check-circle (fill) 16px in the 'ESSA Tier 1 · Strong evidence' tag",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "same",
+        "count": 1
+      }
+    ],
+    "system": "FILL has no 'play' or 'check-circle'; FeatureIcon falls back to FILL['stack'] (renders a stack glyph)",
+    "class": "DEFECT",
+    "evidence": "Paths saved in work/cards/missing-fill.json; system render fi-missing shows the fallback. bundle.js says FILL holds 'the icons the FINAL V boards use'.",
+    "fix": "components/bundle.js FILL: add 'play': ['M240,128a15.74,15.74,0,0,1-7.6,13.51L88.32,229.65a16,16,0,0,1-16.2.3A15.86,15.86,0,0,1,64,216.13V39.87a15.86,15.86,0,0,1,8.12-13.82,16,16,0,0,1,16.2.3L232.4,114.49A15.74,15.74,0,0,1,240,128Z'] and 'check-circle': ['M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm45.66,85.66-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32Z'] (Phosphor 2.1.1 fill, copied from the boards); also the source bundle.src.js.",
+    "visible": "high"
+  },
+  {
+    "component": "FeatureIcon",
+    "part": "bare",
+    "property": "size",
+    "boards": [
+      {
+        "board": "Platform-Desktop-2",
+        "value": "40px (visibility cards x4); 20px eyebrow icons",
+        "count": 6
+      },
+      {
+        "board": "Platform-Desktop-1",
+        "value": "20px eyebrow icons",
+        "count": 2
+      },
+      {
+        "board": "Platform-Mobile-1",
+        "value": "18px eyebrow icons",
+        "count": 2
+      },
+      {
+        "board": "Platform-Mobile-2",
+        "value": "18px eyebrows, 22/14px in the mock",
+        "count": 6
+      },
+      {
+        "board": "Why-Mobile-2",
+        "value": "18px subject tiles",
+        "count": 5
+      }
+    ],
+    "system": "24-32px (default 32; Card's icon prop is fixed at 32)",
+    "class": "DECIDED",
+    "evidence": "Component-Decisions decision 4: 'A Bare icon · Phosphor fill at 24 to 32px, no holder... For rows, lists, tiles and labels.' 24/28/32 on the other boards are in range.",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "component": "FeatureIcon",
+    "part": "disc",
+    "property": "disc holding the hand-drawn growth illustration",
+    "boards": [
+      {
+        "board": "Main",
+        "value": "48px Emerald disc with a 30px hand-drawn growth icon (program tiles)",
+        "count": 4
+      },
+      {
+        "board": "Home-Mobile",
+        "value": "same",
+        "count": 4
+      }
+    ],
+    "system": "disc renders only FILL glyphs at 24px",
+    "class": "MISSING",
+    "evidence": "Detail-Decisions: 'Program growth icons: the hand-drawn sprout-to-tree set on Home stays as an illustration, not an icon.' FeatureIcon disc takes no custom SVG.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "FeatureIcon",
+    "part": "eyebrow lead icon",
+    "property": "eyebrow led by a feature icon",
+    "boards": [
+      {
+        "board": "Platform-Desktop-1",
+        "value": "20px icon + 8px gap + eyebrow ('The series library', 'The daily practice')",
+        "count": 2
+      },
+      {
+        "board": "Platform-Desktop-2",
+        "value": "20/24px icon + eyebrow ('Analytics', 'Guided rollout', 'Audio-guided practice')",
+        "count": 3
+      },
+      {
+        "board": "Platform-Mobile-1",
+        "value": "18px icon + eyebrow",
+        "count": 2
+      },
+      {
+        "board": "Platform-Mobile-2",
+        "value": "18px icon + eyebrow",
+        "count": 3
+      }
+    ],
+    "system": "Eyebrow has no icon slot",
+    "class": "MISSING",
+    "evidence": "Same eyebrow-with-icon pattern on 4 Platform boards; the page would compose it, with sizes outside the decided 24-32px range.",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "component": "FeatureIcon",
+    "part": "holders",
+    "property": "inset discs / soft-3D tiles",
+    "boards": [
+      {
+        "board": "Why-Desktop-1",
+        "value": "subject tiles: #f7f7f5 tile, neumorphic shadow, 24px icon",
+        "count": 5
+      },
+      {
+        "board": "Why-Mobile-2",
+        "value": "same, 18px",
+        "count": 5
+      }
+    ],
+    "system": "bare icon (no holder) or 48px Emerald disc",
+    "class": "DECIDED",
+    "evidence": "Component-Decisions decision 4: 'Why's inset discs and Platform's white privacy discs became bare icons ... The mint, white, inset and square holders are gone.' Detail-Decisions: 'Why's soft-3D cards ... retire'.",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "component": "Icon",
+    "part": "outline set",
+    "property": "geometry, stroke, caps, colour",
+    "boards": [
+      {
+        "board": "Main",
+        "value": "arrow-right x9, check-circle 22px x12, play x2",
+        "count": 23
+      },
+      {
+        "board": "Home-Mobile",
+        "value": "same + menu",
+        "count": 24
+      },
+      {
+        "board": "Newsroom-Desktop",
+        "value": "arrow-up-right 16px x12 (system head), arrow-right, play, chevron-down",
+        "count": 17
+      },
+      {
+        "board": "Newsroom-Mobile",
+        "value": "same + menu",
+        "count": 18
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "arrow-down x14, check-circle x10, arrow-right x4",
+        "count": 28
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "arrow-down x14, check-circle x10, arrow-right, play, pause, menu",
+        "count": 31
+      },
+      {
+        "board": "Platform-Desktop-1",
+        "value": "play x5 (18px), arrow-right x3",
+        "count": 8
+      },
+      {
+        "board": "Contact-Desktop",
+        "value": "arrow-right x4, chevron-down x2, lock, copy",
+        "count": 8
+      },
+      {
+        "board": "Article-Mobile-1",
+        "value": "check-circle x3, clock, chevron-down, download, menu",
+        "count": 7
+      },
+      {
+        "board": "Why-Desktop-1",
+        "value": "arrow-right x7, check-circle x3",
+        "count": 10
+      }
+    ],
+    "system": "2px stroke, round caps/joins, currentColor, 24 grid; arrow-right, check-circle (r9 + check), play, pause, menu, chevrons, clock, link, copy, download, lock, check, arrow-down",
+    "class": "MATCH",
+    "evidence": "Rendered SVG shapes compared with OUTLINE from bundle.src.js: across all 39 boards: arrow-right x118 (incl. a single-path variant with the same geometry), check-circle x63, arrow-down x28, arrow-up-right x24, play x22, chevron-down x16, menu x13, download x4, clock x3, link x3, lock x2, copy x2, chevron-up x2, check x1, pause x1 all match; stroke 2px round on all but the rows below.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "Icon",
+    "part": "stroke",
+    "property": "stroke-width",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "2.2px",
+        "count": 8
+      },
+      {
+        "board": "Research-Experiment-Desktop-2",
+        "value": "2.2px",
+        "count": 9
+      },
+      {
+        "board": "Research-Studies-C-Timeline-065o",
+        "value": "2.2px",
+        "count": 3
+      }
+    ],
+    "system": "2px",
+    "class": "DECIDED",
+    "evidence": "Type-Icon-Decisions decision 3: '80 icons swapped, 84 stroke widths set to 2.' Remaining-Drift: 'strokes at 2px'.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "Icon",
+    "part": "arrow-up-right",
+    "property": "arrow-head path",
+    "boards": [
+      {
+        "board": "Newsroom-Desktop",
+        "value": "M7 17L17 7 + M8 7h9v9 (system)",
+        "count": 12
+      },
+      {
+        "board": "Newsroom-Mobile",
+        "value": "system",
+        "count": 12
+      },
+      {
+        "board": "Research-Experiment-Desktop-2",
+        "value": "M7 17L17 7M9 7h8v8 (12px)",
+        "count": 6
+      },
+      {
+        "board": "Research-Experiment-Mobile-2",
+        "value": "M9 7h8v8",
+        "count": 6
+      },
+      {
+        "board": "Research-Studies-C-Timeline-065o",
+        "value": "M9 7h8v8",
+        "count": 3
+      }
+    ],
+    "system": "M7 17L17 7, M8 7h9v9",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "24 vs 15 instances; system follows the majority.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "Icon",
+    "part": "chevron-left / chevron-right",
+    "property": "path",
+    "boards": [
+      {
+        "board": "Main",
+        "value": "M15 5l-7 7 7 7 / M9 5l7 7-7 7 (carousel, 20px)",
+        "count": 2
+      },
+      {
+        "board": "Home-Mobile",
+        "value": "same",
+        "count": 2
+      },
+      {
+        "board": "Research-Studies-C-Timeline-065o",
+        "value": "M15 18l-6-6 6-6 / M9 18l6-6-6-6 (system)",
+        "count": 2
+      }
+    ],
+    "system": "M15 18l-6-6 6-6 / M9 18l6-6-6-6",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "Home's carousel chevrons are 14 units tall with 7-unit arms; the Timeline's match the system. The system follows the Timeline board, which is the minority (2 vs 4).",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "Icon",
+    "part": "arrow-left",
+    "property": "arrow-head path",
+    "boards": [
+      {
+        "board": "Contact-Desktop",
+        "value": "line 19,12 to 5,12 + polyline 12,19 5,12 12,5 ('Back to the form', 20px)",
+        "count": 1
+      },
+      {
+        "board": "Contact-Mobile",
+        "value": "same",
+        "count": 1
+      }
+    ],
+    "system": "M19 12H5, M11 6l-6 6 6 6 (6-unit head)",
+    "class": "DEFECT",
+    "evidence": "Only arrow-left on the boards; its head is 7 units, the system's is 6 (a mirror of arrow-right).",
+    "fix": "components/bundle.js OUTLINE (and bundle.src.js): 'arrow-left': ['M19 12H5', 'M12 19l-7-7 7-7']",
+    "visible": "low"
+  },
+  {
+    "component": "Icon",
+    "part": "size",
+    "property": "rendered sizes outside the README set",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "11px citation arrows",
+        "count": 10
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "12px citation arrows",
+        "count": 10
+      },
+      {
+        "board": "Research-Experiment-Desktop-2",
+        "value": "12px external-link arrows",
+        "count": 6
+      },
+      {
+        "board": "Research-Experiment-Mobile-2",
+        "value": "12px",
+        "count": 6
+      },
+      {
+        "board": "Research-Studies-C-Timeline-065o",
+        "value": "12px",
+        "count": 3
+      },
+      {
+        "board": "Platform-Desktop-1",
+        "value": "18px play in round buttons",
+        "count": 5
+      },
+      {
+        "board": "Platform-Mobile-1",
+        "value": "18px play",
+        "count": 5
+      },
+      {
+        "board": "Platform-Programs-Green",
+        "value": "18px play",
+        "count": 4
+      }
+    ],
+    "system": "README: '16, 20 (default) or 24px' (the component renders any size)",
+    "class": "DEFECT",
+    "evidence": "Component output is unaffected (size is a prop); only the README spec excludes sizes the approved boards draw.",
+    "fix": "components/Icon/README.md Specs: add 12px (inline citation and external-link arrows) and 18px (glyphs inside 44-48px round buttons).",
+    "visible": "low"
+  },
+  {
+    "component": "Icon",
+    "part": "check marker",
+    "property": "solid disc check in a list on Emerald",
+    "boards": [
+      {
+        "board": "Pricing-Desktop",
+        "value": "18px white disc + 2.4px emerald check (AWP list)",
+        "count": 11
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "same",
+        "count": 11
+      }
+    ],
+    "system": "outline check-circle, 2px",
+    "class": "DECIDED",
+    "evidence": "Detail-Decisions decision 4: 'Decided 8 October · applied A · Outline check for checklists'. The Pricing comparison table's own check marks (22px, x204) are page-only and not counted.",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "component": "Icon",
+    "part": "comparison marks",
+    "property": "check / minus inside a 22-unit circle",
+    "boards": [
+      {
+        "board": "Why-Desktop-2",
+        "value": "24px: white disc + emerald check, grey minus-circle",
+        "count": 6
+      },
+      {
+        "board": "Why-Mobile-2",
+        "value": "same",
+        "count": 6
+      }
+    ],
+    "system": "no minus-circle; check-circle is r9 outline",
+    "class": "MISSING",
+    "evidence": "The curriculum vs daily-practice comparison marks on both Why boards have no outline icon in the set.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "Icon",
+    "part": "close, alert",
+    "property": "names",
+    "boards": [],
+    "system": "close, alert (and arrow-left's system head)",
+    "class": "NOT-ON-BOARDS",
+    "evidence": "Used by MobileMenu and TextField's error state (known additions).",
+    "fix": "",
+    "visible": "low"
+  }
+]

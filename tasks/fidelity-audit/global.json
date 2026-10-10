@@ -1,0 +1,4431 @@
+[
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "Pricing comparison table + plan meta text (page pattern)",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Pricing-Desktop",
+        "value": "Inter 500 16/1.4",
+        "count": 47
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "Inter 500 16/1.4",
+        "count": 47
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "Inter 500 13/normal",
+        "count": 17
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "Inter 500 13/normal",
+        "count": 6
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "Inter 700 16/normal",
+        "count": 16
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "Inter 500 14/normal",
+        "count": 8
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "Inter 500 14/normal",
+        "count": 5
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "Inter 700 17/normal",
+        "count": 13
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "Inter 500 12/normal",
+        "count": 13
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "Inter 500 15/1.45",
+        "count": 11
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "Inter 500 13/1.4",
+        "count": 5
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "Inter 500 13/1.4",
+        "count": 5
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "Inter 500 13/1.35",
+        "count": 6
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "Inter 500 11/1.35",
+        "count": 6
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "Inter 700 15/normal",
+        "count": 3
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "Inter 700 15/normal",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "Inter 700 14/normal",
+        "count": 3
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "Inter 700 14/normal",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "Inter 700 12/1.12 +0.08em uppercase",
+        "count": 2
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "Inter 700 12/1.12 +0.08em uppercase",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "Inter 700 13/1.2",
+        "count": 3
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "Inter 500 12/1.3",
+        "count": 3
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "Inter 500 14/1.5",
+        "count": 3
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "Inter 500 15/normal",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "Inter 500 15/normal",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "Inter 500 15/1.55",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "Inter 500 15/1.55",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "Inter 700 12/normal +0.04em",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "Inter 500 17/1.5",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "Inter 700 11/1.4 +0.04em",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "Inter 700 17/1.4",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "Inter 500 15/1.6",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "Inter 700 17/1.45",
+        "count": 1
+      }
+    ],
+    "system": "type-label 14/1.4 for labels; type-body 17/1.6",
+    "class": "DECIDED",
+    "evidence": "Census of all 39 FINAL V boards: 235 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). Detail-Decisions 2 (Labels under 15px): \"Decided 8 October · applied A · One label size, 14px\"; option A: \"14 / 1.4 medium, text-muted. Charts and product mock-ups keep their own small sizes.\" README: \"Patterns used on one page (the Pricing comparison table, …) are built in that page from these parts.\" Board table text: 16/500/1.4 rows, 13/500 counts, 12–11px add-on/meta, 14/500 lh normal cells, 16–17/700 prices.",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "Footer link 15/500 lh normal",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop-2",
+        "value": "Inter 500 15/normal",
+        "count": 14
+      },
+      {
+        "board": "About-Desktop",
+        "value": "Inter 500 15/normal",
+        "count": 9
+      },
+      {
+        "board": "About-Mobile-3",
+        "value": "Inter 500 15/normal",
+        "count": 9
+      },
+      {
+        "board": "Article-Desktop-2",
+        "value": "Inter 500 15/normal",
+        "count": 9
+      },
+      {
+        "board": "Article-Mobile-2",
+        "value": "Inter 500 15/normal",
+        "count": 9
+      },
+      {
+        "board": "Case-Studies-Desktop",
+        "value": "Inter 500 15/normal",
+        "count": 9
+      },
+      {
+        "board": "Case-Studies-Mobile",
+        "value": "Inter 500 15/normal",
+        "count": 9
+      },
+      {
+        "board": "Contact-Desktop",
+        "value": "Inter 500 15/normal",
+        "count": 9
+      },
+      {
+        "board": "Contact-Mobile",
+        "value": "Inter 500 15/normal",
+        "count": 9
+      },
+      {
+        "board": "Home-Desktop-2",
+        "value": "Inter 500 15/normal",
+        "count": 9
+      },
+      {
+        "board": "Home-Mobile-2",
+        "value": "Inter 500 15/normal",
+        "count": 9
+      },
+      {
+        "board": "Newsroom-Desktop",
+        "value": "Inter 500 15/normal",
+        "count": 9
+      },
+      {
+        "board": "Newsroom-Mobile",
+        "value": "Inter 500 15/normal",
+        "count": 9
+      },
+      {
+        "board": "Platform-Desktop-2",
+        "value": "Inter 500 15/normal",
+        "count": 9
+      },
+      {
+        "board": "Platform-Mobile-2",
+        "value": "Inter 500 15/normal",
+        "count": 9
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "Inter 500 15/normal",
+        "count": 9
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "Inter 500 15/normal",
+        "count": 9
+      },
+      {
+        "board": "Research-Experiment-Mobile-2",
+        "value": "Inter 500 15/normal",
+        "count": 9
+      },
+      {
+        "board": "Why-Desktop-2",
+        "value": "Inter 500 15/normal",
+        "count": 9
+      },
+      {
+        "board": "Why-Mobile-4",
+        "value": "Inter 500 15/normal",
+        "count": 9
+      }
+    ],
+    "system": "Footer nav a 500 15px/1.5",
+    "class": "DEFECT",
+    "evidence": "Census of all 39 FINAL V boards: 185 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). ",
+    "fix": "components/bundle.css: `.ie-footer-nav a { font: 500 15px/1.2 var(--font-sans); }` (was 15px/1.5). Board links render an 18px line (Inter normal = 18.15px) at a 30px pitch; the system renders 22.5px at 34.5px, so each desktop column is 18px taller. `.ie-footer-compact .ie-footer-nav a` keeps min-block-size 32px, which already matches the 32px mobile rows.",
+    "visible": "medium"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "Label (date, role, source, meta) off 14/1.4",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Article-Mobile-2",
+        "value": "Inter 500 14/normal",
+        "count": 12
+      },
+      {
+        "board": "Article-Desktop-2",
+        "value": "Inter 500 14/normal",
+        "count": 11
+      },
+      {
+        "board": "Article-Mobile-1",
+        "value": "Inter 500 14/normal",
+        "count": 4
+      },
+      {
+        "board": "Home-Desktop-2",
+        "value": "Inter 500 14/normal",
+        "count": 4
+      },
+      {
+        "board": "Home-Mobile-2",
+        "value": "Inter 500 14/normal",
+        "count": 4
+      },
+      {
+        "board": "Article-Desktop-1",
+        "value": "Inter 500 14/normal",
+        "count": 3
+      },
+      {
+        "board": "Article-Mobile-First-Screen",
+        "value": "Inter 500 14/normal",
+        "count": 3
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 500 14/normal",
+        "count": 3
+      },
+      {
+        "board": "Research-Studies-C-Timeline-065o",
+        "value": "Inter 500 14/normal",
+        "count": 3
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "Inter 500 14/normal",
+        "count": 2
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "Inter 500 14/normal",
+        "count": 2
+      },
+      {
+        "board": "Why-Desktop-2",
+        "value": "Inter 500 14/normal",
+        "count": 2
+      },
+      {
+        "board": "Why-Mobile-4",
+        "value": "Inter 500 14/normal",
+        "count": 2
+      },
+      {
+        "board": "Home-Mobile",
+        "value": "Inter 500 14/normal",
+        "count": 1
+      },
+      {
+        "board": "Platform-Desktop-2",
+        "value": "Inter 500 14/normal",
+        "count": 1
+      },
+      {
+        "board": "Platform-Mobile-2",
+        "value": "Inter 500 14/normal",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Mobile-2",
+        "value": "Inter 500 14/normal",
+        "count": 1
+      },
+      {
+        "board": "Why-Desktop-1",
+        "value": "Inter 500 14/normal",
+        "count": 1
+      },
+      {
+        "board": "Why-Mobile-2",
+        "value": "Inter 500 14/normal",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 500 14/1.5",
+        "count": 27
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "Inter 500 14/1.5",
+        "count": 27
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "Inter 500 14/1.5",
+        "count": 3
+      },
+      {
+        "board": "Article-Desktop-1",
+        "value": "Inter 500 14/1.5",
+        "count": 1
+      },
+      {
+        "board": "Article-Desktop-2",
+        "value": "Inter 500 14/1.5",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 500 14/1.45",
+        "count": 14
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "Inter 500 14/1.45",
+        "count": 14
+      },
+      {
+        "board": "Research-Studies-C-Timeline-065o",
+        "value": "Inter 500 14/1.45",
+        "count": 7
+      },
+      {
+        "board": "Platform-Desktop-2",
+        "value": "Inter 500 14/1.45",
+        "count": 4
+      },
+      {
+        "board": "Platform-Mobile-2",
+        "value": "Inter 500 14/1.45",
+        "count": 4
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 500 13/1.4",
+        "count": 4
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "Inter 500 13/1.4",
+        "count": 4
+      },
+      {
+        "board": "Research-Studies-C-Timeline-065o",
+        "value": "Inter 500 13/1.4",
+        "count": 1
+      },
+      {
+        "board": "Newsroom-Desktop",
+        "value": "Inter 500 14/1.3",
+        "count": 2
+      },
+      {
+        "board": "Newsroom-Mobile",
+        "value": "Inter 500 14/1.3",
+        "count": 2
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 500 14/1.55",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "Inter 500 14/1.55",
+        "count": 1
+      }
+    ],
+    "system": "type-label 500 14px/1.4",
+    "class": "DECIDED",
+    "evidence": "Census of all 39 FINAL V boards: 178 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). Detail-Decisions 2 (Labels under 15px): \"Decided 8 October · applied A · One label size, 14px\"; option A: \"14 / 1.4 medium, text-muted. Charts and product mock-ups keep their own small sizes.\"",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "Card/sub-section title off-ramp",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 700 16/1.35",
+        "count": 12
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "Inter 700 16/1.35",
+        "count": 11
+      },
+      {
+        "board": "Research-Experiment-Desktop-2",
+        "value": "Inter 700 16/1.35",
+        "count": 2
+      },
+      {
+        "board": "Article-Mobile-2",
+        "value": "Inter 700 16/1.4",
+        "count": 5
+      },
+      {
+        "board": "Why-Desktop-2",
+        "value": "Inter 700 16/1.4",
+        "count": 3
+      },
+      {
+        "board": "Why-Mobile-3",
+        "value": "Inter 700 16/1.4",
+        "count": 3
+      },
+      {
+        "board": "Case-Studies-Desktop",
+        "value": "Inter 700 16/1.4",
+        "count": 1
+      },
+      {
+        "board": "Case-Studies-Mobile",
+        "value": "Inter 700 16/1.4",
+        "count": 1
+      },
+      {
+        "board": "Contact-Success",
+        "value": "Inter 700 16/1.4",
+        "count": 1
+      },
+      {
+        "board": "About-Desktop",
+        "value": "Inter 700 16/normal",
+        "count": 3
+      },
+      {
+        "board": "About-Mobile-1",
+        "value": "Inter 700 16/normal",
+        "count": 3
+      },
+      {
+        "board": "Home-Desktop-2",
+        "value": "Inter 700 16/normal",
+        "count": 1
+      },
+      {
+        "board": "Home-Mobile-2",
+        "value": "Inter 700 16/normal",
+        "count": 1
+      },
+      {
+        "board": "Home-Mobile",
+        "value": "Inter 700 20/normal -0.01em",
+        "count": 4
+      },
+      {
+        "board": "Main",
+        "value": "Inter 700 20/normal -0.01em",
+        "count": 4
+      },
+      {
+        "board": "Article-Desktop-2",
+        "value": "Inter 700 18/1.4",
+        "count": 5
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "Inter 700 18/1.4",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "Inter 700 20/normal",
+        "count": 3
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "Inter 700 20/normal",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "Inter 700 18/normal",
+        "count": 4
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "Inter 700 15/1.35",
+        "count": 2
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "Inter 700 15/1.35",
+        "count": 2
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "Inter 700 17/normal",
+        "count": 4
+      },
+      {
+        "board": "Article-Desktop-1",
+        "value": "Inter 700 20/1.3",
+        "count": 1
+      },
+      {
+        "board": "Article-Desktop-2",
+        "value": "Inter 700 20/1.3",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-1",
+        "value": "Inter 700 20/1.3",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 700 24/1.2 -0.02em",
+        "count": 3
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 700 22/1.25 -0.02em",
+        "count": 3
+      },
+      {
+        "board": "Why-Mobile-2",
+        "value": "Inter 700 17/1.5",
+        "count": 3
+      },
+      {
+        "board": "Home-Mobile-Scrolled",
+        "value": "Inter 700 19/1.4",
+        "count": 1
+      },
+      {
+        "board": "Home-Mobile",
+        "value": "Inter 700 19/1.4",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 700 17/1.25",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Mobile-2",
+        "value": "Inter 700 17/1.25",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 700 20/1.5",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Mobile-2",
+        "value": "Inter 700 20/1.5",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "Inter 700 20/1.25 -0.01em",
+        "count": 1
+      },
+      {
+        "board": "Why-Mobile-2",
+        "value": "Inter 700 20/1.25 -0.01em",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-2",
+        "value": "Inter 700 18/1.3",
+        "count": 1
+      },
+      {
+        "board": "Contact-Success",
+        "value": "Inter 700 15/1.4",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "Inter 700 22/normal",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "Inter 700 18/1.45",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 700 22/1.25 -0.01em",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 700 16/1.3",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Mobile-2",
+        "value": "Inter 700 26/1.2 -0.025em",
+        "count": 1
+      },
+      {
+        "board": "Why-Desktop-1",
+        "value": "Inter 700 24/1.25 -0.01em",
+        "count": 1
+      },
+      {
+        "board": "Why-Mobile-3",
+        "value": "Inter 700 20/1.25",
+        "count": 1
+      }
+    ],
+    "system": "type-card-title-lg/md/sm (28/20/16, mobile 24/18/16; -0.01em)",
+    "class": "DECIDED",
+    "evidence": "Census of all 39 FINAL V boards: 106 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). Type-Icon-Decisions 2: \"Decided 8 October · applied A · 28 / 20 / 16 (mobile 24 / 18 / 16)\" … \"122 titles changed, all with -0.01em letter-spacing\"; Small 16/1.35 \"for list items, names and chart titles\". Remaining-Drift 01: \"Research uses 68px section titles and 36–38px card titles; Pricing has one 48px section title.\" Fix: \"Snap to the ramp: 44 for section titles (32 mobile), 28 for large card titles (24 mobile).\"",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "Body/lead/small straggler (off 20/1.5, 17/1.6, 15/1.5)",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Home-Mobile",
+        "value": "Inter 500 16/1.45",
+        "count": 12
+      },
+      {
+        "board": "Main",
+        "value": "Inter 500 16/1.45",
+        "count": 12
+      },
+      {
+        "board": "Why-Desktop-2",
+        "value": "Inter 500 16/1.45",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "Inter 500 15/1.4",
+        "count": 8
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 500 15/1.4",
+        "count": 7
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "Inter 500 15/1.45",
+        "count": 11
+      },
+      {
+        "board": "Why-Mobile-3",
+        "value": "Inter 500 15/1.45",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "Inter 500 15/normal",
+        "count": 3
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "Inter 500 15/normal",
+        "count": 3
+      },
+      {
+        "board": "Main",
+        "value": "Inter 500 15/normal",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "Inter 500 16/1.5",
+        "count": 3
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "Inter 500 16/1.5",
+        "count": 3
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 500 15/1.55",
+        "count": 3
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "Inter 500 15/1.55",
+        "count": 3
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 500 15/1.3",
+        "count": 3
+      },
+      {
+        "board": "Research-Experiment-Mobile-2",
+        "value": "Inter 500 15/1.3",
+        "count": 2
+      },
+      {
+        "board": "Article-Desktop-2",
+        "value": "Inter 500 17/1.6 italic",
+        "count": 2
+      },
+      {
+        "board": "Article-Mobile-2",
+        "value": "Inter 500 17/1.6 italic",
+        "count": 2
+      },
+      {
+        "board": "Why-Desktop-2",
+        "value": "Inter 500 22/1.4",
+        "count": 3
+      },
+      {
+        "board": "Why-Mobile-2",
+        "value": "Inter 500 17/1.5",
+        "count": 3
+      },
+      {
+        "board": "Contact-Success",
+        "value": "Inter 500 16/1.4",
+        "count": 2
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 500 19/1.55",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "Inter 500 19/1.55",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 500 18/1.55",
+        "count": 1
+      },
+      {
+        "board": "Research-Studies-C-Timeline-065o",
+        "value": "Inter 500 18/1.55",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 500 17/1.55",
+        "count": 2
+      },
+      {
+        "board": "About-Desktop",
+        "value": "Inter 500 18/1.52",
+        "count": 1
+      },
+      {
+        "board": "Article-Desktop-2",
+        "value": "Inter 400 20/1.5",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-2",
+        "value": "Inter 400 18/1.5",
+        "count": 1
+      },
+      {
+        "board": "Contact-Desktop",
+        "value": "Inter 500 19/1.5",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "Inter 500 15/1.6",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Desktop-2",
+        "value": "Inter 500 18/1.6",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Desktop-2",
+        "value": "Inter 500 15/1.52",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 500 26/1.35 -0.01em",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "Inter 500 18/1.5 -0.01em",
+        "count": 1
+      }
+    ],
+    "system": "type-lead / type-body / type-small",
+    "class": "DECIDED",
+    "evidence": "Census of all 39 FINAL V boards: 103 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). Type-Icon-Decisions 1: \"Decided 8 October · applied B · Roomier: Lead 20, Body 17, Small 15\" (Lead 20/1.5, 18 mobile; Body 17/1.6 is all running text; Small 15/1.5).",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "Footer heading 15/700 lh normal",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "About-Desktop",
+        "value": "Inter 700 15/normal",
+        "count": 4
+      },
+      {
+        "board": "About-Mobile-3",
+        "value": "Inter 700 15/normal",
+        "count": 4
+      },
+      {
+        "board": "Article-Desktop-2",
+        "value": "Inter 700 15/normal",
+        "count": 4
+      },
+      {
+        "board": "Article-Mobile-2",
+        "value": "Inter 700 15/normal",
+        "count": 4
+      },
+      {
+        "board": "Case-Studies-Desktop",
+        "value": "Inter 700 15/normal",
+        "count": 4
+      },
+      {
+        "board": "Case-Studies-Mobile",
+        "value": "Inter 700 15/normal",
+        "count": 4
+      },
+      {
+        "board": "Contact-Desktop",
+        "value": "Inter 700 15/normal",
+        "count": 4
+      },
+      {
+        "board": "Contact-Mobile",
+        "value": "Inter 700 15/normal",
+        "count": 4
+      },
+      {
+        "board": "Home-Desktop-2",
+        "value": "Inter 700 15/normal",
+        "count": 4
+      },
+      {
+        "board": "Home-Mobile-2",
+        "value": "Inter 700 15/normal",
+        "count": 4
+      },
+      {
+        "board": "Newsroom-Desktop",
+        "value": "Inter 700 15/normal",
+        "count": 4
+      },
+      {
+        "board": "Newsroom-Mobile",
+        "value": "Inter 700 15/normal",
+        "count": 4
+      },
+      {
+        "board": "Platform-Desktop-2",
+        "value": "Inter 700 15/normal",
+        "count": 4
+      },
+      {
+        "board": "Platform-Mobile-2",
+        "value": "Inter 700 15/normal",
+        "count": 4
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "Inter 700 15/normal",
+        "count": 4
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "Inter 700 15/normal",
+        "count": 4
+      },
+      {
+        "board": "Research-Experiment-Mobile-2",
+        "value": "Inter 700 15/normal",
+        "count": 4
+      },
+      {
+        "board": "Why-Desktop-2",
+        "value": "Inter 700 15/normal",
+        "count": 4
+      },
+      {
+        "board": "Why-Mobile-4",
+        "value": "Inter 700 15/normal",
+        "count": 4
+      }
+    ],
+    "system": "Footer heading 700 15px/1.5",
+    "class": "DEFECT",
+    "evidence": "Census of all 39 FINAL V boards: 76 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). ",
+    "fix": "components/bundle.css: `.ie-footer-heading { font: 700 15px/1.2 var(--font-sans); }` (was 15px/1.5); board headings are 18px tall, system 22.5–23px.",
+    "visible": "medium"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "kept own type: practice player / program tabs",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Platform-Desktop-1",
+        "value": "Inter 500 12/normal",
+        "count": 8
+      },
+      {
+        "board": "Platform-Mobile-1",
+        "value": "Inter 500 12/normal",
+        "count": 8
+      },
+      {
+        "board": "Platform-Programs-Green",
+        "value": "Inter 500 12/normal",
+        "count": 8
+      },
+      {
+        "board": "Platform-Desktop-1",
+        "value": "Inter 500 14/1.3",
+        "count": 4
+      },
+      {
+        "board": "Platform-Mobile-1",
+        "value": "Inter 500 14/1.3",
+        "count": 4
+      },
+      {
+        "board": "Platform-Programs-Green",
+        "value": "Inter 500 14/1.3",
+        "count": 4
+      },
+      {
+        "board": "Platform-Desktop-1",
+        "value": "Inter 700 18/1.2",
+        "count": 4
+      },
+      {
+        "board": "Platform-Mobile-1",
+        "value": "Inter 700 18/1.2",
+        "count": 4
+      },
+      {
+        "board": "Platform-Programs-Green",
+        "value": "Inter 700 18/1.2",
+        "count": 4
+      },
+      {
+        "board": "Platform-Desktop-1",
+        "value": "Inter 500 13/normal",
+        "count": 4
+      },
+      {
+        "board": "Platform-Mobile-1",
+        "value": "Inter 500 13/normal",
+        "count": 4
+      },
+      {
+        "board": "Platform-Programs-Green",
+        "value": "Inter 500 13/normal",
+        "count": 4
+      },
+      {
+        "board": "Platform-Desktop-1",
+        "value": "Inter 700 16/1.25",
+        "count": 4
+      },
+      {
+        "board": "Platform-Programs-Green",
+        "value": "Inter 700 16/1.25",
+        "count": 4
+      },
+      {
+        "board": "Platform-Mobile-1",
+        "value": "Inter 700 14/1.25",
+        "count": 4
+      }
+    ],
+    "system": "n/a (own type)",
+    "class": "DECIDED",
+    "evidence": "Census of all 39 FINAL V boards: 72 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). Detail-Decisions 2: \"Charts, the practice player, the ROI calculator and product mock-ups keep their own small type.\"",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "Stat label (claim under a number)",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Research-Studies-C-Timeline-065o",
+        "value": "Inter 500 17/1.35",
+        "count": 7
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 500 17/1.35",
+        "count": 6
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "Inter 500 17/1.35",
+        "count": 6
+      },
+      {
+        "board": "Platform-Desktop-2",
+        "value": "Inter 500 17/1.35",
+        "count": 4
+      },
+      {
+        "board": "Platform-Mobile-2",
+        "value": "Inter 500 17/1.35",
+        "count": 4
+      },
+      {
+        "board": "About-Desktop",
+        "value": "Inter 600 18/1.4",
+        "count": 3
+      },
+      {
+        "board": "About-Mobile-2",
+        "value": "Inter 600 18/1.4",
+        "count": 3
+      },
+      {
+        "board": "Home-Desktop-2",
+        "value": "Inter 700 20/1.4",
+        "count": 4
+      },
+      {
+        "board": "Home-Mobile-2",
+        "value": "Inter 700 20/1.4",
+        "count": 1
+      },
+      {
+        "board": "Main",
+        "value": "Inter 700 18/1.35",
+        "count": 4
+      },
+      {
+        "board": "Why-Mobile-3",
+        "value": "Inter 700 18/1.35",
+        "count": 1
+      },
+      {
+        "board": "Home-Mobile",
+        "value": "Inter 700 15/1.35",
+        "count": 4
+      },
+      {
+        "board": "Why-Desktop-1",
+        "value": "Inter 700 14/1.35",
+        "count": 2
+      },
+      {
+        "board": "Why-Mobile-2",
+        "value": "Inter 700 14/1.35",
+        "count": 2
+      },
+      {
+        "board": "Home-Mobile-2",
+        "value": "Inter 700 18/1.4",
+        "count": 3
+      },
+      {
+        "board": "Why-Desktop-1",
+        "value": "Inter 500 16/1.35",
+        "count": 3
+      },
+      {
+        "board": "Why-Mobile-2",
+        "value": "Inter 500 15/1.35",
+        "count": 3
+      },
+      {
+        "board": "Why-Desktop-2",
+        "value": "Inter 700 20/1.35",
+        "count": 1
+      }
+    ],
+    "system": "Stat label: type-card-title-md 20/1.3 -0.01em (mobile 18), card-title-sm 16/1.35 for size sm",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "Census of all 39 FINAL V boards: 61 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). Labels under stat numbers are drawn 20/700/1.4, 18/600/1.4, 18/700/1.35, 15/700/1.35, 14/700/1.35, 20/700/1.35, 17/500/1.35 (no letter-spacing) across Home, About, Why, Platform and Research; no decision board covers stat labels (Component-Decisions 1 decided number sizes only).",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "kept own type: chart",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Home-Mobile-2",
+        "value": "Inter 700 13/normal",
+        "count": 8
+      },
+      {
+        "board": "Home-Desktop-2",
+        "value": "Inter 700 13/normal",
+        "count": 4
+      },
+      {
+        "board": "Why-Desktop-1",
+        "value": "Inter 700 18/normal",
+        "count": 5
+      },
+      {
+        "board": "Why-Mobile-2",
+        "value": "Inter 700 12/normal",
+        "count": 5
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 700 15/normal",
+        "count": 2
+      },
+      {
+        "board": "Research-Experiment-Mobile-2",
+        "value": "Inter 700 15/normal",
+        "count": 2
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 500 15/1.45",
+        "count": 2
+      },
+      {
+        "board": "Research-Experiment-Mobile-2",
+        "value": "Inter 500 15/1.45",
+        "count": 2
+      },
+      {
+        "board": "Home-Mobile-2",
+        "value": "Inter 700 16/normal",
+        "count": 2
+      },
+      {
+        "board": "Home-Desktop-2",
+        "value": "Inter 700 16/normal",
+        "count": 1
+      },
+      {
+        "board": "Home-Mobile-2",
+        "value": "Inter 500 13/normal",
+        "count": 2
+      },
+      {
+        "board": "Home-Desktop-2",
+        "value": "Inter 500 13/normal",
+        "count": 1
+      },
+      {
+        "board": "Home-Mobile-2",
+        "value": "Inter 700 28/1",
+        "count": 2
+      },
+      {
+        "board": "Home-Desktop-2",
+        "value": "Inter 700 28/1",
+        "count": 1
+      },
+      {
+        "board": "Article-Desktop-1",
+        "value": "Inter 500 16/1.4",
+        "count": 2
+      },
+      {
+        "board": "Article-Desktop-1",
+        "value": "Inter 700 15/1.5",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-1",
+        "value": "Inter 700 15/1.5",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-1",
+        "value": "Libre Caslon Condensed 500 40/1",
+        "count": 2
+      },
+      {
+        "board": "Home-Desktop-2",
+        "value": "Inter 700 16/1.35",
+        "count": 1
+      },
+      {
+        "board": "Home-Mobile-2",
+        "value": "Inter 700 16/1.35",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 700 9.3/0 +0.02em",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Mobile-2",
+        "value": "Inter 700 9.3/0 +0.02em",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 900 44/1.05 -0.04em",
+        "count": 2
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 500 13/1.45",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Mobile-2",
+        "value": "Inter 500 13/1.45",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Mobile-2",
+        "value": "Inter 900 30/1.05 -0.04em",
+        "count": 2
+      },
+      {
+        "board": "Why-Desktop-1",
+        "value": "Inter 700 22/1.3",
+        "count": 2
+      },
+      {
+        "board": "Why-Mobile-2",
+        "value": "Inter 700 18/1.3",
+        "count": 2
+      }
+    ],
+    "system": "n/a (own type)",
+    "class": "DECIDED",
+    "evidence": "Census of all 39 FINAL V boards: 59 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). Detail-Decisions 2: \"Charts, the practice player, the ROI calculator and product mock-ups keep their own small type.\"",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "Label-size bold/uppercase meta (12–13px dt, 12px eyebrow-like)",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 700 12/normal +0.06em uppercase",
+        "count": 26
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "Inter 700 12/normal +0.06em uppercase",
+        "count": 26
+      },
+      {
+        "board": "Main",
+        "value": "Inter 700 12/normal +0.04em",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "Inter 700 12/normal +0.04em",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "Inter 700 12/normal +0.04em",
+        "count": 1
+      },
+      {
+        "board": "Home-Mobile",
+        "value": "Inter 700 11/normal +0.04em",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "Inter 700 12/1.12 +0.08em uppercase",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 700 12/normal +0.08em uppercase",
+        "count": 1
+      }
+    ],
+    "system": "type-label 14/1.4 or type-eyebrow 14",
+    "class": "DECIDED",
+    "evidence": "Census of all 39 FINAL V boards: 58 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). Detail-Decisions 2 (Labels under 15px): \"Decided 8 October · applied A · One label size, 14px\"; option A: \"14 / 1.4 medium, text-muted. Charts and product mock-ups keep their own small sizes.\"",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "Research full citations list",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop-2",
+        "value": "Inter 700 14/1.55",
+        "count": 11
+      },
+      {
+        "board": "Research-Experiment-Mobile-2",
+        "value": "Inter 700 14/1.55",
+        "count": 11
+      },
+      {
+        "board": "Research-Experiment-Desktop-2",
+        "value": "Inter 500 14/1.55",
+        "count": 11
+      },
+      {
+        "board": "Research-Experiment-Mobile-2",
+        "value": "Inter 500 14/1.55",
+        "count": 11
+      },
+      {
+        "board": "Research-Experiment-Desktop-2",
+        "value": "Inter 500 14/1.55 italic",
+        "count": 4
+      },
+      {
+        "board": "Research-Experiment-Mobile-2",
+        "value": "Inter 500 14/1.55 italic",
+        "count": 4
+      },
+      {
+        "board": "Research-Experiment-Desktop-2",
+        "value": "Inter 500 15/1.55",
+        "count": 1
+      }
+    ],
+    "system": "type-label 14/1.4 500 muted",
+    "class": "DECIDED",
+    "evidence": "Census of all 39 FINAL V boards: 53 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). Citations are sources. Detail-Decisions 2 (Labels under 15px): \"Decided 8 October · applied A · One label size, 14px\"; option A: \"14 / 1.4 medium, text-muted. Charts and product mock-ups keep their own small sizes.\"",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "Numbered step/marker numerals (\"01\", \"1\")",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Why-Desktop-2",
+        "value": "Inter 700 18/1.3",
+        "count": 7
+      },
+      {
+        "board": "Why-Mobile-4",
+        "value": "Inter 700 16/1.3",
+        "count": 7
+      },
+      {
+        "board": "About-Desktop",
+        "value": "Inter 700 14/normal +0.08em",
+        "count": 3
+      },
+      {
+        "board": "About-Mobile-2",
+        "value": "Inter 700 14/normal +0.08em",
+        "count": 3
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 700 15/normal",
+        "count": 3
+      },
+      {
+        "board": "Research-Experiment-Mobile-2",
+        "value": "Inter 700 15/normal",
+        "count": 3
+      },
+      {
+        "board": "Contact-Desktop",
+        "value": "Inter 700 20/normal",
+        "count": 3
+      },
+      {
+        "board": "Contact-Mobile",
+        "value": "Inter 700 17/normal",
+        "count": 3
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 700 13/1.3 +0.08em uppercase",
+        "count": 3
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 900 44/1 -0.04em",
+        "count": 3
+      },
+      {
+        "board": "Research-Experiment-Mobile-2",
+        "value": "Inter 900 30/1 -0.04em",
+        "count": 3
+      },
+      {
+        "board": "Why-Desktop-2",
+        "value": "Inter 700 22/normal",
+        "count": 3
+      },
+      {
+        "board": "Why-Mobile-3",
+        "value": "Inter 700 16/1",
+        "count": 3
+      }
+    ],
+    "system": "none (Checklist has no numbered variant)",
+    "class": "MISSING",
+    "evidence": "Census of all 39 FINAL V boards: 47 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). Detail-Decisions 4 / Component-Library Checklists: \"Numbered steps keep their numbered discs.\" Numbers appear at 13–30px across Contact, Why, About, Research and Article.",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "Article TOC (On this page) numbers and links",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Article-Desktop-1",
+        "value": "Inter 700 14/normal",
+        "count": 7
+      },
+      {
+        "board": "Article-Desktop-2",
+        "value": "Inter 700 14/normal",
+        "count": 7
+      },
+      {
+        "board": "Article-Mobile-1",
+        "value": "Inter 700 14/normal",
+        "count": 7
+      },
+      {
+        "board": "Article-Mobile-First-Screen",
+        "value": "Inter 700 14/normal",
+        "count": 7
+      },
+      {
+        "board": "Article-Mobile-1",
+        "value": "Inter 500 16/1.4",
+        "count": 6
+      },
+      {
+        "board": "Article-Mobile-First-Screen",
+        "value": "Inter 500 16/1.4",
+        "count": 6
+      },
+      {
+        "board": "Article-Mobile-1",
+        "value": "Inter 700 16/normal",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-First-Screen",
+        "value": "Inter 700 16/normal",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-1",
+        "value": "Inter 500 14/normal",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-First-Screen",
+        "value": "Inter 500 14/normal",
+        "count": 1
+      }
+    ],
+    "system": "type-label / ArrowLink",
+    "class": "DECIDED",
+    "evidence": "Census of all 39 FINAL V boards: 44 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). README: \"the Article's table of contents, byline and FAQ … are built in that page from these parts.\" Detail-Decisions 2 (Labels under 15px): \"Decided 8 October · applied A · One label size, 14px\"; option A: \"14 / 1.4 medium, text-muted. Charts and product mock-ups keep their own small sizes.\"",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "Stat numeral spacing/line-height variant (bold -0.02/-0.035em, serif 0em, lh 1.05 / 1.0 at xl / 0.9 at md)",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Why-Mobile-2",
+        "value": "Inter 700 44/1 -0.02em",
+        "count": 6
+      },
+      {
+        "board": "About-Desktop",
+        "value": "Inter 700 44/1 -0.02em",
+        "count": 3
+      },
+      {
+        "board": "Why-Desktop-1",
+        "value": "Inter 700 56/1 -0.02em",
+        "count": 6
+      },
+      {
+        "board": "Home-Mobile",
+        "value": "Inter 700 40/1.05 -0.03em",
+        "count": 5
+      },
+      {
+        "board": "Main",
+        "value": "Inter 700 44/1.05 -0.03em",
+        "count": 5
+      },
+      {
+        "board": "Newsroom-Desktop",
+        "value": "Libre Caslon Condensed 500 56/0.9 -0.01em",
+        "count": 2
+      },
+      {
+        "board": "Newsroom-Mobile",
+        "value": "Libre Caslon Condensed 500 56/0.9 -0.01em",
+        "count": 2
+      },
+      {
+        "board": "About-Mobile-2",
+        "value": "Inter 700 40/1 -0.02em",
+        "count": 3
+      },
+      {
+        "board": "Home-Desktop-2",
+        "value": "Libre Caslon Condensed 500 72/1",
+        "count": 3
+      },
+      {
+        "board": "Home-Mobile-2",
+        "value": "Libre Caslon Condensed 500 56/1",
+        "count": 3
+      },
+      {
+        "board": "Why-Desktop-1",
+        "value": "Inter 700 112/1 -0.03em",
+        "count": 2
+      },
+      {
+        "board": "Case-Studies-Desktop",
+        "value": "Inter 700 44/1 -0.035em",
+        "count": 1
+      },
+      {
+        "board": "Case-Studies-Mobile",
+        "value": "Inter 700 40/1 -0.035em",
+        "count": 1
+      }
+    ],
+    "system": "bold -0.03em; serif -0.02em (xl) / -0.01em; lh 0.9 xl, 1.0 others",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "Census of all 39 FINAL V boards: 42 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). Component-Decisions 1: \"Decided 8 October · applied Sizes only · one ramp, every face kept\" — \"Faces, weights and spacing stay exactly as they were (your call)\". The system applies one spacing per face; boards use several within a face.",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "kept own type: diagram (Research)",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 700 15/1.25",
+        "count": 12
+      },
+      {
+        "board": "Research-Experiment-Mobile-2",
+        "value": "Inter 700 12/1.2",
+        "count": 12
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 700 8.68/0 +0.02em",
+        "count": 4
+      },
+      {
+        "board": "Research-Experiment-Mobile-2",
+        "value": "Inter 700 8.68/0 +0.02em",
+        "count": 4
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 700 12/normal +0.08em uppercase",
+        "count": 1
+      }
+    ],
+    "system": "n/a (own type)",
+    "class": "DECIDED",
+    "evidence": "Census of all 39 FINAL V boards: 33 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). Detail-Decisions 2: \"Charts, the practice player, the ROI calculator and product mock-ups keep their own small type.\"",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "Footer legal 14/500 lh normal (desktop)",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "About-Desktop",
+        "value": "Inter 500 14/normal",
+        "count": 3
+      },
+      {
+        "board": "Article-Desktop-2",
+        "value": "Inter 500 14/normal",
+        "count": 3
+      },
+      {
+        "board": "Case-Studies-Desktop",
+        "value": "Inter 500 14/normal",
+        "count": 3
+      },
+      {
+        "board": "Contact-Desktop",
+        "value": "Inter 500 14/normal",
+        "count": 3
+      },
+      {
+        "board": "Home-Desktop-2",
+        "value": "Inter 500 14/normal",
+        "count": 3
+      },
+      {
+        "board": "Newsroom-Desktop",
+        "value": "Inter 500 14/normal",
+        "count": 3
+      },
+      {
+        "board": "Platform-Desktop-2",
+        "value": "Inter 500 14/normal",
+        "count": 3
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "Inter 500 14/normal",
+        "count": 3
+      },
+      {
+        "board": "Research-Experiment-Desktop-2",
+        "value": "Inter 500 14/normal",
+        "count": 3
+      },
+      {
+        "board": "Why-Desktop-2",
+        "value": "Inter 500 14/normal",
+        "count": 3
+      }
+    ],
+    "system": "Footer legal 500 14px/1.5",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "Census of all 39 FINAL V boards: 30 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). ",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "kept own type: dashboard mock-up (Home)",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Home-Mobile",
+        "value": "Inter 500 12/normal",
+        "count": 3
+      },
+      {
+        "board": "Main",
+        "value": "Inter 500 12/normal",
+        "count": 3
+      },
+      {
+        "board": "Home-Mobile",
+        "value": "Inter 500 13/normal",
+        "count": 3
+      },
+      {
+        "board": "Main",
+        "value": "Inter 500 13/normal",
+        "count": 3
+      },
+      {
+        "board": "Home-Mobile",
+        "value": "Inter 700 13/normal",
+        "count": 3
+      },
+      {
+        "board": "Main",
+        "value": "Inter 700 13/normal",
+        "count": 3
+      },
+      {
+        "board": "Home-Mobile",
+        "value": "Inter 700 26/normal -0.02em",
+        "count": 2
+      },
+      {
+        "board": "Main",
+        "value": "Inter 700 26/normal -0.02em",
+        "count": 2
+      },
+      {
+        "board": "Home-Mobile",
+        "value": "Inter 700 14/normal",
+        "count": 1
+      },
+      {
+        "board": "Main",
+        "value": "Inter 700 14/normal",
+        "count": 1
+      },
+      {
+        "board": "Home-Mobile",
+        "value": "Inter 700 12/normal",
+        "count": 1
+      },
+      {
+        "board": "Main",
+        "value": "Inter 700 12/normal",
+        "count": 1
+      },
+      {
+        "board": "Home-Mobile",
+        "value": "Inter 700 12/normal +0.06em uppercase",
+        "count": 1
+      },
+      {
+        "board": "Main",
+        "value": "Inter 700 12/normal +0.06em uppercase",
+        "count": 1
+      }
+    ],
+    "system": "n/a (own type)",
+    "class": "DECIDED",
+    "evidence": "Census of all 39 FINAL V boards: 28 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). Detail-Decisions 2: \"Charts, the practice player, the ROI calculator and product mock-ups keep their own small type.\"",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "Untracked off-ramp display statements (Why 68/40/30px, Home 30/22px, About 40px H2)",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Home-Mobile",
+        "value": "Inter 700 22/1.1 -0.01em",
+        "count": 3
+      },
+      {
+        "board": "Main",
+        "value": "Inter 700 26/1.1 -0.01em",
+        "count": 3
+      },
+      {
+        "board": "Why-Desktop-2",
+        "value": "Inter 700 22/1.4",
+        "count": 3
+      },
+      {
+        "board": "Why-Desktop-2",
+        "value": "Inter 700 68/1.08 -0.03em",
+        "count": 3
+      },
+      {
+        "board": "Why-Mobile-2",
+        "value": "Inter 700 28/1.22 -0.02em",
+        "count": 3
+      },
+      {
+        "board": "Home-Mobile-Scrolled",
+        "value": "Inter 700 22/1.35 -0.01em",
+        "count": 1
+      },
+      {
+        "board": "Home-Mobile",
+        "value": "Inter 700 22/1.35 -0.01em",
+        "count": 1
+      },
+      {
+        "board": "Why-Desktop-2",
+        "value": "Inter 700 26/1.2 -0.015em",
+        "count": 2
+      },
+      {
+        "board": "About-Desktop",
+        "value": "Inter 700 40/1.12 -0.01em",
+        "count": 1
+      },
+      {
+        "board": "Main",
+        "value": "Inter 700 30/1.3 -0.02em",
+        "count": 1
+      },
+      {
+        "board": "Main",
+        "value": "Inter 700 22/1.35",
+        "count": 1
+      },
+      {
+        "board": "Why-Desktop-2",
+        "value": "Inter 700 30/1.2 -0.015em",
+        "count": 1
+      },
+      {
+        "board": "Why-Desktop-2",
+        "value": "Inter 700 22/1.25",
+        "count": 1
+      },
+      {
+        "board": "Why-Desktop-2",
+        "value": "Inter 700 40/1.12 -0.02em",
+        "count": 1
+      },
+      {
+        "board": "Why-Mobile-2",
+        "value": "Inter 700 24/1.2 -0.015em",
+        "count": 1
+      },
+      {
+        "board": "Why-Mobile-4",
+        "value": "Inter 700 26/1.15 -0.01em",
+        "count": 1
+      }
+    ],
+    "system": "type-section-title 44/1.1 (32) or type-card-title-lg 28/1.2 (24)",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "Census of all 39 FINAL V boards: 27 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). Component-Library Type sizes: \"What is left is titles: Research’s 68px section titles and 36–38px card titles, Pricing’s 48px section title, and Home’s hero (96 / 120, on purpose).\" These are not on that list, so the canvas believes them snapped; the system follows the decided ramp.",
+    "fix": "",
+    "visible": "high"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "Link straggler (15px / 19px / 14px bold Emerald links)",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop-2",
+        "value": "Inter 700 14/1.55",
+        "count": 6
+      },
+      {
+        "board": "Research-Experiment-Mobile-2",
+        "value": "Inter 700 14/1.55",
+        "count": 6
+      },
+      {
+        "board": "Article-Desktop-1",
+        "value": "Inter 700 14/1.4",
+        "count": 1
+      },
+      {
+        "board": "Article-Desktop-2",
+        "value": "Inter 700 14/1.4",
+        "count": 1
+      },
+      {
+        "board": "Contact-Desktop",
+        "value": "Inter 700 14/1.4",
+        "count": 1
+      },
+      {
+        "board": "Contact-Mobile",
+        "value": "Inter 700 14/1.4",
+        "count": 1
+      },
+      {
+        "board": "Contact-Mobile",
+        "value": "Inter 700 16/normal",
+        "count": 2
+      },
+      {
+        "board": "Contact-Desktop",
+        "value": "Inter 700 16/normal",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-1",
+        "value": "Inter 700 16/1.4",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-First-Screen",
+        "value": "Inter 700 16/1.4",
+        "count": 1
+      },
+      {
+        "board": "Contact-Desktop",
+        "value": "Inter 700 15/1.5",
+        "count": 1
+      },
+      {
+        "board": "Contact-Mobile",
+        "value": "Inter 700 15/1.5",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 700 15/1.35",
+        "count": 2
+      },
+      {
+        "board": "Contact-Desktop",
+        "value": "Inter 700 19/normal",
+        "count": 1
+      }
+    ],
+    "system": "ArrowLink 700 16px/1.5",
+    "class": "DECIDED",
+    "evidence": "Census of all 39 FINAL V boards: 26 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). Remaining-Drift, Resolved on 8 October: \"Buttons, links, chips, headers, footers, H1 and H2: one shared style each.\"; Component-Library Chip and filter: \"One chip: 44px, 12px corners, 14px bold … Used for filters and toggles on Newsroom, Case Studies and Research.\" Component-Library Arrow link: \"51 links in one style: 16px bold, underlined, with the button arrow and a 44px tap height.\"",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "Chip/toggle label at 15px (Research chips, segmented control, citation toggle)",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 700 15/normal",
+        "count": 14
+      },
+      {
+        "board": "Research-Experiment-Mobile-2",
+        "value": "Inter 700 15/normal",
+        "count": 6
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "Inter 700 15/normal",
+        "count": 4
+      },
+      {
+        "board": "Research-Experiment-Desktop-2",
+        "value": "Inter 700 15/normal",
+        "count": 2
+      }
+    ],
+    "system": "Chip 700 14px/1",
+    "class": "DECIDED",
+    "evidence": "Census of all 39 FINAL V boards: 26 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). Remaining-Drift, Resolved on 8 October: \"Buttons, links, chips, headers, footers, H1 and H2: one shared style each.\"; Component-Library Chip and filter: \"One chip: 44px, 12px corners, 14px bold … Used for filters and toggles on Newsroom, Case Studies and Research.\"",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "Name marquee text (Home-Mobile district names 17/700 -0.01em lh normal; Research partner names 20/700/1.0 muted)",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 700 20/1 -0.01em",
+        "count": 10
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "Inter 700 20/1 -0.01em",
+        "count": 10
+      },
+      {
+        "board": "Home-Mobile",
+        "value": "Inter 700 17/normal -0.01em",
+        "count": 5
+      }
+    ],
+    "system": "none (no marquee/logo-strip component)",
+    "class": "MISSING",
+    "evidence": "Census of all 39 FINAL V boards: 25 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). ie-marquee scrolling strips of names on Home-Mobile (\"Inner Explorer at a glance\") and Research (\"Research partners\"); README lists only the About logo wall as a page pattern.",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "Research section-nav numbers (Jump to section)",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 700 15/normal",
+        "count": 6
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "Inter 700 15/normal",
+        "count": 3
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 700 28/1.1 -0.02em",
+        "count": 3
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 500 16/1.5",
+        "count": 3
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "Inter 700 19/1.2 -0.02em",
+        "count": 3
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "Inter 500 14/1.45",
+        "count": 3
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "Inter 700 14/1.3",
+        "count": 3
+      }
+    ],
+    "system": "type-label",
+    "class": "DECIDED",
+    "evidence": "Census of all 39 FINAL V boards: 24 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). Research one-page nav. Detail-Decisions 2 (Labels under 15px): \"Decided 8 October · applied A · One label size, 14px\"; option A: \"14 / 1.4 medium, text-muted. Charts and product mock-ups keep their own small sizes.\"",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "kept own type: practice player",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Platform-Desktop-1",
+        "value": "Inter 500 13/normal",
+        "count": 4
+      },
+      {
+        "board": "Platform-Mobile-1",
+        "value": "Inter 500 13/normal",
+        "count": 4
+      },
+      {
+        "board": "Platform-Desktop-1",
+        "value": "Libre Caslon Condensed 500 15/normal italic",
+        "count": 1
+      },
+      {
+        "board": "Platform-Mobile-1",
+        "value": "Libre Caslon Condensed 500 15/normal italic",
+        "count": 1
+      },
+      {
+        "board": "Platform-Desktop-1",
+        "value": "Inter 700 18/1.2",
+        "count": 1
+      },
+      {
+        "board": "Platform-Mobile-1",
+        "value": "Inter 700 18/1.2",
+        "count": 1
+      },
+      {
+        "board": "Platform-Desktop-1",
+        "value": "Inter 500 14/normal",
+        "count": 1
+      },
+      {
+        "board": "Platform-Mobile-1",
+        "value": "Inter 500 14/normal",
+        "count": 1
+      },
+      {
+        "board": "Platform-Desktop-1",
+        "value": "Inter 700 12/normal",
+        "count": 1
+      },
+      {
+        "board": "Platform-Mobile-1",
+        "value": "Inter 700 12/normal",
+        "count": 1
+      },
+      {
+        "board": "Platform-Desktop-2",
+        "value": "Inter 700 13/normal",
+        "count": 1
+      },
+      {
+        "board": "Platform-Mobile-2",
+        "value": "Inter 700 13/normal",
+        "count": 1
+      },
+      {
+        "board": "Platform-Desktop-2",
+        "value": "Inter 500 12/normal",
+        "count": 1
+      },
+      {
+        "board": "Platform-Mobile-2",
+        "value": "Inter 500 12/normal",
+        "count": 1
+      }
+    ],
+    "system": "n/a (own type)",
+    "class": "DECIDED",
+    "evidence": "Census of all 39 FINAL V boards: 20 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). Detail-Decisions 2: \"Charts, the practice player, the ROI calculator and product mock-ups keep their own small type.\"",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "Eyebrow straggler (13px / lh 1.3 / lh normal / no uppercase)",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 700 13/1.3 +0.08em uppercase",
+        "count": 8
+      },
+      {
+        "board": "Research-Experiment-Desktop-2",
+        "value": "Inter 700 13/1.3 +0.08em uppercase",
+        "count": 1
+      },
+      {
+        "board": "Research-Studies-C-Timeline-065o",
+        "value": "Inter 700 13/1.3 +0.08em uppercase",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 700 13/normal +0.08em uppercase",
+        "count": 2
+      },
+      {
+        "board": "Research-Studies-C-Timeline-065o",
+        "value": "Inter 700 13/normal +0.08em uppercase",
+        "count": 1
+      },
+      {
+        "board": "Case-Studies-Desktop",
+        "value": "Inter 700 14/1 +0.08em uppercase",
+        "count": 1
+      },
+      {
+        "board": "Case-Studies-Mobile",
+        "value": "Inter 700 14/1 +0.08em uppercase",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 700 13/normal +0.06em uppercase",
+        "count": 2
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "Inter 700 14/1.3 +0.08em uppercase",
+        "count": 2
+      }
+    ],
+    "system": "type-eyebrow 700 14px/1.12 +0.08em uppercase",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "Census of all 39 FINAL V boards: 19 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). Detail-Decisions, Checked and consistent: \"eyebrows (245 of 250 match)\"; Component-Library Eyebrow label: \"14px bold, 0.08em letter-spacing, uppercase.\"",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "Role/affiliation lines at 15–16px (About advisors/team)",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "About-Desktop",
+        "value": "Inter 500 15/1.45",
+        "count": 6
+      },
+      {
+        "board": "About-Mobile-3",
+        "value": "Inter 500 15/1.45",
+        "count": 6
+      },
+      {
+        "board": "About-Desktop",
+        "value": "Inter 500 16/1.52",
+        "count": 2
+      },
+      {
+        "board": "About-Mobile-2",
+        "value": "Inter 500 16/1.52",
+        "count": 2
+      }
+    ],
+    "system": "type-label 500 14px/1.4",
+    "class": "DECIDED",
+    "evidence": "Census of all 39 FINAL V boards: 16 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). Detail-Decisions 2 (Labels under 15px): \"Decided 8 October · applied A · One label size, 14px\"; option A: \"14 / 1.4 medium, text-muted. Charts and product mock-ups keep their own small sizes.\" (roles are labels)",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "Testimonial / quote attribution name 16/700 lh normal, no tracking",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Home-Desktop-2",
+        "value": "Inter 700 16/normal",
+        "count": 2
+      },
+      {
+        "board": "Home-Mobile-2",
+        "value": "Inter 700 16/normal",
+        "count": 2
+      },
+      {
+        "board": "Why-Desktop-2",
+        "value": "Inter 700 16/normal",
+        "count": 2
+      },
+      {
+        "board": "Why-Mobile-4",
+        "value": "Inter 700 16/normal",
+        "count": 2
+      },
+      {
+        "board": "Platform-Desktop-2",
+        "value": "Inter 700 16/normal",
+        "count": 1
+      },
+      {
+        "board": "Platform-Mobile-2",
+        "value": "Inter 700 16/normal",
+        "count": 1
+      },
+      {
+        "board": "Why-Desktop-1",
+        "value": "Inter 700 16/normal",
+        "count": 1
+      },
+      {
+        "board": "Why-Mobile-2",
+        "value": "Inter 700 16/normal",
+        "count": 1
+      }
+    ],
+    "system": "type-card-title-sm 16/1.35 -0.01em",
+    "class": "DECIDED",
+    "evidence": "Census of all 39 FINAL V boards: 12 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). Component-Decisions 2: \"name and place under a rule\"; Type-Icon-Decisions 2: \"Decided 8 October · applied A · 28 / 20 / 16 (mobile 24 / 18 / 16)\" … \"122 titles changed, all with -0.01em letter-spacing\"; Small 16/1.35 \"for list items, names and chart titles\".",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "kept own type: dashboard mock-up (Platform)",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Platform-Desktop-2",
+        "value": "Inter 500 14/normal",
+        "count": 3
+      },
+      {
+        "board": "Platform-Mobile-2",
+        "value": "Inter 500 14/normal",
+        "count": 3
+      },
+      {
+        "board": "Platform-Desktop-2",
+        "value": "Inter 700 18/normal",
+        "count": 1
+      },
+      {
+        "board": "Platform-Mobile-2",
+        "value": "Inter 700 18/normal",
+        "count": 1
+      },
+      {
+        "board": "Platform-Desktop-2",
+        "value": "Inter 700 12/normal",
+        "count": 1
+      },
+      {
+        "board": "Platform-Mobile-2",
+        "value": "Inter 700 12/normal",
+        "count": 1
+      },
+      {
+        "board": "Platform-Desktop-2",
+        "value": "Inter 700 14/normal",
+        "count": 1
+      },
+      {
+        "board": "Platform-Mobile-2",
+        "value": "Inter 700 14/normal",
+        "count": 1
+      }
+    ],
+    "system": "n/a (own type)",
+    "class": "DECIDED",
+    "evidence": "Census of all 39 FINAL V boards: 12 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). Detail-Decisions 2: \"Charts, the practice player, the ROI calculator and product mock-ups keep their own small type.\"",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "Stat numeral in Inter Black (900), a kept face the system lacks",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 900 44/1 -0.04em",
+        "count": 5
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "Inter 900 40/1 -0.04em",
+        "count": 5
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 900 72/0.9 -0.05em",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "Inter 900 56/0.9 -0.05em",
+        "count": 1
+      }
+    ],
+    "system": "Stat faces: bold (Inter 700, -0.03em), medium (Inter 500, -0.03em), serif (Libre Caslon Condensed 500)",
+    "class": "DEFECT",
+    "evidence": "Census of all 39 FINAL V boards: 12 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). Component-Decisions 1: \"Decided 8 October · applied Sizes only · one ramp, every face kept\" — \"Faces, weights and spacing stay exactly as they were (your call)\". Component-Decisions 1 lists \"Inter Black up to 128px on Research\" among the four faces kept.",
+    "fix": "components/bundle.css: add `.ie-stat-black .ie-stat-value { font-family: var(--font-sans); font-weight: 900; letter-spacing: -0.04em; }` (the Research hero \"77\" is -0.05em at lh 0.9); add `'black'` to Stat `face` in components/index.d.ts and the Stat README. Inter 900 is already in tokens.json fonts.",
+    "visible": "high"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "Research display headings (36–68px)",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 700 68/1.02 -0.045em",
+        "count": 2
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 700 32/1.15 -0.03em",
+        "count": 2
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 700 38/1.12 -0.03em",
+        "count": 2
+      },
+      {
+        "board": "Research-Experiment-Desktop-2",
+        "value": "Inter 700 36/1.2 -0.025em",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 700 44/1.12 -0.035em",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 700 36/1.12 -0.03em",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 700 44/1.06 -0.035em",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "Inter 700 30/1.12 -0.035em",
+        "count": 1
+      }
+    ],
+    "system": "type-section-title 44/1.1 -0.02em",
+    "class": "DECIDED",
+    "evidence": "Census of all 39 FINAL V boards: 11 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). Remaining-Drift 01: \"Research uses 68px section titles and 36–38px card titles; Pricing has one 48px section title.\" Fix: \"Snap to the ramp: 44 for section titles (32 mobile), 28 for large card titles (24 mobile).\"",
+    "fix": "",
+    "visible": "high"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "Section title off-ramp (Research/Pricing)",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 700 68/1.02 -0.04em",
+        "count": 3
+      },
+      {
+        "board": "Research-Experiment-Desktop-2",
+        "value": "Inter 700 68/1.02 -0.04em",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "Inter 700 32/1.15 -0.02em",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Desktop-2",
+        "value": "Inter 700 36/1.1 -0.03em",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 700 68/1.02 -0.045em",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 700 52/1.02 -0.04em",
+        "count": 1
+      },
+      {
+        "board": "Research-Studies-C-Timeline-065o",
+        "value": "Inter 700 56/1.05 -0.03em",
+        "count": 1
+      }
+    ],
+    "system": "type-section-title 44/1.1 -0.02em (32 mobile)",
+    "class": "DECIDED",
+    "evidence": "Census of all 39 FINAL V boards: 9 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). Remaining-Drift 01: \"Research uses 68px section titles and 36–38px card titles; Pricing has one 48px section title.\" Fix: \"Snap to the ramp: 44 for section titles (32 mobile), 28 for large card titles (24 mobile).\"",
+    "fix": "",
+    "visible": "high"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "About logo wall wordmarks and cities",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "About-Desktop",
+        "value": "Inter 700 12/1 +0.04em",
+        "count": 2
+      },
+      {
+        "board": "About-Mobile-1",
+        "value": "Inter 700 12/1 +0.04em",
+        "count": 2
+      },
+      {
+        "board": "About-Desktop",
+        "value": "Inter 800 24/1.15 +0.02em",
+        "count": 1
+      },
+      {
+        "board": "About-Mobile-1",
+        "value": "Inter 800 24/1.15 +0.02em",
+        "count": 1
+      },
+      {
+        "board": "About-Desktop",
+        "value": "Inter 700 24/1.15 -0.01em",
+        "count": 1
+      },
+      {
+        "board": "About-Mobile-1",
+        "value": "Inter 700 20/1.15 -0.01em",
+        "count": 1
+      }
+    ],
+    "system": "own drawing (logos)",
+    "class": "DECIDED",
+    "evidence": "Census of all 39 FINAL V boards: 8 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). README: \"the About logo wall\" is built in the page; Type-Icon-Decisions 3: \"Brand logos … keep their own drawing.\"",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "Article share buttons 14/500 (Article tools)",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Article-Desktop-1",
+        "value": "Inter 500 14/normal",
+        "count": 4
+      },
+      {
+        "board": "Article-Desktop-2",
+        "value": "Inter 500 14/normal",
+        "count": 4
+      }
+    ],
+    "system": "none (Chip label is 700)",
+    "class": "MISSING",
+    "evidence": "Census of all 39 FINAL V boards: 8 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). Article tools rail: LinkedIn/Facebook/X/Copy buttons, 14px medium in 44px outline buttons; no system variant. Article-only (Article-Desktop-1/2).",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "Chart legend / chart text in a card",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Newsroom-Desktop",
+        "value": "Inter 700 14/normal",
+        "count": 4
+      },
+      {
+        "board": "Newsroom-Mobile",
+        "value": "Inter 700 14/normal",
+        "count": 4
+      }
+    ],
+    "system": "own type",
+    "class": "DECIDED",
+    "evidence": "Census of all 39 FINAL V boards: 8 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). Detail-Decisions 2: \"Charts, the practice player, the ROI calculator and product mock-ups keep their own small type.\"",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "Article byline (By / author) 16/700 lh normal",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Article-Desktop-1",
+        "value": "Inter 700 16/normal",
+        "count": 2
+      },
+      {
+        "board": "Article-Mobile-1",
+        "value": "Inter 700 16/normal",
+        "count": 2
+      },
+      {
+        "board": "Article-Mobile-First-Screen",
+        "value": "Inter 700 16/normal",
+        "count": 2
+      }
+    ],
+    "system": "type-card-title-sm 16/1.35 -0.01em",
+    "class": "DECIDED",
+    "evidence": "Census of all 39 FINAL V boards: 6 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). README: \"the Article's table of contents, byline and FAQ … are built in that page from these parts.\" Type-Icon-Decisions 2: \"Decided 8 October · applied A · 28 / 20 / 16 (mobile 24 / 18 / 16)\" … \"122 titles changed, all with -0.01em letter-spacing\"; Small 16/1.35 \"for list items, names and chart titles\".",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "Home award list items 14/700 white on Forest",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Home-Desktop-2",
+        "value": "Inter 700 14/normal",
+        "count": 3
+      },
+      {
+        "board": "Home-Mobile-2",
+        "value": "Inter 700 14/normal",
+        "count": 3
+      }
+    ],
+    "system": "none",
+    "class": "MISSING",
+    "evidence": "Census of all 39 FINAL V boards: 6 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). Home \"Evidence-based from the beginning\" award list (Top EdTech Products 2025, BrainFutures Top 10, Rooted in MBSR): Type-Icon-Decisions 3 mentions \"Home's award chips\"; no system component. Home only (Home-Desktop-2, Home-Mobile-2).",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "Press wordmarks typeset as text (Newsroom cards)",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Newsroom-Desktop",
+        "value": "Inter 700 16/1 +0.04em",
+        "count": 2
+      },
+      {
+        "board": "Newsroom-Mobile",
+        "value": "Inter 700 14/1 +0.04em",
+        "count": 2
+      },
+      {
+        "board": "Newsroom-Desktop",
+        "value": "Inter 700 24/1.15 -0.01em",
+        "count": 1
+      },
+      {
+        "board": "Newsroom-Mobile",
+        "value": "Inter 700 20/1.15 -0.01em",
+        "count": 1
+      }
+    ],
+    "system": "own drawing (logos)",
+    "class": "DECIDED",
+    "evidence": "Census of all 39 FINAL V boards: 6 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). Type-Icon-Decisions 3: \"Brand logos … keep their own drawing.\"",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "Pricing headings 26–32px",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Pricing-Mobile",
+        "value": "Inter 700 26/1.15 -0.02em",
+        "count": 3
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "Inter 700 48/1.08 -0.02em",
+        "count": 2
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "Inter 700 30/1.15 -0.02em",
+        "count": 1
+      }
+    ],
+    "system": "type-section-title-mobile 32 / type-card-title-lg 28",
+    "class": "DECIDED",
+    "evidence": "Census of all 39 FINAL V boards: 6 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). Remaining-Drift 01: \"Research uses 68px section titles and 36–38px card titles; Pricing has one 48px section title.\" Fix: \"Snap to the ramp: 44 for section titles (32 mobile), 28 for large card titles (24 mobile).\"",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "Research \"house on sand\" editorial quote (Libre Caslon Text 22/1.34, -0.01em, roman)",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Libre Caslon Text 400 22/1.34 -0.01em",
+        "count": 3
+      },
+      {
+        "board": "Research-Experiment-Mobile-2",
+        "value": "Libre Caslon Text 400 22/1.34 -0.01em",
+        "count": 3
+      }
+    ],
+    "system": "type-pull-quote is 28/1.4 italic (Article)",
+    "class": "MISSING",
+    "evidence": "Census of all 39 FINAL V boards: 6 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). Component-Decisions 2: \"Article's italic pull quote and Research's “house on sand” quote stay as editorial pull quotes.\" Only the Article one has a system style.",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "Stat numeral off the decided size ramp (28/30/32px prices and numerals)",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Pricing-Desktop",
+        "value": "Inter 700 28/1.1 -0.02em",
+        "count": 3
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "Inter 700 32/1 -0.03em",
+        "count": 2
+      }
+    ],
+    "system": "type-stat-sm 44 (40 mobile)",
+    "class": "DECIDED",
+    "evidence": "Census of all 39 FINAL V boards: 5 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). Component-Decisions 1: \"Decided 8 October · applied Sizes only · one ramp, every face kept\" — \"Faces, weights and spacing stay exactly as they were (your call)\". \"Every big number now sits on one four-step ramp, snapped to its closest step: 112 / 72 / 56 / 44 on desktop and 72 / 56 / 44 / 40 on mobile.\"",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "Research small bold meta (13–14px)",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 700 14/normal",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "Inter 700 14/normal",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "Inter 700 13/normal",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "Inter 700 13/1.35 -0.012em",
+        "count": 1
+      }
+    ],
+    "system": "type-label 14/1.4 / type-tag",
+    "class": "DECIDED",
+    "evidence": "Census of all 39 FINAL V boards: 4 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). Detail-Decisions 2 (Labels under 15px): \"Decided 8 October · applied A · One label size, 14px\"; option A: \"14 / 1.4 medium, text-muted. Charts and product mock-ups keep their own small sizes.\"",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "Research superscript citation markers (8.7–10.5px)",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 700 8.68/0",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "Inter 700 8.68/0",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Inter 700 10.54/0 +0.02em",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Mobile-2",
+        "value": "Inter 700 10.54/0 +0.02em",
+        "count": 1
+      }
+    ],
+    "system": "none",
+    "class": "MISSING",
+    "evidence": "Census of all 39 FINAL V boards: 4 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). Inline citation superscripts (S7, B4) on Research; nothing in the system goes under 13px.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "Footer heading Research variant 14/700/0.08em uppercase",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop-2",
+        "value": "Inter 700 14/normal +0.08em uppercase",
+        "count": 3
+      }
+    ],
+    "system": "Footer heading 700 15px/1.5",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "Census of all 39 FINAL V boards: 3 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). ",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "Home hero intro 24/1.45 -0.005em (mobile 19/1.5)",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Home-Mobile",
+        "value": "Inter 500 19/1.5 -0.005em",
+        "count": 1
+      },
+      {
+        "board": "Main",
+        "value": "Inter 500 24/1.45 -0.005em",
+        "count": 1
+      }
+    ],
+    "system": "type-lead 20/1.5 (18 mobile)",
+    "class": "DEFECT",
+    "evidence": "Census of all 39 FINAL V boards: 2 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). Detail-Decisions, Checked and consistent, or kept on purpose: \"Home hero intro: 24px rather than the 20px lead, part of Home's larger hero. Kept.\" The system has no style for it (README: \"The Home hero alone uses type-hero-display and type-hero-display-serif\").",
+    "fix": "tokens.json Text group: add `type-hero-lead` {fontSize 24px, lineHeight 1.45, fontWeight 500, letterSpacing -0.005em} and `type-hero-lead-mobile` {19px, 1.5, 500, -0.005em}; document it in README beside type-hero-display (\"The Home hero alone uses …\"). Boards set it in foreground (#282b2f), not foreground-secondary.",
+    "visible": "high"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "Video/link label 14–15/700 white (video play overlay)",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Home-Mobile",
+        "value": "Inter 700 14/normal",
+        "count": 1
+      },
+      {
+        "board": "Main",
+        "value": "Inter 700 15/normal",
+        "count": 1
+      }
+    ],
+    "system": "none",
+    "class": "MISSING",
+    "evidence": "Census of all 39 FINAL V boards: 2 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). Watch-the-video label beside a play disc: 15px (Main) / 14px (Home-Mobile) bold white; no system variant (Home video is a one-page pattern per README).",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "Dashboard mock-up text (Home)",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Home-Mobile",
+        "value": "Inter 700 15/normal",
+        "count": 1
+      },
+      {
+        "board": "Main",
+        "value": "Inter 700 15/normal",
+        "count": 1
+      }
+    ],
+    "system": "own type",
+    "class": "DECIDED",
+    "evidence": "Census of all 39 FINAL V boards: 2 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). Detail-Decisions 2: \"Charts, the practice player, the ROI calculator and product mock-ups keep their own small type.\"",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "Newsroom placeholder art text (display 36)",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Newsroom-Desktop",
+        "value": "Libre Caslon Condensed 500 36/1.05",
+        "count": 1
+      },
+      {
+        "board": "Newsroom-Mobile",
+        "value": "Libre Caslon Condensed 500 36/1.05",
+        "count": 1
+      }
+    ],
+    "system": "own type (imagery)",
+    "class": "DECIDED",
+    "evidence": "Census of all 39 FINAL V boards: 2 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). Detail-Decisions 5: Forest \"now takes … the Newsroom placeholders\" — placeholder artwork, not page type.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "Practice prompt (Libre Caslon Text italic 18–19/1.35)",
+    "property": "font (size/weight/line-height/letter-spacing)",
+    "boards": [
+      {
+        "board": "Platform-Desktop-2",
+        "value": "Libre Caslon Text 400 19/1.35 italic",
+        "count": 1
+      },
+      {
+        "board": "Platform-Mobile-2",
+        "value": "Libre Caslon Text 400 18/1.35 italic",
+        "count": 1
+      }
+    ],
+    "system": "own type (practice player)",
+    "class": "DECIDED",
+    "evidence": "Census of all 39 FINAL V boards: 2 visible text elements in this role, clustered by (family, size, weight, style, line-height ratio, letter-spacing em, transform). Detail-Decisions 2: \"Charts, the practice player, the ROI calculator and product mock-ups keep their own small type.\"",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "type-ramp",
+    "part": "all text",
+    "property": "font",
+    "boards": [
+      {
+        "board": "all 39",
+        "value": "1794 of 3523 visible text elements",
+        "count": 1794
+      }
+    ],
+    "system": "type-* styles and component control text",
+    "class": "MATCH",
+    "evidence": "Exact matches (family, size, weight, style, line-height, letter-spacing, transform): type-eyebrow 354; type-body 218; type-label 116; type-card-title-md 75; ArrowLink 70; type-card-title-md-mobile 55; type-section-title-mobile 49; type-card-title-sm 47; type-card-title-lg 40; type-card-title-lg-mobile 40; type-section-title 39; type-lead-mobile 37; type-lead 32; type-small 32; Footer legal 30; type-article-body 23; type-article-body-mobile 23; Stat medium md-mobile 23; type-page-title-mobile 22; type-page-title 18; Field label 16; type-breadcrumb 9; type-quote 7; type-quote-mobile 7; Stat bold md-mobile 5; Field optional 4; Stat medium sm-mobile 4; Stat bold lg-mobile 4; Stat bold lg 3; type-stat-lg-mobile 2; ClosingCta title em compact 2; type-pull-quote 1; type-pull-quote-mobile 1; type-stat-xl 1; type-stat-xl-mobile 1; type-hero-display-mobile 1; type-hero-display-serif-mobile 1; type-hero-display 1; type-hero-display-serif 1. Also matching in rendered size: button/chip/nav/tag labels with line-height normal inside fixed-height controls (102 + 18 + 83 + 52 + 10), inline bold runs, card-footer CTAs (within 1px). 279 visually hidden (sr-only) text nodes excluded.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "color",
+    "part": "all text, fills and borders",
+    "property": "color",
+    "boards": [
+      {
+        "board": "all 39",
+        "value": "text: charcoal 1247, dark-slate 611, storm 454, white 434, slate 341, green-700 296, green-900 41, off-white 26, green-400 16, green-500 6, green-100 3; fills: white 866, green-500 452, off-white 265, green-700 177, near-white 127, light-warm 40, cyan-600 26, green-400 26, green-800 25, orange-500 22, green-100 22, coral-600 11, data tints; borders: light-warm 733, warm-gray 341, green-500 218, gray 1504 (Research chart squares + fields), green-700 45, white 44, border-on-brand 15",
+        "count": 0
+      }
+    ],
+    "system": "tokens.json primitives/semantic tokens",
+    "class": "MATCH",
+    "evidence": "Every computed color/backgroundColor/border color on the 39 boards compared as rgb with tokens.json values (harness/tokens.css). All but the rows below equal a token exactly. Shadows: shadow-raised 103 uses, shadow-primary 61, shadow-light 25, shadow-floating 22, shadow-sticky 3 match exactly. Usage that agrees with the notes: Emerald (brand-emphasis) is the only green used for small text (296: links, H1 emphasis, labels); Jade (brand) fills primary buttons, play discs, data squares; Vibrant (icon-accent) as text only for 40–44px numerals and numeral signs; Forest for heroes/bands; Emerald for panels.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "color",
+    "part": "Testimonial key phrase (<b>)",
+    "property": "color",
+    "boards": [
+      {
+        "board": "Home-Desktop-2",
+        "value": "#006e51 (Emerald)",
+        "count": 3
+      },
+      {
+        "board": "Home-Mobile-2",
+        "value": "#006e51 (Emerald)",
+        "count": 3
+      },
+      {
+        "board": "Component-Decisions (decision 2 sample)",
+        "value": "#282b2f (inherits quote color)",
+        "count": 2
+      }
+    ],
+    "system": ".ie-testimonial-quote b inherits var(--foreground) #282b2f",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "Home boards: `<b style=\"color: #006e51;\">50% less office referrals</b>`; the chosen option C sample on Component-Decisions sets the same <b> with no color (charcoal). System follows the decision sample. If Home is the intended look: `.ie-testimonial-quote :is(b, strong) { color: var(--brand-emphasis); }`.",
+    "fix": "",
+    "visible": "high"
+  },
+  {
+    "group": "global",
+    "component": "color",
+    "part": "Numeral signs and accents on Forest",
+    "property": "color",
+    "boards": [
+      {
+        "board": "Why-Desktop-1",
+        "value": "#44bb4a \"%\" 56px",
+        "count": 3
+      },
+      {
+        "board": "Why-Mobile-2",
+        "value": "#44bb4a \"%\" 44px",
+        "count": 3
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "#44bb4a \".\" 68px",
+        "count": 2
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "#44bb4a \".\" 40px",
+        "count": 2
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "inset 0 -2px 0 #44bb4a (dark-header current link)",
+        "count": 1
+      }
+    ],
+    "system": "on-brand-accent #bffaa2",
+    "class": "SYSTEM-CHANGE",
+    "evidence": "Known change 3 (accents on green use on-brand-accent, not green-300).",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "group": "global",
+    "component": "color",
+    "part": "Tag fill on green",
+    "property": "backgroundColor",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "rgba(255,255,255,0.16)",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "rgba(255,255,255,0.16)",
+        "count": 1
+      },
+      {
+        "board": "Research-Studies-C-Timeline-065o",
+        "value": "rgba(255,255,255,0.16)",
+        "count": 1
+      }
+    ],
+    "system": "on-brand-wash rgba(255,255,255,0.12)",
+    "class": "SYSTEM-CHANGE",
+    "evidence": "Known change 1.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "color",
+    "part": "Research \"Strongest evidence\" labels on green",
+    "property": "color",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "rgb(143,214,164) #8fd6a4 (no token)",
+        "count": 2
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "rgb(143,214,164) #8fd6a4 (no token)",
+        "count": 2
+      }
+    ],
+    "system": "on-brand-accent #bffaa2 (Spring / \"mint\")",
+    "class": "DECIDED",
+    "evidence": "Detail-Decisions 5: \"two small green-300 labels on Research moved to mint to keep contrast.\" Mint is #bffaa2 on the decision boards; the boards carry #8fd6a4, which is no token.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "color",
+    "part": "Secondary text on the Pricing Advanced Wellness panel (green)",
+    "property": "color",
+    "boards": [
+      {
+        "board": "Pricing-Desktop",
+        "value": "rgb(223,231,228) #dfe7e4 (no token)",
+        "count": 4
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "rgb(223,231,228) #dfe7e4 (no token)",
+        "count": 4
+      }
+    ],
+    "system": "on-brand-muted #f0efeb or on-brand #ffffff",
+    "class": "DECIDED",
+    "evidence": "Type-Icon-Decisions 1: \"White and off-white text on dark panels keeps its color.\" #dfe7e4 is neither.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "color",
+    "part": "Closing-CTA lead on Emerald",
+    "property": "color",
+    "boards": [
+      {
+        "board": "Why-Desktop-2",
+        "value": "#f0efeb (off-white)",
+        "count": 1
+      },
+      {
+        "board": "Why-Mobile-4",
+        "value": "#f0efeb (off-white)",
+        "count": 1
+      },
+      {
+        "board": "About-Desktop, About-Mobile-3, Case-Studies-Desktop/Mobile, Newsroom-Desktop/Mobile, Pricing-Desktop/Mobile",
+        "value": "#ffffff",
+        "count": 8
+      }
+    ],
+    "system": ".ie-on-brand .ie-cta-lead → var(--on-brand) #ffffff",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "Why's full-width band uses on-brand-muted for its lead; every other Emerald CTA lead is white. System follows the majority.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "color",
+    "part": "Platform program tab labels",
+    "property": "color",
+    "boards": [
+      {
+        "board": "Platform-Desktop-1",
+        "value": "rgb(0,0,0) (UA button default)",
+        "count": 8
+      },
+      {
+        "board": "Platform-Programs-Green",
+        "value": "rgb(0,0,0)",
+        "count": 8
+      },
+      {
+        "board": "Platform-Mobile-1",
+        "value": "rgb(0,0,0)",
+        "count": 8
+      }
+    ],
+    "system": "foreground #282b2f",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "Tab buttons inherit the browser default black (token \"black\" is \"Video letterboxing only\"); every other title is charcoal. Tabs are a README page pattern.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "color",
+    "part": "Eyebrow-style counters in muted ink",
+    "property": "color",
+    "boards": [
+      {
+        "board": "Why-Desktop-1",
+        "value": "#59606a \"01 / 07\"",
+        "count": 7
+      },
+      {
+        "board": "Why-Mobile-1",
+        "value": "#59606a \"01 / 07\"",
+        "count": 7
+      }
+    ],
+    "system": "Eyebrow: foreground #282b2f (or on-brand)",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "14/700/+0.08em uppercase counters in foreground-muted; the other 340 eyebrows are charcoal or white. README: \"Headings, titles and eyebrows in foreground\".",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "color",
+    "part": "Off-palette page-pattern colors",
+    "property": "color/backgroundColor/borderColor",
+    "boards": [
+      {
+        "board": "Pricing-Desktop",
+        "value": "border rgb(235,233,228) #ebe9e4 (table rules)",
+        "count": 94
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "text rgb(180,80,28) \"$\" on bg rgb(255,243,232)",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "text rgb(180,80,28) \"$\" on bg rgb(255,243,232)",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "switch track rgb(220,218,211)",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "switch track rgb(220,218,211)",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "recommended plan card fill rgb(230,242,236) #e6f2ec",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "recommended plan card fill #e6f2ec",
+        "count": 2
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "dot rgb(255,138,117)",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "dot rgb(255,138,117)",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "pause button rgba(30,71,60,0.6)",
+        "count": 2
+      },
+      {
+        "board": "Newsroom-Desktop",
+        "value": "video timer rgba(0,0,0,0.45)",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "rgba(0,0,0,0.14) fill",
+        "count": 1
+      }
+    ],
+    "system": "nearest tokens: border #dfddd6; orange-600 #c24f19 / orange-200 #ffddca; warm-gray #cccbc4; (no light-green panel token: README \"There is no light-green panel or CTA\"); coral-300 #ffa394",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "No token equals these values. Component-Library \"Color palette: No off-palette colors are left\" says the canvas believes them gone. All sit in README page patterns (Pricing table, Research diagrams, media). Snap to the nearest token when building.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "color",
+    "part": "Home testimonial figures fill",
+    "property": "backgroundColor/boxShadow",
+    "boards": [
+      {
+        "board": "Home-Desktop-2",
+        "value": "rgb(230,242,236) + 0 6px 20px rgba(0,110,81,0.12)",
+        "count": 3
+      },
+      {
+        "board": "Home-Mobile-2",
+        "value": "rgb(230,242,236) + 0 6px 20px rgba(0,110,81,0.12)",
+        "count": 3
+      }
+    ],
+    "system": "Raised testimonial card: surface + 1px border + shadow-raised",
+    "class": "DECIDED",
+    "evidence": "Brief / Component-Decisions 2: \"Raised cards hold rows of quotes (Home, Why's “What leaders see”)\" — Home's mint cards become the Raised testimonial card.",
+    "fix": "",
+    "visible": "high"
+  },
+  {
+    "group": "global",
+    "component": "color",
+    "part": "Translucent white on green (fills and hairlines)",
+    "property": "backgroundColor/borderColor",
+    "boards": [
+      {
+        "board": "Home-Desktop-2, Home-Mobile-2, Research-Experiment-Desktop, Research-Experiment-Mobile-1",
+        "value": "border rgba(255,255,255,0.40) (Home award items, Research)",
+        "count": 44
+      },
+      {
+        "board": "Why-Desktop-1, Why-Mobile-2",
+        "value": "border rgba(255,255,255,0.70)",
+        "count": 40
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "border rgba(255,255,255,0.55)",
+        "count": 8
+      },
+      {
+        "board": "Research-Experiment-Desktop/Mobile-1",
+        "value": "border rgba(255,255,255,0.32)",
+        "count": 8
+      },
+      {
+        "board": "Pricing-Desktop, Pricing-Mobile, Research-Studies-C-Timeline-065o",
+        "value": "border rgba(255,255,255,0.25)",
+        "count": 7
+      },
+      {
+        "board": "Research-Experiment-Desktop, Research-Experiment-Mobile-1, Why-Desktop-2",
+        "value": "border rgba(255,255,255,0.18)",
+        "count": 7
+      },
+      {
+        "board": "Research-Experiment-Desktop/Mobile-1",
+        "value": "header border rgba(255,255,255,0.14)",
+        "count": 2
+      },
+      {
+        "board": "Research",
+        "value": "border rgba(255,255,255,0.16 / 0.08)",
+        "count": 4
+      },
+      {
+        "board": "Home-Desktop-2, Home-Mobile-2",
+        "value": "fill rgba(255,255,255,0.10)",
+        "count": 6
+      },
+      {
+        "board": "Research",
+        "value": "fill rgba(255,255,255,0.28 / 0.08 / 0.06)",
+        "count": 10
+      },
+      {
+        "board": "Main, Home-Mobile",
+        "value": "carousel buttons rgba(255,255,255,0.88)",
+        "count": 4
+      }
+    ],
+    "system": "border-on-brand rgba(255,255,255,0.24); on-brand-wash rgba(255,255,255,0.12)",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "Hairlines on green are drawn at 14–70% white across boards (only 15 uses at the 24% token: Home-Desktop-2/Mobile-2, Platform-Desktop-2/Mobile-2, Why-Desktop-1/Mobile-2). The dark header line is 14% on Research vs the system's 24% (SiteHeader dark).",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "color",
+    "part": "brand-subtle (Spring) usage note",
+    "property": "usage",
+    "boards": [
+      {
+        "board": "Contact-Desktop/Mobile",
+        "value": "numbered step discs 48/40px, green-900 numerals",
+        "count": 6
+      },
+      {
+        "board": "Platform-Desktop-1, Programs-Green",
+        "value": "audio progress bar on Forest",
+        "count": 5
+      },
+      {
+        "board": "Platform-Desktop-1/Mobile-1, Platform-Desktop-2/Mobile-2",
+        "value": "non-evidence tags (\"Add-on\", \"Gratitude\")",
+        "count": 6
+      },
+      {
+        "board": "Main, Home-Mobile",
+        "value": "dashboard delta chip \"▲ 12%\"",
+        "count": 2
+      },
+      {
+        "board": "Research-Experiment-Desktop/Mobile-1",
+        "value": "stat tile",
+        "count": 2
+      }
+    ],
+    "system": "tokens.json brand-subtle: \"Spring fill: evidence tags. Takes on-brand-subtle.\"",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "The note limits Spring to evidence tags; boards also use it for numbered step discs, progress on Forest, other tags and stat tiles (stat tiles are allowed by README Color). Update the usage note if these stay.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "color",
+    "part": "Quote marks in Jade",
+    "property": "color",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "#00874d (brand) 22px “ ”",
+        "count": 2
+      },
+      {
+        "board": "Research-Experiment-Mobile-2",
+        "value": "#00874d (brand) 22px “ ”",
+        "count": 2
+      }
+    ],
+    "system": "icon-accent #02a451 (README: icon-accent draws \"quote marks\")",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "Testimonial quote marks are #02a451 everywhere else (Component-Decisions sample uses fill=\"#02a451\").",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "color",
+    "part": "One-off shadows",
+    "property": "boxShadow",
+    "boards": [
+      {
+        "board": "Why-Desktop-1",
+        "value": "rgba(0,110,81,0.14) 6px 6px 14px, rgba(255,255,255,0.95) -6px -6px 14px (soft-3D)",
+        "count": 5
+      },
+      {
+        "board": "Why-Mobile-2",
+        "value": "soft-3D 3px/8px",
+        "count": 5
+      },
+      {
+        "board": "Platform-Desktop-1/Mobile-1, Platform-Desktop-2/Mobile-2",
+        "value": "0 1px 2px rgba(40,43,47,0.06), 0 16px 40px rgba(40,43,47,0.16) (deep drop)",
+        "count": 12
+      },
+      {
+        "board": "Platform-Desktop-1, Platform-Mobile-1",
+        "value": "0 1px 2px .08, 0 20px 48px .22 (images)",
+        "count": 2
+      },
+      {
+        "board": "Main, Home-Mobile",
+        "value": "0 4px 14px rgba(40,43,47,0.10) (Home 10% drop)",
+        "count": 2
+      },
+      {
+        "board": "Why-Desktop-1, Why-Mobile-1",
+        "value": "0 12px 32px rgba(40,43,47,0.10) (images)",
+        "count": 14
+      },
+      {
+        "board": "About-Desktop, About-Mobile-1",
+        "value": "0 4px 14px rgba(40,43,47,0.07) (facts card)",
+        "count": 2
+      }
+    ],
+    "system": "shadow-raised / shadow-floating only (\"No others\")",
+    "class": "DECIDED",
+    "evidence": "Detail-Decisions: \"One-off shadows: Why's soft-3D cards, Platform's deep drop and Home's 10% drop are still there, as you asked. They retire with the feature-icon decision and the card rule.\" Remaining-Drift lists them as \"Kept for now\", so the owner should confirm they retire.",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "group": "global",
+    "component": "color",
+    "part": "Media-overlay label shadow",
+    "property": "boxShadow",
+    "boards": [
+      {
+        "board": "Case-Studies-Desktop",
+        "value": "0 1px 2px rgba(40,43,47,0.16), 28px tall",
+        "count": 1
+      },
+      {
+        "board": "Case-Studies-Mobile",
+        "value": "0 1px 2px rgba(40,43,47,0.16), 28px tall",
+        "count": 1
+      },
+      {
+        "board": "Newsroom-Desktop",
+        "value": "none, 32px tall",
+        "count": 1
+      },
+      {
+        "board": "Newsroom-Mobile",
+        "value": "none, 28px tall",
+        "count": 1
+      }
+    ],
+    "system": ".ie-card-label: shadow-raised (0.05), 28px",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "Detail-Decisions 3: \"image overlay labels are separate components and stay as they are.\" The two boards that show one disagree with each other and with the system.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "color",
+    "part": "Shadows in page-built controls and media",
+    "property": "boxShadow",
+    "boards": [
+      {
+        "board": "Main, Home-Mobile",
+        "value": "carousel buttons 0 1px 2px/0 8px 20px rgba(0,40,25,0.25); video 0 24px 56px rgba(0,0,0,0.35); play disc",
+        "count": 8
+      },
+      {
+        "board": "Research-Experiment-Desktop/Mobile",
+        "value": "segmented control glows rgba(199,49,26,0.45) / rgba(0,135,77,0.45); ie-geek 0 4px 12px rgba(0,110,81,0.25); switch knobs 0 1px 3px rgba(0,0,0,0.25); diagram blocks",
+        "count": 30
+      },
+      {
+        "board": "Platform-Desktop-1/Mobile-1, Programs-Green",
+        "value": "tab bar and program panel shadows (inset + green drops)",
+        "count": 11
+      },
+      {
+        "board": "Article-Desktop-1/2",
+        "value": "share buttons 0 1px 2px .05 + inset 0 1px 0 rgba(255,255,255,0.7)",
+        "count": 8
+      },
+      {
+        "board": "Pricing-Desktop/Mobile",
+        "value": "switch knob 0 1px 2px rgba(0,0,0,0.2)",
+        "count": 2
+      },
+      {
+        "board": "Newsroom-Desktop/Mobile",
+        "value": "avatar/photo 0 8px 20px/0 8px 24px",
+        "count": 4
+      },
+      {
+        "board": "Why-Desktop-1/Mobile-2",
+        "value": "figure and stat-bar shadows (green, inset)",
+        "count": 4
+      }
+    ],
+    "system": "none (README: \"The other shadows belong to their components … No others.\")",
+    "class": "MISSING",
+    "evidence": "These patterns are page-built (README list) but need elevation the token set forbids; the build must drop or tokenise them.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "layout",
+    "part": "bands, header, footer, container",
+    "property": "padding/height/width",
+    "boards": [
+      {
+        "board": "all 39",
+        "value": "section 112/112 with 120 sides on 37 desktop bands, 64/64 with 20 sides on 42 mobile bands; hero 72/96 (About, Case Studies, Contact, Platform, Pricing, Why), mobile 40/48 (About, Case Studies, Contact, Platform, Why); strips 64 (About logos, Home glance) / 40 mobile; header 80px/120 sides, 64px/20 mobile on every board; footer 64/120/40 desktop, 40/20/32 mobile; content x120 w1200 / x20 w350; Emerald CTA 72 padding (Case Studies, Home, Pricing, Research) and 32×24 mobile",
+        "count": 0
+      }
+    ],
+    "system": "section-y/x, hero-top/bottom, strip-y, header-height, container, cta-padding",
+    "class": "MATCH",
+    "evidence": "Top-level bands read from each board record (padding of the band element; content box = first child narrower than the board). Board heights of split mobile boards ignored where a section continues across boards (About-Mobile-3 Advisory Board top 16).",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "layout",
+    "part": "consecutive bands on the same ground",
+    "property": "padding-top",
+    "boards": [
+      {
+        "board": "Case-Studies-Desktop",
+        "value": "\"All case studies\" pt 0, CTA band pt 0",
+        "count": 2
+      },
+      {
+        "board": "Case-Studies-Mobile",
+        "value": "pt 0 ×2",
+        "count": 2
+      },
+      {
+        "board": "Home-Desktop-2",
+        "value": "closing CTA band pt 0",
+        "count": 1
+      },
+      {
+        "board": "Home-Mobile-2",
+        "value": "\"Affordable\" and CTA bands pt 0",
+        "count": 2
+      },
+      {
+        "board": "Newsroom-Desktop",
+        "value": "featured story pt 24 after hero pb 48",
+        "count": 1
+      },
+      {
+        "board": "Newsroom-Mobile",
+        "value": "featured story pt 0 after hero pb 32",
+        "count": 1
+      }
+    ],
+    "system": "README: \"Sections: section-y top and bottom\" (no rule for a band that continues the previous ground)",
+    "class": "DEFECT",
+    "evidence": "When a band sits on the same ground as the one before, boards drop its top padding, so the gap is one section-y (112/64) not two (224/128).",
+    "fix": "README.md, Layout and spacing: add \"A band that continues the previous band's ground drops its top padding (one section-y between them).\" ClosingCta bleed and any section wrapper should allow padding-block-start: 0.",
+    "visible": "high"
+  },
+  {
+    "group": "global",
+    "component": "layout",
+    "part": "section padding stragglers",
+    "property": "padding-top/bottom",
+    "boards": [
+      {
+        "board": "About-Desktop",
+        "value": "\"Built on practice\" 120/120",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "band after hero 120/120; \"Here is the proof\" 112/96; \"Six independent\" 112/96",
+        "count": 3
+      },
+      {
+        "board": "Research-Experiment-Desktop-2",
+        "value": "96/96 ×2",
+        "count": 2
+      },
+      {
+        "board": "Research-Studies-C-Timeline-065o",
+        "value": "96/96",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "\"Programs and add-ons\" 96/112",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "\"Programs and add-ons\" 56/64",
+        "count": 1
+      }
+    ],
+    "system": "section-y 112 (64 mobile)",
+    "class": "DECIDED",
+    "evidence": "Component-Library Section spacing: \"New standard, 8 October. Sections: 112 × 120px on desktop, 64 × 20px on mobile.\" (Remaining-Drift: \"Section spacing: 112 × 120px desktop, 64 × 20px mobile; heroes 72 / 96px.\")",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "group": "global",
+    "component": "layout",
+    "part": "hero padding stragglers",
+    "property": "padding-bottom",
+    "boards": [
+      {
+        "board": "Newsroom-Desktop",
+        "value": "72/48",
+        "count": 1
+      },
+      {
+        "board": "Newsroom-Mobile",
+        "value": "40/32",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "40/56",
+        "count": 1
+      }
+    ],
+    "system": "hero-top/bottom 72/96 (40/48 mobile)",
+    "class": "DECIDED",
+    "evidence": "Component-Library Section spacing: \"Heroes: 72px top, 96px bottom (mobile 40 / 48).\"",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "group": "global",
+    "component": "layout",
+    "part": "Home hero intro band",
+    "property": "padding",
+    "boards": [
+      {
+        "board": "Main",
+        "value": "64 top / 80 bottom",
+        "count": 1
+      },
+      {
+        "board": "Home-Mobile",
+        "value": "32 top / 48 bottom",
+        "count": 1
+      }
+    ],
+    "system": "hero-top/bottom 72/96 (40/48) or section-y",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "The band under Home's photo hero has no token; Detail-Decisions keeps Home's larger hero intro type but says nothing about this padding.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "layout",
+    "part": "footer bottom padding (Research variant)",
+    "property": "padding-bottom",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop-2",
+        "value": "32 (footer 430px tall)",
+        "count": 1
+      },
+      {
+        "board": "17 other footers",
+        "value": "40 desktop / 32 mobile",
+        "count": 17
+      }
+    ],
+    "system": "space-10 40 (compact 32)",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "Research desktop footer is a variant (also eyebrow-style headings, see type-ramp). System follows the majority.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "layout",
+    "part": "card padding",
+    "property": "padding",
+    "boards": [
+      {
+        "board": "Article-Desktop-1/2, Main, Platform-Desktop-2, Research",
+        "value": "Raised desktop 24",
+        "count": 18
+      },
+      {
+        "board": "About-Desktop, Main",
+        "value": "Raised desktop 20/24",
+        "count": 11
+      },
+      {
+        "board": "Research-Experiment-Desktop, Why-Desktop-2",
+        "value": "Raised desktop 32",
+        "count": 5
+      },
+      {
+        "board": "Main, Why-Desktop-2",
+        "value": "Raised desktop 40",
+        "count": 4
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "Raised 28 with 12px corners",
+        "count": 3
+      },
+      {
+        "board": "Contact-Mobile, Platform-Mobile-2, Research-Experiment-Mobile-1, Why-Mobile-4",
+        "value": "Raised mobile 24",
+        "count": 13
+      },
+      {
+        "board": "About-Mobile-3, Home-Mobile",
+        "value": "Raised mobile 16/20",
+        "count": 11
+      },
+      {
+        "board": "Home-Mobile, Research-Experiment-Mobile-2, Why-Mobile-3",
+        "value": "Raised mobile 24/20",
+        "count": 8
+      },
+      {
+        "board": "Article-Mobile-1, Home-Mobile",
+        "value": "Raised mobile 20",
+        "count": 2
+      },
+      {
+        "board": "Newsroom-Mobile, Platform-Mobile-2, Why-Mobile-2",
+        "value": "Tint mobile 24",
+        "count": 14
+      },
+      {
+        "board": "Article-Mobile-1/2, Platform-Mobile-1, Research-Experiment-Mobile-1",
+        "value": "Tint mobile 20",
+        "count": 13
+      },
+      {
+        "board": "Platform-Desktop-1",
+        "value": "Tint desktop 48",
+        "count": 4
+      },
+      {
+        "board": "Contact-Desktop, Contact-Success",
+        "value": "Floating 40",
+        "count": 2
+      },
+      {
+        "board": "Home-Mobile, Home-Mobile-2",
+        "value": "Floating mobile 28/24",
+        "count": 5
+      }
+    ],
+    "system": "card-padding 24, card-padding-mobile 20 (Card, Panel compact)",
+    "class": "DECIDED",
+    "evidence": "Card-Options: \"Both types: white fill, 8px corners, 24px padding (20px on mobile), 8px gap between cards\". Only 2 Raised and 13 Tint mobile instances use 20.",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "group": "global",
+    "component": "layout",
+    "part": "card grid gap",
+    "property": "gap",
+    "boards": [
+      {
+        "board": "About-Desktop, About-Mobile-1/2/3, Home-Mobile, Platform-Desktop-1, Platform-Mobile-1, Research-Experiment-Mobile-1, Why-Desktop-2, Why-Mobile-4",
+        "value": "8 (grids)",
+        "count": 16
+      },
+      {
+        "board": "Main, Research-Experiment-Desktop, Newsroom-Desktop, About-Desktop (Emerald pair), Research-Experiment-Mobile-2",
+        "value": "16 (grids)",
+        "count": 10
+      },
+      {
+        "board": "Home-Mobile, Platform-Mobile-2, Research-Experiment-Mobile-1",
+        "value": "12 (grids)",
+        "count": 4
+      },
+      {
+        "board": "Platform-Desktop-2",
+        "value": "20 (grid)",
+        "count": 1
+      }
+    ],
+    "system": "card-gap 8",
+    "class": "DECIDED",
+    "evidence": "Card-Options: \"8px gap between cards in a grid\".",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "group": "global",
+    "component": "layout",
+    "part": "split layouts (two columns)",
+    "property": "grid-template-columns / gap",
+    "boards": [
+      {
+        "board": "Platform-Desktop-1 (×8), Research-Experiment-Desktop (×3)",
+        "value": "7:5, gap 64 (607:433, 663:473, 433:607)",
+        "count": 11
+      },
+      {
+        "board": "Research-Experiment-Desktop (×3), Research-Experiment-Desktop-2, Research-Studies-C",
+        "value": "7:5, gap 72 (658:470, 470:658)",
+        "count": 5
+      },
+      {
+        "board": "Home-Desktop-2 (×2), Research-Experiment-Desktop-2 (×2)",
+        "value": "equal, gap 72 / 64",
+        "count": 4
+      },
+      {
+        "board": "Platform-Programs-Green, Why-Desktop-1, Why-Desktop-2",
+        "value": "equal 560:560, gap 80",
+        "count": 3
+      },
+      {
+        "board": "Why-Desktop-1, Why-Desktop-2",
+        "value": "560:520, gap 80",
+        "count": 2
+      },
+      {
+        "board": "About-Desktop",
+        "value": "552:552 and 584:520, gap 96",
+        "count": 2
+      },
+      {
+        "board": "Why-Desktop-1",
+        "value": "460:644, gap 96",
+        "count": 1
+      },
+      {
+        "board": "Why-Desktop-2",
+        "value": "620:516 gap 64; 540:596 gap 64; 357:713 gap 48",
+        "count": 3
+      },
+      {
+        "board": "Home-Desktop-2",
+        "value": "440:568, gap 48",
+        "count": 1
+      },
+      {
+        "board": "Platform-Desktop-2",
+        "value": "320:800, gap 80",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "300:772, gap 48",
+        "count": 1
+      },
+      {
+        "board": "Platform-Desktop-1",
+        "value": "hero 656:480, gap 64 (7:5 would be 663:473)",
+        "count": 1
+      }
+    ],
+    "system": "README: \"Splits use two equal columns or 7fr : 5fr, with a space-16 to space-18 gap\" (64–72); SectionHeader split 1fr 1fr, gap 72",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "Two-column grids inside 1200px bands (column widths from child rects, gap = distance between them). 20 splits follow the rule; 15 use gaps of 80, 96 or 48, or ratios such as 9:8, 6:5, 2:5 (CTA-with-photo grids and card pairs excluded). No decision board covers splits.",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "group": "global",
+    "component": "layout",
+    "part": "lead measure",
+    "property": "max-width",
+    "boards": [
+      {
+        "board": "About, Contact, Contact-Success, Home-Desktop-2, Platform, Why-Desktop-1, Case-Studies, Pricing",
+        "value": "520",
+        "count": 12
+      },
+      {
+        "board": "Platform-Desktop-1/2",
+        "value": "720",
+        "count": 4
+      },
+      {
+        "board": "About-Desktop, Platform",
+        "value": "460",
+        "count": 3
+      },
+      {
+        "board": "Case-Studies-Desktop, Pricing-Desktop",
+        "value": "560",
+        "count": 2
+      },
+      {
+        "board": "Home-Desktop-2",
+        "value": "540, 620",
+        "count": 3
+      },
+      {
+        "board": "Newsroom-Desktop",
+        "value": "420",
+        "count": 2
+      },
+      {
+        "board": "Platform-Desktop-1, Programs-Green",
+        "value": "440",
+        "count": 2
+      },
+      {
+        "board": "About-Desktop",
+        "value": "760",
+        "count": 1
+      },
+      {
+        "board": "Article-Desktop-1",
+        "value": "680",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "640",
+        "count": 1
+      }
+    ],
+    "system": "measure 520 (PageTitle lead, SectionHeader intro, ClosingCta lead)",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "max-width of 20/1.5 lead paragraphs on desktop boards. 12 at 520, 19 at nine other widths; no decision board sets the measure. Line breaks change where the cap differs.",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "group": "global",
+    "component": "layout",
+    "part": "corner radius",
+    "property": "border-radius",
+    "boards": [
+      {
+        "board": "34 boards",
+        "value": "8px containers, images, tags (div 194, img 65, span 59, article 56, a 52, li 51, figure 23)",
+        "count": 500
+      },
+      {
+        "board": "36 boards",
+        "value": "12px buttons/chips (126 + 24 + 27)",
+        "count": 177
+      },
+      {
+        "board": "19+ boards",
+        "value": "full round (999/50%/half-height)",
+        "count": 278
+      },
+      {
+        "board": "Contact-Desktop/Mobile, Article-Desktop-2/Mobile-2",
+        "value": "inputs/selects/textareas 8px",
+        "count": 18
+      },
+      {
+        "board": "Platform-Desktop-1/Mobile-1/Programs-Green",
+        "value": "program tab buttons 8px (12); tab bar and program panels 12px",
+        "count": 16
+      },
+      {
+        "board": "Research-Experiment-Desktop (+Mobile-1)",
+        "value": "10px chips/segmented control/study dl (14); 6px diagram blocks (12); 14px divs (2); 12px article (1)",
+        "count": 29
+      },
+      {
+        "board": "Why-Desktop-2",
+        "value": "12px numbered squares (48px); 12px Emerald panel (56/64 padding)",
+        "count": 4
+      },
+      {
+        "board": "Home-Desktop-2, Home-Mobile-2, Research-Experiment-Desktop",
+        "value": "12px list items (Home award items)",
+        "count": 9
+      }
+    ],
+    "system": "radius-sm 8 (containers), radius-md 12 (buttons, chips, inputs), radius-full",
+    "class": "DECIDED",
+    "evidence": "Component-Library Corner radius: \"8px for containers, badges and tags; 12px for buttons, chips and inputs; full round for dots, avatars, switches and round icon buttons. Chart bars keep their own rounding.\" Board inputs at 8px and 10/12/14/6px containers contradict it; 2–4px radii on chart squares/bars (788) are chart rounding (kept).",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "group": "global",
+    "component": "coverage",
+    "part": "Numbered steps / numbered markers",
+    "property": "pattern",
+    "boards": [
+      {
+        "board": "Contact-Desktop",
+        "value": "3 steps, 48px Spring discs, 20px numerals",
+        "count": 3
+      },
+      {
+        "board": "Contact-Mobile",
+        "value": "40px discs, 17px",
+        "count": 3
+      },
+      {
+        "board": "Why-Desktop-2",
+        "value": "\"01–07\" Emerald 18/1.3 list; 48px tier squares 22px \"3/2/1\"",
+        "count": 10
+      },
+      {
+        "board": "Why-Mobile-4 / Why-Mobile-3",
+        "value": "16/1.3 list; 16px tier numerals",
+        "count": 10
+      },
+      {
+        "board": "About-Desktop / About-Mobile-2",
+        "value": "\"01–03\" 14/700/+0.08em white on Emerald cards",
+        "count": 6
+      },
+      {
+        "board": "Research-Experiment-Desktop / Mobile-2",
+        "value": "\"01–03\" Inter Black 44/30; section-nav 15px",
+        "count": 15
+      }
+    ],
+    "system": "no component or variant",
+    "class": "MISSING",
+    "evidence": "Detail-Decisions 4: \"Numbered steps keep their numbered discs.\" No Checklist or Stat variant renders a numbered step; five pages draw it five ways.",
+    "fix": "",
+    "visible": "high"
+  },
+  {
+    "group": "global",
+    "component": "coverage",
+    "part": "Comparison table",
+    "property": "pattern",
+    "boards": [
+      {
+        "board": "Pricing-Desktop / Pricing-Mobile",
+        "value": "plan comparison (documented page pattern)",
+        "count": 2
+      },
+      {
+        "board": "Why-Desktop-2 / Why-Mobile-2",
+        "value": "\"A curriculum\" vs \"Daily practice\" <table>, 22–26px cells, Forest column",
+        "count": 2
+      }
+    ],
+    "system": "no component or variant",
+    "class": "MISSING",
+    "evidence": "README names the Pricing comparison table as one-page; Why carries a second comparison table, which by the README rule (\"join the system when a second page needs them\") now qualifies.",
+    "fix": "",
+    "visible": "high"
+  },
+  {
+    "group": "global",
+    "component": "coverage",
+    "part": "Toggle switch",
+    "property": "pattern",
+    "boards": [
+      {
+        "board": "Pricing-Desktop / Pricing-Mobile",
+        "value": "\"Show only differences\" 40×24 track, 18px knob",
+        "count": 2
+      },
+      {
+        "board": "Research-Experiment-Desktop / Mobile-1 / Mobile-2",
+        "value": "\"Show our work\" 44px pill with 20px knob",
+        "count": 6
+      }
+    ],
+    "system": "no component or variant",
+    "class": "MISSING",
+    "evidence": "Component-Library Corner radius mentions \"switches\"; the system has no switch.",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "group": "global",
+    "component": "coverage",
+    "part": "Fact / definition list (dl)",
+    "property": "pattern",
+    "boards": [
+      {
+        "board": "About-Desktop / About-Mobile-1",
+        "value": "hero facts card: Founded / Headquartered / Reach / Partners",
+        "count": 2
+      },
+      {
+        "board": "Research-Experiment-Desktop / Mobile-1",
+        "value": "study cards: 12px uppercase dt + 14/1.5 dd (6 per board)",
+        "count": 12
+      },
+      {
+        "board": "Why-Desktop-1 / Why-Mobile-2",
+        "value": "result-from-the-field stats dl",
+        "count": 2
+      }
+    ],
+    "system": "no component or variant",
+    "class": "MISSING",
+    "evidence": "Detail-Decisions 2 mentions \"the Case Study fact list\"; no system part renders label/value pairs.",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "group": "global",
+    "component": "coverage",
+    "part": "Name / logo marquee and strips",
+    "property": "pattern",
+    "boards": [
+      {
+        "board": "Home-Mobile",
+        "value": "district-name marquee (ie-marquee)",
+        "count": 5
+      },
+      {
+        "board": "Research-Experiment-Desktop / Mobile-1",
+        "value": "research-partner marquee (ie-marquee)",
+        "count": 20
+      },
+      {
+        "board": "About-Desktop / About-Mobile-1",
+        "value": "logo wall (documented page pattern)",
+        "count": 2
+      }
+    ],
+    "system": "no component or variant",
+    "class": "MISSING",
+    "evidence": "README lists only \"the About logo wall\" as a page pattern; Home and Research repeat the strip idea as scrolling marquees.",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "group": "global",
+    "component": "coverage",
+    "part": "Chart figure frame (title, chart, source caption)",
+    "property": "pattern",
+    "boards": [
+      {
+        "board": "Article-Desktop-1 / Mobile-1",
+        "value": "\"Tier 1 universal outcomes\" figure + figcaption",
+        "count": 2
+      },
+      {
+        "board": "Home-Desktop-2 / Home-Mobile-2",
+        "value": "\"Behavior referrals in Inner Explorer classrooms\" chart on Emerald",
+        "count": 2
+      },
+      {
+        "board": "Why-Desktop-1 / Why-Mobile-2",
+        "value": "\"Inner Explorer sits underneath every s…\" figure",
+        "count": 2
+      },
+      {
+        "board": "Platform-Desktop-2 / Mobile-2",
+        "value": "outcomes figure",
+        "count": 2
+      },
+      {
+        "board": "Newsroom-Desktop / Mobile",
+        "value": "card charts (Comparison group / Inner Explorer)",
+        "count": 2
+      },
+      {
+        "board": "Research (documented)",
+        "value": "charts and diagrams",
+        "count": 4
+      }
+    ],
+    "system": "no component or variant",
+    "class": "MISSING",
+    "evidence": "README says Research's charts are built in that page and gives Data-visualization rules, but figures with a title and source appear on Home, Article, Why, Platform and Newsroom too, each framed differently.",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "group": "global",
+    "component": "coverage",
+    "part": "Stat tile (tinted ground)",
+    "property": "pattern",
+    "boards": [
+      {
+        "board": "Newsroom-Desktop / Newsroom-Mobile",
+        "value": "cyan-200 / orange-200 tiles in story cards",
+        "count": 6
+      },
+      {
+        "board": "Research-Experiment-Desktop / Mobile-1",
+        "value": "cyan-200, yellow-200, orange-200, green-100 tiles",
+        "count": 8
+      }
+    ],
+    "system": "no component or variant",
+    "class": "MISSING",
+    "evidence": "README Color: \"Stat tiles may use the light tints (green-100, cyan-200, yellow-200, orange-200) with charcoal ink\" — the Stat component has no tile/ground variant.",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "group": "global",
+    "component": "coverage",
+    "part": "In-page section navigation",
+    "property": "pattern",
+    "boards": [
+      {
+        "board": "Article-Desktop-1/2, Article-Mobile-1, First-Screen",
+        "value": "\"On this page\" TOC (documented page pattern)",
+        "count": 4
+      },
+      {
+        "board": "Research-Experiment-Desktop / Mobile-1",
+        "value": "\"Jump to section\" nav with 01–03 and 28/19px titles",
+        "count": 2
+      }
+    ],
+    "system": "no component or variant",
+    "class": "MISSING",
+    "evidence": "README documents the Article table of contents as one-page; Research has a second in-page nav.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "coverage",
+    "part": "Highlighted (recommended) plan card",
+    "property": "pattern",
+    "boards": [
+      {
+        "board": "Pricing-Desktop",
+        "value": "#e6f2ec fill + \"Recommended\" 12px badge",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "#e6f2ec fill + badge",
+        "count": 2
+      }
+    ],
+    "system": "no component or variant",
+    "class": "MISSING",
+    "evidence": "One page (two boards); fill has no token and README says \"There is no light-green panel\".",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "coverage",
+    "part": "Article share rail",
+    "property": "pattern",
+    "boards": [
+      {
+        "board": "Article-Desktop-1",
+        "value": "LinkedIn/Facebook/X/Copy 44px buttons, 14/500",
+        "count": 4
+      },
+      {
+        "board": "Article-Desktop-2",
+        "value": "same",
+        "count": 4
+      }
+    ],
+    "system": "no component or variant",
+    "class": "MISSING",
+    "evidence": "Not in the README list of Article page patterns (TOC, byline, FAQ).",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "coverage",
+    "part": "Award list on Forest/Emerald",
+    "property": "pattern",
+    "boards": [
+      {
+        "board": "Home-Desktop-2",
+        "value": "14/700 white items, 12px corners, 40% white border",
+        "count": 3
+      },
+      {
+        "board": "Home-Mobile-2",
+        "value": "same",
+        "count": 3
+      }
+    ],
+    "system": "no component or variant",
+    "class": "MISSING",
+    "evidence": "Type-Icon-Decisions 3 mentions \"Home's award chips\"; no system part. One page.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "group": "global",
+    "component": "coverage",
+    "part": "repeating patterns covered",
+    "property": "pattern",
+    "boards": [
+      {
+        "board": "all 39",
+        "value": "header (light 18 boards, dark Research), mobile header, footer (18), sticky bar, buttons (4 variants), arrow links, chips with counts, eyebrows, page titles with accent bar, section headers (stacked and split), breadcrumb, cards (Raised/Floating, media, overlay label, footer CTA), Tint/Emerald/Forest panels, tags (tint/evidence/white/on-green), testimonials (card and panel), stats (serif/bold/medium), checklists, closing CTAs (Emerald/white, photo, bleed, inset), text fields, feature icons (bare and disc), icon buttons, Article prose and pull quote",
+        "count": 0
+      }
+    ],
+    "system": "SiteHeader, SiteFooter, StickyBar, Button, ArrowLink, Chip, Eyebrow, PageTitle, SectionHeader, Breadcrumb, Card, Panel, Tag, Testimonial, Stat, Checklist, ClosingCta, TextField, FeatureIcon, IconButton, Prose",
+    "class": "MATCH",
+    "evidence": "Patterns on 2+ boards checked against the component list and the README page-pattern list (Pricing comparison table, Platform tabs and audio player, Home carousel and video, Research charts and diagrams, Article TOC/byline/FAQ, About logo wall). Uncovered patterns are the MISSING rows.",
+    "fix": "",
+    "visible": "low"
+  }
+]

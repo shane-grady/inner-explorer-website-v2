@@ -1,0 +1,3544 @@
+{
+  "multilineBlocks": 891,
+  "boardOrphans": 53,
+  "variants": {
+    "auto": {
+      "changed": 186,
+      "changedNonOrphan": 184,
+      "orphansLeft": 208,
+      "newStrands": 1,
+      "overflow": 1,
+      "skipped": 0,
+      "byKind": {
+        "heading": {
+          "blocks": 182,
+          "changed": 60
+        },
+        "text": {
+          "blocks": 709,
+          "changed": 126
+        }
+      }
+    },
+    "balance": {
+      "changed": 574,
+      "changedNonOrphan": 538,
+      "orphansLeft": 28,
+      "newStrands": 6,
+      "overflow": 1,
+      "skipped": 0,
+      "byKind": {
+        "heading": {
+          "blocks": 182,
+          "changed": 78
+        },
+        "text": {
+          "blocks": 709,
+          "changed": 496
+        }
+      }
+    },
+    "inline": {
+      "changed": 156,
+      "changedNonOrphan": 113,
+      "orphansLeft": 11,
+      "newStrands": 12,
+      "overflow": 1,
+      "skipped": 34,
+      "byKind": {
+        "heading": {
+          "blocks": 178,
+          "changed": 29
+        },
+        "text": {
+          "blocks": 679,
+          "changed": 127
+        }
+      }
+    },
+    "nowrap": {
+      "changed": 163,
+      "changedNonOrphan": 113,
+      "orphansLeft": 0,
+      "newStrands": 8,
+      "overflow": 3,
+      "skipped": 34,
+      "byKind": {
+        "heading": {
+          "blocks": 178,
+          "changed": 31
+        },
+        "text": {
+          "blocks": 679,
+          "changed": 132
+        }
+      }
+    },
+    "nbsp": {
+      "changed": 156,
+      "changedNonOrphan": 106,
+      "orphansLeft": 0,
+      "newStrands": 8,
+      "overflow": 3,
+      "skipped": 34,
+      "byKind": {
+        "heading": {
+          "blocks": 178,
+          "changed": 31
+        },
+        "text": {
+          "blocks": 679,
+          "changed": 125
+        }
+      }
+    }
+  },
+  "cases": {
+    "auto": [
+      {
+        "why": "orphan",
+        "board": "About-Desktop.dc.html",
+        "tag": "p",
+        "size": "20px",
+        "before": [
+          "In 2011, Inner Explorer was founded as a nonprofit",
+          "with a mission of bringing daily mindfulness",
+          "to education."
+        ],
+        "after": [
+          "In 2011, Inner Explorer was founded as a nonprofit",
+          "with a mission of bringing daily mindfulness to",
+          "education."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "About-Desktop.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": [
+          "From the beginning, the goal was not simply to introduce",
+          "mindfulness. It was to make daily practice practical enough",
+          "to last."
+        ],
+        "after": [
+          "From the beginning, the goal was not simply to introduce",
+          "mindfulness. It was to make daily practice practical enough to",
+          "last."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "About-Desktop.dc.html",
+        "tag": "div",
+        "size": "17px",
+        "before": [
+          "In 2025, Inner Explorer became a hybrid organization, a",
+          "structure built to grow our impact over time. Inner Explorer, Inc.",
+          "is a mission-aligned company focused on innovation and reach,",
+          "continually improving how daily mindfulness gets into",
+          "classrooms. Inner Explorer Institute operates through fiscal",
+          "sponsorship with Legacy Global Programs, a 501(c)(3), so",
+          "donors can fund access for schools and classrooms that",
+          "couldn't otherwise afford it. Together, they share one goal: daily",
+          "mindfulness for every student, regardless of a school's ability",
+          "to pay."
+        ],
+        "after": [
+          "In 2025, Inner Explorer became a hybrid organization, a",
+          "structure built to grow our impact over time. Inner Explorer, Inc.",
+          "is a mission-aligned company focused on innovation and reach,",
+          "continually improving how daily mindfulness gets into",
+          "classrooms. Inner Explorer Institute operates through fiscal",
+          "sponsorship with Legacy Global Programs, a 501(c)(3), so",
+          "donors can fund access for schools and classrooms that",
+          "couldn't otherwise afford it. Together, they share one goal: daily",
+          "mindfulness for every student, regardless of a school's ability to",
+          "pay."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "About-Desktop.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": [
+          "Channels philanthropic capital to fund classrooms where",
+          "school communities are under-resourced, underwrites",
+          "the research base, and drives policy toward mandates",
+          "and reimbursement."
+        ],
+        "after": [
+          "Channels philanthropic capital to fund classrooms where",
+          "school communities are under-resourced, underwrites the",
+          "research base, and drives policy toward mandates and",
+          "reimbursement."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "About-Desktop.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": [
+          "Lasting change comes from small",
+          "moments repeated every day.",
+          "Inner Explorer is designed around",
+          "brief practice that fits into real",
+          "school routines."
+        ],
+        "after": [
+          "Lasting change comes from small",
+          "moments repeated every day.",
+          "Inner Explorer is designed around brief",
+          "practice that fits into real school",
+          "routines."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "About-Desktop.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": [
+          "Students practice together as a",
+          "classroom community, creating",
+          "universal access for prevention and",
+          "intervention without stigma. Classrooms",
+          "report a greater sense of belonging",
+          "and connection."
+        ],
+        "after": [
+          "Students practice together as a",
+          "classroom community, creating",
+          "universal access for prevention and",
+          "intervention without stigma. Classrooms",
+          "report a greater sense of belonging and",
+          "connection."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "About-Desktop.dc.html",
+        "tag": "p",
+        "size": "15px",
+        "before": ["Former Senior Managing", "Director, Accenture"],
+        "after": ["Former Senior Managing Director,", "Accenture"]
+      },
+      {
+        "why": "orphan",
+        "board": "About-Desktop.dc.html",
+        "tag": "p",
+        "size": "15px",
+        "before": ["Associate Professor Emeritus,", "Educational Leadership,", "UNC Charlotte"],
+        "after": ["Associate Professor Emeritus,", "Educational Leadership, UNC", "Charlotte"]
+      },
+      {
+        "why": "orphan",
+        "board": "About-Mobile-1.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": [
+          "From the beginning, the goal was not",
+          "simply to introduce mindfulness. It was",
+          "to make daily practice practical enough",
+          "to last."
+        ],
+        "after": [
+          "From the beginning, the goal was not",
+          "simply to introduce mindfulness. It was to",
+          "make daily practice practical enough to",
+          "last."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "About-Mobile-1.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": [
+          "Channels philanthropic capital to",
+          "fund classrooms where school",
+          "communities are under-resourced,",
+          "underwrites the research base, and",
+          "drives policy toward mandates and",
+          "reimbursement."
+        ],
+        "after": [
+          "Channels philanthropic capital to",
+          "fund classrooms where school",
+          "communities are under-resourced,",
+          "underwrites the research base, and",
+          "drives policy toward mandates and",
+          "reimbursement."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "About-Mobile-2.dc.html",
+        "tag": "h2",
+        "size": "32px",
+        "before": ["The idea has", "stayed simple"],
+        "after": ["The idea has stayed", "simple"]
+      },
+      {
+        "why": "orphan",
+        "board": "About-Mobile-2.dc.html",
+        "tag": "h2",
+        "size": "32px",
+        "before": ["Built on practice.", "Strengthened by", "research."],
+        "after": ["Built on practice.", "Strengthened by", "research."]
+      },
+      {
+        "why": "orphan",
+        "board": "About-Mobile-3.dc.html",
+        "tag": "p",
+        "size": "15px",
+        "before": ["Former Senior Managing", "Director, Accenture"],
+        "after": ["Former Senior Managing Director,", "Accenture"]
+      },
+      {
+        "why": "orphan",
+        "board": "About-Mobile-3.dc.html",
+        "tag": "p",
+        "size": "15px",
+        "before": [
+          "Assistant Superintendent for Student",
+          "Achievement and Family and Community",
+          "Engagement, Greece Central",
+          "School District"
+        ],
+        "after": [
+          "Assistant Superintendent for Student",
+          "Achievement and Family and Community",
+          "Engagement, Greece Central School",
+          "District"
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Article-Desktop-1.dc.html",
+        "tag": "h2",
+        "size": "28px",
+        "before": ["Tier 1: a universal foundation every classroom", "can sustain"],
+        "after": ["Tier 1: a universal foundation every classroom can", "sustain"]
+      },
+      {
+        "why": "orphan",
+        "board": "Article-Desktop-1.dc.html",
+        "tag": "div",
+        "size": "17px",
+        "before": ["All three tiers on a single page, ready to share with your", "MTSS team."],
+        "after": ["All three tiers on a single page, ready to share with your MTSS", "team."]
+      },
+      {
+        "why": "orphan",
+        "board": "Article-Desktop-2.dc.html",
+        "tag": "a",
+        "size": "14px",
+        "before": ["Tier 3:", "intensive support"],
+        "after": ["Tier 3: intensive", "support"]
+      },
+      {
+        "why": "orphan",
+        "board": "Article-Desktop-2.dc.html",
+        "tag": "h2",
+        "size": "28px",
+        "before": ["Tier 3: intensive support built on a", "familiar foundation"],
+        "after": ["Tier 3: intensive support built on a familiar", "foundation"]
+      },
+      {
+        "why": "orphan",
+        "board": "Article-Desktop-2.dc.html",
+        "tag": "h3",
+        "size": "20px",
+        "before": ["The evidence base is unusually deep for a universal", "mindfulness program"],
+        "after": ["The evidence base is unusually deep for a universal mindfulness", "program"]
+      },
+      {
+        "why": "orphan",
+        "board": "Article-Desktop-2.dc.html",
+        "tag": "p",
+        "size": "18px",
+        "before": [
+          "Superintendents who are tired of stitching together disconnected programs",
+          "often find that the alignment they have been looking for starts with one",
+          "daily practice every tier can build on. The next step is simply to see it in your",
+          "own schools."
+        ],
+        "after": [
+          "Superintendents who are tired of stitching together disconnected programs",
+          "often find that the alignment they have been looking for starts with one daily",
+          "practice every tier can build on. The next step is simply to see it in your own",
+          "schools."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Article-Desktop-2.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": [
+          "Practices are 5 to 10 minute audio-guided sessions that teachers",
+          "play during the school day. There is no curriculum to learn and no prep.",
+          "Orientation is brief and available online or in person, and teachers practice",
+          "alongside students."
+        ],
+        "after": [
+          "None. Practices are 5 to 10 minute audio-guided sessions that teachers play",
+          "during the school day. There is no curriculum to learn and no prep. Orientation",
+          "is brief and available online or in person, and teachers practice alongside",
+          "students."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Article-Desktop-2.dc.html",
+        "tag": "div",
+        "size": "20px",
+        "before": ["Why a High School Athlete of", "the Year Practices Mindfulness", "Every Day"],
+        "after": ["Why a High School Athlete of the", "Year Practices Mindfulness Every", "Day"]
+      },
+      {
+        "why": "orphan",
+        "board": "Article-Mobile-1.dc.html",
+        "tag": "h1",
+        "size": "40px",
+        "before": ["How Inner", "Explorer Supports", "Every Tier", "of MTSS"],
+        "after": ["How Inner", "Explorer Supports", "Every Tier of", "MTSS"]
+      },
+      {
+        "why": "orphan",
+        "board": "Article-Mobile-1.dc.html",
+        "tag": "p",
+        "size": "18px",
+        "before": [
+          "Most district leaders know the MTSS",
+          "framework. The problem is the",
+          "fragmented set of programs running",
+          "underneath it. Here\u2019s how one daily",
+          "practice can strengthen all three tiers",
+          "at once."
+        ],
+        "after": [
+          "Most district leaders know the MTSS",
+          "framework. The problem is the",
+          "fragmented set of programs running",
+          "underneath it. Here\u2019s how one daily",
+          "practice can strengthen all three tiers at",
+          "once."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Article-Mobile-1.dc.html",
+        "tag": "span",
+        "size": "17px",
+        "before": [
+          "One foundation: less than $8",
+          "per student per year, examined",
+          "in six peer-reviewed and",
+          "university studies."
+        ],
+        "after": [
+          "One foundation: less than $8 per",
+          "student per year, examined in six",
+          "peer-reviewed and university",
+          "studies."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Article-Mobile-1.dc.html",
+        "tag": "h2",
+        "size": "24px",
+        "before": ["Why MTSS support", "becomes a stack of", "disconnected programs"],
+        "after": ["Why MTSS support becomes", "a stack of disconnected", "programs"]
+      },
+      {
+        "why": "orphan",
+        "board": "Article-Mobile-1.dc.html",
+        "tag": "div",
+        "size": "14px",
+        "before": [
+          "Fewer behavior",
+          "issues in special",
+          "education",
+          "classrooms, La",
+          "Joya ISD"
+        ],
+        "after": ["Fewer behavior", "issues in special", "education", "classrooms, La Joya", "ISD"]
+      },
+      {
+        "why": "orphan",
+        "board": "Article-Mobile-1.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": [
+          "For district leaders, that continuity has a",
+          "quiet operational payoff. Staff across tiers",
+          "are aligned in their approach, and data",
+          "trends become easier to compare because",
+          "the underlying theory and practice are",
+          "the same."
+        ],
+        "after": [
+          "For district leaders, that continuity has a",
+          "quiet operational payoff. Staff across tiers",
+          "are aligned in their approach, and data",
+          "trends become easier to compare because",
+          "the underlying theory and practice are the",
+          "same."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Article-Mobile-2.dc.html",
+        "tag": "h2",
+        "size": "24px",
+        "before": ["What a coherent MTSS", "foundation means for", "district leaders"],
+        "after": ["What a coherent MTSS", "foundation means for district", "leaders"]
+      },
+      {
+        "why": "orphan",
+        "board": "Article-Mobile-2.dc.html",
+        "tag": "h3",
+        "size": "18px",
+        "before": ["Coherence lowers cost and", "operational burden"],
+        "after": ["Coherence lowers cost and operational", "burden"]
+      },
+      {
+        "why": "orphan",
+        "board": "Article-Mobile-2.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": [
+          "Because the practice is universal and daily,",
+          "it reaches every child in the building, not",
+          "only those whose families can get to",
+          "outside services. That matters most for the",
+          "students who are least likely to opt into a",
+          "separate program yet stand to benefit the",
+          "most. A single Tier 1 foundation supports",
+          "them by default, rather than waiting on",
+          "a referral."
+        ],
+        "after": [
+          "Because the practice is universal and daily,",
+          "it reaches every child in the building, not",
+          "only those whose families can get to",
+          "outside services. That matters most for the",
+          "students who are least likely to opt into a",
+          "separate program yet stand to benefit the",
+          "most. A single Tier 1 foundation supports",
+          "them by default, rather than waiting on a",
+          "referral."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Article-Mobile-2.dc.html",
+        "tag": "h2",
+        "size": "24px",
+        "before": ["A foundation, not", "another program"],
+        "after": ["A foundation, not another", "program"]
+      },
+      {
+        "why": "orphan",
+        "board": "Article-Mobile-2.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": [
+          "The strongest case for Inner Explorer at",
+          "the district level is not what it adds to your",
+          "MTSS framework. It is what it makes",
+          "possible across the framework you already",
+          "have: a shared vocabulary at Tier 1,",
+          "continuity into Tier 2 groups, and a",
+          "regulation foundation that strengthens Tier",
+          "3 work, with less burden on educators",
+          "and measurable movement in",
+          "behavior, attendance, academics, and",
+          "staff wellbeing."
+        ],
+        "after": [
+          "The strongest case for Inner Explorer at",
+          "the district level is not what it adds to your",
+          "MTSS framework. It is what it makes",
+          "possible across the framework you already",
+          "have: a shared vocabulary at Tier 1,",
+          "continuity into Tier 2 groups, and a",
+          "regulation foundation that strengthens Tier",
+          "3 work, with less burden on educators and",
+          "measurable movement in behavior,",
+          "attendance, academics, and staff",
+          "wellbeing."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Article-Mobile-2.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": [
+          "It is built on the Mindfulness-Based",
+          "Stress Reduction protocol, connected to",
+          "more than 16,000 studies on mindful",
+          "awareness, and has been specifically",
+          "examined in six published peer-reviewed",
+          "and university studies, along with two",
+          "meta-analyses."
+        ],
+        "after": [
+          "Yes. It is built on the Mindfulness-Based",
+          "Stress Reduction protocol, connected to",
+          "more than 16,000 studies on mindful",
+          "awareness, and has been specifically",
+          "examined in six published peer-reviewed",
+          "and university studies, along with two",
+          "meta-analyses."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Article-Mobile-2.dc.html",
+        "tag": "h2",
+        "size": "24px",
+        "before": ["Subscribe to our", "newsletter."],
+        "after": ["Subscribe to our", "newsletter."]
+      },
+      {
+        "why": "orphan",
+        "board": "Article-Mobile-2.dc.html",
+        "tag": "div",
+        "size": "15px",
+        "before": ["No spam. One email a month.", "Unsubscribe anytime."],
+        "after": ["No spam. One email a month. Unsubscribe", "anytime."]
+      },
+      {
+        "why": "orphan",
+        "board": "Article-Mobile-First-Screen.dc.html",
+        "tag": "h1",
+        "size": "40px",
+        "before": ["How Inner", "Explorer Supports", "Every Tier", "of MTSS"],
+        "after": ["How Inner", "Explorer Supports", "Every Tier of", "MTSS"]
+      },
+      {
+        "why": "orphan",
+        "board": "Article-Mobile-First-Screen.dc.html",
+        "tag": "p",
+        "size": "18px",
+        "before": [
+          "Most district leaders know the MTSS",
+          "framework. The problem is the",
+          "fragmented set of programs running",
+          "underneath it. Here\u2019s how one daily",
+          "practice can strengthen all three tiers",
+          "at once."
+        ],
+        "after": [
+          "Most district leaders know the MTSS",
+          "framework. The problem is the",
+          "fragmented set of programs running",
+          "underneath it. Here\u2019s how one daily",
+          "practice can strengthen all three tiers at",
+          "once."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Case-Studies-Desktop.dc.html",
+        "tag": "h1",
+        "size": "64px",
+        "before": ["Case Studies on", "Inner Explorer", "Program"],
+        "after": ["Case Studies on", "Inner Explorer", "Program"]
+      },
+      {
+        "why": "orphan",
+        "board": "Case-Studies-Desktop.dc.html",
+        "tag": "p",
+        "size": "20px",
+        "before": ["See what a daily mindfulness practice could do for", "your classrooms."],
+        "after": ["See what a daily mindfulness practice could do for your", "classrooms."]
+      },
+      {
+        "why": "orphan",
+        "board": "Case-Studies-Mobile.dc.html",
+        "tag": "h1",
+        "size": "40px",
+        "before": ["Case Studies on", "Inner Explorer", "Program"],
+        "after": ["Case Studies on", "Inner Explorer", "Program"]
+      },
+      {
+        "why": "orphan",
+        "board": "Case-Studies-Mobile.dc.html",
+        "tag": "p",
+        "size": "18px",
+        "before": ["See what a daily mindfulness", "practice could do for your", "classrooms."],
+        "after": ["See what a daily mindfulness", "practice could do for your", "classrooms."]
+      },
+      {
+        "why": "orphan",
+        "board": "Contact-Desktop.dc.html",
+        "tag": "h2",
+        "size": "28px",
+        "before": ["Our support team is the", "fastest route"],
+        "after": ["Our support team is the fastest", "route"]
+      },
+      {
+        "why": "orphan",
+        "board": "Contact-Mobile.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": [
+          "If you already practice with us, they",
+          "can help with your account, your",
+          "login, or anything happening in",
+          "the classroom."
+        ],
+        "after": [
+          "If you already practice with us, they",
+          "can help with your account, your",
+          "login, or anything happening in the",
+          "classroom."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Contact-Mobile.dc.html",
+        "tag": "h3",
+        "size": "24px",
+        "before": ["Already using Inner", "Explorer?"],
+        "after": ["Already using Inner", "Explorer?"]
+      },
+      {
+        "why": "orphan",
+        "board": "Contact-Success.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": [
+          "We just sent a confirmation to your inbox, and someone from",
+          "our team will follow up within 1 business day to find a time",
+          "to talk."
+        ],
+        "after": [
+          "We just sent a confirmation to your inbox, and someone from",
+          "our team will follow up within 1 business day to find a time to",
+          "talk."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Home-Desktop-2.dc.html",
+        "tag": "blockquote",
+        "size": "20px",
+        "before": [
+          "Inner Explorer has proven to be a",
+          "pivotal tool in supporting our",
+          "students and staff mental",
+          "well-being, thereby contributing",
+          "significantly to the overall",
+          "improvement in academic",
+          "performance across",
+          "all domains."
+        ],
+        "after": [
+          "Inner Explorer has proven to be a",
+          "pivotal tool in supporting our",
+          "students and staff mental",
+          "well-being, thereby contributing",
+          "significantly to the overall",
+          "improvement in academic",
+          "performance across all",
+          "domains."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Home-Desktop-2.dc.html",
+        "tag": "blockquote",
+        "size": "20px",
+        "before": [
+          "Inner Explorer helps students",
+          "make good decisions,",
+          "developing good clear minds,",
+          "free of stress. I like those",
+          "chances and circumstances",
+          "in terms of a kid making",
+          "better decisions."
+        ],
+        "after": [
+          "Inner Explorer helps students",
+          "make good decisions,",
+          "developing good clear minds,",
+          "free of stress. I like those",
+          "chances and circumstances in",
+          "terms of a kid making better",
+          "decisions."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Home-Desktop-2.dc.html",
+        "tag": "h2",
+        "size": "44px",
+        "before": ["Give Students the", "Foundation They Need", "to Learn"],
+        "after": ["Give Students the", "Foundation They Need to", "Learn"]
+      },
+      {
+        "why": "orphan",
+        "board": "Home-Mobile-2.dc.html",
+        "tag": "p",
+        "size": "14px",
+        "before": ["Randomized controlled trial, 39 Head", "Start classrooms"],
+        "after": ["Randomized controlled trial, 39 Head Start", "classrooms"]
+      },
+      {
+        "why": "orphan",
+        "board": "Home-Mobile-2.dc.html",
+        "tag": "h2",
+        "size": "32px",
+        "before": ["Trusted by School", "Communities", "Everywhere"],
+        "after": ["Trusted by School", "Communities", "Everywhere"]
+      },
+      {
+        "why": "orphan",
+        "board": "Home-Mobile-2.dc.html",
+        "tag": "h2",
+        "size": "32px",
+        "before": ["Affordable and", "Fundable"],
+        "after": ["Affordable and", "Fundable"]
+      },
+      {
+        "why": "orphan",
+        "board": "Home-Mobile-2.dc.html",
+        "tag": "p",
+        "size": "18px",
+        "before": [
+          "5 audio-guided minutes is all it",
+          "takes to settle a room. See how",
+          "it fits your classrooms, schools",
+          "or district."
+        ],
+        "after": [
+          "5 audio-guided minutes is all it",
+          "takes to settle a room. See how it",
+          "fits your classrooms, schools or",
+          "district."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Home-Mobile-Scrolled.dc.html",
+        "tag": "h2",
+        "size": "32px",
+        "before": ["Children can\u2019t learn", "when they\u2019re", "stressed."],
+        "after": ["Children can\u2019t learn", "when they\u2019re", "stressed."]
+      },
+      {
+        "why": "orphan",
+        "board": "Home-Mobile-Scrolled.dc.html",
+        "tag": "p",
+        "size": "18px",
+        "before": [
+          "Behavioral disruptions steal",
+          "weeks of instructional time every",
+          "single year."
+        ],
+        "after": [
+          "Behavioral disruptions steal weeks",
+          "of instructional time every single",
+          "year."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Home-Mobile.dc.html",
+        "tag": "p",
+        "size": "19px",
+        "before": [
+          "Inner Explorer brings daily mindfulness",
+          "to PreK\u201312 classrooms, helping",
+          "students build the regulation, focus,",
+          "and resilience they need to learn",
+          "and thrive."
+        ],
+        "after": [
+          "Inner Explorer brings daily mindfulness",
+          "to PreK\u201312 classrooms, helping",
+          "students build the regulation, focus,",
+          "and resilience they need to learn and",
+          "thrive."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Home-Mobile.dc.html",
+        "tag": "div",
+        "size": "15px",
+        "before": ["students who have", "practiced"],
+        "after": ["students who have", "practiced"]
+      },
+      {
+        "why": "orphan",
+        "board": "Home-Mobile.dc.html",
+        "tag": "div",
+        "size": "15px",
+        "before": ["fewer behavioral", "issues"],
+        "after": ["fewer behavioral", "issues"]
+      },
+      {
+        "why": "orphan",
+        "board": "Home-Mobile.dc.html",
+        "tag": "h2",
+        "size": "32px",
+        "before": ["Children can\u2019t learn", "when they\u2019re", "stressed."],
+        "after": ["Children can\u2019t learn", "when they\u2019re", "stressed."]
+      },
+      {
+        "why": "orphan",
+        "board": "Home-Mobile.dc.html",
+        "tag": "p",
+        "size": "18px",
+        "before": [
+          "Behavioral disruptions steal",
+          "weeks of instructional time every",
+          "single year."
+        ],
+        "after": [
+          "Behavioral disruptions steal weeks",
+          "of instructional time every single",
+          "year."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Home-Mobile.dc.html",
+        "tag": "h2",
+        "size": "32px",
+        "before": ["How Daily", "Practice Works"],
+        "after": ["How Daily Practice", "Works"]
+      },
+      {
+        "why": "orphan",
+        "board": "Home-Mobile.dc.html",
+        "tag": "div",
+        "size": "17px",
+        "before": [
+          "Students and educators follow",
+          "the 5\u201310 minute audio-guided",
+          "practice together."
+        ],
+        "after": [
+          "Students and educators follow the",
+          "5\u201310 minute audio-guided practice",
+          "together."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Home-Mobile.dc.html",
+        "tag": "span",
+        "size": "16px",
+        "before": ["5\u201310 minute", "audio-guided practices"],
+        "after": ["5\u201310 minute audio-guided", "practices"]
+      },
+      {
+        "why": "orphan",
+        "board": "Home-Mobile.dc.html",
+        "tag": "span",
+        "size": "16px",
+        "before": ["Educators practice", "alongside students"],
+        "after": ["Educators practice alongside", "students"]
+      },
+      {
+        "why": "orphan",
+        "board": "Home-Mobile.dc.html",
+        "tag": "span",
+        "size": "15px",
+        "before": ["Brightwater Unified \u00b7", "Fall 2026"],
+        "after": ["Brightwater Unified \u00b7 Fall", "2026"]
+      },
+      {
+        "why": "orphan",
+        "board": "Home-Mobile.dc.html",
+        "tag": "span",
+        "size": "16px",
+        "before": ["District-wide adoption funnels and", "engagement"],
+        "after": ["District-wide adoption funnels and", "engagement"]
+      },
+      {
+        "why": "orphan",
+        "board": "Home-Mobile.dc.html",
+        "tag": "span",
+        "size": "16px",
+        "before": ["One shared language across", "the community"],
+        "after": ["One shared language across the", "community"]
+      },
+      {
+        "why": "orphan",
+        "board": "Home-Mobile.dc.html",
+        "tag": "h3",
+        "size": "24px",
+        "before": ["Mindfulness that grows", "with students"],
+        "after": ["Mindfulness that grows with", "students"]
+      },
+      {
+        "why": "orphan",
+        "board": "Main.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": [
+          "Prevention for every student in Tier",
+          "1, with the same approach extended",
+          "to targeted support when more help",
+          "is needed."
+        ],
+        "after": [
+          "Prevention for every student in Tier 1,",
+          "with the same approach extended to",
+          "targeted support when more help is",
+          "needed."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Main.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": [
+          "Brief, audio-guided practices fit naturally into the",
+          "school day with no lesson planning, prep, or specialized",
+          "training required."
+        ],
+        "after": [
+          "Brief, audio-guided practices fit naturally into the school day",
+          "with no lesson planning, prep, or specialized training",
+          "required."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Main.dc.html",
+        "tag": "span",
+        "size": "16px",
+        "before": ["5\u201310 minute audio-guided", "practices"],
+        "after": ["5\u201310 minute audio-guided", "practices"]
+      },
+      {
+        "why": "orphan",
+        "board": "Main.dc.html",
+        "tag": "span",
+        "size": "16px",
+        "before": ["180 days of", "sequenced content"],
+        "after": ["180 days of sequenced", "content"]
+      },
+      {
+        "why": "orphan",
+        "board": "Main.dc.html",
+        "tag": "span",
+        "size": "16px",
+        "before": ["Impact and outcomes", "reporting, ready for", "the board"],
+        "after": ["Impact and outcomes", "reporting, ready for the", "board"]
+      },
+      {
+        "why": "orphan",
+        "board": "Main.dc.html",
+        "tag": "span",
+        "size": "16px",
+        "before": ["Implementation visibility", "across classrooms", "and schools"],
+        "after": ["Implementation visibility", "across classrooms and", "schools"]
+      },
+      {
+        "why": "orphan",
+        "board": "Main.dc.html",
+        "tag": "span",
+        "size": "16px",
+        "before": ["Programming that", "supports every tier", "of MTSS"],
+        "after": ["Programming that", "supports every tier of", "MTSS"]
+      },
+      {
+        "why": "orphan",
+        "board": "Newsroom-Desktop.dc.html",
+        "tag": "h3",
+        "size": "20px",
+        "before": ["Why a high school Athlete of", "the Year practices mindfulness", "every day"],
+        "after": ["Why a high school Athlete of the", "Year practices mindfulness every", "day"]
+      },
+      {
+        "why": "orphan",
+        "board": "Newsroom-Desktop.dc.html",
+        "tag": "h3",
+        "size": "20px",
+        "before": ["Bringing mindfulness to", "every classroom"],
+        "after": ["Bringing mindfulness to every", "classroom"]
+      },
+      {
+        "why": "orphan",
+        "board": "Newsroom-Desktop.dc.html",
+        "tag": "h3",
+        "size": "20px",
+        "before": ["At-home use of", "app-based mindfulness"],
+        "after": ["At-home use of app-based", "mindfulness"]
+      },
+      {
+        "why": "orphan",
+        "board": "Newsroom-Desktop.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": ["[One-sentence summary of the", "announcement.]"],
+        "after": ["[One-sentence summary of the", "announcement.]"]
+      },
+      {
+        "why": "orphan",
+        "board": "Newsroom-Desktop.dc.html",
+        "tag": "p",
+        "size": "20px",
+        "before": [
+          "Walk through the daily practice, the",
+          "research behind it and how schools roll",
+          "it out."
+        ],
+        "after": [
+          "Walk through the daily practice, the",
+          "research behind it and how schools roll it",
+          "out."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Newsroom-Mobile.dc.html",
+        "tag": "h2",
+        "size": "32px",
+        "before": ["How Inner Explorer", "supports every tier", "of MTSS"],
+        "after": ["How Inner Explorer", "supports every tier of", "MTSS"]
+      },
+      {
+        "why": "orphan",
+        "board": "Newsroom-Mobile.dc.html",
+        "tag": "h3",
+        "size": "18px",
+        "before": ["Bringing mindfulness to", "every classroom"],
+        "after": ["Bringing mindfulness to every", "classroom"]
+      },
+      {
+        "why": "orphan",
+        "board": "Newsroom-Mobile.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": ["[One-sentence description of", "the resource.]"],
+        "after": ["[One-sentence description of the", "resource.]"]
+      },
+      {
+        "why": "orphan",
+        "board": "Newsroom-Mobile.dc.html",
+        "tag": "span",
+        "size": "14px",
+        "before": ["math and reading, special", "education"],
+        "after": ["math and reading, special", "education"]
+      },
+      {
+        "why": "orphan",
+        "board": "Newsroom-Mobile.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": ["[One-sentence summary of the", "announcement.]"],
+        "after": ["[One-sentence summary of the", "announcement.]"]
+      },
+      {
+        "why": "orphan",
+        "board": "Newsroom-Mobile.dc.html",
+        "tag": "h2",
+        "size": "32px",
+        "before": ["See what a few", "minutes a day", "could change", "at your school"],
+        "after": ["See what a few", "minutes a day could", "change at your", "school"]
+      },
+      {
+        "why": "orphan",
+        "board": "Platform-Desktop-1.dc.html",
+        "tag": "h3",
+        "size": "20px",
+        "before": ["Transition Practices and", "Sound Series"],
+        "after": ["Transition Practices and Sound", "Series"]
+      },
+      {
+        "why": "orphan",
+        "board": "Platform-Desktop-2.dc.html",
+        "tag": "p",
+        "size": "20px",
+        "before": [
+          "Track usage across the school year by school and classroom to",
+          "measure impact."
+        ],
+        "after": [
+          "Track usage across the school year by school and classroom to measure",
+          "impact."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Platform-Desktop-2.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": [
+          "View adoption, mindful minutes, retention, and practice",
+          "sessions by day, week, or month to spot trends, identify",
+          "champions, and understand engagement across",
+          "your schools."
+        ],
+        "after": [
+          "View adoption, mindful minutes, retention, and practice",
+          "sessions by day, week, or month to spot trends, identify",
+          "champions, and understand engagement across your",
+          "schools."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Platform-Desktop-2.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": [
+          "Audio-guided practices that",
+          "help settle the room in minutes,",
+          "giving students and educators",
+          "a moment to pause, be present,",
+          "and prepare their minds",
+          "for learning."
+        ],
+        "after": [
+          "Audio-guided practices that",
+          "help settle the room in minutes,",
+          "giving students and educators a",
+          "moment to pause, be present,",
+          "and prepare their minds for",
+          "learning."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Platform-Desktop-2.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": [
+          "Every practice in Elementary",
+          "through High School ends",
+          "with a prompted reflection for",
+          "the class."
+        ],
+        "after": [
+          "Every practice in Elementary",
+          "through High School ends with",
+          "a prompted reflection for the",
+          "class."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Platform-Desktop-2.dc.html",
+        "tag": "h2",
+        "size": "44px",
+        "before": ["Bring daily practice to", "your schools"],
+        "after": ["Bring daily practice to your", "schools"]
+      },
+      {
+        "why": "orphan",
+        "board": "Platform-Desktop-2.dc.html",
+        "tag": "p",
+        "size": "20px",
+        "before": [
+          "Reach out to our team and discover",
+          "what daily mindfulness could look like in",
+          "your classrooms."
+        ],
+        "after": [
+          "Reach out to our team and discover what",
+          "daily mindfulness could look like in your",
+          "classrooms."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Platform-Mobile-1.dc.html",
+        "tag": "h1",
+        "size": "40px",
+        "before": ["Evidence-Based", "Mindfulness", "That Fits", "Into Every", "Classroom"],
+        "after": ["Evidence-Based", "Mindfulness That", "Fits", "Into Every", "Classroom"]
+      },
+      {
+        "why": "orphan",
+        "board": "Platform-Mobile-1.dc.html",
+        "tag": "h2",
+        "size": "32px",
+        "before": ["Additional mindfulness", "series beyond", "the daily practice"],
+        "after": ["Additional mindfulness", "series beyond the daily", "practice"]
+      },
+      {
+        "why": "orphan",
+        "board": "Platform-Mobile-1.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": [
+          "Topic-specific practices on handling",
+          "big emotions, test-taking anxiety,",
+          "connection, change, and more. For",
+          "student services staff, including",
+          "counselors, school psychologists,",
+          "etc., to use with individual students",
+          "or small groups. Ideal for Tier 2 and",
+          "Tier 3."
+        ],
+        "after": [
+          "Topic-specific practices on handling",
+          "big emotions, test-taking anxiety,",
+          "connection, change, and more. For",
+          "student services staff, including",
+          "counselors, school psychologists,",
+          "etc., to use with individual students or",
+          "small groups. Ideal for Tier 2 and Tier",
+          "3."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Platform-Mobile-1.dc.html",
+        "tag": "h3",
+        "size": "18px",
+        "before": ["Transition Practices and", "Sound Series"],
+        "after": ["Transition Practices and Sound", "Series"]
+      },
+      {
+        "why": "orphan",
+        "board": "Platform-Mobile-1.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": [
+          "Ten hours of asynchronous",
+          "professional development to extend",
+          "beyond the classroom and",
+          "deepen one\u2019s understanding and",
+          "experience of mindfulness-based",
+          "stress reduction."
+        ],
+        "after": [
+          "Ten hours of asynchronous",
+          "professional development to extend",
+          "beyond the classroom and deepen",
+          "one\u2019s understanding and experience",
+          "of mindfulness-based stress",
+          "reduction."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Platform-Mobile-2.dc.html",
+        "tag": "h2",
+        "size": "32px",
+        "before": [
+          "Full visibility into the",
+          "engagement statistics",
+          "administrators",
+          "care about"
+        ],
+        "after": [
+          "Full visibility into the",
+          "engagement statistics",
+          "administrators care",
+          "about"
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Platform-Mobile-2.dc.html",
+        "tag": "p",
+        "size": "18px",
+        "before": [
+          "Track usage across the school",
+          "year by school and classroom to",
+          "measure impact."
+        ],
+        "after": [
+          "Track usage across the school year by",
+          "school and classroom to measure",
+          "impact."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Platform-Mobile-2.dc.html",
+        "tag": "h3",
+        "size": "24px",
+        "before": ["Track engagement", "over time"],
+        "after": ["Track engagement over", "time"]
+      },
+      {
+        "why": "orphan",
+        "board": "Platform-Mobile-2.dc.html",
+        "tag": "h3",
+        "size": "24px",
+        "before": ["A dashboard", "with direction"],
+        "after": ["A dashboard with", "direction"]
+      },
+      {
+        "why": "orphan",
+        "board": "Platform-Mobile-2.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": [
+          "Stories and reflections from",
+          "across your schools. We build",
+          "this hub together to reflect",
+          "your journey."
+        ],
+        "after": [
+          "Stories and reflections from",
+          "across your schools. We build",
+          "this hub together to reflect your",
+          "journey."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Platform-Mobile-2.dc.html",
+        "tag": "h2",
+        "size": "32px",
+        "before": ["Student", "Privacy, Built In"],
+        "after": ["Student Privacy, Built", "In"]
+      },
+      {
+        "why": "orphan",
+        "board": "Platform-Mobile-2.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": [
+          "Only staff sign in. Nothing to set",
+          "up for students, and no student",
+          "data collected."
+        ],
+        "after": [
+          "Only staff sign in. Nothing to set up",
+          "for students, and no student data",
+          "collected."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Platform-Mobile-2.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": ["Data privacy agreements available", "on request."],
+        "after": ["Data privacy agreements available on", "request."]
+      },
+      {
+        "why": "orphan",
+        "board": "Platform-Mobile-2.dc.html",
+        "tag": "span",
+        "size": "17px",
+        "before": ["Reading test scores, students", "with disabilities"],
+        "after": ["Reading test scores, students with", "disabilities"]
+      },
+      {
+        "why": "orphan",
+        "board": "Platform-Mobile-2.dc.html",
+        "tag": "span",
+        "size": "17px",
+        "before": ["Math test scores, students", "with disabilities"],
+        "after": ["Math test scores, students with", "disabilities"]
+      },
+      {
+        "why": "orphan",
+        "board": "Platform-Programs-Green.dc.html",
+        "tag": "p",
+        "size": "20px",
+        "before": [
+          "All four programs follow the same daily",
+          "rhythm. Experience a practice from",
+          "each one."
+        ],
+        "after": [
+          "All four programs follow the same daily",
+          "rhythm. Experience a practice from each",
+          "one."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Pricing-Desktop.dc.html",
+        "tag": "p",
+        "size": "16px",
+        "before": [
+          "Annual per site license for early",
+          "learning, out-of-school-time, and",
+          "after-school centers."
+        ],
+        "after": [
+          "Annual per site license for early learning,",
+          "out-of-school-time, and after-school",
+          "centers."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Pricing-Desktop.dc.html",
+        "tag": "span",
+        "size": "13px",
+        "before": [
+          "Annual per site license",
+          "with full family access and",
+          "performance guarantee"
+        ],
+        "after": ["Annual per site license with full", "family access and performance", "guarantee"]
+      },
+      {
+        "why": "orphan",
+        "board": "Pricing-Desktop.dc.html",
+        "tag": "span",
+        "size": "15px",
+        "before": ["Board and leadership", "presentation materials"],
+        "after": ["Board and leadership presentation", "materials"]
+      },
+      {
+        "why": "orphan",
+        "board": "Pricing-Mobile.dc.html",
+        "tag": "span",
+        "size": "40px",
+        "before": ["for your learning", "community."],
+        "after": ["for your learning", "community."]
+      },
+      {
+        "why": "orphan",
+        "board": "Pricing-Mobile.dc.html",
+        "tag": "div",
+        "size": "16px",
+        "before": ["Mindfulness Based Stress Reduction", "(MBSR) protocol"],
+        "after": ["Mindfulness Based Stress Reduction (MBSR)", "protocol"]
+      },
+      {
+        "why": "orphan",
+        "board": "Pricing-Mobile.dc.html",
+        "tag": "div",
+        "size": "16px",
+        "before": ["BrainFutures named top 10", "executive functioning"],
+        "after": ["BrainFutures named top 10 executive", "functioning"]
+      },
+      {
+        "why": "orphan",
+        "board": "Pricing-Mobile.dc.html",
+        "tag": "div",
+        "size": "16px",
+        "before": ["STEM+M (mindfulness) project-based", "learning modules"],
+        "after": ["STEM+M (mindfulness) project-based learning", "modules"]
+      },
+      {
+        "why": "orphan",
+        "board": "Pricing-Mobile.dc.html",
+        "tag": "span",
+        "size": "11px",
+        "before": [
+          "Annual per site",
+          "license with full",
+          "family access and",
+          "performance guarantee"
+        ],
+        "after": [
+          "Annual per site license",
+          "with full family access",
+          "and performance",
+          "guarantee"
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Pricing-Mobile.dc.html",
+        "tag": "div",
+        "size": "16px",
+        "before": ["Clever single sign-on (SSO) for educators", "and students"],
+        "after": ["Clever single sign-on (SSO) for educators and", "students"]
+      },
+      {
+        "why": "orphan",
+        "board": "Pricing-Mobile.dc.html",
+        "tag": "div",
+        "size": "16px",
+        "before": ["Mental health and resilience", "mandate supplements"],
+        "after": ["Mental health and resilience mandate", "supplements"]
+      },
+      {
+        "why": "orphan",
+        "board": "Pricing-Mobile.dc.html",
+        "tag": "span",
+        "size": "15px",
+        "before": ["Family engagement kit and home", "app access"],
+        "after": ["Family engagement kit and home app", "access"]
+      },
+      {
+        "why": "orphan",
+        "board": "Pricing-Mobile.dc.html",
+        "tag": "span",
+        "size": "15px",
+        "before": ["Board and leadership", "presentation materials"],
+        "after": ["Board and leadership presentation", "materials"]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Desktop-2.dc.html",
+        "tag": "h2",
+        "size": "44px",
+        "before": ["Bring mindfulness", "into your classrooms."],
+        "after": ["Bring mindfulness into your", "classrooms."]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Desktop.dc.html",
+        "tag": "p",
+        "size": "44px",
+        "before": ["When the brain floods", "with stress, the thinking", "part goes offline."],
+        "after": ["When the brain floods with", "stress, the thinking part goes", "offline."]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Desktop.dc.html",
+        "tag": "h4",
+        "size": "20px",
+        "before": ["Higher grades.", "Better test scores."],
+        "after": ["Higher grades. Better test", "scores."]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Desktop.dc.html",
+        "tag": "h4",
+        "size": "20px",
+        "before": ["Fewer disruptions.", "Calmer classrooms."],
+        "after": ["Fewer disruptions. Calmer", "classrooms."]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Desktop.dc.html",
+        "tag": "span",
+        "size": "14px",
+        "before": ["Lopez et al. \u00b7 University of South Florida \u00b7 2020 \u00b7", "S3"],
+        "after": ["Lopez et al. \u00b7 University of South Florida \u00b7 2020 \u00b7", "S3"]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Desktop.dc.html",
+        "tag": "h3",
+        "size": "38px",
+        "before": ["When kids can\u2019t", "find the pause."],
+        "after": ["When kids can\u2019t find the", "pause."]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Desktop.dc.html",
+        "tag": "h3",
+        "size": "38px",
+        "before": ["Social, behavioral,", "and emotional", "skill development."],
+        "after": ["Social, behavioral, and", "emotional skill", "development."]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Desktop.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": [
+          "That\u2019s why belonging can\u2019t be assigned. Schools work hard to build",
+          "connection, and connection matters enormously: students who feel",
+          "connected at school report poor mental health at roughly half the rate of",
+          "students who don\u2019t. But a child whose threat detection is miscalibrated",
+          "cannot perceive the safety a school is offering. Safety is not a feeling adults",
+          "can hand to a student. It\u2019s a reading their nervous system has to be able",
+          "to make."
+        ],
+        "after": [
+          "That\u2019s why belonging can\u2019t be assigned. Schools work hard to build",
+          "connection, and connection matters enormously: students who feel",
+          "connected at school report poor mental health at roughly half the rate of",
+          "students who don\u2019t. But a child whose threat detection is miscalibrated",
+          "cannot perceive the safety a school is offering. Safety is not a feeling adults",
+          "can hand to a student. It\u2019s a reading their nervous system has to be able to",
+          "make."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Desktop.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": [
+          "A science-of-reading lesson can\u2019t reach a prefrontal",
+          "cortex that\u2019s offline. A behavior plan can\u2019t regulate a",
+          "nervous system stuck in fight-or-flight. The missing",
+          "piece isn\u2019t a better program or better instruction. It\u2019s",
+          "the biological foundation that lets every other program",
+          "finally work."
+        ],
+        "after": [
+          "A science-of-reading lesson can\u2019t reach a prefrontal",
+          "cortex that\u2019s offline. A behavior plan can\u2019t regulate a",
+          "nervous system stuck in fight-or-flight. The missing piece",
+          "isn\u2019t a better program or better instruction. It\u2019s the",
+          "biological foundation that lets every other program finally",
+          "work."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Desktop.dc.html",
+        "tag": "span",
+        "size": "15px",
+        "before": ["New reading", "curricula"],
+        "after": ["New reading", "curricula"]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Desktop.dc.html",
+        "tag": "span",
+        "size": "15px",
+        "before": ["Resilience and life", "skills"],
+        "after": ["Resilience and life", "skills"]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Desktop.dc.html",
+        "tag": "span",
+        "size": "15px",
+        "before": ["New reading", "curricula"],
+        "after": ["New reading", "curricula"]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Desktop.dc.html",
+        "tag": "span",
+        "size": "15px",
+        "before": ["Resilience and life", "skills"],
+        "after": ["Resilience and life", "skills"]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-1.dc.html",
+        "tag": "p",
+        "size": "18px",
+        "before": [
+          "Two of every three children",
+          "carry stress that quietly shuts",
+          "down their ability to learn."
+        ],
+        "after": [
+          "Two of every three children carry stress",
+          "that quietly shuts down their ability to",
+          "learn."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-1.dc.html",
+        "tag": "h4",
+        "size": "18px",
+        "before": ["Fewer disruptions.", "Calmer classrooms."],
+        "after": ["Fewer disruptions. Calmer", "classrooms."]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-1.dc.html",
+        "tag": "span",
+        "size": "16px",
+        "before": ["Less burnout and", "secondary trauma"],
+        "after": ["Less burnout and secondary", "trauma"]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-1.dc.html",
+        "tag": "h4",
+        "size": "14px",
+        "before": ["A randomized trial in 39 Head", "Start classrooms"],
+        "after": ["A randomized trial in 39 Head Start", "classrooms"]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-1.dc.html",
+        "tag": "h4",
+        "size": "14px",
+        "before": ["At-home use of app\u2011based", "mindfulness"],
+        "after": ["At-home use of app\u2011based", "mindfulness"]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-1.dc.html",
+        "tag": "dt",
+        "size": "12px",
+        "before": ["Compared with audiobook", "groups"],
+        "after": ["Compared with audiobook", "groups"]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-1.dc.html",
+        "tag": "h4",
+        "size": "20px",
+        "before": ["Mindfulness-based school", "interventions"],
+        "after": ["Mindfulness-based school", "interventions"]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-1.dc.html",
+        "tag": "h3",
+        "size": "24px",
+        "before": ["When kids can\u2019t", "find the pause."],
+        "after": ["When kids can\u2019t find the", "pause."]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-1.dc.html",
+        "tag": "span",
+        "size": "13px",
+        "before": ["Behavior referrals \u00b7 GVSA Charlotte,", "NC"],
+        "after": ["Behavior referrals \u00b7 GVSA Charlotte,", "NC"]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-1.dc.html",
+        "tag": "span",
+        "size": "13px",
+        "before": ["Suspensions \u00b7 PATHS, Fulton County,", "GA"],
+        "after": ["Suspensions \u00b7 PATHS, Fulton County,", "GA"]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-1.dc.html",
+        "tag": "h3",
+        "size": "24px",
+        "before": ["Social, behavioral,", "and emotional", "skill development."],
+        "after": ["Social, behavioral, and", "emotional skill", "development."]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-2.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": [
+          "Stress comes from many sources,",
+          "both inside and outside of school.",
+          "When it overwhelms the brain",
+          "through the automatic",
+          "fight-flight-freeze response, higher-order",
+          "thinking takes a back seat.",
+          "Working memory shrinks. Attention",
+          "narrows. The capacity to absorb",
+          "information collapses."
+        ],
+        "after": [
+          "Stress comes from many sources,",
+          "both inside and outside of school.",
+          "When it overwhelms the brain",
+          "through the automatic",
+          "fight-flight-freeze response, higher-order",
+          "thinking takes a back seat. Working",
+          "memory shrinks. Attention narrows.",
+          "The capacity to absorb information",
+          "collapses."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-2.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": [
+          "Two of every three children",
+          "experience adverse childhood",
+          "experiences with lasting effects.",
+          "Toxic stress doesn\u2019t sit on top of",
+          "learning. It physically rewires the",
+          "developing brain, dampening",
+          "executive function and amplifying",
+          "the very stress response that began",
+          "the cycle."
+        ],
+        "after": [
+          "Two of every three children",
+          "experience adverse childhood",
+          "experiences with lasting effects.",
+          "Toxic stress doesn\u2019t sit on top of",
+          "learning. It physically rewires the",
+          "developing brain, dampening",
+          "executive function and amplifying the",
+          "very stress response that began the",
+          "cycle."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-2.dc.html",
+        "tag": "span",
+        "size": "12px",
+        "before": ["New reading", "curricula"],
+        "after": ["New reading", "curricula"]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-2.dc.html",
+        "tag": "span",
+        "size": "12px",
+        "before": ["Math", "intervention"],
+        "after": ["Math", "intervention"]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-2.dc.html",
+        "tag": "span",
+        "size": "12px",
+        "before": ["Behavior", "systems"],
+        "after": ["Behavior", "systems"]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-2.dc.html",
+        "tag": "span",
+        "size": "12px",
+        "before": ["New reading", "curricula"],
+        "after": ["New reading", "curricula"]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-2.dc.html",
+        "tag": "span",
+        "size": "12px",
+        "before": ["Math", "intervention"],
+        "after": ["Math", "intervention"]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-2.dc.html",
+        "tag": "span",
+        "size": "12px",
+        "before": ["Behavior", "systems"],
+        "after": ["Behavior", "systems"]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-2.dc.html",
+        "tag": "h2",
+        "size": "32px",
+        "before": [
+          "\u201cDoesn\u2019t some",
+          "research say",
+          "mindfulness doesn\u2019t",
+          "work?\u201d"
+        ],
+        "after": [
+          "\u201cDoesn\u2019t some",
+          "research say",
+          "mindfulness doesn\u2019t",
+          "work?\u201d"
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-2.dc.html",
+        "tag": "a",
+        "size": "16px",
+        "before": ["See why schools choose Inner", "Explorer"],
+        "after": ["See why schools choose Inner", "Explorer"]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-2.dc.html",
+        "tag": "span",
+        "size": "15px",
+        "before": ["practiced outside of class, over the entire", "program"],
+        "after": ["practiced outside of class, over the entire", "program"]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-2.dc.html",
+        "tag": "h2",
+        "size": "32px",
+        "before": ["AI accelerates.", "Mindfulness", "navigates."],
+        "after": ["AI accelerates.", "Mindfulness", "navigates."]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-2.dc.html",
+        "tag": "h2",
+        "size": "32px",
+        "before": ["Bring mindfulness", "into your", "classrooms."],
+        "after": ["Bring mindfulness", "into your", "classrooms."]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-2.dc.html",
+        "tag": "span",
+        "size": "14px",
+        "before": [
+          "Lopez, L., et al. (2020). A randomized",
+          "controlled trial of a brief daily mindfulness",
+          "intervention in 39 Head Start classrooms.",
+          "University of South Florida. RCT \u00b7 Under",
+          "review."
+        ],
+        "after": [
+          "Lopez, L., et al. (2020). A randomized",
+          "controlled trial of a brief daily mindfulness",
+          "intervention in 39 Head Start classrooms.",
+          "University of South Florida. RCT \u00b7 Under",
+          "review."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-2.dc.html",
+        "tag": "span",
+        "size": "14px",
+        "before": [
+          "Stager, A. (2022). Determining the degree to",
+          "which active use of mindfulness with",
+          "elementary students affects their annual state",
+          "test scores in math. Doctoral dissertation,",
+          "University of La Verne. Controlled study.",
+          "Link"
+        ],
+        "after": [
+          "Stager, A. (2022). Determining the degree to",
+          "which active use of mindfulness with",
+          "elementary students affects their annual state",
+          "test scores in math. Doctoral dissertation,",
+          "University of La Verne. Controlled study.",
+          "Link"
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-2.dc.html",
+        "tag": "span",
+        "size": "14px",
+        "before": [
+          "Treves, I., et al. (2023). At-home use of",
+          "app-based mindfulness for children: A randomized",
+          "active-controlled trial. Mindfulness . RCT.",
+          "Link"
+        ],
+        "after": [
+          "Treves, I., et al. (2023). At-home use of",
+          "app-based mindfulness for children: A randomized",
+          "active-controlled trial. Mindfulness . RCT.",
+          "Link"
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Studies-C-Timeline-065o.dc.html",
+        "tag": "p",
+        "size": "18px",
+        "before": [
+          "Every study below was conducted by independent",
+          "academic researchers in real classrooms: randomized",
+          "controlled trials, controlled trials, and doctoral",
+          "research."
+        ],
+        "after": [
+          "Every study below was conducted by independent",
+          "academic researchers in real classrooms: randomized",
+          "controlled trials, controlled trials, and doctoral",
+          "research."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Studies-C-Timeline-065o.dc.html",
+        "tag": "span",
+        "size": "17px",
+        "before": ["Reading grades vs.", "waitlist control"],
+        "after": ["Reading grades vs. waitlist", "control"]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Studies-C-Timeline-065o.dc.html",
+        "tag": "span",
+        "size": "14px",
+        "before": [
+          "Bakosh, Snow, Houlihan, Tobias,",
+          "Barbosa-Leiker \u00b7 Univ of London \u00b7",
+          "S1"
+        ],
+        "after": [
+          "Bakosh, Snow, Houlihan, Tobias,",
+          "Barbosa-Leiker \u00b7 Univ of London \u00b7",
+          "S1"
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Studies-C-Timeline-065o.dc.html",
+        "tag": "span",
+        "size": "17px",
+        "before": ["Teacher stress vs.", "waitlist control"],
+        "after": ["Teacher stress vs. waitlist", "control"]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Studies-C-Timeline-065o.dc.html",
+        "tag": "span",
+        "size": "17px",
+        "before": ["6th-grade state math", "scores, active vs.", "inactive use"],
+        "after": ["6th-grade state math", "scores, active vs. inactive", "use"]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Studies-C-Timeline-065o.dc.html",
+        "tag": "span",
+        "size": "17px",
+        "before": ["12,358 students \u00b7 five", "continents"],
+        "after": ["12,358 students \u00b7 five", "continents"]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Studies-C-Timeline-065o.dc.html",
+        "tag": "span",
+        "size": "14px",
+        "before": ["Phan, ML, et al. \u00b7 Utah State Univ. \u00b7", "S7"],
+        "after": ["Phan, ML, et al. \u00b7 Utah State Univ. \u00b7", "S7"]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Studies-C-Timeline-065o.dc.html",
+        "tag": "span",
+        "size": "17px",
+        "before": ["Math and reading,", "special-education", "elementary students"],
+        "after": ["Math and reading,", "special-education elementary", "students"]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Studies-C-Timeline-065o.dc.html",
+        "tag": "a",
+        "size": "14px",
+        "before": ["At-home use of app-based", "mindfulness"],
+        "after": ["At-home use of app-based", "mindfulness"]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Desktop-1.dc.html",
+        "tag": "p",
+        "size": "20px",
+        "before": [
+          "Inner Explorer helps students build the focus,",
+          "resilience, and readiness that make everything",
+          "else possible."
+        ],
+        "after": [
+          "Inner Explorer helps students build the focus,",
+          "resilience, and readiness that make everything else",
+          "possible."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Desktop-1.dc.html",
+        "tag": "p",
+        "size": "20px",
+        "before": [
+          "A nervous system running on stress cannot hold",
+          "attention, store new information, or pause before",
+          "reacting. Daily practice settles that system",
+          "first, which is what makes everything taught",
+          "afterward possible."
+        ],
+        "after": [
+          "A nervous system running on stress cannot hold",
+          "attention, store new information, or pause before",
+          "reacting. Daily practice settles that system first,",
+          "which is what makes everything taught afterward",
+          "possible."
+        ]
+      },
+      {
+        "why": "strand",
+        "board": "Why-Desktop-1.dc.html",
+        "tag": "dt",
+        "size": "16px",
+        "before": ["higher state", "math scores", "(Stager 2022)"],
+        "after": ["higher state math", "scores", "(Stager 2022)"]
+      },
+      {
+        "why": "overflow",
+        "board": "Why-Desktop-2.dc.html",
+        "tag": "caption",
+        "size": "16px",
+        "before": ["A", "curriculum", "compared", "with", "daily practice"],
+        "after": ["A", "curriculum", "compared", "with", "daily practice"]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Desktop-2.dc.html",
+        "tag": "p",
+        "size": "30px",
+        "before": ["We brush our teeth", "every day for prevention."],
+        "after": ["We brush our teeth every day for", "prevention."]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Desktop-2.dc.html",
+        "tag": "h2",
+        "size": "44px",
+        "before": ["What to ask", "before choosing a", "mindfulness program"],
+        "after": ["What to ask before", "choosing a mindfulness", "program"]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Desktop-2.dc.html",
+        "tag": "h3",
+        "size": "20px",
+        "before": ["Can it fit into the school day without", "replacing instruction?"],
+        "after": ["Can it fit into the school day without replacing", "instruction?"]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Desktop-2.dc.html",
+        "tag": "h3",
+        "size": "20px",
+        "before": ["Does the evidence match the outcomes we", "care about?"],
+        "after": ["Does the evidence match the outcomes we care", "about?"]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Desktop-2.dc.html",
+        "tag": "h2",
+        "size": "44px",
+        "before": ["What leaders see", "after implementation"],
+        "after": ["What leaders see after", "implementation"]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Mobile-1.dc.html",
+        "tag": "p",
+        "size": "14px",
+        "before": ["Seven reasons schools choose", "Inner Explorer"],
+        "after": ["Seven reasons schools choose Inner", "Explorer"]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Mobile-1.dc.html",
+        "tag": "a",
+        "size": "16px",
+        "before": ["Learn why mindfulness is the foundation", "for learning"],
+        "after": ["Learn why mindfulness is the foundation for", "learning"]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Mobile-1.dc.html",
+        "tag": "h3",
+        "size": "24px",
+        "before": ["Leaders can see whether it", "is working"],
+        "after": ["Leaders can see whether it is", "working"]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Mobile-1.dc.html",
+        "tag": "h3",
+        "size": "24px",
+        "before": ["Easy to implement, easy", "to sustain"],
+        "after": ["Easy to implement, easy to", "sustain"]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Mobile-1.dc.html",
+        "tag": "span",
+        "size": "17px",
+        "before": [
+          "Zero prep required. Log in, press",
+          "play, and deliver a consistent 5 to 10",
+          "minute practice."
+        ],
+        "after": [
+          "Zero prep required. Log in, press play,",
+          "and deliver a consistent 5 to 10 minute",
+          "practice."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Mobile-1.dc.html",
+        "tag": "span",
+        "size": "17px",
+        "before": [
+          "Screen-free for students. Students",
+          "listen rather than interact with",
+          "another screen."
+        ],
+        "after": [
+          "Screen-free for students. Students",
+          "listen rather than interact with another",
+          "screen."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Mobile-1.dc.html",
+        "tag": "h3",
+        "size": "24px",
+        "before": ["Strengthens every tier", "of MTSS"],
+        "after": ["Strengthens every tier of", "MTSS"]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Mobile-1.dc.html",
+        "tag": "a",
+        "size": "16px",
+        "before": ["See how Inner Explorer supports", "every tier"],
+        "after": ["See how Inner Explorer supports every", "tier"]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Mobile-1.dc.html",
+        "tag": "h3",
+        "size": "24px",
+        "before": ["Educators benefit as much", "as students"],
+        "after": ["Educators benefit as much as", "students"]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Mobile-2.dc.html",
+        "tag": "p",
+        "size": "14px",
+        "before": ["discipline", "referrals"],
+        "after": ["discipline", "referrals"]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Mobile-2.dc.html",
+        "tag": "h2",
+        "size": "32px",
+        "before": ["Daily mindfulness", "is the foundation", "for learning"],
+        "after": ["Daily mindfulness is", "the foundation for", "learning"]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Mobile-2.dc.html",
+        "tag": "figcaption",
+        "size": "18px",
+        "before": ["1% of the day improves the", "other 99%"],
+        "after": ["1% of the day improves the other", "99%"]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Mobile-2.dc.html",
+        "tag": "h3",
+        "size": "24px",
+        "before": [
+          "Having daily mindfulness",
+          "at the core foundation",
+          "has transformed",
+          "academic performance,",
+          "behavior, and well-being",
+          "across the country."
+        ],
+        "after": [
+          "Having daily mindfulness at",
+          "the core foundation has",
+          "transformed academic",
+          "performance, behavior, and",
+          "well-being across the",
+          "country."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Mobile-2.dc.html",
+        "tag": "h2",
+        "size": "32px",
+        "before": ["How we are", "different from a", "traditional curriculum"],
+        "after": ["How we are different", "from a traditional", "curriculum"]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Mobile-2.dc.html",
+        "tag": "span",
+        "size": "17px",
+        "before": ["Outside-in learning: explains", "why students should pause", "and regulate."],
+        "after": ["Outside-in learning: explains why", "students should pause and", "regulate."]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Mobile-2.dc.html",
+        "tag": "span",
+        "size": "17px",
+        "before": ["Adds one more thing to learn", "and teach."],
+        "after": ["Adds one more thing to learn and", "teach."]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Mobile-2.dc.html",
+        "tag": "span",
+        "size": "17px",
+        "before": ["Makes everything else easier", "to teach."],
+        "after": ["Makes everything else easier to", "teach."]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Mobile-2.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": [
+          "Why should mental well-being be any",
+          "different? Daily mindfulness works the",
+          "same way: a few minutes of consistent",
+          "practice builds regulation before students",
+          "reach the point where intervention",
+          "is needed."
+        ],
+        "after": [
+          "Why should mental well-being be any",
+          "different? Daily mindfulness works the",
+          "same way: a few minutes of consistent",
+          "practice builds regulation before students",
+          "reach the point where intervention is",
+          "needed."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Mobile-3.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": [
+          "Students and staff practice together",
+          "each day, creating a schoolwide",
+          "routine for self-regulation,",
+          "focus, and prevention across",
+          "every classroom."
+        ],
+        "after": [
+          "Students and staff practice together",
+          "each day, creating a schoolwide",
+          "routine for self-regulation, focus,",
+          "and prevention across every",
+          "classroom."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Mobile-3.dc.html",
+        "tag": "span",
+        "size": "16px",
+        "before": ["372+ students per", "counselor on average"],
+        "after": ["372+ students per counselor on", "average"]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Mobile-3.dc.html",
+        "tag": "span",
+        "size": "16px",
+        "before": ["Easy to implement:", "log in, press play"],
+        "after": ["Easy to implement: log in, press", "play"]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Mobile-3.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": [
+          "Prevention costs less than",
+          "intervention. Inner Explorer",
+          "delivers universal support",
+          "at a fraction of the",
+          "cost of more intensive",
+          "downstream services."
+        ],
+        "after": [
+          "Prevention costs less than",
+          "intervention. Inner Explorer",
+          "delivers universal support at",
+          "a fraction of the cost of more",
+          "intensive downstream",
+          "services."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Mobile-3.dc.html",
+        "tag": "h3",
+        "size": "18px",
+        "before": ["Expanding reimbursement", "opportunities"],
+        "after": ["Expanding reimbursement", "opportunities"]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Mobile-3.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": [
+          "School-based behavioral",
+          "health reimbursement is",
+          "evolving, creating new",
+          "opportunities for districts to",
+          "fund preventive supports like",
+          "mindfulness."
+        ],
+        "after": [
+          "School-based behavioral",
+          "health reimbursement is",
+          "evolving, creating new",
+          "opportunities for districts to",
+          "fund preventive supports like",
+          "mindfulness."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Mobile-4.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": [
+          "If implementation depends on",
+          "extensive training, prep, or individual",
+          "champions, adoption may fade",
+          "over time."
+        ],
+        "after": [
+          "If implementation depends on",
+          "extensive training, prep, or individual",
+          "champions, adoption may fade over",
+          "time."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Mobile-4.dc.html",
+        "tag": "h3",
+        "size": "18px",
+        "before": ["Can leaders see whether it is", "being used?"],
+        "after": ["Can leaders see whether it is being", "used?"]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Mobile-4.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": [
+          "Look beyond engagement. Ask",
+          "whether there is credible evidence",
+          "tied to academics, behavior,",
+          "attendance, stress, or other",
+          "district priorities."
+        ],
+        "after": [
+          "Look beyond engagement. Ask",
+          "whether there is credible evidence",
+          "tied to academics, behavior,",
+          "attendance, stress, or other district",
+          "priorities."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Mobile-4.dc.html",
+        "tag": "p",
+        "size": "26px",
+        "before": ["Inner Explorer", "meets all", "the criteria"],
+        "after": ["Inner Explorer", "meets all the", "criteria"]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Mobile-4.dc.html",
+        "tag": "h2",
+        "size": "32px",
+        "before": ["What leaders see", "after implementation"],
+        "after": ["What leaders see after", "implementation"]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Mobile-4.dc.html",
+        "tag": "blockquote",
+        "size": "18px",
+        "before": [
+          "Students are learning to use the",
+          "mindfulness strategies from Inner",
+          "Explorer to better manage their",
+          "emotions and practice",
+          "self-regulation throughout the day. We",
+          "appreciate the positive impact",
+          "the Inner Explorer has made",
+          "on our students\u2019 well-being and",
+          "campus climate."
+        ],
+        "after": [
+          "Students are learning to use the",
+          "mindfulness strategies from Inner",
+          "Explorer to better manage their",
+          "emotions and practice",
+          "self-regulation throughout the day. We",
+          "appreciate the positive impact the",
+          "Inner Explorer has made on our",
+          "students\u2019 well-being and campus",
+          "climate."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Mobile-4.dc.html",
+        "tag": "h2",
+        "size": "32px",
+        "before": ["Start with the", "layer everything", "else rests on."],
+        "after": ["Start with the layer", "everything else rests", "on."]
+      }
+    ],
+    "balance": [
+      {
+        "why": "orphan",
+        "board": "About-Desktop.dc.html",
+        "tag": "div",
+        "size": "17px",
+        "before": [
+          "In 2025, Inner Explorer became a hybrid organization, a",
+          "structure built to grow our impact over time. Inner Explorer, Inc.",
+          "is a mission-aligned company focused on innovation and reach,",
+          "continually improving how daily mindfulness gets into",
+          "classrooms. Inner Explorer Institute operates through fiscal",
+          "sponsorship with Legacy Global Programs, a 501(c)(3), so",
+          "donors can fund access for schools and classrooms that",
+          "couldn't otherwise afford it. Together, they share one goal: daily",
+          "mindfulness for every student, regardless of a school's ability",
+          "to pay."
+        ],
+        "after": [
+          "In 2025, Inner Explorer became a hybrid organization, a",
+          "structure built to grow our impact over time. Inner Explorer, Inc.",
+          "is a mission-aligned company focused on innovation and reach,",
+          "continually improving how daily mindfulness gets into",
+          "classrooms. Inner Explorer Institute operates through fiscal",
+          "sponsorship with Legacy Global Programs, a 501(c)(3), so",
+          "donors can fund access for schools and classrooms that",
+          "couldn't otherwise afford it. Together, they share one goal: daily",
+          "mindfulness for every student, regardless of a school's ability to",
+          "pay."
+        ]
+      },
+      {
+        "why": "strand",
+        "board": "About-Mobile-2.dc.html",
+        "tag": "h2",
+        "size": "32px",
+        "before": ["Built on practice.", "Strengthened by", "research."],
+        "after": ["Built on practice.", "Strengthened", "by research."]
+      },
+      {
+        "why": "strand",
+        "board": "Article-Mobile-1.dc.html",
+        "tag": "h1",
+        "size": "40px",
+        "before": ["How Inner", "Explorer Supports", "Every Tier", "of MTSS"],
+        "after": ["How Inner", "Explorer", "Supports Every", "Tier of MTSS"]
+      },
+      {
+        "why": "orphan",
+        "board": "Article-Mobile-2.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": [
+          "Because the practice is universal and daily,",
+          "it reaches every child in the building, not",
+          "only those whose families can get to",
+          "outside services. That matters most for the",
+          "students who are least likely to opt into a",
+          "separate program yet stand to benefit the",
+          "most. A single Tier 1 foundation supports",
+          "them by default, rather than waiting on",
+          "a referral."
+        ],
+        "after": [
+          "Because the practice is universal and daily,",
+          "it reaches every child in the building, not",
+          "only those whose families can get to",
+          "outside services. That matters most for the",
+          "students who are least likely to opt into a",
+          "separate program yet stand to benefit the",
+          "most. A single Tier 1 foundation supports",
+          "them by default, rather than waiting on a",
+          "referral."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Article-Mobile-2.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": [
+          "The strongest case for Inner Explorer at",
+          "the district level is not what it adds to your",
+          "MTSS framework. It is what it makes",
+          "possible across the framework you already",
+          "have: a shared vocabulary at Tier 1,",
+          "continuity into Tier 2 groups, and a",
+          "regulation foundation that strengthens Tier",
+          "3 work, with less burden on educators",
+          "and measurable movement in",
+          "behavior, attendance, academics, and",
+          "staff wellbeing."
+        ],
+        "after": [
+          "The strongest case for Inner Explorer at",
+          "the district level is not what it adds to your",
+          "MTSS framework. It is what it makes",
+          "possible across the framework you already",
+          "have: a shared vocabulary at Tier 1,",
+          "continuity into Tier 2 groups, and a",
+          "regulation foundation that strengthens Tier",
+          "3 work, with less burden on educators and",
+          "measurable movement in behavior,",
+          "attendance, academics, and staff",
+          "wellbeing."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Article-Mobile-2.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": [
+          "It is built on the Mindfulness-Based",
+          "Stress Reduction protocol, connected to",
+          "more than 16,000 studies on mindful",
+          "awareness, and has been specifically",
+          "examined in six published peer-reviewed",
+          "and university studies, along with two",
+          "meta-analyses."
+        ],
+        "after": [
+          "Yes. It is built on the Mindfulness-Based",
+          "Stress Reduction protocol, connected to",
+          "more than 16,000 studies on mindful",
+          "awareness, and has been specifically",
+          "examined in six published peer-reviewed",
+          "and university studies, along with two",
+          "meta-analyses."
+        ]
+      },
+      {
+        "why": "strand",
+        "board": "Article-Mobile-First-Screen.dc.html",
+        "tag": "h1",
+        "size": "40px",
+        "before": ["How Inner", "Explorer Supports", "Every Tier", "of MTSS"],
+        "after": ["How Inner", "Explorer", "Supports Every", "Tier of MTSS"]
+      },
+      {
+        "why": "orphan",
+        "board": "Case-Studies-Desktop.dc.html",
+        "tag": "h1",
+        "size": "64px",
+        "before": ["Case Studies on", "Inner Explorer", "Program"],
+        "after": ["Case Studies on", "Inner Explorer", "Program"]
+      },
+      {
+        "why": "orphan",
+        "board": "Home-Desktop-2.dc.html",
+        "tag": "blockquote",
+        "size": "20px",
+        "before": [
+          "Inner Explorer has proven to be a",
+          "pivotal tool in supporting our",
+          "students and staff mental",
+          "well-being, thereby contributing",
+          "significantly to the overall",
+          "improvement in academic",
+          "performance across",
+          "all domains."
+        ],
+        "after": [
+          "Inner Explorer has proven to be a",
+          "pivotal tool in supporting our",
+          "students and staff mental",
+          "well-being, thereby contributing",
+          "significantly to the overall",
+          "improvement in academic",
+          "performance across all",
+          "domains."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Home-Desktop-2.dc.html",
+        "tag": "blockquote",
+        "size": "20px",
+        "before": [
+          "Inner Explorer helps students",
+          "make good decisions,",
+          "developing good clear minds,",
+          "free of stress. I like those",
+          "chances and circumstances",
+          "in terms of a kid making",
+          "better decisions."
+        ],
+        "after": [
+          "Inner Explorer helps students",
+          "make good decisions,",
+          "developing good clear minds,",
+          "free of stress. I like those",
+          "chances and circumstances in",
+          "terms of a kid making better",
+          "decisions."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Home-Mobile-2.dc.html",
+        "tag": "h2",
+        "size": "32px",
+        "before": ["Trusted by School", "Communities", "Everywhere"],
+        "after": ["Trusted by School", "Communities", "Everywhere"]
+      },
+      {
+        "why": "orphan",
+        "board": "Home-Mobile.dc.html",
+        "tag": "div",
+        "size": "15px",
+        "before": ["fewer behavioral", "issues"],
+        "after": ["fewer behavioral", "issues"]
+      },
+      {
+        "why": "orphan",
+        "board": "Platform-Mobile-1.dc.html",
+        "tag": "h1",
+        "size": "40px",
+        "before": ["Evidence-Based", "Mindfulness", "That Fits", "Into Every", "Classroom"],
+        "after": ["Evidence-Based", "Mindfulness", "That Fits", "Into Every", "Classroom"]
+      },
+      {
+        "why": "orphan",
+        "board": "Platform-Mobile-1.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": [
+          "Topic-specific practices on handling",
+          "big emotions, test-taking anxiety,",
+          "connection, change, and more. For",
+          "student services staff, including",
+          "counselors, school psychologists,",
+          "etc., to use with individual students",
+          "or small groups. Ideal for Tier 2 and",
+          "Tier 3."
+        ],
+        "after": [
+          "Topic-specific practices on handling",
+          "big emotions, test-taking anxiety,",
+          "connection, change, and more. For",
+          "student services staff, including",
+          "counselors, school psychologists,",
+          "etc., to use with individual students or",
+          "small groups. Ideal for Tier 2 and Tier",
+          "3."
+        ]
+      },
+      {
+        "why": "strand",
+        "board": "Pricing-Desktop.dc.html",
+        "tag": "span",
+        "size": "15px",
+        "before": [
+          "Practitioner Toolkit: general and",
+          "reimbursement implementation",
+          "guide, research base, family",
+          "communication, student-facing",
+          "content, templates"
+        ],
+        "after": [
+          "Practitioner Toolkit: general and",
+          "reimbursement implementation",
+          "guide, research base, family",
+          "communication,",
+          "student-facing content, templates"
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Pricing-Mobile.dc.html",
+        "tag": "span",
+        "size": "40px",
+        "before": ["for your learning", "community."],
+        "after": ["for your learning", "community."]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Desktop.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": [
+          "That\u2019s why belonging can\u2019t be assigned. Schools work hard to build",
+          "connection, and connection matters enormously: students who feel",
+          "connected at school report poor mental health at roughly half the rate of",
+          "students who don\u2019t. But a child whose threat detection is miscalibrated",
+          "cannot perceive the safety a school is offering. Safety is not a feeling adults",
+          "can hand to a student. It\u2019s a reading their nervous system has to be able",
+          "to make."
+        ],
+        "after": [
+          "That\u2019s why belonging can\u2019t be assigned. Schools work hard to build",
+          "connection, and connection matters enormously: students who feel",
+          "connected at school report poor mental health at roughly half the rate of",
+          "students who don\u2019t. But a child whose threat detection is miscalibrated",
+          "cannot perceive the safety a school is offering. Safety is not a feeling adults",
+          "can hand to a student. It\u2019s a reading their nervous system has to be able to",
+          "make."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Desktop.dc.html",
+        "tag": "span",
+        "size": "15px",
+        "before": ["New reading", "curricula"],
+        "after": ["New reading", "curricula"]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Desktop.dc.html",
+        "tag": "span",
+        "size": "15px",
+        "before": ["New reading", "curricula"],
+        "after": ["New reading", "curricula"]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-2.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": [
+          "Stress comes from many sources,",
+          "both inside and outside of school.",
+          "When it overwhelms the brain",
+          "through the automatic",
+          "fight-flight-freeze response, higher-order",
+          "thinking takes a back seat.",
+          "Working memory shrinks. Attention",
+          "narrows. The capacity to absorb",
+          "information collapses."
+        ],
+        "after": [
+          "Stress comes from many sources,",
+          "both inside and outside of school.",
+          "When it overwhelms the brain",
+          "through the automatic",
+          "fight-flight-freeze response, higher-order",
+          "thinking takes a back seat. Working",
+          "memory shrinks. Attention narrows.",
+          "The capacity to absorb information",
+          "collapses."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-2.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": [
+          "Two of every three children",
+          "experience adverse childhood",
+          "experiences with lasting effects.",
+          "Toxic stress doesn\u2019t sit on top of",
+          "learning. It physically rewires the",
+          "developing brain, dampening",
+          "executive function and amplifying",
+          "the very stress response that began",
+          "the cycle."
+        ],
+        "after": [
+          "Two of every three children",
+          "experience adverse childhood",
+          "experiences with lasting effects.",
+          "Toxic stress doesn\u2019t sit on top of",
+          "learning. It physically rewires the",
+          "developing brain, dampening",
+          "executive function and amplifying the",
+          "very stress response that began the",
+          "cycle."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-2.dc.html",
+        "tag": "span",
+        "size": "12px",
+        "before": ["New reading", "curricula"],
+        "after": ["New reading", "curricula"]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-2.dc.html",
+        "tag": "span",
+        "size": "12px",
+        "before": ["Math", "intervention"],
+        "after": ["Math", "intervention"]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-2.dc.html",
+        "tag": "span",
+        "size": "12px",
+        "before": ["Behavior", "systems"],
+        "after": ["Behavior", "systems"]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-2.dc.html",
+        "tag": "span",
+        "size": "12px",
+        "before": ["New reading", "curricula"],
+        "after": ["New reading", "curricula"]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-2.dc.html",
+        "tag": "span",
+        "size": "12px",
+        "before": ["Math", "intervention"],
+        "after": ["Math", "intervention"]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-2.dc.html",
+        "tag": "span",
+        "size": "12px",
+        "before": ["Behavior", "systems"],
+        "after": ["Behavior", "systems"]
+      },
+      {
+        "why": "strand",
+        "board": "Research-Experiment-Mobile-2.dc.html",
+        "tag": "span",
+        "size": "17px",
+        "before": ["The readiness", "underneath all", "of them."],
+        "after": ["The readiness", "underneath", "all of them."]
+      },
+      {
+        "why": "strand",
+        "board": "Research-Experiment-Mobile-2.dc.html",
+        "tag": "h2",
+        "size": "32px",
+        "before": [
+          "\u201cDoesn\u2019t some",
+          "research say",
+          "mindfulness doesn\u2019t",
+          "work?\u201d"
+        ],
+        "after": [
+          "\u201cDoesn\u2019t some",
+          "research say",
+          "mindfulness",
+          "doesn\u2019t work?\u201d"
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-2.dc.html",
+        "tag": "h2",
+        "size": "32px",
+        "before": ["AI accelerates.", "Mindfulness", "navigates."],
+        "after": ["AI accelerates.", "Mindfulness", "navigates."]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-2.dc.html",
+        "tag": "h2",
+        "size": "32px",
+        "before": ["Bring mindfulness", "into your", "classrooms."],
+        "after": ["Bring mindfulness", "into your", "classrooms."]
+      },
+      {
+        "why": "overflow",
+        "board": "Why-Desktop-2.dc.html",
+        "tag": "caption",
+        "size": "16px",
+        "before": ["A", "curriculum", "compared", "with", "daily practice"],
+        "after": ["A", "curriculum", "compared", "with", "daily practice"]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Mobile-2.dc.html",
+        "tag": "p",
+        "size": "14px",
+        "before": ["discipline", "referrals"],
+        "after": ["discipline", "referrals"]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Mobile-3.dc.html",
+        "tag": "h3",
+        "size": "18px",
+        "before": ["Expanding reimbursement", "opportunities"],
+        "after": ["Expanding reimbursement", "opportunities"]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Mobile-4.dc.html",
+        "tag": "blockquote",
+        "size": "18px",
+        "before": [
+          "Students are learning to use the",
+          "mindfulness strategies from Inner",
+          "Explorer to better manage their",
+          "emotions and practice",
+          "self-regulation throughout the day. We",
+          "appreciate the positive impact",
+          "the Inner Explorer has made",
+          "on our students\u2019 well-being and",
+          "campus climate."
+        ],
+        "after": [
+          "Students are learning to use the",
+          "mindfulness strategies from Inner",
+          "Explorer to better manage their",
+          "emotions and practice",
+          "self-regulation throughout the day. We",
+          "appreciate the positive impact the",
+          "Inner Explorer has made on our",
+          "students\u2019 well-being and campus",
+          "climate."
+        ]
+      }
+    ],
+    "inline": [
+      {
+        "why": "strand",
+        "board": "About-Mobile-2.dc.html",
+        "tag": "h2",
+        "size": "32px",
+        "before": ["Built on practice.", "Strengthened by", "research."],
+        "after": ["Built on practice.", "Strengthened", "by research."]
+      },
+      {
+        "why": "strand",
+        "board": "Case-Studies-Desktop.dc.html",
+        "tag": "h1",
+        "size": "64px",
+        "before": ["Case Studies on", "Inner Explorer", "Program"],
+        "after": ["Case Studies on", "Inner", "Explorer Program"]
+      },
+      {
+        "why": "strand",
+        "board": "Case-Studies-Mobile.dc.html",
+        "tag": "h1",
+        "size": "40px",
+        "before": ["Case Studies on", "Inner Explorer", "Program"],
+        "after": ["Case Studies on", "Inner", "Explorer Program"]
+      },
+      {
+        "why": "orphan",
+        "board": "Home-Mobile-2.dc.html",
+        "tag": "h2",
+        "size": "32px",
+        "before": ["Trusted by School", "Communities", "Everywhere"],
+        "after": ["Trusted by School", "Communities", "Everywhere"]
+      },
+      {
+        "why": "strand",
+        "board": "Home-Mobile-Scrolled.dc.html",
+        "tag": "h2",
+        "size": "32px",
+        "before": ["Children can\u2019t learn", "when they\u2019re", "stressed."],
+        "after": ["Children can\u2019t learn", "when", "they\u2019re stressed."]
+      },
+      {
+        "why": "strand",
+        "board": "Home-Mobile.dc.html",
+        "tag": "h2",
+        "size": "32px",
+        "before": ["Children can\u2019t learn", "when they\u2019re", "stressed."],
+        "after": ["Children can\u2019t learn", "when", "they\u2019re stressed."]
+      },
+      {
+        "why": "orphan",
+        "board": "Pricing-Mobile.dc.html",
+        "tag": "span",
+        "size": "40px",
+        "before": ["for your learning", "community."],
+        "after": ["for your", "learning", "community."]
+      },
+      {
+        "why": "strand",
+        "board": "Pricing-Mobile.dc.html",
+        "tag": "span",
+        "size": "40px",
+        "before": ["for your learning", "community."],
+        "after": ["for your", "learning", "community."]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-2.dc.html",
+        "tag": "span",
+        "size": "12px",
+        "before": ["New reading", "curricula"],
+        "after": ["New", "reading", "curricula"]
+      },
+      {
+        "why": "strand",
+        "board": "Research-Experiment-Mobile-2.dc.html",
+        "tag": "span",
+        "size": "12px",
+        "before": ["New reading", "curricula"],
+        "after": ["New", "reading", "curricula"]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-2.dc.html",
+        "tag": "span",
+        "size": "12px",
+        "before": ["Math", "intervention"],
+        "after": ["Math", "intervention"]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-2.dc.html",
+        "tag": "span",
+        "size": "12px",
+        "before": ["Behavior", "systems"],
+        "after": ["Behavior", "systems"]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-2.dc.html",
+        "tag": "span",
+        "size": "12px",
+        "before": ["New reading", "curricula"],
+        "after": ["New", "reading", "curricula"]
+      },
+      {
+        "why": "strand",
+        "board": "Research-Experiment-Mobile-2.dc.html",
+        "tag": "span",
+        "size": "12px",
+        "before": ["New reading", "curricula"],
+        "after": ["New", "reading", "curricula"]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-2.dc.html",
+        "tag": "span",
+        "size": "12px",
+        "before": ["Math", "intervention"],
+        "after": ["Math", "intervention"]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-2.dc.html",
+        "tag": "span",
+        "size": "12px",
+        "before": ["Behavior", "systems"],
+        "after": ["Behavior", "systems"]
+      },
+      {
+        "why": "strand",
+        "board": "Research-Experiment-Mobile-2.dc.html",
+        "tag": "h2",
+        "size": "32px",
+        "before": [
+          "\u201cDoesn\u2019t some",
+          "research say",
+          "mindfulness doesn\u2019t",
+          "work?\u201d"
+        ],
+        "after": [
+          "\u201cDoesn\u2019t some",
+          "research say",
+          "mindfulness",
+          "doesn\u2019t work?\u201d"
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Research-Experiment-Mobile-2.dc.html",
+        "tag": "h2",
+        "size": "32px",
+        "before": ["AI accelerates.", "Mindfulness", "navigates."],
+        "after": ["AI accelerates.", "Mindfulness", "navigates."]
+      },
+      {
+        "why": "overflow",
+        "board": "Why-Desktop-2.dc.html",
+        "tag": "caption",
+        "size": "16px",
+        "before": ["A", "curriculum", "compared", "with", "daily practice"],
+        "after": ["A", "curriculum", "compared", "with", "daily practice"]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Mobile-2.dc.html",
+        "tag": "p",
+        "size": "14px",
+        "before": ["discipline", "referrals"],
+        "after": ["discipline", "referrals"]
+      },
+      {
+        "why": "strand",
+        "board": "Why-Mobile-3.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": [
+          "Prevention costs less than",
+          "intervention. Inner Explorer",
+          "delivers universal support",
+          "at a fraction of the",
+          "cost of more intensive",
+          "downstream services."
+        ],
+        "after": [
+          "Prevention costs less than",
+          "intervention. Inner Explorer",
+          "delivers universal support at",
+          "a fraction of the cost of more",
+          "intensive",
+          "downstream services."
+        ]
+      },
+      {
+        "why": "orphan",
+        "board": "Why-Mobile-3.dc.html",
+        "tag": "h3",
+        "size": "18px",
+        "before": ["Expanding reimbursement", "opportunities"],
+        "after": ["Expanding", "reimbursement", "opportunities"]
+      },
+      {
+        "why": "strand",
+        "board": "Why-Mobile-3.dc.html",
+        "tag": "h3",
+        "size": "18px",
+        "before": ["Expanding reimbursement", "opportunities"],
+        "after": ["Expanding", "reimbursement", "opportunities"]
+      },
+      {
+        "why": "strand",
+        "board": "Why-Mobile-4.dc.html",
+        "tag": "p",
+        "size": "26px",
+        "before": ["Inner Explorer", "meets all", "the criteria"],
+        "after": ["Inner Explorer", "meets", "all the criteria"]
+      }
+    ],
+    "nowrap": [
+      {
+        "why": "strand",
+        "board": "About-Mobile-2.dc.html",
+        "tag": "h2",
+        "size": "32px",
+        "before": ["Built on practice.", "Strengthened by", "research."],
+        "after": ["Built on practice.", "Strengthened", "by research."]
+      },
+      {
+        "why": "strand",
+        "board": "Case-Studies-Desktop.dc.html",
+        "tag": "h1",
+        "size": "64px",
+        "before": ["Case Studies on", "Inner Explorer", "Program"],
+        "after": ["Case Studies on", "Inner", "Explorer Program"]
+      },
+      {
+        "why": "strand",
+        "board": "Case-Studies-Mobile.dc.html",
+        "tag": "h1",
+        "size": "40px",
+        "before": ["Case Studies on", "Inner Explorer", "Program"],
+        "after": ["Case Studies on", "Inner", "Explorer Program"]
+      },
+      {
+        "why": "overflow",
+        "board": "Home-Mobile-2.dc.html",
+        "tag": "h2",
+        "size": "32px",
+        "before": ["Trusted by School", "Communities", "Everywhere"],
+        "after": ["Trusted by School", "Communities Everywhere"]
+      },
+      {
+        "why": "strand",
+        "board": "Home-Mobile-Scrolled.dc.html",
+        "tag": "h2",
+        "size": "32px",
+        "before": ["Children can\u2019t learn", "when they\u2019re", "stressed."],
+        "after": ["Children can\u2019t learn", "when", "they\u2019re stressed."]
+      },
+      {
+        "why": "strand",
+        "board": "Home-Mobile.dc.html",
+        "tag": "h2",
+        "size": "32px",
+        "before": ["Children can\u2019t learn", "when they\u2019re", "stressed."],
+        "after": ["Children can\u2019t learn", "when", "they\u2019re stressed."]
+      },
+      {
+        "why": "strand",
+        "board": "Research-Experiment-Mobile-2.dc.html",
+        "tag": "h2",
+        "size": "32px",
+        "before": [
+          "\u201cDoesn\u2019t some",
+          "research say",
+          "mindfulness doesn\u2019t",
+          "work?\u201d"
+        ],
+        "after": [
+          "\u201cDoesn\u2019t some",
+          "research say",
+          "mindfulness",
+          "doesn\u2019t work?\u201d"
+        ]
+      },
+      {
+        "why": "overflow",
+        "board": "Why-Desktop-2.dc.html",
+        "tag": "caption",
+        "size": "16px",
+        "before": ["A", "curriculum", "compared", "with", "daily practice"],
+        "after": ["A", "curriculum", "compared", "with", "daily practice"]
+      },
+      {
+        "why": "strand",
+        "board": "Why-Mobile-3.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": [
+          "Prevention costs less than",
+          "intervention. Inner Explorer",
+          "delivers universal support",
+          "at a fraction of the",
+          "cost of more intensive",
+          "downstream services."
+        ],
+        "after": [
+          "Prevention costs less than",
+          "intervention. Inner Explorer",
+          "delivers universal support at",
+          "a fraction of the cost of more",
+          "intensive",
+          "downstream services."
+        ]
+      },
+      {
+        "why": "overflow",
+        "board": "Why-Mobile-3.dc.html",
+        "tag": "h3",
+        "size": "18px",
+        "before": ["Expanding reimbursement", "opportunities"],
+        "after": ["Expanding", "reimbursement opportunities"]
+      },
+      {
+        "why": "strand",
+        "board": "Why-Mobile-4.dc.html",
+        "tag": "p",
+        "size": "26px",
+        "before": ["Inner Explorer", "meets all", "the criteria"],
+        "after": ["Inner Explorer", "meets", "all the criteria"]
+      }
+    ],
+    "nbsp": [
+      {
+        "why": "strand",
+        "board": "About-Mobile-2.dc.html",
+        "tag": "h2",
+        "size": "32px",
+        "before": ["Built on practice.", "Strengthened by", "research."],
+        "after": ["Built on practice.", "Strengthened", "by research."]
+      },
+      {
+        "why": "strand",
+        "board": "Case-Studies-Desktop.dc.html",
+        "tag": "h1",
+        "size": "64px",
+        "before": ["Case Studies on", "Inner Explorer", "Program"],
+        "after": ["Case Studies on", "Inner", "Explorer Program"]
+      },
+      {
+        "why": "strand",
+        "board": "Case-Studies-Mobile.dc.html",
+        "tag": "h1",
+        "size": "40px",
+        "before": ["Case Studies on", "Inner Explorer", "Program"],
+        "after": ["Case Studies on", "Inner", "Explorer Program"]
+      },
+      {
+        "why": "overflow",
+        "board": "Home-Mobile-2.dc.html",
+        "tag": "h2",
+        "size": "32px",
+        "before": ["Trusted by School", "Communities", "Everywhere"],
+        "after": ["Trusted by School", "Communities Everywhere"]
+      },
+      {
+        "why": "strand",
+        "board": "Home-Mobile-Scrolled.dc.html",
+        "tag": "h2",
+        "size": "32px",
+        "before": ["Children can\u2019t learn", "when they\u2019re", "stressed."],
+        "after": ["Children can\u2019t learn", "when", "they\u2019re stressed."]
+      },
+      {
+        "why": "strand",
+        "board": "Home-Mobile.dc.html",
+        "tag": "h2",
+        "size": "32px",
+        "before": ["Children can\u2019t learn", "when they\u2019re", "stressed."],
+        "after": ["Children can\u2019t learn", "when", "they\u2019re stressed."]
+      },
+      {
+        "why": "strand",
+        "board": "Research-Experiment-Mobile-2.dc.html",
+        "tag": "h2",
+        "size": "32px",
+        "before": [
+          "\u201cDoesn\u2019t some",
+          "research say",
+          "mindfulness doesn\u2019t",
+          "work?\u201d"
+        ],
+        "after": [
+          "\u201cDoesn\u2019t some",
+          "research say",
+          "mindfulness",
+          "doesn\u2019t work?\u201d"
+        ]
+      },
+      {
+        "why": "overflow",
+        "board": "Why-Desktop-2.dc.html",
+        "tag": "caption",
+        "size": "16px",
+        "before": ["A", "curriculum", "compared", "with", "daily practice"],
+        "after": ["A", "curriculum", "compared", "with", "daily practice"]
+      },
+      {
+        "why": "strand",
+        "board": "Why-Mobile-3.dc.html",
+        "tag": "p",
+        "size": "17px",
+        "before": [
+          "Prevention costs less than",
+          "intervention. Inner Explorer",
+          "delivers universal support",
+          "at a fraction of the",
+          "cost of more intensive",
+          "downstream services."
+        ],
+        "after": [
+          "Prevention costs less than",
+          "intervention. Inner Explorer",
+          "delivers universal support at",
+          "a fraction of the cost of more",
+          "intensive",
+          "downstream services."
+        ]
+      },
+      {
+        "why": "overflow",
+        "board": "Why-Mobile-3.dc.html",
+        "tag": "h3",
+        "size": "18px",
+        "before": ["Expanding reimbursement", "opportunities"],
+        "after": ["Expanding", "reimbursement opportunities"]
+      },
+      {
+        "why": "strand",
+        "board": "Why-Mobile-4.dc.html",
+        "tag": "p",
+        "size": "26px",
+        "before": ["Inner Explorer", "meets all", "the criteria"],
+        "after": ["Inner Explorer", "meets", "all the criteria"]
+      }
+    ]
+  }
+}

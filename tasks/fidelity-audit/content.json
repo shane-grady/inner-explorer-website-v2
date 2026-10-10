@@ -1,0 +1,1618 @@
+[
+  {
+    "component": "Testimonial",
+    "part": "all",
+    "property": "summary of matches",
+    "boards": [
+      {
+        "board": "Why-Desktop-2",
+        "value": "card: #fff, 1px #dfddd6, 0 1px 2px rgba(40,43,47,.05), r8, pad 32, gap 24",
+        "count": 2
+      },
+      {
+        "board": "Why-Mobile-4",
+        "value": "card compact: pad 24, gap 20",
+        "count": 2
+      },
+      {
+        "board": "Platform-Desktop-2",
+        "value": "panel: #f0efeb, no border, pad 32, gap 24",
+        "count": 1
+      },
+      {
+        "board": "Why-Desktop-1",
+        "value": "panel: pad 32, gap 24",
+        "count": 1
+      },
+      {
+        "board": "Platform-Mobile-2",
+        "value": "panel compact: pad 24, gap 20",
+        "count": 1
+      },
+      {
+        "board": "Why-Mobile-2",
+        "value": "panel compact: pad 24, gap 20",
+        "count": 1
+      }
+    ],
+    "system": "ie-testimonial-card / -panel / -compact identical",
+    "class": "MATCH",
+    "evidence": "Rendered I.Testimonial with each board's copy at the board's figure width (work/content/testimonial.html -> testimonial-r.json). Matched exactly: holder fill/border/shadow/radius, padding 32 (24 compact), gap 24 (20 compact), mark 32x24 #02a451 (fill), quote Libre Caslon Text 400 20/30 (18/27 compact) #282b2f with flex-grow, quote widths (530, 580, 496, 300 px) and line counts, caption gap 4px, rule 1px #dfddd6, name Inter 16/700 #282b2f, place Inter 14/500 #59606a. 14 quotes on 8 boards found: Home-Desktop-2 x3, Home-Mobile-2 x3, Why-Desktop-2 x2, Why-Mobile-4 x2, Why-Desktop-1, Why-Mobile-2, Platform-Desktop-2, Platform-Mobile-2 (matches the decision's '14 quotes on 8 boards').",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "Testimonial",
+    "part": "caption",
+    "property": "padding-top (rule to name)",
+    "boards": [
+      {
+        "board": "Home-Desktop-2",
+        "value": "20px",
+        "count": 3
+      },
+      {
+        "board": "Home-Mobile-2",
+        "value": "20px",
+        "count": 3
+      },
+      {
+        "board": "Why-Desktop-2",
+        "value": "20px",
+        "count": 2
+      },
+      {
+        "board": "Why-Mobile-4",
+        "value": "20px",
+        "count": 2
+      },
+      {
+        "board": "Why-Desktop-1",
+        "value": "20px",
+        "count": 1
+      },
+      {
+        "board": "Why-Mobile-2",
+        "value": "20px",
+        "count": 1
+      },
+      {
+        "board": "Platform-Desktop-2",
+        "value": "20px",
+        "count": 1
+      },
+      {
+        "board": "Platform-Mobile-2",
+        "value": "20px",
+        "count": 1
+      }
+    ],
+    "system": "16px (space-4)",
+    "class": "DEFECT",
+    "evidence": "Board figcaption sa 'padding-top: 20px' on all 14 quotes; system .ie-testimonial-caption padding-block-start: var(--space-4) = 16px (rendered name top 17px below the rule vs 21px on boards). No decision text sets 16; only the miniature option C illustration on Component-Decisions uses 'padding-top: 16px; gap: 2px', which is not applied anywhere on FINAL V.",
+    "fix": "components/bundle.css .ie-testimonial-caption { padding-block-start: var(--space-5); } and README 'with space-4 above it' -> 'space-5'.",
+    "visible": "medium"
+  },
+  {
+    "component": "Testimonial",
+    "part": "quote",
+    "property": "bold key phrase color",
+    "boards": [
+      {
+        "board": "Home-Desktop-2",
+        "value": "<b> 700, color #006e51 (rgb(0,110,81))",
+        "count": 3
+      },
+      {
+        "board": "Home-Mobile-2",
+        "value": "<b> 700, color #006e51",
+        "count": 3
+      }
+    ],
+    "system": "700, inherits foreground rgb(40,43,47)",
+    "class": "DEFECT",
+    "evidence": "Board <b style=\"color: #006e51;\"> in all 6 Home quotes; system .ie-testimonial-quote b/strong sets only font-weight 700 (rendered rgb(40,43,47)). The Raised-card decision changes the holder, not the phrase color; only the Component-Decisions miniature shows a plain <b>, with no text deciding it.",
+    "fix": "components/bundle.css: .ie-testimonial-quote :is(b, strong) { font-weight: 700; color: var(--brand-emphasis); }",
+    "visible": "high"
+  },
+  {
+    "component": "Testimonial",
+    "part": "name",
+    "property": "line-height / letter-spacing",
+    "boards": [
+      {
+        "board": "all 8 testimonial boards",
+        "value": "Inter 16/700, line-height normal (19px box), letter-spacing normal",
+        "count": 14
+      }
+    ],
+    "system": "type-card-title-sm 16/1.35 (21.6px), -0.01em (-0.16px)",
+    "class": "DECIDED",
+    "evidence": "Component-Library 'Card titles (H3)': 'Small 16 / 1.35 for list items, names and chart titles ... Letter-spacing -0.01em.' Caption grows 60px -> 62px (with place).",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "Testimonial",
+    "part": "place",
+    "property": "line-height",
+    "boards": [
+      {
+        "board": "all 8 testimonial boards",
+        "value": "Inter 14/500 #59606a, line-height normal (16px box)",
+        "count": 14
+      }
+    ],
+    "system": "type-label 14/1.4 (19.6px)",
+    "class": "DECIDED",
+    "evidence": "Detail-Decisions 2 'A One label size: 14 — 14 / 1.4 medium, text-muted' (Component-Library 'Labels': 'one label size, 14px medium in text-muted, for dates, roles, sources').",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "Testimonial",
+    "part": "card (Home row)",
+    "property": "holder",
+    "boards": [
+      {
+        "board": "Home-Desktop-2",
+        "value": "mint #e6f2ec, border-top 6px #006e51, shadow 0 6px 20px rgba(0,110,81,.12), padding 36/32/32/32, caption rule rgba(0,110,81,.25)",
+        "count": 3
+      },
+      {
+        "board": "Home-Mobile-2",
+        "value": "mint #e6f2ec, border-top 6px #006e51, same shadow, padding 24, rule rgba(0,110,81,.25)",
+        "count": 3
+      }
+    ],
+    "system": "Raised: #fff, 1px #dfddd6, shadow-raised, padding 32 (24), rule #dfddd6",
+    "class": "DECIDED",
+    "evidence": "Component-Decisions 2 (C chosen): 'Raised cards hold rows of quotes (Home, Why's \"What leaders see\")'. Brief: Home's mint testimonial cards become the Raised card.",
+    "fix": "",
+    "visible": "high"
+  },
+  {
+    "component": "Testimonial",
+    "part": "mark",
+    "property": "size / color",
+    "boards": [
+      {
+        "board": "Home-Desktop-2",
+        "value": "44x33, fill #006e51",
+        "count": 3
+      },
+      {
+        "board": "Home-Mobile-2",
+        "value": "32x24, fill #006e51",
+        "count": 3
+      },
+      {
+        "board": "Why/Platform boards",
+        "value": "32x24, fill #02a451",
+        "count": 8
+      }
+    ],
+    "system": "32x24, icon-accent #02a451",
+    "class": "DECIDED",
+    "evidence": "Component-Decisions 2: 'Every educator quote now uses the green quote mark'; README/Component-Library 'green quote mark'. Only the Home mint cards differ; system follows the 8 non-Home quotes.",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "component": "Testimonial",
+    "part": "row",
+    "property": "gap between cards in a row",
+    "boards": [
+      {
+        "board": "Home-Desktop-2",
+        "value": "16px (grid gap)",
+        "count": 1
+      },
+      {
+        "board": "Home-Mobile-2",
+        "value": "12px",
+        "count": 1
+      },
+      {
+        "board": "Why-Desktop-2",
+        "value": "8px",
+        "count": 1
+      },
+      {
+        "board": "Why-Mobile-4",
+        "value": "8px",
+        "count": 1
+      }
+    ],
+    "system": "no row wrapper; card-gap token 8px",
+    "class": "DECIDED",
+    "evidence": "Card-Options 'Rules': '8px gap between cards in a grid.' Home's gaps belong to the retired mint cards.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "Stat",
+    "part": "value",
+    "property": "summary of matches",
+    "boards": [
+      {
+        "board": "Main/Home-Mobile",
+        "value": "bold 44/40, Inter 700 -0.03em, sign '+' #02a451",
+        "count": 8
+      },
+      {
+        "board": "Home-Desktop-2/Home-Mobile-2",
+        "value": "serif xl 112/72 LCC 500, lh .9, -0.02em, white",
+        "count": 2
+      },
+      {
+        "board": "Platform-Desktop-2/Mobile-2, Research-Experiment-Desktop/Mobile-1, Research-Studies-C-Timeline",
+        "value": "medium 44 (40), Inter 500, lh 1, -0.03em, tabular, #006e51 / #02a451 / white",
+        "count": 27
+      },
+      {
+        "board": "Why-Desktop-2/Why-Mobile-3",
+        "value": "bold lg 72/56, lh 1, -0.03em, white",
+        "count": 2
+      },
+      {
+        "board": "Pricing-Desktop/Mobile",
+        "value": "bold md 56/44, lh 1, -0.03em, tabular",
+        "count": 6
+      }
+    ],
+    "system": "ie-stat-* faces and type-stat-* ramp",
+    "class": "MATCH",
+    "evidence": "Rendered I.Stat for 25 board groups with board copy and widths (work/content/stat.html -> stat-r.json). Faces (family+weight) match all bold/serif/medium boards; the size ramp 112/72/56/44 (mobile 72/56/44/40) matches every board number except those listed below; tones emphasis (#006e51), accent (#02a451), white on green match; sign '+' in #02a451 on light matches Main/Home-Mobile. Excluded from Stat: Research numbered steps 01/02/03 (numbered steps), chart value labels (28px, charts keep own type), Pricing comparison-table prices (28px), Home '342' product mock-up (26px).",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "Stat",
+    "part": "label (claim)",
+    "property": "style for medium face / study cards",
+    "boards": [
+      {
+        "board": "Platform-Desktop-2",
+        "value": "Inter 17/500/1.35 #282b2f, ls 0",
+        "count": 4
+      },
+      {
+        "board": "Platform-Mobile-2",
+        "value": "17/500/1.35",
+        "count": 4
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "17/500/1.35",
+        "count": 6
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "17/500/1.35",
+        "count": 6
+      },
+      {
+        "board": "Research-Studies-C-Timeline-065o",
+        "value": "17/500/1.35 (white on Emerald for '77 studies')",
+        "count": 7
+      }
+    ],
+    "system": "size sm -> type-card-title-sm 16/1.35/700, -0.01em",
+    "class": "DEFECT",
+    "evidence": "All 27 study-card claims are body-weight 17/500/1.35; the system renders them bold 16/700 (rendered 'Higher average GPA' 16px 700 vs board 17px 500). The README names the medium face 'study cards'; no decision board sets their claim style (Component-Decisions 1: 'Faces, weights and spacing stay exactly as they were').",
+    "fix": "components/bundle.css: .ie-stat-medium .ie-stat-label { font-size: 17px; line-height: 1.35; font-weight: 500; letter-spacing: 0; } (or add a type-stat-claim style 17/1.35/500 in tokens.json and apply it in bundle.js when face==='medium').",
+    "visible": "high"
+  },
+  {
+    "component": "Stat",
+    "part": "value",
+    "property": "font-variant-numeric (serif face)",
+    "boards": [
+      {
+        "board": "Home-Desktop-2",
+        "value": "proportional (no tnum)",
+        "count": 4
+      },
+      {
+        "board": "Home-Mobile-2",
+        "value": "proportional",
+        "count": 4
+      },
+      {
+        "board": "Article-Desktop-1",
+        "value": "proportional",
+        "count": 2
+      },
+      {
+        "board": "Article-Mobile-1",
+        "value": "proportional",
+        "count": 2
+      },
+      {
+        "board": "Newsroom-Desktop",
+        "value": "proportional",
+        "count": 2
+      },
+      {
+        "board": "Newsroom-Mobile",
+        "value": "proportional",
+        "count": 2
+      }
+    ],
+    "system": "tabular-nums on every .ie-stat-value",
+    "class": "DEFECT",
+    "evidence": "No serif number on any board sets tabular-nums (Newsroom '−28%' board width 115px = proportional render 115px). Measured with LCC: '60%' at 112px 182px -> 153px with tnum (the % glyph collapses), '16,000+' at 72px 211 -> 239px (wide comma gap), '−28%' at 56px 115 -> 104px (work/content/tnum2-crop.png). No decision supports tabular figures; Component-Decisions 1 keeps faces and spacing as drawn.",
+    "fix": "components/bundle.css: move font-variant-numeric: tabular-nums from .ie-stat-value to .ie-stat-medium .ie-stat-value (medium boards all use it); README 'Numbers use tabular figures' -> 'Study-card (medium) numbers use tabular figures'.",
+    "visible": "high"
+  },
+  {
+    "component": "Stat",
+    "part": "value",
+    "property": "line-height, bold face at xl",
+    "boards": [
+      {
+        "board": "Why-Desktop-1",
+        "value": "112px, line-height 1 (112px box)",
+        "count": 2
+      },
+      {
+        "board": "Why-Mobile-2",
+        "value": "72px, line-height 1 (72px box)",
+        "count": 2
+      }
+    ],
+    "system": "type-stat-xl 0.9 (100.8px) / xl-mobile 0.9 (64.8px)",
+    "class": "DEFECT",
+    "evidence": "The only bold xl numbers ('2' and '25') use line-height 1; 0.9 comes from the serif xl (Home 60%, lh .9). .ie-stat-bold does not override line-height, so the box is 11.2px (desktop) / 7.2px (mobile) shorter and the label sits higher. Component-Decisions 1: 'Faces, weights and spacing stay exactly as they were'.",
+    "fix": "components/bundle.css: .ie-stat-bold .ie-stat-value, .ie-stat-medium .ie-stat-value { line-height: 1; }",
+    "visible": "medium"
+  },
+  {
+    "component": "Stat",
+    "part": "label (claim)",
+    "property": "style across contexts",
+    "boards": [
+      {
+        "board": "Main",
+        "value": "18/700/1.35 #282b2f",
+        "count": 4
+      },
+      {
+        "board": "Home-Mobile",
+        "value": "15/700/1.35",
+        "count": 4
+      },
+      {
+        "board": "Home-Desktop-2",
+        "value": "20/700/1.4 white (xl and lg)",
+        "count": 4
+      },
+      {
+        "board": "Home-Mobile-2",
+        "value": "20/700/1.4 (xl), 18/700/1.4 (lg)",
+        "count": 4
+      },
+      {
+        "board": "About-Desktop / About-Mobile-2",
+        "value": "18/600/1.4 white",
+        "count": 6
+      },
+      {
+        "board": "Article-Desktop-1",
+        "value": "16/500/1.4 #282b2f",
+        "count": 2
+      },
+      {
+        "board": "Article-Mobile-1",
+        "value": "14/500/1.4",
+        "count": 2
+      },
+      {
+        "board": "Newsroom-Desktop / Mobile",
+        "value": "14/500/1.3, beside the value",
+        "count": 4
+      },
+      {
+        "board": "Research-Experiment-Desktop / Mobile-1 (77)",
+        "value": "16/700/1.35 white",
+        "count": 2
+      },
+      {
+        "board": "Research-Experiment-Desktop / Mobile-1 (district tiles)",
+        "value": "13/500/1.4 (one 14)",
+        "count": 10
+      },
+      {
+        "board": "Why-Desktop-1 / Why-Mobile-2 (2 vs 25)",
+        "value": "14/700/1.35 #31373e and #59606a",
+        "count": 4
+      },
+      {
+        "board": "Why-Desktop-1 (results band)",
+        "value": "16/500/1.35 #f0efeb",
+        "count": 3
+      },
+      {
+        "board": "Why-Mobile-2 (results band)",
+        "value": "15/500/1.35 #f0efeb",
+        "count": 3
+      },
+      {
+        "board": "Why-Desktop-2 / Why-Mobile-3 (Under $8)",
+        "value": "20/700/1.35 white (18 mobile)",
+        "count": 2
+      },
+      {
+        "board": "Pricing-Desktop / Mobile (tier prices)",
+        "value": "15/500/normal #59606a",
+        "count": 6
+      }
+    ],
+    "system": "type-card-title-md 20/1.3/700 -0.01em (18 compact); size sm -> card-title-sm 16/1.35/700 -0.01em; white on green",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "Eleven different claim styles (13–20px, weight 500–700, lh 1.3–1.4, none with -0.01em). The system's two styles match no board exactly; closest are Home-Desktop-2 and Under $8 (20/700, lh 1.4/1.35 vs 1.3). No decision board covers stat claims. Most visible: weight-500 claims (Article, Why results band, district tiles, Newsroom, Pricing) render 700 and 2–6px larger in the system.",
+    "fix": "If the boards stand: add a claim style prop to Stat (e.g. claim='title'|'body'|'small') so a page can pick 20/700, 17/500 or 15/500; otherwise snap the boards' claims to the two system styles.",
+    "visible": "high"
+  },
+  {
+    "component": "Stat",
+    "part": "value",
+    "property": "font-variant-numeric (bold face)",
+    "boards": [
+      {
+        "board": "Main / Home-Mobile",
+        "value": "proportional",
+        "count": 8
+      },
+      {
+        "board": "About-Desktop / About-Mobile-2",
+        "value": "proportional",
+        "count": 6
+      },
+      {
+        "board": "Why-Desktop-1 / Why-Mobile-2 / Why-Desktop-2 / Why-Mobile-3",
+        "value": "proportional",
+        "count": 12
+      },
+      {
+        "board": "Pricing-Desktop / Pricing-Mobile",
+        "value": "tabular-nums",
+        "count": 8
+      }
+    ],
+    "system": "tabular-nums",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "Bold numbers are proportional on 26 of 34 values; the system follows the minority (Pricing). Measured: Why '21%' at 56px 107 -> 121px; '25' at 112px 136 -> 146px; '2' 67 -> 73px.",
+    "fix": "Same fix as the serif row (tabular only on .ie-stat-medium); Pricing can add tabular-nums locally.",
+    "visible": "medium"
+  },
+  {
+    "component": "Stat",
+    "part": "value",
+    "property": "letter-spacing, bold face",
+    "boards": [
+      {
+        "board": "Main, Home-Mobile, Pricing, Why 2 vs 25, Under $8",
+        "value": "-0.03em",
+        "count": 22
+      },
+      {
+        "board": "About-Desktop / About-Mobile-2",
+        "value": "-0.02em",
+        "count": 6
+      },
+      {
+        "board": "Why-Desktop-1 / Why-Mobile-2 (results band)",
+        "value": "-0.02em",
+        "count": 6
+      }
+    ],
+    "system": "-0.03em",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "System follows the majority (-0.03em). Difference 0.44–0.56px per glyph.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "Stat",
+    "part": "value",
+    "property": "letter-spacing, serif lg/md/sm",
+    "boards": [
+      {
+        "board": "Home-Desktop-2 (lg 72)",
+        "value": "normal",
+        "count": 3
+      },
+      {
+        "board": "Home-Mobile-2 (lg 56)",
+        "value": "normal",
+        "count": 3
+      },
+      {
+        "board": "Article-Mobile-1 (40)",
+        "value": "normal",
+        "count": 2
+      },
+      {
+        "board": "Article-Desktop-1 (56)",
+        "value": "-0.01em",
+        "count": 2
+      },
+      {
+        "board": "Newsroom-Desktop / Mobile (56)",
+        "value": "-0.01em",
+        "count": 4
+      }
+    ],
+    "system": "-0.01em (type-stat-lg/md/sm)",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "System follows the minority (6 of 14 values). 0.4–0.72px per glyph.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "Stat",
+    "part": "value",
+    "property": "line-height, bold sm and serif md",
+    "boards": [
+      {
+        "board": "Main / Home-Mobile (bold 44/40)",
+        "value": "1.05 (46.2 / 42px)",
+        "count": 8
+      },
+      {
+        "board": "About, Pricing, Why results band, Under $8 (bold)",
+        "value": "1",
+        "count": 22
+      },
+      {
+        "board": "Newsroom-Desktop / Mobile (serif 56)",
+        "value": "0.9 (50.4px)",
+        "count": 4
+      },
+      {
+        "board": "Article-Desktop-1, Home-Mobile-2 (serif 56)",
+        "value": "1",
+        "count": 5
+      }
+    ],
+    "system": "1 (type-stat-lg/md/sm)",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "System follows the majority in both faces; box differs by 2px (Home strip) and 5.6px (Newsroom).",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "Stat",
+    "part": "spacing",
+    "property": "value to claim gap",
+    "boards": [
+      {
+        "board": "Main / Home-Mobile",
+        "value": "4px",
+        "count": 8
+      },
+      {
+        "board": "Pricing tier prices",
+        "value": "6px",
+        "count": 6
+      },
+      {
+        "board": "Research district tiles (desktop)",
+        "value": "6px",
+        "count": 5
+      },
+      {
+        "board": "Article, Platform, Why results band, Why 2 vs 25, About-Mobile-2, Home-Mobile-2 lg, Research mobile 77 and tiles",
+        "value": "8px",
+        "count": 34
+      },
+      {
+        "board": "Research study cards (incl. Research-Studies-C-Timeline)",
+        "value": "10px",
+        "count": 19
+      },
+      {
+        "board": "Research 77 (desktop)",
+        "value": "10px",
+        "count": 1
+      },
+      {
+        "board": "Home-Desktop-2 lg, Why Under $8",
+        "value": "12px",
+        "count": 5
+      },
+      {
+        "board": "Home-Desktop-2 / Home-Mobile-2 xl",
+        "value": "16px",
+        "count": 2
+      }
+    ],
+    "system": "8px (space-2)",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "System follows the most common value.",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "component": "Stat",
+    "part": "source",
+    "property": "color on green / claim-to-source gap",
+    "boards": [
+      {
+        "board": "Home-Desktop-2 / Home-Mobile-2",
+        "value": "#ffffff, 8px below claim",
+        "count": 2
+      },
+      {
+        "board": "Why-Desktop-2 / Why-Mobile-3",
+        "value": "#f0efeb, 12px",
+        "count": 2
+      },
+      {
+        "board": "Research-Experiment-Desktop / Mobile-1",
+        "value": "#dfe7e4, 10px / 8px",
+        "count": 2
+      }
+    ],
+    "system": "on-brand-muted #f0efeb, 8px",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "System color follows Why; gap follows Home and Research mobile.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "Stat",
+    "part": "source",
+    "property": "size / line-height",
+    "boards": [
+      {
+        "board": "Why-Desktop-2",
+        "value": "16/500/1.45",
+        "count": 1
+      },
+      {
+        "board": "Why-Mobile-3",
+        "value": "15/500/1.45",
+        "count": 1
+      },
+      {
+        "board": "Home-Desktop-2 / Home-Mobile-2",
+        "value": "14/500/normal",
+        "count": 2
+      },
+      {
+        "board": "Platform, Research study cards",
+        "value": "14/500/1.45",
+        "count": 27
+      }
+    ],
+    "system": "type-label 14/1.4/500",
+    "class": "DECIDED",
+    "evidence": "Component-Library 'Labels': 'one label size, 14px medium in text-muted, for dates, roles, sources and grade ranges' (Detail-Decisions 2: '14 / 1.4 medium').",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "Stat",
+    "part": "value",
+    "property": "mobile size for a desktop step",
+    "boards": [
+      {
+        "board": "Article-Mobile-1",
+        "value": "40 for desktop md 56",
+        "count": 2
+      },
+      {
+        "board": "Newsroom-Mobile",
+        "value": "56 for desktop md 56",
+        "count": 2
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "44 for desktop sm 44",
+        "count": 6
+      },
+      {
+        "board": "Pricing-Mobile (add-on prices)",
+        "value": "32 (off the ramp)",
+        "count": 2
+      }
+    ],
+    "system": "md 56 -> 44; sm 44 -> 40 (one -mobile twin per size)",
+    "class": "DECIDED",
+    "evidence": "Component-Library 'Big stat numbers' pairs the ramp 'XL 112 72 · L 72 56 · M 56 44 · S 44 (40)'; Component-Decisions 1: '112 / 72 / 56 / 44 on desktop and 72 / 56 / 44 / 40 on mobile'. Platform, Why, Home and Pricing tiers follow the pairs.",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "component": "Stat",
+    "part": "sign",
+    "property": "'%' on green",
+    "boards": [
+      {
+        "board": "Why-Desktop-1 / Why-Mobile-2",
+        "value": "#44bb4a (green-300)",
+        "count": 6
+      }
+    ],
+    "system": "on-brand-accent #bffaa2",
+    "class": "SYSTEM-CHANGE",
+    "evidence": "Known change 3 (accents on green panels). Rendered sign rgb(191,250,162).",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "component": "Stat",
+    "part": "face",
+    "property": "Inter Black (900)",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "'77' 72px/0.9 900 -0.05em white on Forest; district tiles 44px/1 900 -0.04em on tints",
+        "count": 6
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "'77' 56px/0.9 -0.05em; tiles 40px/1 -0.04em",
+        "count": 6
+      }
+    ],
+    "system": "faces bold (700, -0.03em), serif, medium only",
+    "class": "MISSING",
+    "evidence": "Component-Decisions 1 lists 'Inter Black up to 128px on Research' among the faces and decides 'Faces, weights and spacing stay exactly as they were'. The system has no 900 face; face='bold' renders 700/-0.03em.",
+    "fix": "Add face 'black' (.ie-stat-black .ie-stat-value { font-family: var(--font-sans); font-weight: 900; letter-spacing: -0.04em; }) or snap Research to bold.",
+    "visible": "medium"
+  },
+  {
+    "component": "Stat",
+    "part": "layout",
+    "property": "value beside its claim",
+    "boards": [
+      {
+        "board": "About-Desktop",
+        "value": "value 176px column + claim, gap 24, align center, in Emerald tiles (pad 28/32)",
+        "count": 3
+      },
+      {
+        "board": "Newsroom-Desktop / Newsroom-Mobile",
+        "value": "baseline row, gap 12, claim max 180px",
+        "count": 4
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "add-on price + 'per year', baseline, gap 6",
+        "count": 2
+      }
+    ],
+    "system": "Stat is a column only",
+    "class": "MISSING",
+    "evidence": "Pattern on 4 boards; the system has no inline layout.",
+    "fix": "Add layout='inline' to Stat (flex row, align-items baseline, gap space-3).",
+    "visible": "medium"
+  },
+  {
+    "component": "Stat",
+    "part": "layout",
+    "property": "comparison pair",
+    "boards": [
+      {
+        "board": "Why-Desktop-1",
+        "value": "'2' #006e51 vs '25' #59606a, 112px, 48x2 #dfddd6 rule between, claims 14/700 below",
+        "count": 1
+      },
+      {
+        "board": "Why-Mobile-2",
+        "value": "same at 72px, 32px rule",
+        "count": 1
+      }
+    ],
+    "system": "no muted tone; no pair",
+    "class": "MISSING",
+    "evidence": "Second number uses foreground-muted, which no Stat tone provides.",
+    "fix": "Add tone 'muted' (foreground-muted) at minimum.",
+    "visible": "medium"
+  },
+  {
+    "component": "Stat",
+    "part": "group",
+    "property": "strip with hairline dividers",
+    "boards": [
+      {
+        "board": "Main",
+        "value": "4-col grid gap 16; items 2–4 border-left 1px #dfddd6 + padding-left 32; band pad 64 with top/bottom hairlines",
+        "count": 1
+      },
+      {
+        "board": "Home-Mobile",
+        "value": "2x2 grid, gaps 24/16, no dividers, band pad 40",
+        "count": 1
+      },
+      {
+        "board": "Why-Desktop-1 / Why-Mobile-2",
+        "value": "3-col grid gap 24 (16); each stat border-top 1px rgba(255,255,255,.24) + padding-top 16",
+        "count": 2
+      }
+    ],
+    "system": "README rule only ('Group stats in a grid with border or border-on-brand hairlines'); no component",
+    "class": "MISSING",
+    "evidence": "Divider placement and padding differ by page and are not specified anywhere in the system.",
+    "fix": "Add a StatGroup (or Stat 'divided' wrapper class) with the Main spec and an on-brand top-rule variant.",
+    "visible": "medium"
+  },
+  {
+    "component": "Checklist",
+    "part": "all",
+    "property": "summary of matches",
+    "boards": [
+      {
+        "board": "Article-Desktop-1",
+        "value": "3 items",
+        "count": 3
+      },
+      {
+        "board": "Article-Mobile-1",
+        "value": "3 items",
+        "count": 3
+      },
+      {
+        "board": "Why-Desktop-1",
+        "value": "3 items",
+        "count": 3
+      },
+      {
+        "board": "Why-Mobile-1",
+        "value": "3 items",
+        "count": 3
+      }
+    ],
+    "system": "ie-checklist",
+    "class": "MATCH",
+    "evidence": "Rendered I.Checklist with board copy at 632/310/480 px (work/content/check.html). Exact: 22px outline check-circle, stroke 2, #02a451; gap 12 icon->text; rows 12 apart; text 17/1.6/500 #424850; strong #282b2f; item heights 54/54/54 and 109/136/109 identical to boards; icon offset 2.6px vs board margin-top 3px (<1px).",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "Checklist",
+    "part": "item text",
+    "property": "type style",
+    "boards": [
+      {
+        "board": "Article-Desktop-1 / Mobile-1, Why-Desktop-1 / Mobile-1",
+        "value": "17/1.6/500 #424850",
+        "count": 12
+      },
+      {
+        "board": "Main / Home-Mobile",
+        "value": "16/1.45/500 #31373e, text-wrap balance",
+        "count": 24
+      },
+      {
+        "board": "Why-Desktop-2 / Why-Mobile-3",
+        "value": "16/1.4/700 #282b2f",
+        "count": 6
+      },
+      {
+        "board": "Pricing-Desktop / Pricing-Mobile (on Emerald)",
+        "value": "15/1.45/500 #fff",
+        "count": 22
+      }
+    ],
+    "system": "type-body 17/1.6/500 foreground-body (on-brand white)",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "System follows Article/Why (4 boards) and the body decision (Type-Icon-Decisions 1: 'Body (17 / 1.6, #424850) is all running text'); by item count Home's 16/1.45 is the majority. Home items render 54px tall (2 lines) vs 46px on Main.",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "component": "Checklist",
+    "part": "marker",
+    "property": "on green / done step",
+    "boards": [
+      {
+        "board": "Pricing-Desktop / Pricing-Mobile",
+        "value": "18px solid white disc, #006e51 check, gap 10",
+        "count": 22
+      },
+      {
+        "board": "Contact-Success",
+        "value": "done step: 28px outline #00874d",
+        "count": 1
+      }
+    ],
+    "system": "22px outline check-circle; on-brand white with onBrand",
+    "class": "DECIDED",
+    "evidence": "Component-Library 'Checklists': 'a 22px outline check circle for every checklist, including the done step after the contact form.' Detail-Decisions 4: 'A Outline check — 22px outline check circle in green-400' and README 'Don't use filled checks or check discs'.",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "component": "Checklist",
+    "part": "layout",
+    "property": "multi-column list",
+    "boards": [
+      {
+        "board": "Main",
+        "value": "2 columns, grid-auto-flow column, column-gap 24, row-gap 12",
+        "count": 2
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "CSS columns 2, column-gap 32",
+        "count": 1
+      },
+      {
+        "board": "Why-Desktop-2",
+        "value": "3 columns, gap 24, left rule 1px #dfddd6 + padding-left 40",
+        "count": 1
+      }
+    ],
+    "system": "single flex column",
+    "class": "MISSING",
+    "evidence": "Pattern on 3 boards (mobile boards stack to one column).",
+    "fix": "Add columns prop (ul display grid; grid-template-columns repeat(n, minmax(0,1fr)); column-gap var(--space-6)).",
+    "visible": "medium"
+  },
+  {
+    "component": "Checklist",
+    "part": "layout",
+    "property": "ruled list with source link",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "rows padding 14/0, border-top 1px #dfddd6, icon gap 10, claim 16/700/1.35 + 14px Emerald link",
+        "count": 10
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "same",
+        "count": 10
+      }
+    ],
+    "system": "no ruled variant",
+    "class": "MISSING",
+    "evidence": "Two boards but one page (Research); README says one-page patterns are built in the page.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "ClosingCta",
+    "part": "all",
+    "property": "summary of matches",
+    "boards": [
+      {
+        "board": "About-Desktop",
+        "value": "Emerald + photo",
+        "count": 1
+      },
+      {
+        "board": "Home-Desktop-2",
+        "value": "white + photo",
+        "count": 1
+      },
+      {
+        "board": "Platform-Desktop-2",
+        "value": "white + photo (Raised)",
+        "count": 1
+      },
+      {
+        "board": "Case-Studies-Desktop",
+        "value": "Emerald inline",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "Emerald inline",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Desktop-2",
+        "value": "Emerald inline, no lead",
+        "count": 1
+      },
+      {
+        "board": "Newsroom-Desktop",
+        "value": "Emerald, eyebrow, inline",
+        "count": 1
+      },
+      {
+        "board": "Article-Desktop-2",
+        "value": "Emerald inset",
+        "count": 1
+      },
+      {
+        "board": "Why-Desktop-2",
+        "value": "Emerald bleed + photo",
+        "count": 1
+      },
+      {
+        "board": "About-Mobile-3, Home-Mobile-2, Platform-Mobile-2",
+        "value": "photo stacked",
+        "count": 3
+      },
+      {
+        "board": "Case-Studies-Mobile, Pricing-Mobile, Research-Experiment-Mobile-2, Newsroom-Mobile",
+        "value": "Emerald stacked",
+        "count": 4
+      },
+      {
+        "board": "Article-Mobile-2",
+        "value": "inset",
+        "count": 1
+      },
+      {
+        "board": "Why-Mobile-4",
+        "value": "bleed",
+        "count": 1
+      }
+    ],
+    "system": "ie-cta",
+    "class": "MATCH",
+    "evidence": "Rendered I.ClosingCta for all 18 instances with board copy at board widths (work/content/cta.html -> cta-r.json). Exact: Emerald #006e51, radius 8, Raised white card (Platform), title 44/1.1/700 -0.02em (32 compact) white/charcoal, emphasis LCC italic 500 at 1.32em (58px) and 1.25em (40px) -0.01em nowrap on desktop, lead 20/1.5/500 (18) white / #31373e, light+ghost and primary+secondary buttons with 12px gap, compact buttons full width stacked 12 apart, desktop padding 72 (About, Home, Case Studies, Pricing, Research), inline 48px gap with flex-end (Case Studies, Pricing), inset 40 (Article desktop), bleed 112/120 and 64/20, eyebrow 16px above title (Newsroom), compact photo 220px above (About, Platform), title->lead 24 and lead->buttons 40 on About desktop.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "ClosingCta",
+    "part": "spacing (compact)",
+    "property": "title to lead",
+    "boards": [
+      {
+        "board": "Case-Studies-Mobile",
+        "value": "20px",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "20px",
+        "count": 1
+      },
+      {
+        "board": "Why-Mobile-4",
+        "value": "20px",
+        "count": 1
+      },
+      {
+        "board": "About-Mobile-3",
+        "value": "16px",
+        "count": 1
+      },
+      {
+        "board": "Home-Mobile-2",
+        "value": "16px",
+        "count": 1
+      },
+      {
+        "board": "Newsroom-Mobile",
+        "value": "16px",
+        "count": 1
+      },
+      {
+        "board": "Platform-Mobile-2",
+        "value": "12px",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-2",
+        "value": "12px",
+        "count": 1
+      }
+    ],
+    "system": "24px (space-6, same as desktop)",
+    "class": "DEFECT",
+    "evidence": "No mobile board uses 24. Measured lead top minus title bottom on each board; system .ie-cta-lead margin 24 in compact.",
+    "fix": "components/bundle.css: .ie-cta-compact .ie-cta-lead { margin-block-start: var(--space-5); } (20 = the Emerald no-photo boards; 16 if the photo boards should lead).",
+    "visible": "medium"
+  },
+  {
+    "component": "ClosingCta",
+    "part": "spacing (compact)",
+    "property": "lead to buttons",
+    "boards": [
+      {
+        "board": "Case-Studies-Mobile",
+        "value": "24px",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "24px",
+        "count": 1
+      },
+      {
+        "board": "Platform-Mobile-2",
+        "value": "24px",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-2",
+        "value": "24px",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Mobile-2",
+        "value": "24px (title to button)",
+        "count": 1
+      },
+      {
+        "board": "About-Mobile-3",
+        "value": "28px",
+        "count": 1
+      },
+      {
+        "board": "Home-Mobile-2",
+        "value": "28px",
+        "count": 1
+      },
+      {
+        "board": "Newsroom-Mobile",
+        "value": "32px",
+        "count": 1
+      },
+      {
+        "board": "Why-Mobile-4",
+        "value": "32px",
+        "count": 1
+      }
+    ],
+    "system": "40px (space-10)",
+    "class": "DEFECT",
+    "evidence": "No mobile board uses 40; 24 is the majority (5 of 9).",
+    "fix": "components/bundle.css: .ie-cta-compact .ie-cta-actions { margin-block-start: var(--space-6); }",
+    "visible": "medium"
+  },
+  {
+    "component": "ClosingCta",
+    "part": "bleed",
+    "property": "photo height and vertical alignment",
+    "boards": [
+      {
+        "board": "Why-Desktop-2",
+        "value": "img height 440px, radius 8; grid align-items center (copy 322px centered)",
+        "count": 1
+      }
+    ],
+    "system": "photo cell stretches to copy height (330px with this copy), copy top-aligned",
+    "class": "DEFECT",
+    "evidence": "Board img sa 'height: 440px'; system .ie-cta-photo img is absolute in a cell sized by the copy, so the photo is 110px shorter.",
+    "fix": "components/bundle.css: .ie-cta-bleed { align-items: center; } .ie-cta-bleed:not(.ie-cta-compact) .ie-cta-photo { block-size: 440px; }",
+    "visible": "high"
+  },
+  {
+    "component": "ClosingCta",
+    "part": "bleed",
+    "property": "column gap",
+    "boards": [
+      {
+        "board": "Why-Desktop-2",
+        "value": "80px (columns 560/560)",
+        "count": 1
+      }
+    ],
+    "system": "64px (space-16; columns 568/568)",
+    "class": "DEFECT",
+    "evidence": "Board sa 'gap: 80px'. README's split rule says space-16 to space-18, so the fix needs either the board or that rule to give.",
+    "fix": "components/bundle.css: .ie-cta-bleed { column-gap: 80px; } (no token; or snap the board to space-18 72px)",
+    "visible": "medium"
+  },
+  {
+    "component": "ClosingCta",
+    "part": "bleed (compact)",
+    "property": "photo position and gap",
+    "boards": [
+      {
+        "board": "Why-Mobile-4",
+        "value": "photo below the copy, gap 36px",
+        "count": 1
+      }
+    ],
+    "system": "photo above (order: -1), row-gap 32px",
+    "class": "DEFECT",
+    "evidence": "Board DOM and rects: copy 3162–3571, img 3607–3827.",
+    "fix": "components/bundle.css: .ie-cta-compact.ie-cta-bleed .ie-cta-photo { order: 0; } .ie-cta-compact.ie-cta-bleed { row-gap: 36px; }",
+    "visible": "medium"
+  },
+  {
+    "component": "ClosingCta",
+    "part": "photo (desktop)",
+    "property": "min-height and copy centering",
+    "boards": [
+      {
+        "board": "Home-Desktop-2",
+        "value": "photo cell min-height 520px; panel 520px with copy centered (h2 top 87px from panel top)",
+        "count": 1
+      },
+      {
+        "board": "About-Desktop",
+        "value": "photo cell min-height 520px; copy justify-content center",
+        "count": 1
+      }
+    ],
+    "system": "no min-height; copy top-aligned (Home renders 493px tall, copy at 72px)",
+    "class": "DEFECT",
+    "evidence": "Board sa 'position: relative; min-height: 520px' on both photo cells. Platform (no min-height) is copy-driven.",
+    "fix": "components/bundle.css: .ie-cta-with-photo:not(.ie-cta-compact) .ie-cta-photo { min-block-size: 520px; } .ie-cta-with-photo .ie-cta-copy { justify-content: center; }",
+    "visible": "medium"
+  },
+  {
+    "component": "ClosingCta",
+    "part": "lead (inline)",
+    "property": "max-width",
+    "boards": [
+      {
+        "board": "Case-Studies-Desktop",
+        "value": "560px",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "560px",
+        "count": 1
+      }
+    ],
+    "system": "measure 520px",
+    "class": "DEFECT",
+    "evidence": "Both inline boards cap the lead at 560. Pricing's lead wraps to 3 lines in the system (90px) vs 2 on the board (60px); panel 370px vs 340px.",
+    "fix": "components/bundle.css: .ie-cta-inline .ie-cta-lead { max-inline-size: calc(var(--measure) + var(--space-10)); } (= 560px)",
+    "visible": "medium"
+  },
+  {
+    "component": "ClosingCta",
+    "part": "inset (compact)",
+    "property": "padding",
+    "boards": [
+      {
+        "board": "Article-Mobile-2",
+        "value": "24px all sides",
+        "count": 1
+      }
+    ],
+    "system": "32px x 24px (compact rule overrides inset)",
+    "class": "DEFECT",
+    "evidence": "Desktop inset already follows Article (40 instead of 72); the compact rule sets 32/24 for every variant.",
+    "fix": "components/bundle.css: .ie-cta-compact.ie-cta-inset .ie-cta-copy { padding: var(--space-6); }",
+    "visible": "low"
+  },
+  {
+    "component": "ClosingCta",
+    "part": "photo (desktop)",
+    "property": "column ratio",
+    "boards": [
+      {
+        "board": "About-Desktop",
+        "value": "600 / 600 (1fr 1fr)",
+        "count": 1
+      },
+      {
+        "board": "Home-Desktop-2",
+        "value": "680 / 520 (1fr 520px)",
+        "count": 1
+      },
+      {
+        "board": "Platform-Desktop-2",
+        "value": "699 / 499 (7fr 5fr)",
+        "count": 1
+      },
+      {
+        "board": "Why-Desktop-2 (bleed)",
+        "value": "560 / 560",
+        "count": 1
+      }
+    ],
+    "system": "two equal columns",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "System follows About and Why; both white cards use a wider copy column. Effects measured: Home lead wraps to 3 lines (455px column) vs 2 on the board; About's buttons (162 + 12 + 285px) exceed the 456px column, so the system wraps the ghost button to a second row (panel 671px vs 611px; the board keeps one row and overflows by 8px).",
+    "fix": "If the white card keeps 7:5, add .ie-cta-white.ie-cta-with-photo { grid-template-columns: minmax(0,7fr) minmax(0,5fr); }",
+    "visible": "high"
+  },
+  {
+    "component": "ClosingCta",
+    "part": "spacing (desktop)",
+    "property": "title to lead",
+    "boards": [
+      {
+        "board": "About-Desktop, Home-Desktop-2, Case-Studies-Desktop, Pricing-Desktop",
+        "value": "24px",
+        "count": 4
+      },
+      {
+        "board": "Platform-Desktop-2, Newsroom-Desktop, Article-Desktop-2",
+        "value": "16px",
+        "count": 3
+      },
+      {
+        "board": "Why-Desktop-2",
+        "value": "20px",
+        "count": 1
+      }
+    ],
+    "system": "24px",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "System follows the most common value.",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "component": "ClosingCta",
+    "part": "spacing (desktop)",
+    "property": "lead to buttons",
+    "boards": [
+      {
+        "board": "About-Desktop",
+        "value": "40px",
+        "count": 1
+      },
+      {
+        "board": "Home-Desktop-2",
+        "value": "36px",
+        "count": 1
+      },
+      {
+        "board": "Platform-Desktop-2, Article-Desktop-2, Why-Desktop-2",
+        "value": "32px",
+        "count": 3
+      }
+    ],
+    "system": "40px (space-10)",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "System follows the minority (About only).",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "component": "ClosingCta",
+    "part": "eyebrow",
+    "property": "eyebrow to title",
+    "boards": [
+      {
+        "board": "Newsroom-Desktop / Mobile",
+        "value": "16px",
+        "count": 2
+      },
+      {
+        "board": "Article-Desktop-2 / Mobile-2",
+        "value": "12px",
+        "count": 2
+      },
+      {
+        "board": "Why-Desktop-2 / Mobile-4",
+        "value": "20px",
+        "count": 2
+      }
+    ],
+    "system": "16px (space-4)",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "Three values, two boards each.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "ClosingCta",
+    "part": "lead",
+    "property": "max-width (stacked)",
+    "boards": [
+      {
+        "board": "Home-Desktop-2, Why-Desktop-2",
+        "value": "520px",
+        "count": 2
+      },
+      {
+        "board": "About-Desktop",
+        "value": "460px",
+        "count": 1
+      },
+      {
+        "board": "Platform-Desktop-2",
+        "value": "440px",
+        "count": 1
+      },
+      {
+        "board": "Newsroom-Desktop / Mobile",
+        "value": "420px",
+        "count": 2
+      },
+      {
+        "board": "Article-Desktop-2",
+        "value": "none (600px column)",
+        "count": 1
+      }
+    ],
+    "system": "measure 520px",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "System follows Home and Why. Article lead wraps to 4 lines (120px) in the system vs 3 (90px).",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "component": "ClosingCta",
+    "part": "lead",
+    "property": "color and weight",
+    "boards": [
+      {
+        "board": "About, Case Studies, Pricing, Newsroom, Article (D+M)",
+        "value": "#ffffff",
+        "count": 10
+      },
+      {
+        "board": "Why-Desktop-2 / Why-Mobile-4",
+        "value": "#f0efeb",
+        "count": 2
+      },
+      {
+        "board": "Article-Desktop-2 / Mobile-2",
+        "value": "weight 400",
+        "count": 2
+      }
+    ],
+    "system": "#ffffff, weight 500",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "System follows the majority for both.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "ClosingCta",
+    "part": "inline",
+    "property": "vertical alignment and gap",
+    "boards": [
+      {
+        "board": "Case-Studies-Desktop, Pricing-Desktop",
+        "value": "align flex-end, gap 48",
+        "count": 2
+      },
+      {
+        "board": "Research-Experiment-Desktop-2",
+        "value": "align center, gap 48",
+        "count": 1
+      },
+      {
+        "board": "Newsroom-Desktop",
+        "value": "align center, gap 64, copy max 640",
+        "count": 1
+      }
+    ],
+    "system": "align-items flex-end, gap 48 (space-12)",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "System follows Case Studies and Pricing. With 'Contact us' (162px) Research's title fits one line, so its alignment shows no difference.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "ClosingCta",
+    "part": "photo (compact)",
+    "property": "height",
+    "boards": [
+      {
+        "board": "About-Mobile-3, Platform-Mobile-2, Why-Mobile-4",
+        "value": "220px",
+        "count": 3
+      },
+      {
+        "board": "Home-Mobile-2",
+        "value": "240px",
+        "count": 1
+      }
+    ],
+    "system": "220px",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "System follows the majority.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "ClosingCta",
+    "part": "panel",
+    "property": "padding",
+    "boards": [
+      {
+        "board": "Platform-Desktop-2",
+        "value": "80 / 64",
+        "count": 1
+      },
+      {
+        "board": "Newsroom-Desktop",
+        "value": "64 / 72",
+        "count": 1
+      },
+      {
+        "board": "About-Mobile-3, Home-Mobile-2",
+        "value": "28 / 24 / 32 / 24",
+        "count": 2
+      },
+      {
+        "board": "Platform-Mobile-2",
+        "value": "28 / 20 / 24 / 20",
+        "count": 1
+      },
+      {
+        "board": "Newsroom-Mobile",
+        "value": "40 / 24",
+        "count": 1
+      }
+    ],
+    "system": "72px (cta-padding); compact 32 x 24",
+    "class": "DECIDED",
+    "evidence": "Component-Library 'Closing call to action': '8px corners, 44px title (32 on mobile), 72px padding (32 × 24 on mobile).'",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "component": "ClosingCta",
+    "part": "white tone",
+    "property": "card type",
+    "boards": [
+      {
+        "board": "Home-Desktop-2 / Home-Mobile-2",
+        "value": "Floating: no border, 0 1px 2px rgba(40,43,47,.05), 0 12px 32px rgba(40,43,47,.06)",
+        "count": 2
+      }
+    ],
+    "system": "Raised: 1px #dfddd6, shadow-raised",
+    "class": "DECIDED",
+    "evidence": "Component-Decisions 3 'B White card — Raised white card, charcoal title, lead, Primary and Secondary buttons'; Component-Library: 'white Raised card with charcoal type'.",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "component": "ClosingCta",
+    "part": "buttons",
+    "property": "primary label",
+    "boards": [
+      {
+        "board": "About-Desktop / About-Mobile-3, Home-Desktop-2 / Home-Mobile-2",
+        "value": "'Contact Us'",
+        "count": 4
+      },
+      {
+        "board": "Research-Experiment-Desktop-2 / Mobile-2, Newsroom-Desktop / Mobile",
+        "value": "'Talk to our team'",
+        "count": 4
+      }
+    ],
+    "system": "'Contact us'",
+    "class": "SYSTEM-CHANGE",
+    "evidence": "Known change 7. Research's button narrows 202 -> 162px.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "ClosingCta",
+    "part": "actions / extra",
+    "property": "arrow-link secondary and ruled facts row",
+    "boards": [
+      {
+        "board": "Article-Desktop-2",
+        "value": "light button + light ArrowLink, gap 24; facts row below: border-top 1px #00874d, padding-top 20, margin-top 32, inline 14px facts",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-2",
+        "value": "button full width, ArrowLink centered below (+4px); facts row margin-top 12, padding-top 16",
+        "count": 1
+      }
+    ],
+    "system": "secondary must be a ghost Button; children get margin-top 32 and nothing else",
+    "class": "MISSING",
+    "evidence": "Both Article boards; ClosingCta cannot render an ArrowLink as the second action.",
+    "fix": "Allow secondary: { label, href, link: true } to render ArrowLink onBrand with gap space-6.",
+    "visible": "medium"
+  },
+  {
+    "component": "ClosingCta",
+    "part": "variants",
+    "property": "white card without photo; Stats as children",
+    "boards": [
+      {
+        "board": "none",
+        "value": "-",
+        "count": 0
+      }
+    ],
+    "system": "tone='white' with no image; children as a Stat row",
+    "class": "NOT-ON-BOARDS",
+    "evidence": "No FINAL V board shows a white closing card without a photo, or Stat components inside a CTA.",
+    "fix": "",
+    "visible": "low"
+  }
+]

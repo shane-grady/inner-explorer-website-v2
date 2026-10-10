@@ -1,0 +1,1357 @@
+[
+  {
+    "component": "SiteHeader",
+    "part": "all",
+    "property": "summary",
+    "class": "MATCH",
+    "visible": "low",
+    "boards": [
+      {
+        "board": "About-Desktop",
+        "value": "light desktop header",
+        "count": 1
+      },
+      {
+        "board": "Article-Desktop-1",
+        "value": "light desktop header",
+        "count": 1
+      },
+      {
+        "board": "Article-Desktop-2",
+        "value": "light desktop header",
+        "count": 1
+      },
+      {
+        "board": "Case-Studies-Desktop",
+        "value": "light desktop header",
+        "count": 1
+      },
+      {
+        "board": "Contact-Desktop",
+        "value": "light desktop header",
+        "count": 1
+      },
+      {
+        "board": "Contact-Success",
+        "value": "light desktop header",
+        "count": 1
+      },
+      {
+        "board": "Main",
+        "value": "light desktop header",
+        "count": 1
+      },
+      {
+        "board": "Newsroom-Desktop",
+        "value": "light desktop header",
+        "count": 1
+      },
+      {
+        "board": "Platform-Desktop-1",
+        "value": "light desktop header",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "light desktop header",
+        "count": 1
+      },
+      {
+        "board": "Why-Desktop-1",
+        "value": "light desktop header",
+        "count": 1
+      },
+      {
+        "board": "About-Mobile-1",
+        "value": "light mobile header",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-1",
+        "value": "light mobile header",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-2",
+        "value": "light mobile header",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-First-Screen",
+        "value": "light mobile header",
+        "count": 1
+      },
+      {
+        "board": "Case-Studies-Mobile",
+        "value": "light mobile header",
+        "count": 1
+      },
+      {
+        "board": "Contact-Mobile",
+        "value": "light mobile header",
+        "count": 1
+      },
+      {
+        "board": "Home-Mobile",
+        "value": "light mobile header",
+        "count": 1
+      },
+      {
+        "board": "Home-Mobile-Scrolled",
+        "value": "light mobile header",
+        "count": 1
+      },
+      {
+        "board": "Newsroom-Mobile",
+        "value": "light mobile header",
+        "count": 1
+      },
+      {
+        "board": "Platform-Mobile-1",
+        "value": "light mobile header",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "light mobile header",
+        "count": 1
+      },
+      {
+        "board": "Why-Mobile-1",
+        "value": "light mobile header",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "dark desktop header",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "dark mobile header",
+        "count": 1
+      }
+    ],
+    "system": "SiteHeader light/dark, compact",
+    "evidence": "Rendered SiteHeader at 1440 (light, dark) and 390 (compact light, dark) with the boards' copy and a 122px-wide logo stand-in (board logos do not load; their 122px width is the alt text). Light desktop, all 11 boards identical to each other and to the system: height 80, padding 0 120, #fff, border-bottom 1px rgb(223,221,214), no shadow; logo 32px tall in a 44px link at x120 y24; nav Inter 16/500 rgb(49,55,62), 32px gaps, 44px link boxes at x 356/453/631/762/865/950 (widths 65/146/99/71/53/46) in both; actions gap 24, Sign in at x1111 w52; CTA small primary 134x44 at x1186, radius 12, rgb(0,135,77), shadow-primary, 16/700 white. Nav hover rgb(0,110,81) on both (board CSS .ie-nav:hover). Light mobile, all 12 boards identical to each other and to the system: 64 tall, padding 0 20, logo 28px at y18, menu button 44x44 at x326 y10, 1px rgb(204,203,196), radius 12, #fff, 20px three-line outline icon, 2px stroke rgb(40,43,47). Dark: transparent ground, links rgb(240,239,235), hover rgb(191,250,162), current 700 white, same geometry. Note: the census renders the Research desktop header 45px tall because its hero column overflows (all sc-if states render at once); its inline style is height 80px, so 80 is used as the board value. Only per-board differences among light headers are aria-current attributes (no visual change).",
+    "fix": ""
+  },
+  {
+    "component": "SiteHeader",
+    "part": "nav link (current page, light)",
+    "property": "font-weight / color / underline",
+    "class": "SYSTEM-CHANGE",
+    "visible": "medium",
+    "boards": [
+      {
+        "board": "About-Desktop",
+        "value": "aria-current on About; 500, rgb(49,55,62), no rule",
+        "count": 1
+      },
+      {
+        "board": "Case-Studies-Desktop",
+        "value": "same, on Case studies",
+        "count": 1
+      },
+      {
+        "board": "Platform-Desktop-1",
+        "value": "same, on Platform",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "same, on Pricing",
+        "count": 1
+      }
+    ],
+    "system": "700, rgb(40,43,47), inset 0 -2px 0 rgb(0,135,77); bold widens the link (About 46 -> 48px) and shifts following items by up to 2px",
+    "evidence": "Deliberate change 6 (the header's current-page state). Measured on sys-hdr-d (#lightcur). The Contact boards mark the CTA aria-current with no visual change; the system Button also has no aria-current style (match).",
+    "fix": ""
+  },
+  {
+    "component": "SiteHeader",
+    "part": "nav link (current page, dark)",
+    "property": "underline color",
+    "class": "SYSTEM-CHANGE",
+    "visible": "low",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "inset 0 -2px 0 rgb(68,187,74) (#44bb4a); 700 #fff",
+        "count": 1
+      }
+    ],
+    "system": "inset 0 -2px 0 rgb(191,250,162) (on-brand-accent #bffaa2); 700 #fff",
+    "evidence": "Deliberate change 3 (accents on green panels use on-brand-accent, not green-300).",
+    "fix": ""
+  },
+  {
+    "component": "SiteHeader",
+    "part": "skip link; menu switch below 1280px",
+    "property": "structure",
+    "class": "SYSTEM-CHANGE",
+    "visible": "low",
+    "boards": [],
+    "system": "skip link (hidden until focused); light/dark header swaps links for the 44px menu button below 1280px",
+    "evidence": "Deliberate changes 5 and 6. Not visible on any 1440 or 390 board.",
+    "fix": ""
+  },
+  {
+    "component": "SiteHeader",
+    "part": "dark header CTA (ghost button)",
+    "property": "border",
+    "class": "BOARD-INCONSISTENT",
+    "visible": "medium",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "1px solid rgba(255,255,255,0.55); 136x44 (the board's own .ie-btn-ghost rule, also used by Research-Experiment-Desktop-2)",
+        "count": 1
+      },
+      {
+        "board": "36 other FINAL V boards (CSS)",
+        "value": ".ie-btn-ghost defined as 2px solid #ffffff",
+        "count": 36
+      }
+    ],
+    "system": "2px solid rgb(255,255,255); 138x44, so Sign in and the nav sit 2px further left (Sign in x1107 vs 1109)",
+    "evidence": "Board CSS grouped by .ie-btn-ghost definition: 36 boards 2px #fff, the 2 Research desktop boards 1px rgba(255,255,255,.55) (hover .08 vs .12). System follows the 36-board definition and Remaining-Drift: \"Buttons, links, chips, headers, footers, H1 and H2: one shared style each.\"",
+    "fix": ""
+  },
+  {
+    "component": "SiteHeader",
+    "part": "dark header bottom rule",
+    "property": "border-bottom color",
+    "class": "DEFECT",
+    "visible": "low",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "1px solid rgba(255,255,255,0.14)",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "1px solid rgba(255,255,255,0.14)",
+        "count": 1
+      }
+    ],
+    "system": "1px solid rgba(255,255,255,0.24) (border-on-brand)",
+    "evidence": "Board inline style vs computed style of .ie-header-dark (sys-hdr-d, sys-hdr-m). No decision board mentions the dark header rule; no token holds 0.14.",
+    "fix": "bundle.css: .ie-header-dark { border-block-end-color: var(--border-on-brand-subtle); } with a new token border-on-brand-subtle = rgba(255,255,255,0.14) in tokens.json (or accept 0.24 as a consolidation)."
+  },
+  {
+    "component": "SiteHeader",
+    "part": "dark compact menu button",
+    "property": "border color",
+    "class": "DEFECT",
+    "visible": "low",
+    "boards": [
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "1px solid rgba(255,255,255,0.4)",
+        "count": 1
+      }
+    ],
+    "system": "1px solid rgba(255,255,255,0.24) (border-on-brand)",
+    "evidence": "Board inline style vs computed .ie-header-dark .ie-menu-btn (sys-hdr-m #dark). Background transparent and icon #fff 20px match.",
+    "fix": "bundle.css: .ie-header-dark .ie-menu-btn { border-color: <token for rgba(255,255,255,0.4)>; } (0.4 is also used for 10 other outlines on green boards), or accept 0.24."
+  },
+  {
+    "component": "SiteHeader",
+    "part": "nav link hover",
+    "property": "color",
+    "class": "BOARD-INCONSISTENT",
+    "visible": "low",
+    "boards": [
+      {
+        "board": "CSS of 26 FINAL V boards, incl. all 11 light desktop headers",
+        "value": ".ie-nav:hover{color:#006e51 !important} -> rgb(0,110,81)",
+        "count": 26
+      },
+      {
+        "board": "Component-Library (decision)",
+        "value": "\"Link hover is one green (#1e473c) everywhere\"",
+        "count": 1
+      }
+    ],
+    "system": "rgb(0,110,81) (brand-emphasis), measured after hover",
+    "evidence": "Hovered the first nav link on Main and on sys-hdr-d (400ms wait). The system follows the board CSS; the tracker text names #1e473c for link hover. Flagged so the owner can confirm which the header uses.",
+    "fix": ""
+  },
+  {
+    "component": "SiteHeader",
+    "part": "reading-progress bar above the header",
+    "property": "pattern",
+    "class": "MISSING",
+    "visible": "low",
+    "boards": [
+      {
+        "board": "Article-Desktop-1",
+        "value": "role=progressbar, 4px track rgb(223,221,214), fill rgb(0,135,77), full width above the header (header starts at y4)",
+        "count": 1
+      },
+      {
+        "board": "Article-Desktop-2",
+        "value": "role=progressbar, 4px track rgb(223,221,214), fill rgb(0,135,77), full width above the header (header starts at y4)",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-1",
+        "value": "role=progressbar, 4px track rgb(223,221,214), fill rgb(0,135,77), full width above the header (header starts at y4)",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-2",
+        "value": "role=progressbar, 4px track rgb(223,221,214), fill rgb(0,135,77), full width above the header (header starts at y4)",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-First-Screen",
+        "value": "role=progressbar, 4px track rgb(223,221,214), fill rgb(0,135,77), full width above the header (header starts at y4)",
+        "count": 1
+      }
+    ],
+    "system": "none",
+    "evidence": "Census rects at y0-4 on the Article boards. All five boards are the Article page, so per the README rule (\"patterns used on one page are built in that page\") it may stay page-level; listed because it sits on the chrome.",
+    "fix": ""
+  },
+  {
+    "component": "MobileMenu",
+    "part": "menu/close button and bar",
+    "property": "summary",
+    "class": "MATCH",
+    "visible": "low",
+    "boards": [
+      {
+        "board": "About-Mobile-1",
+        "value": "menu button 44x44, 1px rgb(204,203,196), radius 12, #fff, 20px outline icon rgb(40,43,47) 2px",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-1",
+        "value": "menu button 44x44, 1px rgb(204,203,196), radius 12, #fff, 20px outline icon rgb(40,43,47) 2px",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-2",
+        "value": "menu button 44x44, 1px rgb(204,203,196), radius 12, #fff, 20px outline icon rgb(40,43,47) 2px",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-First-Screen",
+        "value": "menu button 44x44, 1px rgb(204,203,196), radius 12, #fff, 20px outline icon rgb(40,43,47) 2px",
+        "count": 1
+      },
+      {
+        "board": "Case-Studies-Mobile",
+        "value": "menu button 44x44, 1px rgb(204,203,196), radius 12, #fff, 20px outline icon rgb(40,43,47) 2px",
+        "count": 1
+      },
+      {
+        "board": "Contact-Mobile",
+        "value": "menu button 44x44, 1px rgb(204,203,196), radius 12, #fff, 20px outline icon rgb(40,43,47) 2px",
+        "count": 1
+      },
+      {
+        "board": "Home-Mobile",
+        "value": "menu button 44x44, 1px rgb(204,203,196), radius 12, #fff, 20px outline icon rgb(40,43,47) 2px",
+        "count": 1
+      },
+      {
+        "board": "Home-Mobile-Scrolled",
+        "value": "menu button 44x44, 1px rgb(204,203,196), radius 12, #fff, 20px outline icon rgb(40,43,47) 2px",
+        "count": 1
+      },
+      {
+        "board": "Newsroom-Mobile",
+        "value": "menu button 44x44, 1px rgb(204,203,196), radius 12, #fff, 20px outline icon rgb(40,43,47) 2px",
+        "count": 1
+      },
+      {
+        "board": "Platform-Mobile-1",
+        "value": "menu button 44x44, 1px rgb(204,203,196), radius 12, #fff, 20px outline icon rgb(40,43,47) 2px",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "menu button 44x44, 1px rgb(204,203,196), radius 12, #fff, 20px outline icon rgb(40,43,47) 2px",
+        "count": 1
+      },
+      {
+        "board": "Why-Mobile-1",
+        "value": "menu button 44x44, 1px rgb(204,203,196), radius 12, #fff, 20px outline icon rgb(40,43,47) 2px",
+        "count": 1
+      }
+    ],
+    "system": "ie-menu-btn 44x44, 1px rgb(204,203,196), radius 12, #fff, 20px outline icon rgb(40,43,47) 2px; menu bar 64px, padding 0 20, border-bottom 1px rgb(223,221,214), logo 28px",
+    "evidence": "Rendered MobileMenu inline at 390 (sys-hdr-m #menu); its bar and close button match the boards' mobile header bar and menu button exactly (positions x326 y10 within the bar).",
+    "fix": ""
+  },
+  {
+    "component": "MobileMenu",
+    "part": "open state",
+    "property": "whole component",
+    "class": "NOT-ON-BOARDS",
+    "visible": "low",
+    "boards": [],
+    "system": "full-screen dialog: links type-card-title-md (20/700) on 57px rows (56 min + 1px rule), Contact us primary and Sign in secondary at full width, gap 12, padding 24 20",
+    "evidence": "No FINAL V board shows the menu open (deliberate addition 6).",
+    "fix": ""
+  },
+  {
+    "component": "SiteFooter",
+    "part": "all",
+    "property": "summary",
+    "class": "MATCH",
+    "visible": "low",
+    "boards": [
+      {
+        "board": "About-Desktop",
+        "value": "standard desktop footer",
+        "count": 1
+      },
+      {
+        "board": "Article-Desktop-2",
+        "value": "standard desktop footer",
+        "count": 1
+      },
+      {
+        "board": "Case-Studies-Desktop",
+        "value": "standard desktop footer",
+        "count": 1
+      },
+      {
+        "board": "Contact-Desktop",
+        "value": "standard desktop footer",
+        "count": 1
+      },
+      {
+        "board": "Home-Desktop-2",
+        "value": "standard desktop footer",
+        "count": 1
+      },
+      {
+        "board": "Newsroom-Desktop",
+        "value": "standard desktop footer",
+        "count": 1
+      },
+      {
+        "board": "Platform-Desktop-2",
+        "value": "standard desktop footer",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "standard desktop footer",
+        "count": 1
+      },
+      {
+        "board": "Why-Desktop-2",
+        "value": "standard desktop footer",
+        "count": 1
+      },
+      {
+        "board": "About-Mobile-3",
+        "value": "standard mobile footer",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-2",
+        "value": "standard mobile footer",
+        "count": 1
+      },
+      {
+        "board": "Case-Studies-Mobile",
+        "value": "standard mobile footer",
+        "count": 1
+      },
+      {
+        "board": "Contact-Mobile",
+        "value": "standard mobile footer",
+        "count": 1
+      },
+      {
+        "board": "Home-Mobile-2",
+        "value": "standard mobile footer",
+        "count": 1
+      },
+      {
+        "board": "Newsroom-Mobile",
+        "value": "standard mobile footer",
+        "count": 1
+      },
+      {
+        "board": "Platform-Mobile-2",
+        "value": "standard mobile footer",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "standard mobile footer",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Mobile-2",
+        "value": "standard mobile footer",
+        "count": 1
+      },
+      {
+        "board": "Why-Mobile-4",
+        "value": "standard mobile footer",
+        "count": 1
+      }
+    ],
+    "system": "SiteFooter desktop / compact",
+    "evidence": "Rendered at 1440 and 390 with the boards' copy; compared every text element's position (textcmp.mjs). The 9 standard desktop footers are identical to each other, the 10 mobile footers too (except the Privacy-policy underline row below; the About/Why footers only differ in height because they flex-grow to fill the board). Matching: desktop padding 64/120/40, #fff, 1px rgb(223,221,214) top rule, gap 48, grid 2fr+3x1fr = 441.6/220.8px with 32px gaps; logo 32 (mobile 28); blurb 15/500/1.5 rgb(49,55,62), max 320, same line breaks; community block 24px under the blurb on desktop; social 44px rgb(240,239,235) discs, rgb(0,110,81) marks at 18/18/18/20/16px, 8px apart; headings 15/700 rgb(40,43,47); links 15/500 rgb(49,55,62), no underline, x positions; legal 14/500 rgb(49,55,62), 24px top padding, space-between, 16 gap, Privacy policy underlined. Mobile: padding 40/20/32, gap 24, two columns 167px with 24/16 gaps, link rows 32px with 4px gaps, legal stacked with 20px padding, 8px gap, 21px lines.",
+    "fix": ""
+  },
+  {
+    "component": "SiteFooter",
+    "part": "column headings and \"Join our mindful community\"",
+    "property": "line-height",
+    "class": "DEFECT",
+    "visible": "low",
+    "boards": [
+      {
+        "board": "About-Desktop",
+        "value": "normal (18px box)",
+        "count": 1
+      },
+      {
+        "board": "Article-Desktop-2",
+        "value": "normal (18px box)",
+        "count": 1
+      },
+      {
+        "board": "Case-Studies-Desktop",
+        "value": "normal (18px box)",
+        "count": 1
+      },
+      {
+        "board": "Contact-Desktop",
+        "value": "normal (18px box)",
+        "count": 1
+      },
+      {
+        "board": "Home-Desktop-2",
+        "value": "normal (18px box)",
+        "count": 1
+      },
+      {
+        "board": "Newsroom-Desktop",
+        "value": "normal (18px box)",
+        "count": 1
+      },
+      {
+        "board": "Platform-Desktop-2",
+        "value": "normal (18px box)",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "normal (18px box)",
+        "count": 1
+      },
+      {
+        "board": "Why-Desktop-2",
+        "value": "normal (18px box)",
+        "count": 1
+      },
+      {
+        "board": "About-Mobile-3",
+        "value": "normal (18px box)",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-2",
+        "value": "normal (18px box)",
+        "count": 1
+      },
+      {
+        "board": "Case-Studies-Mobile",
+        "value": "normal (18px box)",
+        "count": 1
+      },
+      {
+        "board": "Contact-Mobile",
+        "value": "normal (18px box)",
+        "count": 1
+      },
+      {
+        "board": "Home-Mobile-2",
+        "value": "normal (18px box)",
+        "count": 1
+      },
+      {
+        "board": "Newsroom-Mobile",
+        "value": "normal (18px box)",
+        "count": 1
+      },
+      {
+        "board": "Platform-Mobile-2",
+        "value": "normal (18px box)",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "normal (18px box)",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Mobile-2",
+        "value": "normal (18px box)",
+        "count": 1
+      },
+      {
+        "board": "Why-Mobile-4",
+        "value": "normal (18px box)",
+        "count": 1
+      }
+    ],
+    "system": "1.5 (22.5px box)",
+    "evidence": "Board inline style has no line-height (rect h18); .ie-footer-heading sets 15px/1.5 (rect h23). Pushes the social row 5px down on desktop and every link below each heading.",
+    "fix": "bundle.css .ie-footer-heading: font: 700 15px/1.2 var(--font-sans);"
+  },
+  {
+    "component": "SiteFooter",
+    "part": "link rows (desktop)",
+    "property": "line-height / row pitch",
+    "class": "DEFECT",
+    "visible": "medium",
+    "boards": [
+      {
+        "board": "About-Desktop",
+        "value": "links are flex items, line-height normal: 18px rows, 12px gap, pitch 30; link tops at heading +30/+60/+90",
+        "count": 1
+      },
+      {
+        "board": "Article-Desktop-2",
+        "value": "links are flex items, line-height normal: 18px rows, 12px gap, pitch 30; link tops at heading +30/+60/+90",
+        "count": 1
+      },
+      {
+        "board": "Case-Studies-Desktop",
+        "value": "links are flex items, line-height normal: 18px rows, 12px gap, pitch 30; link tops at heading +30/+60/+90",
+        "count": 1
+      },
+      {
+        "board": "Contact-Desktop",
+        "value": "links are flex items, line-height normal: 18px rows, 12px gap, pitch 30; link tops at heading +30/+60/+90",
+        "count": 1
+      },
+      {
+        "board": "Home-Desktop-2",
+        "value": "links are flex items, line-height normal: 18px rows, 12px gap, pitch 30; link tops at heading +30/+60/+90",
+        "count": 1
+      },
+      {
+        "board": "Newsroom-Desktop",
+        "value": "links are flex items, line-height normal: 18px rows, 12px gap, pitch 30; link tops at heading +30/+60/+90",
+        "count": 1
+      },
+      {
+        "board": "Platform-Desktop-2",
+        "value": "links are flex items, line-height normal: 18px rows, 12px gap, pitch 30; link tops at heading +30/+60/+90",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "links are flex items, line-height normal: 18px rows, 12px gap, pitch 30; link tops at heading +30/+60/+90",
+        "count": 1
+      },
+      {
+        "board": "Why-Desktop-2",
+        "value": "links are flex items, line-height normal: 18px rows, 12px gap, pitch 30; link tops at heading +30/+60/+90",
+        "count": 1
+      }
+    ],
+    "system": "li 22.5px (line-height 1.5) + 12px gap, pitch 34.5; link tops at heading +37/+71/+106 (third link 16px lower)",
+    "evidence": "textcmp.mjs Home-Desktop-2 footer vs sys-ftr-d: For educators y95->102, For districts 125->136, Pricing 155->171 (same in all three columns).",
+    "fix": "bundle.css .ie-footer-nav a: display: block; font: 500 15px/1.2 var(--font-sans); (verified: link tops 95/125/155 within 1px; the compact rule keeps display:flex and 32px rows)."
+  },
+  {
+    "component": "SiteFooter",
+    "part": "legal row (desktop)",
+    "property": "line-height / row height",
+    "class": "DEFECT",
+    "visible": "low",
+    "boards": [
+      {
+        "board": "About-Desktop",
+        "value": "line-height normal: text 16px, row 41px, text top +25 below the rule",
+        "count": 1
+      },
+      {
+        "board": "Article-Desktop-2",
+        "value": "line-height normal: text 16px, row 41px, text top +25 below the rule",
+        "count": 1
+      },
+      {
+        "board": "Case-Studies-Desktop",
+        "value": "line-height normal: text 16px, row 41px, text top +25 below the rule",
+        "count": 1
+      },
+      {
+        "board": "Contact-Desktop",
+        "value": "line-height normal: text 16px, row 41px, text top +25 below the rule",
+        "count": 1
+      },
+      {
+        "board": "Home-Desktop-2",
+        "value": "line-height normal: text 16px, row 41px, text top +25 below the rule",
+        "count": 1
+      },
+      {
+        "board": "Newsroom-Desktop",
+        "value": "line-height normal: text 16px, row 41px, text top +25 below the rule",
+        "count": 1
+      },
+      {
+        "board": "Platform-Desktop-2",
+        "value": "line-height normal: text 16px, row 41px, text top +25 below the rule",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "line-height normal: text 16px, row 41px, text top +25 below the rule",
+        "count": 1
+      },
+      {
+        "board": "Why-Desktop-2",
+        "value": "line-height normal: text 16px, row 41px, text top +25 below the rule",
+        "count": 1
+      }
+    ],
+    "system": "line-height 1.5: text 21px, row 46px; whole desktop footer 395px vs 385",
+    "evidence": "Board legal div style has no line-height; .ie-footer-legal sets 14px/1.5. Mobile boards set line-height 1.5 on the legal row, so the mobile row matches.",
+    "fix": "bundle.css: .ie-footer-legal { line-height: 1.2; } and .ie-footer-compact .ie-footer-legal { line-height: 1.5; } (verified: desktop footer 386px vs 385, legal text y329)."
+  },
+  {
+    "component": "SiteFooter",
+    "part": "community block (compact)",
+    "property": "space above",
+    "class": "DEFECT",
+    "visible": "medium",
+    "boards": [
+      {
+        "board": "About-Mobile-3",
+        "value": "24px under the blurb (footer gap 24, no margin)",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-2",
+        "value": "24px under the blurb (footer gap 24, no margin)",
+        "count": 1
+      },
+      {
+        "board": "Case-Studies-Mobile",
+        "value": "24px under the blurb (footer gap 24, no margin)",
+        "count": 1
+      },
+      {
+        "board": "Contact-Mobile",
+        "value": "24px under the blurb (footer gap 24, no margin)",
+        "count": 1
+      },
+      {
+        "board": "Home-Mobile-2",
+        "value": "24px under the blurb (footer gap 24, no margin)",
+        "count": 1
+      },
+      {
+        "board": "Newsroom-Mobile",
+        "value": "24px under the blurb (footer gap 24, no margin)",
+        "count": 1
+      },
+      {
+        "board": "Platform-Mobile-2",
+        "value": "24px under the blurb (footer gap 24, no margin)",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "24px under the blurb (footer gap 24, no margin)",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Mobile-2",
+        "value": "24px under the blurb (footer gap 24, no margin)",
+        "count": 1
+      },
+      {
+        "board": "Why-Mobile-4",
+        "value": "24px under the blurb (footer gap 24, no margin)",
+        "count": 1
+      }
+    ],
+    "system": "32px (brand gap 24 + .ie-footer-community margin-top 8)",
+    "evidence": "Home-Mobile-2: blurb ends y138, community y162; sys-ftr-m: community y170. Social row 192 vs 205 after the heading change too.",
+    "fix": "bundle.css: .ie-footer-compact .ie-footer-community { margin-block-start: 0; }"
+  },
+  {
+    "component": "SiteFooter",
+    "part": "column heading to first link (compact)",
+    "property": "gap",
+    "class": "DEFECT",
+    "visible": "medium",
+    "boards": [
+      {
+        "board": "About-Mobile-3",
+        "value": "4px (nav gap 4px: heading 18 + 4, first link at heading +22)",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-2",
+        "value": "4px (nav gap 4px: heading 18 + 4, first link at heading +22)",
+        "count": 1
+      },
+      {
+        "board": "Case-Studies-Mobile",
+        "value": "4px (nav gap 4px: heading 18 + 4, first link at heading +22)",
+        "count": 1
+      },
+      {
+        "board": "Contact-Mobile",
+        "value": "4px (nav gap 4px: heading 18 + 4, first link at heading +22)",
+        "count": 1
+      },
+      {
+        "board": "Home-Mobile-2",
+        "value": "4px (nav gap 4px: heading 18 + 4, first link at heading +22)",
+        "count": 1
+      },
+      {
+        "board": "Newsroom-Mobile",
+        "value": "4px (nav gap 4px: heading 18 + 4, first link at heading +22)",
+        "count": 1
+      },
+      {
+        "board": "Platform-Mobile-2",
+        "value": "4px (nav gap 4px: heading 18 + 4, first link at heading +22)",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "4px (nav gap 4px: heading 18 + 4, first link at heading +22)",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Mobile-2",
+        "value": "4px (nav gap 4px: heading 18 + 4, first link at heading +22)",
+        "count": 1
+      },
+      {
+        "board": "Why-Mobile-4",
+        "value": "4px (nav gap 4px: heading 18 + 4, first link at heading +22)",
+        "count": 1
+      }
+    ],
+    "system": "12px (.ie-footer-nav gap space-3; first link at heading +34)",
+    "evidence": "Home-Mobile-2 footer: Product y260, For educators y282; sys-ftr-m: 273 and 307. With the heading and community rows, the mobile footer is 701px vs 663 (legal row 38px lower).",
+    "fix": "bundle.css: .ie-footer-compact .ie-footer-nav { gap: var(--space-1); } (verified with the four fixes above: mobile footer 663px, every element at the board position)."
+  },
+  {
+    "component": "SiteFooter",
+    "part": "column link hover",
+    "property": "color / underline",
+    "class": "DEFECT",
+    "visible": "low",
+    "boards": [
+      {
+        "board": "Home-Desktop-2",
+        "value": "rendered: no change (inline color rgb(49,55,62) beats a:hover{color:#1e473c}); intended a:hover #1e473c",
+        "count": 1
+      },
+      {
+        "board": "Component-Library (decision)",
+        "value": "\"Link hover is one green (#1e473c) everywhere\"",
+        "count": 1
+      }
+    ],
+    "system": "rgb(0,110,81) + underline",
+    "evidence": "Hovered the first footer link on Home-Desktop-2 and sys-ftr-d (400ms wait).",
+    "fix": "bundle.css .ie-footer-nav a:hover { color: var(--link-hover); } (no board shows an underline; keep it only as a deliberate non-colour cue)."
+  },
+  {
+    "component": "SiteFooter",
+    "part": "social link hover",
+    "property": "icon color",
+    "class": "DECIDED",
+    "visible": "low",
+    "boards": [
+      {
+        "board": "Home-Desktop-2",
+        "value": "link color goes to rgb(30,71,60) but the svg fill attribute stays #006e51, so the mark does not change",
+        "count": 1
+      }
+    ],
+    "system": "mark turns rgb(30,71,60) (link-hover, svg uses currentColor)",
+    "evidence": "Component-Library: \"Link hover is one green (#1e473c) everywhere.\"",
+    "fix": ""
+  },
+  {
+    "component": "SiteFooter",
+    "part": "whole footer on Research desktop",
+    "property": "structure and styles",
+    "class": "BOARD-INCONSISTENT",
+    "visible": "high",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop-2",
+        "value": "headings 14/700 uppercase +0.08em rgb(89,96,106) with 8px margin; 36px link rows, 4px gap; 14 links (adds Narrators, Mobile app, Careers, Donate, Newsletter); no social block; logo 28px; grid gap 48; footer gap 40, bottom padding 32; blurb rgb(66,72,80); legal text rgb(89,96,106) with Privacy policy as a 44px link; 430px tall",
+        "count": 1
+      },
+      {
+        "board": "About-Desktop",
+        "value": "standard footer (385px)",
+        "count": 1
+      },
+      {
+        "board": "Article-Desktop-2",
+        "value": "standard footer (385px)",
+        "count": 1
+      },
+      {
+        "board": "Case-Studies-Desktop",
+        "value": "standard footer (385px)",
+        "count": 1
+      },
+      {
+        "board": "Contact-Desktop",
+        "value": "standard footer (385px)",
+        "count": 1
+      },
+      {
+        "board": "Home-Desktop-2",
+        "value": "standard footer (385px)",
+        "count": 1
+      },
+      {
+        "board": "Newsroom-Desktop",
+        "value": "standard footer (385px)",
+        "count": 1
+      },
+      {
+        "board": "Platform-Desktop-2",
+        "value": "standard footer (385px)",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "standard footer (385px)",
+        "count": 1
+      },
+      {
+        "board": "Why-Desktop-2",
+        "value": "standard footer (385px)",
+        "count": 1
+      }
+    ],
+    "system": "standard footer",
+    "evidence": "cmp.mjs footer: 85 differences against the standard. System follows the 9-board majority and Component-Library: \"All 18 footers carry the same 15 links, with 44px social icons.\" (Research-Experiment-Mobile-2 uses the standard mobile footer.)",
+    "fix": ""
+  },
+  {
+    "component": "SiteFooter",
+    "part": "Privacy policy link",
+    "property": "text-decoration",
+    "class": "BOARD-INCONSISTENT",
+    "visible": "low",
+    "boards": [
+      {
+        "board": "Case-Studies-Desktop",
+        "value": "none",
+        "count": 1
+      },
+      {
+        "board": "Case-Studies-Mobile",
+        "value": "none",
+        "count": 1
+      },
+      {
+        "board": "Newsroom-Desktop",
+        "value": "none",
+        "count": 1
+      },
+      {
+        "board": "Newsroom-Mobile",
+        "value": "none",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "none",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Mobile",
+        "value": "none",
+        "count": 1
+      },
+      {
+        "board": "About-Desktop",
+        "value": "underline",
+        "count": 1
+      },
+      {
+        "board": "Article-Desktop-2",
+        "value": "underline",
+        "count": 1
+      },
+      {
+        "board": "Contact-Desktop",
+        "value": "underline",
+        "count": 1
+      },
+      {
+        "board": "Home-Desktop-2",
+        "value": "underline",
+        "count": 1
+      },
+      {
+        "board": "Platform-Desktop-2",
+        "value": "underline",
+        "count": 1
+      },
+      {
+        "board": "Why-Desktop-2",
+        "value": "underline",
+        "count": 1
+      },
+      {
+        "board": "About-Mobile-3",
+        "value": "underline",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-2",
+        "value": "underline",
+        "count": 1
+      },
+      {
+        "board": "Contact-Mobile",
+        "value": "underline",
+        "count": 1
+      },
+      {
+        "board": "Home-Mobile-2",
+        "value": "underline",
+        "count": 1
+      },
+      {
+        "board": "Platform-Mobile-2",
+        "value": "underline",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Mobile-2",
+        "value": "underline",
+        "count": 1
+      },
+      {
+        "board": "Why-Mobile-4",
+        "value": "underline",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Desktop-2",
+        "value": "underline",
+        "count": 1
+      }
+    ],
+    "system": "underline (majority, 14 of 20)",
+    "evidence": "Computed text-decoration-line in the census.",
+    "fix": ""
+  },
+  {
+    "component": "StickyBar",
+    "part": "both variants",
+    "property": "summary",
+    "class": "MATCH",
+    "visible": "low",
+    "boards": [
+      {
+        "board": "Home-Mobile-Scrolled",
+        "value": "cta variant",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-1",
+        "value": "prompt variant",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-2",
+        "value": "prompt variant",
+        "count": 1
+      }
+    ],
+    "system": "StickyBar cta (with play link) and prompt",
+    "evidence": "Rendered at 390 with board copy (sys-sticky). Match: #fff, 1px rgb(223,221,214) top rule, shadow 0 -4px 14px rgba(40,43,47,0.07), padding 12 20, gap 12; cta primary 48px with 20px arrow, square link radius 12, 1px rgb(204,203,196), #fff; prompt title 14/700 rgb(40,43,47), subtitle 14/500 rgb(89,96,106), same line breaks, text column 197px, small primary 134x44 at x236; prompt bar 69px.",
+    "fix": ""
+  },
+  {
+    "component": "StickyBar",
+    "part": "cta: square practice link",
+    "property": "width",
+    "class": "DEFECT",
+    "visible": "medium",
+    "boards": [
+      {
+        "board": "Home-Mobile-Scrolled",
+        "value": "48x48 (flex-shrink: 0); primary 290px wide",
+        "count": 1
+      }
+    ],
+    "system": "40x48 (shrunk by the 100%-wide block button); primary 298px",
+    "evidence": "sys-sticky and the system's own preview (census/ds/StickyBar.json: ie-icon-btn 40x48).",
+    "fix": "bundle.css: .ie-sticky .ie-icon-btn { flex-shrink: 0; } (or .ie-icon-btn { flex-shrink: 0; }) (verified: 48x48, primary 290)."
+  },
+  {
+    "component": "StickyBar",
+    "part": "cta: play icon in the square link",
+    "property": "size / color",
+    "class": "DEFECT",
+    "visible": "medium",
+    "boards": [
+      {
+        "board": "Home-Mobile-Scrolled",
+        "value": "16px, stroke rgb(0,135,77) (brand)",
+        "count": 1
+      }
+    ],
+    "system": "20px, stroke rgb(0,110,81) (IconButton outline: brand-emphasis)",
+    "evidence": "Board svg width/height 16 and stroke #00874d; system Icon default size 20.",
+    "fix": "bundle.css: .ie-sticky .ie-icon-btn { color: var(--brand); } .ie-sticky .ie-icon-btn .ie-icon { inline-size: var(--icon-sm); block-size: var(--icon-sm); } (or give IconButton an iconSize prop and pass 16 from StickyBar)."
+  },
+  {
+    "component": "StickyBar",
+    "part": "cta bar",
+    "property": "height",
+    "class": "DEFECT",
+    "visible": "low",
+    "boards": [
+      {
+        "board": "Home-Mobile-Scrolled",
+        "value": "76px (inline height: 76px; button 15px below the top edge)",
+        "count": 1
+      }
+    ],
+    "system": "73px (1 + 12 + 48 + 12; button 13px below)",
+    "evidence": "Board inline style; sys-sticky rect.",
+    "fix": "bundle.css: .ie-sticky-cta { min-block-size: 76px; } (verified: 76px, button at +15)."
+  },
+  {
+    "component": "StickyBar",
+    "part": "prompt text block",
+    "property": "line-height / gap",
+    "class": "DEFECT",
+    "visible": "low",
+    "boards": [
+      {
+        "board": "Article-Mobile-1",
+        "value": "two lines, line-height normal (about 17px) with a 4px gap: block 37px, title at bar +17, subtitle +37",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-2",
+        "value": "same",
+        "count": 1
+      }
+    ],
+    "system": "p line-height 1.5 (21px), no gap: block 42px, title at bar +14 (3px higher), subtitle +35",
+    "evidence": "Census rects vs sys-sticky; bar height is 69px in both because the 44px button is taller.",
+    "fix": "bundle.css: .ie-sticky-text { display: flex; flex-direction: column; gap: var(--space-1); } .ie-sticky-text p { line-height: 1.2; } (verified: title +16, subtitle +37)."
+  },
+  {
+    "component": "StickyBar",
+    "part": "cta label",
+    "property": "text",
+    "class": "SYSTEM-CHANGE",
+    "visible": "low",
+    "boards": [
+      {
+        "board": "Home-Mobile-Scrolled",
+        "value": "Contact Us",
+        "count": 1
+      }
+    ],
+    "system": "Contact us",
+    "evidence": "Deliberate change 7.",
+    "fix": ""
+  },
+  {
+    "component": "TextField",
+    "part": "label, control, hint, focus",
+    "property": "summary",
+    "class": "MATCH",
+    "visible": "low",
+    "boards": [
+      {
+        "board": "Contact-Desktop",
+        "value": "5 inputs, 2 selects, 1 textarea",
+        "count": 8
+      },
+      {
+        "board": "Contact-Mobile",
+        "value": "5 inputs, 2 selects, 1 textarea",
+        "count": 8
+      },
+      {
+        "board": "Article-Desktop-2",
+        "value": "newsletter email + hint",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-2",
+        "value": "newsletter email + hint",
+        "count": 1
+      }
+    ],
+    "system": "TextField input / select / multiline, optional, hint",
+    "evidence": "Rendered each field at its board width (240/496/288/192/143/302/404/310) in sys-field. Match: label 15/700/1.2 rgb(40,43,47), 8px to the control, field 74px; control 48px, padding 0 16, 1px rgb(103,109,117), #fff, Inter 16/500 rgb(40,43,47); typed text and placeholder ink at x18 y18 in both screenshots; placeholder rgb(89,96,106); select padding-right 44, appearance none, 16px chevron rgb(40,43,47); textarea padding 12 16, 24px lines; \"(optional)\" 500 rgb(49,55,62); no required marks on either; focus: border rgb(0,135,77) + 2px rgb(0,110,81) outline at 2px offset (measured on Contact-Desktop and the system); hint 15/500/1.5 rgb(89,96,106), 8px under the control.",
+    "fix": ""
+  },
+  {
+    "component": "TextField",
+    "part": "control",
+    "property": "border-radius",
+    "class": "DECIDED",
+    "visible": "medium",
+    "boards": [
+      {
+        "board": "Contact-Desktop",
+        "value": "8px",
+        "count": 8
+      },
+      {
+        "board": "Contact-Mobile",
+        "value": "8px",
+        "count": 8
+      },
+      {
+        "board": "Article-Desktop-2",
+        "value": "8px",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-2",
+        "value": "8px",
+        "count": 1
+      }
+    ],
+    "system": "12px (radius-md)",
+    "evidence": "Component-Library: \"8px for containers, badges and tags; 12px for buttons, chips and inputs.\"",
+    "fix": ""
+  },
+  {
+    "component": "TextField",
+    "part": "select chevron",
+    "property": "right inset",
+    "class": "DEFECT",
+    "visible": "low",
+    "boards": [
+      {
+        "board": "Contact-Desktop",
+        "value": "right: 14px",
+        "count": 2
+      },
+      {
+        "board": "Contact-Mobile",
+        "value": "right: 14px",
+        "count": 2
+      }
+    ],
+    "system": "16px (space-4)",
+    "evidence": "Board svg inline style; sys-field: chevron right edge 16px from the select edge.",
+    "fix": "bundle.css .ie-field-select .ie-icon { inset-inline-end: 14px; } (off the 4px grid; accepting 16px is reasonable)."
+  },
+  {
+    "component": "TextField",
+    "part": "select chevron",
+    "property": "vertical position",
+    "class": "BOARD-INCONSISTENT",
+    "visible": "low",
+    "boards": [
+      {
+        "board": "Contact-Desktop",
+        "value": "top: 18px (2px below centre)",
+        "count": 2
+      },
+      {
+        "board": "Contact-Mobile",
+        "value": "top: 16px (centred)",
+        "count": 2
+      }
+    ],
+    "system": "centred (16px)",
+    "evidence": "Board svg inline styles. System matches the mobile board.",
+    "fix": ""
+  },
+  {
+    "component": "TextField",
+    "part": "textarea",
+    "property": "initial height",
+    "class": "DEFECT",
+    "visible": "low",
+    "boards": [
+      {
+        "board": "Contact-Desktop",
+        "value": "122px (rows=4: 4x24 + 24 + 2, min-height 120)",
+        "count": 1
+      },
+      {
+        "board": "Contact-Mobile",
+        "value": "122px",
+        "count": 1
+      }
+    ],
+    "system": "120px (field-sizing: content ignores rows; min-block-size 120)",
+    "evidence": "Census rect vs sys-field rect; the system preview also renders 120.",
+    "fix": "bundle.css textarea.ie-field-control { min-block-size: 122px; } (or keep the documented 120px)."
+  },
+  {
+    "component": "TextField",
+    "part": "newsletter input",
+    "property": "font-weight / placeholder color / focus border",
+    "class": "BOARD-INCONSISTENT",
+    "visible": "low",
+    "boards": [
+      {
+        "board": "Article-Desktop-2",
+        "value": "weight 400; placeholder rgb(117,117,117) (browser default); focus keeps the gray border",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-2",
+        "value": "same",
+        "count": 1
+      },
+      {
+        "board": "Contact-Desktop",
+        "value": "weight 500; placeholder rgb(89,96,106); focus border rgb(0,135,77)",
+        "count": 8
+      },
+      {
+        "board": "Contact-Mobile",
+        "value": "same as Contact-Desktop",
+        "count": 8
+      }
+    ],
+    "system": "weight 500; placeholder rgb(89,96,106); focus border rgb(0,135,77)",
+    "evidence": "The newsletter inputs lack the boards' .ie-field class. Measured with getComputedStyle (::placeholder) and after focus. System follows the Contact form (16 of 18 controls).",
+    "fix": ""
+  },
+  {
+    "component": "TextField",
+    "part": "error state",
+    "property": "whole state",
+    "class": "SYSTEM-CHANGE",
+    "visible": "low",
+    "boards": [],
+    "system": "danger border, 16px alert icon and message in type-small danger",
+    "evidence": "Deliberate addition 6; no board shows an error.",
+    "fix": ""
+  }
+]

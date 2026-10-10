@@ -1,0 +1,760 @@
+[
+  {
+    "component": "Button",
+    "part": "all variants and sizes",
+    "property": "box, type, color, icon, states",
+    "boards": [
+      {
+        "board": "About-Desktop, About-Mobile-1/2/3, Article-Desktop-1/2, Article-Mobile-1/2, Case-Studies-Desktop/Mobile, Contact-Desktop/Mobile/Success, Home-Desktop-2, Home-Mobile, Home-Mobile-2, Home-Mobile-Scrolled, Main, Newsroom-Desktop/Mobile, Platform-Desktop-1/2, Platform-Mobile-1/2, Pricing-Desktop/Mobile, Research-Experiment-Desktop/-Desktop-2/-Mobile-1/-Mobile-2, Why-Desktop-1/2, Why-Mobile-1/2/3/4 (36 boards)",
+        "value": "primary 30 + sm 17, secondary 32 + sm 11, light 25, ghost 11",
+        "count": 126
+      }
+    ],
+    "system": "ie-btn-primary/-secondary/-light/-ghost, ie-btn-sm, ie-btn-block",
+    "class": "MATCH",
+    "evidence": "Rendered I.Button with 26 board labels plus block widths (work/actions/sys.html) and compared to census + state probes (work/actions/st/about-out.json vs sys-out.json). Equal: height 48 / sm 44; padding 0 24px; radius 12px; Inter 16px/700; gap 8px; primary rgb(0,135,77) + shadow-primary, label #fff; secondary 2px rgb(0,135,77) border, label rgb(0,110,81); light #fff + shadow-light, label rgb(21,47,47); ghost 2px #fff border; trailing arrow 20x20, stroke 2, round caps, 8px after label, 14px from top. Widths equal to the pixel for all 26 labels (e.g. Contact Us 163, Read their stories 214, Discover the program 222, See How Inner Explorer Works 289, sm Contact us 134x44). Block: 350/302/308 wide with label centred at the same x (About-Mobile-1 label x+117, arrow x+213 both). Hover/press/focus probed on About-Desktop: primary hover #006e51 + shadow-primary-hover + translateY(-1px), active scale(.98) + pressed shadow; secondary hover border #006e51 + rgba(0,135,77,.06); light hover #f0efeb; ghost hover rgba(255,255,255,.12); focus 2px solid #006e51 offset 2px (white on light/ghost); 220ms cubic-bezier(.16,1,.3,1); reduced-motion rules identical. Only computed difference: line-height normal (board) vs 1 (system); box height is fixed so the text centre moves <=0.5px (not visible).",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "Button",
+    "part": "block (full-width mobile)",
+    "property": "wrapping of long labels",
+    "boards": [
+      {
+        "board": "Research-Experiment-Mobile-2",
+        "value": "secondary 'See why schools choose Inner Explorer' wraps to 2 lines: 350x66, height:auto, min-height:48px, padding:12px 24px, white-space:normal, text-align:center",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Mobile-2",
+        "value": "light 'Download the AI + Mindfulness Research Library' wraps to 2 lines: 350x62, same overrides",
+        "count": 1
+      }
+    ],
+    "system": "block-size 48px fixed, white-space nowrap, line-height 1 -> label does not wrap",
+    "class": "DEFECT",
+    "evidence": "System render at 350/334px (work/actions/crop-sys-long.png): secondary label 307px + 8 + 20px icon in a 298px content box overflows into the padding; light label starts 37px outside the button's left edge (span x=-29 in a button at x=8). Board crop: work/actions/crop-rem2-light.png. No decision board covers wrapping.",
+    "fix": "components/bundle.css, after .ie-btn-block: `.ie-btn-block { display:flex; inline-size:100%; block-size:auto; min-block-size:var(--control-height); padding-block:var(--space-3); white-space:normal; text-align:center; line-height:1.2; } .ie-btn-block.ie-btn-sm { min-block-size:var(--control-height-sm); }` (one line stays 48px; two lines give 66px with the 2px border, 62px without, as on the board).",
+    "visible": "high"
+  },
+  {
+    "component": "Button",
+    "part": "icon",
+    "property": "leading utility icon (position and size)",
+    "boards": [
+      {
+        "board": "Article-Desktop-1",
+        "value": "secondary sm 'Download the one-pager': download icon 16px BEFORE label, 271x44",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-1",
+        "value": "secondary 'Download the one-pager': download icon 18px before label, 308x48",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-2",
+        "value": "secondary sm 'Copy': link icon 16px before label",
+        "count": 1
+      },
+      {
+        "board": "Contact-Desktop",
+        "value": "secondary sm 'Copy': copy icon 16px before label, 117x44",
+        "count": 1
+      },
+      {
+        "board": "Contact-Mobile",
+        "value": "secondary sm 'Copy': copy icon 16px before label, 117x44",
+        "count": 1
+      }
+    ],
+    "system": "Button `icon` always renders AFTER the label at 20px (Icon default size); no leading position or size option",
+    "class": "MISSING",
+    "evidence": "Pattern on 5 boards. System with icon='download' / 'copy': 'Download the one-pager' 275x44 with the icon on the right (board 271, icon left); 'Copy' 121x44 (board 117). Glyph paths match the system's download/copy/link icons.",
+    "fix": "components/bundle.js Button (source bundle.src.js): add `iconStart` -> `kids = [props.iconStart ? h(Icon, {key:'s', name: props.iconStart, size: 16}) : null, h('span',{key:'l'},props.children), icon ? h(Icon,{key:'i',name:icon}) : null]`, add 'iconStart' to the omit list and to ButtonProps in index.d.ts.",
+    "visible": "medium"
+  },
+  {
+    "component": "Button",
+    "part": "light variant icon",
+    "property": "arrow stroke color",
+    "boards": [
+      {
+        "board": "About-Desktop, About-Mobile-3, Article-Desktop-2, Case-Studies-Desktop/Mobile, Home-Mobile, Home-Mobile-Scrolled, Main, Pricing-Desktop x2, Pricing-Mobile x2, Research-Experiment-Desktop-2 x2, Research-Experiment-Mobile-2 x2, Why-Desktop-1, Why-Desktop-2 x2, Why-Mobile-2, Why-Mobile-4 x2",
+        "value": "currentColor = #152f2f (label color)",
+        "count": 22
+      },
+      {
+        "board": "Newsroom-Desktop, Newsroom-Mobile, Article-Mobile-2",
+        "value": "#006e51 (path stroke / svg stroke hard-coded)",
+        "count": 3
+      }
+    ],
+    "system": "currentColor = var(--on-brand-subtle) #152f2f",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "Read from board source (path/svg stroke attributes) and computed path stroke (work/actions/st/newsroom-out.json btn-light-newsroom pathStroke rgb(0,110,81)). System follows the majority (22 of 25).",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "component": "Button",
+    "part": "Research desktop overrides",
+    "property": "height",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "52px (primary 'Talk to our team' 200x52, ghost 'Explore the research' 212x52, secondary 'See why schools choose Inner Explorer' 385x52)",
+        "count": 3
+      },
+      {
+        "board": "all other boards (sm 44px: 17; wrapped 66/62px: 2; Research dark-header ghost 44px: 1)",
+        "value": "48px",
+        "count": 103
+      }
+    ],
+    "system": "48px (control-height)",
+    "class": "DECIDED",
+    "evidence": "Component-Library.dc.html: 'Buttons — On system — 108 buttons on one shared set of styles. Secondary and ghost keep the 2px outline, now in the design system file too.' Research-Experiment-Desktop sets inline height:52px.",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "component": "Button",
+    "part": "ghost (Research desktop)",
+    "property": "border",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "1px solid rgba(255,255,255,0.55) (hero ghost and dark-header ghost sm 'Contact us' 136x44)",
+        "count": 2
+      },
+      {
+        "board": "About-Desktop, About-Mobile-3, Case-Studies-Desktop/Mobile, Pricing-Desktop/Mobile, Research-Experiment-Mobile-1, Why-Desktop-2, Why-Mobile-4",
+        "value": "2px solid #fff",
+        "count": 9
+      }
+    ],
+    "system": "2px solid var(--on-brand) #fff",
+    "class": "DECIDED",
+    "evidence": "Component-Library.dc.html: 'Secondary and ghost keep the 2px outline, now in the design system file too.' The Research-Experiment-Desktop/-Desktop-2 second <style> block redefines .ie-btn-ghost {border:1px solid rgba(255,255,255,0.55)}; those ghosts also lack ie-on-brand, so their focus ring is #006e51 on Forest (system: white).",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "component": "Button",
+    "part": "Research desktop overrides",
+    "property": "hover/press states",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop, Research-Experiment-Desktop-2 (style block)",
+        "value": "ghost:hover bg rgba(255,255,255,0.08); secondary:hover no wash (bg transparent), border #006e51, no scale on press (.btn-o)",
+        "count": 2
+      },
+      {
+        "board": "36 other boards (shared style block; Research desktop boards do not load it)",
+        "value": "ghost:hover rgba(255,255,255,0.12); secondary:hover rgba(0,135,77,0.06) + translateY(-1px); :active scale(0.98)",
+        "count": 36
+      }
+    ],
+    "system": "ghost hover var(--on-brand-wash) rgba(255,255,255,.12); secondary hover var(--brand-wash) rgba(0,135,77,.06); active scale(.98)",
+    "class": "DECIDED",
+    "evidence": "State probe work/actions/st/research-out.json vs sys-out.json. Component-Library.dc.html: 'Buttons — 108 buttons on one shared set of styles.' The 12% ghost hover is also the brief's deliberate change 1.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "Button",
+    "part": "icon (Research desktop)",
+    "property": "size and stroke width",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "18px arrow, stroke-width 2.2 (primary, secondary)",
+        "count": 2
+      },
+      {
+        "board": "Research-Experiment-Desktop-2",
+        "value": "18px download icon, stroke-width 2.2 (light)",
+        "count": 1
+      },
+      {
+        "board": "all other boards",
+        "value": "20px, stroke-width 2",
+        "count": 58
+      }
+    ],
+    "system": "20px, stroke-width 2",
+    "class": "DECIDED",
+    "evidence": "Component-Library.dc.html: 'Buttons — 108 buttons on one shared set of styles.'; Type-Icon-Decisions.dc.html: '80 icons swapped, 84 stroke widths set to 2.'",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "Button",
+    "part": "share buttons (Article)",
+    "property": "variant / look",
+    "boards": [
+      {
+        "board": "Article-Desktop-1, Article-Desktop-2",
+        "value": "unclassed outline: 44px, padding 0 12px, radius 12, 1px #cccbc4, bg #fff, #282b2f Inter 14px/500, shadow 0 1px 2px rgba(40,43,47,.05) + inset 0 1px 0 rgba(255,255,255,.7), 'Copy' with 16px #282b2f link icon",
+        "count": 8
+      },
+      {
+        "board": "Article-Mobile-2",
+        "value": "ie-btn-secondary ie-btn-sm: 2px #00874d border, #006e51 16px/700",
+        "count": 4
+      }
+    ],
+    "system": "Button secondary sm (2px rgb(0,135,77) border, rgb(0,110,81) 16px/700, transparent, no shadow)",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "State probe work/actions/st/article-out.json share-desktop vs sys btn-secondary: border 1px #cccbc4 vs 2px #00874d, color #282b2f vs #006e51, 14/500 vs 16/700, raised shadow vs none, no hover lift vs translateY(-1px). System follows the mobile board (minority: 4 of 12); no decision board covers share buttons.",
+    "fix": "Decide on the canvas: restyle desktop share as Button secondary sm (system as is) or add a neutral outline variant to Button.",
+    "visible": "high"
+  },
+  {
+    "component": "Button",
+    "part": "Pricing card secondary",
+    "property": "trailing arrow visibility",
+    "boards": [
+      {
+        "board": "Pricing-Desktop, Pricing-Mobile",
+        "value": "'Contact us for districtwide pricing' (318/300 wide): arrow svg shrinks to 0px (no flex-shrink:0), so no arrow shows",
+        "count": 2
+      },
+      {
+        "board": "Pricing-Desktop, Pricing-Mobile",
+        "value": "sibling card buttons 'Contact us' show the 20px arrow",
+        "count": 4
+      }
+    ],
+    "system": ".ie-icon flex-shrink:0 keeps the 20px arrow; label 268px + 8 + 20 overflows the 266px content box by 30px (text 9px from the border), or wraps if the block fix above is applied",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "Census r of svg = [1266,849,0,20]; crop work/actions/crop-pricing-btn.png shows no arrow. Matching the approved look needs the page to omit `icon` on this one button.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "Button",
+    "part": "label copy",
+    "property": "capitalization",
+    "boards": [
+      {
+        "board": "About-Desktop x2, About-Mobile-1, About-Mobile-3, Home-Desktop-2, Home-Mobile, Home-Mobile-2, Home-Mobile-Scrolled, Main",
+        "value": "'Contact Us'",
+        "count": 9
+      }
+    ],
+    "system": "'Contact us' (copy is consumer-provided; README: sentence case)",
+    "class": "SYSTEM-CHANGE",
+    "evidence": "Brief change 7. Other title-case labels on the same boards are copy, not component output: 'Discover the Program', 'Talk to Our Team', 'Explore Pricing', 'See How Inner Explorer Works' (2 each), 'Explore the Research' (About).",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "Button",
+    "part": "forced-colors",
+    "property": "border in forced-colors mode",
+    "boards": [
+      {
+        "board": "all boards",
+        "value": "not declared",
+        "count": 0
+      }
+    ],
+    "system": "@media (forced-colors: active): primary and light get border:2px solid",
+    "class": "NOT-ON-BOARDS",
+    "evidence": "bundle.css lines 1325-1333; accessibility addition with no visual effect in normal mode.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "ArrowLink",
+    "part": "on light and on green",
+    "property": "type, underline, arrow, size, states",
+    "boards": [
+      {
+        "board": "Article-Desktop-2, Article-Mobile-2, Contact-Desktop, Contact-Mobile, Contact-Success, Home-Desktop-2, Home-Mobile, Home-Mobile-2, Main, Platform-Desktop-1/2, Platform-Mobile-1/2, Platform-Programs-Green, Research-Experiment-Mobile-1, Why-Desktop-1, Why-Mobile-1, Why-Mobile-2",
+        "value": "ie-link 35 + ie-link-light 7 (shared style)",
+        "count": 42
+      }
+    ],
+    "system": "ie-link / ie-link-light (onBrand)",
+    "class": "MATCH",
+    "evidence": "Rendered I.ArrowLink with 21 board labels. Equal: Inter 16px/700, line-height 24px, padding 10px 0 (44px tall), #006e51 (light #fff), underline 1px at 4px offset, 20px arrow 8px after the text at y+12. Arrow x-offset equal for every label (e.g. 'Read the research' 150, 'See the research behind the practice' 297, 'See our privacy policy' 181). Two-line wraps at 350px (Why-Mobile-1 'Learn why mindfulness is the foundation for learning', 'See how Inner Explorer supports every tier'): 350x68, arrow at dx 98/83, dy 36 on both. States (work/actions/st/article-out.json): hover #1e473c / light #bffaa2, arrow translateX(2px), focus 2px #006e51 (white on light) offset 2px, 220ms; reduced-motion identical. Light hover #bffaa2 equals on-brand-accent, so brief change 3 shows no difference here.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "ArrowLink",
+    "part": "Research desktop links",
+    "property": "font size, line-height, padding, arrow size",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "'Full citations', 'Why it happens: the pause': 15px, line-height 1.35 (20.25px), padding 12px 0, 16px arrow stroke 2.2, 6px gap (116x44, 217x44)",
+        "count": 2
+      },
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "'Here is the proof.' (light): 16px, line-height 1.35, padding 12px, 16px arrow -> 156x46",
+        "count": 1
+      },
+      {
+        "board": "18 other boards",
+        "value": "16px / 24px / padding 10px / 20px arrow (44px)",
+        "count": 42
+      }
+    ],
+    "system": "16px / 1.5 / 10px / 20px arrow; 'Full citations' 128x44, 'Why it happens: the pause' 236x44",
+    "class": "DECIDED",
+    "evidence": "Component-Library.dc.html: 'Arrow link — On system — 51 links in one style: 16px bold, underlined, with the button arrow and a 44px tap height. White version on green or dark panels.' Research-Experiment-Mobile-1 shows the same links at the standard size (128x44, 236x44).",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "component": "ArrowLink",
+    "part": "light link (Research desktop hero)",
+    "property": "rest color",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "'Here is the proof.' color #bffaa2 at rest (inline)",
+        "count": 1
+      },
+      {
+        "board": "Article-Desktop-2, Article-Mobile-2, Home-Desktop-2, Home-Mobile-2, Platform-Desktop-2, Platform-Mobile-2, Research-Experiment-Mobile-1",
+        "value": "#ffffff at rest, #bffaa2 on hover",
+        "count": 7
+      }
+    ],
+    "system": "#ffffff (on-brand), #bffaa2 on hover",
+    "class": "DECIDED",
+    "evidence": "Component-Library.dc.html: 'Arrow link … White version on green or dark panels.'",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "component": "ArrowLink",
+    "part": "arrow glyph",
+    "property": "direction (in-page jump link)",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "'Here is the proof.' arrow-down (M12 5v14 M6 13l6 6 6-6)",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "'Here is the proof.' arrow-down, 20px",
+        "count": 1
+      }
+    ],
+    "system": "ArrowLink always draws arrow-right (no icon prop); Icon set already has 'arrow-down'",
+    "class": "MISSING",
+    "evidence": "Pattern on 2 boards (one page). Width is equal (162px on mobile) but the glyph points the other way.",
+    "fix": "components/bundle.js ArrowLink: `h(Icon, { name: props.icon || 'arrow-right' })`, omit 'icon', add `icon?` to ArrowLinkProps.",
+    "visible": "medium"
+  },
+  {
+    "component": "ArrowLink",
+    "part": "back link",
+    "property": "leading arrow-left, size",
+    "boards": [
+      {
+        "board": "Contact-Desktop",
+        "value": "button.ie-link 'Back to the form': 15px/700, padding 4px 0, min-height 32px, inline-flex gap 8px, 16px arrow-left BEFORE the text, #006e51 underlined (156x32)",
+        "count": 1
+      },
+      {
+        "board": "Contact-Mobile",
+        "value": "same (156x32)",
+        "count": 1
+      }
+    ],
+    "system": "no back/leading-arrow variant; ArrowLink is an <a> with a trailing arrow-right at 16px/44px",
+    "class": "MISSING",
+    "evidence": "Pattern on 2 boards. Note the board's 32px height is under the 44px target the system enforces (README Accessibility: targets 44px).",
+    "fix": "Add a `back` option to ArrowLink (leading arrow-left, same 16px/44px spec) in components/bundle.js; or have the page use ArrowLink with icon='arrow-left' once the icon prop exists.",
+    "visible": "medium"
+  },
+  {
+    "component": "ArrowLink",
+    "part": "last words + arrow",
+    "property": "no-orphan wrapper",
+    "boards": [
+      {
+        "board": "Article-Desktop-2, Article-Mobile-2, Contact-Desktop, Contact-Mobile, Contact-Success, Home-Desktop-2, Home-Mobile, Home-Mobile-2, Main, Platform-Programs-Green, Research-Experiment-Mobile-1, Why-Desktop-1, Why-Mobile-1, Why-Mobile-2",
+        "value": "last ONE word + arrow in <span style='white-space:nowrap'>",
+        "count": 28
+      },
+      {
+        "board": "Platform-Desktop-1/2, Platform-Mobile-1/2, Research-Experiment-Desktop and the rest",
+        "value": "plain text + svg",
+        "count": 19
+      }
+    ],
+    "system": "last TWO words + arrow in span.ie-keep.ie-link-tail (inline-block)",
+    "class": "SYSTEM-CHANGE",
+    "evidence": "Brief change 4. Measured wraps are identical on the only wrapping instances (Why-Mobile-1 at 350px: same 2 lines, arrow dx 98 and 83).",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "IconButton",
+    "part": "filled, outline, square",
+    "property": "size, shape, fill, border, shadow, focus",
+    "boards": [
+      {
+        "board": "Platform-Desktop-1 (5), Platform-Mobile-1 (5), Platform-Programs-Green (4)",
+        "value": "filled play: 48x48, radius 24px, #00874d, shadow-primary",
+        "count": 14
+      },
+      {
+        "board": "Research-Studies-C-Timeline-065o",
+        "value": "outline prev/next: 48x48, radius 24px, #fff, 1px #cccbc4, chevron-left/right 20px",
+        "count": 2
+      },
+      {
+        "board": "Home-Mobile-Scrolled",
+        "value": "outline square play link (sticky bar): 48x48, radius 12px, #fff, 1px #cccbc4",
+        "count": 1
+      }
+    ],
+    "system": "48px; radius var(--radius-full) 999px (square: 12px); filled var(--brand) + shadow-primary; outline surface + 1px border-control",
+    "class": "MATCH",
+    "evidence": "Rendered I.IconButton (work/actions/sys.html) and probed states (platform/timeline/scrolled-out.json). Radius 24px on a 48px box and 999px draw the same circle. Equal: size, fills, borders, shadow-primary string, icon centred (14px inset for 20px), stroke 2 with round caps, play path 'M7 4l12 8-12 8z' and chevron paths identical, focus ring 2px #006e51 offset 2px. Decision agrees: Component-Library 'Round icon button — Play buttons and carousel arrows are all 48px with 24px corners'.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "IconButton",
+    "part": "filled play icon",
+    "property": "icon size",
+    "boards": [
+      {
+        "board": "Platform-Desktop-1 (5), Platform-Mobile-1 (5), Platform-Programs-Green (4)",
+        "value": "18x18 at 15px inset",
+        "count": 14
+      }
+    ],
+    "system": "20x20 at 14px inset (Icon default size)",
+    "class": "DEFECT",
+    "evidence": "Census svg r 18x18 on every play button; system svg 20x20 (sys-1440.json). No decision sets 20px for play.",
+    "fix": "components/bundle.css: `.ie-icon-btn-filled .ie-icon { inline-size: 18px; block-size: 18px; }`",
+    "visible": "low"
+  },
+  {
+    "component": "IconButton",
+    "part": "square outline (sticky bar play link)",
+    "property": "icon size",
+    "boards": [
+      {
+        "board": "Home-Mobile-Scrolled",
+        "value": "16x16 at 16px inset",
+        "count": 1
+      }
+    ],
+    "system": "20x20 at 14px inset",
+    "class": "DEFECT",
+    "evidence": "State probe scrolled-out.json svg.rect [16,16,16,16] vs sys [14,14,20,20]. StickyBar composes IconButton outline square, so this is where the page would get it.",
+    "fix": "components/bundle.css: `.ie-sticky .ie-icon-btn .ie-icon { inline-size: 16px; block-size: 16px; }`",
+    "visible": "low"
+  },
+  {
+    "component": "IconButton",
+    "part": "outline icon",
+    "property": "icon color (rest) and hover",
+    "boards": [
+      {
+        "board": "Research-Studies-C-Timeline-065o",
+        "value": "chevrons #282b2f (currentColor), hover border #006e51 + icon #006e51",
+        "count": 2
+      },
+      {
+        "board": "Home-Mobile-Scrolled",
+        "value": "play stroke #00874d, no hover change (border stays #cccbc4)",
+        "count": 1
+      },
+      {
+        "board": "Main, Home-Mobile (on photo)",
+        "value": "chevrons #152f2f",
+        "count": 4
+      }
+    ],
+    "system": "icon var(--brand-emphasis) #006e51; hover border var(--brand) #00874d",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "State probes timeline/scrolled/main-out.json. The system color matches none of the boards. Hover border #00874d matches the `.ie-car-btn:hover{border-color:#00874d}` rule declared on 10 Research/Why boards (no rendered element), not the timeline's #006e51.",
+    "fix": "Decide on the canvas; for the timeline arrows the system would need `.ie-icon-btn-outline { color: var(--foreground) } .ie-icon-btn-outline:hover { color: var(--brand-emphasis); border-color: var(--brand-emphasis) }`.",
+    "visible": "medium"
+  },
+  {
+    "component": "IconButton",
+    "part": "outline (carousel at start/end)",
+    "property": "disabled state",
+    "boards": [
+      {
+        "board": "Research-Studies-C-Timeline-065o",
+        "value": ".ie-nav-btn:disabled { opacity: 0.4; cursor: default } and hover only :not(:disabled)",
+        "count": 2
+      }
+    ],
+    "system": "no :disabled style; a disabled IconButton renders at full strength and still takes the hover border",
+    "class": "DEFECT",
+    "evidence": "Board style block rule; both buttons render at opacity 0.4 in the census because the template's disabled='{{atStart}}' is truthy. Button README's 'no disabled style' covers Button only.",
+    "fix": "components/bundle.css: `.ie-icon-btn:disabled { opacity: .4; cursor: default; } .ie-icon-btn-outline:disabled:hover { border-color: var(--border-control); } .ie-icon-btn-filled:disabled:hover { background: var(--brand); }`",
+    "visible": "medium"
+  },
+  {
+    "component": "IconButton",
+    "part": "carousel arrows on a photo",
+    "property": "fill, border, shadow, glyph",
+    "boards": [
+      {
+        "board": "Main",
+        "value": "prev/next: rgba(255,255,255,0.88), no border, shadow 0 1px 2px rgba(0,40,25,.25), 0 8px 20px rgba(0,40,25,.25); chevron 'M15 5l-7 7 7 7' / 'M9 5l7 7-7 7' 20px stroke #152f2f; hover bg #fff (200ms ease)",
+        "count": 2
+      },
+      {
+        "board": "Home-Mobile",
+        "value": "same",
+        "count": 2
+      }
+    ],
+    "system": "only outline: #fff, 1px #cccbc4, no shadow, chevron 'M15 18l-6-6 6-6' in #006e51, hover border #00874d",
+    "class": "MISSING",
+    "evidence": "Pattern on 2 boards (Home desktop and mobile). README lists the Home carousel as a page-specific pattern built from system parts, but no IconButton variant reproduces it.",
+    "fix": "Add `variant=\"onPhoto\"` to IconButton: `.ie-icon-btn-on-photo { background: rgba(255,255,255,.88); color: var(--on-brand-subtle); box-shadow: 0 1px 2px rgba(0,40,25,.25), 0 8px 20px rgba(0,40,25,.25); } .ie-icon-btn-on-photo:hover { background: var(--surface); }` (shadow would need a token).",
+    "visible": "high"
+  },
+  {
+    "component": "IconButton",
+    "part": "video play disc",
+    "property": "size, shadow, icon",
+    "boards": [
+      {
+        "board": "Main",
+        "value": "96px disc #00874d, shadow 0 2px 4px rgba(0,58,33,.4), 0 16px 40px rgba(0,0,0,.35), inset; 34px play icon offset 8px; hover scale(1.06) + #006e51",
+        "count": 1
+      },
+      {
+        "board": "Home-Mobile",
+        "value": "64px disc, shadow 0 2px 4px rgba(0,58,33,.4), 0 12px 28px rgba(0,0,0,.35), inset; 24px icon",
+        "count": 1
+      }
+    ],
+    "system": "IconButton filled tops out at 48px with a 20px icon",
+    "class": "MISSING",
+    "evidence": "Pattern on 2 boards (Home video). README lists the Home video as page-specific; recorded so the page build knows the system has no size for it.",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "component": "IconButton",
+    "part": "filled hover, sm size",
+    "property": "states / sizes no board shows",
+    "boards": [
+      {
+        "board": "Platform boards",
+        "value": "play buttons declare no hover",
+        "count": 14
+      }
+    ],
+    "system": "filled hover background #006e51; size sm 44px",
+    "class": "NOT-ON-BOARDS",
+    "evidence": "Home's video play hovers to #006e51 too, so the system hover is consistent with the canvas.",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "Chip",
+    "part": "filter chip, count, show-more toggle",
+    "property": "box, type, count pill, states",
+    "boards": [
+      {
+        "board": "Newsroom-Desktop, Newsroom-Mobile",
+        "value": "5 filter chips each (All, Articles, Videos, Resources, Press) + show-more toggle (2 states)",
+        "count": 14
+      },
+      {
+        "board": "Case-Studies-Desktop, Case-Studies-Mobile",
+        "value": "filter chip with count (template, 5 placeholders)",
+        "count": 2
+      },
+      {
+        "board": "Pricing-Desktop, Pricing-Mobile",
+        "value": "show-more toggle (2 states)",
+        "count": 4
+      }
+    ],
+    "system": "ie-chip, ie-chip-count, aria-pressed / aria-expanded",
+    "class": "MATCH",
+    "evidence": "Rendered I.Chip with board labels; Case Studies chip filled with real labels and the board's own count styles in a live board DOM (st/cases.json). Equal: 44px, padding 0 16px, radius 12px, 1px #cccbc4, #fff, #282b2f Inter 14px/700, gap 8px; widths All 52, Articles 88, Videos 82, Resources 107, Press 73, 'Show all stories' 166, 'Show fewer stories' 190. Count pill 24x24, padding 0 8px, radius 12px, 13px/700, unpressed #f0efeb/#59606a, at the same offset (x 93.9 / 86, y 10). Pressed #00874d fill and border, #fff label. Hover border #00874d; focus 2px #006e51 offset 2px; chevron 16px #00874d rotated 180deg when expanded; 220ms. Decision agrees: Component-Library 'One chip: 44px, 12px corners, 14px bold, solid green when selected.' Line-height normal vs 1 and the UA 1px button padding-block: no rendered difference (fixed 44px box, centred).",
+    "fix": "",
+    "visible": "low"
+  },
+  {
+    "component": "Chip",
+    "part": "count on pressed chip",
+    "property": "background and numeral color",
+    "boards": [
+      {
+        "board": "Case-Studies-Desktop, Case-Studies-Mobile",
+        "value": "rgba(255,255,255,0.2) with #ffffff numerals (board script countStyle)",
+        "count": 2
+      }
+    ],
+    "system": "var(--surface) #fff with var(--brand-emphasis) #006e51 numerals",
+    "class": "SYSTEM-CHANGE",
+    "evidence": "Brief change 2; probed in cases-out.json vs sys-out.json (chip-count-on).",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "component": "Chip",
+    "part": "show-more toggle chevron",
+    "property": "size and color",
+    "boards": [
+      {
+        "board": "Newsroom-Desktop, Newsroom-Mobile",
+        "value": "16px, stroke #00874d",
+        "count": 4
+      },
+      {
+        "board": "Research-Experiment-Desktop-2, Research-Experiment-Mobile-2",
+        "value": "16px, stroke #00874d (stroke-width 2.2)",
+        "count": 4
+      },
+      {
+        "board": "Pricing-Desktop, Pricing-Mobile",
+        "value": "18px, stroke currentColor #282b2f ('Expand ' 114px, 'Show fewer features' 202px, open state uses a chevron-up glyph)",
+        "count": 4
+      }
+    ],
+    "system": "16px, var(--brand) #00874d, chevron-down rotated 180deg when open ('Expand ' 112px, 'Show fewer features' 200px)",
+    "class": "BOARD-INCONSISTENT",
+    "evidence": "pricing-out.json vs sys-out.json: svg 18x18 #282b2f vs 16x16 #00874d; widths differ by 2px. System follows the majority (Newsroom + Research).",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "component": "Chip",
+    "part": "Research citation toggles",
+    "property": "radius, font size, padding, gap",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop-2",
+        "value": "'Hide citations' / 'Show all citations': radius 22px (pill), 15px/700, padding 0 18px, gap 10px",
+        "count": 2
+      },
+      {
+        "board": "Research-Experiment-Mobile-2",
+        "value": "radius 22px, 15px/700, padding 0 16px, gap 8px",
+        "count": 2
+      },
+      {
+        "board": "Newsroom, Pricing (4 boards)",
+        "value": "radius 12px, 14px/700, padding 0 16px, gap 8px",
+        "count": 8
+      }
+    ],
+    "system": "radius 12px, 14px/700, padding 0 16px, gap 8px",
+    "class": "DECIDED",
+    "evidence": "Component-Library.dc.html: 'Chip and filter — On system — One chip: 44px, 12px corners, 14px bold, solid green when selected. Used for filters and toggles on Newsroom, Case Studies and Research.'",
+    "fix": "",
+    "visible": "medium"
+  },
+  {
+    "component": "Chip",
+    "part": "Research segmented toggle",
+    "property": "radius, size, pressed fill, border",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "class ie-chip, 'On sand' / 'On a foundation': radius 10px, 15px/700, no border, pressed #006e51 fill, unpressed transparent #31373e",
+        "count": 4
+      },
+      {
+        "board": "Research-Experiment-Mobile-2",
+        "value": "same with radius 12px",
+        "count": 4
+      }
+    ],
+    "system": "Chip: radius 12px, 14px/700, 1px #cccbc4 border on #fff, pressed #00874d",
+    "class": "DECIDED",
+    "evidence": "Component-Library.dc.html: 'One chip: 44px, 12px corners, 14px bold, solid green when selected. Used for filters and toggles on Newsroom, Case Studies and Research.' These boards also suppress the chip hover and add scale(.98) on press: `.ie-chip[aria-pressed=\"false\"]:hover {background:#fff !important;border-color:#cccbc4 !important}`, `:active {transform:scale(0.98)}` (4 Research boards).",
+    "fix": "",
+    "visible": "high"
+  },
+  {
+    "component": "Chip",
+    "part": "segmented control container",
+    "property": "pattern",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "role=group track: 4px padding, 4px gap, radius 12px, #f0efeb; segments flex 1 1 0 ('On sand/On a foundation'); also .ie-seg 'Mindful/Stressed' on a dark panel (48px, radius 10px)",
+        "count": 2
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": ".ie-seg 'Mindful/Stressed' (radius 12px)",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Mobile-2",
+        "value": "'On sand/On a foundation' track",
+        "count": 1
+      }
+    ],
+    "system": "no segmented control; Chip renders separate bordered pills",
+    "class": "MISSING",
+    "evidence": "Pattern on 3 boards of one page (Research); README's one-page rule may apply. A page build would have to invent the track.",
+    "fix": "",
+    "visible": "high"
+  },
+  {
+    "component": "Chip",
+    "part": "Research 'Show our work' switch",
+    "property": "pattern",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "button.ie-geek role=switch: 44px pill radius 22px, 15px/700, padding 0 6px 0 16px, gap 12px, 44x28 track + 20px knob; on = #006e51 fill + shadow 0 4px 12px rgba(0,110,81,.25); off = #fff, 1px #cccbc4",
+        "count": 6
+      },
+      {
+        "board": "Research-Experiment-Mobile-1, Research-Experiment-Mobile-2",
+        "value": "same at radius 12px, 14px",
+        "count": 6
+      }
+    ],
+    "system": "no switch component",
+    "class": "MISSING",
+    "evidence": "Pattern on 3 boards of one page (Research).",
+    "fix": "",
+    "visible": "high"
+  },
+  {
+    "component": "Chip",
+    "part": "mobile chip row",
+    "property": "horizontal scroll container",
+    "boards": [
+      {
+        "board": "Newsroom-Mobile",
+        "value": "role=group: flex, gap 8px, overflow-x auto, margin-right -20px, padding-right 20px, scrollbar hidden (chips run to x=454)",
+        "count": 1
+      },
+      {
+        "board": "Case-Studies-Mobile",
+        "value": ".chips role=group: flex, gap 8px, overflow-x auto, padding 0 16px (first chip at x=16)",
+        "count": 1
+      }
+    ],
+    "system": "Chip has flex-shrink:0 but the system gives no row container (README: wrap in role=group)",
+    "class": "MISSING",
+    "evidence": "Pattern on 2 boards, with different side insets (bleed right only vs 16px both sides).",
+    "fix": "",
+    "visible": "low"
+  }
+]

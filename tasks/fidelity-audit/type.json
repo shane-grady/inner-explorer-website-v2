@@ -1,0 +1,1326 @@
+[
+  {
+    "fix": "",
+    "component": "Eyebrow",
+    "part": "text",
+    "property": "type-eyebrow style and color",
+    "class": "MATCH",
+    "visible": "low",
+    "boards": [
+      {
+        "board": "37 of 39 FINAL V boards",
+        "value": "14px / 15.68px (1.12) / 700 / 1.12px (0.08em) / uppercase, rgb(40, 43, 47) on light grounds",
+        "count": 309
+      },
+      {
+        "board": "green grounds (Main, Home-Mobile, Home-Desktop-2, Home-Mobile-2, Contact-Desktop/Mobile, About, Why, Article-Desktop-2/Mobile-2, Newsroom, Platform-Programs-Green)",
+        "value": "14px / 15.68px / 700 / 1.12px / uppercase, rgb(255, 255, 255)",
+        "count": 26
+      }
+    ],
+    "system": "Eyebrow: type-eyebrow 14px / 15.68px / 700 / 1.12px, uppercase, rgb(40, 43, 47); onBrand rgb(255, 255, 255)",
+    "evidence": "Census: 383 uppercase text elements with 0.08em tracking; 335 use exactly this style. System measured in PageTitle (21 renders) and SectionHeader (73 renders) at board widths: identical computed values. Used above 15 H1s, ~52 H2s, CTA titles and as labels (Key takeaways, On this page, Share, Partners, card kickers)."
+  },
+  {
+    "fix": "",
+    "component": "Eyebrow",
+    "part": "text",
+    "property": "font-size / line-height / color (Research desktop)",
+    "class": "DECIDED",
+    "visible": "medium",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "13px / 16.9px (1.3) / 1.04px, rgb(0, 110, 81) (#72, #96, #466, #496, #503, #525, #584)",
+        "count": 7
+      },
+      {
+        "board": "Research-Studies-C-Timeline-065o",
+        "value": "13px / 16.9px, rgb(0, 110, 81) (#6)",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Mobile-1/-2 (same eyebrows)",
+        "value": "14px / 15.68px, rgb(40, 43, 47)",
+        "count": 7
+      }
+    ],
+    "system": "14px / 15.68px / 1.12px, rgb(40, 43, 47)",
+    "evidence": "Component-Library \"Eyebrow label — On system: 14px bold, 0.08em letter-spacing, uppercase. Charcoal on light grounds, white on green or dark panels.\" Detail-Decisions: \"Consistent: eyebrows (245 of 250 match)\". Mobile twins already use the standard."
+  },
+  {
+    "fix": "",
+    "component": "Eyebrow",
+    "part": "text",
+    "property": "color (About \"Evidence from the beginning\")",
+    "class": "DECIDED",
+    "visible": "medium",
+    "boards": [
+      {
+        "board": "About-Desktop",
+        "value": "rgb(0, 110, 81) (#155)",
+        "count": 1
+      },
+      {
+        "board": "About-Mobile-2",
+        "value": "rgb(0, 110, 81) (#20)",
+        "count": 1
+      }
+    ],
+    "system": "rgb(40, 43, 47)",
+    "evidence": "Same Component-Library eyebrow decision: \"Charcoal on light grounds\"."
+  },
+  {
+    "fix": "",
+    "component": "Eyebrow",
+    "part": "text",
+    "property": "color on Forest (Research \"The AI moment\")",
+    "class": "BOARD-INCONSISTENT",
+    "visible": "medium",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop-2",
+        "value": "rgb(191, 250, 162) mint, 13px (#4)",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Mobile-2",
+        "value": "rgb(191, 250, 162) mint, 14px (#526)",
+        "count": 1
+      },
+      {
+        "board": "all other green-ground eyebrows (Home, Contact, About, Why, Article, Newsroom, Platform-Programs-Green)",
+        "value": "rgb(255, 255, 255)",
+        "count": 26
+      }
+    ],
+    "system": "onBrand: rgb(255, 255, 255)",
+    "evidence": "System follows the majority and Component-Library (\"white on green or dark panels\"). Detail-Decisions 5 notes \"two small green-300 labels on Research moved to mint to keep contrast\" (likely these two) but does not make mint the eyebrow color."
+  },
+  {
+    "fix": "Add an `icon` prop: render FeatureIcon (size 20, 18 compact) before the text and add `.ie-eyebrow-icon{display:inline-flex;align-items:center;gap:var(--space-2)}`.",
+    "component": "Eyebrow",
+    "part": "icon",
+    "property": "leading feature icon",
+    "class": "MISSING",
+    "visible": "high",
+    "boards": [
+      {
+        "board": "Platform-Desktop-1",
+        "value": "icon 20px + 8px gap (#164 \"The daily practice\", #190 \"The series library\")",
+        "count": 2
+      },
+      {
+        "board": "Platform-Desktop-2",
+        "value": "icon 24px (#12, #31) / 20px (#77) + 8px gap",
+        "count": 3
+      },
+      {
+        "board": "Platform-Mobile-1",
+        "value": "icon 18px + 8px gap (#131, #178)",
+        "count": 2
+      },
+      {
+        "board": "Platform-Mobile-2",
+        "value": "icon 18px + 8px gap (#11, #30, #74, #78)",
+        "count": 4
+      }
+    ],
+    "system": "Eyebrow has no icon slot (renders <p class=\"ie-eyebrow type-eyebrow\">children</p>, no flex/gap)",
+    "evidence": "Board markup: span display:inline-flex; align-items:center; gap:8px; svg Phosphor fill rgb(2, 164, 81) (icon-accent). Eyebrow box becomes 18–24px tall."
+  },
+  {
+    "fix": "Add `number` prop to Eyebrow rendering `<span class=\"ie-eyebrow-num\">01</span><span class=\"ie-eyebrow-rule\" aria-hidden=\"true\"></span>` with `.ie-eyebrow-numbered{display:flex;align-items:center;gap:var(--space-2)}` and a 24×1px currentColor rule at 50% opacity.",
+    "component": "Eyebrow",
+    "part": "number + rule",
+    "property": "numbered eyebrow \"01 —— Label\"",
+    "class": "MISSING",
+    "visible": "medium",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "\"01\"/\"02\"/\"03\" + 24×1px rule (currentColor, opacity .5) + label, gap 10px (#96, #466, #584)",
+        "count": 3
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "same, gap 8px (#87)",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Mobile-2",
+        "value": "same, gap 8px (#6, #124)",
+        "count": 2
+      }
+    ],
+    "system": "No numbered variant; a page would add the number and rule as markup",
+    "evidence": "Board markup: p display:flex; gap 10px/8px; span font-variant-numeric: tabular-nums; span width 24px height 1px background currentColor opacity .5."
+  },
+  {
+    "fix": "",
+    "component": "AccentBar",
+    "part": "stripes",
+    "property": "colors, height, ends, equal thirds",
+    "class": "MATCH",
+    "visible": "low",
+    "boards": [
+      {
+        "board": "18 page-title boards (striped div) + Research-Experiment-Desktop/-Mobile-1 (gradient) + Main/Home-Mobile hero + Main/Home-Mobile video band",
+        "value": "rgb(0, 110, 81) / rgb(5, 118, 146) / rgb(250, 119, 57), 4px, square, three equal stripes",
+        "count": 24
+      }
+    ],
+    "system": "accent-bar-1/-2/-3 = rgb(0, 110, 81) / rgb(5, 118, 146) / rgb(250, 119, 57); 4px; flex 1 1 0 each; no radius",
+    "evidence": "Census + system render (pt-system.json): stripes measured equal thirds, colors identical."
+  },
+  {
+    "fix": "",
+    "component": "AccentBar",
+    "part": "bar",
+    "property": "width",
+    "class": "BOARD-INCONSISTENT",
+    "visible": "high",
+    "boards": [
+      {
+        "board": "About-Desktop, About-Mobile-1, Contact-Desktop, Contact-Mobile, Contact-Success, Pricing-Desktop, Main, Home-Mobile",
+        "value": "= longest H1 line (420.3 / 262.7 / 529.9 / 331.2 / 529.9 / 761.7 / 590.2 / 324.6); H1 broken with <br>",
+        "count": 8
+      },
+      {
+        "board": "Case-Studies-Desktop, Newsroom-Desktop, Platform-Desktop-1, Why-Desktop-1 + Article-Mobile-1, Article-Mobile-First-Screen, Case-Studies-Mobile, Newsroom-Mobile, Platform-Mobile-1, Pricing-Mobile, Why-Mobile-1",
+        "value": "= H1 box / column width (596 vs longest line 483.1; 690 vs 575.5; 656 vs 645.2; 564 vs 465.9; mobile 350)",
+        "count": 11
+      },
+      {
+        "board": "Article-Desktop-1",
+        "value": "fixed 680px (sa width:680px) under an H1 whose longest line is 861.6 (box 900)",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Desktop / -Mobile-1",
+        "value": "under the word \"biology\" only: 225.1 / 138px wide, drawn as a background inside the line (padding-bottom 18/10px)",
+        "count": 2
+      }
+    ],
+    "system": "Bar = lockup width: the longest line when every break is a \"\\n\", otherwise the container width",
+    "evidence": "Rendered PageTitle with each board copy at the board column width (pt-system.json): bar matches 17 of 20 page-title boards. Article-Desktop-1: system 952 (861.6 with \"\\n\") vs 680. Research: system 544.4 / 340.2 under the whole title, 8px below it (board bar bottom = H1 bottom, lead 28px below). README tells consumers to break with \"\\n\"; doing that on Case/Newsroom/Platform/Why desktop shortens their bars to 483/576/645/466, which differs from those boards."
+  },
+  {
+    "fix": "",
+    "component": "AccentBar",
+    "part": "bar",
+    "property": "gap below the H1",
+    "class": "BOARD-INCONSISTENT",
+    "visible": "medium",
+    "boards": [
+      {
+        "board": "Article-Desktop-1, Case-Studies-Desktop, Newsroom-Desktop, Pricing-Desktop, Why-Desktop-1",
+        "value": "8px",
+        "count": 5
+      },
+      {
+        "board": "Contact-Desktop, Contact-Success, Platform-Desktop-1",
+        "value": "16px (8 lockup gap + 8 margin)",
+        "count": 3
+      },
+      {
+        "board": "About-Desktop",
+        "value": "12px",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-1, Article-Mobile-First-Screen, Case-Studies-Mobile, Newsroom-Mobile, Pricing-Mobile, Why-Mobile-1",
+        "value": "8px",
+        "count": 6
+      },
+      {
+        "board": "About-Mobile-1, Platform-Mobile-1",
+        "value": "12px",
+        "count": 2
+      },
+      {
+        "board": "Contact-Mobile",
+        "value": "16px",
+        "count": 1
+      },
+      {
+        "board": "Main / Home-Mobile (Home hero, page-built)",
+        "value": "16px / 12px",
+        "count": 2
+      }
+    ],
+    "system": "8px (space-2), desktop and compact",
+    "evidence": "Precise board rects (h1-lines.json): bar.y − (H1.y + H1.h). System measured 8.0 on all 21 renders. System follows the majority (11 of 18 PageTitle boards)."
+  },
+  {
+    "fix": "Either add `accentBar` to SectionHeader (bar `space-4` under the title, as wide as the title) and relax the README rule, or record that the Home video band drops its bar.",
+    "component": "AccentBar",
+    "part": "placement",
+    "property": "bar under a section title (H2)",
+    "class": "MISSING",
+    "visible": "high",
+    "boards": [
+      {
+        "board": "Main",
+        "value": "H2 \"In such a loud world…\" + bar 16px below, 658px wide (= H2 column) (#81–82)",
+        "count": 1
+      },
+      {
+        "board": "Home-Mobile",
+        "value": "same, 16px below, 350px wide (#80–81)",
+        "count": 1
+      }
+    ],
+    "system": "SectionHeader has no accent-bar option; README: \"Once per page, under the page title only\"",
+    "evidence": "Census: video band header is a flex column, gap 16px, H2 then a 3-column grid bar; content 40px (desktop) / 28px (mobile) below the bar."
+  },
+  {
+    "fix": "",
+    "component": "PageTitle",
+    "part": "H1, emphasis, breadcrumb gap, lead",
+    "property": "type and color",
+    "class": "MATCH",
+    "visible": "low",
+    "boards": [
+      {
+        "board": "About, Article (incl. First-Screen), Case-Studies, Contact, Contact-Success, Newsroom, Platform, Pricing, Why (desktop + mobile)",
+        "value": "H1 64/66.56/700/-1.6px rgb(40,43,47) (mobile 40/42.4/-1px); emphasis rgb(0,110,81) 700 upright; lead 20/30/500 rgb(49,55,62) (mobile 18/27)",
+        "count": 18
+      }
+    ],
+    "system": "type-page-title / -mobile, em brand-emphasis 700 normal, type-lead / -mobile foreground-secondary",
+    "evidence": "Rendered PageTitle per board (pt-system.json): identical computed text styles; breadcrumb→H1 16px matches Article-Desktop-1/Mobile-1/First-Screen; H1 line breaks identical on 16 of 20 page-title boards; lead line counts identical except Article-Desktop-1 and Pricing-Desktop (see measure finding)."
+  },
+  {
+    "fix": "components/bundle.css `.ie-page-title-h1 { text-wrap: pretty; }` (was balance).",
+    "component": "PageTitle",
+    "part": "H1",
+    "property": "text-wrap (line breaks)",
+    "class": "DEFECT",
+    "visible": "medium",
+    "boards": [
+      {
+        "board": "Article-Mobile-1",
+        "value": "\"How Inner / Explorer Supports / Every Tier / of MTSS\" (pretty)",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-First-Screen",
+        "value": "same as Article-Mobile-1",
+        "count": 1
+      },
+      {
+        "board": "Case-Studies-Mobile",
+        "value": "\"Case Studies on / Inner Explorer / Program\"",
+        "count": 1
+      },
+      {
+        "board": "Newsroom-Mobile",
+        "value": "\"Insights and News / from / Inner Explorer\"",
+        "count": 1
+      },
+      {
+        "board": "the other 14 page-title boards",
+        "value": "text-wrap-style: pretty (board CSS `body *{text-wrap-style:pretty}`); Research ×2 set no rule",
+        "count": 14
+      }
+    ],
+    "system": "text-wrap: balance → \"How Inner / Explorer / Supports Every / Tier of MTSS\"; \"Case Studies / on Inner / Explorer Program\"; \"Insights and / News from / Inner Explorer\"",
+    "evidence": "Line texts from Range rects, board vs system at 350px compact. Re-rendered with `.ie-page-title-h1{text-wrap:pretty}`: all 20 page-title boards then match line for line. No decision board covers text-wrap."
+  },
+  {
+    "fix": "",
+    "component": "PageTitle",
+    "part": "eyebrow",
+    "property": "gap eyebrow → H1",
+    "class": "BOARD-INCONSISTENT",
+    "visible": "low",
+    "boards": [
+      {
+        "board": "About-Desktop, Case-Studies-Desktop, Newsroom-Desktop, Pricing-Desktop",
+        "value": "24px",
+        "count": 4
+      },
+      {
+        "board": "Contact-Desktop, Contact-Success, Why-Desktop-1",
+        "value": "20px",
+        "count": 3
+      },
+      {
+        "board": "About-Mobile-1, Contact-Mobile",
+        "value": "16px",
+        "count": 2
+      },
+      {
+        "board": "Newsroom-Mobile, Why-Mobile-1",
+        "value": "20px",
+        "count": 2
+      },
+      {
+        "board": "Case-Studies-Mobile, Pricing-Mobile",
+        "value": "24px",
+        "count": 2
+      }
+    ],
+    "system": "20px (space-5), also compact",
+    "evidence": "Precise rects (pt-text-*.json): H1.y − (eyebrow.y + 15.67). System follows the desktop minority (3 of 7) and one of three equal mobile groups."
+  },
+  {
+    "fix": "",
+    "component": "PageTitle",
+    "part": "lead",
+    "property": "gap accent bar → lead",
+    "class": "BOARD-INCONSISTENT",
+    "visible": "low",
+    "boards": [
+      {
+        "board": "About-Desktop, Platform-Desktop-1, Pricing-Desktop",
+        "value": "32px",
+        "count": 3
+      },
+      {
+        "board": "Contact-Desktop, Contact-Success, Why-Desktop-1",
+        "value": "28px",
+        "count": 3
+      },
+      {
+        "board": "Article-Desktop-1",
+        "value": "24px",
+        "count": 1
+      },
+      {
+        "board": "About-Mobile-1, Article-Mobile-1, Article-Mobile-First-Screen, Contact-Mobile, Newsroom-Mobile",
+        "value": "20px",
+        "count": 5
+      },
+      {
+        "board": "Case-Studies-Mobile, Platform-Mobile-1, Pricing-Mobile",
+        "value": "24px",
+        "count": 3
+      },
+      {
+        "board": "Why-Mobile-1",
+        "value": "28px",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Desktop / -Mobile-1",
+        "value": "28px from the H1 (bar inside the line)",
+        "count": 2
+      }
+    ],
+    "system": "32px desktop (space-8), 20px compact (space-5)",
+    "evidence": "Precise rects. System ties the desktop plurality and follows the mobile majority."
+  },
+  {
+    "fix": "",
+    "component": "PageTitle",
+    "part": "lead",
+    "property": "max-width",
+    "class": "BOARD-INCONSISTENT",
+    "visible": "high",
+    "boards": [
+      {
+        "board": "About-Desktop, Contact-Desktop, Contact-Success, Platform-Desktop-1, Why-Desktop-1",
+        "value": "520px",
+        "count": 5
+      },
+      {
+        "board": "Article-Desktop-1",
+        "value": "680px (3 lines)",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Desktop",
+        "value": "640px (4 lines)",
+        "count": 1
+      }
+    ],
+    "system": "520px (measure): Article lead wraps to 4 lines, Pricing lead to 5",
+    "evidence": "System render at board width; line counts from Range rects. System follows the majority."
+  },
+  {
+    "fix": "components/bundle.css add `.ie-on-brand .ie-page-title-lead { color: var(--on-brand-muted); }` after the shared on-brand rule.",
+    "component": "PageTitle",
+    "part": "lead (on green)",
+    "property": "color",
+    "class": "DEFECT",
+    "visible": "low",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "rgb(240, 239, 235) #f0efeb",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "rgb(240, 239, 235)",
+        "count": 1
+      }
+    ],
+    "system": "onBrand: rgb(255, 255, 255) (`.ie-on-brand :is(… .ie-page-title-lead …){color:var(--on-brand)}`)",
+    "evidence": "The only onBrand page titles on the boards. Type-Icon-Decisions decision 1: \"White and off-white text on dark panels keeps its color.\" README: on-brand-muted for secondary text on green. (SectionHeader intros on green are white on the boards — Home-Desktop-2#7, Platform-Desktop-2 — so the fix is scoped to the page-title lead.)"
+  },
+  {
+    "fix": "",
+    "component": "PageTitle",
+    "part": "H1 (Research hero)",
+    "property": "size / line-height / tracking",
+    "class": "DECIDED",
+    "visible": "medium",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "68px / 69.36px (1.02) / -3.06px (-0.045em)",
+        "count": 1
+      }
+    ],
+    "system": "64px / 66.56px / -1.6px (type-page-title)",
+    "evidence": "Component-Library \"Page title (H1) — On system: Desktop titles are 64px and mobile titles 40px … Home's larger hero title is on purpose.\" Remaining-Drift: \"Buttons, links, chips, headers, footers, H1 and H2: one shared style each.\" Mobile twin already 40/1.06."
+  },
+  {
+    "fix": "",
+    "component": "PageTitle",
+    "part": "lead (Research hero)",
+    "property": "size / line-height / tracking",
+    "class": "DECIDED",
+    "visible": "high",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop",
+        "value": "26px / 35.1px (1.35) / -0.26px",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Mobile-1",
+        "value": "18px / 27px / -0.18px",
+        "count": 1
+      }
+    ],
+    "system": "20px / 30px / normal (18 / 27 compact)",
+    "evidence": "Type-Icon-Decisions: \"Lead (20 / 1.5, 18 on mobile, ink #31373e) is the intro paragraph under a page or section title.\""
+  },
+  {
+    "fix": "",
+    "component": "PageTitle",
+    "part": "emphasis (on green)",
+    "property": "color",
+    "class": "SYSTEM-CHANGE",
+    "visible": "medium",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop / -Mobile-1",
+        "value": "\"biology.\" rgb(68, 187, 74) green-300",
+        "count": 2
+      }
+    ],
+    "system": "on-brand-accent rgb(191, 250, 162)",
+    "evidence": "Known change 3 (accents on green panels)."
+  },
+  {
+    "fix": "Add `layout=\"split\"` to PageTitle (grid like SectionHeader split, lead + actions in column 2, align-items:end), or document the page-built composition.",
+    "component": "PageTitle",
+    "part": "layout",
+    "property": "split hero (title left, lead + buttons right, bottom-aligned)",
+    "class": "MISSING",
+    "visible": "high",
+    "boards": [
+      {
+        "board": "Case-Studies-Desktop",
+        "value": "4-col grid gap 8, align end: title block 596 wide; lead column at x 724, 520 wide, buttons 24 below lead",
+        "count": 1
+      },
+      {
+        "board": "Newsroom-Desktop",
+        "value": "12-col grid gap 24, align end: title 690; lead at x 936, max 420 (384 wide), padding-bottom 12",
+        "count": 1
+      }
+    ],
+    "system": "PageTitle stacks the lead under the bar only",
+    "evidence": "Census rects. Mobile twins stack (system compact matches structure)."
+  },
+  {
+    "fix": "Add an `actions` slot to PageTitle with a fixed gap (e.g. space-10, space-8 compact) and pick one value for all heroes.",
+    "component": "PageTitle",
+    "part": "actions",
+    "property": "buttons under the lead (gap)",
+    "class": "MISSING",
+    "visible": "medium",
+    "boards": [
+      {
+        "board": "About-Desktop / About-Mobile-1",
+        "value": "40 / 28px",
+        "count": 1
+      },
+      {
+        "board": "Platform-Desktop-1 / Platform-Mobile-1",
+        "value": "32 / 24px",
+        "count": 1
+      },
+      {
+        "board": "Why-Desktop-1 / Why-Mobile-1",
+        "value": "36 / 36px",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Desktop / -Mobile-1",
+        "value": "40 / 28px",
+        "count": 1
+      },
+      {
+        "board": "Case-Studies-Desktop / -Mobile",
+        "value": "24 / 24px",
+        "count": 1
+      }
+    ],
+    "system": "No actions slot or spacing in PageTitle (SectionHeader has `aside`, 24px)",
+    "evidence": "Precise rects: buttons.y − (lead.y + lead.h). 10 boards, five different gaps; a page build must pick one."
+  },
+  {
+    "fix": "",
+    "component": "SectionHeader",
+    "part": "H2, eyebrow gap, intro, split",
+    "property": "type, color, spacing",
+    "class": "MATCH",
+    "visible": "low",
+    "boards": [
+      {
+        "board": "Main, Home-Desktop-2, About, Contact, Newsroom, Case-Studies, Platform, Platform-Programs-Green, Pricing, Why (+ mobile twins)",
+        "value": "H2 44/48.4/700/-0.88px rgb(40,43,47) (mobile 32/35.2/-0.64px); white on green",
+        "count": 64
+      },
+      {
+        "board": "same",
+        "value": "eyebrow → H2 16px",
+        "count": 43
+      },
+      {
+        "board": "same",
+        "value": "intro 20/30/500 rgb(49,55,62) (mobile 18/27); white on green",
+        "count": 29
+      }
+    ],
+    "system": "type-section-title / -mobile; eyebrow space-4; intro type-lead; split 1fr/1fr, gap 72, align end",
+    "evidence": "73 header instances rendered with board copy at board widths (sh-system.json). H2 line breaks identical on 55 of 73; Home-Desktop-2 split headers match to the pixel (intro x 564 / 636, aside 24px)."
+  },
+  {
+    "fix": "",
+    "component": "SectionHeader",
+    "part": "H2",
+    "property": "text-wrap (line breaks)",
+    "class": "BOARD-INCONSISTENT",
+    "visible": "medium",
+    "boards": [
+      {
+        "board": "Main, Home-Desktop-2, About, Platform desktop, Contact, Case-Studies, Newsroom, Pricing, Home-Mobile, Home-Mobile-2, About-Mobile",
+        "value": "pretty (global board rule)",
+        "count": 37
+      },
+      {
+        "board": "Why (all), Platform-Mobile-1/-2, Main/Home-Mobile video band, Research",
+        "value": "balance (explicit)",
+        "count": 28
+      },
+      {
+        "board": "Research (other boards)",
+        "value": "wrap (no rule)",
+        "count": 8
+      }
+    ],
+    "system": "balance → different breaks (same line count) on 11 \"pretty\" headers: Home-Desktop-2#7, About-Desktop#120, Platform-Programs-Green#6, Home-Mobile#100, #147, About-Mobile-1#38, #112, About-Mobile-2#4, #21, #37, Contact-Mobile#81",
+    "evidence": "Re-render with pretty fixes those 11 but breaks 11 \"balance\" headers (Why ×6, Platform-Mobile ×2, Home video ×2, Main#81). No single value matches all boards."
+  },
+  {
+    "fix": "",
+    "component": "SectionHeader",
+    "part": "H2",
+    "property": "line breaks from ie-keep",
+    "class": "SYSTEM-CHANGE",
+    "visible": "low",
+    "boards": [
+      {
+        "board": "Why-Desktop-2 (#126), Why-Mobile-4 (#6)",
+        "value": "\"What to ask / before choosing a / mindfulness program\"",
+        "count": 2
+      }
+    ],
+    "system": "\"What to ask / before choosing / a mindfulness program\"",
+    "evidence": "Known change 4: with .ie-keep inline the system matches."
+  },
+  {
+    "fix": "",
+    "component": "SectionHeader",
+    "part": "H2",
+    "property": "max-width",
+    "class": "BOARD-INCONSISTENT",
+    "visible": "high",
+    "boards": [
+      {
+        "board": "Platform-Desktop-1 (#37, #192), Platform-Desktop-2 (#5, #114)",
+        "value": "880px",
+        "count": 4
+      },
+      {
+        "board": "Why-Desktop-1 (#36, #168), Why-Desktop-2 (#54, #96, #126, #173)",
+        "value": "760px",
+        "count": 6
+      },
+      {
+        "board": "About-Desktop (#46, #172)",
+        "value": "820px",
+        "count": 2
+      },
+      {
+        "board": "other desktop headers",
+        "value": "none",
+        "count": 25
+      }
+    ],
+    "system": "no cap: in the 1200px container Platform-Desktop-1#192 and Why-Desktop-2#173 drop from 2 lines to 1",
+    "evidence": "System render at the board header width (1200)."
+  },
+  {
+    "fix": "",
+    "component": "SectionHeader",
+    "part": "intro",
+    "property": "max-width",
+    "class": "BOARD-INCONSISTENT",
+    "visible": "high",
+    "boards": [
+      {
+        "board": "About-Desktop#120, Why-Desktop-1#168, Why-Desktop-2#126, Pricing-Desktop#63",
+        "value": "520px",
+        "count": 4
+      },
+      {
+        "board": "Platform-Desktop-1 (#37, #192), Platform-Desktop-2 (#5, #114)",
+        "value": "720px",
+        "count": 4
+      },
+      {
+        "board": "Platform-Desktop-1#166, Platform-Desktop-2#68",
+        "value": "460px",
+        "count": 2
+      },
+      {
+        "board": "Home-Desktop-2 (#7, #61)",
+        "value": "540px",
+        "count": 2
+      },
+      {
+        "board": "Platform-Programs-Green#6",
+        "value": "440px",
+        "count": 1
+      },
+      {
+        "board": "About-Desktop#156",
+        "value": "480px",
+        "count": 1
+      },
+      {
+        "board": "About-Desktop#172",
+        "value": "760px",
+        "count": 1
+      }
+    ],
+    "system": "520px (measure): line counts change on About#172 (3→4), Platform-D-1#166 (7→6), #192 (3→4), Platform-D-2#114 (3→4), Platform-Programs-Green (3→2); Platform-D-1#37 and D-2#5 shrink from 720 to 520 wide",
+    "evidence": "System render vs board, Range line counts."
+  },
+  {
+    "fix": "If the mobile majority is adopted: compact intro margin-top var(--space-4).",
+    "component": "SectionHeader",
+    "part": "intro",
+    "property": "gap H2 → intro",
+    "class": "BOARD-INCONSISTENT",
+    "visible": "low",
+    "boards": [
+      {
+        "board": "desktop: Main#101, About#172, Platform-D-1#37, #192, Platform-D-2#5, #114",
+        "value": "20px",
+        "count": 6
+      },
+      {
+        "board": "desktop: About#120, #156, Platform-D-1#166, Platform-D-2#68, Research#587",
+        "value": "24px",
+        "count": 5
+      },
+      {
+        "board": "mobile: Home-Mobile#100, Home-Mobile-2#7, #77, About-Mobile-2#37, Platform-Mobile-1 ×3, Platform-Mobile-2 ×3",
+        "value": "16px",
+        "count": 10
+      },
+      {
+        "board": "mobile: About-Mobile-1#112, About-Mobile-2#21",
+        "value": "20px",
+        "count": 2
+      },
+      {
+        "board": "mobile: Pricing-Mobile#52, Why-Mobile-2#28, Why-Mobile-4#6, Research-Mobile-2#127",
+        "value": "24px",
+        "count": 4
+      },
+      {
+        "board": "mobile: Research-Mobile-2#542",
+        "value": "32px",
+        "count": 1
+      }
+    ],
+    "system": "20px (space-5), also compact",
+    "evidence": "Precise rects. Desktop: system = majority. Mobile: system follows a minority (2 of 17); majority 16px."
+  },
+  {
+    "fix": "",
+    "component": "SectionHeader",
+    "part": "eyebrow",
+    "property": "gap eyebrow → H2",
+    "class": "BOARD-INCONSISTENT",
+    "visible": "low",
+    "boards": [
+      {
+        "board": "desktop (Main, Home-Desktop-2, Platform, Research, Why)",
+        "value": "16px",
+        "count": 20
+      },
+      {
+        "board": "About-Desktop#120, #156, Platform-Desktop-1#166, Platform-Programs-Green#6, Pricing-Desktop#63",
+        "value": "24px",
+        "count": 5
+      },
+      {
+        "board": "Main#101 (in Floating card)",
+        "value": "20px",
+        "count": 1
+      },
+      {
+        "board": "Contact-Desktop#92 (green)",
+        "value": "12px",
+        "count": 1
+      },
+      {
+        "board": "mobile (all others)",
+        "value": "16px",
+        "count": 23
+      },
+      {
+        "board": "Pricing-Mobile#52",
+        "value": "24px",
+        "count": 1
+      },
+      {
+        "board": "Contact-Mobile#81 (green)",
+        "value": "8px",
+        "count": 1
+      }
+    ],
+    "system": "16px (space-4)",
+    "evidence": "Precise rects (eyebrow box to H2 box; icon eyebrows measured from the 20px box). System = majority."
+  },
+  {
+    "fix": "",
+    "component": "SectionHeader",
+    "part": "aside",
+    "property": "gap intro → aside",
+    "class": "BOARD-INCONSISTENT",
+    "visible": "medium",
+    "boards": [
+      {
+        "board": "Platform-Desktop-1#166, #192, Platform-Desktop-2#114 (ArrowLink)",
+        "value": "16px",
+        "count": 3
+      },
+      {
+        "board": "Platform-Mobile-1#133, #180, Platform-Mobile-2#90, #117 (ArrowLink)",
+        "value": "8px",
+        "count": 4
+      },
+      {
+        "board": "Home-Desktop-2#61, Home-Mobile#100, Home-Mobile-2#77 (Button)",
+        "value": "24px",
+        "count": 3
+      },
+      {
+        "board": "About-Desktop#156 (Button)",
+        "value": "32px",
+        "count": 1
+      },
+      {
+        "board": "About-Mobile-2#21 (Button)",
+        "value": "28px",
+        "count": 1
+      },
+      {
+        "board": "Platform-Desktop-1#37, Platform-Programs-Green#6 / Platform-Mobile-1#27 (footnote, type-label muted)",
+        "value": "12px / 8px",
+        "count": 3
+      },
+      {
+        "board": "Case-Studies-Mobile#24 (result count)",
+        "value": "8px; desktop count right-aligned in the title row",
+        "count": 1
+      }
+    ],
+    "system": "24px (space-6) for any aside",
+    "evidence": "Precise rects incl. the 44px ArrowLink box. System matches the Button asides on Home only."
+  },
+  {
+    "fix": "",
+    "component": "SectionHeader",
+    "part": "split layout",
+    "property": "column gap / intro position",
+    "class": "BOARD-INCONSISTENT",
+    "visible": "low",
+    "boards": [
+      {
+        "board": "Home-Desktop-2#7, #61",
+        "value": "1fr/1fr, gap 72",
+        "count": 2
+      },
+      {
+        "board": "Why-Desktop-1#168, Why-Desktop-2#126, Platform-Programs-Green#6",
+        "value": "1fr/1fr, gap 80 (intro x +640)",
+        "count": 3
+      },
+      {
+        "board": "Research-Experiment-Desktop-2#20",
+        "value": "1fr/1fr, gap 64",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Desktop#63",
+        "value": "4-col grid gap 8, intro justify-self:end (intro x +680)",
+        "count": 1
+      }
+    ],
+    "system": "1fr/1fr, gap 72 (intro x +636)",
+    "evidence": "Intro x relative to container: system 636 vs 640 on Why/PPG (4px), vs 680 on Pricing (44px)."
+  },
+  {
+    "fix": "Add `layout=\"split-7-5\"` (grid-template-columns: minmax(0,7fr) minmax(0,5fr)).",
+    "component": "SectionHeader",
+    "part": "split layout",
+    "property": "7fr : 5fr split",
+    "class": "MISSING",
+    "visible": "high",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop#94",
+        "value": "cols 658 / 470, gap 72, align end",
+        "count": 1
+      },
+      {
+        "board": "Research-Studies-C-Timeline-065o#4",
+        "value": "cols 658 / 470, gap 72, align end",
+        "count": 1
+      }
+    ],
+    "system": "split is 1fr/1fr only (README: \"Splits use two equal columns or 7fr : 5fr\")",
+    "evidence": "Intro x: board 850 vs system 756; title column 658 vs 564."
+  },
+  {
+    "fix": "Add `align=\"center\"` (text-align:center; intro margin-inline:auto).",
+    "component": "SectionHeader",
+    "part": "layout",
+    "property": "centered header",
+    "class": "MISSING",
+    "visible": "high",
+    "boards": [
+      {
+        "board": "About-Desktop",
+        "value": "#46 and #172: text-align center, H2 max 820, intro max 760, centered column",
+        "count": 2
+      },
+      {
+        "board": "About-Mobile-1",
+        "value": "#38 centered",
+        "count": 1
+      }
+    ],
+    "system": "stacked and split are start-aligned only",
+    "evidence": "Census textAlign: center on the H2s; flex align-items: center on the header."
+  },
+  {
+    "fix": "README + SectionHeader README: \"space-12 (space-8 compact)\"; the mobile majority is 32px.",
+    "component": "SectionHeader",
+    "part": "header → content",
+    "property": "gap (mobile)",
+    "class": "DEFECT",
+    "visible": "medium",
+    "boards": [
+      {
+        "board": "Home-Mobile-2#7, #77, Contact-Mobile#81, Platform-Mobile-1#27, #133, #180, Platform-Mobile-2#5, #57, #117",
+        "value": "32px",
+        "count": 9
+      },
+      {
+        "board": "Home-Mobile#125, #147, #80 (from bar), About-Mobile-2#4, #21, #37, Research-Mobile-2#9",
+        "value": "28px",
+        "count": 7
+      },
+      {
+        "board": "Why-Mobile-1, -2 ×2, -3 ×2, -4 ×2",
+        "value": "40px",
+        "count": 6
+      },
+      {
+        "board": "Newsroom-Mobile#63, Platform-Mobile-2#90",
+        "value": "24px",
+        "count": 2
+      },
+      {
+        "board": "About-Mobile-1#38",
+        "value": "36px",
+        "count": 1
+      }
+    ],
+    "system": "48px: README \"Section header to content: space-12\" (no compact value)",
+    "evidence": "Measured from the last header element to the first content element. No mobile board uses 48."
+  },
+  {
+    "fix": "",
+    "component": "SectionHeader",
+    "part": "header → content",
+    "property": "gap (desktop)",
+    "class": "BOARD-INCONSISTENT",
+    "visible": "medium",
+    "boards": [
+      {
+        "board": "Main#126, #148, Home-Desktop-2#7, About#46, Contact#92, Platform-D-1#37, #192, Platform-D-2#5, #114, Platform-Programs-Green, Pricing#63, Research#73, Studies-C#7",
+        "value": "48px",
+        "count": 13
+      },
+      {
+        "board": "Why-Desktop-1 ×2, Why-Desktop-2#54, #96, #126, #173, Home-Desktop-2#61, About#138, #172, Research-D-2#5",
+        "value": "56px",
+        "count": 10
+      },
+      {
+        "board": "Newsroom#75, Platform-D-1#166, Platform-D-2#68",
+        "value": "32px",
+        "count": 3
+      },
+      {
+        "board": "Case-Studies#36",
+        "value": "24px",
+        "count": 1
+      },
+      {
+        "board": "Main#81 (from bar)",
+        "value": "40px",
+        "count": 1
+      },
+      {
+        "board": "Why-Desktop-2#7",
+        "value": "64px",
+        "count": 1
+      },
+      {
+        "board": "Research#99",
+        "value": "72px",
+        "count": 1
+      }
+    ],
+    "system": "48px (space-12)",
+    "evidence": "System = plurality (13 of 30). Why uses 56 throughout."
+  },
+  {
+    "fix": "",
+    "component": "SectionHeader",
+    "part": "H2",
+    "property": "size off the ramp",
+    "class": "DECIDED",
+    "visible": "high",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop (#73, #99, #469), Research-Experiment-Desktop-2#5",
+        "value": "68px / 1.02 / -0.04em",
+        "count": 4
+      },
+      {
+        "board": "Research-Experiment-Desktop#587",
+        "value": "52px",
+        "count": 1
+      },
+      {
+        "board": "Research-Studies-C-Timeline-065o#7",
+        "value": "56px",
+        "count": 1
+      },
+      {
+        "board": "Research-Experiment-Desktop-2#20",
+        "value": "36px",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Desktop#63",
+        "value": "48px / 1.08",
+        "count": 1
+      },
+      {
+        "board": "Pricing-Desktop#723 / Pricing-Mobile#747",
+        "value": "32px / 1.15; 26px",
+        "count": 2
+      },
+      {
+        "board": "About-Desktop#156",
+        "value": "40px / 1.12 / -0.01em",
+        "count": 1
+      }
+    ],
+    "system": "44px / 1.1 / -0.02em (32 mobile)",
+    "evidence": "Remaining-Drift: \"Snap to the ramp: 44 for section titles (32 mobile)\". Component-Library: \"Every section title is 44px (32 on mobile).\" About-Desktop#156 at 44 gains a line (\"Strengthened / by research.\")."
+  },
+  {
+    "fix": "",
+    "component": "SectionHeader",
+    "part": "intro",
+    "property": "style off the lead",
+    "class": "DECIDED",
+    "visible": "medium",
+    "boards": [
+      {
+        "board": "Research-Experiment-Desktop#99, Research-Studies-C#7",
+        "value": "18px / 1.55, rgb(66,72,80)",
+        "count": 2
+      },
+      {
+        "board": "Research-Experiment-Desktop#587, Research-Mobile-2#127",
+        "value": "20px / 700, rgb(40,43,47)",
+        "count": 2
+      },
+      {
+        "board": "Research-Experiment-Desktop-2#20, Research-Mobile-2#542",
+        "value": "15px / 1.55, rgb(89,96,106)",
+        "count": 2
+      },
+      {
+        "board": "Pricing-Desktop#63 / Pricing-Mobile#52",
+        "value": "18px / 1.5 ; 17px / 1.5",
+        "count": 2
+      },
+      {
+        "board": "About-Desktop#156",
+        "value": "18px / 1.52, rgb(66,72,80)",
+        "count": 1
+      }
+    ],
+    "system": "type-lead 20/1.5 rgb(49,55,62) (18 mobile)",
+    "evidence": "Type-Icon-Decisions: \"Lead (20 / 1.5, 18 on mobile, ink #31373e) is the intro paragraph under a page or section title.\""
+  },
+  {
+    "fix": "",
+    "component": "Breadcrumb",
+    "part": "trail",
+    "property": "type, color, separators, spacing, gap to H1",
+    "class": "MATCH",
+    "visible": "low",
+    "boards": [
+      {
+        "board": "Article-Desktop-1, Article-Mobile-1, Article-Mobile-First-Screen",
+        "value": "14/15.68/700/0.84px (0.06em) uppercase rgb(89,96,106); \"/\" same style; items at x 0 / 50 / 64; 16px to H1; no underline",
+        "count": 3
+      }
+    ],
+    "system": "type-breadcrumb, foreground-muted, li+li::before \"/\" with 8px each side; PageTitle breadcrumb margin 16px",
+    "evidence": "System render (pt-probe.json): \"Blog\" 0–42, \"Leadership\" at 64 — identical. Detail-Decisions: \"Breadcrumbs: 0.06em letter-spacing in muted ink … Kept.\" No case-study detail board exists in FINAL V (the Case Studies hub uses an eyebrow)."
+  },
+  {
+    "fix": "",
+    "component": "Breadcrumb",
+    "part": "current item",
+    "property": "aria-current span, hover underline",
+    "class": "NOT-ON-BOARDS",
+    "visible": "low",
+    "boards": [
+      {
+        "board": "Article boards",
+        "value": "both items are links (\"Blog\", \"Leadership\"); no current-page item",
+        "count": 3
+      }
+    ],
+    "system": "last item without href renders as span[aria-current=page]; links underline + brand-emphasis on hover",
+    "evidence": "The board trail ends at the category; pass both items with href to match."
+  },
+  {
+    "fix": "",
+    "component": "Prose",
+    "part": "body, headings, links, pull quote, caption",
+    "property": "type and spacing",
+    "class": "MATCH",
+    "visible": "low",
+    "boards": [
+      {
+        "board": "Article-Desktop-1, Article-Desktop-2",
+        "value": "p 18/30.6/400 rgb(66,72,80), 680 wide, 20 apart; H2 28/33.6/-0.28px 52 above, 24 after; H3 20/26/-0.2px 40 above, 12 after; link rgb(0,110,81) underline offset 3px; pull quote Caslon Text 28/39.2 italic between 1px rgb(223,221,214) rules, 24 padding, 32 margins; figcaption 15/22.5/500 rgb(89,96,106) 12 below",
+        "count": 2
+      },
+      {
+        "board": "Article-Mobile-1, Article-Mobile-2",
+        "value": "p 17/28.05; H2 24/28.8 48 above, 16 after; H3 18/23.4 32 above, 12 after; pull quote 24/33.6, 20 padding, 24 margins",
+        "count": 2
+      }
+    ],
+    "system": "Prose (compact on mobile) with the README class mapping",
+    "evidence": "Article text rendered in Prose at 680 / 350 (prose-system.json): every gap except the figure ones identical; blockquote heights identical (128.38 / 142.78); all 42 paragraphs and 18 headings keep their line counts."
+  },
+  {
+    "fix": "components/bundle.css: `.ie-prose figure { margin-block: var(--space-8); }` and `.ie-prose-compact figure { margin-block: var(--space-6); }`.",
+    "component": "Prose",
+    "part": "figure",
+    "property": "margin above / below",
+    "class": "DEFECT",
+    "visible": "medium",
+    "boards": [
+      {
+        "board": "Article-Desktop-1",
+        "value": "32px above, 32px below (#112)",
+        "count": 1
+      },
+      {
+        "board": "Article-Mobile-1",
+        "value": "24px above, 24px below (#95)",
+        "count": 1
+      }
+    ],
+    "system": "20px (`.ie-prose > * + *`)",
+    "evidence": "Gap from previous paragraph to figure and figure to next paragraph, precise rects; same rhythm as the blockquote (32 / 24)."
+  },
+  {
+    "fix": "components/bundle.css `.ie-prose :is(h2, h3) { text-wrap: pretty; }` (was balance).",
+    "component": "Prose",
+    "part": "H2 / H3",
+    "property": "text-wrap (line breaks)",
+    "class": "DEFECT",
+    "visible": "medium",
+    "boards": [
+      {
+        "board": "Article-Desktop-1",
+        "value": "e.g. \"Why MTSS support becomes a stack of / disconnected programs\" (2 H2)",
+        "count": 2
+      },
+      {
+        "board": "Article-Desktop-2",
+        "value": "2 H2, 1 H3",
+        "count": 3
+      },
+      {
+        "board": "Article-Mobile-1",
+        "value": "2 H2",
+        "count": 2
+      },
+      {
+        "board": "Article-Mobile-2",
+        "value": "3 H2, 2 H3",
+        "count": 5
+      }
+    ],
+    "system": "balance: \"Why MTSS support becomes a / stack of disconnected programs\" (12 of 18 article headings break differently, same line counts)",
+    "evidence": "Boards: `body *{text-wrap-style:pretty}`. Re-render with pretty fixes 8 of 12; the other 4 also need .ie-keep inline (known change 4)."
+  },
+  {
+    "fix": "components/bundle.css `.ie-prose :is(p, li) { text-wrap: pretty; }`.",
+    "component": "Prose",
+    "part": "paragraphs",
+    "property": "text-wrap",
+    "class": "DEFECT",
+    "visible": "low",
+    "boards": [
+      {
+        "board": "Article boards",
+        "value": "text-wrap-style: pretty on every p",
+        "count": 4
+      }
+    ],
+    "system": "not set (wrap); only lead/intro set pretty",
+    "evidence": "2 of 42 paragraphs break differently (Article-Desktop-2 \"Superintendents who are tired…\", Article-Mobile-2 \"The strongest case…\"); they match only with pretty and inline keep together. README: \"pretty on paragraphs\"."
+  },
+  {
+    "fix": "components/bundle.css `.ie-prose figcaption a { font-weight: 700; }`.",
+    "component": "Prose",
+    "part": "figcaption link",
+    "property": "font-weight / underline offset",
+    "class": "DEFECT",
+    "visible": "low",
+    "boards": [
+      {
+        "board": "Article-Desktop-1 (#121), Article-Mobile-1 (#104)",
+        "value": "700, underline offset auto",
+        "count": 2
+      }
+    ],
+    "system": "inherits 500 from type-small; underline offset 3px",
+    "evidence": "Board link carries inline font-weight:700; body links inherit 400 (match)."
+  },
+  {
+    "fix": "",
+    "component": "Prose",
+    "part": "headings",
+    "property": "line breaks from ie-keep",
+    "class": "SYSTEM-CHANGE",
+    "visible": "low",
+    "boards": [
+      {
+        "board": "Article-Desktop-1, Article-Desktop-2, Article-Mobile-1",
+        "value": "4 headings, e.g. \"Tier 1: a universal foundation every classroom / can sustain\"",
+        "count": 4
+      }
+    ],
+    "system": "keep span moves the break",
+    "evidence": "Known change 4; match once .ie-keep is inline (plus pretty)."
+  },
+  {
+    "fix": "",
+    "component": "Prose",
+    "part": "lists, tables",
+    "property": "styles",
+    "class": "SYSTEM-CHANGE",
+    "visible": "low",
+    "boards": [
+      {
+        "board": "Article boards",
+        "value": "no list or table inside the article body",
+        "count": 4
+      }
+    ],
+    "system": "ul/ol padding 24, li 8 apart; tables with border row rules",
+    "evidence": "Known change 6 (additions with no board)."
+  },
+  {
+    "fix": "",
+    "component": "type-hero-display",
+    "part": "Home hero H1",
+    "property": "type style",
+    "class": "MATCH",
+    "visible": "low",
+    "boards": [
+      {
+        "board": "Main",
+        "value": "Inter 96/94.08/700/-3.36px + Libre Caslon Condensed italic 500 120/122.4/-1.2px; box 590×216",
+        "count": 1
+      },
+      {
+        "board": "Home-Mobile",
+        "value": "Inter 52/50.96/-1.82px + 66/67.32/-0.66px; box 325×118",
+        "count": 1
+      }
+    ],
+    "system": "type-hero-display(-mobile) + type-hero-display-serif(-mobile): identical values and identical rendered boxes (590×216, 325×118)",
+    "evidence": "hero-probe.json vs census."
+  },
+  {
+    "fix": "Add a `shadow-hero-text` token (0 2px 24px rgba(0,20,15,0.35)) or fold it into type-hero-display.",
+    "component": "type-hero-display",
+    "part": "Home hero H1",
+    "property": "text-shadow",
+    "class": "MISSING",
+    "visible": "low",
+    "boards": [
+      {
+        "board": "Main (#23), Home-Mobile (#15)",
+        "value": "text-shadow: 0 2px 24px rgba(0,20,15,0.35)",
+        "count": 2
+      }
+    ],
+    "system": "no token or class for a text shadow",
+    "evidence": "Type styles carry no shadow; the README lists the only shadows allowed. A page build would need a raw rgba value (lint:drift)."
+  }
+]
