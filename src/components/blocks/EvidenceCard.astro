@@ -2,36 +2,51 @@
 // One finding from the research: a tag with its color key, the numeral, what it measures, and
 // the source under a rule, in a Raised card (Platform's evidence, Research's study cards). The
 // tone keys the swatch and the numeral: Emerald for academics and behavior, Vibrant for
-// inclusion and well-being. The slot takes what Research adds under the source.
+// inclusion and well-being. The slot adds to the source under the rule (Research: the study's
+// title and byline in place of `source`); the `details` slot follows the rule (Research's
+// "Show our work" details). Research also adds plain tags after the keyed one ("Dissertation").
+import type { HTMLAttributes } from 'astro/types';
+
 const TONE = {
   emerald: 'text-brand-emphasis',
   vibrant: 'text-icon-accent',
 } as const satisfies Record<string, string>;
 
-interface Props {
+interface Props extends HTMLAttributes<'article'> {
   tag: string;
+  /** Plain tags after the keyed one. */
+  tags?: readonly string[];
   value: string;
   label: string;
-  source: string;
+  /** The source line under the rule; Research passes its title and byline in the slot. */
+  source?: string;
   tone?: keyof typeof TONE;
   as?: 'div' | 'article' | 'li';
   class?: string;
 }
 const {
   tag,
+  tags = [],
   value,
   label,
   source,
   tone = 'emerald',
   as: Tag = 'article',
   class: className,
+  ...rest
 }: Props = Astro.props;
 ---
 
-<Tag class:list={['ie-card ie-card-raised flex flex-col gap-2 p-card-padding', className]}>
-  <span class="ie-tag self-start type-tag text-foreground-secondary">
-    <span class:list={['ie-swatch', TONE[tone]]} aria-hidden="true"></span>{tag}
-  </span>
+<Tag
+  class:list={['ie-card ie-card-raised flex flex-col gap-2 p-card-padding', className]}
+  {...rest}
+>
+  <div class="flex flex-wrap gap-1.5">
+    <span class="ie-tag type-tag text-foreground-secondary">
+      <span class:list={['ie-swatch', TONE[tone]]} aria-hidden="true"></span>{tag}
+    </span>
+    {tags.map((extra) => <span class="ie-tag type-tag text-foreground-secondary">{extra}</span>)}
+  </div>
   <p
     class:list={[
       'm-0 mt-2 font-sans type-stat-sm font-medium whitespace-nowrap tabular-nums',
@@ -42,7 +57,8 @@ const {
   </p>
   <p class="m-0 type-body leading-snug text-foreground">{label}</p>
   <div class="mt-auto flex flex-col gap-2 border-t border-border pt-5">
-    <p class="m-0 type-label text-foreground-muted">{source}</p>
+    {source && <p class="m-0 type-label text-foreground-muted">{source}</p>}
     <slot />
   </div>
+  <slot name="details" />
 </Tag>

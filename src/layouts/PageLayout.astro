@@ -18,14 +18,17 @@ interface Props {
   imageHeight?: number;
   /** Hide the page from search engines. */
   noindex?: boolean;
+  /** `dark`: the transparent header laid over a Forest hero, which clears it (Research). */
+  header?: 'light' | 'dark';
 }
-const props: Props = Astro.props;
+const { header = 'light', ...props }: Props = Astro.props;
+const dark = header === 'dark';
 ---
 
 <BaseLayout {...props}>
   <slot name="head" slot="head" />
-  <div class="flex min-h-dvh flex-col">
-    <SiteHeader />
+  <div class:list={['flex min-h-dvh flex-col', dark && 'relative']}>
+    <SiteHeader dark={dark} overlay={dark} />
     <main id="main" class="grow">
       <slot />
     </main>

@@ -2,6 +2,7 @@
 // The mobile navigation: a full-screen native <dialog> opened by the header's menu button.
 // showModal() traps focus, makes the page inert and closes on Escape; the script only
 // wires the button and the close controls. Not on FINAL V: built to the V2 MobileMenu spec.
+// `data-on-surface` keeps its light ink inside the dark header (Research).
 import Button from '../ui/Button.astro';
 import IconButton from '../ui/IconButton.astro';
 import Logo from '../ui/Logo.astro';
@@ -10,7 +11,13 @@ import { contactCta, primaryNav, signIn } from '../../data/navigation';
 const current = (href: string) => (Astro.url.pathname === href ? 'page' : undefined);
 ---
 
-<dialog class="ie-menu" id="mobile-menu" aria-label="Navigation menu" data-mobile-menu>
+<dialog
+  class="ie-menu"
+  id="mobile-menu"
+  aria-label="Navigation menu"
+  data-mobile-menu
+  data-on-surface
+>
   <div
     class="flex h-(--header-height-mobile) items-center justify-between border-b border-border px-section-x"
   >

@@ -4,8 +4,12 @@
 // `wall`: a centered label over wrapping logo cells, grayscale until hovered, each optionally
 // linked to its coverage (About's partners and press). Two cells a row below md; an odd last
 // cell centers.
+// `marquee`: a centered label over the names in type, scrolling in a loop under faded edges
+// (Research's partners). It pauses on hover, with its pause button, or with a page's
+// `[data-motion-paused]`; under reduced motion it is a still, wrapping row.
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
+import Icon from '../ui/Icon.astro';
 
 interface Partner {
   name: string;
@@ -26,18 +30,58 @@ interface Partner {
 interface Props {
   label: string;
   partners: readonly Partner[];
-  layout?: 'row' | 'wall';
+  layout?: 'row' | 'wall' | 'marquee';
+  /** Marquee: the pause button's accessible name. */
+  pauseLabel?: string;
   /** Wall: the cell width from md up. */
   cell?: 'md' | 'sm';
   class?: string;
 }
-const { label, partners, layout = 'row', cell = 'md', class: className }: Props = Astro.props;
+const {
+  label,
+  partners,
+  layout = 'row',
+  pauseLabel = `Pause the ${label.toLowerCase()}`,
+  cell = 'md',
+  class: className,
+}: Props = Astro.props;
 const CELL = { md: 'md:basis-54', sm: 'md:basis-45' } as const;
 const labelId = `logos-${label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
 ---
 
 {
-  layout === 'row' ? (
+  layout === 'marquee' ? (
+    <div class:list={['flex flex-col items-center gap-5 md:gap-6', className]} data-marquee>
+      <div class="flex items-center gap-3">
+        <p id={labelId} class="m-0 type-eyebrow text-foreground-muted">
+          {label}
+        </p>
+        <button
+          type="button"
+          class="group ie-icon-btn ie-icon-btn-sm"
+          aria-label={pauseLabel}
+          aria-pressed="false"
+          hidden
+          data-marquee-pause
+        >
+          <Icon name="pause" size={16} class="group-aria-pressed:hidden" />
+          <Icon name="play" size={16} class="hidden group-aria-pressed:block" />
+        </button>
+      </div>
+      <div class="ie-marquee">
+        <ul class="ie-marquee-track m-0 list-none p-0" aria-labelledby={labelId}>
+          {[...partners, ...partners].map((partner, i) => (
+            <li
+              class="type-card-title-md text-foreground-muted"
+              aria-hidden={i >= partners.length ? 'true' : undefined}
+            >
+              {partner.name}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  ) : layout === 'row' ? (
     <div
       class:list={[
         'flex flex-col items-start gap-3 lg:flex-row lg:items-center lg:gap-10',
@@ -115,3 +159,18 @@ const labelId = `logos-${label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
     </div>
   )
 }
+
+<script>
+  // The marquee's pause button: shown once wired, and only while the names can move.
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  for (const root of document.querySelectorAll<HTMLElement>('[data-marquee]')) {
+    const pause = root.querySelector<HTMLButtonElement>('[data-marquee-pause]');
+    if (!pause || still) continue;
+    pause.hidden = false;
+    pause.addEventListener('click', () => {
+      const paused = pause.getAttribute('aria-pressed') !== 'true';
+      pause.setAttribute('aria-pressed', String(paused));
+      root.toggleAttribute('data-paused', paused);
+    });
+  }
+</script>

@@ -64,12 +64,17 @@ for it). Provenance is the comment beside each token in `tokens.css`.
   _-brand-bar_ (provisional: the reason photos, the foundation figure, its subject tiles and its
   Emerald base bar).
 - _Photo treatment_ (Home): _scrim-photo_ (desktop) and _scrim-photo-mobile_, _scrim-video_,
-  _on-photo-control_, _on-photo-dot_, _photo-tone_ (the boards' sepia filter).
+  _on-photo-control_, _on-photo-dot_, _photo-tone_ (the boards' sepia filter); Research's
+  _scrim-hero_ and _scrim-hero-figure_ (provisional: the Forest vignette over the neuron footage
+  and the pool behind the brain diagram, `.ie-hero-scrim` / `-figure`).
 - **Size:** **control-height** 48, **control-height-sm** 44, **header-height** 80/64,
   **logo-height** 32/28, **accent-bar-height** 4, **container** 1200, **measure** 520,
-  _measure-short_ 320, _swatch-size_ 10 (the color key in an evidence tag: Platform, Research), **measure-article** 680, _form-card_ 576 (`w-form`), _figure-height_ 220 → 400 (`h-figure`), **icon-sm/md/lg/feature/disc**, _icon-check_ 22 and _icon-check-sm_ 18 (the filled check disc), _measure-wide_ 640 (Pricing's hero lead, `PageTitle leadWidth="wide"`), _measure-cta_ 560 (the inline closing CTA's lead), _measure-note_ 760 (a footnote under a table), _measure-narrow_ 480 (About's research intro), _measure-title_ 820 (a centered section title, About), _collapse-height_ 640 (Pricing's collapsed table), _hero-photo-height_ 560 → 640 (`h-hero-photo`).
+  _measure-short_ 320, _swatch-size_ 10 (the color key in an evidence tag: Platform, Research), **measure-article** 680, _form-card_ 576 (`w-form`), _figure-height_ 220 → 400 (`h-figure`), **icon-sm/md/lg/feature/disc**, _icon-check_ 22 and _icon-check-sm_ 18 (the filled check disc), _measure-wide_ 640 (Pricing's hero lead, `PageTitle leadWidth="wide"`), _measure-cta_ 560 (the inline closing CTA's lead), _measure-note_ 760 (a footnote under a table), _measure-narrow_ 480 (About's research intro), _measure-title_ 820 (a centered section title, About), _collapse-height_ 640 (Pricing's collapsed table) and _collapse-height-sm_ 260 (Research's citations, provisional), _hero-photo-height_ 560 → 640 (`h-hero-photo`).
 - _Motion:_ `220ms cubic-bezier(.16, 1, .3, 1)`, every transition on the boards; _motion-fade_
-  700ms on the same curve, the hero carousel's crossfade.
+  700ms on the same curve, the hero carousel's crossfade; Research's _marquee-duration_ 36s and
+  _pulse-duration_ 1.6s (provisional).
+- _Research patterns_ (provisional): _sand-dots_ / _sand-dots-size_ (the dotted "sand" under the
+  wall of initiatives), _marquee-fade_ (the partners marquee's faded edges).
 
 ### Type ramp (`type-*` utilities, desktop → mobile as one clamp each)
 
@@ -103,15 +108,20 @@ A component exists only where it renders markup a class cannot (an SVG, a stretc
 a variant map). Everything else is a plain element with a `type-*` utility or an `ie-*`
 class.
 
-- `ui/Button` (primary · secondary · light · ghost; md · sm; `arrow`; `block`; link or button),
-  `ui/ArrowLink` (`light` on green; the label is trimmed and its last word kept with the arrow), `ui/PageTitle` (eyebrow, H1 with `*emphasis*`, accent bar,
+- `ui/Button` (primary · secondary · light · ghost; md · sm; `arrow`, or `icon` for another
+  trailing icon: Research's download; `block`; link or button),
+  `ui/ArrowLink` (`light` on green; `icon="arrow-down"` for a jump down the page, nudging down on
+  hover: Research; the label is trimmed and its last word kept with the arrow), `ui/PageTitle` (eyebrow, H1 with `*emphasis*`, accent bar,
   lead, `actions` slot; `leadWidth="wide"`; `breakFrom="md"` keeps the title's break to md up), `ui/Checklist` (`marker="disc"`, `size="xs"`, `flow="columns"`: Pricing's add-on list), `ui/Card` (raised · floating · tint; `title`, `titleSize`, `href` makes
   the title a stretched link), `ui/Icon` and `ui/FeatureIcon` (registries in `src/lib/icons.ts`
   and `src/lib/feature-icons.ts`; feature icons are Phosphor fill, bare at 16/20/24/32/40 or `disc`),
   `ui/IconButton`, `ui/Checklist` (`{ lead, text }` items with a bold lead-in, `strong` bold claims: Why), `ui/Section` (tone ground · white · tint · emerald · forest;
-  spacing section · hero · strip; owns the container), `ui/Logo`, `ui/VideoPoster` (a 16:9
-  poster link that opens the video on its host).
-- `layout/SiteHeader` (light, `dark` over a Forest hero; the skip link; static, as on the boards),
+  spacing section · hero · strip; owns the container), `ui/Logo` (`size="sm"`: 28px at every
+  width, Research's foundation bar), `ui/VideoPoster` (a 16:9 poster link that opens the video on
+  its host).
+- `layout/SiteHeader` (light, `dark` over a Forest hero, `overlay` laid over the page's first
+  section; the dark header's current link has a Leaf rule; the skip link; static, as on the boards),
+  set from `PageLayout header="dark"` (Research: the hero clears the header itself),
   `layout/MobileMenu` (native `<dialog>`, one small script), `layout/SiteFooter` (Footer A).
 - `blocks/ClosingCta` (emerald · white, `floating` for Home's borderless white card, ± photo (held
   at 520 on Emerald and Floating; as tall as its copy on Raised, Platform),
@@ -122,9 +132,12 @@ class.
   autoplay), `blocks/StatStrip` (numerals over labels: `divided`, hairlines from lg (Home); `ruled`, three
   columns under hairlines with a source line (Why); follows `[data-on-brand]`), `blocks/LogoStrip` (label and partner names, a logo where supplied;
   `layout="wall"`: a centered label over wrapping logo cells, grayscale at _logo-opacity_ until
-  hovered, optionally linked to coverage: About), `blocks/EvidenceCard` (a Raised card: tag with
-  its color swatch, the numeral in Inter 500 on `type-stat-sm`, the finding, the source under a
-  rule; `emerald` or `vibrant` tone; a slot for Research's extras: Platform, Research).
+  hovered, optionally linked to coverage: About; `layout="marquee"`: the names scrolling in a loop
+  under faded edges, paused on hover, by its pause button or a page's `[data-motion-paused]`, a
+  still wrapping row under reduced motion: Research), `blocks/EvidenceCard` (a Raised card: tag
+  with its color swatch and plain extra `tags`, the numeral in Inter 500 on `type-stat-sm`, the
+  finding, the source under a rule (optional: Research puts the title and byline in the slot),
+  a `details` slot after the rule; `emerald` or `vibrant` tone: Platform, Research).
 - Classes without a component: `.ie-accent-bar`, `.ie-tag` (+ `-on-brand`), `.ie-chip`,
   `.ie-icon-disc`, `.ie-field`, `.ie-label`, `.ie-field-error`, `.ie-card-*`, `.ie-nav`,
   `.ie-menu-*`, `.ie-footer-link`, `.ie-skip-link`, `.ie-photo-tone`, `.ie-sticky-bar`,
@@ -136,7 +149,12 @@ class.
   `.ie-swatch` (EvidenceCard's color key), `.ie-tabs` / `.ie-tab` / `.ie-tab-sub` (Platform's
   segmented tabs: Forest track, white selected tab), `.ie-play-btn` and `.ie-progress` (Platform's
   sample player),
-  `.ie-logo-wall` / `.ie-logo-link` (LogoStrip's wall).
+  `.ie-logo-wall` / `.ie-logo-link` (LogoStrip's wall), `.ie-marquee` / `.ie-marquee-track`
+  (LogoStrip's marquee), `.ie-chip[role='switch']` (a chip holding `.ie-switch-track`, Emerald when
+  on: Research's "Show our work"), `.ie-segmented` (+ `-on-brand`, coral for a `data-alarm`
+  choice: Research's wall and brain switches), and Research's page-only `.ie-hero-scrim` /
+  `-figure`, `.ie-stop-leaf` / `-alarm` / `-alarm-fade` and `.ie-brain-pulse` (the brain diagram),
+  `.ie-wall-block` and `.ie-sand` (the wall).
 - `[data-on-surface]` inside a `[data-on-brand]` panel restores the light ink for a white box
   (Pricing's add-on prices).
 
@@ -176,6 +194,11 @@ Article rails) are built by their page from these parts and listed in `design/in
   Why. The section clips the overflow (`overflow-x-clip`), since `100vw` counts a classic scrollbar.
 - The switch's off-state track keeps a 1px `border-input` outline the board doesn't draw, so the
   control meets 3:1 against white (WCAG 1.4.11).
+- Research only: `--scrim-hero` / `-figure`, `--collapse-height-sm`, `--sand-dots` / `-size`,
+  `--marquee-fade`, `--marquee-duration`, `--pulse-duration`; the marquee's pause button (the board
+  pauses only on hover; WCAG 2.2.2 needs a control); the brain's glows snapped to Leaf, coral-300
+  and coral-600 (board #7fd67f, #ffc2b8, #ff8a75) and its mindful label to Spring (#7fd67f fails AA
+  on Forest).
 
 ## Rules and guards
 

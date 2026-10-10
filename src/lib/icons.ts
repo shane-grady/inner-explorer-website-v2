@@ -4,6 +4,9 @@
 export const ICONS = {
   'arrow-right': '<path d="M5 12h14"/><path d="M13 6l6 6-6 6"/>',
   'arrow-left': '<path d="M19 12H5"/><path d="M11 6l-6 6 6 6"/>',
+  'arrow-down': '<path d="M12 5v14"/><path d="M6 13l6 6 6-6"/>',
+  'arrow-up-right': '<path d="M7 17L17 7"/><path d="M9 7h8v8"/>',
+  download: '<path d="M12 4v11"/><path d="M7 10l5 5 5-5"/><path d="M5 20h14"/>',
   'chevron-down': '<path d="M6 9l6 6 6-6"/>',
   'chevron-left': '<path d="M15 5l-7 7 7 7"/>',
   'chevron-right': '<path d="M9 5l7 7-7 7"/>',
@@ -19,4 +22,5 @@ export const ICONS = {
 } as const;
 
 export type IconName = keyof typeof ICONS;
-export type IconSize = 16 | 20 | 22 | 24;
+/** 12: the inline arrow after a citation link (Research). */
+export type IconSize = 12 | 16 | 20 | 22 | 24;

@@ -271,10 +271,23 @@ const checklist = [
       <div class="flex flex-wrap items-center gap-6">
         <ArrowLink href="#tokens">Read the research</ArrowLink>
         <ArrowLink href="#tokens" data-hover>Hover</ArrowLink>
+        <ArrowLink href="#tokens" icon="arrow-down">Jump down (Research)</ArrowLink>
         <button type="button" class="ie-chip">All</button>
         <button type="button" class="ie-chip" data-hover>Hover</button>
         <button type="button" class="ie-chip" aria-pressed="true">Pressed</button>
         <span class="ie-tag type-tag">Add-on</span>
+      </div>
+      <div class="flex flex-wrap items-center gap-6">
+        <button type="button" class="ie-chip" role="switch" aria-checked="false">
+          Show our work<span class="ie-switch-track" aria-hidden="true"></span>
+        </button>
+        <button type="button" class="ie-chip" role="switch" aria-checked="true">
+          Chip switch, on (Research)<span class="ie-switch-track" aria-hidden="true"></span>
+        </button>
+        <div class="ie-segmented w-86" role="group" aria-label="Segmented sample">
+          <button type="button" aria-pressed="true">On sand</button>
+          <button type="button" aria-pressed="false">Segmented (Research)</button>
+        </div>
       </div>
       <div class="max-w-measure">
         <Button block>Full width, a long label wraps instead of overflowing</Button>
@@ -304,6 +317,8 @@ const checklist = [
       <div class="flex flex-wrap items-center gap-6">
         <ArrowLink href="#tokens" light>Here is the proof</ArrowLink>
         <ArrowLink href="#tokens" light data-hover>Hover</ArrowLink>
+        <ArrowLink href="#tokens" light icon="arrow-down">Jump down</ArrowLink>
+        <Button variant="light" icon="download" href="#tokens">Trailing icon (Research)</Button>
         <span class="ie-tag ie-tag-on-brand type-tag">Evidence</span>
         <FeatureIcon name="shield-check" size={32} />
       </div>
@@ -418,6 +433,23 @@ const checklist = [
         source="Study type · Author 2000"
         tone="vibrant"
       />
+      <EvidenceCard
+        tag="RCT"
+        tags={['Dissertation']}
+        value="−00%"
+        label="Study card (Research): extra tag, title and byline in the slot"
+      >
+        <h4 class="m-0 type-label text-foreground-body">Study title</h4>
+        <p class="m-0 type-label text-foreground-muted">
+          Author · <span class="text-foreground-body">University</span> · 2000
+        </p>
+        <dl slot="details" class="m-0 mt-4 flex flex-col gap-0.5 rounded-sm bg-background p-4">
+          <dt class="type-breadcrumb text-foreground-muted">Study design</dt>
+          <dd class="m-0 type-label text-foreground-secondary">
+            The details slot, under the rule.
+          </dd>
+        </dl>
+      </EvidenceCard>
       <div class="flex flex-col gap-4 rounded-sm bg-surface p-5 shadow-lifted lg:col-span-2">
         <p class="m-0 type-eyebrow text-foreground">
           Sample player (Platform), disabled until audio
@@ -573,10 +605,28 @@ const checklist = [
       label="Logo wall (About)"
       partners={sampleWall}
     />
+    <LogoStrip
+      class="mt-8 border-t border-border pt-8"
+      layout="marquee"
+      label="Marquee (Research)"
+      partners={samplePartners}
+    />
   </Section>
 
   <Section tone="forest" aria-labelledby="strips-brand-title">
     <h2 id="strips-brand-title" class="m-0 type-section-title text-foreground">On Forest</h2>
+    <div
+      class="ie-segmented ie-segmented-on-brand mt-8 w-86"
+      role="group"
+      aria-label="Segmented sample on Forest"
+    >
+      <button type="button" class="group" aria-pressed="true" data-alarm>
+        <span class="size-2 rounded-full bg-on-brand" aria-hidden="true"></span>Stressed
+      </button>
+      <button type="button" class="group" aria-pressed="false">
+        <span class="size-2 rounded-full bg-green-300" aria-hidden="true"></span>On Forest
+      </button>
+    </div>
     <StatStrip class="mt-8" stats={sampleStats} />
     <StatStrip class="mt-8 max-w-160" variant="ruled" stats={sampleRuled} />
     <VideoPoster

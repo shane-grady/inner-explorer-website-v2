@@ -555,6 +555,13 @@ Explorer's"`).
 - **Random ids differ every build** (`randomUUID()` newsletter field ids, SVG gradient ids,
   island `uid`s). Expect them in any marketing diff; they are not changes.
 
+- **A remap reaches everything inside it (Research, 2026-10-10).** The mobile menu `<dialog>`
+  lives inside the header, so the dark header's `[data-on-brand]` turned its ink white on a white
+  dialog. Anything with its own light ground inside a green region needs `data-on-surface`.
+- **Check the raw board before trusting a summary of it (Research, 2026-10-10).** A condensed
+  outline that kept only some style properties dropped `border-top`, and a review built on it said
+  the study cards had no rule; the raw HTML and the render both draw one. Measure or read the
+  source markup before changing a shared component on a claim.
 - **Board `fr` splits are not flex ratios (Why, 2026-10-10).** `flex: 5` / `flex: 7` on padded
   boxes counts the padding before sharing the space, so a 5fr/7fr split drawn with 40px padding
   came out 12px wide on one side, and a 12-column grid with a 96px gap overflowed at 1024. Use

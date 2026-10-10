@@ -1,18 +1,1916 @@
 ---
-// Placeholder until this page is built from the "Inner Explorer — Website" canvas
-// (FINAL V). See tasks/rebuild-plan.md for the order pages are built in.
+// Research, from the FINAL V boards Research-Experiment-Desktop (1 and 2) and
+// Research-Experiment-Mobile-1/2. Copy is verbatim, the boards' non-breaking spaces included;
+// where the boards disagree the desktop board wins. Every stat, citation and partner is as
+// drawn and unconfirmed until tasks/todo.md › Research closes; the neuron footage is the
+// board's own. The brain diagram and the dose waffles are inline SVG with text alternatives.
+import { Image } from 'astro:assets';
 import PageLayout from '../layouts/PageLayout.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import Section from '../components/ui/Section.astro';
+import Button from '../components/ui/Button.astro';
+import ArrowLink from '../components/ui/ArrowLink.astro';
+import Icon from '../components/ui/Icon.astro';
+import FeatureIcon from '../components/ui/FeatureIcon.astro';
+import Logo from '../components/ui/Logo.astro';
+import EvidenceCard from '../components/blocks/EvidenceCard.astro';
+import LogoStrip from '../components/blocks/LogoStrip.astro';
+import ClosingCta from '../components/blocks/ClosingCta.astro';
+import { MAIN_SITE } from '../lib/site';
+
+import neurons from '../assets/images/research/neurons.jpg';
 
 const content = {
   title: 'Research — Inner Explorer',
   description:
-    "Six independent controlled trials and a meta-analysis of 77 more. Forty years of MBSR research. The evidence behind Inner Explorer's daily mindfulness practice for K-12 schools.",
-  heading: 'Research',
-  lead: 'The evidence behind daily mindfulness in K-12 schools.',
+    'Six independent controlled studies and a 77-study meta-review: the evidence behind Inner Explorer’s daily mindfulness practice for PreK–12 schools.',
+  hero: {
+    title: ['It’s not a', 'behavior problem.', 'It’s'],
+    emphasis: 'biology',
+    lead: 'Two of every three children carry stress that quietly shuts down their ability to learn.',
+    primary: { label: 'Talk to our team', href: '/contact/' },
+    secondary: { label: 'Explore the research', href: '#explore' },
+    video: '/videos/research/neurons.mp4',
+    brain: {
+      group: 'Compare a stressed and a mindful brain',
+      stressed: {
+        label: 'Stressed',
+        alt: 'Side view of a brain. Stressed: the amygdala, the alarm, glows and the prefrontal cortex, the thinking part, is dim.',
+      },
+      mindful: {
+        label: 'Mindful',
+        alt: 'Side view of a brain. Mindful: the prefrontal cortex, the thinking part, glows and the amygdala, the alarm, is calm.',
+      },
+      pfc: { name: 'Prefrontal cortex', role: 'the thinking part' },
+      amygdala: { name: 'Amygdala', role: 'the alarm' },
+    },
+    pause: 'Pause motion',
+    play: 'Play motion',
+  },
+  statement: {
+    text: 'When the brain floods with stress, the thinking part goes offline.',
+    lead: 'No lesson, no curriculum, no program reaches a brain that isn’t ready. Daily mindfulness brings it back online, five minutes at a time.',
+    link: { label: 'Here is the proof.', href: '#explore' },
+  },
+  explore: {
+    eyebrow: 'Explore the research',
+    title: 'Here is the proof.',
+    nav: 'Research sections',
+    jump: 'Jump to section',
+    items: [
+      {
+        number: '01',
+        title: 'The evidence',
+        text: 'Six studies, and the source behind every number we share.',
+        href: '#evidence',
+      },
+      {
+        number: '02',
+        title: 'Why it works',
+        text: 'How stress shuts learning down, and how daily practice brings it back.',
+        href: '#science',
+      },
+      {
+        number: '03',
+        title: 'Fair questions',
+        text: 'Why some mindfulness research disappoints, and the AI moment.',
+        href: '#questions',
+      },
+    ],
+  },
+  evidence: {
+    number: '01',
+    eyebrow: 'The evidence',
+    title: 'Six independent controlled studies.',
+    badge: 'ESSA Tier 1 · Strong evidence',
+    lead: 'Four randomized controlled trials and two controlled studies, all led by academic researchers. Two of the six are doctoral dissertations.',
+    outcomes: {
+      title: 'The Outcomes',
+      lead: 'Results for students and for the teachers who practice alongside them.',
+      groups: [
+        {
+          eyebrow: 'Academics',
+          title: 'Higher grades. Better test scores.',
+          text: 'Four independent studies found measurable gains in reading, math, and science grades and on standardized tests, for general‑ed and special‑ed students alike.',
+          claims: [
+            { text: 'Higher state math scores', cite: 'Stager 2022', href: '#study-s4' },
+            { text: 'Higher overall GPA', cite: 'Bakosh 2016', href: '#study-s1' },
+            { text: 'Higher math grades', cite: 'Bakosh 2018', href: '#study-s2' },
+            { text: 'Higher reading grades', cite: 'Bakosh 2016', href: '#study-s1' },
+          ],
+        },
+        {
+          eyebrow: 'Behavior & well-being',
+          title: 'Fewer disruptions. Calmer classrooms.',
+          text: 'Schools using Inner Explorer daily report meaningful drops in behavior referrals and a measurable shift in classroom climate.',
+          claims: [
+            { text: 'Fewer behavior referrals', cite: 'Bakosh 2016', href: '#study-s1' },
+            { text: 'Less student stress', cite: 'Treves 2023', href: '#study-s6' },
+            { text: 'Better self-control and attention', cite: 'Lopez 2020', href: '#study-s3' },
+          ],
+        },
+        {
+          eyebrow: 'Teachers',
+          title: 'Teachers stay. Teachers thrive.',
+          text: 'Daily practice, launched when the teacher presses “play,” lowers stress and improves classroom management, because the teacher does the practice too.',
+          claims: [
+            { text: 'Less teacher stress', cite: 'Bakosh 2018', href: '#study-s2' },
+            { text: 'Less burnout and secondary trauma', cite: 'Lopez 2020', href: '#study-s3' },
+            { text: 'Better classroom management', cite: 'Lopez 2020', href: '#study-s3' },
+          ],
+        },
+      ],
+    },
+    studies: {
+      title: 'The six studies',
+      lead: 'The main number from each study.',
+      legend: [
+        { label: 'Academic results', tone: 'emerald' },
+        { label: 'Behavior & well-being', tone: 'vibrant' },
+      ],
+      prompt: 'Want the details behind each number?',
+      swipe: 'Swipe for all 6',
+      items: [
+        {
+          id: 's1',
+          tag: 'Controlled study',
+          tone: 'vibrant',
+          value: '−60%',
+          label: 'Behavior referrals',
+          title: 'Maximizing mindful learning',
+          authors: 'Bakosh et al.',
+          institution: 'University of London',
+          year: '2016',
+          details: [
+            {
+              term: 'Study design',
+              text: 'Controlled study in eight 3rd-grade classrooms. Inner Explorer ran 10 minutes a day during normal transition times, with no change to curriculum.',
+            },
+            {
+              term: 'All results',
+              text: 'Overall GPA +15%. Reading grades +18.8%. Math grades +11.2%. Science grades +20.6%. 60% fewer principal office referrals.',
+            },
+            { term: 'Published', text: 'Mindfulness, vol. 7, pp. 59-67, 2016.' },
+          ],
+        },
+        {
+          id: 's2',
+          tag: 'RCT',
+          tone: 'vibrant',
+          value: '−43%',
+          label: 'Teacher stress',
+          title: 'Audio-guided mindfulness training in schools',
+          authors: 'Bakosh et al.',
+          institution: 'University of London',
+          year: '2018',
+          details: [
+            {
+              term: 'Study design',
+              text: 'Randomized controlled trial in two schools, using 10 minutes a day of pre-recorded audio practice.',
+            },
+            {
+              term: 'Students',
+              text: 'GPA +29% in School A and +9.8% in School B. Math grades +27.9% in School A and +18% in School B. Students from disadvantaged backgrounds, especially English Language Learners, benefited.',
+            },
+            { term: 'Teachers', text: '43% less stress and 47% higher trait mindfulness.' },
+            { term: 'Published', text: 'Learning & Instruction, vol. 58, pp. 34-41, 2018.' },
+          ],
+        },
+        {
+          id: 's3',
+          tag: 'RCT',
+          tone: 'vibrant',
+          value: '+27%',
+          label: 'Classroom management',
+          title: 'A randomized trial in 39 Head Start classrooms',
+          authors: 'Lopez et al.',
+          institution: 'University of South Florida',
+          year: '2020',
+          details: [
+            {
+              term: 'Study design',
+              text: 'Randomized controlled trial with staff in 39 Head Start classrooms across 13 centers, using the 5-minute-a-day Early Learning series.',
+            },
+            {
+              term: 'Teachers',
+              text: 'Significant drops in stress, burnout and secondary trauma. Gains in mindfulness, classroom management and compassion satisfaction.',
+            },
+            {
+              term: 'Teacher results',
+              text: 'Burnout and secondary trauma −14%. Classroom management +27%.',
+            },
+            {
+              term: 'Students',
+              text: 'Better inhibitory control and attention shifting, two executive function skills.',
+            },
+            { term: 'Status', text: 'Under review.' },
+          ],
+        },
+        {
+          id: 's4',
+          tag: 'Controlled study',
+          tags: ['Dissertation'],
+          tone: 'emerald',
+          value: '+21%',
+          label: '6th-grade state math scores',
+          title: 'Mindfulness and state test scores',
+          authors: 'Stager',
+          institution: 'University of La Verne',
+          year: '2022',
+          details: [
+            {
+              term: 'Study design',
+              text: 'Two comparable schools: a K-6 school that used Inner Explorer regularly, and one that did not.',
+            },
+            {
+              term: 'Measure',
+              text: '6th-grade math scores on California’s state test (CAASPP).',
+            },
+            {
+              term: 'Result',
+              text: 'A statistically significant gain of 7.8 points, a 21% improvement.',
+            },
+            { term: 'Status', text: 'Doctoral dissertation, University of La Verne.' },
+          ],
+        },
+        {
+          id: 's5',
+          tag: 'RCT',
+          tags: ['Dissertation'],
+          tone: 'emerald',
+          value: '+26.6%',
+          label: 'Reading test scores, students with disabilities',
+          title: 'Impact of Inner Explorer on academic growth',
+          authors: 'Dunlap',
+          institution: 'UNC Charlotte',
+          year: '2023',
+          details: [
+            {
+              term: 'Study design',
+              text: 'Clustered randomized controlled trial with general education students and students with disabilities.',
+            },
+            {
+              term: 'Measures',
+              text: 'Math and reading grades, and MAP standardized test scores.',
+            },
+            {
+              term: 'General education',
+              text: 'Math grades +3.6%, math MAP +4.3%. Reading grades +3.2%, reading MAP +6.4%.',
+            },
+            {
+              term: 'Students with disabilities',
+              text: 'Reading grades +6.3%, reading MAP +26.6%. Math grades +9.6%, math MAP +22%.',
+            },
+            {
+              term: 'Status',
+              text: 'Doctoral dissertation, UNC Charlotte. Journal publication forthcoming, 2026.',
+            },
+          ],
+        },
+        {
+          id: 's6',
+          tag: 'RCT',
+          tone: 'vibrant',
+          value: '−28%',
+          label: 'Student stress over 8 weeks',
+          title: 'At-home use of app‑based mindfulness',
+          authors: 'Treves et al.',
+          institution: 'MIT McGovern Institute',
+          year: '2023',
+          details: [
+            {
+              term: 'Study design',
+              text: 'Randomized trial with 8- to 10-year-olds practicing at home with a parent for 8 weeks, compared with two audiobook groups.',
+            },
+            {
+              term: 'Results',
+              text: 'Less negative emotion, fewer depression symptoms, better executive function and behavior regulation, and less parent stress.',
+            },
+            {
+              term: 'Compared with audiobook groups',
+              text: 'A bigger drop in negative emotions, as reported by parents.',
+            },
+            {
+              term: 'Dose',
+              text: 'Children who practiced more consistently saw the biggest benefits.',
+            },
+            { term: 'Published', text: 'Mindfulness, 2023.' },
+          ],
+        },
+      ],
+    },
+    review: {
+      eyebrow: 'Plus the wider field',
+      value: '77',
+      label: 'studies reviewed, including 2 on Inner Explorer',
+      reach: '12,358 students · five continents',
+      tag: 'Meta-review',
+      year: '2022',
+      cite: 'S7',
+      title: 'Mindfulness-based school interventions',
+      source: 'Phan et al. · University of Pennsylvania · Mindfulness, 2022',
+      lists: [
+        {
+          title: 'Strongest evidence: increases',
+          items: [
+            'Prosocial behavior',
+            'Resilience',
+            'Executive function and attention',
+            'Mindfulness',
+          ],
+        },
+        {
+          title: 'Strongest evidence: decreases',
+          items: ['Anxiety', 'Attention problems and ADHD behaviors', 'Conduct behaviors'],
+        },
+      ],
+      note: 'A meta-review combines the findings of many separate studies and grades the quality of the evidence to see what holds up across all of them. “Strongest evidence” means the review’s top A grade. These 77 studies cover school mindfulness broadly, not only Inner Explorer. Results for general well-being were mixed.',
+    },
+    footnote: 'RCT = randomized controlled trial. Sources S1 to S7 are listed in Full citations.',
+    citationsLink: { label: 'Full citations', href: '#citations' },
+    // The board's visible list; its hidden loop copy swaps London for Loyola Marymount (todo).
+    partners: {
+      label: 'Research partners',
+      names: [
+        'MIT McGovern Institute',
+        'University of South Florida',
+        'UNC Charlotte',
+        'University of La Verne',
+        'University of London',
+      ],
+    },
+    district: {
+      eyebrow: 'Behavior & aggression',
+      tag: 'District data',
+      title: 'When kids can’t find the pause.',
+      text: 'Beyond the trials, schools see it where they already keep count. Not in a survey. In the referral log.',
+      more: 'Teachers are seeing it everywhere: students who escalate faster, melt down harder, and can’t put a beat between a trigger and their reaction. That isn’t defiance. It’s a nervous system stuck in fight-or-flight, with the part of the brain that governs anger and impulse knocked offline by chronic stress.',
+      link: { label: 'Why it happens: the pause', href: '#science' },
+      figure: {
+        title: 'District results',
+        tag: 'District-reported',
+        tiles: [
+          { value: '−80%', label: 'Behavior referrals · MeckPreK, NC', tone: 'cyan' },
+          {
+            value: '−48%',
+            label: 'Behavior referrals · Stephens Elementary, Alexander City, AL',
+            tone: 'green',
+          },
+          { value: '−39%', label: 'Behavior referrals · GVSA Charlotte, NC', tone: 'yellow' },
+          { value: '−56%', label: 'Suspensions · PATHS, Fulton County, GA', tone: 'orange' },
+          { value: '+10%', label: 'Attendance', tone: 'tint' },
+        ],
+        source: 'School- and district-supplied data, 2025–26 school year',
+      },
+    },
+    foundation: {
+      eyebrow: 'The foundation SEL assumes',
+      tag: 'Framework',
+      title: 'Social, behavioral, and emotional skill development.',
+      text: 'Inner Explorer covers the same competencies that every social and emotional curriculum targets: self-awareness, emotional regulation, resilience, relationship skills, responsible decision-making, as well as discernment and critical thinking.',
+      more: 'The difference is how they’re built. Curricula teach the concepts, and children learn them. A student can define self-regulation, name four calming strategies, and ace the unit. Then lose every bit of it the moment they’re flooded. Social competence doesn’t run on understanding. It runs on a nervous system that stays regulated when something goes wrong, and that is trained through repetition, not instruction.',
+      close:
+        'Five minutes a day, every day, is the repetition. Not a lesson about calm. The practice of it, until the body does it on its own.',
+    },
+  },
+  science: {
+    number: '02',
+    eyebrow: 'Why it works',
+    title: 'When stress goes, learning returns.',
+    prompt: 'Want the details?',
+    steps: [
+      {
+        number: '01',
+        title: 'Stress takes thinking offline',
+        text: 'When stress overwhelms the brain through the automatic fight-flight-freeze response, higher-order thinking takes a back seat. Working memory shrinks. Attention narrows.',
+      },
+      {
+        number: '02',
+        title: 'Daily practice rewires it',
+        text: 'Daily mindful practice rewires those networks, measurably, day by day. The teacher presses “play” and joins the practice with students.',
+      },
+      {
+        number: '03',
+        title: 'Built on four decades of science',
+        text: 'Inner Explorer’s daily practice is aligned with Mindfulness-Based Stress Reduction, the most widely studied mindfulness curriculum on Earth, with',
+        strong: '16,000+ studies',
+      },
+    ],
+    deeper: {
+      eyebrow: 'The deeper science',
+      paragraphs: [
+        'Stress comes from many sources, both inside and outside of school. When it overwhelms the brain through the automatic fight-flight-freeze response, higher-order thinking takes a back seat. Working memory shrinks. Attention narrows. The capacity to absorb information collapses.',
+        'Two of every three children experience adverse childhood experiences with lasting effects. Toxic stress doesn’t sit on top of learning. It physically rewires the developing brain, dampening executive function and amplifying the very stress response that began the cycle.',
+        'We translate that science into five to ten minutes a day. The teacher presses “play” on the next practice in the sequence and joins the daily classroom practice with students.',
+        'The result, measured again and again in controlled trials: classrooms get calmer. Behavior referrals drop. Grades rise. Teachers report less stress. Students report less stress. Not because anyone was taught to behave differently, but because their biology changed.',
+      ],
+    },
+    pause: {
+      eyebrow: 'The pause',
+      title: 'Why it happens',
+      steps: [
+        {
+          number: '01',
+          title: 'The threat is misread',
+          text: 'There’s a layer beneath the reaction. A child under chronic stress isn’t reading the room the way you are. Researchers using EEG and eye-tracking found that adolescents who had experienced adversity showed blunted neural discrimination between angry faces and neutral ones. Their brains treated an ordinary expression much like a hostile one. Walking into a classroom, they are not seeing the room you see.',
+        },
+        {
+          number: '02',
+          title: 'Belonging can’t land',
+          text: 'That’s why belonging can’t be assigned. Schools work hard to build connection, and connection matters enormously: students who feel connected at school report poor mental health at roughly half the rate of students who don’t. But a child whose threat detection is miscalibrated cannot perceive the safety a school is offering. Safety is not a feeling adults can hand to a student. It’s a reading their nervous system has to be able to make.',
+        },
+        {
+          number: '03',
+          title: 'Practice builds the pause',
+          text: 'Mindfulness builds the one thing those students are missing: the pause. Daily practice strengthens emotion regulation and the prefrontal control that lets a child feel anger without acting on it. It also lowers amygdala reactivity, which recalibrates the threat detection running underneath. When a neutral face reads as neutral again, the room stops being a threat, and belonging finally has somewhere to land. The wider research agrees: school-based mindfulness programs show meaningful reductions in aggressive and disruptive behavior.',
+        },
+      ],
+      note: {
+        before: 'Draws on the wider research field',
+        cites: ['B1', 'B2', 'B3'],
+        after: '. District results are in the evidence section above.',
+      },
+    },
+    layer: {
+      eyebrow: 'The missing layer',
+      title: ['The curriculum works.', 'The brain it lands on isn’t ready.'],
+      more: [
+        'Districts have done the work. New reading curricula grounded in research. Math intervention. Tutoring. MTSS. Behavior systems. Resilience and life skills. All of it is well designed and led by people who care. And all of it quietly assumes one thing: that the child in the chair is neurologically ready to learn. Two of three of them aren’t.',
+        'A science-of-reading lesson can’t reach a prefrontal cortex that’s offline. A behavior plan can’t regulate a nervous system stuck in fight-or-flight. The missing piece isn’t a better program or better instruction. It’s the biological foundation that lets every other program finally work.',
+      ],
+      text: 'That’s what five minutes a day builds. Not another initiative. The readiness underneath all of them.',
+    },
+    wall: {
+      group: 'Show the wall',
+      sand: {
+        label: 'On sand',
+        alt: 'Six district initiatives tilted and cracked, resting on sand with no foundation.',
+        base: 'Sand · no foundation',
+      },
+      foundation: {
+        label: 'On a foundation',
+        alt: 'Six district initiatives resting on the Inner Explorer foundation.',
+        base: 'The readiness underneath all of them.',
+      },
+      // Each block's tilt on sand, and which side cracks, as the board draws them.
+      blocks: [
+        { label: 'New reading curricula', dx: -2, dy: -6, tilt: 3, crack: 'start' },
+        { label: 'Math intervention', dx: 3, dy: 0, tilt: -3.5 },
+        { label: 'Tutoring', dx: 2, dy: -8, tilt: 4.5, crack: 'end' },
+        { label: 'MTSS', dx: 0, dy: 12, tilt: -4 },
+        { label: 'Behavior systems', dx: 2, dy: 8, tilt: 2.5, crack: 'start' },
+        { label: 'Resilience and life skills', dx: -2, dy: 14, tilt: -2 },
+      ],
+      quote:
+        'You wouldn’t build a house on sand and wonder why the walls keep cracking. It’s a biological problem. It needs a biological solution.',
+    },
+  },
+  questions: {
+    number: '03',
+    eyebrow: 'A fair question',
+    title: '“Doesn’t some research say mindfulness doesn’t work?”',
+    lead: 'The programs that disappoint share one trait: the kids barely practiced. Inner Explorer is daily, teacher-launched, and built into the school day. No screens, five to ten minutes. Ease and consistency are the whole difference.',
+    prompt: 'Want the details?',
+    more: 'You may have seen the headlines. Look at the studies underneath them. In the largest, the UK’s MYRIAD trial, students practiced outside of class on average about once over the entire program, and most never practiced at all. A skill you use once doesn’t rewire a brain. That isn’t a finding against mindfulness. It’s a finding about dose.',
+    moreCite: 'B4',
+    cta: { label: 'See why schools choose Inner Explorer', href: '/why-inner-explorer/' },
+    dose: {
+      series: [
+        {
+          name: 'MYRIAD trial, UK',
+          cite: 'B4',
+          title: 'Practiced once',
+          text: 'outside of class, over the entire program',
+          alt: '180 school days, one of them practiced outside class',
+          practiced: [23],
+          tone: 'alarm',
+        },
+        {
+          name: 'Inner Explorer',
+          title: 'Practiced daily',
+          text: 'five to ten minutes, teacher-launched, built into the school day',
+          alt: '180 school days, every one of them practiced',
+          practiced: 'all',
+          tone: 'brand',
+        },
+      ],
+      caption: 'Illustrative. Each square is one day of a 180-day school year.',
+    },
+  },
+  ai: {
+    eyebrow: 'The AI moment',
+    title: ['AI accelerates.', 'Mindfulness navigates.'],
+    text: 'AI is now everywhere children learn. The pattern in the research is consistent: AI is powerful, but without a cognitively prepared human at the controls, that power backfires.',
+    download: {
+      label: 'Download the AI + Mindfulness Research Library',
+      href: 'https://learn.innerexplorer.com/download-the-ai-and-mindfulness-resource-library',
+    },
+    statement:
+      'AI provides power. Mindfulness builds the executive function that provides control.',
+  },
+  cta: {
+    title: 'Bring mindfulness into your classrooms.',
+    primary: { label: 'Talk to our team', href: '/contact/' },
+  },
+  citations: {
+    title: 'Full citations',
+    note: 'The aggression section draws on the wider research field rather than Inner Explorer’s own trials. Publishing those citations is what keeps the evidentiary distinction honest.',
+    link: 'Link',
+    show: 'Show all citations',
+    hide: 'Hide citations',
+    groups: [
+      {
+        title: 'Inner Explorer studies',
+        items: [
+          {
+            id: 'S1',
+            text: 'Bakosh, L., Snow, R., Houlihan, J., Tobias, J., & Barbosa-Leiker, C. (2016). Maximizing mindful learning: An innovative mindful awareness intervention improves elementary students’ quarterly grades. ',
+            em: 'Mindfulness, 7',
+            after: ', 59-67. Controlled study.',
+            href: 'https://doi.org/10.1007/s12671-015-0387-6',
+          },
+          {
+            id: 'S2',
+            text: 'Bakosh, L., Houlihan, J., & Tobias, J. (2018). Audio-guided mindfulness training in schools and its salutary effect on school attainment: Contributing to theory, practice, and policy. ',
+            em: 'Learning & Instruction, 58',
+            after: ', 34-41. RCT.',
+            href: 'https://doi.org/10.1016/j.learninstruc.2018.04.012',
+          },
+          {
+            id: 'S3',
+            text: 'Lopez, L., et al. (2020). A randomized controlled trial of a brief daily mindfulness intervention in 39 Head Start classrooms. University of South Florida. RCT · Under review.',
+          },
+          {
+            id: 'S4',
+            text: 'Stager, A. (2022). Determining the degree to which active use of mindfulness with elementary students affects their annual state test scores in math. Doctoral dissertation, University of La Verne. Controlled study.',
+            href: 'https://www.proquest.com/docview/2649292970',
+          },
+          {
+            id: 'S5',
+            text: 'Dunlap, R. (2023). An analysis of the impact of the Inner Explorer mindfulness program on academic growth of elementary students. Doctoral dissertation, University of North Carolina at Charlotte. Clustered RCT · Journal publication forthcoming 2026.',
+            href: 'https://www.proquest.com/openview/b57a1e7410edeefa5e3370819025535e/1.pdf?pq-origsite=gscholar&cbl=18750&diss=y',
+          },
+          {
+            id: 'S6',
+            text: 'Treves, I., et al. (2023). At-home use of app-based mindfulness for children: A randomized active-controlled trial. ',
+            em: 'Mindfulness',
+            after: '. RCT.',
+            href: 'https://doi.org/10.1007/s12671-023-02231-3',
+          },
+          {
+            id: 'S7',
+            text: 'Phan, M. L., Renshaw, T. L., Caramanico, J., Greeson, J. M., MacKenzie, E., Atkinson-Diaz, Z., Doppelt, N., Tai, H., Mandell, D. S., & Nuske, H. J. (2022). Mindfulness-based school interventions: A systematic review of outcome evidence quality by study design. ',
+            em: 'Mindfulness, 13',
+            after: '(7), 1591-1613.',
+            href: 'https://doi.org/10.1007/s12671-022-01885-9',
+          },
+        ],
+      },
+      {
+        title: 'School-based mindfulness, behavior and emotion regulation',
+        items: [
+          {
+            id: 'B1',
+            text: 'D’Souza, F., & Smyth, L. (2025). The array of outcomes associated with mindfulness interventions in schools. Mindfulness, 16, 2132–2155.',
+          },
+          {
+            id: 'B2',
+            text: 'Maynard, B. R., et al. (2017). Mindfulness-based interventions for improving cognition, academic achievement, behavior, and socioemotional functioning of students. Campbell Systematic Reviews.',
+          },
+          {
+            id: 'B3',
+            text: 'Montgomery, et al. (2023). School-based mindfulness and emotional regulation in 7–12-year-olds: a systematic review and meta-analysis. Mindfulness, 14.',
+          },
+          {
+            id: 'B4',
+            text: 'Montero-Marin, J., et al. / MYRIAD Team (2022). School-based mindfulness training and adolescent mental health; and the reanalysis of Dunning et al. (2022). Note the near-zero practice adherence.',
+          },
+        ],
+      },
+    ],
+    // For the JSON-LD: each Inner Explorer study as a ScholarlyArticle.
+    studies: [
+      {
+        id: 'S1',
+        name: 'Maximizing mindful learning: An innovative mindful awareness intervention improves elementary students’ quarterly grades',
+        authors: ['L. Bakosh', 'R. Snow', 'J. Houlihan', 'J. Tobias', 'C. Barbosa-Leiker'],
+        year: '2016',
+        periodical: 'Mindfulness',
+      },
+      {
+        id: 'S2',
+        name: 'Audio-guided mindfulness training in schools and its salutary effect on school attainment: Contributing to theory, practice, and policy',
+        authors: ['L. Bakosh', 'J. Houlihan', 'J. Tobias'],
+        year: '2018',
+        periodical: 'Learning & Instruction',
+      },
+      {
+        id: 'S3',
+        name: 'A randomized controlled trial of a brief daily mindfulness intervention in 39 Head Start classrooms',
+        authors: ['L. Lopez'],
+        year: '2020',
+        publisher: 'University of South Florida',
+      },
+      {
+        id: 'S4',
+        name: 'Determining the degree to which active use of mindfulness with elementary students affects their annual state test scores in math',
+        authors: ['A. Stager'],
+        year: '2022',
+        publisher: 'University of La Verne',
+      },
+      {
+        id: 'S5',
+        name: 'An analysis of the impact of the Inner Explorer mindfulness program on academic growth of elementary students',
+        authors: ['R. Dunlap'],
+        year: '2023',
+        publisher: 'University of North Carolina at Charlotte',
+      },
+      {
+        id: 'S6',
+        name: 'At-home use of app-based mindfulness for children: A randomized active-controlled trial',
+        authors: ['I. Treves'],
+        year: '2023',
+        periodical: 'Mindfulness',
+      },
+      {
+        id: 'S7',
+        name: 'Mindfulness-based school interventions: A systematic review of outcome evidence quality by study design',
+        authors: ['M. L. Phan', 'T. L. Renshaw', 'H. J. Nuske'],
+        year: '2022',
+        periodical: 'Mindfulness',
+      },
+    ],
+  },
+} as const;
+
+const TONE_SWATCH = { emerald: 'text-brand-emphasis', vibrant: 'text-icon-accent' } as const;
+const TILE = {
+  cyan: 'bg-cyan-200',
+  green: 'bg-green-100',
+  yellow: 'bg-yellow-200',
+  orange: 'bg-orange-200',
+  tint: 'bg-tint',
+} as const;
+
+// The dose waffles: 180 days, 13px squares on a 16px pitch, 36 a row from md and 18 below.
+const DAYS = 180;
+const waffle = (columns: number, practiced: readonly number[] | 'all') => ({
+  width: columns * 16 - 3,
+  height: Math.ceil(DAYS / columns) * 16 - 3,
+  days: Array.from({ length: DAYS }, (_, i) => ({
+    x: (i % columns) * 16,
+    y: Math.floor(i / columns) * 16,
+    practiced: practiced === 'all' || practiced.includes(i),
+  })),
+});
+const DOSE_FILL = { alarm: 'fill-coral-600', brand: 'fill-brand' } as const;
+const DOSE_DOT = { alarm: 'bg-coral-600', brand: 'bg-icon-accent' } as const;
+
+interface Citation {
+  id: string;
+  text: string;
+  em?: string;
+  after?: string;
+  href?: string;
+}
+interface WallBlock {
+  label: string;
+  dx: number;
+  dy: number;
+  tilt: number;
+  crack?: 'start' | 'end';
+}
+const citationGroups: readonly { title: string; items: readonly Citation[] }[] =
+  content.citations.groups;
+const wallBlocks: readonly WallBlock[] = content.science.wall.blocks;
+const citationUrl = (id: string) =>
+  citationGroups.flatMap((g) => g.items).find((c) => c.id === id)?.href;
+
+const base = new URL(Astro.site ?? MAIN_SITE).origin;
+const researchLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'The Research Behind Inner Explorer',
+  name: content.title,
+  description: content.description,
+  url: `${base}/research/`,
+  inLanguage: 'en-US',
+  datePublished: '2026-05-28',
+  about: 'Mindfulness research in PreK–12 schools',
+  publisher: {
+    '@type': 'Organization',
+    name: 'Inner Explorer',
+    url: base,
+    logo: `${base}/logo.png`,
+  },
+  citation: content.citations.studies.map((study) => ({
+    '@type': 'ScholarlyArticle',
+    name: study.name,
+    author: study.authors.map((name) => ({ '@type': 'Person', name })),
+    datePublished: study.year,
+    ...('periodical' in study
+      ? { isPartOf: { '@type': 'Periodical', name: study.periodical } }
+      : { publisher: { '@type': 'Organization', name: study.publisher } }),
+    ...(citationUrl(study.id) ? { url: citationUrl(study.id) } : {}),
+  })),
 };
+
+const { hero, statement, explore, evidence, science, questions, ai, cta, citations } = content;
+const { brain } = hero;
 ---
 
-<PageLayout title={content.title} description={content.description}>
-  <h1>{content.heading}</h1>
-  <p>{content.lead}</p>
+<PageLayout title={content.title} description={content.description} header="dark">
+  <JsonLd slot="head" schema={researchLd} />
+
+  <div data-research>
+    {/* Hero: the line-art brain over dimmed neuron footage, under the dark header. */}
+    <section
+      aria-labelledby="hero-title"
+      class="relative overflow-hidden bg-brand-surface-deep px-section-x pt-(--header-height-mobile) xl:pt-(--header-height)"
+      data-on-brand
+    >
+      <Image
+        src={neurons}
+        alt=""
+        class="absolute inset-0 size-full object-cover opacity-26"
+        loading="eager"
+      />
+      <video
+        class="absolute inset-0 size-full object-cover opacity-26"
+        muted
+        loop
+        playsinline
+        preload="none"
+        aria-hidden="true"
+        data-hero-video
+      >
+        <source src={hero.video} type="video/mp4" />
+      </video>
+      <div class="ie-hero-scrim absolute inset-0" aria-hidden="true"></div>
+      <div class="ie-hero-scrim-figure absolute inset-0" aria-hidden="true"></div>
+
+      <div
+        class="relative mx-auto grid max-w-page items-center gap-7 pt-8 pb-22 lg:min-h-205 lg:grid-cols-2 lg:gap-12 lg:pt-10 lg:pb-24"
+      >
+        <div class="flex min-w-0 flex-col">
+          <h1 id="hero-title" class="m-0 type-page-title text-foreground">
+            {hero.title[0]}<br />{hero.title[1]}<br />{hero.title[2]}{' '}
+            <span class="text-green-300"
+              ><span class="relative inline-block pb-4.5"
+                >{hero.emphasis}<span
+                  class="ie-accent-bar absolute inset-x-0 bottom-0"
+                  aria-hidden="true"></span></span
+              >.</span
+            >
+          </h1>
+          <p class="m-0 mt-7 max-w-135 type-lead-lg text-balance text-foreground-secondary">
+            {hero.lead}
+          </p>
+          <div class="mt-7 flex flex-col gap-3 md:flex-row lg:mt-10">
+            <Button href={hero.primary.href} arrow>{hero.primary.label}</Button>
+            <Button variant="ghost" href={hero.secondary.href}>{hero.secondary.label}</Button>
+          </div>
+        </div>
+
+        <div class="flex min-w-0 flex-col items-center gap-7">
+          <div class="w-full max-w-87.5 lg:max-w-150" data-brain="stressed">
+            <svg
+              viewBox="0 0 520 344"
+              class="block h-auto w-full overflow-visible font-sans"
+              role="img"
+              aria-label={brain.stressed.alt}
+              data-brain-figure
+              data-alt-stressed={brain.stressed.alt}
+              data-alt-mindful={brain.mindful.alt}
+            >
+              <defs>
+                <clipPath id="brain-clip">
+                  <path
+                    d="M 104 178 C 90 128 118 80 170 56 C 218 34 286 28 342 44 C 396 60 438 100 444 150 C 448 184 430 208 402 216 C 374 222 352 226 330 234 C 306 246 280 262 244 264 C 206 266 172 254 154 230 C 146 220 150 208 166 204 C 146 206 116 200 104 178 Z"
+                  ></path>
+                </clipPath>
+                <radialGradient id="brain-pfc" cx="0.5" cy="0.5" r="0.5">
+                  <stop offset="0" class="ie-stop-leaf" stop-opacity="1"></stop>
+                  <stop offset="0.2" class="ie-stop-leaf" stop-opacity="0.82"></stop>
+                  <stop offset="0.45" class="ie-stop-leaf" stop-opacity="0.42"></stop>
+                  <stop offset="0.7" class="ie-stop-leaf" stop-opacity="0.14"></stop>
+                  <stop offset="1" class="ie-stop-leaf" stop-opacity="0"></stop>
+                </radialGradient>
+                <radialGradient id="brain-amy" cx="0.5" cy="0.5" r="0.5">
+                  <stop offset="0" class="ie-stop-alarm" stop-opacity="1"></stop>
+                  <stop offset="0.2" class="ie-stop-alarm" stop-opacity="0.8"></stop>
+                  <stop offset="0.45" class="ie-stop-alarm-fade" stop-opacity="0.4"></stop>
+                  <stop offset="0.7" class="ie-stop-alarm-fade" stop-opacity="0.12"></stop>
+                  <stop offset="1" class="ie-stop-alarm-fade" stop-opacity="0"></stop>
+                </radialGradient>
+                <filter
+                  id="brain-soft"
+                  x="-50%"
+                  y="-50%"
+                  width="200%"
+                  height="200%"
+                  color-interpolation-filters="sRGB"
+                >
+                  <feGaussianBlur stdDeviation="8"></feGaussianBlur>
+                </filter>
+                <filter id="brain-ring" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur stdDeviation="1.2"></feGaussianBlur>
+                </filter>
+              </defs>
+              <path
+                d="M 290 254 C 300 276 304 298 300 330 C 310 336 322 336 330 330 C 326 302 328 276 334 248 Z"
+                class="fill-green-800 stroke-on-brand-muted"
+                stroke-opacity="0.6"
+                stroke-width="2"
+                stroke-linejoin="round"></path>
+              <path
+                d="M 326 232 C 334 258 364 276 398 272 C 430 268 446 244 436 220 C 428 204 410 206 392 214 C 370 222 346 226 326 232 Z"
+                class="fill-green-800 stroke-on-brand-muted"
+                stroke-opacity="0.75"
+                stroke-width="2"
+                stroke-linejoin="round"></path>
+              <g
+                fill="none"
+                class="stroke-on-brand-muted"
+                stroke-opacity="0.35"
+                stroke-width="1.5"
+                stroke-linecap="round"
+              >
+                <path d="M 338 246 C 362 250 398 250 430 236"></path>
+                <path d="M 346 258 C 370 262 404 260 432 248"></path>
+                <path d="M 360 268 C 384 272 410 268 428 258"></path>
+              </g>
+              <path
+                d="M 104 178 C 90 128 118 80 170 56 C 218 34 286 28 342 44 C 396 60 438 100 444 150 C 448 184 430 208 402 216 C 374 222 352 226 330 234 C 306 246 280 262 244 264 C 206 266 172 254 154 230 C 146 220 150 208 166 204 C 146 206 116 200 104 178 Z"
+                class="fill-green-800"></path>
+              <g clip-path="url(#brain-clip)">
+                <g data-brain-only="stressed">
+                  <ellipse
+                    cx="160"
+                    cy="118"
+                    rx="120"
+                    ry="104"
+                    fill="url(#brain-pfc)"
+                    filter="url(#brain-soft)"
+                    opacity="0.08"></ellipse>
+                  <circle
+                    cx="214"
+                    cy="226"
+                    r="58"
+                    fill="url(#brain-amy)"
+                    filter="url(#brain-soft)"
+                    opacity="1"></circle>
+                </g>
+                <g data-brain-only="mindful">
+                  <ellipse
+                    cx="160"
+                    cy="118"
+                    rx="120"
+                    ry="104"
+                    fill="url(#brain-pfc)"
+                    filter="url(#brain-soft)"
+                    opacity="0.62"></ellipse>
+                  <circle
+                    cx="214"
+                    cy="226"
+                    r="26"
+                    fill="url(#brain-amy)"
+                    filter="url(#brain-soft)"
+                    opacity="0.18"></circle>
+                </g>
+              </g>
+              <g
+                clip-path="url(#brain-clip)"
+                fill="none"
+                class="stroke-border-control"
+                stroke-opacity="0.4"
+                stroke-width="1.6"
+                stroke-linecap="round"
+              >
+                <path d="M 166 206 C 206 192 250 182 300 160 C 322 150 340 150 356 156"></path>
+                <path
+                  d="M 278 34 C 266 52 284 66 272 84 C 262 100 278 114 266 132 C 256 148 266 160 254 174"
+                ></path>
+                <path d="M 246 40 C 236 58 252 70 240 88 C 230 104 244 118 232 136"></path>
+                <path d="M 308 42 C 296 60 314 74 302 92 C 292 108 306 120 296 138"></path>
+                <path d="M 124 150 C 142 138 160 146 176 132 C 190 120 206 124 218 112"></path>
+                <path d="M 132 108 C 150 96 168 104 182 90 C 194 80 208 84 220 74"></path>
+                <path d="M 116 186 C 130 178 146 184 160 176"></path>
+                <path d="M 322 70 C 340 84 360 78 378 94 C 394 108 410 104 424 120"></path>
+                <path d="M 318 118 C 338 110 356 122 374 116 C 392 110 408 122 426 142"></path>
+                <path d="M 346 168 C 364 160 384 168 404 162 C 418 158 428 166 436 176"></path>
+                <path d="M 190 236 C 224 226 262 222 296 212 C 314 206 326 206 340 210"></path>
+                <path d="M 204 254 C 232 248 262 246 290 238"></path>
+                <path d="M 364 196 C 380 186 398 192 414 184"></path>
+                <path d="M 196 60 C 208 72 222 66 232 56"></path>
+              </g>
+              <path
+                d="M 104 178 C 90 128 118 80 170 56 C 218 34 286 28 342 44 C 396 60 438 100 444 150 C 448 184 430 208 402 216 C 374 222 352 226 330 234 C 306 246 280 262 244 264 C 206 266 172 254 154 230 C 146 220 150 208 166 204 C 146 206 116 200 104 178 Z"
+                fill="none"
+                class="stroke-on-brand-muted"
+                stroke-opacity="0.92"
+                stroke-width="2.2"
+                stroke-linejoin="round"></path>
+              <g data-brain-only="stressed">
+                <circle
+                  cx="214"
+                  cy="226"
+                  r="14"
+                  fill="none"
+                  class="ie-brain-pulse stroke-coral-300"
+                  stroke-width="1.6"
+                  filter="url(#brain-ring)"></circle>
+                <circle
+                  cx="214"
+                  cy="226"
+                  r="13"
+                  class="fill-coral-300"
+                  opacity="0.35"
+                  filter="url(#brain-ring)"></circle>
+                <circle cx="214" cy="226" r="7" class="fill-coral-300"></circle>
+                <circle cx="142" cy="110" r="6" class="fill-border-control" opacity="0.55"></circle>
+              </g>
+              <g data-brain-only="mindful">
+                <circle cx="214" cy="226" r="7" class="fill-border-control" opacity="0.55"></circle>
+                <circle
+                  cx="142"
+                  cy="110"
+                  r="12"
+                  class="fill-green-300"
+                  opacity="0.35"
+                  filter="url(#brain-ring)"></circle>
+                <circle cx="142" cy="110" r="6" class="fill-green-300"></circle>
+              </g>
+              <path
+                d="M 138 106 L 84 62 L 18 62"
+                fill="none"
+                class="stroke-on-brand-muted"
+                stroke-opacity="0.45"
+                stroke-width="1"></path>
+              <text
+                x="18"
+                y="37"
+                font-size="15"
+                font-weight="700"
+                class="fill-on-brand-muted"
+                data-brain-only="stressed">{brain.pfc.name}</text
+              >
+              <text
+                x="18"
+                y="37"
+                font-size="15"
+                font-weight="700"
+                class="fill-on-brand-accent"
+                data-brain-only="mindful">{brain.pfc.name}</text
+              >
+              <text x="18" y="55" font-size="13" font-weight="500" class="fill-border-control"
+                >{brain.pfc.role}</text
+              >
+              <path
+                d="M 210 233 L 190 292 L 104 292"
+                fill="none"
+                class="stroke-on-brand-muted"
+                stroke-opacity="0.45"
+                stroke-width="1"></path>
+              <text
+                x="104"
+                y="309"
+                font-size="15"
+                font-weight="700"
+                class="fill-coral-300"
+                data-brain-only="stressed">{brain.amygdala.name}</text
+              >
+              <text
+                x="104"
+                y="309"
+                font-size="15"
+                font-weight="700"
+                class="fill-on-brand-muted"
+                data-brain-only="mindful">{brain.amygdala.name}</text
+              >
+              <text x="104" y="327" font-size="13" font-weight="500" class="fill-border-control"
+                >{brain.amygdala.role}</text
+              >
+            </svg>
+          </div>
+          <div
+            class="ie-segmented ie-segmented-on-brand lg:w-86"
+            role="group"
+            aria-label={brain.group}
+            hidden
+            data-brain-switch
+          >
+            <button
+              type="button"
+              class="group"
+              aria-pressed="true"
+              data-alarm
+              data-brain-set="stressed"
+            >
+              <span
+                class="size-2 rounded-full bg-coral-600 group-aria-pressed:bg-on-brand"
+                aria-hidden="true"></span>{brain.stressed.label}
+            </button>
+            <button type="button" class="group" aria-pressed="false" data-brain-set="mindful">
+              <span
+                class="size-2 rounded-full bg-green-300 group-aria-pressed:bg-on-brand"
+                aria-hidden="true"></span>{brain.mindful.label}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        class="ie-chip absolute right-5 bottom-5 border-border-on-brand bg-brand-surface-deep text-on-brand lg:right-8 lg:bottom-7"
+        hidden
+        data-motion-toggle
+      >
+        <span class="inline-flex items-center gap-2" data-motion-when="playing">
+          <Icon name="pause" size={16} />{hero.pause}
+        </span>
+        <span class="inline-flex items-center gap-2" data-motion-when="paused" hidden>
+          <Icon name="play" size={16} />{hero.play}
+        </span>
+      </button>
+    </section>
+
+    <Section tone="forest" class="border-t border-on-brand-wash">
+      <div class="grid items-end gap-8 lg:flex lg:gap-18">
+        <p class="m-0 type-section-title tracking-tight text-balance text-foreground lg:basis-7/12">
+          {statement.text}
+        </p>
+        <div class="flex flex-col lg:basis-5/12">
+          <p class="m-0 max-w-115 type-lead text-foreground-secondary">{statement.lead}</p>
+          <ArrowLink
+            href={statement.link.href}
+            light
+            icon="arrow-down"
+            class="mt-2 self-start text-on-brand-accent"
+          >
+            {statement.link.label}
+          </ArrowLink>
+        </div>
+      </div>
+    </Section>
+
+    {/* Explore: three jump cards. */}
+    <Section id="explore" aria-labelledby="explore-title">
+      <p class="m-0 type-eyebrow text-brand-emphasis">{explore.eyebrow}</p>
+      <h2 id="explore-title" class="m-0 mt-4 type-section-title text-foreground">
+        {explore.title}
+      </h2>
+      <nav aria-label={explore.nav} class="mt-7 lg:mt-12">
+        <ul class="m-0 grid list-none gap-2 p-0 lg:grid-cols-3 lg:gap-4">
+          {
+            explore.items.map((item) => (
+              <li class="ie-card ie-card-raised flex gap-0 p-4 lg:min-h-65 lg:flex-col lg:p-7">
+                <span class="w-8 shrink-0 pt-0.5 type-small font-bold text-brand-emphasis tabular-nums lg:w-auto lg:pt-0">
+                  {item.number}
+                </span>
+                <div class="flex min-w-0 grow flex-col lg:mt-5">
+                  <h3 class="m-0 type-card-title-md text-foreground lg:type-card-title-lg">
+                    <a class="ie-card-link" href={item.href}>
+                      {item.title}
+                    </a>
+                  </h3>
+                  <p class="m-0 mt-1 type-label text-foreground-body lg:mt-3 lg:type-list">
+                    {item.text}
+                  </p>
+                  <span
+                    class="mt-3 inline-flex items-center gap-2 type-label font-bold text-brand-emphasis lg:mt-auto lg:pt-6 lg:type-small lg:font-bold"
+                    aria-hidden="true"
+                  >
+                    {explore.jump}
+                    <Icon name="arrow-down" size={16} />
+                  </span>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </Section>
+
+    {/* 01 The evidence. */}
+    <Section id="evidence" tone="white" aria-labelledby="evidence-title">
+      <div class="grid gap-5 lg:flex lg:items-end lg:gap-18">
+        <div class="lg:basis-7/12">
+          <p class="m-0 flex items-center gap-2.5 type-eyebrow text-brand-emphasis">
+            <span>{evidence.number}</span>
+            <span class="h-px w-6 bg-current opacity-50" aria-hidden="true"></span>
+            {evidence.eyebrow}
+          </p>
+          <h2 id="evidence-title" class="m-0 mt-4 type-section-title text-foreground">
+            {evidence.title}
+          </h2>
+          <p class="m-0 mt-5">
+            <span class="ie-tag bg-brand-subtle type-tag text-on-brand-subtle">
+              <FeatureIcon name="check-circle" size={16} class="text-brand-emphasis" />
+              {evidence.badge}
+            </span>
+          </p>
+        </div>
+        <p class="m-0 type-intro text-foreground-body lg:basis-5/12">{evidence.lead}</p>
+      </div>
+
+      <div class="mt-12 lg:mt-18">
+        <h3 class="m-0 type-card-title-lg text-foreground">{evidence.outcomes.title}</h3>
+        <p class="m-0 mt-2 max-w-measure-wide type-body text-foreground-body">
+          {evidence.outcomes.lead}
+        </p>
+        <div class="mt-6 grid gap-3 lg:mt-8 lg:grid-cols-3 lg:gap-4">
+          {
+            evidence.outcomes.groups.map((group) => (
+              <article class="ie-card ie-card-raised flex flex-col p-5 lg:p-8">
+                <p class="m-0 type-eyebrow text-foreground">{group.eyebrow}</p>
+                <h4 class="m-0 mt-3 type-card-title-md text-balance text-foreground">
+                  {group.title}
+                </h4>
+                <p class="m-0 mt-2 mb-4 type-small text-foreground-body lg:mt-3 lg:mb-6">
+                  {group.text}
+                </p>
+                <ul class="m-0 mb-auto list-none p-0">
+                  {group.claims.map((claim) => (
+                    <li class="flex items-center gap-2.5 border-t border-border py-3.5">
+                      <Icon name="check-circle" size={22} class="text-icon-accent" />
+                      <span class="flex flex-col gap-0.5">
+                        <span class="type-card-title-sm text-foreground">{claim.text}</span>
+                        <a
+                          class="inline-flex items-center gap-1 self-start type-label text-brand-emphasis"
+                          href={claim.href}
+                        >
+                          {claim.cite}
+                          <Icon name="arrow-down" size={12} />
+                        </a>
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+
+      <div
+        class="mt-12 flex flex-col gap-4 lg:mt-20 lg:flex-row lg:items-end lg:justify-between lg:gap-8"
+      >
+        <div>
+          <h3 class="m-0 type-card-title-lg text-foreground">{evidence.studies.title}</h3>
+          <p class="m-0 mt-2 type-body text-foreground-body">{evidence.studies.lead}</p>
+          <ul class="m-0 mt-4 flex list-none flex-wrap gap-x-5 gap-y-2 p-0">
+            {
+              evidence.studies.legend.map((key) => (
+                <li class="inline-flex items-center gap-2 type-label text-foreground-secondary">
+                  <span class:list={['ie-swatch', TONE_SWATCH[key.tone]]} aria-hidden="true" />
+                  {key.label}
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+        <div class="flex flex-wrap items-center gap-x-4 gap-y-3 lg:gap-3.5" data-work-prompt hidden>
+          <span class="type-small text-foreground-body">{evidence.studies.prompt}</span>
+          <button
+            type="button"
+            class="ie-chip"
+            role="switch"
+            aria-checked="false"
+            data-work-switch="evidence"
+          >
+            Show our work<span class="ie-switch-track" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+
+      <p
+        class="m-0 mt-6 flex items-center justify-end gap-2 type-label font-bold text-brand-emphasis md:hidden"
+        aria-hidden="true"
+      >
+        {evidence.studies.swipe}
+        <Icon name="arrow-right" size={16} />
+      </p>
+      <ul
+        class="-mx-section-x mt-3 flex snap-x snap-mandatory scroll-px-section-x list-none gap-3 overflow-x-auto px-section-x pb-4 md:mx-0 md:mt-8 md:grid md:grid-cols-2 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-3 lg:gap-4"
+        aria-label={evidence.studies.title}
+      >
+        {
+          evidence.studies.items.map((study) => (
+            <li class="flex w-72 shrink-0 snap-start md:w-auto">
+              <EvidenceCard
+                id={`study-${study.id}`}
+                aria-label={study.title}
+                class="grow"
+                tag={study.tag}
+                tags={'tags' in study ? study.tags : []}
+                tone={study.tone}
+                value={study.value}
+                label={study.label}
+              >
+                <h4 class="m-0 type-label text-foreground-body">{study.title}</h4>
+                <p class="m-0 type-label text-foreground-muted">
+                  {study.authors} · <span class="text-foreground-body">{study.institution}</span> ·{' '}
+                  {study.year} ·{' '}
+                  <a class="text-inherit" href={`#cite-${study.id.toUpperCase()}`}>
+                    {study.id.toUpperCase()}
+                  </a>
+                </p>
+                <dl
+                  slot="details"
+                  class="m-0 mt-4 flex flex-col gap-3 rounded-sm bg-background p-4"
+                  data-work="evidence"
+                >
+                  {study.details.map((detail) => (
+                    <div class="flex flex-col gap-0.5">
+                      <dt class="type-breadcrumb text-foreground-muted">{detail.term}</dt>
+                      <dd class="m-0 type-label text-foreground-secondary">{detail.text}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </EvidenceCard>
+            </li>
+          ))
+        }
+      </ul>
+
+      <article
+        id="study-phan-2022"
+        aria-labelledby="review-title"
+        class="ie-card mt-4 flex flex-col gap-5 bg-brand-surface-deep p-5 lg:flex-row lg:gap-12 lg:p-10"
+        data-on-brand
+      >
+        <div class="flex flex-col gap-2.5 lg:w-75 lg:shrink-0">
+          <span class="type-eyebrow text-foreground">{evidence.review.eyebrow}</span>
+          <span class="font-sans type-stat-lg font-black tracking-tighter text-foreground">
+            {evidence.review.value}
+          </span>
+          <span class="type-card-title-sm text-foreground">{evidence.review.label}</span>
+          <span class="type-label text-foreground-muted">{evidence.review.reach}</span>
+        </div>
+        <div
+          class="flex min-w-0 grow flex-col gap-5 border-t border-border pt-5 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-12"
+        >
+          <div>
+            <p class="m-0 flex items-center gap-2.5">
+              <span class="ie-tag ie-tag-on-brand type-tag">{evidence.review.tag}</span>
+              <span class="type-label font-bold text-foreground">
+                {evidence.review.year}<sup
+                  ><a class="text-foreground no-underline" href={`#cite-${evidence.review.cite}`}
+                    >{evidence.review.cite}</a
+                  ></sup
+                >
+              </span>
+            </p>
+            <h4 id="review-title" class="m-0 mt-3 type-card-title-md text-foreground">
+              {evidence.review.title}
+            </h4>
+            <p class="m-0 mt-1.5 type-label text-foreground-muted">{evidence.review.source}</p>
+          </div>
+          <div class="grid gap-4 border-t border-border pt-5 md:grid-cols-2 md:gap-8">
+            {
+              evidence.review.lists.map((list) => (
+                <div>
+                  <p class="m-0 mb-2.5 type-breadcrumb text-on-brand-accent">{list.title}</p>
+                  <ul class="m-0 flex list-disc flex-col gap-1.5 pl-4.5">
+                    {list.items.map((item) => (
+                      <li class="type-small text-foreground">{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              ))
+            }
+          </div>
+          <p
+            class="m-0 rounded-sm bg-on-brand-wash px-4.5 py-4 type-label text-foreground"
+            data-work="evidence"
+          >
+            {evidence.review.note}
+          </p>
+        </div>
+      </article>
+
+      <div
+        class="mt-4 flex flex-col items-start gap-2 lg:flex-row lg:items-center lg:justify-between"
+      >
+        <p class="m-0 type-label text-foreground-muted">{evidence.footnote}</p>
+        <ArrowLink href={evidence.citationsLink.href}>{evidence.citationsLink.label}</ArrowLink>
+      </div>
+
+      <LogoStrip
+        layout="marquee"
+        label={evidence.partners.label}
+        partners={evidence.partners.names.map((name) => ({ name }))}
+        class="mt-16 border-t border-border pt-12"
+      />
+
+      <div
+        class="ie-card mt-12 grid gap-8 bg-background p-5 lg:mt-18 lg:flex lg:items-center lg:gap-16 lg:p-12"
+      >
+        <div class="flex flex-col lg:basis-5/12">
+          <p class="m-0 flex flex-wrap items-center gap-2.5">
+            <span class="type-eyebrow text-brand-emphasis">{evidence.district.eyebrow}</span>
+            <span class="ie-tag bg-surface type-tag">{evidence.district.tag}</span>
+          </p>
+          <h3 class="m-0 mt-4 type-card-title-lg text-balance text-foreground lg:mt-4.5">
+            {evidence.district.title}
+          </h3>
+          <p class="m-0 mt-3 max-w-140 type-body text-foreground-body lg:mt-3.5">
+            {evidence.district.text}
+          </p>
+          <p class="m-0 mt-3 max-w-140 type-body text-foreground-body" data-work="evidence">
+            {evidence.district.more}
+          </p>
+          <ArrowLink href={evidence.district.link.href} class="mt-2 self-start">
+            {evidence.district.link.label}
+          </ArrowLink>
+        </div>
+        <figure class="ie-card ie-card-floating m-0 flex flex-col gap-5 p-5 lg:basis-7/12 lg:p-8">
+          <figcaption
+            class="flex items-center justify-between gap-2 type-card-title-sm text-foreground"
+          >
+            {evidence.district.figure.title}
+            <span class="ie-tag type-tag text-foreground-secondary"
+              >{evidence.district.figure.tag}</span
+            >
+          </figcaption>
+          <ul class="m-0 grid list-none gap-2 p-0 md:grid-cols-3">
+            {
+              evidence.district.figure.tiles.map((tile) => (
+                <li class:list={['flex flex-col gap-1.5 rounded-sm p-5', TILE[tile.tone]]}>
+                  <span class="font-sans type-stat-sm font-black tracking-tight text-foreground">
+                    {tile.value}
+                  </span>
+                  <span class="type-label text-foreground">{tile.label}</span>
+                </li>
+              ))
+            }
+          </ul>
+          <p class="m-0 border-t border-border pt-3.5 type-label text-foreground-muted">
+            {evidence.district.figure.source}
+          </p>
+        </figure>
+      </div>
+
+      <div
+        class="ie-card mt-2 grid gap-4 bg-background p-5 lg:flex lg:items-start lg:gap-16 lg:p-12"
+      >
+        <div class="lg:basis-5/12">
+          <p class="m-0 flex flex-col items-start gap-2.5 md:flex-row md:items-center">
+            <span class="type-eyebrow text-brand-emphasis">{evidence.foundation.eyebrow}</span>
+            <span class="ie-tag bg-surface type-tag">{evidence.foundation.tag}</span>
+          </p>
+          <h3 class="m-0 mt-4 type-card-title-lg text-balance text-foreground lg:mt-4.5">
+            {evidence.foundation.title}
+          </h3>
+        </div>
+        <div class="flex flex-col gap-3 lg:basis-7/12">
+          <p class="m-0 type-body text-foreground-body">{evidence.foundation.text}</p>
+          <p class="m-0 type-body text-foreground-body" data-work="evidence">
+            {evidence.foundation.more}
+          </p>
+          <p class="m-0 type-body text-foreground-body">{evidence.foundation.close}</p>
+        </div>
+      </div>
+    </Section>
+
+    {/* 02 Why it works. */}
+    <Section id="science" tone="tint" aria-labelledby="why-title">
+      <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between lg:gap-12">
+        <div>
+          <p class="m-0 flex items-center gap-2.5 type-eyebrow text-brand-emphasis">
+            <span>{science.number}</span>
+            <span class="h-px w-6 bg-current opacity-50" aria-hidden="true"></span>
+            {science.eyebrow}
+          </p>
+          <h2 id="why-title" class="m-0 mt-4 type-section-title text-foreground">
+            {science.title}
+          </h2>
+        </div>
+        <div class="flex flex-wrap items-center gap-x-4 gap-y-3 lg:gap-3.5" data-work-prompt hidden>
+          <span class="type-small text-foreground-body">{science.prompt}</span>
+          <button
+            type="button"
+            class="ie-chip"
+            role="switch"
+            aria-checked="false"
+            data-work-switch="science"
+          >
+            Show our work<span class="ie-switch-track" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+      <ol class="m-0 mt-8 grid list-none gap-4 p-0 lg:mt-12 lg:grid-cols-3">
+        {
+          science.steps.map((step) => (
+            <li class="ie-card ie-card-raised flex flex-col gap-3.5 p-5 lg:p-8">
+              <span class="type-small font-bold text-brand-emphasis tabular-nums">
+                {step.number}
+              </span>
+              <h3 class="m-0 type-card-title-md text-foreground">{step.title}</h3>
+              <p class="m-0 type-body text-foreground-body">
+                {step.text}
+                {'strong' in step && (
+                  <>
+                    {' '}
+                    <strong class="font-bold text-foreground">{step.strong}</strong>.
+                  </>
+                )}
+              </p>
+            </li>
+          ))
+        }
+      </ol>
+
+      <div class="ie-card mt-8 p-5 lg:mt-12 lg:p-12" data-work="science">
+        <p class="m-0 type-eyebrow text-brand-emphasis">{science.deeper.eyebrow}</p>
+        <div class="mt-6 grid gap-5 md:grid-cols-2 md:gap-x-14 md:gap-y-6">
+          {
+            science.deeper.paragraphs.map((paragraph) => (
+              <p class="m-0 type-body text-foreground-body">{paragraph}</p>
+            ))
+          }
+        </div>
+        <div id="pause" class="mt-10 border-t border-border-control pt-12 lg:mt-14">
+          <p class="m-0 type-eyebrow text-brand-emphasis">{science.pause.eyebrow}</p>
+          <h3 class="m-0 mt-3 type-card-title-lg text-foreground">{science.pause.title}</h3>
+          <ol class="m-0 mt-7 list-none p-0">
+            {
+              science.pause.steps.map((step, i) => (
+                <li class="grid gap-3 border-t border-border py-7 md:grid-cols-12 md:gap-6">
+                  <span
+                    class:list={[
+                      'font-sans type-stat-sm font-black tracking-tight tabular-nums md:col-span-1',
+                      i === science.pause.steps.length - 1 ? 'text-brand' : 'text-foreground',
+                    ]}
+                  >
+                    {step.number}
+                  </span>
+                  <h4 class="m-0 type-card-title-md text-foreground md:col-span-4">{step.title}</h4>
+                  <p class="m-0 type-body text-foreground-body md:col-span-7">{step.text}</p>
+                </li>
+              ))
+            }
+          </ol>
+          <p class="m-0 mt-4 type-label text-foreground-muted">
+            {science.pause.note.before}<sup class="ml-0.5 font-bold"
+              >{
+                science.pause.note.cites.map((cite, i) => (
+                  <>
+                    {i > 0 && ', '}
+                    <a class="text-brand-emphasis no-underline" href={`#cite-${cite}`}>
+                      {cite}
+                    </a>
+                  </>
+                ))
+              }</sup
+            >{science.pause.note.after}
+          </p>
+        </div>
+      </div>
+
+      <div
+        class="mt-14 grid gap-8 border-t border-border-control pt-14 lg:mt-24 lg:flex lg:items-start lg:gap-16"
+      >
+        <div class="lg:basis-5/12">
+          <p class="m-0 type-eyebrow text-brand-emphasis">{science.layer.eyebrow}</p>
+          <h3 class="m-0 mt-3 type-section-title text-balance text-foreground">
+            {science.layer.title[0]}<br />{science.layer.title[1]}
+          </h3>
+          <div class="mt-7 flex flex-col gap-4 lg:gap-3.5">
+            {
+              science.layer.more.map((paragraph) => (
+                <p class="m-0 type-body text-foreground-body" data-work="science">
+                  {paragraph}
+                </p>
+              ))
+            }
+            <p class="m-0 type-body text-foreground-body">{science.layer.text}</p>
+          </div>
+        </div>
+        <figure
+          class="ie-card ie-card-floating m-0 flex flex-col gap-6 p-5 lg:basis-7/12 lg:p-8"
+          data-wall
+        >
+          <div
+            class="ie-segmented"
+            role="group"
+            aria-label={science.wall.group}
+            hidden
+            data-wall-switch
+          >
+            <button type="button" aria-pressed="true" data-wall-set="sand">
+              {science.wall.sand.label}
+            </button>
+            <button type="button" aria-pressed="false" data-wall-set="foundation">
+              {science.wall.foundation.label}
+            </button>
+          </div>
+          {
+            (['sand', 'foundation'] as const).map((state) => (
+              <div
+                class="relative h-65"
+                role="img"
+                aria-label={science.wall[state].alt}
+                hidden={state === 'foundation'}
+                data-wall-figure={state}
+              >
+                <div class="grid grid-cols-3 gap-x-3 gap-y-2 px-1 pt-9.5">
+                  {wallBlocks.map((block) => (
+                    <div
+                      class="ie-wall-block relative flex h-18 items-center justify-center rounded-sm border border-border-control bg-surface px-2 text-center type-label leading-tight font-bold text-foreground-secondary shadow-raised md:px-3.5 md:type-small md:leading-snug md:font-bold"
+                      style={
+                        state === 'sand'
+                          ? `--dx: ${block.dx}px; --dy: ${block.dy}px; --tilt: ${block.tilt}deg`
+                          : undefined
+                      }
+                    >
+                      {state === 'sand' && block.crack && (
+                        <svg
+                          viewBox="0 0 100 40"
+                          preserveAspectRatio="none"
+                          class="absolute inset-0 size-full"
+                          aria-hidden="true"
+                        >
+                          <polyline
+                            points={
+                              block.crack === 'start'
+                                ? '6,0 10,12 5,22 9,40'
+                                : '94,0 89,14 95,24 90,40'
+                            }
+                            fill="none"
+                            class="stroke-coral-600"
+                            stroke-width="2"
+                            vector-effect="non-scaling-stroke"
+                          />
+                        </svg>
+                      )}
+                      <span class="relative">{block.label}</span>
+                    </div>
+                  ))}
+                </div>
+                {state === 'sand' ? (
+                  <div class="ie-sand absolute inset-x-0 bottom-0 flex h-16 items-center justify-center rounded-sm px-6">
+                    <span class="type-breadcrumb text-foreground">{science.wall.sand.base}</span>
+                  </div>
+                ) : (
+                  <div class="absolute inset-x-0 bottom-0 flex h-16 items-center justify-center gap-3.5 rounded-sm bg-brand-surface px-6">
+                    <Logo reversed size="sm" class="hidden md:block" />
+                    <span class="type-card-title-sm text-on-brand md:type-body md:font-bold">
+                      {science.wall.foundation.base}
+                    </span>
+                  </div>
+                )}
+              </div>
+            ))
+          }
+          <blockquote class="m-0 p-0">
+            <p class="m-0 text-center type-quote text-balance text-foreground">
+              <span class="text-brand" aria-hidden="true">“</span>{science.wall.quote}<span
+                class="text-brand"
+                aria-hidden="true">”</span
+              >
+            </p>
+          </blockquote>
+        </figure>
+      </div>
+    </Section>
+
+    {/* 03 A fair question. */}
+    <Section id="questions" aria-labelledby="objection-title">
+      <div class="grid gap-10 lg:flex lg:items-center lg:gap-18">
+        <div class="flex flex-col items-start lg:basis-5/12">
+          <p class="m-0 flex items-center gap-2.5 type-eyebrow text-brand-emphasis">
+            <span>{questions.number}</span>
+            <span class="h-px w-6 bg-current opacity-50" aria-hidden="true"></span>
+            {questions.eyebrow}
+          </p>
+          <h2 id="objection-title" class="m-0 mt-4 type-section-title text-foreground">
+            {questions.title}
+          </h2>
+          <p class="m-0 mt-6 max-w-140 type-lead font-bold text-foreground">{questions.lead}</p>
+          <div class="mt-7 flex flex-wrap items-center gap-3.5" data-work-prompt hidden>
+            <span class="type-small text-foreground-body">{questions.prompt}</span>
+            <button
+              type="button"
+              class="ie-chip"
+              role="switch"
+              aria-checked="false"
+              data-work-switch="questions"
+            >
+              Show our work<span class="ie-switch-track" aria-hidden="true"></span>
+            </button>
+          </div>
+          <p class="m-0 mt-5 max-w-140 type-body text-foreground-body" data-work="questions">
+            {questions.more}<sup class="ml-0.5 font-bold"
+              ><a class="text-brand-emphasis no-underline" href={`#cite-${questions.moreCite}`}
+                >{questions.moreCite}</a
+              ></sup
+            >
+          </p>
+          <Button
+            variant="secondary"
+            href={questions.cta.href}
+            arrow
+            block
+            class="mt-7 md:w-auto lg:mt-8"
+          >
+            {questions.cta.label}
+          </Button>
+        </div>
+        <figure class="ie-card ie-card-floating m-0 flex flex-col gap-6 p-5 lg:basis-7/12 lg:p-9">
+          {
+            questions.dose.series.map((series, s) => (
+              <>
+                {s > 0 && <div class="h-px bg-border" aria-hidden="true" />}
+                <div class="flex flex-col gap-1.5">
+                  <span class="inline-flex items-center gap-2 type-small font-bold text-foreground-secondary">
+                    <span class:list={['size-2 rounded-full', DOSE_DOT[series.tone]]} />
+                    {series.name}
+                    {'cite' in series && (
+                      <sup>
+                        <a class="text-brand-emphasis no-underline" href={`#cite-${series.cite}`}>
+                          {series.cite}
+                        </a>
+                      </sup>
+                    )}
+                  </span>
+                  <span
+                    class:list={[
+                      'type-section-title font-black tracking-tight',
+                      series.tone === 'brand' ? 'text-brand-emphasis' : 'text-foreground',
+                    ]}
+                  >
+                    {series.title}
+                  </span>
+                  <span class="type-small text-foreground-body">{series.text}</span>
+                  {[18, 36].map((columns) => {
+                    const grid = waffle(columns, series.practiced);
+                    return (
+                      <svg
+                        viewBox={`0 0 ${grid.width} ${grid.height}`}
+                        width={grid.width}
+                        height={grid.height}
+                        class:list={[
+                          'mt-2.5 h-auto max-w-full',
+                          columns === 36 ? 'hidden md:block' : 'block md:hidden',
+                        ]}
+                        role="img"
+                        aria-label={series.alt}
+                      >
+                        {grid.days.map((day) =>
+                          day.practiced ? (
+                            <rect
+                              x={day.x}
+                              y={day.y}
+                              width="13"
+                              height="13"
+                              rx="2"
+                              class={DOSE_FILL[series.tone]}
+                            />
+                          ) : (
+                            <rect
+                              x={day.x + 0.5}
+                              y={day.y + 0.5}
+                              width="12"
+                              height="12"
+                              rx="2"
+                              class="fill-surface stroke-border-input"
+                              stroke-width="1"
+                            />
+                          ),
+                        )}
+                      </svg>
+                    );
+                  })}
+                </div>
+              </>
+            ))
+          }
+          <figcaption class="type-label text-foreground-muted">{questions.dose.caption}</figcaption>
+        </figure>
+      </div>
+    </Section>
+
+    {/* The AI moment. */}
+    <Section id="ai" tone="forest" aria-labelledby="ai-title">
+      <p class="m-0 type-eyebrow text-on-brand-accent">{ai.eyebrow}</p>
+      <h2 id="ai-title" class="m-0 mt-4 type-section-title text-foreground">
+        {ai.title[0]}<br />{ai.title[1]}
+      </h2>
+      <div
+        class="mt-10 grid gap-8 border-t border-border pt-12 lg:mt-14 lg:flex lg:items-start lg:gap-18"
+      >
+        <div class="flex flex-col items-start lg:basis-5/12">
+          <p class="m-0 type-intro text-foreground-secondary">{ai.text}</p>
+          <Button
+            variant="light"
+            href={ai.download.href}
+            icon="download"
+            block
+            class="mt-6 md:w-auto lg:mt-4"
+          >
+            {ai.download.label}
+          </Button>
+        </div>
+        <p class="m-0 type-card-title-lg text-balance text-foreground lg:basis-7/12">
+          {ai.statement}
+        </p>
+      </div>
+    </Section>
+
+    <Section tone="white" class="lg:py-24">
+      <ClosingCta layout="inline" title={cta.title} primary={cta.primary} />
+    </Section>
+
+    {/* Full citations: collapsed under a fade until shown (whole without JS). */}
+    <Section id="citations" tone="white" aria-labelledby="cit-title" class="lg:py-24">
+      <div class="grid gap-6 md:grid-cols-2 md:items-end md:gap-16">
+        <h2 id="cit-title" class="m-0 type-section-title text-foreground">{citations.title}</h2>
+        <p class="m-0 type-small text-foreground-muted">{citations.note}</p>
+      </div>
+      <div
+        id="citations-list"
+        class="ie-collapse"
+        style="--collapse-height: var(--collapse-height-sm)"
+        data-collapse
+      >
+        <div class="mt-10 grid gap-10 border-t border-border pt-10 md:grid-cols-2 md:gap-16">
+          {
+            citationGroups.map((group) => (
+              <div>
+                <h3 class="m-0 type-card-title-sm text-foreground">{group.title}</h3>
+                <ol class="m-0 mt-3 flex list-none flex-col gap-2.5 p-0">
+                  {group.items.map((item) => (
+                    <li
+                      id={`cite-${item.id}`}
+                      class="grid scroll-mt-6 grid-cols-12 gap-2 type-label text-foreground-body"
+                    >
+                      <span class="col-span-1 font-bold text-brand-emphasis">{item.id}</span>
+                      <span class="col-span-11">
+                        {item.text}
+                        {item.em && <em>{item.em}</em>}
+                        {item.after}
+                        {item.href && (
+                          <>
+                            {' '}
+                            <a
+                              class="inline-flex items-baseline gap-0.5 font-bold text-brand-emphasis"
+                              href={item.href}
+                            >
+                              {citations.link}
+                              <span class="sr-only"> to {item.id}</span>
+                              <Icon name="arrow-up-right" size={12} />
+                            </a>
+                          </>
+                        )}
+                      </span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+      <div class="mt-6 flex justify-center">
+        <button
+          type="button"
+          class="group ie-chip"
+          aria-controls="citations-list"
+          aria-expanded="true"
+          hidden
+          data-collapse-toggle
+          data-expand={citations.show}
+          data-collapse-label={citations.hide}
+        >
+          <span data-collapse-text>{citations.hide}</span>
+          <Icon name="chevron-down" class="text-brand group-data-open:rotate-180" />
+        </button>
+      </div>
+    </Section>
+  </div>
 </PageLayout>
+
+<script>
+  // Research: Pause motion (the footage, the brain's pulse, the marquee), the brain and wall
+  // switches, the three "Show our work" switches and the citations collapse. Without JS the
+  // details and citations render whole and the controls stay hidden.
+  const root = document.querySelector<HTMLElement>('[data-research]');
+  if (root) {
+    const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let flip: number | undefined;
+
+    // The brain: Stressed or Mindful; it flips to Mindful once by itself unless touched.
+    const brain = root.querySelector<HTMLElement>('[data-brain]');
+    const figure = root.querySelector<SVGElement>('[data-brain-figure]');
+    const brainSwitch = root.querySelector<HTMLElement>('[data-brain-switch]');
+    const setBrain = (state: string) => {
+      if (!brain || !figure || !brainSwitch) return;
+      brain.dataset.brain = state;
+      figure.setAttribute(
+        'aria-label',
+        figure.dataset[`alt${state[0].toUpperCase()}${state.slice(1)}`] ?? '',
+      );
+      for (const b of brainSwitch.querySelectorAll<HTMLButtonElement>('[data-brain-set]'))
+        b.setAttribute('aria-pressed', String(b.dataset.brainSet === state));
+    };
+    if (brainSwitch) {
+      brainSwitch.hidden = false;
+      brainSwitch.addEventListener('click', (event) => {
+        const button = (event.target as Element).closest<HTMLButtonElement>('[data-brain-set]');
+        if (!button) return;
+        window.clearTimeout(flip);
+        setBrain(button.dataset.brainSet ?? 'stressed');
+      });
+    }
+
+    // Motion: the footage plays unless paused or reduced motion is set.
+    const video = root.querySelector<HTMLVideoElement>('[data-hero-video]');
+    const toggle = root.querySelector<HTMLButtonElement>('[data-motion-toggle]');
+    const setPaused = (paused: boolean) => {
+      root.toggleAttribute('data-motion-paused', paused);
+      for (const label of toggle?.querySelectorAll<HTMLElement>('[data-motion-when]') ?? [])
+        label.hidden = label.dataset.motionWhen !== (paused ? 'paused' : 'playing');
+      if (paused) {
+        window.clearTimeout(flip);
+        video?.pause();
+      } else {
+        video?.play().catch(() => undefined);
+      }
+    };
+    if (toggle) {
+      toggle.hidden = false;
+      toggle.addEventListener('click', () => setPaused(!root.hasAttribute('data-motion-paused')));
+    }
+    if (still) {
+      setBrain('mindful');
+      setPaused(true);
+    } else {
+      setPaused(false);
+      flip = window.setTimeout(() => setBrain('mindful'), 3200);
+    }
+
+    // The wall: on sand or on a foundation.
+    const wall = root.querySelector<HTMLElement>('[data-wall]');
+    const wallSwitch = wall?.querySelector<HTMLElement>('[data-wall-switch]');
+    if (wall && wallSwitch) {
+      wallSwitch.hidden = false;
+      wallSwitch.addEventListener('click', (event) => {
+        const button = (event.target as Element).closest<HTMLButtonElement>('[data-wall-set]');
+        if (!button) return;
+        for (const b of wallSwitch.querySelectorAll<HTMLButtonElement>('[data-wall-set]'))
+          b.setAttribute('aria-pressed', String(b === button));
+        for (const f of wall.querySelectorAll<HTMLElement>('[data-wall-figure]'))
+          f.hidden = f.dataset.wallFigure !== button.dataset.wallSet;
+      });
+    }
+
+    // Show our work: each switch reveals its section's details.
+    for (const prompt of root.querySelectorAll<HTMLElement>('[data-work-prompt]')) {
+      const button = prompt.querySelector<HTMLButtonElement>('[data-work-switch]');
+      if (!button) continue;
+      const details = root.querySelectorAll<HTMLElement>(
+        `[data-work="${button.dataset.workSwitch}"]`,
+      );
+      const show = (on: boolean) => {
+        button.setAttribute('aria-checked', String(on));
+        for (const d of details) d.hidden = !on;
+      };
+      prompt.hidden = false;
+      show(false);
+      button.addEventListener('click', () => show(button.getAttribute('aria-checked') !== 'true'));
+    }
+
+    // Citations: collapsed under a fade; a citation link, the hash or focus under the fade opens it.
+    const panel = root.querySelector<HTMLElement>('[data-collapse]');
+    const collapse = root.querySelector<HTMLButtonElement>('[data-collapse-toggle]');
+    const collapseText = collapse?.querySelector('[data-collapse-text]');
+    if (panel && collapse && collapseText) {
+      const setCollapsed = (collapsed: boolean) => {
+        panel.toggleAttribute('data-collapsed', collapsed);
+        collapse.setAttribute('aria-expanded', String(!collapsed));
+        collapse.toggleAttribute('data-open', !collapsed);
+        collapseText.textContent = collapsed
+          ? (collapse.dataset.expand ?? '')
+          : (collapse.dataset.collapseLabel ?? '');
+      };
+      collapse.hidden = false;
+      setCollapsed(!window.location.hash.startsWith('#cite-'));
+      collapse.addEventListener('click', () => {
+        const expanding = panel.hasAttribute('data-collapsed');
+        setCollapsed(!expanding);
+        if (!expanding) panel.scrollIntoView({ block: 'nearest' });
+      });
+      panel.addEventListener('focusin', (event) => {
+        if (!panel.hasAttribute('data-collapsed') || !(event.target instanceof Element)) return;
+        const box = panel.getBoundingClientRect();
+        if (event.target.getBoundingClientRect().bottom > box.top + box.height * 0.62)
+          setCollapsed(false);
+      });
+      root.addEventListener('click', (event) => {
+        if ((event.target as Element).closest('a[href^="#cite-"]')) setCollapsed(false);
+      });
+    }
+  }
+</script>
