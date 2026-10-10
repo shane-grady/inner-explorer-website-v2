@@ -1,0 +1,76 @@
+---
+// The site header: skip link, logo, primary navigation, Sign in and the Contact button;
+// the menu button (and MobileMenu) below xl. `dark` is the transparent header over a
+// Forest hero (Research). Static, as on the boards.
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import Logo from '../ui/Logo.astro';
+import MobileMenu from './MobileMenu.astro';
+import { contactCta, primaryNav, signIn } from '../../data/navigation';
+
+interface Props {
+  dark?: boolean;
+  /** A static sample on the styleguide: no menu, and a distinct navigation name. */
+  sample?: boolean;
+}
+const { dark = false, sample = false }: Props = Astro.props;
+const current = (href: string) => (!sample && Astro.url.pathname === href ? 'page' : undefined);
+---
+
+<header
+  class="ie-header relative flex items-center justify-between px-section-x"
+  data-on-brand={dark ? '' : undefined}
+>
+  {
+    !sample && (
+      <a class="ie-skip-link ie-btn-primary ie-btn-sm" href="#main">
+        Skip to content
+      </a>
+    )
+  }
+  <a class="flex min-h-control-sm items-center" href="/" aria-label="Inner Explorer home">
+    <Logo reversed={dark} />
+  </a>
+  <nav
+    aria-label={sample ? 'Primary (sample)' : 'Primary'}
+    class="hidden items-center gap-8 xl:flex"
+  >
+    {
+      primaryNav.map((link) => (
+        <a class="ie-nav" href={link.href} aria-current={current(link.href)}>
+          {link.label}
+        </a>
+      ))
+    }
+  </nav>
+  <div class="hidden items-center gap-6 xl:flex">
+    <a class="ie-nav" href={signIn.href}>{signIn.label}</a>
+    <Button
+      variant={dark ? 'ghost' : 'primary'}
+      size="sm"
+      href={contactCta.href}
+      aria-current={current(contactCta.href)}
+    >
+      {contactCta.label}
+    </Button>
+  </div>
+  {
+    sample ? (
+      <span class="ie-menu-btn xl:hidden" aria-hidden="true">
+        <Icon name="menu" />
+      </span>
+    ) : (
+      <button
+        type="button"
+        class="ie-menu-btn xl:hidden"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        data-menu-open
+      >
+        <Icon name="menu" />
+      </button>
+    )
+  }
+  {!sample && <MobileMenu />}
+</header>

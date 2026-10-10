@@ -1,0 +1,30 @@
+---
+// The page title block, once per page: eyebrow, the H1 with its emphasis words, the accent
+// bar as wide as the title's longest line, the lead, and up to two buttons in `actions`.
+import { emphasize } from '../../lib/emphasize';
+
+interface Props {
+  /** The H1. `*words*` are set in brand-emphasis; a "\n" breaks the line where the board does. */
+  title: string;
+  eyebrow?: string;
+  lead?: string;
+  class?: string;
+}
+const { title, eyebrow, lead, class: className }: Props = Astro.props;
+---
+
+<div class:list={['flex flex-col items-start', className]}>
+  {eyebrow && <p class="m-0 mb-5 type-eyebrow text-foreground md:mb-6">{eyebrow}</p>}
+  <div class="inline-flex flex-col gap-2">
+    <h1 class="m-0 type-page-title text-foreground" set:html={emphasize(title)} />
+    <div class="ie-accent-bar" aria-hidden="true"></div>
+  </div>
+  {lead && <p class="m-0 mt-5 max-w-measure type-lead text-foreground-secondary md:mt-8">{lead}</p>}
+  {
+    Astro.slots.has('actions') && (
+      <div class="mt-6 flex flex-col gap-3 self-stretch md:mt-10 md:flex-row md:self-auto">
+        <slot name="actions" />
+      </div>
+    )
+  }
+</div>

@@ -1,0 +1,46 @@
+---
+// The action button: primary and secondary on light grounds, light and ghost on green;
+// 48px, or 44px `sm` for the header and dense rows. Renders a link when `href` is set.
+import type { HTMLAttributes } from 'astro/types';
+import Icon from './Icon.astro';
+
+const VARIANT = {
+  primary: 'ie-btn-primary',
+  secondary: 'ie-btn-secondary',
+  light: 'ie-btn-light',
+  ghost: 'ie-btn-ghost',
+} as const satisfies Record<string, string>;
+
+type Props = Omit<HTMLAttributes<'a'> & HTMLAttributes<'button'>, 'type'> & {
+  variant?: keyof typeof VARIANT;
+  /** The button's type when it is not a link; `submit` for a form. */
+  type?: 'button' | 'submit' | 'reset';
+  size?: 'md' | 'sm';
+  /** Trailing arrow, as the boards draw on calls to action. */
+  arrow?: boolean;
+  /** Full width; a long label wraps to a second line. */
+  block?: boolean;
+  class?: string;
+};
+const {
+  variant = 'primary',
+  size = 'md',
+  arrow = false,
+  block = false,
+  type = 'button',
+  class: className,
+  ...rest
+}: Props = Astro.props;
+const classes = [
+  VARIANT[variant],
+  size === 'sm' && 'ie-btn-sm',
+  block && 'ie-btn-block',
+  className,
+];
+const Tag = rest.href ? 'a' : 'button';
+---
+
+<Tag class:list={classes} type={rest.href ? undefined : type} {...rest}>
+  <slot />
+  {arrow && <Icon name="arrow-right" />}
+</Tag>

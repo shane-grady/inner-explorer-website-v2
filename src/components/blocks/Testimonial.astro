@@ -1,0 +1,32 @@
+---
+// One quote style for every educator quote: the green mark, the quote in Libre Caslon
+// Text, and the name and place under a rule. `card` (Raised) for a row of quotes,
+// `panel` (Tint) for a single quote beside other content. No typed quotation marks.
+interface Props {
+  name: string;
+  place?: string;
+  variant?: 'card' | 'panel';
+  class?: string;
+}
+const { name, place, variant = 'card', class: className }: Props = Astro.props;
+---
+
+<figure
+  class:list={[
+    'ie-card m-0 flex flex-col gap-5 p-6 md:gap-6 md:p-8',
+    variant === 'card' ? 'ie-card-raised' : 'ie-card-tint',
+    className,
+  ]}
+>
+  <svg class="text-icon-accent" width="32" height="24" viewBox="0 0 32 24" aria-hidden="true">
+    <path
+      fill="currentColor"
+      d="M0 24V14c0-7.7 4.4-12.5 12-14l1.6 3.4C9.2 5 7 7.8 6.8 11H12v13H0zm18 0V14c0-7.7 4.4-12.5 12-14l1.6 3.4C27.2 5 25 7.8 24.8 11H30v13H18z"
+    ></path>
+  </svg>
+  <blockquote class="m-0 grow type-quote text-foreground"><slot /></blockquote>
+  <figcaption class="flex flex-col gap-1 border-t border-border pt-5">
+    <span class="type-card-title-sm text-foreground">{name}</span>
+    {place && <span class="type-label text-foreground-muted">{place}</span>}
+  </figcaption>
+</figure>

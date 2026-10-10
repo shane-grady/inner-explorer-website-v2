@@ -1,0 +1,17 @@
+---
+// A bold underlined link with a trailing arrow ("See the research"); `light` for green grounds.
+import type { HTMLAttributes } from 'astro/types';
+import Icon from './Icon.astro';
+
+interface Props extends HTMLAttributes<'a'> {
+  href: string;
+  light?: boolean;
+  class?: string;
+}
+const { light = false, class: className, ...rest }: Props = Astro.props;
+---
+
+<a class:list={[light ? 'ie-link-light' : 'ie-link', className]} {...rest}>
+  <slot />
+  <Icon name="arrow-right" />
+</a>

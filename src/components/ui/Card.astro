@@ -1,0 +1,56 @@
+---
+// The content card: Raised for grids, Floating for forms and confirmations, Tint for a flat
+// panel. With `href` the title is a stretched link and the card lifts on hover.
+import type { HTMLAttributes } from 'astro/types';
+
+const VARIANT = {
+  raised: 'ie-card-raised',
+  floating: 'ie-card-floating',
+  tint: 'ie-card-tint',
+} as const satisfies Record<string, string>;
+const TITLE = {
+  lg: 'type-card-title-lg',
+  md: 'type-card-title-md',
+  sm: 'type-card-title-sm',
+} as const satisfies Record<string, string>;
+
+interface Props extends HTMLAttributes<'div'> {
+  variant?: keyof typeof VARIANT;
+  title?: string;
+  titleSize?: keyof typeof TITLE;
+  titleAs?: 'h2' | 'h3' | 'h4';
+  href?: string;
+  as?: 'div' | 'article' | 'li';
+  class?: string;
+}
+const {
+  variant = 'raised',
+  title,
+  titleSize = 'md',
+  titleAs: Heading = 'h3',
+  href,
+  as: Tag = 'div',
+  class: className,
+  ...rest
+}: Props = Astro.props;
+---
+
+<Tag
+  class:list={['ie-card flex flex-col gap-2 p-card-padding', VARIANT[variant], className]}
+  {...rest}
+>
+  {
+    title && (
+      <Heading class:list={['m-0 text-foreground', TITLE[titleSize]]}>
+        {href ? (
+          <a class="ie-card-link" href={href}>
+            {title}
+          </a>
+        ) : (
+          title
+        )}
+      </Heading>
+    )
+  }
+  <slot />
+</Tag>

@@ -11,7 +11,9 @@
 //
 // --classes (marketing build): every class in a class="" attribute must exist as a
 // selector in the built CSS. Catches old utility names, Tailwind defaults that don't
-// exist in our theme, and typos, with no deny-list to maintain.
+// exist in our theme, and typos, with no deny-list to maintain. And the reverse for the
+// site's own ie-* classes: every one with CSS must be used by a page, so no dead
+// component CSS ships (the HubSpot form's .hs-* classes arrive at runtime and are exempt).
 import { existsSync, statSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { basename, dirname, join, relative, resolve } from 'node:path';
@@ -166,6 +168,13 @@ for (const root of dirs) {
       if (known.has(c) || CLASS_ALLOW.has(c)) continue;
       console.error(
         `  unknown class: .${c}  (e.g. ${from}). It has no CSS; use a token utility or an ie-* class.`,
+      );
+      failures++;
+    }
+    for (const c of known) {
+      if (!c.startsWith('ie-') || classUse.has(c)) continue;
+      console.error(
+        `  unused class: .${c} has CSS but no page uses it. Remove it from components.css.`,
       );
       failures++;
     }

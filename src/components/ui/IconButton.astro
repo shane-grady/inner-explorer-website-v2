@@ -1,0 +1,23 @@
+---
+// A round outline button holding one interface icon; `label` is its accessible name.
+import type { HTMLAttributes } from 'astro/types';
+import Icon from './Icon.astro';
+import type { IconName } from '../../lib/icons';
+
+interface Props extends HTMLAttributes<'button'> {
+  icon: IconName;
+  label: string;
+  size?: 'md' | 'sm';
+  class?: string;
+}
+const { icon, label, size = 'md', class: className, ...rest }: Props = Astro.props;
+---
+
+<button
+  type="button"
+  class:list={['ie-icon-btn', size === 'sm' && 'ie-icon-btn-sm', className]}
+  aria-label={label}
+  {...rest}
+>
+  <Icon name={icon} />
+</button>

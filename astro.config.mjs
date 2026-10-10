@@ -25,8 +25,9 @@ export default defineConfig({
     '/resources': '/newsroom/',
   },
 
-  // mdx() renders the privacy policy (src/pages/privacy-policy.astro).
-  integrations: [mdx(), sitemap()],
+  // mdx() renders the privacy policy (src/pages/privacy-policy.astro). The styleguide is
+  // noindex and stays out of the sitemap.
+  integrations: [mdx(), sitemap({ filter: (page) => !page.includes('/styleguide/') })],
 
   vite: { plugins: [tailwindcss()] },
 });

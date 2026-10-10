@@ -1,0 +1,28 @@
+---
+// A Phosphor fill icon, bare (icon-accent, white on green) or in the 48px Emerald disc.
+import { FEATURE_ICONS, type FeatureIconName } from '../../lib/feature-icons';
+
+interface Props {
+  name: FeatureIconName;
+  /** Bare icon size: 24 in lists and rows, 32 leading a card. The disc's icon is 24. */
+  size?: 24 | 32;
+  /** The 48px Emerald disc with a 24px white icon (light grounds only). */
+  disc?: boolean;
+  label?: string;
+  class?: string;
+}
+const { name, size = 24, disc = false, label, class: className }: Props = Astro.props;
+const px = disc ? 24 : size;
+const svg = FEATURE_ICONS[name].replace(
+  '<svg ',
+  `<svg width="${px}" height="${px}" ${label ? `role="img" aria-label="${label}"` : 'aria-hidden="true"'} `,
+);
+---
+
+{
+  disc ? (
+    <span class:list={['ie-icon-disc', className]} set:html={svg} />
+  ) : (
+    <span class:list={['inline-flex shrink-0 text-icon-accent', className]} set:html={svg} />
+  )
+}

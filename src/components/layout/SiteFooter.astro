@@ -1,0 +1,47 @@
+---
+// The site footer (Footer A on the boards): logo, blurb, three link columns, legal line and
+// sign-off. Two columns below md, a 2 + 1 + 1 + 1 grid from md.
+import Logo from '../ui/Logo.astro';
+import { footer } from '../../data/navigation';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-border bg-surface px-section-x pt-10 pb-8 md:pt-16 md:pb-10">
+  <div class="mx-auto flex max-w-page flex-col gap-6 md:gap-12">
+    <div class="grid grid-cols-2 gap-x-4 gap-y-6 md:grid-cols-5 md:gap-8">
+      <div class="col-span-2 flex flex-col items-start gap-4">
+        <Logo />
+        <p class="m-0 max-w-measure-short type-small text-foreground-secondary">{footer.blurb}</p>
+      </div>
+      {
+        footer.columns.map((column, i) => (
+          <nav aria-labelledby={`footer-${i}`} class="flex flex-col gap-1 md:gap-3">
+            <h2 id={`footer-${i}`} class="m-0 type-small font-bold text-foreground">
+              {column.heading}
+            </h2>
+            <ul class="m-0 flex list-none flex-col gap-1 p-0 md:gap-3">
+              {column.links.map((link) => (
+                <li>
+                  <a class="ie-footer-link" href={link.href}>
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        ))
+      }
+    </div>
+    <div
+      class="flex flex-col gap-2 border-t border-border pt-5 type-label text-foreground-secondary md:flex-row md:justify-between md:pt-6"
+    >
+      <p class="m-0">
+        © 2011–{year} Inner Explorer, Inc. · <a class="text-inherit" href={footer.privacy.href}
+          >{footer.privacy.label}</a
+        >
+      </p>
+      <p class="m-0">{footer.signoff}</p>
+    </div>
+  </div>
+</footer>

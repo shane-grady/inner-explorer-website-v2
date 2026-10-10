@@ -8,6 +8,27 @@ the dark-mode and glass-nav hacks, the page and case-study builds, marketing Clo
 editing) are in `tasks/archive/lessons-pre-rebuild.md`; general points from them are under
 "Carried over from the archived build logs" below.
 
+## Design foundation (2026-10)
+
+- **Simplify a plan before presenting it.** The first foundation plan carried a tokens.json
+  plus generator, nine components that were one element with one class, and variants no board
+  drew. The user asked for a fresh-eyes pass; an advisor review then removed all of it for
+  free. Ask "what is the single source of truth, and what renders markup a class can't?"
+  before adding a file.
+- **Read the boards, not the systems.** Both design systems disagreed with the FINAL V boards
+  on real values (a green-400 "surface", 12px inputs, a 16px accent-bar gap, 13 fonts). Tally
+  values across every board with a script first, then read patterns by hand.
+- **Tailwind v4 bridge:** reset only `--color-*`, `--font-*`, `--text-*`, `--radius-*`,
+  `--shadow-*` (never `--spacing-*`: it deletes `--spacing`); alias colors with `@theme inline`
+  so `[data-on-brand]` remaps work; alias same-named families with `@theme inline reference`
+  to avoid `--radius-sm: var(--radius-sm)`; write `@utility type-*` with longhands so
+  `font-medium` can override; list utility names as literals (the styleguide) or they are not
+  emitted.
+- **Full-page screenshots don't scroll:** lazy images below the fold never load, so a CTA photo
+  rendered empty in `pnpm shots`. Set `img.loading = 'eager'` and wait for `complete` first.
+- **axe `link-in-text-block`:** the preflight removes link underlines; running-text links need
+  `text-decoration: underline` in `base.css`, with the chrome classes opting out.
+
 ## Environment
 
 - **Subagent spawning depends on the environment.** In the 2026-06 Cowork environment,

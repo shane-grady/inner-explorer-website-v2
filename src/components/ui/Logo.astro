@@ -1,0 +1,22 @@
+---
+// The lockup: primary on light grounds, reversed on green and photos. Sized by the
+// header and footer (28px on mobile, 32px from xl).
+import { Image } from 'astro:assets';
+import primary from '../../assets/brand/lockup-primary.png';
+import reversed from '../../assets/brand/lockup-reversed.png';
+
+interface Props {
+  reversed?: boolean;
+  class?: string;
+}
+const { reversed: isReversed = false, class: className }: Props = Astro.props;
+---
+
+<Image
+  src={isReversed ? reversed : primary}
+  alt="Inner Explorer"
+  height={64}
+  densities={[1, 2]}
+  loading="eager"
+  class:list={['block h-(--logo-height-mobile) w-auto xl:h-(--logo-height)', className]}
+/>
