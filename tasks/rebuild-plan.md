@@ -335,6 +335,19 @@ The design system's 24 components, ported to Astro with the same markup and `ie-
   - no raw colors or lengths in `base.css` or `components.css`;
   - `pnpm shots` (Playwright plus axe, screenshots at 1440 and 390, Amplitude blocked).
 
+### No orphans
+
+The design system's rule (README, Typography): the last two words of each line of copy go in
+`<span class="ie-keep">` (`display: inline-block; text-decoration: inherit`, in `bundle.css`).
+
+- **`src/lib/keep.ts`:** one helper the shared components call on their text props. It handles
+  `\n` line breaks and emphasis, as the system's `copy()` in `bundle.js` does. The page
+  title and hero skip it and rely on `text-wrap: balance`.
+- **A rehype plugin** gives Markdown/MDX the same span on `p`, `li`, `h2`–`h4`, `blockquote`
+  and `figcaption`.
+- **`/styleguide/`** shows it, and each page PR checks it: at 320, 390, 768 and 1440, no block
+  ends on one word when the last two words would fit on a line.
+
 ### Page-PR playbook (goes into `CLAUDE.md` with the foundation)
 
 1. **Map before coding.** List each board section as existing component, new variant, new shared block or page-only, using `design/inventory.md`. List each off-system value and how it was resolved.
@@ -354,7 +367,7 @@ The design system's 24 components, ported to Astro with the same markup and `ie-
    - Spacing within 4px snaps to the nearest token. Anything else becomes a `provisional` site token.
 5. **Behavior:** vanilla `<script>` on `data-*` attributes. No React.
 6. **Images:** in `src/assets/images/<page>/`, rendered through `<Image>`.
-7. **Done means:** `pnpm verify`, then `pnpm shots` beside the boards, axe clean, and `/styleguide/` and the inventory updated.
+7. **Done means:** `pnpm verify`, then `pnpm shots` beside the boards, axe clean, no orphans (see No orphans), and `/styleguide/` and the inventory updated.
 
 ### Page order after the foundation
 

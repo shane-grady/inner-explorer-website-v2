@@ -207,8 +207,11 @@ the archive has the full story.
   `transition-delay` (Scroll-reveal).
 - **Verification:** run a regression probe against the broken build too; a probe that can't
   fail proves nothing (Scroll-reveal). Pick button sizes by measuring the designed column, not
-  by matching pixel height (Series). Orphan check: after `text-wrap`, scan each block's last
-  line with Range rects at 375/768/1440 and pin real hits with U+00A0 (Research).
+  by matching pixel height (Series). Orphan check: scan each block's last line with Range rects
+  at 320/390/768/1440, counting only avoidable hits (the last two words would fit on a line),
+  and group words into lines by the middle of the line box: at tight leading the glyph boxes
+  of neighbouring lines overlap. Fix with `.ie-keep` (CLAUDE.md), not U+00A0, which overflows
+  big type at 320px; `text-wrap: pretty` alone leaves many (Research; No-orphans rule).
 - **YAML:** a list item containing `: ` parses as a mapping, so quote citation-style strings
   (Research).
 - **Sources:** legacy innerexplorer.com pages are authoritative for a school's own data only.
