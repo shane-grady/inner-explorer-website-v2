@@ -272,10 +272,73 @@ mark-compass.png`, 256px PNG) is the board's: an SVG from the design system woul
     and footer titles on the ramp (20 for 22); "Programs and add-ons" 28 (board 32); the
     switch track has a 1px outline for 3:1.
   - No stand-in images on this page.
-- [ ] **Case Studies:** the 7 pre-rebuild YAMLs (`0c8cac2:src/content/case-studies/`) carry
-      PUBLISH GATE and REVIEW comments: stand-in portraits, invented student voices,
-      representative trust figures, inferred dates, La Joya's 85% vs 80%, the 43% educator-stress
-      figure. Resolve each before its value reaches a new page.
+- [ ] **Case Studies (index + detail template + Webb built; confirm before launch):**
+  - **Launch gate, Webb approval:** a canvas note on the Webb boards says "Hold on Webb Case study:
+    waiting for approval from them". Built and published on staging (noindexed); get the school's
+    approval before www goes live, or set `draft: true` in `src/content/case-studies/webb-school.yaml`.
+  - The other six stories (Kaiser, Dwight Morrow, Goddard, John Marshall, La Joya, Mindful
+    Michigan): one PR each with the `transfer-case-study` skill. Until then the index lists only
+    Webb (chips with no story are hidden) and Webb's "More stories like this" row is hidden, since
+    its related stories (kaiser-elementary, la-joya-isd, dwight-morrow) aren't built.
+  - The 7 pre-rebuild YAMLs (`0c8cac2:src/content/case-studies/`) carry PUBLISH GATE and REVIEW
+    comments: stand-in portraits, invented student voices, representative trust figures, inferred
+    dates, La Joya's 85% vs 80%, the 43% educator-stress figure. The new collection takes its text
+    from the boards, not those files; resolve each before its value reaches a page.
+  - Hero: **Hero D · Voice led, chosen 2026-10-11** (CS-Hero-D, CS-Hero-D-Mobile), with Hero D's
+    own Webb copy, which differs from the Webb detail boards; confirm each:
+    - **Hartford vs Avon:** the hero's details say "Hartford, Connecticut"; the "At a glance"
+      rail (from the detail board) says "Avon, Connecticut". Both show on the page. Pick one.
+    - The H1 "How The Webb School in the Valley cut restraints and seclusions 65% with daily
+      mindfulness practice" (the old one, "Transforming Student Behavioral Challenges…", is the
+      legacy title; the Article headline and the index's ItemList JSON-LD now follow the new H1).
+    - The second result "40+ to 1" (outbursts for one student, from DeVane's quote) and "6 min
+      read" (stored as drawn, not computed).
+    - DeVane's quote is the PDF's fuller version (with "ONE restraint and seclusion") and now opens
+      the page; the body's copy of it was removed (the user's call). The Judge's quote stays.
+    - The photo is 1200 × 600, upscaled to fill the 1440 × 640 band: a larger original would be
+      sharper.
+    - Not built: Heroes A, B, C and E.
+  - PDF gate (decided: HubSpot): create the HubSpot form "Case study PDF request" with one field,
+    email, label "Work email", placeholder "you@district.org", submit "Send me the PDF" (the
+    boards' copy); optionally a follow-up email with the file. Put its GUID in
+    `src/lib/site.ts` › `HUBSPOT.caseStudyPdfFormId`. Until then each PDF card links the file
+    directly ("Download the PDF"; not the boards' copy). Then verify the form live: the inline
+    layout (`[data-hsform='inline']`) is unverified, HubSpot's submit is its primary button (the
+    board draws secondary), and the confirmation copy ("Thanks. Your case study is ready.") is not
+    on the boards. The gate is soft: the file stays at a public URL.
+  - Webb stand-ins and facts, as drawn: the photo (`src/assets/images/case-studies/webb-school/`,
+    the board's legacy-site image, three students at an electronics project) and the PDF
+    (`public/downloads/webb-school-case-study.pdf`, restored from `0c8cac2`, 5 pages). The 65%
+    decrease; the chart values (116 / 180 / 63 / 63 / 68, "approximate values read from the original
+    chart"; the old YAML said 180 → 62); partners "Aetna Foundation and LG Electronics"; Judge Frank
+    Szymanski's quote and court. The template-written fields: the card label, the "At a glance"
+    facts, the alt text.
+  - Board vs PDF: the detail boards' copy of DeVane's quote dropped the PDF's "ONE restraint"
+    sentence (Hero D restores it, above). The PDF's footnotes 1 and 2 (the dropout and suspension
+    statistics) are still missing from the page; restore them?
+  - Breadcrumb: the boards link "Therapeutic school" to `/case-studies/?level=therapeutic` with
+    `aria-current`; no level filter exists (the chips filter by outcome), so it is plain text.
+  - SEO: Webb's title is the old entry's ("Mindfulness Case Study: 65% Fewer Restraints &
+    Seclusions") plus the site suffix (75 characters); the description is the board's sentence
+    "After using Inner Explorer, … reported a 65% decrease in restraints and seclusion." The
+    JSON-LD ports `0c8cac2`'s Article + BreadcrumbList (no `citation`: the boards cite no sources)
+    and CollectionPage + ItemList.
+  - Copy verbatim: "Talk to our team" (index hero, rail, detail CTA) and "Contact us" (index CTA),
+    per the site-wide CTA item; "Case Studies on Inner Explorer Program" in title case.
+  - Drift left after the measured side-by-side reviews (2026-10-10 and, for Hero D, 2026-10-11;
+    index hero within 3px at both widths; the Hero D hero within 6px of its board at 1440; the
+    body within 20px by the PDF card): headings sit 4px higher each (52 → 48 margins); numerals 48
+    → 44; body quotes 18 on mobile (board 20, per the quote decision); chart labels 13 on mobile
+    (board 12) and bars 60% of their column (board fixed widths); the closing CTA title wraps
+    after "be" (the shared inline block). Card gap 24 as the index board sets it (the card-system
+    board says 8). Hero D: result numerals 44 → 40 on the one stat ramp (board 32); the mobile H1
+    32 (board 30); the hero quote 18 below xl (board 21) and 1.4 leading at xl (board 1.36); the
+    breadcrumb at .06em (board .08, so it holds one line on mobile where the board wraps); Forest
+    scrims (board Deep Forest), the bottom one darker than drawn. Below xl the hero uses the mobile
+    layout (quote at the foot, card rising 64px): at lg the 640px quote outran the left scrim and
+    white fell under 3:1. Measured per text line over the photo, every 14–16px line clears 4.5:1
+    at 360–1920. The weakest quote lines at 1280–1366 are 3.4–4.5:1, which passes because the
+    quote is large text (≥ 24px) there.
 
 ## Build order
 
@@ -288,8 +351,12 @@ mark-compass.png`, 256px PNG) is the board's: an SVG from the design system woul
 - [x] Why Inner Explorer: `StatStrip variant="ruled"`, Checklist lead-ins and `strong`, the
       half-bleed panel (`--bleed`, `.ie-bleed-start` / `-end`), `.ie-minus-disc`, subject and
       funding feature icons; board assets as stand-ins (Before build › Why). ROI estimator parked.
-- [ ] Case Studies index and 7 details; PDFs from `0c8cac2:public/downloads/`; update the
-      `transfer-case-study` skill.
+- [x] Case Studies: the collection, the index, the detail template and Webb School;
+      `PageTitle layout="split"`, `blocks/StoryCard`, `blocks/BarChart`, Testimonial `initials`,
+      the HubSpot PDF gate with a direct-link fallback; the `transfer-case-study` skill rewritten
+      (Before build › Case Studies).
+- [ ] Case Studies: the six other stories, one PR each with the skill, PDFs from
+      `0c8cac2:public/downloads/`.
 - [ ] Newsroom and Article: the 18 legacy posts word for word ("Blog Posts Working" page), the 2
       real posts from `0c8cac2:src/content/blog/` (`inner-explorer-mtss-tiers`,
       `mindfulness-for-student-athletes`), legacy blog 301s, `/blog` vs `/newsroom` breadcrumbs.

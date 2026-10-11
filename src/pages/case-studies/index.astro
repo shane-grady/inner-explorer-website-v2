@@ -1,18 +1,194 @@
 ---
-// Placeholder until this page is built from the "Inner Explorer — Website" canvas
-// (FINAL V). See tasks/rebuild-plan.md for the order pages are built in.
+// Case Studies, from the FINAL V boards Case-Studies-Desktop and Case-Studies-Mobile. The
+// cards come from the caseStudies collection: only stories already built are listed, and a
+// filter chip shows only when a story carries its tag (tasks/todo.md › Case Studies). CTA
+// labels verbatim ("Talk to our team"), per the site-wide CTA item.
 import PageLayout from '../../layouts/PageLayout.astro';
+import JsonLd from '../../components/seo/JsonLd.astro';
+import Section from '../../components/ui/Section.astro';
+import PageTitle from '../../components/ui/PageTitle.astro';
+import Button from '../../components/ui/Button.astro';
+import StoryCard from '../../components/blocks/StoryCard.astro';
+import ClosingCta from '../../components/blocks/ClosingCta.astro';
+import {
+  CASE_STUDY_TAGS,
+  caseStudyHeadline,
+  caseStudyHref,
+  getCaseStudies,
+  type CaseStudyTag,
+} from '../../lib/case-studies';
+import { MAIN_SITE } from '../../lib/site';
 
 const content = {
   title: 'Case Studies — Real Results from Schools & Districts | Inner Explorer',
   description:
     "Real schools, measured results: how districts and schools use Inner Explorer's daily mindfulness practice to cut behavioral incidents and build calmer classrooms.",
-  heading: 'Case studies',
-  lead: 'Real schools, measured results.',
+  hero: {
+    eyebrow: 'Case studies',
+    title: 'Case Studies on *Inner Explorer Program*',
+    lead: 'See how our partners across the country have been impacted by implementing daily mindfulness into their classrooms and the results they have seen.',
+    primary: { label: 'Talk to our team', href: '/contact/' },
+    secondary: { label: 'See the research', href: '/research/' },
+  },
+  browse: {
+    title: 'All case studies',
+    showing: 'Showing',
+    one: 'story',
+    many: 'stories',
+    filterLabel: 'Filter stories by outcome',
+    all: 'All stories',
+  },
+  cta: {
+    title: 'Your school could be *the next story*',
+    lead: 'See what a daily mindfulness practice could do for your classrooms.',
+    primary: { label: 'Contact us', href: '/contact/' },
+    secondary: { label: 'See the research', href: '/research/' },
+  },
+} as const;
+
+const stories = await getCaseStudies();
+const count = (n: number) =>
+  `${content.browse.showing} ${n} ${n === 1 ? content.browse.one : content.browse.many}`;
+const filters = [
+  { id: 'all', label: content.browse.all, count: stories.length },
+  ...(Object.entries(CASE_STUDY_TAGS) as [CaseStudyTag, string][]).map(([id, label]) => ({
+    id,
+    label,
+    count: stories.filter((s) => s.data.tags.includes(id)).length,
+  })),
+].filter((f) => f.count > 0);
+
+const base = new URL(Astro.site ?? MAIN_SITE).origin;
+const collectionLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: content.title,
+  url: `${base}/case-studies/`,
+  description: content.description,
+  mainEntity: {
+    '@type': 'ItemList',
+    numberOfItems: stories.length,
+    itemListElement: stories.map((s, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: caseStudyHeadline(s),
+      url: `${base}${caseStudyHref(s)}`,
+    })),
+  },
 };
 ---
 
 <PageLayout title={content.title} description={content.description}>
-  <h1>{content.heading}</h1>
-  <p>{content.lead}</p>
+  <JsonLd slot="head" schema={collectionLd} />
+
+  <Section spacing="hero">
+    <PageTitle
+      layout="split"
+      eyebrow={content.hero.eyebrow}
+      title={content.hero.title}
+      lead={content.hero.lead}
+    >
+      <Fragment slot="actions">
+        <Button href={content.hero.primary.href} arrow>{content.hero.primary.label}</Button>
+        <Button href={content.hero.secondary.href} variant="secondary">
+          {content.hero.secondary.label}
+        </Button>
+      </Fragment>
+    </PageTitle>
+  </Section>
+
+  <Section class="pt-0" aria-labelledby="browse-title" data-story-filter>
+    <div class="flex flex-col gap-2 md:flex-row md:items-end md:justify-between md:gap-8">
+      <h2 id="browse-title" class="m-0 type-section-title text-foreground">
+        {content.browse.title}
+      </h2>
+      <p
+        class="m-0 type-label text-foreground-muted"
+        aria-live="polite"
+        data-count
+        data-one={content.browse.one}
+        data-many={content.browse.many}
+        data-showing={content.browse.showing}
+      >
+        {count(stories.length)}
+      </p>
+    </div>
+    {
+      filters.length > 1 && (
+        <div
+          class="ie-chip-row -mx-section-x mt-4 px-section-x md:mx-0 md:mt-6 md:px-0"
+          role="group"
+          aria-label={content.browse.filterLabel}
+          data-filters
+          hidden
+        >
+          {filters.map((f) => (
+            <button
+              type="button"
+              class="ie-chip"
+              aria-pressed={f.id === 'all' ? 'true' : 'false'}
+              data-filter={f.id}
+            >
+              {f.label}
+              <span class="ie-chip-count type-tag">{f.count}</span>
+            </button>
+          ))}
+        </div>
+      )
+    }
+    <ul class="m-0 mt-4 grid list-none gap-6 p-0 md:mt-8 md:grid-cols-2 lg:grid-cols-3">
+      {
+        stories.map((s) => (
+          <li data-tags={s.data.tags.join(' ')}>
+            <StoryCard
+              href={caseStudyHref(s)}
+              image={s.data.image}
+              level={s.data.level}
+              name={s.data.name}
+              place={s.data.place}
+              stat={s.data.card.stat}
+              statLabel={s.data.card.label}
+            />
+          </li>
+        ))
+      }
+    </ul>
+  </Section>
+
+  <Section class="pt-0">
+    <ClosingCta
+      layout="inline"
+      title={content.cta.title}
+      lead={content.cta.lead}
+      primary={content.cta.primary}
+      secondary={content.cta.secondary}
+    />
+  </Section>
 </PageLayout>
+
+<script>
+  // Outcome filters: a pressed chip shows only the stories with its tag and the count follows.
+  // The chips appear once this runs, so without JS every story shows.
+  for (const root of document.querySelectorAll<HTMLElement>('[data-story-filter]')) {
+    const group = root.querySelector<HTMLElement>('[data-filters]');
+    const out = root.querySelector<HTMLElement>('[data-count]');
+    if (!group || !out) continue;
+    const chips = [...group.querySelectorAll<HTMLButtonElement>('[data-filter]')];
+    const items = [...root.querySelectorAll<HTMLElement>('[data-tags]')];
+    group.hidden = false;
+    for (const chip of chips) {
+      chip.addEventListener('click', () => {
+        const id = chip.dataset.filter;
+        let shown = 0;
+        for (const c of chips) c.setAttribute('aria-pressed', String(c === chip));
+        for (const item of items) {
+          const match = id === 'all' || item.dataset.tags?.split(' ').includes(id ?? '');
+          item.hidden = !match;
+          if (match) shown += 1;
+        }
+        const { showing, one, many } = out.dataset;
+        out.textContent = `${showing} ${shown} ${shown === 1 ? one : many}`;
+      });
+    }
+  }
+</script>

@@ -1,0 +1,49 @@
+---
+// A case study's card: the photo with its level label, the school, its place, the headline
+// result and "Read the story". The school's name is a link that covers the card, which lifts
+// and eases its photo in on hover (Case Studies index, a story's "More stories like this").
+// From lg the card is at least the boards' 580px row, its rule and link at the foot.
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Icon from '../ui/Icon.astro';
+
+interface Props {
+  href: string;
+  image: { src: ImageMetadata; alt: string };
+  level: string;
+  name: string;
+  place: string;
+  stat: string;
+  statLabel: string;
+  class?: string;
+}
+const { href, image, level, name, place, stat, statLabel, class: className }: Props = Astro.props;
+---
+
+<article class:list={['ie-card ie-card-raised flex h-full flex-col lg:min-h-145', className]}>
+  <div class="relative h-50 shrink-0 overflow-hidden bg-tint md:h-54">
+    <Image
+      class="ie-card-zoom size-full object-cover"
+      src={image.src}
+      alt={image.alt}
+      widths={[400, 800]}
+      sizes="(min-width: 1024px) 384px, 100vw"
+    />
+    <span class="ie-photo-label absolute top-4 left-4 type-eyebrow">{level}</span>
+  </div>
+  <div class="flex grow flex-col p-card-padding">
+    <h3 class="m-0 type-card-title-md text-foreground">
+      <a class="ie-card-link" href={href}>{name}</a>
+    </h3>
+    <p class="m-0 mt-1 type-label text-foreground-muted">{place}</p>
+    <p class="m-0 mt-5 font-sans type-stat-sm font-bold text-brand-emphasis md:mt-6">{stat}</p>
+    <p class="m-0 mt-2 type-card-title-sm text-foreground-secondary">{statLabel}</p>
+    <div class="min-h-5 grow"></div>
+    <p
+      class="m-0 flex items-center justify-end gap-2 border-t border-border pt-4 type-label font-bold text-brand-emphasis"
+      aria-hidden="true"
+    >
+      Read the story<Icon class="ie-card-arrow" name="arrow-right" size={16} />
+    </p>
+  </div>
+</article>
