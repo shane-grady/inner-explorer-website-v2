@@ -1,0 +1,217 @@
+# John Marshall High School: one file drives /case-studies/john-marshall-hs/ and its card.
+#
+# The hero (title, details, voice, results, photo and position) is verbatim from Hero D's John
+# Marshall boards (CS-Hero-D, CS-Hero-D-Mobile, story "john-marshall"); its lead's "longterm" is set
+# "long-term" as the detail boards print it. Mark Roeder's quote opens the page there as an excerpt,
+# so the body's full copy of it is dropped (as on Webb). The lead, the "At a glance" facts and the
+# body (with its three captioned photos) are verbatim from the boards "John Marshall High School ·
+# Desktop / Mobile" (page "Case Study Detail Working"), which carry the original innerexplorer.com
+# text (legacy /case-study5 and its PDF). The card's stat, label and photo are the index board's.
+# Related: the board links Dwight Morrow and Mindful Michigan, which are not published; Kaiser and
+# La Joya stand in. Open items (tasks/todo.md › Case Studies): the hero photo (it reads as generated
+# imagery, not the school), every figure as drawn, the PDF.
+order: 2
+draft: false
+seo:
+  title: 'Mindfulness Case Study: Students Lead Teen Mental Health | Inner Explorer'
+  description: John Marshall High School students turned daily mindfulness with Inner Explorer into a
+    student-led Wellness Advisory; 91% want to keep practicing.
+publishedDate: '2026-06-09'
+updatedDate: '2026-10-11'
+level: High school
+name: John Marshall High School
+place: Los Angeles, CA
+location: Los Angeles, California
+tags:
+- wellbeing
+title:
+  lead: How John Marshall High students turned a daily mindfulness practice
+  emph: into a teen mental health movement
+details:
+- Los Angeles, California
+- High school
+- Los Angeles Unified
+- 7 min read
+voice:
+  quote: The Wellness Advisory has become part of the fabric of this school; [the student members] change
+    hearts and minds on campus.
+  name: Mark Roeder
+  role: English and Math Teacher, John Marshall High School
+  initials: MR
+lead: 70% of teens report depression and anxiety are major problems in their life, yet only 35% report
+  knowing how to cope with it. Stress negatively impacts their lives, friendships, school performance,
+  relationships with family members, and their long-term success.
+card:
+  stat: 91%
+  label: of students said they want to continue practicing daily mindfulness
+  image:
+    src: ../../assets/images/case-studies/john-marshall-hs/students-outside.jpg
+    alt: Three high school students sit outside with their eyes closed during a mindfulness practice
+results:
+- value: '91'
+  unit: '%'
+  label: of students selected “yes” when asked if they would like to continue practicing daily mindfulness
+    with Inner Explorer
+- value: '15'
+  unit: '%'
+  label: increase in the number of students who exceeded expectations in English Language Arts
+- value: '19'
+  unit: '%'
+  label: increase in the number of students who exceeded expectations in Math
+image:
+  src: ../../assets/images/case-studies/john-marshall-hs/wellness-advisory-circle.jpg
+  alt: A circle of high school students in a Wellness Advisory meeting, sitting upright with eyes closed
+  position: 50% 45%
+glance:
+- label: Location
+  value: Los Angeles, California
+- label: District
+  value: Los Angeles Unified School District
+- label: Wellness Advisory started
+  value: 2017-2018 school year
+- label: Practice
+  value: Daily mindfulness with Inner Explorer at the beginning of each school day
+- label: Program funded by
+  value: LG Electronics USA grant
+body:
+- type: heading
+  id: background
+  text: Background
+- type: paragraphs
+  items:
+  - Thanks to a grant from LG Electronics USA, students at John Marshall High School in Los Angeles, California
+    are utilizing daily mindfulness with Inner Explorer as a preventative mental health measure.
+  - Initially introduced by Educator Elena Kelly, students started practicing mindfulness with Inner Explorer
+    at the beginning of each school day. Over time, their daily practice in the classroom inspired a larger
+    mental health initiative among students.
+  - Using mindfulness as the foundation, students created the Wellness Advisory - a student-led organization
+    that uses the LG Electronics Six Sustainable Happiness skills to improve the mental health and well-being
+    of the school community.
+- type: figure
+  image:
+    src: ../../assets/images/case-studies/john-marshall-hs/circle-on-grass.jpg
+    alt: A group of high school students sits in a circle on the grass outside their school during a mindfulness
+      practice
+  caption: John Marshall High School students practice mindfulness together on campus.
+- type: quote
+  text: Daily mindfulness has a powerful way of helping teens open up. When you are self-aware, you notice
+    what is on your mind and communicate that with others. In this way, it paves the way for *Human Connection,
+    Gratitude, Positive Outlook, Purpose, and Generosity.*
+  name: Elena Kelly
+  role: Educator, John Marshall High School
+  initials: EK
+- type: paragraphs
+  items:
+  - '"Success in school is linked to greater opportunities in life. One of the most effective practices
+    used to lead children towards their highest potential by bolstering academic performance, creativity,
+    social and emotional aptitude, and well-being is mindfulness," shares Inner Explorer Chief Strategy
+    Officer Lisa Grady.'
+  - Mindfulness is foundational to the other five skills, which include Human Connection, Gratitude, Positive
+    Outlook, Purpose, and Generosity; these are research-backed skills that can be taught, learned, and
+    practiced to improve happiness and well-being, as defined by the LG Experience Happiness initiative.
+- type: heading
+  id: district
+  text: District-wide success
+- type: paragraphs
+  items:
+  - 'The Wellness Advisory initiatives center around creating an open, inviting, and inclusive community.
+    A few of their projects to date include:'
+- type: checklist
+  items:
+  - lead: 'Dedicated Wellness Room:'
+    text: A safe space for students to practice mindfulness and hold Advisory meetings, which all begin
+      with an Inner Explorer practice.
+  - lead: '"Say Hey" Days:'
+    text: Dedicated school days where students and staff are encouraged to greet people they have never
+      talked to before or eat lunch with them to build community and prevent social isolation.
+  - lead: '"You Have a Friend" Effort:'
+    text: Students wrote letters to the elderly who were isolated during the pandemic to connect and cheer
+      them up.
+- type: paragraphs
+  items:
+  - The Wellness Advisory has been so successful that Los Angeles Unified School District (LAUSD) implemented
+    a similar concept in other schools.
+  - Additionally, following the success that mindfulness continues to have at John Marshall, the district
+    signed up to provide Inner Explorer in every school. *Inner Explorer now serves all 1,100 schools
+    that are part of LAUSD.*
+- type: heading
+  id: students
+  text: What students have to say
+- type: paragraphs
+  items:
+  - Students offer their perspective on the Wellness Advisory and how the Six Sustainable Happiness Skills
+    make a positive impact on their mental health and well-being.
+- type: figure
+  image:
+    src: ../../assets/images/case-studies/john-marshall-hs/advisory-member-steps.jpg
+    alt: A high school student in a Wellness Advisory shirt sits on the school steps
+  caption: A member of the Wellness Advisory at John Marshall High School.
+- type: checklist
+  items:
+  - lead: Mindfulness
+    text: “I have anxiety and ADHD – I feel anxious all the time. By doing mindfulness, I’m able to center
+      myself.”
+  - lead: Human Connection
+    text: “It has been a beautiful experience to be a founding member of the Wellness Advisory because
+      people from all different interests are coming together to make one big community.”
+  - lead: Gratitude
+    text: '"When I practice the Six Sustainable Happiness Skills, I feel like I am able to appreciate
+      life more."'
+  - lead: Positive Outlook
+    text: '"Seeing the Wellness Advisory members on campus is a boost of happiness."'
+  - lead: Purpose
+    text: '"We want to be role models. When you see other students practicing [mindfulness], you want
+      to learn from them and experience it too."'
+  - lead: Generosity
+    text: '"The Wellness Advisory is a place where we can help ourselves and then learn how we can better
+      help others."'
+- type: callout
+  title: Did You Know?
+  text: A portion of the most recent COVID-19 Relief Funding can be used towards Mindfulness-Based Social
+    Emotional Learning programs, such as Inner Explorer.
+- type: heading
+  id: academics
+  text: MBSEL and academics
+- type: paragraphs
+  items:
+  - In addition to mental health benefits, mindfulness is linked to improved academics. Results from a
+    landmark meta-analysis that looked across 213 studies involving over 270,000 students found that SEL
+    interventions that address the five core competencies increased academic performance by 11 percentile
+    points, compared to students who did not participate.
+  - The five core competencies, as defined by the Collaborative for Academic, Social, and Emotional Learning
+    (CASEL), are self-awareness, self-management, responsible decision making, relationship skills, and
+    social awareness.
+  - Inner Explorer is a CASEL-approved Mindfulness-Based Social Emotional Learning (MBSEL) program; it
+    cultivates the core competencies by using daily mindfulness as the foundation.
+  - With just 5-10 minutes of daily practice, MBSEL reduces fight or flight reactivity and stress, while
+    improving higher-order thinking and learning. As a result, schools and districts often report improved
+    academics with the use of the Inner Explorer program.
+  - At John Marshall, the number of students who exceeded expectations in English Language Arts and Math
+    both increased significantly between the 2017-2018 school year when the Wellness Advisory was started
+    and the following 2018-2019 school year.
+- type: figure
+  image:
+    src: ../../assets/images/case-studies/john-marshall-hs/two-students-practice.jpg
+    alt: Two high school students sit with their eyes closed during a mindfulness practice
+  caption: Students take a quiet moment for mindfulness at John Marshall High School.
+- type: stats
+  items:
+  - value: 15%
+    label: Increase in the number of students who exceeded expectations in English Language Arts
+    source: From the 2017-2018 school year to the 2018-2019 school year
+  - value: 19%
+    label: Increase in the number of students who exceeded expectations in Math
+    source: From the 2017-2018 school year to the 2018-2019 school year
+- type: paragraphs
+  items:
+  - Inner Explorer, Be Strong, the Collaborative for Academic, Social, and Emotional Learning (CASEL),
+    Discovery Education, and the Greater Good Science Center are partners in bringing happiness to 5.5
+    million teens in the United States as part of the LG Electronics USA Experience Happiness Initiative.
+pdf:
+  file: /downloads/john-marshall-hs-case-study.pdf
+  pages: 2
+  title: Get the John Marshall High School case study
+related:
+- goddard-middle-school
+- kaiser-elementary
+- la-joya-isd

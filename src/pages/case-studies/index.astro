@@ -142,7 +142,7 @@ const collectionLd = {
           <li data-tags={s.data.tags.join(' ')}>
             <StoryCard
               href={caseStudyHref(s)}
-              image={s.data.image}
+              image={s.data.card.image ?? s.data.image}
               level={s.data.level}
               name={s.data.name}
               place={s.data.place}

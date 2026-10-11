@@ -5,8 +5,8 @@ description: >-
   read the story's boards on the "Case Study Detail Working" page of the canvas, copy them
   verbatim into one caseStudies YAML entry (Webb School is the reference), restore its PDF,
   and verify the page against the boards. Use this skill whenever the user asks to transfer,
-  migrate, port, rebuild, or "do the next" case study; names one of the stories (Kaiser,
-  Dwight Morrow, Goddard, John Marshall, La Joya, Mindful Michigan); pastes an
+  migrate, port, rebuild, or "do the next" case study; names one of the stories (Webb, Kaiser,
+  Goddard, John Marshall, La Joya: all five are built); pastes an
   innerexplorer.com/case-study* URL or a legacy case-study PDF; or asks to add a new
   district/school success story page — even if they don't say "case study" (e.g. "add the La
   Joya story like we did Webb"). Also use it to refresh the SEO metadata of an existing
@@ -83,11 +83,11 @@ The index card uses those exact values.
 | Lead paragraph (the same on both boards) | `lead` |
 | The school's city and state | `location` (JSON-LD only) |
 | "At a glance" rows | `glance[]` `{ label, value }` |
-| Article body, top to bottom (drop a `quote` that repeats the hero's voice) | `body[]`: `heading` (h2, with the board's `id`) · `subheading` (h3) · `paragraphs` (a run of `<p>`) · `quote` `{ text, name, role, initials }` · `chart` · `checklist` · `steps` `{ title, text }` |
+| Article body, top to bottom (drop a `quote` that repeats the hero's voice) | `body[]`: `heading` (h2, with the board's `id`) · `subheading` (h3) · `paragraphs` (a run of `<p>`; `<b>` → `*…*`, `<a>` → `[…](url)`) · `quote` `{ text, name, role, initials }` · `chart` · `checklist` (a leading `<b>` → `{ lead, text }`) · `steps` `{ title, text }` · `table` `{ caption, columns, rows, highlight? }` · `figure` `{ image, caption }` · `callout` `{ title, text }` (a Tint aside) · `stats` `{ value, label, source }` (Tint result tiles) |
 | Chart | `chart`: `title` (its figcaption), `summary` (the board's `aria-label` up to the first period), `phases[]` (`before` / `after` / `during`, each with `bars[]` `{ label, value }`), `note` (the line under the rule) |
 | "Case study PDF · N pages" card | `pdf` `{ file: /downloads/<slug>-case-study.pdf, pages, title }` |
 | "More stories like this" | `related[]`: the three slugs the board links |
-| Index card | `card` `{ stat, label }`, `place`, `tags`, `order` (the index board's order) |
+| Index card | `card` `{ stat, label, image? }` (`image` when the index photo is not the hero's), `place`, `tags`, `order` (the index board's order) |
 
 Also set:
 
@@ -113,8 +113,8 @@ put markup in the entry.
   with the boards and list what the boards dropped (Webb's boards dropped one quote sentence and
   two footnotes). Raise those differences; don't silently restore them.
 - **Slug:** the one in `tasks/todo.md` › Launch › legacy 301 map (`kaiser-elementary`,
-  `dwight-morrow`, `goddard-middle-school`, `webb-school`, `john-marshall-hs`, `la-joya-isd`,
-  `mindful-michigan`).
+  `goddard-middle-school`, `webb-school`, `john-marshall-hs`, `la-joya-isd`). Dwight Morrow and
+  Mindful Michigan were dropped (2026-10-11); add one back only when asked.
 
 ## Step 4: Verify against the boards
 

@@ -1,22 +1,23 @@
 ---
 // A case study, from the "Case Study Detail Working" boards (FINAL V draws no detail page): the
 // hero is Hero D · Voice led (CS-Hero-D and CS-Hero-D-Mobile, chosen 2026-10-11), the rest the
-// story's Desktop and Mobile boards (Webb School in the Valley). One caseStudies entry drives
-// the page; its body blocks render in order. CTA labels verbatim.
-import { getImage } from 'astro:assets';
+// story's Desktop and Mobile boards (Webb, Kaiser, Goddard, John Marshall, La Joya). One
+// caseStudies entry drives the page; its body blocks render in order. CTA labels verbatim.
+import { Image, getImage } from 'astro:assets';
 import PageLayout from '../../layouts/PageLayout.astro';
 import JsonLd from '../../components/seo/JsonLd.astro';
 import Section from '../../components/ui/Section.astro';
 import Button from '../../components/ui/Button.astro';
 import ArrowLink from '../../components/ui/ArrowLink.astro';
 import Checklist from '../../components/ui/Checklist.astro';
+import StatStrip from '../../components/blocks/StatStrip.astro';
 import Testimonial from '../../components/blocks/Testimonial.astro';
 import BarChart from '../../components/blocks/BarChart.astro';
 import StoryCard from '../../components/blocks/StoryCard.astro';
 import VoiceHero from '../../components/blocks/VoiceHero.astro';
 import ClosingCta from '../../components/blocks/ClosingCta.astro';
 import HubSpotForm from '../../components/integrations/HubSpotForm.astro';
-import { emphasize } from '../../lib/emphasize';
+import { emphasize, inlineMarks } from '../../lib/emphasize';
 import { breadcrumbSchema, organizationSchema } from '../../lib/schema';
 import { HUBSPOT, MAIN_SITE } from '../../lib/site';
 import {
@@ -76,6 +77,10 @@ const content = {
     secondary: { label: 'See the research', href: '/research/' },
   },
 } as const;
+
+// A table column of numbers ("65", "(51)", "78%", "−0.6%") aligns right.
+const isNumeric = (rows: readonly (readonly string[])[], c: number) =>
+  c > 0 && rows.every((row) => /^[−–-]?\(?[\d.,$]+\)?%?$/.test(row[c]));
 
 // The space above a body block: wide before a heading, tight under one.
 const blockGap = (i: number) => {
@@ -249,7 +254,10 @@ const crumbLd = breadcrumbSchema(Astro.site, [
                 return (
                   <div class:list={['flex flex-col gap-5', gap]}>
                     {block.items.map((text) => (
-                      <p class="m-0 type-article-body text-foreground">{text}</p>
+                      <p
+                        class="m-0 type-article-body text-foreground"
+                        set:html={inlineMarks(text)}
+                      />
                     ))}
                   </div>
                 );
@@ -276,6 +284,99 @@ const crumbLd = breadcrumbSchema(Astro.site, [
                 );
               case 'checklist':
                 return <Checklist class={gap} items={block.items} />;
+              case 'stats':
+                return <StatStrip class={gap} variant="tiles" stats={block.items} />;
+              case 'callout':
+                return (
+                  <aside
+                    aria-label={block.title}
+                    class:list={['flex flex-col gap-2 rounded-sm bg-tint p-5 md:p-6', gap]}
+                  >
+                    <p class="m-0 type-eyebrow text-foreground">{block.title}</p>
+                    <p class="m-0 type-article-body text-foreground">{block.text}</p>
+                  </aside>
+                );
+              case 'figure':
+                return (
+                  <figure class:list={['m-0 flex flex-col gap-3', gap]}>
+                    <Image
+                      class="h-auto w-full rounded-sm"
+                      src={block.image.src}
+                      alt={block.image.alt}
+                      widths={[640, 960, 1280]}
+                      sizes="(min-width: 1024px) 720px, 100vw"
+                    />
+                    <figcaption class="type-small text-foreground-muted">
+                      {block.caption}
+                    </figcaption>
+                  </figure>
+                );
+              case 'table':
+                return (
+                  <figure class:list={['m-0 flex flex-col gap-3', gap]}>
+                    <figcaption class="type-eyebrow text-foreground">{block.caption}</figcaption>
+                    {/* A scrollable region must be focusable to scroll by keyboard (WCAG 2.1.1). */}
+                    {/* eslint-disable astro/jsx-a11y/no-noninteractive-tabindex */}
+                    <div
+                      class="overflow-x-auto"
+                      tabindex="0"
+                      role="region"
+                      aria-label={block.caption}
+                    >
+                      {/* eslint-enable astro/jsx-a11y/no-noninteractive-tabindex */}
+                      <table class="w-full min-w-105 border-collapse tabular-nums">
+                        <thead>
+                          <tr>
+                            {block.columns.map((col, c) => (
+                              <th
+                                scope="col"
+                                class:list={[
+                                  'border-b border-border py-3 align-bottom type-label font-bold text-foreground-muted',
+                                  isNumeric(block.rows, c)
+                                    ? 'pl-4 text-right whitespace-nowrap md:pl-6'
+                                    : 'pr-4 text-left',
+                                ]}
+                              >
+                                {col}
+                              </th>
+                            ))}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {block.rows.map((row) => {
+                            const total = row[0].startsWith('Total');
+                            return (
+                              <tr>
+                                {row.map((cell, c) => {
+                                  const Cell = c === 0 ? 'th' : 'td';
+                                  return (
+                                    <Cell
+                                      scope={c === 0 ? 'row' : undefined}
+                                      class:list={[
+                                        'py-3 align-top type-small leading-snug md:type-list md:leading-snug',
+                                        !total && 'border-b border-border',
+                                        isNumeric(block.rows, c)
+                                          ? 'pl-4 text-right whitespace-nowrap md:pl-6'
+                                          : 'pr-4 text-left',
+                                        total
+                                          ? 'font-bold text-foreground'
+                                          : c === block.highlight
+                                            ? 'font-bold text-brand-emphasis'
+                                            : 'font-medium text-foreground-secondary',
+                                      ]}
+                                    >
+                                      {cell}
+                                    </Cell>
+                                  );
+                                })}
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </figure>
+                );
               case 'steps':
                 return (
                   <ol class:list={['m-0 flex list-none flex-col gap-4 p-0 lg:gap-5', gap]}>
@@ -392,7 +493,7 @@ const crumbLd = breadcrumbSchema(Astro.site, [
               <li>
                 <StoryCard
                   href={caseStudyHref(s)}
-                  image={s.data.image}
+                  image={s.data.card.image ?? s.data.image}
                   level={s.data.level}
                   name={s.data.name}
                   place={s.data.place}

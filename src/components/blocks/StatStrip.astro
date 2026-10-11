@@ -1,8 +1,9 @@
 ---
 // A row of headline numbers: the numeral over its label. `divided` (Home): hairlines between
 // them from lg up, two columns below. `ruled` (Why's results): three columns at every width,
-// each under a hairline, the larger numeral and a source line. On a green Section the ink,
-// hairlines and signs follow the ground.
+// each under a hairline, the larger numeral and a source line. `tiles` (a case study's body
+// results): Tint tiles, two columns from md up, the Emerald numeral over a bold label and its
+// baseline. On a green Section the ink, hairlines and signs follow the ground.
 interface Stat {
   value: string;
   /** A trailing sign ("+", "%") set in numeral-sign. */
@@ -15,14 +16,23 @@ const VARIANT = {
   divided: {
     list: 'grid-cols-2 gap-x-4 gap-y-6 lg:grid-cols-4',
     item: 'gap-1 lg:border-l lg:border-border lg:pl-8 lg:first:border-l-0 lg:first:pl-0',
-    value: 'type-stat-sm',
+    value: 'type-stat-sm text-foreground',
     label: 'type-stat-label text-foreground',
+    source: '',
   },
   ruled: {
     list: 'grid-cols-3 gap-4 lg:gap-6',
     item: 'gap-2 border-t border-border pt-4',
-    value: 'type-stat-md',
+    value: 'type-stat-md text-foreground',
     label: 'type-small leading-snug text-foreground-secondary md:type-list md:leading-snug',
+    source: '',
+  },
+  tiles: {
+    list: 'gap-2 md:grid-cols-2',
+    item: 'gap-2 rounded-sm bg-tint p-5 md:p-6',
+    value: 'type-stat-sm text-brand-emphasis',
+    label: 'type-list leading-snug font-bold text-foreground-secondary',
+    source: 'mt-2 block type-label text-foreground-muted',
   },
 } as const;
 interface Props {
@@ -40,9 +50,10 @@ const v = VARIANT[variant];
       <div class:list={['flex flex-col-reverse justify-end', v.item]}>
         <dt class={v.label}>
           {stat.label}
-          {stat.source && [<br />, stat.source]}
+          {stat.source &&
+            (v.source ? <span class={v.source}>{stat.source}</span> : [<br />, stat.source])}
         </dt>
-        <dd class:list={['m-0 font-sans font-bold text-foreground', v.value]}>
+        <dd class:list={['m-0 font-sans font-bold', v.value]}>
           {[stat.value, stat.sign && <span class="text-numeral-sign">{stat.sign}</span>]}
         </dd>
       </div>

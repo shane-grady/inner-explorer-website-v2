@@ -590,3 +590,13 @@ Explorer's"`).
   the eyebrow onto the photo's brightest spot. Hide the text, screenshot, sample the pixels
   behind each line's `Range.getClientRects()` box, and test white against the lightest 2% at
   360–1920. A block-level element's box is wider than its text and lies, so measure the lines.
+- **Prove a board extractor on a story that's already built (Case Studies, 2026-10-11).** Before
+  generating four entries from the detail boards, the extractor ran on Webb's board and matched
+  the committed `webb-school.yaml` block for block (the one difference was the quote the user had
+  removed). Desktop and mobile boards then extracted identically for all four. That pair of
+  checks is cheaper than proofreading 3,000 words per story by eye.
+- **A sample in a `[data-on-brand]` Section takes the on-brand ink (styleguide, 2026-10-11).**
+  The Tint result tiles (`StatStrip variant="tiles"`) passed axe on John Marshall's page but
+  failed on `/styleguide/`, where they sat in the Forest section: `text-brand-emphasis` maps to
+  a light green there, which fails on the Tint tile. Show light-ground patterns in a light
+  Section.
