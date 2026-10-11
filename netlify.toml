@@ -47,8 +47,7 @@
   status = 301
   force = true
 
-# Pages folded into the new information architecture. /blog is the index only: posts
-# return in the Newsroom with their own redirects.
+# Pages folded into the new information architecture.
 [[redirects]]
   from = "/districts"
   to = "/why-inner-explorer/"
@@ -58,6 +57,13 @@
 [[redirects]]
   from = "/blog"
   to = "/newsroom/"
+  status = 301
+  force = true
+
+# The pre-rebuild articles lived at /blog/<slug>/; they are /newsroom/<slug>/ now.
+[[redirects]]
+  from = "/blog/*"
+  to = "/newsroom/:splat"
   status = 301
   force = true
 

@@ -1,0 +1,40 @@
+---
+// A downloadable resource in an article body: a Raised card with a cover, eyebrow, title,
+// one line and a secondary button (Article's one-pager, "about 50% scroll"). The cover is a
+// drawn stand-in for the PDF's first page.
+import Button from '../ui/Button.astro';
+
+interface Props {
+  eyebrow: string;
+  title: string;
+  text: string;
+  cta: string;
+  href: string;
+}
+const { eyebrow, title, text, cta, href } = Astro.props;
+---
+
+<aside
+  class="ie-card ie-card-raised mt-6 flex flex-col items-start gap-3 p-5 md:mt-8 md:flex-row md:gap-6 md:p-6"
+  aria-label={eyebrow}
+>
+  <div
+    class="flex h-20 w-16 shrink-0 flex-col items-center justify-end gap-1 rounded-sm bg-tint px-2 py-3 md:h-28 md:w-22 md:px-3 md:py-4"
+    aria-hidden="true"
+  >
+    <div class="h-2 w-5 bg-icon-accent md:h-3 md:w-7"></div>
+    <div class="h-2 w-8 bg-brand md:h-3 md:w-11"></div>
+    <div class="h-2 w-11 bg-brand-surface md:h-3 md:w-15"></div>
+  </div>
+  <div class="flex grow flex-col gap-2 self-stretch">
+    <p class="m-0 type-eyebrow text-foreground">{eyebrow}</p>
+    <p class="m-0 type-card-title-md text-foreground">{title}</p>
+    <p class="m-0 type-body text-foreground-body">{text}</p>
+    <Button
+      variant="secondary"
+      href={href}
+      icon="download"
+      class="mt-1 self-stretch md:mt-2 md:h-control-sm md:self-start">{cta}</Button
+    >
+  </div>
+</aside>

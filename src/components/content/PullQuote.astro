@@ -1,0 +1,15 @@
+---
+// An editorial pull quote in an article body: Caslon Text italic between two hairlines
+// (Article). `cite` names the speaker under it (not drawn on the boards: provisional).
+interface Props {
+  cite?: string;
+}
+const { cite } = Astro.props;
+---
+
+<figure class="m-0 my-6 border-y border-border py-5 md:my-8 md:py-6">
+  <blockquote class="m-0 type-pull-quote text-foreground [&_p]:m-0">
+    <slot />
+  </blockquote>
+  {cite && <figcaption class="mt-3 type-label text-foreground-muted">{cite}</figcaption>}
+</figure>

@@ -108,6 +108,7 @@
   --spacing-icon-disc: var(--icon-disc);
   --spacing-icon-check: var(--icon-check);
   --spacing-figure: var(--figure-height);
+  --aspect-og: var(--ratio-og);
   --spacing-hero-photo: var(--hero-photo-height);
   --container-page: var(--container);
   --container-measure: var(--measure);

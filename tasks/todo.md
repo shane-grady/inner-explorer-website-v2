@@ -272,6 +272,45 @@ mark-compass.png`, 256px PNG) is the board's: an SVG from the design system woul
     and footer titles on the ramp (20 for 22); "Programs and add-ons" 28 (board 32); the
     switch track has a 1px outline for 3:1.
   - No stand-in images on this page.
+- [ ] **Newsroom and Article (built from FINAL V; confirm before launch):**
+  - MTSS post, the Article board's revision of the `0c8cac2` post (built as drawn): the dek
+    ("fragmented set of programs" for "patchwork"), the Key takeaways, the pull quote, the stat
+    tiles **77% fewer school-wide discipline events (Kaiser Elementary)** and **85% fewer
+    behavior issues in special education classrooms (La Joya ISD)** (the case-study gate's
+    85% vs 80%) in place of 60% / 43% / 28% / 10%, "16,000 studies" (was 15,000), the
+    **Support Staff Series** (was Counselor Series; linked to `/platform/`, since `/series/…`
+    doesn't exist), and a Tier 3 section without the Webb School paragraph (65% fewer
+    outbursts). The FAQ's 60% / 43% / 28% and "under $8"; the panel's "4,000+ schools · All 50
+    states · Under $8 per student per year" (the site-wide stats items).
+  - Athletes post: the `0c8cac2` text verbatim (no FINAL V board draws it; one missing final
+    period added). Its "Blog Posts Working" boards revise "over 14,000 peer-reviewed articles"
+    to 16,000 and "a 15 to 28 percent improvement in academic performance" to "a 15 percent
+    improvement in average GPA": not adopted. Its sources' figures (91%, 58%, 1 in 10, the NCAA
+    study of 25 players) and the pro athletes' quotes.
+  - Resource cards (Newsroom), as drawn: Treves et al. 2023 "−28% lower student stress" with
+    Inner Explorer's bar at 72% of active control; Dunlap 2023 "+22–26.6% math and reading,
+    special education" with bars at 79.37% / 96.83% + 3.17%. Each links to its study on
+    `/research/`.
+  - Read times are computed from the text (MTSS 6 min, Athletes 7 min); the boards say 6 and 8
+    (MTSS) and 5 (Athletes).
+  - Press links: as drawn; CNN, Mindful Nation UK, Fox News, Associated Press, Mindful, Fortune
+    and NBC Chicago are HubSpot sales-engage tracking redirects (About's open item); Education
+    Week's newsletter tracking parameters are dropped. NBC Atlanta's story differs from About's.
+  - Stand-ins: the Mindful Nation UK and People logos come from the board
+    (`src/assets/images/newsroom/logos/`); the resource card's PDF cover is a drawn mock. The
+    MTSS hero, the athletes photo and the author photo are the real `0c8cac2` files.
+  - Not built (the board draws them as placeholders or for posts that don't exist): the video,
+    generic resource and press-release cards; "Bringing mindfulness to every classroom", "What
+    twelve thousand classrooms taught us about morning calm", "Measuring what matters" (Keep
+    reading). The Videos filter appears once a video exists. Category and tag pages (the board
+    links `/blog/category/…`, `/blog/tag/…`): the breadcrumb's category and the "Filed under"
+    tags are plain text.
+  - Newsletter signup (Article, after Keep reading): left out until its HubSpot form exists
+    (HubSpot item below).
+  - Copy: the Newsroom band's "Talk to our team" and the fallback panel read "Contact us" (the
+    site-wide CTA item); the canvas note's CTA hierarchy names "Book a walkthrough".
+  - URLs: articles at `/newsroom/<slug>/` with "Newsroom / category" breadcrumbs (the board
+    draws "Blog"); `/blog/*` 301s to `/newsroom/:splat`.
 - [ ] **Case Studies:** the 7 pre-rebuild YAMLs (`0c8cac2:src/content/case-studies/`) carry
       PUBLISH GATE and REVIEW comments: stand-in portraits, invented student voices,
       representative trust figures, inferred dates, La Joya's 85% vs 80%, the 43% educator-stress
@@ -290,9 +329,12 @@ mark-compass.png`, 256px PNG) is the board's: an SVG from the design system woul
       funding feature icons; board assets as stand-ins (Before build › Why). ROI estimator parked.
 - [ ] Case Studies index and 7 details; PDFs from `0c8cac2:public/downloads/`; update the
       `transfer-case-study` skill.
-- [ ] Newsroom and Article: the 18 legacy posts word for word ("Blog Posts Working" page), the 2
-      real posts from `0c8cac2:src/content/blog/` (`inner-explorer-mtss-tiers`,
-      `mindfulness-for-student-athletes`), legacy blog 301s, `/blog` vs `/newsroom` breadcrumbs.
+- [x] Newsroom and Article: the `news` collection (MDX, with `authors`), `/newsroom/` and the
+      article template at `/newsroom/<slug>/` (Article, FAQPage and BreadcrumbList JSON-LD),
+      the 2 real posts from `0c8cac2:src/content/blog/`; `blocks/StoryCard`, `blocks/StatTile`
+      (Research's tiles moved onto it), `PageTitle layout="split"`, `.ie-prose`, `.ie-faq`;
+      `/newsroom/` breadcrumbs, `/blog/*` 301s (Before build › Newsroom and Article).
+- [ ] Newsroom: the 18 legacy posts word for word ("Blog Posts Working" page) as `news` entries.
 - [x] Research: the brain diagram and dose waffles (inline SVG), the wall, Show our work,
       `LogoStrip layout="marquee"`, EvidenceCard extra tags and details slot, `PageLayout
 header="dark"`; title sizes snapped per the Remaining-drift board (Before build › Research).

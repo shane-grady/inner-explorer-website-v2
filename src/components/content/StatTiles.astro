@@ -1,0 +1,30 @@
+---
+// Stat tiles in an article body: two Caslon numerals on tinted tiles, the source and a link
+// under them (Article).
+import StatTile, { type StatTone } from '../blocks/StatTile.astro';
+
+interface Props {
+  /** The figure's accessible name. */
+  label: string;
+  stats: { value: string; label: string; tone: StatTone }[];
+  caption: string;
+  link?: { label: string; href: string };
+}
+const { label, stats, caption, link } = Astro.props;
+---
+
+<figure class="m-0 mt-6 flex flex-col gap-3 md:mt-8" aria-label={label}>
+  <ul class="m-0 grid list-none grid-cols-2 gap-2 p-0">
+    {stats.map((stat) => <StatTile {...stat} face="display" size="md" />)}
+  </ul>
+  <figcaption class="type-small text-foreground-muted">
+    {caption}
+    {
+      link && (
+        <a class="font-bold text-brand-emphasis" href={link.href}>
+          {link.label}
+        </a>
+      )
+    }
+  </figcaption>
+</figure>

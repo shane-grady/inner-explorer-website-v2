@@ -1,0 +1,11 @@
+# Bylines and author boxes for the Newsroom's articles (src/content/news/). The bio is the
+# FINAL V Article board's author box, verbatim.
+- id: laura-bakosh
+  name: Dr. Laura Bakosh
+  role: Co-founder & Chief Research Officer
+  title: Co-founder & Chief Research Officer, Inner Explorer
+  bio: Laura co-founded Inner Explorer in 2011 with Janice Houlihan and leads its research program. She is lead author of the peer-reviewed classroom studies behind the practice, including a controlled trial in *Mindfulness* (2016) and a randomized controlled trial in *Learning and Instruction* (2018).
+  photo: ../assets/images/newsroom/laura-bakosh.jpeg
+  link:
+    label: Read the research
+    href: /research/

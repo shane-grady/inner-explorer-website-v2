@@ -69,7 +69,7 @@ for it). Provenance is the comment beside each token in `tokens.css`.
   and the pool behind the brain diagram, `.ie-hero-scrim` / `-figure`).
 - **Size:** **control-height** 48, **control-height-sm** 44, **header-height** 80/64,
   **logo-height** 32/28, **accent-bar-height** 4, **container** 1200, **measure** 520,
-  _measure-short_ 320, _swatch-size_ 10 (the color key in an evidence tag: Platform, Research), **measure-article** 680, _form-card_ 576 (`w-form`), _figure-height_ 220 → 400 (`h-figure`), **icon-sm/md/lg/feature/disc**, _icon-check_ 22 and _icon-check-sm_ 18 (the filled check disc), _measure-wide_ 640 (Pricing's hero lead, `PageTitle leadWidth="wide"`), _measure-cta_ 560 (the inline closing CTA's lead), _measure-note_ 760 (a footnote under a table), _measure-narrow_ 480 (About's research intro), _measure-title_ 820 (a centered section title, About), _collapse-height_ 640 (Pricing's collapsed table) and _collapse-height-sm_ 260 with _collapse-fade-sm_ 35% (Research's citations, provisional), _hero-photo-height_ 560 → 640 (`h-hero-photo`).
+  _measure-short_ 320, _swatch-size_ 10 (the color key in an evidence tag: Platform, Research), **measure-article** 680, _form-card_ 576 (`w-form`), _figure-height_ 220 → 400 (`h-figure`), **icon-sm/md/lg/feature/disc**, _icon-check_ 22 and _icon-check-sm_ 18 (the filled check disc), _measure-wide_ 640 (Pricing's hero lead, `PageTitle leadWidth="wide"`), _measure-cta_ 560 (the inline closing CTA's lead), _measure-note_ 760 (a footnote under a table), _measure-narrow_ 480 (About's research intro), _measure-title_ 820 (a centered section title, About), _collapse-height_ 640 (Pricing's collapsed table) and _collapse-height-sm_ 260 with _collapse-fade-sm_ 35% (Research's citations, provisional), _collapse-height-stories_ 1144 → 699 with _collapse-fade-stories_ over the last 170px (the Newsroom's story list, provisional), _hero-photo-height_ 560 → 640 (`h-hero-photo`), _ratio-og_ 1200/630 (`aspect-og`: the article hero, 952 × 500 on the board, and the share-card ratio).
 - _Motion:_ `220ms cubic-bezier(.16, 1, .3, 1)`, every transition on the boards; _motion-fade_
   700ms on the same curve, the hero carousel's crossfade; Research's _marquee-duration_ 36s and
   _pulse-duration_ 1.6s (provisional).
@@ -112,7 +112,7 @@ class.
   trailing icon: Research's download; `block`; link or button),
   `ui/ArrowLink` (`light` on green; `icon="arrow-down"` for a jump down the page, nudging down on
   hover: Research; the label is trimmed and its last word kept with the arrow), `ui/PageTitle` (eyebrow, H1 with `*emphasis*`, accent bar,
-  lead, `actions` slot; `leadWidth="wide"`; `breakFrom="md"` keeps the title's break to md up), `ui/Checklist` (`marker="disc"`, `size="xs"`, `flow="columns"`: Pricing's add-on list), `ui/Card` (raised · floating · tint; `title`, `titleSize`, `href` makes
+  lead, `actions` slot; `leadWidth="wide"`; `breakFrom="md"` keeps the title's break to md up; `layout="split"`: the lead in the right-hand columns from lg, Newsroom and Case Studies), `ui/Checklist` (`marker="disc"`, `size="xs"`, `flow="columns"`: Pricing's add-on list), `ui/Card` (raised · floating · tint; `title`, `titleSize`, `href` makes
   the title a stretched link), `ui/Icon` and `ui/FeatureIcon` (registries in `src/lib/icons.ts`
   and `src/lib/feature-icons.ts`; feature icons are Phosphor fill, bare at 16/20/24/32/40 or `disc`),
   `ui/IconButton`, `ui/Checklist` (`{ lead, text }` items with a bold lead-in, `strong` bold claims: Why), `ui/Section` (tone ground · white · tint · emerald · forest;
@@ -138,7 +138,17 @@ class.
   still wrapping row under reduced motion: Research), `blocks/EvidenceCard` (a Raised card: tag
   with its color swatch and plain extra `tags`, the numeral in Inter 500 on `type-stat-sm`, the
   finding, the source under a rule (optional: Research puts the title and byline in the slot),
-  a `details` slot after the rule; `emerald` or `vibrant` tone: Platform, Research).
+  a `details` slot after the rule; `emerald` or `vibrant` tone: Platform, Research),
+  `blocks/StoryCard` (a story's media, kicker, title link over the card, excerpt, meta:
+  `featured` · `compact` · `plain` · `tint`, a `media` slot for a stat tile or a logo, `external`
+  for coverage opening in a new tab: Newsroom, Article), `blocks/StatTile` (a numeral over its
+  label on a cyan/green/yellow/orange/tint ground: `face="black"` Research, `face="display"`
+  size `md` Article).
+- `content/` holds the MDX parts of an article body (`PullQuote`, `StatTiles`, `ResourceCard`),
+  passed to `<Content components>` by the article template, and the privacy policy's stand-ins.
+  Article copy lives in `src/content/news/<slug>.mdx` (the `news` collection, its authors in
+  `src/content/authors.yml`); MDX is outside Tailwind's scan, so its plain elements take their
+  rhythm from `.ie-prose`.
 - Classes without a component: `.ie-accent-bar`, `.ie-tag` (+ `-on-brand`), `.ie-chip`,
   `.ie-icon-disc`, `.ie-field`, `.ie-label`, `.ie-field-error`, `.ie-card-*`, `.ie-nav`,
   `.ie-menu-*`, `.ie-footer-link`, `.ie-skip-link`, `.ie-photo-tone`, `.ie-sticky-bar`,
@@ -155,12 +165,15 @@ class.
   on: Research's "Show our work"), `.ie-segmented` (+ `-on-brand`, coral for a `data-alarm`
   choice: Research's wall and brain switches), and Research's page-only `.ie-hero-scrim` /
   `-figure`, `.ie-stop-leaf` / `-alarm` / `-alarm-fade` and `.ie-brain-pulse` (the brain diagram),
-  `.ie-wall-block` and `.ie-sand` (the wall).
+  `.ie-wall-block` and `.ie-sand` (the wall); `.ie-prose` (an article body: headings on
+  the card-title ramp, paragraphs 20 apart, lists) and `.ie-faq` / `.ie-faq-icon` (the
+  article FAQ's rows and its plus/minus disc).
 - `[data-on-surface]` inside a `[data-on-brand]` panel restores the light ink for a white box
   (Pricing's add-on prices).
 
 Page-local patterns (tabs, players, charts, stat strips, steps, tables, sticky bars, the
-Article rails) are built by their page from these parts and listed in `design/inventory.md`.
+Article rails in `src/pages/newsroom/[slug].astro`) are built by their page from these parts
+and listed in `design/inventory.md`.
 
 ## Where FINAL V and the design systems disagree
 
@@ -202,6 +215,12 @@ Article rails) are built by their page from these parts and listed in `design/in
   pauses only on hover; WCAG 2.2.2 needs a control); the brain's glows snapped to Leaf, coral-300
   and coral-600 (board #7fd67f, #ffc2b8, #ff8a75) and its mindful label to Spring (#7fd67f fails AA
   on Forest).
+
+- Newsroom and Article: `--collapse-height-stories` / `--collapse-fade-stories` (the story list's
+  fold); body bullet lists (discs in icon-accent: no board draws one, the athletes post has one);
+  a pull quote's `cite` line (the board's quote has none); the share rail's "Copied" feedback;
+  the article rails stick at 24 (the board's 96 assumes a sticky header, and the header is
+  static); the story list's 4/3 stat tiles below lg as drawn, 3/2 above.
 
 ## Rules and guards
 

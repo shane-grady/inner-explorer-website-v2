@@ -1,0 +1,599 @@
+---
+// /newsroom/<slug>/ — the article template, from the FINAL V Article boards (Article-Desktop-1/2,
+// Article-Mobile-1/2, Article-Mobile-First-Screen). Each post is an MDX file in
+// src/content/news/; its frontmatter carries everything around the body (takeaways, the
+// "On this page" labels, FAQ, call to action), so the template's own copy is only the labels
+// below. Desktop: the outline and share rail on the left, the post in a 680 column, the
+// call-to-action card on the right (from xl), both sticky. Mobile: the outline folds into a
+// <details> above the hero and the call to action rides a sticky bottom bar.
+import { Image } from 'astro:assets';
+import { getEntry, render } from 'astro:content';
+import PageLayout from '../../layouts/PageLayout.astro';
+import JsonLd from '../../components/seo/JsonLd.astro';
+import PageTitle from '../../components/ui/PageTitle.astro';
+import Button from '../../components/ui/Button.astro';
+import ArrowLink from '../../components/ui/ArrowLink.astro';
+import Checklist from '../../components/ui/Checklist.astro';
+import Icon from '../../components/ui/Icon.astro';
+import StoryCard from '../../components/blocks/StoryCard.astro';
+import PullQuote from '../../components/content/PullQuote.astro';
+import StatTiles from '../../components/content/StatTiles.astro';
+import ResourceCard from '../../components/content/ResourceCard.astro';
+import { articleSchema, breadcrumbSchema, faqPageSchema } from '../../lib/schema';
+import { emphasize } from '../../lib/emphasize';
+import { readingTime } from '../../lib/reading-time';
+import {
+  getNews,
+  isoDate,
+  longDate,
+  newsPath,
+  newsroomCta,
+  shortDate,
+  type NewsEntry,
+} from '../../lib/news';
+
+const content = {
+  breadcrumb: { label: 'Newsroom', href: '/newsroom/' },
+  byline: 'By',
+  outline: 'On this page',
+  sections: (n: number) => `${n} sections`,
+  faqLabel: 'FAQ',
+  share: {
+    title: 'Share',
+    copy: 'Copy',
+    copied: 'Copied',
+    copiedStatus: 'Link copied',
+    linkedin: 'LinkedIn',
+    x: 'X',
+    email: 'Email',
+  },
+  newTab: '(opens in a new tab)',
+  filedUnder: 'Filed under',
+  author: 'About the author',
+  related: { title: 'Keep reading', all: 'All articles', href: '/newsroom/' },
+  progress: 'Reading progress',
+} as const;
+
+export async function getStaticPaths() {
+  const posts = await getNews();
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props as { post: NewsEntry };
+const d = post.data;
+const { Content, headings } = await render(post);
+const author = await getEntry(d.author);
+if (!author) throw new Error(`Unknown author "${d.author.id}" in ${post.id}`);
+const a = author.data;
+
+const path = newsPath(post);
+const canonical = new URL(path, Astro.site).toString();
+const reading = readingTime(post.body);
+
+// "On this page": the H2s (their ids from the MDX slugger), with the short labels the
+// board sets, then the FAQ.
+const h2s = headings.filter((h) => h.depth === 2);
+if (d.toc && d.toc.length !== h2s.length) {
+  throw new Error(`${post.id}: toc has ${d.toc.length} labels for ${h2s.length} H2s`);
+}
+const outline = [
+  ...h2s.map((h, i) => ({ id: h.slug, label: d.toc?.[i] ?? h.text })),
+  ...(d.faq ? [{ id: 'faq', label: content.faqLabel }] : []),
+];
+const number = (i: number) => String(i + 1).padStart(2, '0');
+
+const enc = encodeURIComponent;
+const share = [
+  {
+    label: content.share.linkedin,
+    href: `https://www.linkedin.com/sharing/share-offsite/?url=${enc(canonical)}`,
+    external: true,
+  },
+  {
+    label: content.share.x,
+    href: `https://x.com/intent/post?url=${enc(canonical)}&text=${enc(d.title)}`,
+    external: true,
+  },
+  {
+    label: content.share.email,
+    href: `mailto:?subject=${enc(d.title)}&body=${enc(canonical)}`,
+    external: false,
+  },
+];
+
+// The call to action: the post's own, or the Newsroom's panel.
+const cta = d.cta ?? { ...newsroomCta, stats: [], secondary: undefined, rail: undefined };
+
+const related = (await getNews()).filter((p) => p.id !== post.id).slice(0, 3);
+
+const shareImage = new URL(d.heroImage.src, Astro.site).toString();
+const schemas = [
+  articleSchema(Astro.site, {
+    title: d.title,
+    description: d.metaDescription ?? d.description,
+    author: a.name,
+    authorJobTitle: a.role,
+    pubDate: d.pubDate,
+    updatedDate: d.updatedDate,
+    path,
+    image: [shareImage],
+  }),
+  breadcrumbSchema(Astro.site, [
+    { name: 'Home', path: '/' },
+    { name: content.breadcrumb.label, path: content.breadcrumb.href },
+    { name: d.title, path },
+  ]),
+  ...(d.faq
+    ? [faqPageSchema(Astro.site, { path, name: d.faq.title, questions: d.faq.items })]
+    : []),
+];
+---
+
+<PageLayout
+  title={d.metaTitle ?? `${d.title} — Inner Explorer`}
+  description={d.metaDescription ?? d.description}
+  type="article"
+  image={shareImage}
+  imageAlt={d.heroImageAlt}
+  imageWidth={d.heroImage.width}
+  imageHeight={d.heroImage.height}
+>
+  {schemas.map((schema) => <JsonLd schema={schema} slot="head" />)}
+
+  <div
+    class="ie-progress fixed inset-x-0 top-0 z-30 rounded-none"
+    role="progressbar"
+    aria-label={content.progress}
+    aria-valuemin="0"
+    aria-valuemax="100"
+    aria-valuenow="0"
+    data-reading-progress
+  >
+  </div>
+
+  <div class="px-section-x pb-13 lg:pb-18" data-article>
+    <article class="mx-auto max-w-page">
+      <header class="pt-8 lg:ml-62 lg:pt-14">
+        <nav aria-label="Breadcrumb">
+          <ol class="m-0 flex list-none flex-wrap items-center gap-2 p-0 type-breadcrumb">
+            <li>
+              <a class="text-foreground-muted no-underline" href={content.breadcrumb.href}
+                >{content.breadcrumb.label}</a
+              >
+            </li>
+            <li class="flex items-center gap-2 text-foreground-muted">
+              <span aria-hidden="true">/</span>{d.category}
+            </li>
+          </ol>
+        </nav>
+        <PageTitle title={d.heading ?? d.title} class="mt-4 lg:max-w-225" />
+        <p class="m-0 mt-5 max-w-measure-article type-lead text-foreground-secondary lg:mt-6">
+          {d.description}
+        </p>
+
+        <div class="mt-6 flex items-center gap-3 lg:mt-8 lg:gap-4">
+          <Image
+            src={a.photo}
+            alt=""
+            width={48}
+            densities={[1, 2]}
+            class="size-11 shrink-0 rounded-full object-cover lg:size-12"
+          />
+          <div class="flex flex-col gap-1 lg:flex-row lg:items-center lg:gap-4">
+            <div class="flex flex-col gap-1">
+              <p class="m-0 type-card-title-sm text-foreground">
+                {content.byline}
+                <a class="text-inherit no-underline" href="#author">{a.name}</a>
+              </p>
+              <p class="m-0 type-label text-foreground-muted">{a.role}</p>
+            </div>
+            <span class="mx-2 hidden h-8 w-px bg-border lg:block" aria-hidden="true"></span>
+            <p class="m-0 flex items-center gap-2 type-label text-foreground-muted lg:gap-4">
+              <time datetime={isoDate(d.pubDate)}>{longDate(d.pubDate)}</time>
+              <span aria-hidden="true">·</span>
+              <span class="flex items-center gap-1 lg:gap-2">
+                <Icon name="clock" size={16} />{reading}
+              </span>
+            </p>
+          </div>
+        </div>
+      </header>
+
+      {
+        outline.length > 0 && (
+          <details class="group mt-6 rounded-sm bg-tint lg:hidden">
+            <summary class="flex h-13 cursor-pointer list-none items-center justify-between gap-3 px-4 [&::-webkit-details-marker]:hidden">
+              <span class="flex items-baseline gap-2">
+                <span class="type-card-title-sm text-foreground">{content.outline}</span>
+                <span class="type-label text-foreground-muted">
+                  {content.sections(outline.length)}
+                </span>
+              </span>
+              <Icon name="chevron-down" class="text-foreground group-open:rotate-180" />
+            </summary>
+            <ol class="m-0 list-none border-t border-border px-4 pt-1 pb-3">
+              {outline.map((item, i) => (
+                <li class="group/item flex items-center gap-3" data-outline-item={item.id}>
+                  <span class="w-5 shrink-0 type-label font-bold text-foreground-muted group-data-current/item:text-brand-emphasis">
+                    {number(i)}
+                  </span>
+                  <a
+                    class="flex min-h-11 grow items-center type-list text-foreground-secondary no-underline group-data-current/item:font-bold group-data-current/item:text-brand-emphasis"
+                    href={`#${item.id}`}
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </details>
+        )
+      }
+
+      <figure class="m-0 mt-6 overflow-hidden rounded-sm bg-tint lg:mt-10 lg:ml-62">
+        <Image
+          src={d.heroImage}
+          alt={d.heroImageAlt}
+          width={952}
+          densities={[1, 2]}
+          loading="eager"
+          class:list={[
+            'block aspect-og w-full',
+            d.heroImageFit === 'contain' ? 'object-contain' : 'object-cover',
+          ]}
+        />
+      </figure>
+
+      <div class="mt-6 lg:mt-13 lg:flex lg:items-start lg:gap-12">
+        <aside
+          class="hidden lg:sticky lg:top-6 lg:flex lg:w-50 lg:shrink-0 lg:flex-col lg:gap-8"
+          aria-label="Article tools"
+        >
+          {
+            outline.length > 0 && (
+              <nav aria-labelledby="outline-title">
+                <p id="outline-title" class="m-0 type-eyebrow text-foreground">
+                  {content.outline}
+                </p>
+                <ol class="m-0 mt-4 flex list-none flex-col gap-3 p-0">
+                  {outline.map((item, i) => (
+                    <li class="group/item flex gap-3" data-outline-item={item.id}>
+                      <span class="w-5 shrink-0 type-label font-bold text-foreground-muted group-data-current/item:text-brand-emphasis">
+                        {number(i)}
+                      </span>
+                      <a
+                        class="type-label text-foreground-secondary no-underline group-data-current/item:font-bold group-data-current/item:text-brand-emphasis"
+                        href={`#${item.id}`}
+                      >
+                        {item.label}
+                      </a>
+                    </li>
+                  ))}
+                </ol>
+              </nav>
+            )
+          }
+          <div class="flex flex-col gap-3 border-t border-border pt-8">
+            <p id="share-title" class="m-0 type-eyebrow text-foreground">{content.share.title}</p>
+            <div class="grid grid-cols-2 gap-2" role="group" aria-labelledby="share-title">
+              <button
+                type="button"
+                class="ie-chip"
+                data-copy-link={canonical}
+                data-copied={content.share.copied}
+              >
+                <Icon name="link" size={16} /><span data-copy-label>{content.share.copy}</span>
+              </button>
+              {
+                share.map((s) => (
+                  <a
+                    class="ie-chip"
+                    href={s.href}
+                    target={s.external ? '_blank' : undefined}
+                    rel={s.external ? 'noopener' : undefined}
+                  >
+                    {s.label}
+                    {s.external && <span class="sr-only">{content.newTab}</span>}
+                  </a>
+                ))
+              }
+            </div>
+          </div>
+        </aside>
+
+        <div class="min-w-0 grow lg:max-w-measure-article">
+          {
+            d.takeaways && (
+              <section
+                class="ie-card ie-card-tint flex flex-col gap-4 p-5 md:p-6"
+                aria-labelledby="takeaways-title"
+              >
+                <h2 id="takeaways-title" class="m-0 type-eyebrow text-foreground">
+                  {d.takeaways.eyebrow}
+                </h2>
+                {d.takeaways.items && <Checklist items={d.takeaways.items} />}
+                {d.takeaways.text && (
+                  <p class="m-0 type-body text-foreground-body">{d.takeaways.text}</p>
+                )}
+              </section>
+            )
+          }
+
+          <div class="ie-prose mt-6 type-article-body lg:mt-8">
+            <Content components={{ PullQuote, StatTiles, ResourceCard }} />
+          </div>
+
+          <div class="mt-8 flex flex-col gap-3 lg:hidden">
+            <p id="share-title-sm" class="m-0 type-eyebrow text-foreground">
+              {content.share.title}
+            </p>
+            <div class="grid grid-cols-2 gap-2" role="group" aria-labelledby="share-title-sm">
+              <Button
+                variant="secondary"
+                size="sm"
+                data-copy-link={canonical}
+                data-copied={content.share.copied}
+              >
+                <Icon name="link" size={16} /><span data-copy-label>{content.share.copy}</span>
+              </Button>
+              {
+                share.map((s) => (
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    href={s.href}
+                    target={s.external ? '_blank' : undefined}
+                    rel={s.external ? 'noopener' : undefined}
+                  >
+                    {s.label}
+                    {s.external && <span class="sr-only">{content.newTab}</span>}
+                  </Button>
+                ))
+              }
+            </div>
+          </div>
+          <p class="sr-only" aria-live="polite" data-copy-status={content.share.copiedStatus}></p>
+
+          {
+            d.tags.length > 0 && (
+              <p class="m-0 mt-8 flex flex-wrap items-center gap-2">
+                <span class="mr-1 type-label text-foreground-muted">{content.filedUnder}</span>
+                {d.tags.map((tag) => (
+                  <span class="ie-tag h-9 px-3 type-label text-foreground-secondary">{tag}</span>
+                ))}
+              </p>
+            )
+          }
+
+          <section
+            class="ie-card mt-10 bg-brand-surface p-6 lg:mt-13 lg:p-10"
+            aria-labelledby="cta-title"
+            data-on-brand
+          >
+            <p class="m-0 type-eyebrow text-foreground">{cta.eyebrow}</p>
+            <h2
+              id="cta-title"
+              class="m-0 mt-3 type-section-title text-foreground"
+              set:html={emphasize(cta.title, '')}
+            />
+            <p class="m-0 mt-3 type-lead font-normal text-foreground lg:mt-4">{cta.lead}</p>
+            <div class="mt-6 flex flex-col gap-1 lg:mt-8 lg:flex-row lg:items-center lg:gap-6">
+              <Button variant="light" href={cta.primary.href} arrow class="ie-btn-block lg:w-auto">
+                {cta.primary.label}
+              </Button>
+              {
+                cta.secondary && (
+                  <ArrowLink light href={cta.secondary.href} class="self-center lg:self-auto">
+                    {cta.secondary.label}
+                  </ArrowLink>
+                )
+              }
+            </div>
+            {
+              cta.stats.length > 0 && (
+                <p class="m-0 mt-3 flex flex-wrap gap-x-5 gap-y-2 border-t border-brand pt-4 type-label text-foreground lg:mt-8 lg:gap-8 lg:pt-5">
+                  {cta.stats.map((stat) => (
+                    <span>
+                      <strong class="font-bold">{stat.value}</strong> {stat.label}
+                    </span>
+                  ))}
+                </p>
+              )
+            }
+          </section>
+
+          <section
+            id="author"
+            class="ie-card ie-card-tint mt-6 flex flex-wrap items-center gap-x-4 gap-y-3 p-5 md:flex-nowrap md:items-start md:gap-5 md:p-6 lg:mt-8"
+            aria-labelledby="author-title"
+          >
+            <Image
+              src={a.photo}
+              alt={a.name}
+              width={72}
+              densities={[1, 2]}
+              class="size-16 shrink-0 rounded-full object-cover md:size-18"
+            />
+            <div class="contents md:flex md:min-w-0 md:flex-1 md:flex-col md:gap-2">
+              <div class="flex min-w-0 flex-1 flex-col gap-1 md:flex-none md:gap-2">
+                <p class="m-0 type-eyebrow text-foreground">{content.author}</p>
+                <div class="flex flex-col gap-1">
+                  <h2 id="author-title" class="m-0 type-card-title-md text-foreground">
+                    {a.name}
+                  </h2>
+                  <p class="m-0 type-label text-foreground-muted">{a.title}</p>
+                </div>
+              </div>
+              <div class="flex basis-full flex-col items-start gap-2 md:mt-1 md:basis-auto">
+                <p class="m-0 type-body text-foreground-body" set:html={emphasize(a.bio, '')} />
+                {a.link && <ArrowLink href={a.link.href}>{a.link.label}</ArrowLink>}
+              </div>
+            </div>
+          </section>
+
+          {
+            d.faq && (
+              <section id="faq" class="ie-faq mt-12 lg:mt-13" aria-labelledby="faq-title">
+                <h2 id="faq-title" class="m-0 mb-4 type-card-title-lg text-foreground lg:mb-6">
+                  {d.faq.title}
+                </h2>
+                {d.faq.items.map((item, i) => (
+                  <details class="group border-t border-border last:border-b" open={i === 0}>
+                    <summary class="flex min-h-16 items-center justify-between gap-4 py-4 type-card-title-sm lg:gap-6 lg:py-5 lg:type-intro lg:font-bold">
+                      {item.q}
+                      <span class="ie-faq-icon" aria-hidden="true">
+                        <Icon name="plus" size={16} class="group-open:hidden" />
+                        <Icon name="minus" size={16} class="hidden group-open:block" />
+                      </span>
+                    </summary>
+                    <p class="m-0 pb-5 type-body text-foreground-body lg:pr-11 lg:pb-6">{item.a}</p>
+                  </details>
+                ))}
+              </section>
+            )
+          }
+        </div>
+
+        {
+          cta.rail && (
+            <aside
+              class="hidden xl:sticky xl:top-6 xl:block xl:w-56 xl:shrink-0"
+              aria-label={cta.primary.label}
+            >
+              <div class="ie-card ie-card-raised flex flex-col items-start gap-2 p-5">
+                <p class="m-0 type-eyebrow text-foreground">{cta.eyebrow}</p>
+                <p class="m-0 type-card-title-md text-foreground">{cta.rail.title}</p>
+                <p class="m-0 type-label text-foreground-body">{cta.rail.text}</p>
+                <Button href={cta.primary.href} size="sm" class="mt-2">
+                  {cta.primary.label}
+                </Button>
+              </div>
+            </aside>
+          )
+        }
+      </div>
+
+      {
+        related.length > 0 && (
+          <section
+            class="mt-13 grid gap-4 lg:mt-18 lg:grid-cols-2 lg:items-baseline lg:gap-6"
+            aria-labelledby="related-title"
+          >
+            <h2 id="related-title" class="m-0 type-card-title-lg text-foreground">
+              {content.related.title}
+            </h2>
+            <ArrowLink
+              href={content.related.href}
+              class="order-last justify-self-start lg:order-none lg:justify-self-end"
+            >
+              {content.related.all}
+            </ArrowLink>
+            <ul class="m-0 grid list-none gap-4 p-0 lg:col-span-2 lg:grid-cols-3 lg:gap-2">
+              {related.map((p) => (
+                <li class="flex">
+                  <StoryCard
+                    variant="tint"
+                    class="grow"
+                    title={p.data.cardTitle ?? p.data.title}
+                    href={newsPath(p)}
+                    kicker={[p.data.category]}
+                    meta={[shortDate(p.data.pubDate)]}
+                    image={{ src: p.data.heroImage, position: p.data.heroImagePosition }}
+                  />
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+    </article>
+  </div>
+
+  {
+    cta.rail && (
+      <div
+        class="ie-sticky-bar sticky bottom-0 z-10 flex items-center justify-between gap-3 px-5 py-3 lg:hidden"
+        role="region"
+        aria-label={cta.primary.label}
+      >
+        <div class="flex flex-col gap-1">
+          <p class="m-0 type-label font-bold text-foreground">{cta.rail.title}</p>
+          <p class="m-0 type-label text-foreground-muted">{cta.eyebrow}</p>
+        </div>
+        <Button href={cta.primary.href} size="sm" class="shrink-0">
+          {cta.primary.label}
+        </Button>
+      </div>
+    )
+  }
+</PageLayout>
+
+<script>
+  // Article: the reading progress bar, the outline's current section and the copy-link
+  // buttons. Without JS the outline is a plain list of links and the bar stays empty.
+  const article = document.querySelector<HTMLElement>('[data-article]');
+  const bar = document.querySelector<HTMLElement>('[data-reading-progress]');
+  if (article && bar) {
+    let queued = false;
+    const update = () => {
+      queued = false;
+      const box = article.getBoundingClientRect();
+      const span = box.height - window.innerHeight;
+      const done = span > 0 ? Math.min(1, Math.max(0, -box.top / span)) : 1;
+      const percent = Math.round(done * 100);
+      bar.style.setProperty('--progress', `${percent}%`);
+      bar.setAttribute('aria-valuenow', String(percent));
+    };
+    const queue = () => {
+      if (!queued) requestAnimationFrame(update);
+      queued = true;
+    };
+    window.addEventListener('scroll', queue, { passive: true });
+    window.addEventListener('resize', queue);
+    update();
+  }
+
+  // The current section: the last heading above the top third of the viewport.
+  const items = [...document.querySelectorAll<HTMLElement>('[data-outline-item]')];
+  const ids = [...new Set(items.map((item) => item.dataset.outlineItem ?? ''))];
+  const targets = ids
+    .map((id) => document.getElementById(id))
+    .filter((el): el is HTMLElement => el !== null);
+  if (targets.length) {
+    let current = '';
+    const mark = () => {
+      const line = window.innerHeight / 3;
+      let id = targets[0].id;
+      for (const target of targets) if (target.getBoundingClientRect().top <= line) id = target.id;
+      if (id === current) return;
+      current = id;
+      for (const item of items) {
+        const on = item.dataset.outlineItem === id;
+        item.toggleAttribute('data-current', on);
+        const link = item.querySelector('a');
+        if (on) link?.setAttribute('aria-current', 'true');
+        else link?.removeAttribute('aria-current');
+      }
+    };
+    window.addEventListener('scroll', mark, { passive: true });
+    mark();
+  }
+
+  const status = document.querySelector<HTMLElement>('[data-copy-status]');
+  for (const button of document.querySelectorAll<HTMLButtonElement>('[data-copy-link]')) {
+    const label = button.querySelector<HTMLElement>('[data-copy-label]');
+    button.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(button.dataset.copyLink ?? location.href);
+      } catch {
+        return;
+      }
+      if (status) status.textContent = status.dataset.copyStatus ?? '';
+      if (label) {
+        const text = label.textContent;
+        label.textContent = button.dataset.copied ?? '';
+        setTimeout(() => (label.textContent = text), 2000);
+      }
+    });
+  }
+</script>

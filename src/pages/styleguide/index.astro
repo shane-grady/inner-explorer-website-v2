@@ -18,6 +18,9 @@ import Testimonial from '../../components/blocks/Testimonial.astro';
 import StatStrip from '../../components/blocks/StatStrip.astro';
 import LogoStrip from '../../components/blocks/LogoStrip.astro';
 import EvidenceCard from '../../components/blocks/EvidenceCard.astro';
+import StoryCard from '../../components/blocks/StoryCard.astro';
+import StatTile from '../../components/blocks/StatTile.astro';
+import PullQuote from '../../components/content/PullQuote.astro';
 import VideoPoster from '../../components/ui/VideoPoster.astro';
 import { ICONS } from '../../lib/icons';
 import { FEATURE_ICONS } from '../../lib/feature-icons';
@@ -525,6 +528,141 @@ const checklist = [
           <IconButton icon="arrow-right" label="Disabled" disabled />
         </div>
       </div>
+    </div>
+  </Section>
+
+  <Section aria-labelledby="stories-title">
+    <h2 id="stories-title" class="m-0 type-section-title text-foreground">Stories and articles</h2>
+    <p class="m-0 mt-4 max-w-measure type-body text-foreground-body">
+      The Newsroom's split title and story cards, and the Article template's parts: stat tiles, the
+      pull quote, the FAQ and the prose an MDX post renders.
+    </p>
+    <PageTitle
+      layout="split"
+      class="mt-10"
+      eyebrow="Split title (Newsroom)"
+      title="Title on the left, *lead* on the right"
+      lead="From lg the lead sits in the right-hand columns, bottom-aligned with the title; below, it follows the title."
+    />
+    <div class="mt-10 grid gap-10 lg:grid-cols-12 lg:gap-6">
+      <StoryCard
+        variant="featured"
+        class="lg:col-span-8"
+        title="Featured: the newest article"
+        href="#stories-title"
+        kicker={['Article', 'Leadership']}
+        excerpt="16/9 media from lg (16/10 below, unboxed), a badge, the 44 → 32 title and a Read the article line."
+        meta={['6 min read', 'Jul 1, 2026']}
+        action="Read the article"
+        badge="Featured"
+        image={{ src: photo }}
+      />
+      <div class="flex flex-col gap-4 lg:col-span-4">
+        <StoryCard
+          variant="compact"
+          class="lg:grow"
+          title="Compact: a ruled row below lg"
+          href="#stories-title"
+          kicker={['Article', 'Student voices']}
+          meta={['7 min read', 'Jun 3, 2026']}
+          image={{ src: photo }}
+        />
+        <StoryCard
+          variant="tint"
+          title="Tint (Keep reading): a row with an 88px thumb below lg"
+          href="#stories-title"
+          kicker={['Research']}
+          meta={['May 6, 2026']}
+          image={{ src: photo }}
+        />
+      </div>
+    </div>
+    <ul class="m-0 mt-10 grid list-none gap-12 p-0 md:grid-cols-2 md:gap-x-8 lg:grid-cols-3">
+      <li class="flex">
+        <StoryCard
+          class="grow"
+          title="Plain: the story grid"
+          href="#stories-title"
+          kicker={['Article', 'Practice']}
+          excerpt="Unboxed, 3/2 media, the title a link over the card."
+          meta={['4 min read', 'May 20, 2026']}
+          image={{ src: photo }}
+        />
+      </li>
+      <li class="flex">
+        <StoryCard
+          class="grow"
+          title="Press coverage, opening in a new tab"
+          href="https://www.example.com/"
+          external
+          kicker={['Press', 'Article']}
+          action="Read on the outlet"
+        >
+          <div
+            slot="media"
+            class="flex size-full items-center justify-center rounded-sm border border-border bg-tint p-6 type-card-title-lg text-foreground-muted"
+          >
+            Logo
+          </div>
+        </StoryCard>
+      </li>
+      <li>
+        <ul class="m-0 grid list-none grid-cols-2 gap-2 p-0">
+          <StatTile
+            value="77%"
+            label="Stat tile, Caslon (Article)"
+            tone="green"
+            face="display"
+            size="md"
+          />
+          <StatTile value="85%" label="Cyan tint" tone="cyan" face="display" size="md" />
+          <StatTile value="−80%" label="Inter Black (Research)" tone="yellow" />
+          <StatTile value="−56%" label="Orange tint" tone="orange" />
+        </ul>
+      </li>
+    </ul>
+    <div class="mt-12 grid gap-10 lg:grid-cols-2 lg:gap-16">
+      <div class="ie-prose type-article-body">
+        <h2>Prose: an article H2</h2>
+        <p>
+          Body copy in type-article-body, paragraphs 20 apart, <a href="#stories-title">links</a>
+          underlined. The heading's top margin is 48.
+        </p>
+        <h3>An H3</h3>
+        <ul>
+          <li>A bulleted list (provisional: the boards draw none)</li>
+          <li>Discs in icon-accent</li>
+        </ul>
+        <PullQuote cite="Speaker, Organization">“A pull quote between two hairlines.”</PullQuote>
+      </div>
+      <section class="ie-faq" aria-label="FAQ sample">
+        <details class="group border-t border-border" open>
+          <summary
+            class="flex min-h-16 items-center justify-between gap-4 py-4 type-card-title-sm lg:gap-6 lg:py-5 lg:type-intro lg:font-bold"
+          >
+            FAQ, open: the disc fills and shows a minus
+            <span class="ie-faq-icon" aria-hidden="true">
+              <Icon name="plus" size={16} class="group-open:hidden" />
+              <Icon name="minus" size={16} class="hidden group-open:block" />
+            </span>
+          </summary>
+          <p class="m-0 pb-5 type-body text-foreground-body lg:pr-11 lg:pb-6">
+            The answer, 44px clear of the disc from lg.
+          </p>
+        </details>
+        <details class="group border-y border-border">
+          <summary
+            class="flex min-h-16 items-center justify-between gap-4 py-4 type-card-title-sm lg:gap-6 lg:py-5 lg:type-intro lg:font-bold"
+          >
+            FAQ, closed
+            <span class="ie-faq-icon" aria-hidden="true">
+              <Icon name="plus" size={16} class="group-open:hidden" />
+              <Icon name="minus" size={16} class="hidden group-open:block" />
+            </span>
+          </summary>
+          <p class="m-0 pb-5 type-body text-foreground-body lg:pr-11 lg:pb-6">Hidden answer.</p>
+        </details>
+      </section>
     </div>
   </Section>
 
