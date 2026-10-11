@@ -288,10 +288,9 @@ const crumbLd = breadcrumbSchema(Astro.site, [
                 return <StatStrip class={gap} variant="tiles" stats={block.items} />;
               case 'callout':
                 return (
-                  <aside
-                    aria-label={block.title}
-                    class:list={['flex flex-col gap-2 rounded-sm bg-tint p-5 md:p-6', gap]}
-                  >
+                  // Unnamed, so inside the article it stays a plain aside, not a landmark (La
+                  // Joya's two "Bonus" panels would be landmarks with one name).
+                  <aside class:list={['flex flex-col gap-2 rounded-sm bg-tint p-5 md:p-6', gap]}>
                     <p class="m-0 type-eyebrow text-foreground">{block.title}</p>
                     <p class="m-0 type-article-body text-foreground">{block.text}</p>
                   </aside>

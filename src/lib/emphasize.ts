@@ -22,6 +22,6 @@ export function emphasize(
 // escaped.
 export function inlineMarks(text: string): string {
   return escape(text)
-    .replace(/\[([^\]]+)\]\(((?:https?:\/)?\/[^)\s]+)\)/g, '<a href="$2">$1</a>')
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+|\/(?!\/)[^)\s]*)\)/g, '<a href="$2">$1</a>')
     .replace(/\*([^*]+)\*/g, '<strong>$1</strong>');
 }
