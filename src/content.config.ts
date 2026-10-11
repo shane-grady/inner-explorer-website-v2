@@ -75,19 +75,31 @@ const caseStudies = defineCollection({
       name: z.string(),
       /** Short place for the card ("Avon, CT"). */
       place: z.string(),
-      /** Full place for the title's meta line and JSON-LD ("Avon, Connecticut"). */
+      /** Full place for the JSON-LD ("Avon, Connecticut"). */
       location: z.string(),
       tags: z.array(tag).min(1),
       /** The H1's two halves; `emph` is set in Emerald. */
       title: z.object({ lead: z.string(), emph: z.string() }),
+      /** The hero card's details beside the green dots (place, level, read time…), verbatim. */
+      details: z.array(z.string()).min(1),
+      /** The practitioner's words that open the page (Hero D); `*words*` are set bold. */
+      voice: z.object({
+        quote: z.string(),
+        name: z.string(),
+        role: z.string(),
+        initials: z.string().max(3).optional(),
+      }),
+      /** The lead under the hero card. */
       lead: z.string(),
       /** The index card's headline result (its label is shorter than the result tile's). */
       card: z.object({ stat: z.string(), label: z.string() }),
+      /** The hero card's results: the numeral, its unit (set in Vibrant) and the label. */
       results: z
-        .array(z.object({ value: z.string(), label: z.string(), baseline: z.string() }))
+        .array(z.object({ value: z.string(), unit: z.string().optional(), label: z.string() }))
         .min(1)
         .max(4),
-      image: z.object({ src: image(), alt: z.string() }),
+      /** The hero photo; `position` keeps the subject in frame as the band crops. */
+      image: z.object({ src: image(), alt: z.string(), position: z.string().optional() }),
       /** "At a glance": the rail's facts. */
       glance: z.array(z.object({ label: z.string(), value: z.string() })).min(1),
       body: z.array(bodyBlock).min(1),

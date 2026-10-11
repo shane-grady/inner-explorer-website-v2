@@ -583,3 +583,10 @@ Explorer's"`).
   a board's template loop (`<sc-for>`) renders one empty placeholder when the board is opened
   standalone. Measure a looped card against another board that draws it with real data (the
   index cards against the detail board's related row).
+- **axe can't judge text over a photo; measure it per line (Case Studies Hero D, 2026-10-11).**
+  `pnpm shots` was axe-clean while white text over the hero photo fell to 2.2:1 at 360 and
+  2.9:1 at 1024. A scrim tuned at the board's two widths leaves gaps between them: a fixed
+  640px quote outran a percentage-stopped left scrim at 1024, and a longer mobile quote lifted
+  the eyebrow onto the photo's brightest spot. Hide the text, screenshot, sample the pixels
+  behind each line's `Range.getClientRects()` box, and test white against the lightest 2% at
+  360–1920. A block-level element's box is wider than its text and lies, so measure the lines.

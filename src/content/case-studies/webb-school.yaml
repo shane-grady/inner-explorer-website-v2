@@ -1,11 +1,14 @@
 # The Webb School in the Valley: one file drives /case-studies/webb-school/ and its card.
 #
-# Every string on the page is verbatim from the canvas boards "Webb School in the Valley ·
-# Desktop / Mobile" (page "Case Study Detail Working"), which carry the original
-# innerexplorer.com text (legacy /case-study4 and its PDF). Written for the template, not from
-# the source: the card's label, the result's baseline, the "At a glance" facts and the alt text
-# (the canvas's content model). Open items (tasks/todo.md › Case Studies): the school's approval
-# to publish (a launch gate), the chart values (read off the original chart), the photo.
+# The hero (title, details, voice, results, photo position) is verbatim from Hero D's Webb
+# boards (CS-Hero-D-Webb, CS-Hero-D-Mobile-Webb; chosen 2026-10-11). DeVane's quote opens the
+# page there, so the body no longer repeats it. The lead and the body
+# are verbatim from the boards "Webb School in the Valley · Desktop / Mobile" (page "Case Study
+# Detail Working"), which carry the original innerexplorer.com text (legacy /case-study4 and its
+# PDF). Written for the template, not from the source: the card's label, the "At a glance"
+# facts and the alt text (the canvas's content model). Open items (tasks/todo.md › Case
+# Studies): the school's approval to publish (a launch gate), Hartford (hero) vs Avon (rail),
+# the chart values (read off the original chart), the photo.
 order: 6
 draft: false
 seo:
@@ -21,8 +24,19 @@ location: Avon, Connecticut
 tags:
 - behavior
 title:
-  lead: Transforming Student Behavioral Challenges
-  emph: Through Mindfulness at the Webb School in the Valley
+  lead: How The Webb School in the Valley cut restraints and seclusions 65%
+  emph: with daily mindfulness practice
+details:
+- Hartford, Connecticut
+- Therapeutic school
+- 6 min read
+voice:
+  quote: In the year before using Inner Explorer, he had a significant number of outbursts (40+), resulting
+    in restraint or seclusions. During the year we began practicing Inner Explorer, he only had ONE restraint
+    and seclusion.
+  name: Jill DeVane
+  role: School Administrator, The Webb School in the Valley
+  initials: JD
 lead: The Webb School in the Valley, along with The Webb School at Cheshire, and The Grace S. Webb School
   in Hartford are part of the Institute of Living in Hartford, Connecticut. The focus of these schools
   is to help students with mental health challenges realize their potential and become self-regulated
@@ -31,12 +45,15 @@ card:
   stat: 65%
   label: decrease in restraints and seclusion
 results:
-- value: 65%
+- value: '65'
+  unit: '%'
   label: decrease in restraints and seclusion after using Inner Explorer
-  baseline: In the school year following the Inner Explorer pilot
+- value: 40+ to 1
+  label: outbursts resulting in restraint or seclusion for one student, the year before and the year after
 image:
   src: ../../assets/images/case-studies/webb-school/students-electronics.jpg
   alt: Three students working together on an electronics project at a table
+  position: 50% 45%
 glance:
 - label: Location
   value: Avon, Connecticut
@@ -74,15 +91,6 @@ body:
     that is a struggle for students, but rather, internal and external challenges that interfere with
     their ability to learn. By teaching Mindfulness-Based Social Emotional Learning (MBSEL) skills, students
     learn to process emotions, reduce chronic stress, and focus in school.
-- type: quote
-  text: There was one student in particular who suffered from extreme social anxiety – even being in a
-    classroom of eight was a lot for him, but he did well with a small group or 1:1. In the year before
-    using Inner Explorer, he had a significant number of outbursts (40+), resulting in restraint or seclusion.
-    The change in behavior was so significant that his mother asked why she wasn't talking to us as much
-    – the answer was that we had no behavior issues to review with her.
-  name: Jill DeVane
-  role: School Administrator, The Webb School in the Valley
-  initials: JD
 - type: chart
   title: Number of Restraints and Seclusions by School Year
   summary: Bar chart of restraints and seclusions by school year, approximate values read from the original

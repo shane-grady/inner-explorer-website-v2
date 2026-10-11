@@ -237,6 +237,21 @@
     rgba(30, 71, 60, 0.55) 45%,
     rgba(30, 71, 60, 0) 78%
   ); /* the same, taller and darker under the stacked mobile title (Home mobile) */
+  --scrim-voice: linear-gradient(
+    90deg,
+    rgba(30, 71, 60, 0.94) 0%,
+    rgba(30, 71, 60, 0.84) 40%,
+    rgba(30, 71, 60, 0.3) 68%,
+    rgba(30, 71, 60, 0) 88%
+  ); /* new, provisional: Forest from the left under a quote on a photo (Case Studies Hero D desktop; the board's Deep Forest, retired for overlays) */
+  --scrim-voice-mobile: linear-gradient(
+    0deg,
+    rgba(30, 71, 60, 0.95) 0%,
+    rgba(30, 71, 60, 0.88) 52%,
+    rgba(30, 71, 60, 0.62) 78%,
+    rgba(30, 71, 60, 0.15) 100%
+  ); /* new, provisional: the same from the bottom, below xl (Case Studies Hero D mobile, whose
+     0.86 / 0.3 / 0 at 48 / 76 / 92% left the eyebrow under 4.5:1 once the quote rose) */
   --scrim-video: linear-gradient(
     180deg,
     rgba(30, 71, 60, 0) 55%,
@@ -282,12 +297,16 @@
     calc(560px + 80 * (100vw - 390px) / 1050),
     40rem
   ); /* new: the photo hero, 560 → 640 (Home) */
+  --hero-voice-height: clamp(
+    38.75rem,
+    calc(620px + 20 * (100vw - 390px) / 1050),
+    40rem
+  ); /* new, provisional: the voice-led hero's photo band, 620 → 640 (Case Studies Hero D) */
   --figure-height: clamp(
     13.75rem,
     calc(220px + 180 * (100vw - 390px) / 1050),
     25rem
   ); /* new, provisional: the hero photo above a form, 220 → 400 (Contact) */
-  --ratio-story: 952 / 500; /* new, provisional: a case study's hero photo, 952 × 500 and 350 × 184 (Case Study Detail Working boards) */
   --chart-height: clamp(
     11.25rem,
     calc(180px + 36 * (100vw - 390px) / 1050),

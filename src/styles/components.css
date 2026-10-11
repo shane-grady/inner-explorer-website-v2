@@ -651,6 +651,13 @@
     background: var(--scrim-photo);
   }
 }
+/* The voice-led hero's scrim: from the bottom, and from the left from xl (Case Studies). */
+.ie-voice-scrim {
+  background: var(--scrim-voice-mobile);
+  @variant xl {
+    background: var(--scrim-voice);
+  }
+}
 /* Slides stack and crossfade; the one with data-active shows. */
 .ie-slide {
   opacity: 0;

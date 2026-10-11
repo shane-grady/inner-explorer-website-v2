@@ -1,9 +1,9 @@
 ---
-// A case study, from the "Case Study Detail Working" boards (Webb School in the Valley, Desktop
-// and Mobile; FINAL V draws no detail page). One caseStudies entry drives the page; its body
-// blocks render in order. The hero is the boards' own: the five "Hero directions" on the
-// working page are undecided (tasks/todo.md › Case Studies). CTA labels verbatim.
-import { Image, getImage } from 'astro:assets';
+// A case study, from the "Case Study Detail Working" boards (FINAL V draws no detail page): the
+// hero is Hero D · Voice led (CS-Hero-D and CS-Hero-D-Mobile, chosen 2026-10-11), the rest the
+// story's Desktop and Mobile boards (Webb School in the Valley). One caseStudies entry drives
+// the page; its body blocks render in order. CTA labels verbatim.
+import { getImage } from 'astro:assets';
 import PageLayout from '../../layouts/PageLayout.astro';
 import JsonLd from '../../components/seo/JsonLd.astro';
 import Section from '../../components/ui/Section.astro';
@@ -13,6 +13,7 @@ import Checklist from '../../components/ui/Checklist.astro';
 import Testimonial from '../../components/blocks/Testimonial.astro';
 import BarChart from '../../components/blocks/BarChart.astro';
 import StoryCard from '../../components/blocks/StoryCard.astro';
+import VoiceHero from '../../components/blocks/VoiceHero.astro';
 import ClosingCta from '../../components/blocks/ClosingCta.astro';
 import HubSpotForm from '../../components/integrations/HubSpotForm.astro';
 import { emphasize } from '../../lib/emphasize';
@@ -49,8 +50,11 @@ const d = story.data;
 // The template's own copy; the story's copy is the entry.
 const content = {
   breadcrumb: { label: 'Breadcrumb', root: 'Case studies', href: '/case-studies/' },
-  resultsLabel: 'Results at a glance',
-  glance: { label: 'Story details', title: 'At a glance' },
+  voice: 'In their words',
+  detailsLabel: 'Story details',
+  results: 'Results',
+  hero: { primary: { label: 'Talk to our team', href: '/contact/' }, pdf: 'Get the PDF' },
+  glance: { title: 'At a glance' },
   pdf: {
     eyebrow: (pages: number) => `Case study PDF · ${pages} pages`,
     download: 'Download the PDF',
@@ -72,14 +76,6 @@ const content = {
     secondary: { label: 'See the research', href: '/research/' },
   },
 } as const;
-
-const RESULT_COLUMNS = {
-  1: '',
-  2: 'md:grid-cols-2',
-  3: 'md:grid-cols-3',
-  4: 'md:grid-cols-2 xl:grid-cols-4',
-} as const;
-const resultColumns = RESULT_COLUMNS[d.results.length as keyof typeof RESULT_COLUMNS];
 
 // The space above a body block: wide before a heading, tight under one.
 const blockGap = (i: number) => {
@@ -132,60 +128,86 @@ const crumbLd = breadcrumbSchema(Astro.site, [
   <JsonLd slot="head" schema={articleLd} />
   <JsonLd slot="head" schema={crumbLd} />
 
-  <Section class="pt-8 pb-0 lg:pt-14 lg:pb-0">
-    <div class="lg:ml-62">
-      <nav aria-label={content.breadcrumb.label}>
-        <ol
-          class="m-0 flex list-none flex-wrap items-center gap-2 p-0 type-breadcrumb text-foreground-muted"
+  <VoiceHero
+    image={d.image}
+    eyebrow={content.voice}
+    quote={d.voice.quote}
+    name={d.voice.name}
+    place={d.voice.role}
+    initials={d.voice.initials}
+  >
+    <div class="flex flex-col gap-7 lg:flex-row lg:items-start lg:gap-14">
+      <div class="flex min-w-0 flex-col lg:basis-7/12">
+        <nav aria-label={content.breadcrumb.label}>
+          <ol
+            class="m-0 flex list-none flex-wrap items-center gap-2 p-0 type-breadcrumb text-foreground-muted"
+          >
+            <li>
+              <a
+                class="text-foreground-muted no-underline hover:text-link-hover"
+                href={content.breadcrumb.href}>{content.breadcrumb.root}</a
+              >
+            </li>
+            <li aria-hidden="true">/</li>
+            <li>{d.level}</li>
+          </ol>
+        </nav>
+        <div class="mt-3 inline-flex max-w-full flex-col self-start lg:mt-4">
+          <h1
+            class="m-0 type-section-title text-balance text-foreground"
+            set:html={emphasize(`${d.title.lead} *${d.title.emph}*`)}
+          />
+          <div class="ie-accent-bar mt-2" aria-hidden="true"></div>
+        </div>
+        <ul
+          aria-label={content.detailsLabel}
+          class="m-0 mt-4 flex list-none flex-wrap gap-x-5 gap-y-2 p-0 lg:mt-5 lg:gap-x-6"
         >
-          <li>
-            <a
-              class="text-foreground-muted no-underline hover:text-link-hover"
-              href={content.breadcrumb.href}>{content.breadcrumb.root}</a
-            >
-          </li>
-          <li aria-hidden="true">/</li>
-          <li>{d.level}</li>
-        </ol>
-      </nav>
-      <h1
-        class="m-0 mt-4 max-w-225 type-section-title text-foreground"
-        set:html={emphasize(`${d.title.lead} *${d.title.emph}*`)}
-      />
-      <div class="ie-accent-bar mt-2 lg:max-w-measure-article" aria-hidden="true"></div>
-      <p class="m-0 mt-5 max-w-measure-article type-lead text-foreground-secondary md:mt-6">
-        {d.lead}
-      </p>
-      <p class="m-0 mt-5 type-label text-foreground-muted md:mt-6">{d.location} · {d.level}</p>
-
-      <section aria-label={content.resultsLabel} class="mt-6 lg:mt-10">
-        <ul class:list={['m-0 grid list-none gap-2 p-0', resultColumns]}>
           {
-            d.results.map((r) => (
-              <li class="flex min-w-0 flex-col gap-2 rounded-sm bg-tint p-4 md:p-6">
-                <span class="font-sans type-stat-sm font-bold text-brand-emphasis">{r.value}</span>
-                <span class="type-card-title-sm text-foreground-secondary">{r.label}</span>
-                <span class="type-label text-foreground-muted">{r.baseline}</span>
+            d.details.map((detail) => (
+              <li class="flex items-center gap-2 type-label font-bold text-foreground-muted">
+                <span class="size-1.5 shrink-0 rounded-full bg-icon-accent" aria-hidden="true" />
+                {detail}
               </li>
             ))
           }
         </ul>
-      </section>
-
-      <Image
-        class="mt-6 block aspect-story w-full rounded-sm bg-tint object-cover lg:mt-10"
-        src={d.image.src}
-        alt={d.image.alt}
-        widths={[700, 952, 1400]}
-        sizes="(min-width: 1024px) 952px, 100vw"
-        loading="eager"
-        fetchpriority="high"
-      />
+      </div>
+      <div class="flex min-w-0 flex-col lg:basis-5/12">
+        <h2 class="m-0 type-eyebrow text-foreground">{content.results}</h2>
+        <ul class="m-0 mt-2 list-none p-0 lg:mt-3">
+          {
+            d.results.map((r) => (
+              <li class="flex flex-col gap-1 border-t border-border py-3.5 lg:flex-row lg:items-center lg:gap-4">
+                <span class="font-sans type-stat-sm font-bold whitespace-nowrap text-brand-emphasis lg:min-w-24 lg:shrink-0">
+                  {/* One expression, so no space falls between the numeral and its unit. */}
+                  {[r.value, r.unit && <span class="text-numeral-sign">{r.unit}</span>]}
+                </span>
+                <span class="type-card-title-sm text-foreground">{r.label}</span>
+              </li>
+            ))
+          }
+        </ul>
+        <div class="mt-4 flex flex-col gap-3 md:flex-row md:flex-wrap lg:mt-5">
+          <Button href={content.hero.primary.href} arrow>{content.hero.primary.label}</Button>
+          {
+            d.pdf && (
+              <Button href="#download" variant="secondary" icon="download">
+                {content.hero.pdf}
+              </Button>
+            )
+          }
+        </div>
+      </div>
     </div>
+  </VoiceHero>
 
-    <div class="mt-6 flex flex-col lg:mt-14 lg:flex-row lg:items-start lg:gap-12">
+  <Section class="pt-8 pb-0 lg:pt-12 lg:pb-0">
+    <p class="m-0 max-w-180 type-lead text-foreground-body lg:ml-14">{d.lead}</p>
+
+    <div class="mt-12 flex flex-col lg:mt-16 lg:flex-row lg:items-start lg:gap-12">
       <aside
-        aria-label={content.glance.label}
+        aria-label={content.glance.title}
         class="flex flex-col gap-4 rounded-sm bg-tint p-5 lg:sticky lg:top-24 lg:w-50 lg:shrink-0 lg:rounded-none lg:bg-transparent lg:p-0"
       >
         <h2 class="m-0 type-eyebrow text-foreground">{content.glance.title}</h2>

@@ -64,12 +64,12 @@ for it). Provenance is the comment beside each token in `tokens.css`.
   _-brand-bar_ (provisional: the reason photos, the foundation figure, its subject tiles and its
   Emerald base bar).
 - _Photo treatment_ (Home): _scrim-photo_ (desktop) and _scrim-photo-mobile_, _scrim-video_,
-  _on-photo-control_, _on-photo-dot_, _photo-tone_ (the boards' sepia filter); Research's
+  _on-photo-control_, _on-photo-dot_, _photo-tone_ (the boards' sepia filter); Case Studies' _scrim-voice_ and _scrim-voice-mobile_ (provisional: Forest from the left from xl and from the bottom below, under the voice-led hero's quote, `.ie-voice-scrim`); Research's
   _scrim-hero_ and _scrim-hero-figure_ (provisional: the Forest vignette over the neuron footage
   and the pool behind the brain diagram, `.ie-hero-scrim` / `-figure`).
 - **Size:** **control-height** 48, **control-height-sm** 44, **header-height** 80/64,
   **logo-height** 32/28, **accent-bar-height** 4, **container** 1200, **measure** 520,
-  _measure-short_ 320, _swatch-size_ 10 (the color key in an evidence tag: Platform, Research), **measure-article** 680, _form-card_ 576 (`w-form`), _figure-height_ 220 → 400 (`h-figure`), **icon-sm/md/lg/feature/disc**, _icon-check_ 22 and _icon-check-sm_ 18 (the filled check disc), _measure-wide_ 640 (Pricing's hero lead, `PageTitle leadWidth="wide"`), _measure-cta_ 560 (the inline closing CTA's lead), _measure-note_ 760 (a footnote under a table), _measure-narrow_ 480 (About's research intro), _measure-title_ 820 (a centered section title, About), _collapse-height_ 640 (Pricing's collapsed table) and _collapse-height-sm_ 260 with _collapse-fade-sm_ 35% (Research's citations, provisional), _hero-photo-height_ 560 → 640 (`h-hero-photo`), _ratio-story_ 952 : 500 (`aspect-story`, a case study's hero photo) and _chart-height_ 180 → 216 (the tallest bar, `BarChart`), both provisional.
+  _measure-short_ 320, _swatch-size_ 10 (the color key in an evidence tag: Platform, Research), **measure-article** 680, _form-card_ 576 (`w-form`), _figure-height_ 220 → 400 (`h-figure`), **icon-sm/md/lg/feature/disc**, _icon-check_ 22 and _icon-check-sm_ 18 (the filled check disc), _measure-wide_ 640 (Pricing's hero lead, `PageTitle leadWidth="wide"`), _measure-cta_ 560 (the inline closing CTA's lead), _measure-note_ 760 (a footnote under a table), _measure-narrow_ 480 (About's research intro), _measure-title_ 820 (a centered section title, About), _collapse-height_ 640 (Pricing's collapsed table) and _collapse-height-sm_ 260 with _collapse-fade-sm_ 35% (Research's citations, provisional), _hero-photo-height_ 560 → 640 (`h-hero-photo`), _hero-voice-height_ 620 → 640 (`min-h-hero-voice`, the voice-led hero's band) and _chart-height_ 180 → 216 (the tallest bar, `BarChart`), both provisional.
 - _Motion:_ `220ms cubic-bezier(.16, 1, .3, 1)`, every transition on the boards; _motion-fade_
   700ms on the same curve, the hero carousel's crossfade; Research's _marquee-duration_ 36s and
   _pulse-duration_ 1.6s (provisional).
@@ -129,6 +129,9 @@ class.
   `align="center"` and `balance` for Research's title-only panel; on
   Emerald its `*words*` stay white, as the boards draw them),
   `blocks/Testimonial` (card · panel · accent: Mist ground, 6px Emerald top border, Emerald mark; `initials` in a Spring disc beside the name: Case Studies),
+  `blocks/VoiceHero` (Hero D: a practitioner's quote over a full-bleed photo under `.ie-voice-scrim`,
+  then a Floating card rising out of it, 64 → 112px from xl, that holds the page's H1, details,
+  results and actions in its slot: Case Studies),
   `blocks/StoryCard` (a case study's card: photo with `.ie-photo-label`, school, place, headline
   result, "Read the story"; the name's link covers it, the photo eases in on hover; at least the
   boards' 580px row from lg: Case Studies index and a story's related row), `blocks/BarChart` (bars
@@ -208,8 +211,11 @@ Article rails) are built by their page from these parts and listed in `design/in
   Why. The section clips the overflow (`overflow-x-clip`), since `100vw` counts a classic scrollbar.
 - The switch's off-state track keeps a 1px `border-input` outline the board doesn't draw, so the
   control meets 3:1 against white (WCAG 1.4.11).
-- Case Studies only: `--ratio-story` and `--chart-height` (FINAL V draws no detail page; read off
-  the "Case Study Detail Working" boards), the inline HubSpot layout (no PDF form exists yet).
+- Case Studies only: `--hero-voice-height`, `--scrim-voice` / `-mobile` and `--chart-height` (FINAL V
+  draws no detail page; read off the "Case Study Detail Working" boards). The scrims are Forest
+  where the boards draw the retired Deep Forest, and the bottom one holds darker for longer
+  than drawn, so the eyebrow stays at 4.5:1 over the photo at every width. The inline HubSpot
+  layout is provisional too: no PDF form exists yet.
 - Research only: `--scrim-hero` / `-figure`, `--collapse-height-sm` and `--collapse-fade-sm` (the
   citations clipped at 260 with the fade from 35%; `.ie-collapse` reads `--collapse-fade`),
   `--sand-dots` / `-size`,

@@ -20,6 +20,7 @@ import LogoStrip from '../../components/blocks/LogoStrip.astro';
 import EvidenceCard from '../../components/blocks/EvidenceCard.astro';
 import StoryCard from '../../components/blocks/StoryCard.astro';
 import BarChart from '../../components/blocks/BarChart.astro';
+import VoiceHero from '../../components/blocks/VoiceHero.astro';
 import VideoPoster from '../../components/ui/VideoPoster.astro';
 import { ICONS } from '../../lib/icons';
 import { FEATURE_ICONS } from '../../lib/feature-icons';
@@ -707,6 +708,21 @@ const checklist = [
       captions
     />
   </Section>
+
+  <VoiceHero
+    image={{ src: photo, alt: 'Sample photo' }}
+    eyebrow="Voice-led hero (Case Studies)"
+    quote="A practitioner's words open the page over the photo, under a Forest scrim from the left from xl and from the bottom below. *Marked words are set bold.*"
+    name="Sample administrator"
+    place="Role, Sample school"
+    initials="SA"
+  >
+    <p class="m-0 type-eyebrow text-foreground">The title card</p>
+    <p class="m-0 mt-3 type-body text-foreground-body">
+      A Floating card rises out of the photo, 64px and 112px from xl, and holds the page's
+      breadcrumb, H1, details, results and actions.
+    </p>
+  </VoiceHero>
 
   <Section aria-labelledby="cta-title">
     <h2 id="cta-title" class="m-0 type-section-title text-foreground">Closing call to action</h2>

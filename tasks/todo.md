@@ -284,9 +284,20 @@ mark-compass.png`, 256px PNG) is the board's: an SVG from the design system woul
     comments: stand-in portraits, invented student voices, representative trust figures, inferred
     dates, La Joya's 85% vs 80%, the 43% educator-stress figure. The new collection takes its text
     from the boards, not those files; resolve each before its value reaches a page.
-  - Hero: the detail boards' own hero is built. The five "Hero directions" (A photo masthead, B
-    result first, C split with proof card, D voice led, E snapshot with PDF) on the working page are
-    undecided: pick one, or keep the current template.
+  - Hero: **Hero D · Voice led, chosen 2026-10-11** (CS-Hero-D, CS-Hero-D-Mobile), with Hero D's
+    own Webb copy, which differs from the Webb detail boards; confirm each:
+    - **Hartford vs Avon:** the hero's details say "Hartford, Connecticut"; the "At a glance"
+      rail (from the detail board) says "Avon, Connecticut". Both show on the page. Pick one.
+    - The H1 "How The Webb School in the Valley cut restraints and seclusions 65% with daily
+      mindfulness practice" (the old one, "Transforming Student Behavioral Challenges…", is the
+      legacy title; the Article headline and the index's ItemList JSON-LD now follow the new H1).
+    - The second result "40+ to 1" (outbursts for one student, from DeVane's quote) and "6 min
+      read" (stored as drawn, not computed).
+    - DeVane's quote is the PDF's fuller version (with "ONE restraint and seclusion") and now opens
+      the page; the body's copy of it was removed (the user's call). The Judge's quote stays.
+    - The photo is 1200 × 600, upscaled to fill the 1440 × 640 band: a larger original would be
+      sharper.
+    - Not built: Heroes A, B, C and E.
   - PDF gate (decided: HubSpot): create the HubSpot form "Case study PDF request" with one field,
     email, label "Work email", placeholder "you@district.org", submit "Send me the PDF" (the
     boards' copy); optionally a follow-up email with the file. Put its GUID in
@@ -300,11 +311,11 @@ mark-compass.png`, 256px PNG) is the board's: an SVG from the design system woul
     (`public/downloads/webb-school-case-study.pdf`, restored from `0c8cac2`, 5 pages). The 65%
     decrease; the chart values (116 / 180 / 63 / 63 / 68, "approximate values read from the original
     chart"; the old YAML said 180 → 62); partners "Aetna Foundation and LG Electronics"; Judge Frank
-    Szymanski's quote and court. The template-written fields: the card label, the result's baseline
-    ("In the school year following the Inner Explorer pilot"), the "At a glance" facts, the alt text.
-  - Board vs PDF: Jill DeVane's quote on the boards drops the PDF's "During the year we began
-    practicing Inner Explorer, he only had ONE restraint and seclusion." and its footnotes 1 and 2
-    (the dropout and suspension statistics). Built as the boards draw it; restore either?
+    Szymanski's quote and court. The template-written fields: the card label, the "At a glance"
+    facts, the alt text.
+  - Board vs PDF: the detail boards' copy of DeVane's quote dropped the PDF's "ONE restraint"
+    sentence (Hero D restores it, above). The PDF's footnotes 1 and 2 (the dropout and suspension
+    statistics) are still missing from the page; restore them?
   - Breadcrumb: the boards link "Therapeutic school" to `/case-studies/?level=therapeutic` with
     `aria-current`; no level filter exists (the chips filter by outcome), so it is plain text.
   - SEO: Webb's title is the old entry's ("Mindfulness Case Study: 65% Fewer Restraints &
@@ -314,13 +325,20 @@ mark-compass.png`, 256px PNG) is the board's: an SVG from the design system woul
     and CollectionPage + ItemList.
   - Copy verbatim: "Talk to our team" (index hero, rail, detail CTA) and "Contact us" (index CTA),
     per the site-wide CTA item; "Case Studies on Inner Explorer Program" in title case.
-  - Drift left after the measured side-by-side review (2026-10-10; index hero within 3px at both
-    widths; detail desktop within 5px through the hero and within 20px by the PDF card): headings
-    sit 4px higher each (52 → 48 margins); numerals 48 → 44; the quote on mobile 18 (board 20, per
-    the quote decision), so mobile quotes run 100–165px shorter; chart labels 14 (board 12 on
-    mobile) and bars 60% of their column (board fixed widths); the closing CTA title wraps after
-    "be" (the shared inline block). Card gap 24 as the index board sets it (the card-system board
-    says 8).
+  - Drift left after the measured side-by-side reviews (2026-10-10 and, for Hero D, 2026-10-11;
+    index hero within 3px at both widths; the Hero D hero within 6px of its board at 1440; the
+    body within 20px by the PDF card): headings sit 4px higher each (52 → 48 margins); numerals 48
+    → 44; body quotes 18 on mobile (board 20, per the quote decision); chart labels 13 on mobile
+    (board 12) and bars 60% of their column (board fixed widths); the closing CTA title wraps
+    after "be" (the shared inline block). Card gap 24 as the index board sets it (the card-system
+    board says 8). Hero D: result numerals 44 → 40 on the one stat ramp (board 32); the mobile H1
+    32 (board 30); the hero quote 18 below xl (board 21) and 1.4 leading at xl (board 1.36); the
+    breadcrumb at .06em (board .08, so it holds one line on mobile where the board wraps); Forest
+    scrims (board Deep Forest), the bottom one darker than drawn. Below xl the hero uses the mobile
+    layout (quote at the foot, card rising 64px): at lg the 640px quote outran the left scrim and
+    white fell under 3:1. Measured per text line over the photo, every 14–16px line clears 4.5:1
+    at 360–1920. The weakest quote lines at 1280–1366 are 3.4–4.5:1, which passes because the
+    quote is large text (≥ 24px) there.
 
 ## Build order
 

@@ -45,8 +45,16 @@ The canvas is "Inner Explorer — Website", https://claude.ai/artifact/6gx8tapea
 
 1. List its files with the Artifact tool (`action: "list"`, `scope: "files"`).
 2. Read `project/Case-Study-<Story>-Desktop.dc.html` and `-Mobile.dc.html`. These are on the
-   page "Case Study Detail Working"; Kaiser also has a `-Mobile-First-Screen` board.
-3. Read the canvas notes in `project/canvas.json`:
+   page "Case Study Detail Working"; Kaiser also has a `-Mobile-First-Screen` board. They carry
+   the lead, the "At a glance" facts and the body.
+3. The hero is **Hero D · Voice led** (chosen 2026-10-11). Its copy for every story lives in the
+   `stories()` object of `project/CS-Hero-D.dc.html` (the `-Mobile` component holds the same).
+   `CS-Hero-D-<Story>` and `CS-Hero-D-Mobile-<Story>` only import it with `story="<key>"`. Parse
+   the story's object, quoting its keys (`h1a` has a digit): `h1a`/`h1b`, `meta`, `stats`
+   (`n`, `u`, `label`), `quote`/`who`/`role`/`ini`, `img`/`alt`/`pos`, `lead`. The hero copy can
+   differ from the detail boards (Webb: Hartford vs Avon, a rewritten H1, a fuller quote). Use
+   the hero's, and list each difference in todo.
+4. Read the canvas notes in `project/canvas.json`:
    - `case-study-model`: the content model.
    - `cs-row-<story>`: the story's source.
    - Any note on the story's page, such as Webb's "Hold … waiting for approval". Report every
@@ -67,13 +75,15 @@ The index card uses those exact values.
 | Board | Entry field |
 | --- | --- |
 | Breadcrumb level, card badge | `level` |
-| H1 black half / green half | `title.lead` / `title.emph` |
-| Lead paragraph under the accent bar | `lead` |
-| Meta line "City, State · Level" | `location` (the city and state) |
-| Result tiles (numeral, label, small grey line) | `results[]` `{ value, label, baseline }` (1–4) |
-| Hero photo and its alt | `image.src` (relative path to `src/assets/images/case-studies/<slug>/`), `image.alt` |
+| Hero D `h1a` / `h1b` | `title.lead` / `title.emph` |
+| Hero D `meta` (the green-dot details, read time included) | `details[]`, verbatim |
+| Hero D `quote`, `who`, `role`, `ini` | `voice` `{ quote, name, role, initials }` |
+| Hero D `stats` (`n`, `u`, `label`) | `results[]` `{ value, unit, label }` (1–4; omit an empty `unit`) |
+| Hero D `img`, `alt`, `pos` | `image.src` (relative path to `src/assets/images/case-studies/<slug>/`), `image.alt`, `image.position` |
+| Lead paragraph (the same on both boards) | `lead` |
+| The school's city and state | `location` (JSON-LD only) |
 | "At a glance" rows | `glance[]` `{ label, value }` |
-| Article body, top to bottom | `body[]`: `heading` (h2, with the board's `id`) · `subheading` (h3) · `paragraphs` (a run of `<p>`) · `quote` `{ text, name, role, initials }` · `chart` · `checklist` · `steps` `{ title, text }` |
+| Article body, top to bottom (drop a `quote` that repeats the hero's voice) | `body[]`: `heading` (h2, with the board's `id`) · `subheading` (h3) · `paragraphs` (a run of `<p>`) · `quote` `{ text, name, role, initials }` · `chart` · `checklist` · `steps` `{ title, text }` |
 | Chart | `chart`: `title` (its figcaption), `summary` (the board's `aria-label` up to the first period), `phases[]` (`before` / `after` / `during`, each with `bars[]` `{ label, value }`), `note` (the line under the rule) |
 | "Case study PDF · N pages" card | `pdf` `{ file: /downloads/<slug>-case-study.pdf, pages, title }` |
 | "More stories like this" | `related[]`: the three slugs the board links |
@@ -114,7 +124,9 @@ put markup in the entry.
    - inline its `<helmet>` CSS;
    - point its `@font-face` rules at `src/assets/fonts/`;
    - swap the `/_blob/` photo for the local file;
-   - fill `{{t1}}` with `#f0efeb` and drop the `<sc-if>` tags.
+   - fill `{{t1}}` with `#f0efeb` and drop the `<sc-if>` tags;
+   - for the hero, fill `CS-Hero-D(-Mobile).dc.html`'s `{{s.*}}` slots and expand its
+     `<sc-for>` lists from the story's object (drop the `isBlog` blocks).
 
    Then collect every text element's box on the board and on `pnpm preview`, at 1440 and 390,
    and pair them by text. Expect the drift `tasks/todo.md` › Case Studies already lists:
@@ -122,15 +134,22 @@ put markup in the entry.
    - 48 → 44 numerals;
    - 52 → 48 heading margins;
    - an 18px quote on mobile;
-   - 14px chart labels.
+   - 13px chart labels on mobile;
+   - the hero's 32 → 44 / 40 result numerals, its 18px quote below xl, and the hero switching to
+     the mobile layout below xl.
 
    Anything else is a bug or a missing variant.
-4. Check behavior:
+4. **Contrast over the photo:** axe can't see through images. Hide the hero's quote, sample the
+   pixels behind each text line (from `Range.getClientRects()`) in a full-page screenshot, and
+   check white against the lightest 2% at 360–1920. The eyebrow, name and role must clear 4.5:1;
+   the quote 3:1 where it is 24px or more, 4.5:1 below. A new photo can fail where Webb's
+   passed. Fix it with `image.position` first, then the scrim.
+5. Check behavior:
    - The index lists the story, and its filter chips appear with the right counts.
    - Every related row now shows the stories that exist.
    - The PDF link returns 200 with `application/pdf`.
    - The JSON-LD reads Article and BreadcrumbList.
-5. Update `tasks/todo.md`:
+6. Update `tasks/todo.md`:
    - stand-ins;
    - unconfirmed facts, every figure and quote, as drawn;
    - board vs PDF differences;
