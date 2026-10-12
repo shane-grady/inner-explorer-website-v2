@@ -52,8 +52,8 @@ const isProductionBuild =
 // Intercom Messenger ships on the same terms as GA4: real production builds only, so
 // `pnpm dev` and Netlify's deploy-preview / branch-deploy contexts never open a live
 // support channel. The env var is set per Netlify site, so each site (marketing + Help
-// Center) opts in independently. Unlike GA there is no *.netlify.app runtime guard —
-// see src/components/integrations/Intercom.astro for why.
+// Center) opts in independently. Like GA it also skips *.netlify.app at runtime (see
+// src/components/integrations/Intercom.astro).
 const intercomAppId = import.meta.env.PUBLIC_INTERCOM_APP_ID;
 ---
 
