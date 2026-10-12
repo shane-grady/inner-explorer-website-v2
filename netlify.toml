@@ -485,73 +485,73 @@
 
 [[redirects]]
   from = "/ie-program"
-  to = "/platform/"
+  to = "/program/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/ie-program.html"
-  to = "/platform/"
+  to = "/program/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/experience"
-  to = "/platform/"
+  to = "/program/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/experience.html"
-  to = "/platform/"
+  to = "/program/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/experienceBi-Lingual"
-  to = "/platform/"
+  to = "/program/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/experienceBi-Lingual.html"
-  to = "/platform/"
+  to = "/program/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/myinnercompass"
-  to = "/platform/"
+  to = "/program/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/myinnercompass.html"
-  to = "/platform/"
+  to = "/program/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/narrators"
-  to = "/platform/"
+  to = "/program/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/narrators.html"
-  to = "/platform/"
+  to = "/program/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/portalsList"
-  to = "/platform/"
+  to = "/program/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/portalsList.html"
-  to = "/platform/"
+  to = "/program/"
   status = 301
   force = true
 
@@ -692,19 +692,19 @@
 
 [[redirects]]
   from = "/choose-your-program"
-  to = "/platform/"
+  to = "/program/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/classroomapp"
-  to = "/platform/"
+  to = "/program/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/classroomapp/*"
-  to = "/platform/"
+  to = "/program/"
   status = 301
   force = true
 
@@ -800,6 +800,20 @@
   status = 301
   force = true
 
+# The My Bright Moments app (Bright Horizons): its App Store and Google Play listings link these
+# legal pages, which only the legacy server had. Stores flag a dead privacy policy URL.
+[[redirects]]
+  from = "/BH_app/privacy-policy.html"
+  to = "/my-bright-moments/privacy-policy/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/BH_app/term.html"
+  to = "/my-bright-moments/terms/"
+  status = 301
+  force = true
+
 # The family app. Its privacy policy URL is likely on the app-store listings.
 [[redirects]]
   from = "/homeapp/term.html"
@@ -855,14 +869,27 @@
 # Marketing-only compatibility redirects. Keep these in this site configuration,
 # rather than public/_redirects, so the separately built Help Center never inherits
 # routes it does not own.
+# The Platform page was renamed Program on 2026-10-12.
+[[redirects]]
+  from = "/platform"
+  to = "/program/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/platform/"
+  to = "/program/"
+  status = 301
+  force = true
+
 [[redirects]]
   from = "/educators"
-  to = "/platform/"
+  to = "/program/"
   status = 301
 
 [[redirects]]
   from = "/app"
-  to = "/platform/"
+  to = "/program/"
   status = 301
 
 [[redirects]]
@@ -896,16 +923,6 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Content-Security-Policy = "frame-ancestors 'self' https://browardschools.instructure.com"
-
-# PRE-LAUNCH: noindex EVERY host (including the production custom domain) until the
-# site launches. DELETE this block at launch — the netlify.app-only edge function
-# below keeps staging/previews noindexed permanently, so removing this re-opens
-# indexing for the production domain only.
-# robots.txt must keep `Allow: /` so crawlers can fetch pages and see this header.
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Robots-Tag = "noindex"
 
 # X-Robots-Tag: noindex for *.netlify.app hosts (staging / previews / branch deploys)
 # is added per-request by netlify/edge-functions/noindex-netlify-host.ts (declared
