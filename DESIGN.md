@@ -164,7 +164,7 @@ class.
   `.ie-card-arrow` (a linked card's photo and arrow on hover), `.ie-chart` / `.ie-chart-phase` /
   `.ie-chart-bar` (`BarChart`'s grid),
   `.ie-icon-disc`, `.ie-field`, `.ie-label`, `.ie-field-error`, `.ie-card-*`, `.ie-nav`,
-  `.ie-menu-*`, `.ie-footer-link`, `.ie-skip-link`, `.ie-photo-tone`, `.ie-sticky-bar`,
+  `.ie-menu-*`, `.ie-footer-link`, `.ie-skip-link`, `.ie-photo-tone`,
   `.ie-card-recommended` (Mist, 2px Emerald border: Pricing's recommended plan), `.ie-check-disc`,
   `.ie-minus-disc` (its "not this" partner: Why's curriculum table), `.ie-bleed-start` /
   `.ie-bleed-end` (a panel running to the viewport's edge from lg: Why's reasons),
@@ -188,7 +188,7 @@ class.
   and button in a row from md) and a `fallback` slot replacing the email / Help Center note (a
   case study's PDF form falls back to the file). The HubSpot ids live in `src/lib/site.ts`.
 
-Page-local patterns (tabs, players, charts, stat strips, steps, tables, sticky bars, the
+Page-local patterns (tabs, players, charts, stat strips, steps, tables, the
 Article rails in `src/pages/newsroom/[slug].astro`) are built by their page from these parts
 and listed in `design/inventory.md`.
 
@@ -209,6 +209,8 @@ and listed in `design/inventory.md`.
 ## Provisional values (FINAL V does not settle them)
 
 - The open mobile menu (V2's spec: 56px rows, Contact us + Sign in at full width).
+- The mobile header carries the Contact button beside the menu button, in place of the boards'
+  sticky bottom bars (Home, Article): the call to action lives in the header at every width.
 - The light header's current-page style (bold with a 2px Emerald rule, mirroring the dark header).
 - The social row: hidden until profile URLs exist (`tasks/todo.md`).
 - Field error state (`danger` border and message; the boards draw no error).

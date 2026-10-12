@@ -216,8 +216,8 @@ const news = defineCollection({
           items: z.array(z.object({ q: z.string(), a: z.string() })).min(1),
         })
         .optional(),
-      /** The call to action: end-of-article panel, the rail card (desktop) and the sticky bar
-       *  (mobile). Without it the article ends with the Newsroom's own panel. */
+      /** The call to action: end-of-article panel and the rail card (desktop). Without it the
+       *  article ends with the Newsroom's own panel. */
       cta: z
         .object({
           eyebrow: z.string(),

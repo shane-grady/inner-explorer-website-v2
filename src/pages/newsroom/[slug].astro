@@ -5,7 +5,7 @@
 // "On this page" labels, FAQ, call to action), so the template's own copy is only the labels
 // below. Desktop: the outline and share rail on the left, the post in a 680 column, the
 // call-to-action card on the right (from xl), both sticky. Mobile: the outline folds into a
-// <details> above the hero and the call to action rides a sticky bottom bar.
+// <details> above the hero; the header carries the Contact button.
 import { Image } from 'astro:assets';
 import { getEntry, render } from 'astro:content';
 import PageLayout from '../../layouts/PageLayout.astro';
@@ -526,24 +526,6 @@ const schemas = [
       }
     </article>
   </div>
-
-  {
-    cta.rail && (
-      <div
-        class="ie-sticky-bar sticky bottom-0 z-10 flex items-center justify-between gap-3 px-5 py-3 lg:hidden"
-        role="region"
-        aria-label={cta.primary.label}
-      >
-        <div class="flex flex-col gap-1">
-          <p class="m-0 type-label font-bold text-foreground">{cta.rail.title}</p>
-          <p class="m-0 type-label text-foreground-muted">{cta.eyebrow}</p>
-        </div>
-        <Button href={cta.primary.href} size="sm" class="shrink-0">
-          {cta.primary.label}
-        </Button>
-      </div>
-    )
-  }
 </PageLayout>
 
 <script>

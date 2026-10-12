@@ -639,7 +639,7 @@
   object-fit: cover;
 }
 
-/* ---------- Photo hero, video poster, sticky bar (Home) ---------- */
+/* ---------- Photo hero, video poster (Home) ---------- */
 /* The display title's second line: Caslon Condensed italic at 1.25em (120 on 96, 66 on 52). */
 .ie-display em {
   font-family: var(--font-display);
@@ -775,16 +775,6 @@
 .ie-video:is(:hover, [data-hover]) .ie-video-play {
   transform: scale(1.06);
   background: var(--brand-hover);
-}
-.ie-sticky-bar {
-  border-block-start: 1px solid var(--border);
-  background: var(--surface);
-  box-shadow: var(--shadow-sticky);
-}
-/* While the bar shows, focus scrolled into view stops above it instead of under it
-   (WCAG 2.4.11 Focus Not Obscured). The bar is a full-size button in space-3 padding. */
-html:has(.ie-sticky-bar:not([hidden])) {
-  scroll-padding-block-end: var(--space-20);
 }
 
 /* ---------- Fields (Contact, the Article newsletter, and HubSpot's injected form) ---------- */
