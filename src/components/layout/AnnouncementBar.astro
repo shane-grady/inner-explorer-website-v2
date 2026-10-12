@@ -1,0 +1,12 @@
+---
+// A slim Forest bar above the site header for a short site-wide notice (PageLayout).
+import { announcement } from '../../data/navigation';
+---
+
+<aside
+  aria-label="Announcement"
+  class="bg-brand-surface-deep px-section-x py-2 text-center text-on-brand"
+  data-on-brand
+>
+  <p class="type-label">{announcement}</p>
+</aside>

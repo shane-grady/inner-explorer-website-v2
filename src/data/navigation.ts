@@ -19,6 +19,9 @@ export const primaryNav: NavLink[] = [
 export const signIn: NavLink = { label: 'Sign in', href: 'https://app.innerexplorer.com' };
 export const contactCta: NavLink = { label: 'Contact us', href: '/contact/' };
 
+// The bar above the header (AnnouncementBar).
+export const announcement = 'Welcome to the new Inner Explorer website.';
+
 // Footer A from the boards, without its sign-off line. No social row yet: every board draws the profile links as "#"
 // (tasks/todo.md tracks the URLs; the row ships with them).
 export const footer = {
