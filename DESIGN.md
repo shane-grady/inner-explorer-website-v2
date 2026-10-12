@@ -138,8 +138,8 @@ class.
   grouped by phase, before in Tint under a dashed rule, after and during in Jade, a rule between
   phases, values and periods, a note; one `role="img"` named from the data; in a Raised card:
   Case Studies),
-  `blocks/PhotoHero` (photo or carousel under a scrim, display H1, intro and `actions`; no
-  autoplay), `blocks/StatStrip` (numerals over labels: `divided`, hairlines from lg (Home); `ruled`, three
+  `blocks/PhotoHero` (photo or carousel under a scrim, display H1, intro and `actions`; a
+  carousel crossfades every 6s with a pause button, holds on hover/focus, never under reduced motion), `blocks/StatStrip` (numerals over labels: `divided`, hairlines from lg (Home); `ruled`, three
   columns under hairlines with a source line (Why); follows `[data-on-brand]`), `blocks/LogoStrip` (label and partner names, a logo where supplied;
   `layout="wall"`: a centered label over wrapping logo cells, grayscale at _logo-opacity_ until
   hovered, optionally linked to coverage: About; `layout="marquee"`: the names scrolling in a loop

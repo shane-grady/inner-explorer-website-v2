@@ -1,7 +1,9 @@
 ---
 // The photo hero: a full-bleed photo under a Forest scrim with the eyebrow, the display H1
 // and the accent bar, then the intro and the actions on the page ground. Two or more
-// slides make it a carousel (previous, next, dots and a count; no autoplay). The H1 is
+// slides make it a carousel (previous, next, dots and a count) that crossfades on its own
+// every few seconds, with a pause button (WCAG 2.2.2). It holds while hovered or focused and
+// doesn't start under prefers-reduced-motion. The H1 is
 // the page's one H1. Actions go in the `actions` slot (a primary and a secondary Button).
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
@@ -75,6 +77,19 @@ const pad = (n: number) => String(n).padStart(2, '0');
             data-carousel-controls
           >
             <div class="flex items-center gap-3">
+              <button
+                type="button"
+                class="ie-carousel-btn"
+                aria-label="Pause slideshow"
+                data-autoplay-toggle
+              >
+                <span class="flex" data-icon-pause>
+                  <Icon name="pause" />
+                </span>
+                <span class="hidden" data-icon-play>
+                  <Icon name="play" />
+                </span>
+              </button>
               <button type="button" class="ie-carousel-btn" aria-label="Previous photo" data-prev>
                 <Icon name="chevron-left" />
               </button>
@@ -123,6 +138,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
 
 <script>
   // Carousel: previous, next and the dots move one photo; the count reads the position.
+  // Autoplay advances every INTERVAL ms; hover and focus hold it, the toggle stops it.
   document.querySelectorAll<HTMLElement>('[data-carousel]').forEach((root) => {
     const slides = [...root.querySelectorAll<HTMLElement>('[data-slide]')];
     const dots = [...root.querySelectorAll<HTMLButtonElement>('[data-dot]')];
@@ -138,9 +154,52 @@ const pad = (n: number) => String(n).padStart(2, '0');
       dots.forEach((dot, i) => dot.setAttribute('aria-current', String(i === current)));
       if (count) count.textContent = `${pad(current + 1)} / ${pad(slides.length)}`;
     };
-    root.querySelector('[data-prev]')?.addEventListener('click', () => show(current - 1));
-    root.querySelector('[data-next]')?.addEventListener('click', () => show(current + 1));
-    dots.forEach((dot, i) => dot.addEventListener('click', () => show(i)));
+    const INTERVAL = 6000;
+    const toggle = root.querySelector<HTMLButtonElement>('[data-autoplay-toggle]');
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let playing = !reduced;
+    let held = false;
+    let timer: number | undefined;
+    const schedule = () => {
+      window.clearTimeout(timer);
+      if (playing && !held && !document.hidden) {
+        timer = window.setTimeout(() => {
+          show(current + 1);
+          schedule();
+        }, INTERVAL);
+      }
+    };
+    const setPlaying = (next: boolean) => {
+      playing = next;
+      // Announce the position only when the photos aren't changing on their own.
+      count?.setAttribute('aria-live', playing ? 'off' : 'polite');
+      if (toggle) {
+        toggle.setAttribute('aria-label', playing ? 'Pause slideshow' : 'Play slideshow');
+        toggle.querySelector('[data-icon-pause]')?.classList.toggle('hidden', !playing);
+        toggle.querySelector('[data-icon-play]')?.classList.toggle('hidden', playing);
+      }
+      schedule();
+    };
+    const hold = (next: boolean) => {
+      held = next;
+      schedule();
+    };
+    const go = (index: number) => {
+      show(index);
+      schedule();
+    };
+    root.querySelector('[data-prev]')?.addEventListener('click', () => go(current - 1));
+    root.querySelector('[data-next]')?.addEventListener('click', () => go(current + 1));
+    dots.forEach((dot, i) => dot.addEventListener('click', () => go(i)));
+    toggle?.addEventListener('click', () => setPlaying(!playing));
+    root.addEventListener('mouseenter', () => hold(true));
+    root.addEventListener('mouseleave', () => hold(false));
+    root.addEventListener('focusin', () => hold(true));
+    root.addEventListener('focusout', (event) => {
+      if (!root.contains(event.relatedTarget as Node | null)) hold(false);
+    });
+    document.addEventListener('visibilitychange', schedule);
+    setPlaying(playing);
     root.dataset.ready = '';
   });
 </script>
