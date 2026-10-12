@@ -27,8 +27,8 @@ export const footer = {
     {
       heading: 'Product',
       links: [
-        { label: 'For educators', href: '/program/' },
-        { label: 'For districts', href: '/why-inner-explorer/' },
+        { label: 'Program', href: '/program/' },
+        { label: 'Why Inner Explorer', href: '/why-inner-explorer/' },
         { label: 'Pricing', href: '/pricing/' },
       ],
     },

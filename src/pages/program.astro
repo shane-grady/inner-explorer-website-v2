@@ -172,7 +172,8 @@ const content = {
   },
   series: {
     eyebrow: 'The series library',
-    title: 'Additional mindfulness series beyond the daily practice',
+    // Two lines from md up: the break falls after "series".
+    title: ['Additional mindfulness series', 'beyond the daily practice'],
     lead: 'The supplemental series are built for common situational experiences throughout the school day that use the same science of practicing mindfulness for regulation and support to meet specific needs.',
     link: { label: 'See pricing', href: '/pricing/' },
     addOnLabel: 'Add-on',
@@ -619,7 +620,8 @@ const platformLd = {
       id="series-title"
       class="m-0 mt-4 max-w-220 type-section-title text-foreground max-md:text-balance"
     >
-      {content.series.title}
+      {content.series.title[0]}<br class="max-md:hidden" />
+      {content.series.title[1]}
     </h2>
     <p class="m-0 mt-5 max-w-180 type-lead text-foreground-secondary">{content.series.lead}</p>
     <ArrowLink href={content.series.link.href} class="mt-2 md:mt-4"
