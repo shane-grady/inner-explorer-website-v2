@@ -14,6 +14,8 @@ export const ICONS = {
   close: '<path d="M6 6l12 12M18 6 6 18"/>',
   check: '<path d="M5 12.5l4.5 4.5L19 7"/>',
   minus: '<path d="M6 12h12"/>',
+  plus: '<path d="M12 6v12"/><path d="M6 12h12"/>',
+  link: '<path d="M10 14a4 4 0 0 0 5.66 0l3-3a4 4 0 0 0-5.66-5.66l-1 1"/><path d="M14 10a4 4 0 0 0-5.66 0l-3 3a4 4 0 0 0 5.66 5.66l1-1"/>',
   'check-circle': '<circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/>',
   play: '<path d="M7 4l12 8-12 8z"/>',
   pause: '<path d="M8 5v14"/><path d="M16 5v14"/>',

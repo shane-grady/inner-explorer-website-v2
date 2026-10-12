@@ -13,6 +13,7 @@ import ArrowLink from '../components/ui/ArrowLink.astro';
 import Icon from '../components/ui/Icon.astro';
 import FeatureIcon from '../components/ui/FeatureIcon.astro';
 import Logo from '../components/ui/Logo.astro';
+import StatTile from '../components/blocks/StatTile.astro';
 import EvidenceCard from '../components/blocks/EvidenceCard.astro';
 import LogoStrip from '../components/blocks/LogoStrip.astro';
 import ClosingCta from '../components/blocks/ClosingCta.astro';
@@ -644,13 +645,6 @@ const content = {
 } as const;
 
 const TONE_SWATCH = { emerald: 'text-brand-emphasis', vibrant: 'text-icon-accent' } as const;
-const TILE = {
-  cyan: 'bg-cyan-200',
-  green: 'bg-green-100',
-  yellow: 'bg-yellow-200',
-  orange: 'bg-orange-200',
-  tint: 'bg-tint',
-} as const;
 
 // The dose waffles: 180 days, 13px squares on a 16px pitch, 36 a row from md and 18 below.
 const DAYS = 180;
@@ -1344,12 +1338,7 @@ const { brain } = hero;
           <ul class="m-0 grid list-none gap-2 p-0 md:grid-cols-3">
             {
               evidence.district.figure.tiles.map((tile) => (
-                <li class:list={['flex flex-col gap-1.5 rounded-sm p-5', TILE[tile.tone]]}>
-                  <span class="font-sans type-stat-sm font-black tracking-tight text-foreground">
-                    {tile.value}
-                  </span>
-                  <span class="type-label text-foreground">{tile.label}</span>
-                </li>
+                <StatTile value={tile.value} label={tile.label} tone={tile.tone} />
               ))
             }
           </ul>

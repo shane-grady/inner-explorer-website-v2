@@ -1,0 +1,49 @@
+---
+// A stat tile: a numeral over its label on a tinted ground, charcoal ink. Research draws
+// them in Inter Black (`face="black"`, size `sm`); Article draws them in Caslon Condensed
+// (`face="display"`, size `md`: 40 → 56, padding 16 → 24).
+const TONE = {
+  cyan: 'bg-cyan-200',
+  green: 'bg-green-100',
+  yellow: 'bg-yellow-200',
+  orange: 'bg-orange-200',
+  tint: 'bg-tint',
+} as const satisfies Record<string, string>;
+const FACE = {
+  black: 'font-sans font-black tracking-tight',
+  display: 'font-display font-medium',
+} as const satisfies Record<string, string>;
+const SIZE = {
+  sm: { tile: 'gap-1.5 p-5', value: 'type-stat-sm', label: 'type-label' },
+  md: {
+    tile: 'gap-2 p-4 md:p-6',
+    value: 'type-stat-sm md:type-stat-md',
+    label: 'type-label md:type-list',
+  },
+} as const;
+
+export type StatTone = keyof typeof TONE;
+interface Props {
+  value: string;
+  label: string;
+  tone?: StatTone;
+  face?: keyof typeof FACE;
+  size?: keyof typeof SIZE;
+  as?: 'li' | 'div';
+  class?: string;
+}
+const {
+  value,
+  label,
+  tone = 'tint',
+  face = 'black',
+  size = 'sm',
+  as: Tag = 'li',
+  class: className,
+}: Props = Astro.props;
+---
+
+<Tag class:list={['flex flex-col rounded-sm', SIZE[size].tile, TONE[tone], className]}>
+  <span class:list={[SIZE[size].value, FACE[face], 'text-foreground']}>{value}</span>
+  <span class:list={[SIZE[size].label, 'text-foreground']}>{label}</span>
+</Tag>

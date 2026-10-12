@@ -1,6 +1,7 @@
 ---
 // Standard marketing-page shell: document, site header, <main>, site footer. Pages
-// build their content from Section and the shared components (DESIGN.md).
+// build their content from Section and the shared components (DESIGN.md). The `top` slot
+// sits above the header (the Article's reading progress bar).
 import BaseLayout from './BaseLayout.astro';
 import SiteHeader from '../components/layout/SiteHeader.astro';
 import SiteFooter from '../components/layout/SiteFooter.astro';
@@ -28,6 +29,7 @@ const dark = header === 'dark';
 <BaseLayout {...props}>
   <slot name="head" slot="head" />
   <div class:list={['flex min-h-dvh flex-col', dark && 'relative']}>
+    <slot name="top" />
     <SiteHeader dark={dark} overlay={dark} />
     <main id="main" class="grow">
       <slot />

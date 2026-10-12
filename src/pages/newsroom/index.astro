@@ -1,0 +1,543 @@
+---
+// /newsroom/ — from the FINAL V Newsroom boards (Newsroom-Desktop, Newsroom-Mobile). The split
+// title, the newest article as the featured card with the next two beside it, then every
+// story under type filters: articles from the news collection (src/content/news/), the
+// research resources and the press coverage below. The boards' placeholder cards (a video,
+// a generic resource, a press release) and their cards for posts that don't exist are not
+// built (tasks/todo.md); a filter shows only when its type has stories.
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import JsonLd from '../../components/seo/JsonLd.astro';
+import Section from '../../components/ui/Section.astro';
+import PageTitle from '../../components/ui/PageTitle.astro';
+import Icon from '../../components/ui/Icon.astro';
+import MediaCard from '../../components/blocks/MediaCard.astro';
+import ClosingCta from '../../components/blocks/ClosingCta.astro';
+import { breadcrumbSchema, collectionPageSchema } from '../../lib/schema';
+import { readingTime } from '../../lib/reading-time';
+import { getNews, newsPath, newsroomCta, shortDate } from '../../lib/news';
+import cnn from '../../assets/images/about/logos/cnn.png';
+import edweek from '../../assets/images/about/logos/education-week.png';
+import npr from '../../assets/images/about/logos/npr.png';
+import fox from '../../assets/images/about/logos/fox-news.png';
+import ap from '../../assets/images/about/logos/associated-press.png';
+import mindful from '../../assets/images/about/logos/mindful.png';
+import fortune from '../../assets/images/about/logos/fortune.png';
+import nbc from '../../assets/images/about/logos/nbc.png';
+import mindfulNation from '../../assets/images/newsroom/logos/mindful-nation-uk.png';
+import people from '../../assets/images/newsroom/logos/people.png';
+
+type StoryType = 'article' | 'resource' | 'press';
+interface Resource {
+  title: string;
+  kind: string;
+  excerpt: string;
+  meta: string[];
+  href: string;
+  /** The tile drawn as the card's media: a source, a figure and comparison bars. */
+  stat: {
+    source: string;
+    value: string;
+    caption: string;
+    bars: { label: string; width: string; ours?: boolean; gain?: string }[];
+  };
+}
+interface Press {
+  outlet: string;
+  logo?: ImageMetadata;
+  city?: string;
+  format: 'Video' | 'Article' | 'Report';
+  title: string;
+  action: string;
+  href: string;
+}
+
+const content = {
+  title: 'Newsroom: Insights and News from Inner Explorer',
+  description:
+    'Research, perspectives, and news exploring mindfulness, learning, and the future of education.',
+  hero: {
+    eyebrow: 'Newsroom',
+    title: 'Insights and News from *Inner Explorer*',
+    lead: 'Research, perspectives, and news exploring mindfulness, learning, and the future of education.',
+  },
+  featured: { label: 'Featured stories', badge: 'Featured', action: 'Read the article' },
+  picks: 'Also worth reading',
+  browse: {
+    title: 'Browse all stories',
+    filterLabel: 'Filter by type',
+    sort: 'Newest first',
+    show: 'Show all stories',
+    hide: 'Show fewer stories',
+    showing: 'Showing {n} stories',
+  },
+  types: {
+    article: { kicker: 'Article', filter: 'Articles' },
+    resource: { kicker: 'Resource', filter: 'Resources' },
+    press: { kicker: 'Press', filter: 'Press' },
+  } satisfies Record<StoryType, { kicker: string; filter: string }>,
+  all: 'All',
+  newTab: '(opens in a new tab)',
+  // Research resources as the board draws them (figures: tasks/todo.md); each links to its
+  // study on the Research page.
+  resources: [
+    {
+      title: 'At-home use of app-based mindfulness',
+      kind: 'RCT',
+      excerpt: 'Randomized controlled trial, published in the journal Mindfulness.',
+      meta: ['Treves et al.', '2023'],
+      href: '/research/#study-s6',
+      stat: {
+        source: 'MIT McGovern Institute',
+        value: '−28%',
+        caption: 'lower student stress',
+        bars: [
+          { label: 'Active control', width: '100%' },
+          { label: 'Inner Explorer', width: '72%', ours: true },
+        ],
+      },
+    },
+    {
+      title: 'An analysis of the impact of Inner\u00a0Explorer on academic growth',
+      kind: 'Doctoral study',
+      excerpt: 'Published doctoral research; journal publication forthcoming.',
+      meta: ['Dunlap et al.', '2023'],
+      href: '/research/#study-s5',
+      stat: {
+        source: 'UNC Charlotte',
+        value: '+22–26.6%',
+        caption: 'math and reading, special education',
+        bars: [
+          { label: 'Comparison group', width: '79.37%' },
+          { label: 'Inner Explorer', width: '96.83%', ours: true, gain: '3.17%' },
+        ],
+      },
+    },
+  ] satisfies Resource[] as Resource[],
+  // Press coverage as the board draws it, its links included (tasks/todo.md); Education
+  // Week's newsletter tracking parameters are dropped.
+  press: [
+    {
+      outlet: 'CNN',
+      logo: cnn,
+      format: 'Video',
+      title: 'Why Mindfulness in Schools',
+      action: 'Watch on CNN',
+      href: 'https://d5hf9n04.na1.hs-sales-engage.com/Ctc/Y+23284/d5hF9N04/JlF2-6qcW8wLKSR6lZ3mDW80CjhQ97yyJxW8s3MN_19hqcLW812Mld6mFc7tW8KZr2k6b2lkWW32HH0J9m30-tW71l5lD7znv95W1W5Pm75BJPghV81w4f5sL4jyW9dKD7B2CZPZnW7cNx2x4gjxCwN2PB6gZdzTzpW6qJx-j79b3B9W8dZ4Zb4hkKB8W3HB5c08q147yW2dhtgf139CZ4W2XG5j817z43xW6s1SpH6SMclVW1gs8c18hSS89W7rvWhn5xgdgKW7gvkyT8mh9yPW7VVC288vz6--N7d02k2H4Hb2W93ds_C3G9Z0bW2SPGlR5t69k4W2r-mXF2mrmY0W59BJ0l2VSJDNW8fKgmK5rSgLVVKyfvN4NjLs-f7PHqHW04',
+    },
+    {
+      outlet: 'Education Week',
+      logo: edweek,
+      format: 'Article',
+      title: 'In the Race to Build Smarter AI, We Forgot to Build Smarter Humans',
+      action: 'Read on Education Week',
+      href: 'https://www.edweek.org/technology/opinion-in-the-race-to-build-smarter-ai-we-forgot-to-build-smarter-humans/2026/07',
+    },
+    {
+      outlet: 'Mindful Nation UK',
+      logo: mindfulNation,
+      format: 'Report',
+      title: 'Mindful Nation UK report',
+      action: 'Read the report on Mindful Nation UK',
+      href: 'https://d5hf9n04.na1.hs-sales-engage.com/Ctc/Y+23284/d5hF9N04/Jll2-6qcW7Y8-PT6lZ3lpW5hxHGQ27Lj_XVmDkzw3m8fcKW2TPq0H5mj8KNW3r-yqP98n5jzW7bQdzx3WjvxxW5BBzh05-SpQWW1ytDMH6WnGBXW7mgFZB8klj9qW4KFpsK12TJzRW2j313s8tmYbFW9jn5d38XZYtjW3VPMwH8DX7TRW1F1-cC5yzpG9N4f-yw01HJ6lW1nmTwy94qVyBW5TCczn3D4N-8W8f5ZnY2hkm3rW8fM40l7gtQ2LW5yfyl33xs52_W67bhfX7BrhjqW7bR86B6jMrStW4b32_Z4dD_cLW87Brdv25D6H3W2vVBfw2X9cHmN1k9Fxms2xM2W3BMZ4Y6MpxdhdxF7c204',
+    },
+    {
+      outlet: 'NPR',
+      logo: npr,
+      format: 'Article',
+      title: 'To help these school kids deal with trauma, mindfulness lessons over the loudspeaker',
+      action: 'Read on NPR',
+      href: 'https://www.npr.org/sections/health-shots/2024/01/26/1227056527/to-help-these-school-kids-deal-with-trauma-mindfulness-lessons-over-the-loudspea',
+    },
+    {
+      outlet: 'Fox News',
+      logo: fox,
+      format: 'Article',
+      title: 'More US schools are taking breaks for meditation. Teachers say it helps students',
+      action: 'Read on Fox News',
+      href: 'https://d5hf9n04.na1.hs-sales-engage.com/Ctc/Y+23284/d5hF9N04/Jk84YGXpW5BWr2F6lZ3p4VTqD5l1ZnHxzW6SCggc2tnMGpW3Mqzxk55kbkZW39Qwwh6cYhkdW256Wjg83PDB_W2DSfqX8Hy97BW1Z5P6s1ZxgMxW2lCD444Lz72GW5Mm7gn3S1mjtW7vFp342zJF2gW3lFTGY5pZ7krW3GfMBz61C1jTW81wdD936Bj5sN4mSxfhvBf7NW5J97Nd1lV1JMW8ph6zB3N4vJnW82bp4s4pC-MKW7Qnj0y5Wz0h_W6lLKps64gVxFV5N-F_9klxMRW3-4lxD91_gf9W3jX7Fz1-8YVlN81GjwbNkxbRVZc6Yk25sbC8W4mcqY543Vv7sW6RCVnc3-3tCVW7233Hp7YtqKLN4qZCFfyCp-vW1TbGXR6NmdDYW7W-2ZJ868t4KN3qBv7-r96CgW3b3_kx3mC_pDW5qhVcC6ZnwPRN6ML8N6zd_Ywf960YHC04',
+    },
+    {
+      outlet: 'Associated Press',
+      logo: ap,
+      format: 'Article',
+      title:
+        'More US schools are taking breaks for meditation. Teachers say it helps students’ mental health',
+      action: 'Read on Associated Press',
+      href: 'https://d5hf9n04.na1.hs-sales-engage.com/Ctc/Y+23284/d5hF9N04/JlY2-6qcW95jsWP6lZ3mSW4jZxrz64y2fpW97rJN03zMw4tW4FHmvv39764fW6BcGNf40CTvZW5-K9fr4c67gxW6rFz_J8h6bNyW8S6lNj41WNPbW4VPqGq5YWbTWW3FMg9r14bDrtW7W60HW2cyZytW4sSmWN7JsSjDW8XF3dR1Y3b35W95wSHV6wrvTmN5BvZKWdxvSXW6CLRhD3GQY5pW4XDt6R3zTr5JN3qyL8rBLbyMN8s8SvJZFpPCW534GxJ7bNlcxW7NrKBP6_wczyW7xznpB7NB_h5W80K3MP6j62_YW92D8Th2DG8SsW4y157S70JrZqW8GNMGX3syXmJW2hlR5r4kJjq1W19kT4Z2nxH2XW876TwY2X6GBqW5S_BT05whh1yW6ZmH2T23T5zwf11bw9T04',
+    },
+    {
+      outlet: 'Mindful',
+      logo: mindful,
+      format: 'Article',
+      title: 'Using Mindfulness to Reduce Bullying',
+      action: 'Read on Mindful',
+      href: 'https://d5hf9n04.na1.hs-sales-engage.com/Ctc/Y+23284/d5hF9N04/Jl22-6qcW7lCdLW6lZ3k_W74bFC92B81v0W7tsmR-8K-gDfW4ZZMG75mmDP_W2Y-Td35wmjs5W6xKb8f7zGqm8W5nZWwJ49_FSLN5hcQ76nMkv0W6MMb1z1r-sNXW4y3fX01mXJNVW44qJGc2nSbmWW2H4zS16sy4bTW1MBcl05TM1BlW4PRyBN4VGdvtW8Cd2BC6BvF0CVJ1hnW7PktF1W39WMn15mXPnZW4LKDPk64jRPXN2-S-TswqkZtW2yjWdj35nBKSVD76d15J_HgZVCpFGM1Zfqc5W2MGGrV3XCgB1Vz48Ss3CHSZHW4t9wT27l3-y3f6p0tq804',
+    },
+    {
+      outlet: 'Fortune',
+      logo: fortune,
+      format: 'Article',
+      title:
+        'More schools use meditation to help students: ‘when I calm myself down, I realize I am an excellent scholar’',
+      action: 'Read on Fortune',
+      href: 'https://d5hf9n04.na1.hs-sales-engage.com/Ctc/Y+23284/d5hF9N04/JlY2-6qcW95jsWP6lZ3kyW8Dxjmn244yfkW6Br5-l97-4q_W7gn5H8575dn5N5xzfVV-VlqcW8nnW1g1X3k_3W1tJgdK2zvzZ-W6xFtQj5d9fMZW8DptXW98Z07VW8gxZBm1xVjghVShGkn8xMpg6W5kVK5P86nVVBW5YkpbM11bHbVVrmxJY803PMgW9gg-RW8tfZf1N6dMbpxT7M-8W8VnGCm5GkJ5bW4lLNX76RkryrN4F6BKQjkp6JW4vc3ZW2Xs1T2W1WmHg84qR-l9W1swM2Z4d4TzrW5bGHCj2qywCWW3bflqb6MCxXLW7SNK1k35xTZsW5m4R5542GG5YW7c4Mzf1Hv0C6W1T47Ly64skr9N3N-l8mD4LVpW83BLh314C19CW2FV0-94HglXwf5BSxm604',
+    },
+    {
+      outlet: 'NBC',
+      logo: nbc,
+      city: 'Chicago',
+      format: 'Video',
+      title: 'Matt Rodrigues visits Bright Horizons',
+      action: 'Watch on NBC Chicago',
+      href: 'https://d5hf9n04.na1.hs-sales-engage.com/Ctc/Y+23284/d5hF9N04/JlY2-6qcW95jsWP6lZ3kwW7y9BFC821_HVVdJ-ln6VWSVyW77HbPd2Vh58XW2ny-RF5sJTCZW5c3bss8ZYHY6W2fR5Zs51kTynW3F3Z_Z9m5Dl5W65pxrf8brPpZVYpvYD5_xnMVVcDRYq3tDnDtW2BqrsX6pVjLtM5JF9phjhkRW7HHvhr1pq-m9W66VbpQ5K5hlPW5rTgV-58pDtHW67-R0m3lQ56XW3_Lh1C5Vj2nvN9crq6WCZx81W5hNt9D999s5MW8yGNtt8jw15HW79J6tj1D6NxjN8Q2F6--9VmYW3Lg7H32SF-pFW4SbpRs652rD8W1PTlV-2Njjr4W6GzDJH3kx-PkVkhfzj1mK76bW2WQJfs45JNqDW3C6n738sC50ZW5wyvjq7f5Xy_f1NNs8M04',
+    },
+    {
+      outlet: 'NBC',
+      logo: nbc,
+      city: 'Atlanta',
+      format: 'Video',
+      title:
+        'Clayton County Schools helping students understand feeling through ‘mindful awareness’',
+      action: 'Watch on NBC Atlanta',
+      href: 'https://www.11alive.com/article/news/local/clayton-county-public-schools-bringing-mindful-awareness-classroom/85-e38f45a7-daa9-414b-885b-5026f429b03c',
+    },
+    {
+      outlet: 'MN Physicians Magazine',
+      format: 'Article',
+      title: 'Improving pediatric health: A new tool for school classrooms',
+      action: 'Read on MN Physicians Magazine',
+      href: 'https://www.mnphy.com/0725-story-one-improving--pediatric-health-simone-hardeman-jones-laura-bakosh',
+    },
+    {
+      outlet: 'People',
+      logo: people,
+      format: 'Article',
+      title: 'Meditation Breaks in School Can Improve Students’ Mental Health',
+      action: 'Read on People',
+      href: 'https://people.com/meditation-in-school-helps-kids-mental-health-georgia-8690265',
+    },
+  ] satisfies Press[],
+  cta: newsroomCta,
+};
+
+const posts = await getNews();
+const [featured, ...rest] = posts;
+const picks = rest.slice(0, 2);
+const articleCard = (post: (typeof posts)[number]) => ({
+  title: post.data.cardTitle ?? post.data.title,
+  href: newsPath(post),
+  kicker: [content.types.article.kicker, post.data.category],
+  meta: [readingTime(post.body), shortDate(post.data.pubDate)],
+  image: {
+    src: post.data.heroImage,
+    fit: post.data.heroImageFit,
+    position: post.data.heroImagePosition,
+  },
+});
+
+// "Browse all stories": newest first; the press coverage is its own filter (the board's All
+// shows no coverage).
+const types = (['article', 'resource', 'press'] as const).filter(
+  (type) =>
+    (type === 'article' && posts.length) ||
+    (type === 'resource' && content.resources.length) ||
+    (type === 'press' && content.press.length),
+);
+
+const path = '/newsroom/';
+const schemas = [
+  collectionPageSchema(Astro.site, {
+    path,
+    name: content.title,
+    description: content.description,
+    items: posts.map((post) => ({ name: post.data.title, path: newsPath(post) })),
+  }),
+  breadcrumbSchema(Astro.site, [
+    { name: 'Home', path: '/' },
+    { name: content.hero.eyebrow, path },
+  ]),
+];
+---
+
+<PageLayout title={content.title} description={content.description}>
+  {schemas.map((schema) => <JsonLd schema={schema} slot="head" />)}
+
+  <Section spacing="hero" class="lg:pb-section-y">
+    <PageTitle
+      layout="split"
+      splitLead="narrow"
+      eyebrow={content.hero.eyebrow}
+      title={content.hero.title}
+      lead={content.hero.lead}
+    />
+
+    {
+      featured && (
+        <div class="mt-8 grid gap-10 lg:mt-18 lg:grid-cols-12 lg:gap-6">
+          <section aria-label={content.featured.label} class="flex lg:col-span-8">
+            <MediaCard
+              variant="featured"
+              class="grow"
+              {...articleCard(featured)}
+              excerpt={featured.data.description}
+              badge={content.featured.badge}
+              action={content.featured.action}
+            />
+          </section>
+          {picks.length > 0 && (
+            <section aria-labelledby="picks-title" class="flex flex-col lg:col-span-4 lg:gap-4">
+              <h2 id="picks-title" class="m-0 mb-2 type-eyebrow text-foreground lg:mb-0">
+                {content.picks}
+              </h2>
+              {picks.map((post) => (
+                <MediaCard
+                  variant="compact"
+                  class={picks.length > 1 ? 'lg:grow' : undefined}
+                  {...articleCard(post)}
+                />
+              ))}
+            </section>
+          )}
+        </div>
+      )
+    }
+  </Section>
+
+  <Section tone="white" aria-labelledby="browse-title">
+    <div class="flex flex-col gap-6 lg:gap-8" data-stories>
+      <h2 id="browse-title" class="m-0 type-section-title text-foreground">
+        {content.browse.title}
+      </h2>
+
+      <div
+        class="flex flex-col items-start gap-4 lg:flex-row lg:items-center lg:justify-between lg:gap-6"
+      >
+        <div
+          class="ie-chip-row -mr-section-x self-stretch pr-section-x md:mr-0 md:pr-0 lg:self-auto"
+          role="group"
+          aria-label={content.browse.filterLabel}
+          hidden
+          data-filters
+        >
+          <button type="button" class="ie-chip" aria-pressed="true" data-filter="all">
+            {content.all}
+          </button>
+          {
+            types.map((type) => (
+              <button type="button" class="ie-chip" aria-pressed="false" data-filter={type}>
+                {content.types[type].filter}
+              </button>
+            ))
+          }
+        </div>
+        <p class="m-0 type-label text-foreground-muted lg:pb-4">{content.browse.sort}</p>
+      </div>
+      <p class="sr-only" aria-live="polite" data-filter-status={content.browse.showing}></p>
+
+      <div
+        id="stories-list"
+        class="ie-collapse overflow-hidden"
+        style="--collapse-height: var(--collapse-height-stories); --collapse-fade: var(--collapse-fade-stories)"
+        data-collapse
+      >
+        <ul
+          class="m-0 grid list-none gap-12 p-0 md:grid-cols-2 md:gap-x-8 md:gap-y-14 lg:grid-cols-3"
+        >
+          {
+            posts.map((post) => (
+              <li class="flex" data-type="article">
+                <MediaCard {...articleCard(post)} excerpt={post.data.description} class="grow" />
+              </li>
+            ))
+          }
+          {
+            content.resources.map((item) => (
+              <li class="flex" data-type="resource">
+                <MediaCard
+                  class="grow"
+                  title={item.title}
+                  href={item.href}
+                  kicker={[content.types.resource.kicker, item.kind]}
+                  excerpt={item.excerpt}
+                  meta={item.meta}
+                  tallMedia
+                >
+                  <div
+                    slot="media"
+                    class="flex size-full flex-col justify-between gap-4 bg-cyan-200 p-6"
+                  >
+                    <p class="m-0 type-eyebrow text-foreground">{item.stat.source}</p>
+                    <div class="flex flex-col gap-4">
+                      <p class="m-0 flex flex-wrap items-baseline gap-x-3 gap-y-2">
+                        <span class="font-display type-stat-md font-medium whitespace-nowrap text-foreground">
+                          {item.stat.value}
+                        </span>
+                        <span class="max-w-45 type-label text-foreground">{item.stat.caption}</span>
+                      </p>
+                      <div class="flex flex-col gap-2" aria-hidden="true">
+                        {item.stat.bars.map((bar) => (
+                          <div class="flex">
+                            <span
+                              class:list={[
+                                'flex h-8 w-(--w) items-center px-3 type-label font-bold whitespace-nowrap',
+                                bar.ours
+                                  ? 'bg-cyan-600 text-on-brand'
+                                  : 'rounded-sm bg-surface text-foreground',
+                                bar.ours && (bar.gain ? 'rounded-l-sm' : 'rounded-sm'),
+                              ]}
+                              style={`--w: ${bar.width}`}
+                            >
+                              {bar.label}
+                            </span>
+                            {bar.gain && (
+                              <span
+                                class="h-8 w-(--w) rounded-r-sm bg-cyan-400"
+                                style={`--w: ${bar.gain}`}
+                              />
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </MediaCard>
+              </li>
+            ))
+          }
+          {
+            content.press.map((item) => (
+              <li class="flex" data-type="press">
+                <MediaCard
+                  class="grow"
+                  title={item.title}
+                  href={item.href}
+                  external
+                  kicker={[content.types.press.kicker, item.format]}
+                  action={item.action}
+                >
+                  <div
+                    slot="media"
+                    class="flex size-full flex-col items-center justify-center gap-2 rounded-sm border border-border bg-tint p-6"
+                  >
+                    {item.logo ? (
+                      <Image
+                        src={item.logo}
+                        alt={item.outlet}
+                        height={112}
+                        class="h-auto max-h-11 w-auto max-w-38 object-contain lg:max-h-14 lg:max-w-50"
+                      />
+                    ) : (
+                      <p class="m-0 text-center type-card-title-md text-foreground-muted md:type-card-title-lg">
+                        {item.outlet}
+                      </p>
+                    )}
+                    {item.city && (
+                      <p class="m-0 type-label font-bold tracking-wide text-foreground-muted lg:type-card-title-sm lg:tracking-wide">
+                        {item.city}
+                      </p>
+                    )}
+                  </div>
+                </MediaCard>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div class="-mt-2 mb-6 flex justify-center">
+        <button
+          type="button"
+          class="group ie-chip"
+          aria-controls="stories-list"
+          aria-expanded="true"
+          hidden
+          data-collapse-toggle
+          data-expand={content.browse.show}
+          data-collapse-label={content.browse.hide}
+        >
+          <span data-collapse-text>{content.browse.hide}</span>
+          <Icon name="chevron-down" size={16} class="text-brand group-data-open:rotate-180" />
+        </button>
+      </div>
+
+      <ClosingCta
+        layout="inline"
+        eyebrow={content.cta.eyebrow}
+        title={content.cta.title}
+        lead={content.cta.lead}
+        primary={content.cta.primary}
+        align="center"
+        balance
+        id="newsroom-cta"
+      />
+    </div>
+  </Section>
+</PageLayout>
+
+<script>
+  // Newsroom: the type filters and "Show all stories". Without JS every story shows (the
+  // press coverage too), with no filters and no collapse.
+  const root = document.querySelector<HTMLElement>('[data-stories]');
+  const filters = root?.querySelector<HTMLElement>('[data-filters]');
+  const panel = root?.querySelector<HTMLElement>('[data-collapse]');
+  const toggle = root?.querySelector<HTMLButtonElement>('[data-collapse-toggle]');
+  const toggleText = toggle?.querySelector('[data-collapse-text]');
+  const status = root?.querySelector<HTMLElement>('[data-filter-status]');
+  if (root && filters && panel && toggle && toggleText) {
+    const items = [...panel.querySelectorAll<HTMLElement>('[data-type]')];
+    const chips = [...filters.querySelectorAll<HTMLButtonElement>('[data-filter]')];
+
+    const setCollapsed = (collapsed: boolean) => {
+      panel.toggleAttribute('data-collapsed', collapsed);
+      toggle.setAttribute('aria-expanded', String(!collapsed));
+      toggle.toggleAttribute('data-open', !collapsed);
+      toggleText.textContent = collapsed
+        ? (toggle.dataset.expand ?? '')
+        : (toggle.dataset.collapseLabel ?? '');
+    };
+    // Collapse only a list that runs past the fold; a short one shows whole, with no toggle.
+    const fit = () => {
+      setCollapsed(true);
+      const overflows = panel.scrollHeight > panel.clientHeight + 1;
+      toggle.hidden = !overflows;
+      if (!overflows) setCollapsed(false);
+    };
+
+    // All: every story but the press coverage, as the board draws it.
+    const show = (type: string) => {
+      let shown = 0;
+      for (const item of items) {
+        const on = type === 'all' ? item.dataset.type !== 'press' : item.dataset.type === type;
+        item.hidden = !on;
+        if (on) shown++;
+      }
+      for (const chip of chips)
+        chip.setAttribute('aria-pressed', String(chip.dataset.filter === type));
+      fit();
+      return shown;
+    };
+
+    filters.hidden = false;
+    show('all');
+    for (const chip of chips) {
+      chip.addEventListener('click', () => {
+        const shown = show(chip.dataset.filter ?? 'all');
+        if (status)
+          status.textContent = (status.dataset.filterStatus ?? '').replace('{n}', String(shown));
+      });
+    }
+    toggle.addEventListener('click', () => {
+      const expanding = panel.hasAttribute('data-collapsed');
+      setCollapsed(!expanding);
+      if (!expanding) panel.scrollIntoView({ block: 'nearest' });
+    });
+    // Focus under the fade opens the list.
+    panel.addEventListener('focusin', () => {
+      if (panel.hasAttribute('data-collapsed')) setCollapsed(false);
+    });
+    window.addEventListener('resize', () => {
+      if (panel.hasAttribute('data-collapsed') || toggle.hidden) fit();
+    });
+  }
+</script>

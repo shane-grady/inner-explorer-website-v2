@@ -2,7 +2,8 @@
 // The page title block, once per page: eyebrow, the H1 with its emphasis words, the accent
 // bar as wide as the title's longest line, the lead, and up to two buttons in `actions`.
 // `layout="split"`: the title left and the lead and buttons right, bottom-aligned from lg
-// (Case Studies, Newsroom); stacked 24px apart below.
+// (Case Studies: two halves; Newsroom, `splitLead="narrow"`: the title in 7 of 12 columns, the
+// lead in 4 from the 9th); stacked 24px apart below (20 for the Newsroom).
 import { emphasize } from '../../lib/emphasize';
 
 interface Props {
@@ -15,6 +16,10 @@ interface Props {
   /** `md`: the title's "\n" breaks only from md up; below, the line wraps where it falls. */
   breakFrom?: 'md';
   layout?: 'stacked' | 'split';
+  /** Split: `narrow` sets the lead in the last 4 of 12 columns (Newsroom). */
+  splitLead?: 'half' | 'narrow';
+  /** `article`: the bar runs the article column (680) under a wider title (Article). */
+  barWidth?: 'title' | 'article';
   class?: string;
 }
 const {
@@ -24,35 +29,58 @@ const {
   leadWidth = 'measure',
   breakFrom,
   layout = 'stacked',
+  splitLead = 'half',
+  barWidth = 'title',
   class: className,
 }: Props = Astro.props;
 const split = layout === 'split';
+const narrow = split && splitLead === 'narrow';
 const LEAD_WIDTH = { measure: 'max-w-measure', wide: 'max-w-measure-wide' } as const;
 ---
 
 <div
   class:list={[
-    split ? 'grid gap-6 lg:grid-cols-2 lg:items-end lg:gap-x-2' : 'flex flex-col items-start',
+    split
+      ? narrow
+        ? 'grid gap-5 lg:grid-cols-12 lg:items-end lg:gap-x-6'
+        : 'grid gap-6 lg:grid-cols-2 lg:items-end lg:gap-x-2'
+      : 'flex flex-col items-start',
     className,
   ]}
 >
-  <div class:list={[split ? 'flex flex-col items-start' : 'contents']}>
+  <div class:list={[split ? 'flex flex-col items-start' : 'contents', narrow && 'lg:col-span-7']}>
     {
       eyebrow && (
-        <p class:list={['m-0 type-eyebrow text-foreground', split ? 'mb-6' : 'mb-5 md:mb-6']}>
+        <p
+          class:list={[
+            'm-0 type-eyebrow text-foreground',
+            split && !narrow ? 'mb-6' : 'mb-5 md:mb-6',
+          ]}
+        >
           {eyebrow}
         </p>
       )
     }
-    <div class="inline-flex flex-col gap-2">
+    <div
+      class:list={['flex-col gap-2', barWidth === 'article' ? 'flex self-stretch' : 'inline-flex']}
+    >
       <h1
         class="m-0 type-page-title text-foreground"
         set:html={emphasize(title, undefined, breakFrom ? 'hidden md:inline' : '')}
       />
-      <div class="ie-accent-bar" aria-hidden="true"></div>
+      <div
+        class:list={['ie-accent-bar', barWidth === 'article' && 'w-full max-w-measure-article']}
+        aria-hidden="true"
+      >
+      </div>
     </div>
   </div>
-  <div class:list={[split ? 'flex flex-col gap-6 lg:max-w-measure' : 'contents']}>
+  <div
+    class:list={[
+      split ? 'flex flex-col gap-6' : 'contents',
+      split && (narrow ? 'lg:col-span-4 lg:col-start-9 lg:pb-3' : 'lg:max-w-measure'),
+    ]}
+  >
     {
       lead && (
         <p

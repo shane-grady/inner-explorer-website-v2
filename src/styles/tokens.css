@@ -324,6 +324,15 @@
   --swatch-size: 10px; /* new: the color key in an evidence tag and a chart legend (Platform, Research) */
   --collapse-height-sm: 260px; /* new, provisional: the citations list shown collapsed (Research) */
   --collapse-fade-sm: 35%; /* new, provisional: where that list's fade begins (Research) */
+  --collapse-height-stories: clamp(
+    43.75rem,
+    calc(1144px - 444 * (100vw - 390px) / 1050),
+    71.5rem
+  ); /* new, provisional: the Newsroom's story list shown collapsed, 1144 → 699 (one column → three) */
+  --collapse-fade-stories: calc(
+    100% - 170px
+  ); /* new, provisional: its fade over the last 170px (Newsroom) */
+  --ratio-og: 1200 / 630; /* new: the article hero, 952 × 500 and 350 × 184 (Article); the share-card ratio */
   --sand-dots: radial-gradient(
     rgba(40, 43, 47, 0.18) 1.2px,
     transparent 1.4px
