@@ -202,13 +202,11 @@ const news = defineCollection({
       heroImageFit: z.enum(['cover', 'contain']).default('cover'),
       /** Where a cover-cropped card image centers (CSS object-position). */
       heroImagePosition: z.string().optional(),
-      /** The panel above the body: a check list with bold lead-ins, or one paragraph. */
+      /** The "Key takeaways" panel above the body: a check list with bold lead-ins. Every post
+       *  uses the same label and form (the template sets the label). */
       takeaways: z
-        .object({
-          eyebrow: z.string(),
-          items: z.array(z.object({ lead: z.string(), text: z.string() })).optional(),
-          text: z.string().optional(),
-        })
+        .array(z.object({ lead: z.string(), text: z.string() }))
+        .min(1)
         .optional(),
       /** Short labels for "On this page", one per H2 in order (the H2 text when absent). */
       toc: z.array(z.string()).optional(),

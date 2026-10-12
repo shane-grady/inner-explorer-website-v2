@@ -30,6 +30,7 @@ const content = {
   outline: 'On this page',
   sections: (n: number) => `${n} sections`,
   faqLabel: 'FAQ',
+  takeaways: 'Key takeaways',
   share: {
     title: 'Share',
     copy: 'Copy',
@@ -315,12 +316,9 @@ const schemas = [
                 aria-labelledby="takeaways-title"
               >
                 <h2 id="takeaways-title" class="m-0 type-eyebrow text-foreground">
-                  {d.takeaways.eyebrow}
+                  {content.takeaways}
                 </h2>
-                {d.takeaways.items && <Checklist items={d.takeaways.items} />}
-                {d.takeaways.text && (
-                  <p class="m-0 type-body text-foreground-body">{d.takeaways.text}</p>
-                )}
+                <Checklist items={d.takeaways} />
               </section>
             )
           }
