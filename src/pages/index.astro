@@ -279,10 +279,6 @@ const content = {
     secondary: { label: 'Explore Pricing', href: '/pricing/' },
     image: { src: ctaPhoto, alt: 'Two smiling boys stand arm in arm in a sunny grassy field' },
   },
-  sticky: {
-    primary: { label: 'Contact Us', href: '/contact/' },
-    practice: { label: 'Experience daily practice', href: '/platform/' },
-  },
 } as const;
 
 const quoteEmphasis = 'font-bold not-italic text-brand-emphasis';
@@ -760,32 +756,4 @@ const homeLd = {
       />
     </div>
   </Section>
-
-  <div
-    class="ie-sticky-bar sticky bottom-0 z-10 flex items-center gap-3 px-5 py-3 md:hidden"
-    data-sticky-cta
-    hidden
-  >
-    <Button href={content.sticky.primary.href} arrow class="grow">
-      {content.sticky.primary.label}
-    </Button>
-    <a
-      class="ie-icon-btn rounded-md text-brand"
-      href={content.sticky.practice.href}
-      aria-label={content.sticky.practice.label}
-    >
-      <Icon name="play" size={16} />
-    </a>
-  </div>
 </PageLayout>
-
-<script>
-  // Mobile: the sticky bar appears once the hero's own buttons have scrolled away.
-  const bar = document.querySelector<HTMLElement>('[data-sticky-cta]');
-  const actions = document.querySelector('[data-hero-actions]');
-  if (bar && actions) {
-    new IntersectionObserver(([entry]) => {
-      bar.hidden = entry.isIntersecting || entry.boundingClientRect.top > 0;
-    }).observe(actions);
-  }
-</script>

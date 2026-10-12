@@ -1,6 +1,8 @@
 ---
 // The site header: skip link, logo, primary navigation, Sign in and the Contact button;
-// the menu button (and MobileMenu) below xl. `dark` is the transparent header over a
+// below xl, the Contact button (at every width, in place of a sticky bottom bar) and the menu
+// button (and MobileMenu). Below sm the button's padding and the gaps tighten so the row fits
+// at 320 (WCAG reflow). `dark` is the transparent header over a
 // Forest hero (Research); `overlay` lays it over the top of the page's first section, so the
 // hero's video runs under it (PageLayout header="dark"). Static, as on the boards.
 import Button from '../ui/Button.astro';
@@ -21,7 +23,7 @@ const current = (href: string) => (!sample && Astro.url.pathname === href ? 'pag
 
 <header
   class:list={[
-    'ie-header flex items-center justify-between px-section-x',
+    'ie-header flex items-center justify-between gap-2 px-section-x',
     overlay ? 'absolute inset-x-0 top-0 z-10' : 'relative',
   ]}
   data-on-brand={dark ? '' : undefined}
@@ -33,7 +35,7 @@ const current = (href: string) => (!sample && Astro.url.pathname === href ? 'pag
       </a>
     )
   }
-  <a class="flex min-h-control-sm items-center" href="/" aria-label="Inner Explorer home">
+  <a class="flex min-h-control-sm shrink-0 items-center" href="/" aria-label="Inner Explorer home">
     <Logo reversed={dark} />
   </a>
   <nav
@@ -48,34 +50,35 @@ const current = (href: string) => (!sample && Astro.url.pathname === href ? 'pag
       ))
     }
   </nav>
-  <div class="hidden items-center gap-6 xl:flex">
-    <a class="ie-nav" href={signIn.href}>{signIn.label}</a>
+  <div class="flex items-center gap-2 sm:gap-3 xl:gap-6">
+    <a class="ie-nav hidden xl:inline-flex" href={signIn.href}>{signIn.label}</a>
     <Button
       variant={dark ? 'ghost' : 'primary'}
       size="sm"
       href={contactCta.href}
       aria-current={current(contactCta.href)}
+      class="px-3 sm:px-6"
     >
       {contactCta.label}
     </Button>
+    {
+      sample ? (
+        <span class="ie-menu-btn xl:hidden" aria-hidden="true">
+          <Icon name="menu" />
+        </span>
+      ) : (
+        <button
+          type="button"
+          class="ie-menu-btn xl:hidden"
+          aria-label="Open menu"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+          data-menu-open
+        >
+          <Icon name="menu" />
+        </button>
+      )
+    }
   </div>
-  {
-    sample ? (
-      <span class="ie-menu-btn xl:hidden" aria-hidden="true">
-        <Icon name="menu" />
-      </span>
-    ) : (
-      <button
-        type="button"
-        class="ie-menu-btn xl:hidden"
-        aria-label="Open menu"
-        aria-expanded="false"
-        aria-controls="mobile-menu"
-        data-menu-open
-      >
-        <Icon name="menu" />
-      </button>
-    )
-  }
   {!sample && <MobileMenu />}
 </header>
