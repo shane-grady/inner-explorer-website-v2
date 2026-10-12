@@ -1,7 +1,7 @@
 ---
 // Platform, from the FINAL V boards Platform-Desktop-1/2 and Platform-Mobile-1/2. Copy is
 // verbatim, title case included. Every photo and screenshot is the board's stand-in, the four
-// sample practices have no audio yet (the players stay disabled until a file is set), and the
+// sample practices play their real audio but still owe their transcripts (WCAG 1.2.1), and the
 // product mocks (the daily-practice card, Recommended actions, the reflection card) stand in for
 // screenshots: tasks/todo.md › Platform.
 import { Image } from 'astro:assets';
@@ -29,10 +29,11 @@ import dashboard from '../assets/images/platform/dashboard-overview.webp';
 import pressPlay from '../assets/images/platform/classroom-press-play.jpg';
 import ctaPhoto from '../assets/images/platform/cta-high-school-student.jpg';
 
-/** A sample practice. Its player works once both `audio` (a file under public/, e.g.
- *  '/audio/platform/early.mp3') and its `transcript` are set: audio never ships without its
- *  text alternative. Until then the play button is disabled and the time row is not shown.
- *  `length` ('4:32') is optional: the player reads the duration from the file. */
+/** A sample practice. Its player works once `audio` (a file under public/, e.g.
+ *  '/audio/platform/early.mp3') is set; until then the play button is disabled and the time row
+ *  is not shown. `transcript` adds a "Read the transcript" disclosure: every practice owes one
+ *  (WCAG 1.2.1, tasks/todo.md › Platform). `length` ('4:32') shows before the file loads
+ *  (preload is off); the player replaces it with the file's own duration. */
 interface Practice {
   name: string;
   length?: string;
@@ -73,7 +74,11 @@ const content = {
           alt: 'Young students sitting cross-legged on a classroom rug, eyes closed, breathing with a practice',
           position: '50% 45%',
         },
-        practice: { name: 'Day 3: Introduction to Breathing' } as Practice,
+        practice: {
+          name: 'Day 3: Introduction to Breathing',
+          length: '5:03',
+          audio: '/audio/platform/early.mp3',
+        } as Practice,
       },
       {
         id: 'elementary',
@@ -85,7 +90,11 @@ const content = {
           alt: 'A whole class practicing at their desks with their teacher, eyes closed',
           position: '50% 45%',
         },
-        practice: { name: 'Day 8: Shark Fin Anytime' } as Practice,
+        practice: {
+          name: 'Day 8: Shark Fin Anytime',
+          length: '4:27',
+          audio: '/audio/platform/elementary.mp3',
+        } as Practice,
       },
       {
         id: 'middle',
@@ -97,7 +106,11 @@ const content = {
           alt: 'A class sitting with eyes closed and hands flat on their desks during a practice, their teacher moving between the rows',
           position: '50% 45%',
         },
-        practice: { name: 'Day 9: Observing Thoughts' } as Practice,
+        practice: {
+          name: 'Day 9: Observing Thoughts',
+          length: '5:09',
+          audio: '/audio/platform/middle.mp3',
+        } as Practice,
       },
       {
         id: 'high',
@@ -109,7 +122,11 @@ const content = {
           alt: 'A teenager wearing headphones sits with eyes closed in a school library.',
           position: '40% 40%',
         },
-        practice: { name: 'Day 13: Introduction to Observing Senses' } as Practice,
+        practice: {
+          name: 'Day 13: Introduction to Observing Senses',
+          length: '5:06',
+          audio: '/audio/platform/high.mp3',
+        } as Practice,
       },
     ],
   },
@@ -462,7 +479,7 @@ const platformLd = {
                     type="button"
                     class="ie-play-btn"
                     aria-label={`Play the ${program.name} sample practice`}
-                    disabled={!(program.practice.audio && program.practice.transcript)}
+                    disabled={!program.practice.audio}
                     data-player-toggle
                   >
                     <span class="flex" data-player-icon="play">
@@ -481,7 +498,7 @@ const platformLd = {
                     </p>
                   </div>
                 </div>
-                {program.practice.audio && program.practice.transcript && (
+                {program.practice.audio && (
                   <>
                     <div class="flex flex-col gap-2">
                       <div class="ie-progress" data-player-progress />
@@ -490,9 +507,9 @@ const platformLd = {
                         <span data-player-total>{program.practice.length}</span>
                       </div>
                     </div>
-                    {/* An audio-only practice's alternative is its transcript below (WCAG 1.2.1), not a caption track. */}
+                    {/* An audio-only practice's alternative is a transcript (WCAG 1.2.1), not a caption track: the disclosure below. Transcripts are owed (tasks/todo.md). */}
                     {/* eslint-disable-next-line astro/jsx-a11y/media-has-caption */}
-                    <audio preload="metadata" src={program.practice.audio} data-player-audio />
+                    <audio preload="none" src={program.practice.audio} data-player-audio />
                   </>
                 )}
                 {program.practice.transcript && (
