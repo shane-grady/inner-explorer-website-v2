@@ -26,6 +26,9 @@ export function navCurrent(pathname: string, href: string): 'page' | 'true' | un
 export const signIn: NavLink = { label: 'Sign in', href: 'https://app.innerexplorer.com' };
 export const contactCta: NavLink = { label: 'Contact us', href: '/contact/' };
 
+// The bar above the header (AnnouncementBar).
+export const announcement = 'Explore our new look! Same trusted program.';
+
 // Footer A from the boards, without its sign-off line. No social row yet: every board draws the profile links as "#"
 // (tasks/todo.md tracks the URLs; the row ships with them).
 export const footer = {

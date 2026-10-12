@@ -1,0 +1,42 @@
+---
+// A slim Forest bar above the site header for a short site-wide notice (PageLayout). Its close
+// button hides it and remembers that per notice; the script runs inline so a dismissed bar
+// never flashes on the next page.
+import Icon from '../ui/Icon.astro';
+import { announcement } from '../../data/navigation';
+
+const key = `ie-announcement:${announcement}`;
+---
+
+<aside
+  aria-label="Announcement"
+  class="relative bg-brand-surface-deep px-section-x py-2 text-center text-on-brand"
+  data-on-brand
+  data-announcement
+>
+  <p class="px-8 type-label">{announcement}</p>
+  <button
+    type="button"
+    class="absolute inset-y-0 end-2 my-auto flex size-8 cursor-pointer items-center justify-center rounded-full"
+    aria-label="Dismiss announcement"
+    data-announcement-close
+  >
+    <Icon name="close" size={16} />
+  </button>
+</aside>
+<script is:inline define:vars={{ key }}>
+  const bar = document.querySelector('[data-announcement]');
+  try {
+    if (localStorage.getItem(key)) bar.hidden = true;
+  } catch {
+    // Storage blocked: the bar shows.
+  }
+  bar.querySelector('[data-announcement-close]').addEventListener('click', () => {
+    bar.hidden = true;
+    try {
+      localStorage.setItem(key, '1');
+    } catch {
+      // Storage blocked: hidden for this page only.
+    }
+  });
+</script>
