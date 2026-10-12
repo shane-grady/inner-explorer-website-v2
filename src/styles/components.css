@@ -884,8 +884,10 @@ textarea:is(.ie-field, [data-hsform] .hs-input) {
 [data-hsform] .hs_error_rollup .hs-error-msgs {
   margin: 0;
 }
-/* The embed's target takes no gap until HubSpot fills it (the fallback shows instead). */
-[data-hsform] > :empty {
+/* The embed's target takes no gap until HubSpot fills it (the fallback shows instead). The
+   confirmation's live region is exempt: it must stay rendered while empty, or screen readers
+   never announce what is put into it. Empty, it is zero-height in the block form root. */
+[data-hsform] > :empty:not([data-hsform-status]) {
   display: none;
 }
 /* The page's heading and privacy line around the form go once the confirmation replaces it. */
