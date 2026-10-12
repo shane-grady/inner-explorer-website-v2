@@ -7,7 +7,9 @@ import JsonLd from '../components/seo/JsonLd.astro';
 import Analytics from '../components/seo/Analytics.astro';
 import Intercom from '../components/integrations/Intercom.astro';
 import Amplitude from '../components/integrations/Amplitude.astro';
+import HubSpotTracking from '../components/integrations/HubSpotTracking.astro';
 import { organizationSchema } from '../lib/schema';
+import { HUBSPOT } from '../lib/site';
 
 interface Props {
   title: string;
@@ -39,9 +41,10 @@ const {
 }: Props = Astro.props;
 const org = organizationSchema(Astro.site);
 
-// GA4 and Amplitude ship only for the real production build: they skip `pnpm dev` and
-// Netlify's deploy-preview/branch-deploy contexts entirely (the script never renders for
-// those). See src/components/seo/Analytics.astro for GA4's *.netlify.app runtime guard.
+// GA4, Amplitude and the HubSpot tracking code ship only for the real production build: they
+// skip `pnpm dev` and Netlify's deploy-preview/branch-deploy contexts entirely (the script
+// never renders for those). Each also skips *.netlify.app at runtime; see
+// src/components/seo/Analytics.astro.
 const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
 const isProductionBuild =
   import.meta.env.PROD && (!import.meta.env.CONTEXT || import.meta.env.CONTEXT === 'production');
@@ -61,6 +64,7 @@ const intercomAppId = import.meta.env.PUBLIC_INTERCOM_APP_ID;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     {isProductionBuild && gaMeasurementId && <Analytics measurementId={gaMeasurementId} />}
     {isProductionBuild && intercomAppId && <Intercom appId={intercomAppId} surface="Website" />}
+    {isProductionBuild && <HubSpotTracking portalId={HUBSPOT.portalId} />}
     <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <title>{title}</title>

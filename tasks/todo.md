@@ -70,11 +70,13 @@ the owners the canvas gives.
     and student images from the internal library: Lisa, Juliana). The three product mocks built in
     markup (the "Day 14 of 180" card, Recommended actions, the Gratitude reflection card) stand in
     for platform screenshots (Shane); they are `aria-hidden`.
-  - Sample practices (Shane, Lisa): four audio files with written transcripts, one per program,
-    and their lengths (the players show 0:00 / [length]). Each player is built and stays disabled
-    until both `audio` and `transcript` are set in the page's `content` (a "Read the transcript"
-    disclosure then appears; audio never ships without its text alternative). The High School
-    practice name still reads "[High School sample practice: TBD]" (Juliana).
+  - Sample practices (Shane, Lisa): names set 2026-10-12 (Early Learning "Day 3: Introduction to
+    Breathing", Elementary "Day 8: Shark Fin Anytime", Middle "Day 9: Observing Thoughts", High
+    "Day 13: Introduction to Observing Senses"). Still needed: the four audio files (under
+    `public/audio/`) and a written transcript for each. A player stays disabled, with no time
+    row, until both `audio` and `transcript` are set in the page's `content` (a "Read the
+    transcript" disclosure then appears; audio never ships without its text alternative). The
+    duration comes from the file; `length` is optional.
   - Facts (Juliana): the practice feedback feature as described ("Feedback after every practice");
     180 daily practices of five to ten minutes; ten hours of asynchronous PD; "COPPA, FERPA, and
     SOPIPA", DPAs on request; "Every practice is checked for developmental fit"; the four evidence
@@ -380,8 +382,9 @@ mark-compass.png`, 256px PNG) is the board's: an SVG from the design system woul
       figure. Resolve each before its value reaches a new page.
 - [ ] **Case Studies (index, detail template and five stories built; confirm before launch):**
   - **Launch gate, Webb approval:** a canvas note on the Webb boards says "Hold on Webb Case study:
-    waiting for approval from them". Built and published on staging (noindexed); get the school's
-    approval before www goes live, or set `draft: true` in `src/content/case-studies/webb-school.yaml`.
+    waiting for approval from them". Set `draft: true` on 2026-10-12 (launch prep). On approval:
+    `draft: false`, point `/case-study4(.html)` and `/mbsel(.html)` in `netlify.toml` at
+    `/case-studies/webb-school/`, and relink MBSEL in the "why teaching mindfulness" post.
   - **The stories (decided 2026-10-11):** Webb, Kaiser, Goddard, John Marshall and La Joya, and
     only those. Dwight Morrow and Mindful Michigan are dropped: no page, their legacy URLs go to the
     index (Launch › legacy 301 map). Related rows: where a board links a dropped story, another
@@ -583,8 +586,14 @@ header="dark"`; title sizes snapped per the Remaining-drift board (Before build 
 ## Launch
 
 - [ ] Point www.innerexplorer.com at the marketing Netlify site (the legacy site serves it today).
-- [ ] Legacy 301 map, on www.innerexplorer.com and the lms.innerexplorer.org copies, each path
-      with and without `.html` (context per story: "Open follow-ups" in `tasks/seo-playbook.md`).
+- [x] Legacy 301 map in `netlify.toml` (2026-10-12): the tables below, the PDFs to the same
+      file, `/homeapp/privacy-policy.html` → `/privacy-policy/`, `/homeapp/*` → the Help Center's
+      family page, `/term` → `/terms/`, the legacy About/Program/District/Research pages, and
+      `/compass/*` (the district portal and sign-up links) 302 → app.innerexplorer.com, as the
+      legacy server did. Built from the legacy sitemap and links, each path with and without
+      `.html`. **Still open:** the lms.innerexplorer.org copies are served by the legacy Apache
+      host, so their 301s are set there (context per story: "Open follow-ups" in
+      `tasks/seo-playbook.md`).
       Case studies (slugs as built, 2026-10-11):
 
       | Legacy URL                                         | New URL                                           |
@@ -651,8 +660,16 @@ header="dark"`; title sizes snapped per the Remaining-drift board (Before build 
 - [ ] CloudCannon, right after this PR merges: Site Settings › Builds → `pnpm verify:help`,
       output `dist-help`; rebuild; the editor lists only Help, no red cards, Syncs clean
       (`rebuild-plan.md` › Your manual step).
-- [ ] HubSpot contact form: the confirmation says "We just sent a confirmation to your inbox",
-      but nothing sends one. Add a follow-up email on the form, or change the copy.
+- [x] HubSpot contact form: the confirmation no longer promises an email (2026-10-12). If a
+      follow-up email is added on the form, restore "We just sent a confirmation to your inbox".
+- [x] HubSpot tracking code on both sites, production builds only, skipped on \*.netlify.app
+      (`components/integrations/HubSpotTracking.astro`, 2026-10-12; reverses the pre-rebuild call).
+- [ ] HubSpot settings: turn on the cookie consent banner if wanted (Settings › Privacy &
+      Consent; the tracking script renders it); keep HubSpot chat OFF (Intercom is the messenger).
+- [ ] Privacy policy (counsel): it says Amplitude handles educator usage data only, but Amplitude
+      Session Replay records every marketing-site visitor. Update the policy or the sample rate.
+- [ ] Intercom: add the `*.netlify.app` guard to `Intercom.astro` once www is live (its comment
+      explains why it has none pre-launch).
 - [ ] HubSpot: confirm the contact form's notification recipients; delete the 2026-08-25 test
       contact (record 244309307539) if it's still there.
 - [ ] HubSpot forms the boards need beyond Contact: newsletter signup (Research, Article), the
@@ -663,5 +680,6 @@ header="dark"`; title sizes snapped per the Remaining-drift board (Before build 
       and turn on identity verification (JWT). See `tasks/intercom-setup.md`.
 - [ ] Privacy policy (Juliana, counsel): the callout's "educator-led, whole-classroom program"
       reads against the house rule that the audio guide leads the practice. Flagged, not
-      reworded: legal copy moves verbatim. No terms of service exists; counsel supplies one if
-      wanted at launch.
+      reworded: legal copy moves verbatim. The legacy Terms and Conditions moved verbatim to
+      `/terms/` (2026-10-12, `src/content/legal/terms.mdx`); counsel to review (it names a
+      Massachusetts jurisdiction and a mobile app, and lists tech@ as contact).

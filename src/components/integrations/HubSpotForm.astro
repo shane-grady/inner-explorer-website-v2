@@ -115,10 +115,13 @@ const targetId = `hsform-${formId}`;
       </div>
     )
   }
+  {
+    /* The live region is in the page from the start and empty; the confirmation is moved into
+       it on submit. Screen readers often skip a region that arrives already filled. */
+  }
+  <div role="status" aria-live="polite" data-hsform-status></div>
   <template data-hsform-success>
-    <div role="status" aria-live="polite">
-      <slot name="success" />
-    </div>
+    <slot name="success" />
   </template>
 </div>
 
@@ -131,16 +134,18 @@ const targetId = `hsform-${formId}`;
       if (el) el.removeAttribute('hidden');
     }
 
-    // The confirmation card is appended as a SIBLING and the embed is hidden, rather than
+    // The confirmation fills the live region (a SIBLING) and the embed is hidden, rather than
     // replacing the target's contents — the target is HubSpot's own React root, and tearing
     // it out from under React is asking for trouble.
     function showConfirmation(target) {
       if (target.dataset.hsformDone) return;
       target.dataset.hsformDone = 'true';
-      const tpl = document.querySelector('template[data-hsform-success]');
-      if (!tpl || !target.parentElement) return;
+      const root = target.parentElement;
+      const tpl = root && root.querySelector('template[data-hsform-success]');
+      const status = root && root.querySelector('[data-hsform-status]');
+      if (!tpl || !status) return;
       target.setAttribute('hidden', '');
-      target.parentElement.appendChild(tpl.content.cloneNode(true));
+      status.appendChild(tpl.content.cloneNode(true));
     }
 
     function create() {

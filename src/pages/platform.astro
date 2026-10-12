@@ -29,11 +29,13 @@ import dashboard from '../assets/images/platform/dashboard-overview.webp';
 import pressPlay from '../assets/images/platform/classroom-press-play.jpg';
 import ctaPhoto from '../assets/images/platform/cta-high-school-student.jpg';
 
-/** A sample practice. Its player works once both `audio` (a file under public/) and its
- *  `transcript` are set: audio never ships without its text alternative. */
+/** A sample practice. Its player works once both `audio` (a file under public/, e.g.
+ *  '/audio/platform/early.mp3') and its `transcript` are set: audio never ships without its
+ *  text alternative. Until then the play button is disabled and the time row is not shown.
+ *  `length` ('4:32') is optional: the player reads the duration from the file. */
 interface Practice {
   name: string;
-  length: string;
+  length?: string;
   audio?: string;
   transcript?: string;
 }
@@ -41,7 +43,7 @@ interface Practice {
 const content = {
   title: 'Platform — daily mindfulness for every classroom | Inner Explorer',
   description:
-    'Bring daily, audio-guided mindfulness to PreK-12th Grade classrooms on one platform. 5 to 10 minute practices in English and Spanish sequenced across all 180 school days.',
+    'Daily, audio-guided mindfulness for PreK–12 classrooms on one platform: 5 to 10 minute practices in English and Spanish across all 180 school days.',
   hero: {
     title: 'Evidence-Based Mindfulness That Fits\n*Into Every Classroom*',
     lead: 'Bring daily, audio-guided mindfulness to PreK-12th Grade classrooms on one platform. 5 to 10 minute practices in English and Spanish sequenced across all 180 school days.',
@@ -71,7 +73,7 @@ const content = {
           alt: 'Young students sitting cross-legged on a classroom rug, eyes closed, breathing with a practice',
           position: '50% 45%',
         },
-        practice: { name: 'Shark Fin', length: '[length]' } as Practice,
+        practice: { name: 'Day 3: Introduction to Breathing' } as Practice,
       },
       {
         id: 'elementary',
@@ -83,7 +85,7 @@ const content = {
           alt: 'A whole class practicing at their desks with their teacher, eyes closed',
           position: '50% 45%',
         },
-        practice: { name: 'Relaxation Train', length: '[length]' } as Practice,
+        practice: { name: 'Day 8: Shark Fin Anytime' } as Practice,
       },
       {
         id: 'middle',
@@ -95,7 +97,7 @@ const content = {
           alt: 'A class sitting with eyes closed and hands flat on their desks during a practice, their teacher moving between the rows',
           position: '50% 45%',
         },
-        practice: { name: 'Body Scan', length: '[length]' } as Practice,
+        practice: { name: 'Day 9: Observing Thoughts' } as Practice,
       },
       {
         id: 'high',
@@ -107,7 +109,7 @@ const content = {
           alt: 'A teenager wearing headphones sits with eyes closed in a school library.',
           position: '40% 40%',
         },
-        practice: { name: '[High School sample practice: TBD]', length: '[length]' } as Practice,
+        practice: { name: 'Day 13: Introduction to Observing Senses' } as Practice,
       },
     ],
   },
@@ -391,6 +393,7 @@ const platformLd = {
         widths={[480, 960]}
         sizes="(min-width: 1280px) 480px, 100vw"
         loading="eager"
+        fetchpriority="high"
       />
     </div>
   </Section>
@@ -478,15 +481,15 @@ const platformLd = {
                     </p>
                   </div>
                 </div>
-                <div class="flex flex-col gap-2">
-                  <div class="ie-progress" data-player-progress />
-                  <div class="flex justify-between type-label text-foreground-muted">
-                    <span data-player-current>0:00</span>
-                    <span data-player-total>{program.practice.length}</span>
-                  </div>
-                </div>
                 {program.practice.audio && program.practice.transcript && (
                   <>
+                    <div class="flex flex-col gap-2">
+                      <div class="ie-progress" data-player-progress />
+                      <div class="flex justify-between type-label text-foreground-muted">
+                        <span data-player-current>0:00</span>
+                        <span data-player-total>{program.practice.length}</span>
+                      </div>
+                    </div>
                     {/* An audio-only practice's alternative is its transcript below (WCAG 1.2.1), not a caption track. */}
                     {/* eslint-disable-next-line astro/jsx-a11y/media-has-caption */}
                     <audio preload="metadata" src={program.practice.audio} data-player-audio />

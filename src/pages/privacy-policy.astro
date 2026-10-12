@@ -15,6 +15,8 @@
 // shared file can't break this build or hide legal text.
 import { getEntry, render } from 'astro:content';
 import PageLayout from '../layouts/PageLayout.astro';
+import Section from '../components/ui/Section.astro';
+import PageTitle from '../components/ui/PageTitle.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import Callout from '../components/content/Callout.astro';
 import HelpTable from '../components/content/HelpTable.astro';
@@ -26,7 +28,7 @@ import { MAIN_SITE } from '../lib/site';
 const content = {
   title: 'Privacy Policy | Inner Explorer',
   description:
-    'Inner Explorer collects no student information. Read what we collect from educator accounts, how it is stored and secured, how long we keep it, and your privacy rights.',
+    'Inner Explorer collects no student information. See what we collect from educator accounts, how we store, secure and retain it, and your privacy rights.',
 };
 
 const doc = await getEntry('help', 'privacy-policy');
@@ -75,9 +77,12 @@ const crumbLd = breadcrumbSchema(Astro.site, [
   <JsonLd schema={pageLd} slot="head" />
   <JsonLd schema={crumbLd} slot="head" />
 
-  <article>
-    <h1>{d.title}</h1>
-    <p>{d.blurb}</p>
-    <Content components={components} />
-  </article>
+  <Section spacing="hero" as="div">
+    <article>
+      <PageTitle title={d.title} lead={d.blurb} />
+      <div class="ie-prose mt-8 max-w-measure-article type-article-body md:mt-12">
+        <Content components={components} />
+      </div>
+    </article>
+  </Section>
 </PageLayout>
