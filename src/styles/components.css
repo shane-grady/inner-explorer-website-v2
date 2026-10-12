@@ -1095,8 +1095,8 @@ textarea:is(.ie-field, [data-hsform] .hs-input) {
 
 /* ---------- Article (the Newsroom's article template) ---------- */
 /* The body an MDX post renders: plain elements, so the rhythm lives here. Paragraphs 20 apart
-   in type-article-body (set on the wrapper); H2s on card-title-lg 48 below the copy (board
-   52), H3s on card-title-md 32 → 40; the copy after a heading 16 → 24 (H2) or 12 (H3). A
+   in type-article-body (set on the wrapper); H2s on card-title-lg 48 → 52 below the copy,
+   H3s on card-title-md 32 → 40; the copy after a heading 16 → 24 (H2) or 12 (H3). A
    component's own spacing utilities win over these. Bulleted lists are not drawn: plain
    discs (provisional). */
 .ie-prose {
@@ -1126,6 +1126,9 @@ textarea:is(.ie-field, [data-hsform] .hs-input) {
   margin-block-start: var(--space-3);
 }
 @variant lg {
+  .ie-prose > h2 {
+    margin-block-start: calc(var(--space-12) + var(--space-1));
+  }
   .ie-prose > h3 {
     margin-block-start: var(--space-10);
   }

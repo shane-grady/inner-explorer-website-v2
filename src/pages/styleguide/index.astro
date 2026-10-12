@@ -322,6 +322,9 @@ const checklist = [
         <ArrowLink href="#tokens" light data-hover>Hover</ArrowLink>
         <ArrowLink href="#tokens" light icon="arrow-down">Jump down</ArrowLink>
         <Button variant="light" icon="download" href="#tokens">Trailing icon (Research)</Button>
+        <Button variant="light" icon="download" iconStart href="#tokens"
+          >Leading icon (Article)</Button
+        >
         <span class="ie-tag ie-tag-on-brand type-tag">Evidence</span>
         <FeatureIcon name="shield-check" size={32} />
       </div>
@@ -543,6 +546,11 @@ const checklist = [
       eyebrow="Split title (Newsroom)"
       title="Title on the left, *lead* on the right"
       lead="From lg the lead sits in the right-hand columns, bottom-aligned with the title; below, it follows the title."
+    />
+    <PageTitle
+      class="mt-10 lg:max-w-225"
+      barWidth="article"
+      title="An article title, its *bar* the article column's width"
     />
     <div class="mt-10 grid gap-10 lg:grid-cols-12 lg:gap-6">
       <StoryCard

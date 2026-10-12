@@ -21,6 +21,8 @@ type Props = Omit<HTMLAttributes<'a'> & HTMLAttributes<'button'>, 'type'> & {
   arrow?: boolean;
   /** A trailing icon other than the arrow (Research's "Download …"). */
   icon?: IconName;
+  /** The icon leads the label (Article's "Download the one-pager"). */
+  iconStart?: boolean;
   /** Full width; a long label wraps to a second line. */
   block?: boolean;
   class?: string;
@@ -30,6 +32,7 @@ const {
   size = 'md',
   arrow = false,
   icon,
+  iconStart = false,
   block = false,
   type = 'button',
   class: className,
@@ -45,6 +48,7 @@ const Tag = rest.href ? 'a' : 'button';
 ---
 
 <Tag class:list={classes} type={rest.href ? undefined : type} {...rest}>
+  {iconStart && icon && <Icon name={icon} />}
   <slot />
-  {(arrow || icon) && <Icon name={icon ?? 'arrow-right'} />}
+  {!iconStart && (arrow || icon) && <Icon name={icon ?? 'arrow-right'} />}
 </Tag>

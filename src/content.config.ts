@@ -55,7 +55,8 @@ const news = defineCollection({
       author: reference('authors'),
       heroImage: image(),
       heroImageAlt: z.string(),
-      /** `contain` for a graphic with text in it (shown whole on the tint ground). */
+      /** Cards: `contain` for a graphic with text in it (shown whole on the tint ground). The
+       *  article hero is always cropped to fill, as the boards draw it. */
       heroImageFit: z.enum(['cover', 'contain']).default('cover'),
       /** Where a cover-cropped card image centers (CSS object-position). */
       heroImagePosition: z.string().optional(),

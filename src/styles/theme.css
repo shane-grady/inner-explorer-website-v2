@@ -259,8 +259,11 @@
 @utility type-article-body {
   font-family: var(--font-sans);
   font-size: clamp(1.0625rem, calc(17px + 1 * (100vw - 390px) / 1050), 1.125rem); /* 17 → 18 */
-  line-height: 1.7;
+  line-height: 1.65; /* 1.7 from lg (Article desktop) */
   font-weight: 400;
+  @media (width >= 64rem) {
+    line-height: 1.7;
+  }
 }
 @utility type-quote {
   font-family: var(--font-serif);

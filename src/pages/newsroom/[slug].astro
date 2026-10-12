@@ -22,15 +22,7 @@ import ResourceCard from '../../components/content/ResourceCard.astro';
 import { articleSchema, breadcrumbSchema, faqPageSchema } from '../../lib/schema';
 import { emphasize } from '../../lib/emphasize';
 import { readingTime } from '../../lib/reading-time';
-import {
-  getNews,
-  isoDate,
-  longDate,
-  newsPath,
-  newsroomCta,
-  shortDate,
-  type NewsEntry,
-} from '../../lib/news';
+import { getNews, isoDate, longDate, newsPath, newsroomCta, type NewsEntry } from '../../lib/news';
 
 const content = {
   breadcrumb: { label: 'Newsroom', href: '/newsroom/' },
@@ -141,7 +133,8 @@ const schemas = [
   {schemas.map((schema) => <JsonLd schema={schema} slot="head" />)}
 
   <div
-    class="ie-progress fixed inset-x-0 top-0 z-30 rounded-none"
+    slot="top"
+    class="ie-progress sticky top-0 z-30 rounded-none"
     role="progressbar"
     aria-label={content.progress}
     aria-valuemin="0"
@@ -166,7 +159,7 @@ const schemas = [
             </li>
           </ol>
         </nav>
-        <PageTitle title={d.heading ?? d.title} class="mt-4 lg:max-w-225" />
+        <PageTitle title={d.heading ?? d.title} barWidth="article" class="mt-4 lg:max-w-225" />
         <p class="m-0 mt-5 max-w-measure-article type-lead text-foreground-secondary lg:mt-6">
           {d.description}
         </p>
@@ -181,14 +174,16 @@ const schemas = [
           />
           <div class="flex flex-col gap-1 lg:flex-row lg:items-center lg:gap-4">
             <div class="flex flex-col gap-1">
-              <p class="m-0 type-card-title-sm text-foreground">
+              <p class="m-0 type-card-title-sm leading-tight text-foreground">
                 {content.byline}
                 <a class="text-inherit no-underline" href="#author">{a.name}</a>
               </p>
-              <p class="m-0 type-label text-foreground-muted">{a.role}</p>
+              <p class="m-0 type-label leading-tight text-foreground-muted">{a.role}</p>
             </div>
             <span class="mx-2 hidden h-8 w-px bg-border lg:block" aria-hidden="true"></span>
-            <p class="m-0 flex items-center gap-2 type-label text-foreground-muted lg:gap-4">
+            <p
+              class="m-0 flex items-center gap-2 type-label leading-tight text-foreground-muted lg:gap-4"
+            >
               <time datetime={isoDate(d.pubDate)}>{longDate(d.pubDate)}</time>
               <span aria-hidden="true">·</span>
               <span class="flex items-center gap-1 lg:gap-2">
@@ -237,10 +232,7 @@ const schemas = [
           width={952}
           densities={[1, 2]}
           loading="eager"
-          class:list={[
-            'block aspect-og w-full',
-            d.heroImageFit === 'contain' ? 'object-contain' : 'object-cover',
-          ]}
+          class="block aspect-og w-full object-cover"
         />
       </figure>
 
@@ -278,7 +270,7 @@ const schemas = [
             <div class="grid grid-cols-2 gap-2" role="group" aria-labelledby="share-title">
               <button
                 type="button"
-                class="ie-chip"
+                class="ie-chip font-medium"
                 data-copy-link={canonical}
                 data-copied={content.share.copied}
               >
@@ -287,7 +279,7 @@ const schemas = [
               {
                 share.map((s) => (
                   <a
-                    class="ie-chip"
+                    class="ie-chip font-medium"
                     href={s.href}
                     target={s.external ? '_blank' : undefined}
                     rel={s.external ? 'noopener' : undefined}
@@ -494,10 +486,10 @@ const schemas = [
                   <StoryCard
                     variant="tint"
                     class="grow"
-                    title={p.data.cardTitle ?? p.data.title}
+                    title={p.data.title}
                     href={newsPath(p)}
                     kicker={[p.data.category]}
-                    meta={[shortDate(p.data.pubDate)]}
+                    meta={[longDate(p.data.pubDate)]}
                     image={{ src: p.data.heroImage, position: p.data.heroImagePosition }}
                   />
                 </li>

@@ -109,10 +109,10 @@ a variant map). Everything else is a plain element with a `type-*` utility or an
 class.
 
 - `ui/Button` (primary · secondary · light · ghost; md · sm; `arrow`, or `icon` for another
-  trailing icon: Research's download; `block`; link or button),
+  trailing icon: Research's download, `iconStart` to lead with it: Article's one-pager; `block`; link or button),
   `ui/ArrowLink` (`light` on green; `icon="arrow-down"` for a jump down the page, nudging down on
   hover: Research; the label is trimmed and its last word kept with the arrow), `ui/PageTitle` (eyebrow, H1 with `*emphasis*`, accent bar,
-  lead, `actions` slot; `leadWidth="wide"`; `breakFrom="md"` keeps the title's break to md up; `layout="split"`: the lead in the right-hand columns from lg, Newsroom and Case Studies), `ui/Checklist` (`marker="disc"`, `size="xs"`, `flow="columns"`: Pricing's add-on list), `ui/Card` (raised · floating · tint; `title`, `titleSize`, `href` makes
+  lead, `actions` slot; `leadWidth="wide"`; `breakFrom="md"` keeps the title's break to md up; `layout="split"`: the lead in the right-hand columns from lg, Newsroom and Case Studies; `barWidth="article"`: the bar runs the 680 article column under a wider title), `ui/Checklist` (`marker="disc"`, `size="xs"`, `flow="columns"`: Pricing's add-on list), `ui/Card` (raised · floating · tint; `title`, `titleSize`, `href` makes
   the title a stretched link), `ui/Icon` and `ui/FeatureIcon` (registries in `src/lib/icons.ts`
   and `src/lib/feature-icons.ts`; feature icons are Phosphor fill, bare at 16/20/24/32/40 or `disc`),
   `ui/IconButton`, `ui/Checklist` (`{ lead, text }` items with a bold lead-in, `strong` bold claims: Why), `ui/Section` (tone ground · white · tint · emerald · forest;
@@ -121,7 +121,7 @@ class.
   its host).
 - `layout/SiteHeader` (light, `dark` over a Forest hero, `overlay` laid over the page's first
   section; the dark header's current link has a Leaf rule; the skip link; static, as on the boards),
-  set from `PageLayout header="dark"` (Research: the hero clears the header itself),
+  set from `PageLayout header="dark"` (Research: the hero clears the header itself), and `PageLayout`'s `top` slot above the header (the Article's reading progress bar),
   `layout/MobileMenu` (native `<dialog>`, one small script), `layout/SiteFooter` (Footer A).
 - `blocks/ClosingCta` (emerald · white, `floating` for Home's borderless white card, ± photo (held
   at 520 on Emerald and Floating; as tall as its copy on Raised, Platform),

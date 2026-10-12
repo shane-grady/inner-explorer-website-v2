@@ -16,6 +16,8 @@ interface Props {
   breakFrom?: 'md';
   /** `split`: title left (7 of 12 columns), lead right (4 columns, from the 9th) from lg. */
   layout?: 'stacked' | 'split';
+  /** `article`: the bar runs the article column (680) under a wider title (Article). */
+  barWidth?: 'title' | 'article';
   class?: string;
 }
 const {
@@ -25,6 +27,7 @@ const {
   leadWidth = 'measure',
   breakFrom,
   layout = 'stacked',
+  barWidth = 'title',
   class: className,
 }: Props = Astro.props;
 const split = layout === 'split';
@@ -40,12 +43,18 @@ const LEAD_WIDTH = { measure: 'max-w-measure', wide: 'max-w-measure-wide' } as c
 >
   <div class:list={['flex flex-col items-start', split && 'lg:col-span-7']}>
     {eyebrow && <p class="m-0 mb-5 type-eyebrow text-foreground md:mb-6">{eyebrow}</p>}
-    <div class="inline-flex flex-col gap-2">
+    <div
+      class:list={['flex-col gap-2', barWidth === 'article' ? 'flex self-stretch' : 'inline-flex']}
+    >
       <h1
         class="m-0 type-page-title text-foreground"
         set:html={emphasize(title, undefined, breakFrom ? 'hidden md:inline' : '')}
       />
-      <div class="ie-accent-bar" aria-hidden="true"></div>
+      <div
+        class:list={['ie-accent-bar', barWidth === 'article' && 'w-full max-w-measure-article']}
+        aria-hidden="true"
+      >
+      </div>
     </div>
   </div>
   {
