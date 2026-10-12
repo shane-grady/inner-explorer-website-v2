@@ -577,3 +577,26 @@ Explorer's"`).
   fractional bases (`lg:basis-5/12` with the default shrink): the gap comes off both sides in
   proportion, exactly as `fr` does. Measuring every text element's box against the board, not
   only section heights, is what found it (and a flattened shadow the board clearly draws).
+- **Generate verbatim copy from the board's HTML, don't retype it (Case Studies, 2026-10-10).**
+  A script that parses the board's elements and dumps YAML keeps curly quotes, en dashes and
+  `<b>` emphasis exactly; retyping 3,000 words of a legacy case study invites silent edits. And
+  a board's template loop (`<sc-for>`) renders one empty placeholder when the board is opened
+  standalone. Measure a looped card against another board that draws it with real data (the
+  index cards against the detail board's related row).
+- **axe can't judge text over a photo; measure it per line (Case Studies Hero D, 2026-10-11).**
+  `pnpm shots` was axe-clean while white text over the hero photo fell to 2.2:1 at 360 and
+  2.9:1 at 1024. A scrim tuned at the board's two widths leaves gaps between them: a fixed
+  640px quote outran a percentage-stopped left scrim at 1024, and a longer mobile quote lifted
+  the eyebrow onto the photo's brightest spot. Hide the text, screenshot, sample the pixels
+  behind each line's `Range.getClientRects()` box, and test white against the lightest 2% at
+  360–1920. A block-level element's box is wider than its text and lies, so measure the lines.
+- **Prove a board extractor on a story that's already built (Case Studies, 2026-10-11).** Before
+  generating four entries from the detail boards, the extractor ran on Webb's board and matched
+  the committed `webb-school.yaml` block for block (the one difference was the quote the user had
+  removed). Desktop and mobile boards then extracted identically for all four. That pair of
+  checks is cheaper than proofreading 3,000 words per story by eye.
+- **A sample in a `[data-on-brand]` Section takes the on-brand ink (styleguide, 2026-10-11).**
+  The Tint result tiles (`StatStrip variant="tiles"`) passed axe on John Marshall's page but
+  failed on `/styleguide/`, where they sat in the Forest section: `text-brand-emphasis` maps to
+  a light green there, which fails on the Tint tile. Show light-ground patterns in a light
+  Section.

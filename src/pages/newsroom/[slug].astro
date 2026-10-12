@@ -15,7 +15,7 @@ import Button from '../../components/ui/Button.astro';
 import ArrowLink from '../../components/ui/ArrowLink.astro';
 import Checklist from '../../components/ui/Checklist.astro';
 import Icon from '../../components/ui/Icon.astro';
-import StoryCard from '../../components/blocks/StoryCard.astro';
+import MediaCard from '../../components/blocks/MediaCard.astro';
 import PullQuote from '../../components/content/PullQuote.astro';
 import StatTiles from '../../components/content/StatTiles.astro';
 import ResourceCard from '../../components/content/ResourceCard.astro';
@@ -483,7 +483,7 @@ const schemas = [
             <ul class="m-0 grid list-none gap-4 p-0 lg:col-span-2 lg:grid-cols-3 lg:gap-2">
               {related.map((p) => (
                 <li class="flex">
-                  <StoryCard
+                  <MediaCard
                     variant="tint"
                     class="grow"
                     title={p.data.title}

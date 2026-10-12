@@ -19,8 +19,11 @@ import StatStrip from '../../components/blocks/StatStrip.astro';
 import LogoStrip from '../../components/blocks/LogoStrip.astro';
 import EvidenceCard from '../../components/blocks/EvidenceCard.astro';
 import StoryCard from '../../components/blocks/StoryCard.astro';
+import MediaCard from '../../components/blocks/MediaCard.astro';
 import StatTile from '../../components/blocks/StatTile.astro';
 import PullQuote from '../../components/content/PullQuote.astro';
+import BarChart from '../../components/blocks/BarChart.astro';
+import VoiceHero from '../../components/blocks/VoiceHero.astro';
 import VideoPoster from '../../components/ui/VideoPoster.astro';
 import { ICONS } from '../../lib/icons';
 import { FEATURE_ICONS } from '../../lib/feature-icons';
@@ -139,6 +142,11 @@ const sampleRuled = [
   { value: '21', sign: '%', label: 'higher sample scores', source: '(Sample 2022)' },
   { value: '56', sign: '%', label: 'fewer sample incidents' },
   { value: '43', sign: '%', label: 'less sample stress' },
+];
+// Result tiles in a case study's body (John Marshall).
+const sampleTiles = [
+  { value: '15%', label: 'Increase in sample scores', source: 'From one sample year to the next' },
+  { value: '19%', label: 'Increase in sample results', source: 'From one sample year to the next' },
 ];
 // A checklist item may lead with a bold phrase (Why's Reason 4).
 const leadChecklist = [
@@ -280,6 +288,17 @@ const checklist = [
         <button type="button" class="ie-chip" aria-pressed="true">Pressed</button>
         <span class="ie-tag type-tag">Add-on</span>
       </div>
+      <div class="ie-chip-row" role="group" aria-label="Chip row sample">
+        <button type="button" class="ie-chip" aria-pressed="true">
+          All stories<span class="ie-chip-count type-tag">7</span>
+        </button>
+        <button type="button" class="ie-chip" aria-pressed="false">
+          Chip count (Case Studies)<span class="ie-chip-count type-tag">3</span>
+        </button>
+        <button type="button" class="ie-chip" aria-pressed="false">
+          A row scrolls on a phone, wraps from md<span class="ie-chip-count type-tag">1</span>
+        </button>
+      </div>
       <div class="flex flex-wrap items-center gap-6">
         <button type="button" class="ie-chip" role="switch" aria-checked="false">
           Show our work<span class="ie-switch-track" aria-hidden="true"></span>
@@ -344,6 +363,24 @@ const checklist = [
         </div>
       </div>
     </div>
+  </Section>
+
+  <Section tone="white" aria-labelledby="split-title">
+    <p id="split-title" class="m-0 mb-8 type-label text-foreground-muted">
+      <code>PageTitle layout="split"</code>: the title left, the lead and buttons right from lg
+      (Case Studies, Newsroom).
+    </p>
+    <PageTitle
+      layout="split"
+      eyebrow="Eyebrow"
+      title="A split title with *emphasis words*"
+      lead="The lead and the buttons sit on the right, bottom-aligned with the accent bar."
+    >
+      <Fragment slot="actions">
+        <Button href="#split-title" arrow>Primary</Button>
+        <Button variant="secondary" href="#split-title">Secondary</Button>
+      </Fragment>
+    </PageTitle>
   </Section>
 
   <Section aria-labelledby="cards-title">
@@ -425,6 +462,44 @@ const checklist = [
         >
       </Testimonial>
     </div>
+    <div class="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <StoryCard
+        href="#cards-title"
+        image={{ src: photo, alt: 'Sample photo' }}
+        level="Photo label"
+        name="Story card (Case Studies)"
+        place="Sample place, ST"
+        stat="00%"
+        statLabel="the headline result, over a rule and Read the story"
+      />
+      <Testimonial
+        name="Sample administrator"
+        place="Role, Sample school"
+        initials="SA"
+        class="lg:col-span-2"
+      >
+        A case study's quote: <code>initials</code> lead the name in a Spring disc where no portrait exists,
+        and <em class="font-bold not-italic">marked words are set bold.</em>
+      </Testimonial>
+    </div>
+    <BarChart
+      class="mt-8 max-w-measure-article"
+      title="Bar chart (Case Studies)"
+      summary="Sample bar chart of incidents by school year"
+      phases={[
+        {
+          label: 'Before',
+          tone: 'before',
+          bars: [
+            { label: 'Year 1', value: 120 },
+            { label: 'Year 2', value: 180 },
+          ],
+        },
+        { label: 'After', tone: 'after', bars: [{ label: 'Year 3', value: 60 }] },
+        { label: 'During', tone: 'during', bars: [{ label: 'Year 4', value: 70 }] },
+      ]}
+      note="The note under the hairline. Heights scale to the tallest bar."
+    />
     <div class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
       <EvidenceCard
         tag="Academics"
@@ -542,10 +617,11 @@ const checklist = [
     </p>
     <PageTitle
       layout="split"
+      splitLead="narrow"
       class="mt-10"
-      eyebrow="Split title (Newsroom)"
-      title="Title on the left, *lead* on the right"
-      lead="From lg the lead sits in the right-hand columns, bottom-aligned with the title; below, it follows the title."
+      eyebrow="Narrow split (Newsroom)"
+      title="Title in 7 columns, *lead* in 4"
+      lead="splitLead=narrow: from lg the lead sits in the last four of twelve columns, bottom-aligned with the title."
     />
     <PageTitle
       class="mt-10 lg:max-w-225"
@@ -553,7 +629,7 @@ const checklist = [
       title="An article title, its *bar* the article column's width"
     />
     <div class="mt-10 grid gap-10 lg:grid-cols-12 lg:gap-6">
-      <StoryCard
+      <MediaCard
         variant="featured"
         class="lg:col-span-8"
         title="Featured: the newest article"
@@ -566,7 +642,7 @@ const checklist = [
         image={{ src: photo }}
       />
       <div class="flex flex-col gap-4 lg:col-span-4">
-        <StoryCard
+        <MediaCard
           variant="compact"
           class="lg:grow"
           title="Compact: a ruled row below lg"
@@ -575,7 +651,7 @@ const checklist = [
           meta={['7 min read', 'Jun 3, 2026']}
           image={{ src: photo }}
         />
-        <StoryCard
+        <MediaCard
           variant="tint"
           title="Tint (Keep reading): a row with an 88px thumb below lg"
           href="#stories-title"
@@ -587,7 +663,7 @@ const checklist = [
     </div>
     <ul class="m-0 mt-10 grid list-none gap-12 p-0 md:grid-cols-2 md:gap-x-8 lg:grid-cols-3">
       <li class="flex">
-        <StoryCard
+        <MediaCard
           class="grow"
           title="Plain: the story grid"
           href="#stories-title"
@@ -598,7 +674,7 @@ const checklist = [
         />
       </li>
       <li class="flex">
-        <StoryCard
+        <MediaCard
           class="grow"
           title="Press coverage, opening in a new tab"
           href="https://www.example.com/"
@@ -612,7 +688,7 @@ const checklist = [
           >
             Logo
           </div>
-        </StoryCard>
+        </MediaCard>
       </li>
       <li>
         <ul class="m-0 grid list-none grid-cols-2 gap-2 p-0">
@@ -739,6 +815,7 @@ const checklist = [
       page's H1, so it is shown on Home only.
     </p>
     <StatStrip class="mt-8" stats={sampleStats} />
+    <StatStrip class="mt-8 max-w-180" variant="tiles" stats={sampleTiles} />
     <LogoStrip
       class="mt-8 border-t border-border pt-8"
       label="Trusted in districts including"
@@ -784,6 +861,21 @@ const checklist = [
       captions
     />
   </Section>
+
+  <VoiceHero
+    image={{ src: photo, alt: 'Sample photo' }}
+    eyebrow="Voice-led hero (Case Studies)"
+    quote="A practitioner's words open the page over the photo, under a Forest scrim from the left from xl and from the bottom below. *Marked words are set bold.*"
+    name="Sample administrator"
+    place="Role, Sample school"
+    initials="SA"
+  >
+    <p class="m-0 type-eyebrow text-foreground">The title card</p>
+    <p class="m-0 mt-3 type-body text-foreground-body">
+      A Floating card rises out of the photo, 64px and 112px from xl, and holds the page's
+      breadcrumb, H1, details, results and actions.
+    </p>
+  </VoiceHero>
 
   <Section aria-labelledby="cta-title">
     <h2 id="cta-title" class="m-0 type-section-title text-foreground">Closing call to action</h2>

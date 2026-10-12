@@ -1,0 +1,190 @@
+# La Joya ISD: one file drives /case-studies/la-joya-isd/ and its card.
+#
+# The hero (title, details, voice, results, photo and position) is verbatim from Hero D's La Joya
+# boards (CS-Hero-D, CS-Hero-D-Mobile, story "la-joya"). Angelika Loraine Garza's quote opens the
+# page there, so the body's copy of it is dropped (as on Webb). The lead, the "At a glance" facts and
+# the body (with its two captioned photos) are verbatim from the boards "La Joya ISD · Desktop /
+# Mobile" (page "Case Study Detail Working"), which carry the original innerexplorer.com text (legacy
+# /case-study6 and its PDF). The card's stat, label and photo are the index board's. Keep every
+# claim scoped to classrooms and named educators, never district leadership (the pre-rebuild
+# entry's governance note). Open items (tasks/todo.md › Case Studies): 85% vs the PDF's 80%, the
+# 43% teacher-stress figure, the hero photo (it reads as generated imagery), the PDF.
+order: 5
+draft: false
+seo:
+  title: 'Mindfulness Case Study: 85% Fewer Behavior Issues | Inner Explorer'
+  description: La Joya ISD special education classrooms cut reported behavior issues 85% with daily mindfulness
+    from Inner Explorer, in English and Spanish.
+publishedDate: '2026-06-10'
+updatedDate: '2026-10-11'
+level: Special education
+name: La Joya ISD
+place: La Joya, TX
+location: La Joya, Texas
+tags:
+- behavior
+- specialed
+title:
+  lead: How La Joya ISD’s special education classrooms cut reported behavior issues 85%
+  emph: with daily mindfulness in English and Spanish
+details:
+- La Joya, Texas
+- Special education
+- 6 min read
+voice:
+  quote: If students are not mentally and emotionally there, they are not going to learn.
+  name: Angelika Loraine Garza
+  role: School Counselor, La Joya ISD
+  initials: AL
+lead: In schools and centers across the country, mental health concerns are on the rise. At the same time,
+  students and educators are facing an immense amount of pressure to perform well academically and close
+  the learning gap that we are facing due to the pandemic.
+card:
+  stat: 85%
+  label: reduction in behavior issues in special education classrooms
+  image:
+    src: ../../assets/images/case-studies/la-joya-isd/teacher-with-tablet.jpg
+    alt: A teacher holding a tablet stands among students in red shirts seated at their desks
+results:
+- value: '85'
+  unit: '%'
+  label: Reduction in behavior issues in special education classrooms through practicing daily mindfulness
+    with Inner Explorer
+- value: '43'
+  unit: '%'
+  label: less stress reported by teachers who practice mindfulness
+image:
+  src: ../../assets/images/case-studies/la-joya-isd/classroom-practice.jpg
+  alt: A special education classroom of students sitting upright with eyes closed during a daily audio-guided
+    mindfulness practice
+  position: 50% 40%
+glance:
+- label: District
+  value: La Joya Independent School District
+- label: Location
+  value: La Joya, Texas
+- label: Setting
+  value: Special education classrooms
+body:
+- type: heading
+  id: background
+  text: Background
+- type: paragraphs
+  items:
+  - At La Joya Independent School District, staff members are using Mindfulness-Based Social Emotional
+    Learning (MBSEL) through Inner Explorer as a preventative solution. Cynthia Salgado, a behavior specialist
+    at La Joya, says that students are looking for help; oftentimes, this plays out through noticeable
+    stress and anxiety, anger and frustration, or breaking down emotionally.
+  - 'Inner Explorer Co-Founder Dr. Laura Bakosh coined the term Mindfulness-Based Social Emotional Learning
+    (MBSEL) after establishing that daily mindfulness practice offers foundational support for the five
+    core competencies of Social and Emotional Learning (SEL):'
+- type: checklist
+  items:
+  - Self-awareness
+  - Self-management
+  - Social awareness
+  - Relationship skills
+  - Responsible decision-making
+- type: paragraphs
+  items:
+  - The traditional SEL curriculum is designed to activate the prefrontal cortex (PFC) - the part of the
+    brain associated with learning. However, when the brain is stressed, it cannot access what it cognitively
+    knows. Furthermore, it cannot absorb new information. MBSEL addresses this disconnect by utilizing
+    daily mindfulness to target stress.
+- type: paragraphs
+  items:
+  - Judith Lopez Guerra, a special education teacher at La Joya, practices daily mindfulness in English
+    and Spanish in her classroom with Inner Explorer. She recognizes that mental health challenges are
+    amplified for special education students, who already find it difficult to express how they are feeling
+    and advocate for what they need.
+  - Through Inner Explorer, Judith, her co-teachers, and colleagues have noticed a remarkable difference
+    in student behavior, made evident by a drastic decrease in the number of reported behavioral issues.
+  - Judith notes that daily mindfulness practice helps her students find their inner voice. "Students
+    who were once extremely shy learn to ask for what they need," she says. *"It's not that their voice
+    wasn't there before, it's that they didn't know how to find it. Mindfulness helps the students get
+    in touch with who they are."*
+- type: figure
+  image:
+    src: ../../assets/images/case-studies/la-joya-isd/students-at-desks.jpg
+    alt: Two students in red shirts sit quietly at their desks during a mindfulness practice
+  caption: Students at Narciso G. Cavazos Elementary practice mindfulness with Inner Explorer.
+- type: quote
+  text: We have math and we have science, but we also have Inner Explorer. Through MBSEL, students can
+    get in touch with how they are feeling; as a teacher, *I want them to know that what they are feeling
+    matters* because it impacts everything else that they do.
+  name: Judith Lopez Guerra
+  role: Special Education Teacher, La Joya ISD
+  initials: JL
+- type: heading
+  id: best-practices
+  text: Best practices for using Inner Explorer in a special education classroom
+- type: paragraphs
+  items:
+  - In working with special education students, it is important to recognize their unique skills and abilities,
+    while also finding ways to empower them to express themselves, learn, and grow. Try out these best
+    practices for integrating Inner Explorer in a special education classroom.
+- type: subheading
+  text: Set the Stage for Success
+- type: paragraphs
+  items:
+  - 'Inner Explorer''s audio-guided format makes it easy to just press play and practice mindfulness together
+    as a class. Here are a few tips to help students prepare for a daily practice:'
+- type: checklist
+  items:
+  - Establish a set time every day to practice. The structure helps students know what to expect. Judith's
+    classroom practices twice a day - in the morning to prepare for academics and at the end of the school
+    day before going home.
+  - Dim the lights to reduce distractions and signify it is time for mindfulness.
+  - Set an example by participating in the practice alongside students. This removes any stigma and helps
+    students feel safe practicing. Plus, teachers who practice mindfulness report improved well-being
+    and 43% less stress!
+- type: callout
+  title: Bonus
+  text: The Inner Explorer Educator Well-Being Series is a set of mindfulness practices specifically designed
+    to provide educators with additional support tools that supplement daily Inner Explorer practice in
+    the classroom.
+- type: subheading
+  text: Save Time and Resources With Mindfulness
+- type: paragraphs
+  items:
+  - While Judith is adamant about instilling a daily mindfulness routine at a set time each day, she also
+    honors requests from her students to do additional sessions when academic work becomes too much. “If
+    we are in the middle of a math lesson and they become overwhelmed and can’t focus, I will offer to
+    do a session right then and there – or the students will ask me to play an Inner Explorer practice,”
+    she says.
+  - This saves time and resources in the long run; mindfulness helps students calm down and focus, reducing
+    the amount of time spent settling in or managing behavior issues. In Judith's classroom, daily mindfulness
+    significantly reduced the need for additional help.
+- type: subheading
+  text: Invite Students to Reflect and Share
+- type: paragraphs
+  items:
+  - Each Inner Explorer practice includes additional time for independent reflection to help students
+    further explore and express their thoughts and feelings.
+  - To encourage the use of reflection time, Judith created a corner display in her classroom for students
+    to hang up their reflection drawings or journal entries if they choose to. This encourages self-expression
+    and gives her insight as to what is happening in their lives beyond the classroom.
+- type: figure
+  image:
+    src: ../../assets/images/case-studies/la-joya-isd/teacher-practices.jpg
+    alt: A teacher stands with her eyes closed beside students at their desks during a mindfulness practice
+  caption: Teacher at Narciso G. Cavazos Elementary practices Inner Explorer with her students.
+- type: callout
+  title: Bonus
+  text: Get families involved by inviting them to download the Inner Explorer HOME app. They can use the
+    TuneIn feature to listen to the daily practice in real-time or when their schedule allows. Then, students
+    and families can discuss what came up for them during the practice at home.
+- type: quote
+  text: Eventually, my students will move on to a new classroom, a new school, and a career. *The tools
+    they learn through MBSEL are tools they can take with them for their entire lives.*
+  name: Judith Lopez Guerra
+  role: Special Education Teacher, La Joya ISD
+  initials: JL
+pdf:
+  file: /downloads/la-joya-isd-case-study.pdf
+  pages: 2
+  title: Get the La Joya ISD case study
+related:
+- kaiser-elementary
+- webb-school
+- goddard-middle-school

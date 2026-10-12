@@ -121,7 +121,7 @@ synthesis, application, and adversarial verification). Applied to
 
 - At domain migration: 301 innerexplorer.com/case-study7.html AND
   /images/Mindful-Michigan-Model.pdf (plus lms.innerexplorer.org variants) to
-  /case-studies/mindful-michigan/.
+  /case-studies/ (the story was dropped 2026-10-11; `tasks/todo.md` › Launch has the map).
 - PUBLISH GATES: two stand-in portraits (Zendejas, Mckenzie) need real photos.
 - ~~The staging-domain noindex is handled by the separate open PR
   (claude/magical-ptolemy-74fe00) — confirm merged before launch.~~ RESOLVED:

@@ -315,6 +315,163 @@ mark-compass.png`, 256px PNG) is the board's: an SVG from the design system woul
       PUBLISH GATE and REVIEW comments: stand-in portraits, invented student voices,
       representative trust figures, inferred dates, La Joya's 85% vs 80%, the 43% educator-stress
       figure. Resolve each before its value reaches a new page.
+- [ ] **Case Studies (index, detail template and five stories built; confirm before launch):**
+  - **Launch gate, Webb approval:** a canvas note on the Webb boards says "Hold on Webb Case study:
+    waiting for approval from them". Built and published on staging (noindexed); get the school's
+    approval before www goes live, or set `draft: true` in `src/content/case-studies/webb-school.yaml`.
+  - **The stories (decided 2026-10-11):** Webb, Kaiser, Goddard, John Marshall and La Joya, and
+    only those. Dwight Morrow and Mindful Michigan are dropped: no page, their legacy URLs go to the
+    index (Launch › legacy 301 map). Related rows: where a board links a dropped story, another
+    published story stands in (Webb: Goddard for Dwight Morrow; Goddard: Webb for Mindful Michigan;
+    John Marshall: Kaiser and La Joya for both). The four new stories came in one PR (the user's
+    call), all built from the same boards and template as Webb.
+  - **Launch gate, generated-looking hero photos:** Hero D's photos for Kaiser, John Marshall and
+    La Joya (`src/assets/images/case-studies/<slug>/classroom-practice.jpg`,
+    `wellness-advisory-circle.jpg`) read as generated imagery, not photos of these schools, and
+    the pre-rebuild entries record AI-generated brand imagery (Higgsfield / GPT Image 2) for all
+    three. On a real, named school's page that is a fabrication risk (the old Kaiser page carried
+    "Photos are representative and do not depict Henry J. Kaiser Elementary students."). Replace
+    them with real photos (the index cards' and body photos are the legacy site's), or add a
+    representative-imagery note, before launch. Goddard's hero is the real school sign.
+  - **The pre-rebuild YAMLs' PUBLISH GATE and REVIEW comments**
+    (`0c8cac2:src/content/case-studies/<slug>.yaml`), one by one. The new entries take their text
+    from the boards only, so most of the old gates don't reach a page:
+    - Resolved (nothing on the page): the stand-in portraits for Trudy Humphreys, Amber Hardman,
+      Elena Kelly, Mark Roeder, Judith Lopez Guerra and Angelika Loraine Garza (voices render with
+      initials discs, no faces); the invented student voices (Kaiser, Goddard); the "4.8 / 5"
+      trust figures (Kaiser, Goddard); the inferred start years and phase dates (Goddard 2016,
+      John Marshall 2017, La Joya's stage labels); Kaiser's "Photos are representative" gallery
+      note (no gallery, but see the photo gate above); the "Anne E. Casey" spelling (the boards
+      say Annie). John Marshall's six student voices are real legacy quotes and stay, set as a
+      lead-in checklist ("Mindfulness", "Human Connection"…), unattributed as the boards draw them.
+    - Still open, as the boards draw them:
+      - **La Joya 85% vs 80%:** the PDF prints 85% on page 1 and 80% in the page-2 sidebar; the
+        boards (H1, result, card, index) use 85%. Confirm the figure.
+      - **La Joya's 43%:** "teachers who practice mindfulness report improved well-being and 43%
+        less stress" (a result tile and a checklist line) names no study. Cite it or cut it.
+      - **La Joya governance note:** the district is under TEA intervention; keep every claim at
+        classroom and named-educator level. The H1 ("La Joya ISD's special education classrooms
+        cut…") and the body pass; the hero names the district, not its leadership.
+      - **Kaiser's language rules (2026-06-09):** never claim causation, never "tackles". The
+        board's H1 ("How Henry J. Kaiser Elementary cut discipline events 77% with ten minutes of
+        daily mindfulness") and results state the change as the school's, which the old rules
+        avoided; the legacy title "…Tackles the Opioid Crisis…" stays off the page. Confirm.
+      - **Kaiser's math figure:** the PDF's chart reads 36% for 2020, its Before/After list 38%.
+        The boards use 38% and the "375% increase" result (8 → 38); the old entry used 36% and
+        avoided 375%. Confirm.
+      - **John Marshall's "Did You Know?" callout** (COVID-19 relief funding for MBSEL): the old
+        entry dropped it because ESSER funds expired in 2024. The board keeps it; it is on the
+        page. Cut it?
+      - **John Marshall's "CASEL-approved":** "Inner Explorer is a CASEL-approved … program" is
+        legacy wording; the old entry noted the current designation is "Designated SEL-Supportive
+        Program" (pg.casel.org, checked 2026-06-09). Verbatim on the page; update?
+      - **Goddard's "Colorado State Department of Education"** (the callout): the agency is the
+        Colorado Department of Education. Verbatim on the page; fix?
+      - **Goddard's quote attribution:** the hero and the second quote are an unnamed "School
+        Counselor"; the first quote is Jenica Loether, School Counselor. They may be the same
+        person (the old entry said not to merge them without confirmation).
+  - **The four new stories, as drawn** (hero from `CS-Hero-D` / `-Mobile`; lead, "At a glance" and
+    body from each story's Desktop and Mobile boards, which match; card from the index board):
+    - **Every figure and quote** as the boards draw them. Kaiser: 77%, 190%, 375%, the discipline
+      table (65 → 14, 14 → 4, 3 → 1, 82 → 19), 17% → 48% reading, 115 more students, $11,500 and
+      $11,100 a year, Humphreys, Hardman, Archer and Majetich, the LG Electronics grant. Goddard:
+      3X / 5X / 8X and the 2016–2018 table (Goddard vs Colorado by grade), Loether and the
+      counselor, LG Electronics USA. John Marshall: 91%, 15%, 19%, 1,100 LAUSD schools, 213
+      studies / 270,000 students / 11 percentile points, 5.5 million teens, Kelly, Roeder and Lisa
+      Grady. La Joya: 85%, 43%, Salgado, Garza, Lopez Guerra, Dr. Laura Bakosh.
+    - **Hero vs detail boards:** each H1 is Hero D's, not the legacy title (Kaiser "…cut discipline
+      events 77%…", Goddard "…gained state recognition in academics through daily mindfulness
+      practice", John Marshall "…turned a daily mindfulness practice into a teen mental health
+      movement", La Joya "…cut reported behavior issues 85%…"); the Article headline follows. The
+      read times (7, 7, 7, 6 min) are stored as drawn. Hero D's John Marshall lead says
+      "longterm"; the page says "long-term" as the detail boards do.
+    - **Quotes the hero repeats** were dropped from the body, as on Webb. Kaiser's, Goddard's and
+      John Marshall's heroes show an excerpt, so the body loses their fuller text: Humphreys's
+      "I wanted to quit. In my 31 years of teaching…", the counselor's "Mindfulness skills are
+      easy to learn… like deep breathing.", Roeder's "They say things like 'Hey, you should try a
+      moment of mindfulness'… Without them, these types of interactions wouldn't be happening."
+      Restore any of them?
+    - **Body photos** (the legacy site's, captions verbatim): John Marshall three
+      (`circle-on-grass`, `advisory-member-steps`, `two-students-practice`), La Joya two
+      (`students-at-desks`, `teacher-practices`). Card photos (the index board's, unlike the hero):
+      Kaiser `educators-vocabulary-board`, John Marshall `students-outside`, La Joya
+      `teacher-with-tablet`; Goddard's card and hero share `entrance-sign`.
+    - **PDFs** restored from `0c8cac2:public/downloads/` (Kaiser 3 pages, Goddard 3, John Marshall
+      2, La Joya 2). Board vs PDF: the boards carry the PDFs' text (Kaiser and Goddard checked
+      line by line; John Marshall and La Joya are image-only PDFs, read by eye for La Joya); La
+      Joya's PDF says "@HOME app", the board "HOME app".
+    - **Template-written:** the SEO titles and descriptions (Kaiser and La Joya use a board
+      sentence; Goddard and John Marshall restate the headline result), `location` for the
+      JSON-LD, the Goddard table's "Grade" header and row labels, the related stand-ins, and
+      Goddard's heading anchors (swapped on the board; each id now matches its heading).
+    - **New template pieces, no new components** (the user's call): body blocks `table`
+      (Kaiser's two tables; Goddard's paired bar chart as a table, its Goddard column in Emerald),
+      `figure` (captioned photos), `callout` (Goddard's "State recognition", John Marshall's "Did
+      You Know?", La Joya's two "Bonus" panels) and `stats` (`StatStrip variant="tiles"`, John
+      Marshall's 15% / 19%); paragraphs take `*bold*` and `[links](…)` (Kaiser's Nation article);
+      checklist items take a bold lead-in; `card.image` for an index photo unlike the hero.
+    - **Drift after the side-by-side review (2026-10-11):** as Webb's below, plus Goddard's chart
+      drawn as a table (no bars or legend); result-tile numerals 44 at 1440 (board 40, the one stat
+      ramp); the body blocks keep the template's gaps (16–24px under a heading, 24–32px between
+      blocks), where the boards set 32px above every figure, table and callout. Contrast over the
+      new hero photos, measured per text line at 360–1920 (the lightest 2% behind each line): every
+      line clears 4.5:1 except quote lines at 24px and up, which clear 3:1 (lowest: La Joya's
+      quote at 1280, 4.3:1).
+  - Hero: **Hero D · Voice led, chosen 2026-10-11** (CS-Hero-D, CS-Hero-D-Mobile), with Hero D's
+    own Webb copy, which differs from the Webb detail boards; confirm each:
+    - **Hartford vs Avon:** the hero's details say "Hartford, Connecticut"; the "At a glance"
+      rail (from the detail board) says "Avon, Connecticut". Both show on the page. Pick one.
+    - The H1 "How The Webb School in the Valley cut restraints and seclusions 65% with daily
+      mindfulness practice" (the old one, "Transforming Student Behavioral Challenges…", is the
+      legacy title; the Article headline and the index's ItemList JSON-LD now follow the new H1).
+    - The second result "40+ to 1" (outbursts for one student, from DeVane's quote) and "6 min
+      read" (stored as drawn, not computed).
+    - DeVane's quote is the PDF's fuller version (with "ONE restraint and seclusion") and now opens
+      the page; the body's copy of it was removed (the user's call). The Judge's quote stays.
+    - The photo is 1200 × 600, upscaled to fill the 1440 × 640 band: a larger original would be
+      sharper.
+    - Not built: Heroes A, B, C and E.
+  - PDF gate (decided: HubSpot): create the HubSpot form "Case study PDF request" with one field,
+    email, label "Work email", placeholder "you@district.org", submit "Send me the PDF" (the
+    boards' copy); optionally a follow-up email with the file. Put its GUID in
+    `src/lib/site.ts` › `HUBSPOT.caseStudyPdfFormId`. Until then each PDF card links the file
+    directly ("Download the PDF"; not the boards' copy). Then verify the form live: the inline
+    layout (`[data-hsform='inline']`) is unverified, HubSpot's submit is its primary button (the
+    board draws secondary), and the confirmation copy ("Thanks. Your case study is ready.") is not
+    on the boards. The gate is soft: the file stays at a public URL.
+  - Webb stand-ins and facts, as drawn: the photo (`src/assets/images/case-studies/webb-school/`,
+    the board's legacy-site image, three students at an electronics project) and the PDF
+    (`public/downloads/webb-school-case-study.pdf`, restored from `0c8cac2`, 5 pages). The 65%
+    decrease; the chart values (116 / 180 / 63 / 63 / 68, "approximate values read from the original
+    chart"; the old YAML said 180 → 62); partners "Aetna Foundation and LG Electronics"; Judge Frank
+    Szymanski's quote and court. The template-written fields: the card label, the "At a glance"
+    facts, the alt text.
+  - Board vs PDF: the detail boards' copy of DeVane's quote dropped the PDF's "ONE restraint"
+    sentence (Hero D restores it, above). The PDF's footnotes 1 and 2 (the dropout and suspension
+    statistics) are still missing from the page; restore them?
+  - Breadcrumb: the boards link "Therapeutic school" to `/case-studies/?level=therapeutic` with
+    `aria-current`; no level filter exists (the chips filter by outcome), so it is plain text.
+  - SEO: Webb's title is the old entry's ("Mindfulness Case Study: 65% Fewer Restraints &
+    Seclusions") plus the site suffix (75 characters); the description is the board's sentence
+    "After using Inner Explorer, … reported a 65% decrease in restraints and seclusion." The
+    JSON-LD ports `0c8cac2`'s Article + BreadcrumbList (no `citation`: the boards cite no sources)
+    and CollectionPage + ItemList.
+  - Copy verbatim: "Talk to our team" (index hero, rail, detail CTA) and "Contact us" (index CTA),
+    per the site-wide CTA item; "Case Studies on Inner Explorer Program" in title case.
+  - Drift left after the measured side-by-side reviews (2026-10-10 and, for Hero D, 2026-10-11;
+    index hero within 3px at both widths; the Hero D hero within 6px of its board at 1440; the
+    body within 20px by the PDF card): headings sit 4px higher each (52 → 48 margins); numerals 48
+    → 44; body quotes 18 on mobile (board 20, per the quote decision); chart labels 13 on mobile
+    (board 12) and bars 60% of their column (board fixed widths); the closing CTA title wraps
+    after "be" (the shared inline block). Card gap 24 as the index board sets it (the card-system
+    board says 8). Hero D: result numerals 44 → 40 on the one stat ramp (board 32); the mobile H1
+    32 (board 30); the hero quote 18 below xl (board 21) and 1.4 leading at xl (board 1.36); the
+    breadcrumb at .06em (board .08, so it holds one line on mobile where the board wraps); Forest
+    scrims (board Deep Forest), the bottom one darker than drawn. Below xl the hero uses the mobile
+    layout (quote at the foot, card rising 64px): at lg the 640px quote outran the left scrim and
+    white fell under 3:1. Measured per text line over the photo, every 14–16px line clears 4.5:1
+    at 360–1920. The weakest quote lines at 1280–1366 are 3.4–4.5:1, which passes because the
+    quote is large text (≥ 24px) there.
 
 ## Build order
 
@@ -327,13 +484,20 @@ mark-compass.png`, 256px PNG) is the board's: an SVG from the design system woul
 - [x] Why Inner Explorer: `StatStrip variant="ruled"`, Checklist lead-ins and `strong`, the
       half-bleed panel (`--bleed`, `.ie-bleed-start` / `-end`), `.ie-minus-disc`, subject and
       funding feature icons; board assets as stand-ins (Before build › Why). ROI estimator parked.
-- [ ] Case Studies index and 7 details; PDFs from `0c8cac2:public/downloads/`; update the
-      `transfer-case-study` skill.
+- [x] Case Studies: the collection, the index, the detail template and Webb School;
+      `PageTitle layout="split"`, `blocks/StoryCard`, `blocks/BarChart`, Testimonial `initials`,
+      the HubSpot PDF gate with a direct-link fallback; the `transfer-case-study` skill rewritten
+      (Before build › Case Studies).
+- [x] Case Studies: Kaiser, Goddard, John Marshall and La Joya in one PR, PDFs from
+      `0c8cac2:public/downloads/`; the body's `table`, `figure`, `callout` and `stats` blocks,
+      `StatStrip variant="tiles"`, `card.image` (Before build › Case Studies). Dwight Morrow and
+      Mindful Michigan dropped (2026-10-11).
 - [x] Newsroom and Article: the `news` collection (MDX, with `authors`), `/newsroom/` and the
       article template at `/newsroom/<slug>/` (Article, FAQPage and BreadcrumbList JSON-LD),
-      the 2 real posts from `0c8cac2:src/content/blog/`; `blocks/StoryCard`, `blocks/StatTile`
-      (Research's tiles moved onto it), `PageTitle layout="split"`, `.ie-prose`, `.ie-faq`;
-      `/newsroom/` breadcrumbs, `/blog/*` 301s (Before build › Newsroom and Article).
+      the 2 real posts from `0c8cac2:src/content/blog/`; `blocks/MediaCard`, `blocks/StatTile`
+      (Research's tiles moved onto it), `PageTitle splitLead="narrow"` and `barWidth="article"`,
+      PageLayout's `top` slot, `Button iconStart`, `.ie-prose`, `.ie-faq`; `/newsroom/`
+      breadcrumbs, `/blog/*` 301s (Before build › Newsroom and Article).
 - [ ] Newsroom: the 18 legacy posts word for word ("Blog Posts Working" page) as `news` entries.
 - [x] Research: the brain diagram and dose waffles (inline SVG), the wall, Show our work,
       `LogoStrip layout="marquee"`, EvidenceCard extra tags and details slot, `PageLayout
@@ -347,15 +511,33 @@ header="dark"`; title sizes snapped per the Remaining-drift board (Before build 
 ## Launch
 
 - [ ] Point www.innerexplorer.com at the marketing Netlify site (the legacy site serves it today).
-- [ ] Legacy 301 map, on www.innerexplorer.com and the lms.innerexplorer.org copies, with and
-      without `.html` (context per story: "Open follow-ups" in `tasks/seo-playbook.md`):
-      `/case-study1` to `/case-study7` → `/case-studies/` `kaiser-elementary`, `dwight-morrow`,
-      `goddard-middle-school`, `webb-school`, `john-marshall-hs`, `la-joya-isd`,
-      `mindful-michigan` (in that order; match the Case Studies PR's slugs), each with its PDF
-      (`/images/HJK-Elementary.pdf`, `Webb-School.pdf`, `John-Marshall-HS.pdf`, `La-Joya-ISD.pdf`,
-      `Mindful-Michigan-Model.pdf`; find case studies 2 and 3's); `/mbsel.html` → Webb; the 18
-      posts at `/blog-index` → their Newsroom URLs; `/compare_program` → `/pricing/`. Then crawl
-      the legacy site for anything else that ranks or is linked.
+- [ ] Legacy 301 map, on www.innerexplorer.com and the lms.innerexplorer.org copies, each path
+      with and without `.html` (context per story: "Open follow-ups" in `tasks/seo-playbook.md`).
+      Case studies (slugs as built, 2026-10-11):
+
+      | Legacy URL                                         | New URL                                           |
+      | -------------------------------------------------- | ------------------------------------------------- |
+      | `/case-study1`                                     | `/case-studies/kaiser-elementary/`                |
+      | `/images/HJK-Elementary.pdf`                       | `/downloads/kaiser-elementary-case-study.pdf`     |
+      | `/case-study2` (Dwight Morrow, dropped)            | `/case-studies/`                                  |
+      | its PDF (path unknown; find it in the crawl)       | `/case-studies/`                                  |
+      | `/case-study3`                                     | `/case-studies/goddard-middle-school/`            |
+      | its PDF (likely `/images/Goddard-MS.pdf`; confirm) | `/downloads/goddard-middle-school-case-study.pdf` |
+      | `/case-study4`                                     | `/case-studies/webb-school/`                      |
+      | `/images/Webb-School.pdf`                          | `/downloads/webb-school-case-study.pdf`           |
+      | `/mbsel.html`                                      | `/case-studies/webb-school/`                      |
+      | `/case-study5`                                     | `/case-studies/john-marshall-hs/`                 |
+      | `/images/John-Marshall-HS.pdf`                     | `/downloads/john-marshall-hs-case-study.pdf`      |
+      | `/case-study6`                                     | `/case-studies/la-joya-isd/`                      |
+      | `/images/La-Joya-ISD.pdf`                          | `/downloads/la-joya-isd-case-study.pdf`           |
+      | `/case-study7` (Mindful Michigan, dropped)         | `/case-studies/`                                  |
+      | `/images/Mindful-Michigan-Model.pdf`               | `/case-studies/`                                  |
+
+      Each PDF could instead go to its story page (the playbook's plan, which sends ranking PDF
+      traffic to the HTML story); pick one rule for all five. Also: the 18 posts at `/blog-index`
+      → their Newsroom URLs; `/compare_program` → `/pricing/`. Then crawl the legacy site for
+      anything else that ranks or is linked.
+
 - [ ] Remove the PRE-LAUNCH noindex `[[headers]]` blocks in `netlify.toml` and
       `sites/help/netlify.toml` (help.innerexplorer.com is noindexed too). Keep the
       `*.netlify.app` edge functions.

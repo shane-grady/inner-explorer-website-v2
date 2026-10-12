@@ -12,7 +12,7 @@ import JsonLd from '../../components/seo/JsonLd.astro';
 import Section from '../../components/ui/Section.astro';
 import PageTitle from '../../components/ui/PageTitle.astro';
 import Icon from '../../components/ui/Icon.astro';
-import StoryCard from '../../components/blocks/StoryCard.astro';
+import MediaCard from '../../components/blocks/MediaCard.astro';
 import ClosingCta from '../../components/blocks/ClosingCta.astro';
 import { breadcrumbSchema, collectionPageSchema } from '../../lib/schema';
 import { readingTime } from '../../lib/reading-time';
@@ -267,6 +267,7 @@ const schemas = [
   <Section spacing="hero" class="lg:pb-section-y">
     <PageTitle
       layout="split"
+      splitLead="narrow"
       eyebrow={content.hero.eyebrow}
       title={content.hero.title}
       lead={content.hero.lead}
@@ -276,7 +277,7 @@ const schemas = [
       featured && (
         <div class="mt-8 grid gap-10 lg:mt-18 lg:grid-cols-12 lg:gap-6">
           <section aria-label={content.featured.label} class="flex lg:col-span-8">
-            <StoryCard
+            <MediaCard
               variant="featured"
               class="grow"
               {...articleCard(featured)}
@@ -291,7 +292,7 @@ const schemas = [
                 {content.picks}
               </h2>
               {picks.map((post) => (
-                <StoryCard
+                <MediaCard
                   variant="compact"
                   class={picks.length > 1 ? 'lg:grow' : undefined}
                   {...articleCard(post)}
@@ -314,7 +315,7 @@ const schemas = [
         class="flex flex-col items-start gap-4 lg:flex-row lg:items-center lg:justify-between lg:gap-6"
       >
         <div
-          class="-mr-section-x flex [scrollbar-width:none] gap-2 self-stretch overflow-x-auto pr-section-x lg:mr-0 lg:self-auto lg:overflow-visible lg:pr-0"
+          class="ie-chip-row -mr-section-x self-stretch pr-section-x md:mr-0 md:pr-0 lg:self-auto"
           role="group"
           aria-label={content.browse.filterLabel}
           hidden
@@ -347,14 +348,14 @@ const schemas = [
           {
             posts.map((post) => (
               <li class="flex" data-type="article">
-                <StoryCard {...articleCard(post)} excerpt={post.data.description} class="grow" />
+                <MediaCard {...articleCard(post)} excerpt={post.data.description} class="grow" />
               </li>
             ))
           }
           {
             content.resources.map((item) => (
               <li class="flex" data-type="resource">
-                <StoryCard
+                <MediaCard
                   class="grow"
                   title={item.title}
                   href={item.href}
@@ -401,14 +402,14 @@ const schemas = [
                       </div>
                     </div>
                   </div>
-                </StoryCard>
+                </MediaCard>
               </li>
             ))
           }
           {
             content.press.map((item) => (
               <li class="flex" data-type="press">
-                <StoryCard
+                <MediaCard
                   class="grow"
                   title={item.title}
                   href={item.href}
@@ -438,7 +439,7 @@ const schemas = [
                       </p>
                     )}
                   </div>
-                </StoryCard>
+                </MediaCard>
               </li>
             ))
           }

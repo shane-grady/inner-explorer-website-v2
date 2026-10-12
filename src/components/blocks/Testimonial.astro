@@ -2,7 +2,8 @@
 // One quote style for every educator quote: the green mark, the quote in Libre Caslon
 // Text, and the name and place under a rule. `card` (Raised) for a row of quotes,
 // `panel` (Tint) for a single quote beside other content, `accent` (Mist, Emerald top
-// border and mark) for Home's row. No typed quotation marks.
+// border and mark) for Home's row. `initials` leads the name with a Spring disc (a case
+// study's quotes). No typed quotation marks.
 const VARIANT = {
   card: 'ie-card-raised',
   panel: 'ie-card-tint',
@@ -13,9 +14,11 @@ interface Props {
   name: string;
   place?: string;
   variant?: keyof typeof VARIANT;
+  /** Two letters in a Spring disc beside the name, where no portrait exists. */
+  initials?: string;
   class?: string;
 }
-const { name, place, variant = 'card', class: className }: Props = Astro.props;
+const { name, place, variant = 'card', initials, class: className }: Props = Astro.props;
 ---
 
 <figure
@@ -34,8 +37,20 @@ const { name, place, variant = 'card', class: className }: Props = Astro.props;
     ></path>
   </svg>
   <blockquote class="m-0 grow type-quote text-foreground"><slot /></blockquote>
-  <figcaption class="flex flex-col gap-1 border-t border-border pt-5">
-    <span class="type-card-title-sm text-foreground">{name}</span>
-    {place && <span class="type-label text-foreground-muted">{place}</span>}
+  <figcaption class="flex items-center gap-3 border-t border-border pt-5">
+    {
+      initials && (
+        <span
+          class="flex size-10 shrink-0 items-center justify-center rounded-full bg-brand-subtle type-label font-bold text-on-brand-subtle md:size-12 md:type-card-title-sm"
+          aria-hidden="true"
+        >
+          {initials}
+        </span>
+      )
+    }
+    <span class="flex min-w-0 grow flex-col gap-1">
+      <span class="type-card-title-sm text-foreground">{name}</span>
+      {place && <span class="type-label text-foreground-muted">{place}</span>}
+    </span>
   </figcaption>
 </figure>

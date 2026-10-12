@@ -9,7 +9,7 @@ import Card from '../components/ui/Card.astro';
 import ArrowLink from '../components/ui/ArrowLink.astro';
 import Icon from '../components/ui/Icon.astro';
 import FeatureIcon from '../components/ui/FeatureIcon.astro';
-import { HELP_SITE, MAIN_SITE } from '../lib/site';
+import { HELP_SITE, HUBSPOT, MAIN_SITE } from '../lib/site';
 // Stand-in: the photo the boards draw, pending approval (tasks/todo.md › Contact).
 import heroPhoto from '../assets/images/contact/student-classroom-practice.jpg';
 
@@ -78,16 +78,6 @@ const content = {
   },
 } as const;
 
-// HubSpot owns the form's fields, labels and dropdown options. What lives here is form
-// IDENTITY — configuration, not copy: changing these would silently break lead capture.
-// The form is built and version-controlled by scripts/hubspot-contact-form.mjs; these
-// ids are public, like Intercom's app id.
-const hubspot = {
-  portalId: '44976911',
-  formId: '48e37214-69e4-479f-b03b-1ae2ab5dfbd4',
-  region: 'na1',
-};
-
 const STEP_MARKER = {
   done: 'border-2 border-brand text-brand',
   current: 'border-2 border-brand text-brand-emphasis',
@@ -142,9 +132,9 @@ const contactLd = {
 
       <Card variant="floating" class="xl:w-form xl:shrink-0 xl:p-10">
         <HubSpotForm
-          portalId={hubspot.portalId}
-          formId={hubspot.formId}
-          region={hubspot.region}
+          portalId={HUBSPOT.portalId}
+          formId={HUBSPOT.contactFormId}
+          region={HUBSPOT.region}
           supportEmail={content.supportEmail}
           helpCenterHref={content.helpCenterHref}
         >
