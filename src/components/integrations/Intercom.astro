@@ -9,12 +9,10 @@
 // the source-specific Inbox views filter on. The strings below must match that
 // workflow's conditions exactly — change one and you must change the other.
 //
-// One deliberate deviation from Intercom's stock snippet: no *.netlify.app bail-out,
-// unlike src/components/seo/Analytics.astro. Pre-launch the marketing site's ONLY host
-// IS innerexplorerwebsitev2.netlify.app, so a host guard would mean the Messenger never
-// loads on it. Deploy previews and branch deploys are already excluded by the
-// build-context gate in BaseLayout, so this still can't generate conversations from
-// throwaway URLs.
+// Like src/components/seo/Analytics.astro it skips *.netlify.app: since launch the
+// production build is also served on the innerexplorerwebsitev2.netlify.app staging
+// mirror, which must not open real support conversations. (Pre-launch that host was the
+// site's only one, so the guard was left out until www went live.)
 interface Props {
   appId: string;
   surface: 'Website' | 'Help Center';
@@ -23,28 +21,30 @@ const { appId, surface } = Astro.props;
 ---
 
 <script define:vars={{ appId, surface }}>
-  window.intercomSettings = { app_id: appId, ie_source: surface };
+  if (!location.hostname.endsWith('.netlify.app')) {
+    window.intercomSettings = { app_id: appId, ie_source: surface };
 
-  // Intercom's stock call queue: buffers calls until widget.js replaces this stub and
-  // boots from window.intercomSettings. Stock uses `arguments`; rest params replay
-  // identically when widget.js applies each queued entry.
-  const queue = function (...args) {
-    queue.c(args);
-  };
-  queue.q = [];
-  queue.c = function (args) {
-    queue.q.push(args);
-  };
-  window.Intercom = queue;
+    // Intercom's stock call queue: buffers calls until widget.js replaces this stub and
+    // boots from window.intercomSettings. Stock uses `arguments`; rest params replay
+    // identically when widget.js applies each queued entry.
+    const queue = function (...args) {
+      queue.c(args);
+    };
+    queue.q = [];
+    queue.c = function (args) {
+      queue.q.push(args);
+    };
+    window.Intercom = queue;
 
-  function injectWidget() {
-    const s = document.createElement('script');
-    s.async = true;
-    s.src = 'https://widget.intercom.io/widget/' + appId;
-    document.head.appendChild(s);
+    function injectWidget() {
+      const s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://widget.intercom.io/widget/' + appId;
+      document.head.appendChild(s);
+    }
+
+    // First paint shouldn't compete with the widget.
+    if (document.readyState === 'complete') injectWidget();
+    else window.addEventListener('load', injectWidget, { once: true });
   }
-
-  // First paint shouldn't compete with the widget.
-  if (document.readyState === 'complete') injectWidget();
-  else window.addEventListener('load', injectWidget, { once: true });
 </script>
