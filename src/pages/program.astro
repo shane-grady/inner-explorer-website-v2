@@ -1,5 +1,6 @@
 ---
-// Platform, from the FINAL V boards Platform-Desktop-1/2 and Platform-Mobile-1/2. Copy is
+// Program (the boards call it Platform; renamed 2026-10-12, at /program/ with /platform/ 301ing
+// here), from the FINAL V boards Platform-Desktop-1/2 and Platform-Mobile-1/2. Copy is
 // verbatim, title case included. Every photo and screenshot is the board's stand-in, the four
 // sample practices play their real audio but still owe their transcripts (WCAG 1.2.1), and the
 // product mocks (the daily-practice card, Recommended actions, the reflection card) stand in for
@@ -19,18 +20,18 @@ import EvidenceCard from '../components/blocks/EvidenceCard.astro';
 import ClosingCta from '../components/blocks/ClosingCta.astro';
 import { MAIN_SITE } from '../lib/site';
 
-import heroPlayer from '../assets/images/platform/hero-practice-player.webp';
-import earlyLearning from '../assets/images/platform/program-early-learning.jpg';
-import elementary from '../assets/images/platform/program-elementary.jpg';
-import middleSchool from '../assets/images/platform/program-middle-school.jpg';
-import highSchool from '../assets/images/platform/program-high-school.jpg';
-import dailyPractice from '../assets/images/platform/daily-practice-students.jpg';
-import dashboard from '../assets/images/platform/dashboard-overview.webp';
-import pressPlay from '../assets/images/platform/classroom-press-play.jpg';
-import ctaPhoto from '../assets/images/platform/cta-high-school-student.jpg';
+import heroPlayer from '../assets/images/program/hero-practice-player.webp';
+import earlyLearning from '../assets/images/program/program-early-learning.jpg';
+import elementary from '../assets/images/program/program-elementary.jpg';
+import middleSchool from '../assets/images/program/program-middle-school.jpg';
+import highSchool from '../assets/images/program/program-high-school.jpg';
+import dailyPractice from '../assets/images/program/daily-practice-students.jpg';
+import dashboard from '../assets/images/program/dashboard-overview.webp';
+import pressPlay from '../assets/images/program/classroom-press-play.jpg';
+import ctaPhoto from '../assets/images/program/cta-high-school-student.jpg';
 
 /** A sample practice. Its player works once `audio` (a file under public/, e.g.
- *  '/audio/platform/early.mp3') is set; until then the play button is disabled and the time row
+ *  '/audio/program/early.mp3') is set; until then the play button is disabled and the time row
  *  is not shown. `transcript` adds a "Read the transcript" disclosure: every practice owes one
  *  (WCAG 1.2.1, tasks/todo.md › Platform). `length` ('4:32') shows before the file loads
  *  (preload is off); the player replaces it with the file's own duration. */
@@ -42,7 +43,7 @@ interface Practice {
 }
 
 const content = {
-  title: 'Platform — daily mindfulness for every classroom | Inner Explorer',
+  title: 'Program — daily mindfulness for every classroom | Inner Explorer',
   description:
     'Daily, audio-guided mindfulness for PreK–12 classrooms on one platform: 5 to 10 minute practices in English and Spanish across all 180 school days.',
   hero: {
@@ -77,7 +78,7 @@ const content = {
         practice: {
           name: 'Day 3: Introduction to Breathing',
           length: '5:03',
-          audio: '/audio/platform/early.mp3',
+          audio: '/audio/program/early.mp3',
         } as Practice,
       },
       {
@@ -93,7 +94,7 @@ const content = {
         practice: {
           name: 'Day 8: Shark Fin Anytime',
           length: '4:27',
-          audio: '/audio/platform/elementary.mp3',
+          audio: '/audio/program/elementary.mp3',
         } as Practice,
       },
       {
@@ -109,7 +110,7 @@ const content = {
         practice: {
           name: 'Day 9: Observing Thoughts',
           length: '5:09',
-          audio: '/audio/platform/middle.mp3',
+          audio: '/audio/program/middle.mp3',
         } as Practice,
       },
       {
@@ -125,7 +126,7 @@ const content = {
         practice: {
           name: 'Day 13: Introduction to Observing Senses',
           length: '5:06',
-          audio: '/audio/platform/high.mp3',
+          audio: '/audio/program/high.mp3',
         } as Practice,
       },
     ],
@@ -376,7 +377,7 @@ const platformLd = {
   '@context': 'https://schema.org',
   '@type': 'WebPage',
   name: content.title,
-  url: `${base}/platform/`,
+  url: `${base}/program/`,
   description: content.description,
   isPartOf: { '@type': 'WebSite', name: 'Inner Explorer', url: base },
   about: {
