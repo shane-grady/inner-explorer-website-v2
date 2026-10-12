@@ -189,7 +189,8 @@
   status = 301
   force = true
 
-# Case-study PDFs, to the same file on this site.
+# Case-study PDFs, to the same file on this site. Webb's goes to the index while its story
+# is on hold (restore /downloads/webb-school-case-study.pdf and this rule on approval).
 [[redirects]]
   from = "/images/HJK-Elementary.pdf"
   to = "/downloads/kaiser-elementary-case-study.pdf"
@@ -204,7 +205,7 @@
 
 [[redirects]]
   from = "/images/Webb-School.pdf"
-  to = "/downloads/webb-school-case-study.pdf"
+  to = "/case-studies/"
   status = 301
   force = true
 
@@ -602,7 +603,210 @@
   status = 301
   force = true
 
+# Sign-in help (the legacy "access" pages; /access-innerexplorer is a top organic page). Schools,
+# Clever, Schoology and ClassLink listings link here.
+[[redirects]]
+  from = "/access-innerexplorer"
+  to = "https://help.innerexplorer.com/signing-in/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/access-clever"
+  to = "https://help.innerexplorer.com/signing-in/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/access-schoology"
+  to = "https://help.innerexplorer.com/signing-in/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/access.html"
+  to = "https://help.innerexplorer.com/signing-in/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/classlink.html"
+  to = "https://help.innerexplorer.com/signing-in/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/access-innerexplorer-home"
+  to = "https://help.innerexplorer.com/family-start/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/access-innerexplorer-tuneIn"
+  to = "https://help.innerexplorer.com/family-start/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/lausd_families.html"
+  to = "https://help.innerexplorer.com/family-start/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/tunein"
+  to = "https://help.innerexplorer.com/family-start/"
+  status = 301
+  force = true
+
+# More legacy pages that rank or have backlinks (Semrush, 2026-10-12).
+[[redirects]]
+  from = "/district"
+  to = "/why-inner-explorer/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/district/"
+  to = "/why-inner-explorer/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/5easysteps-district"
+  to = "/why-inner-explorer/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/story"
+  to = "/about/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/careers.html"
+  to = "/about/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/choose-your-program"
+  to = "/platform/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/classroomapp"
+  to = "/platform/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/classroomapp/*"
+  to = "/platform/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/Community"
+  to = "/pricing/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/Community/"
+  to = "/pricing/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/blog/How_Mindfulness_Works_To_Reduce_Teacher_Stress_And_Burnout.html"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/goodnewsSpanish"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/video-Gallery.html"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/videoGallery"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/teacher_appreciation.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/backtoschool"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/onboarding/embracemindfulness.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/21-Day-Quest"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/monthly-activities-calendar.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/summer-series.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/thesunflower-fund"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/sitemap.xml"
+  to = "/sitemap-index.xml"
+  status = 301
+  force = true
+
+# Legacy PDFs with backlinks. Three are re-hosted at their legacy paths in public/; the 13MB
+# GreenLight impact report is not, so it goes to Research.
+[[redirects]]
+  from = "/images/GreenLight_2022-23_ImpactReport_FINAL.pdf"
+  to = "/research/"
+  status = 301
+  force = true
+
 # The family app. Its privacy policy URL is likely on the app-store listings.
+[[redirects]]
+  from = "/homeapp/term.html"
+  to = "/terms/"
+  status = 301
+  force = true
+
 [[redirects]]
   from = "/homeapp/privacy-policy.html"
   to = "/privacy-policy/"

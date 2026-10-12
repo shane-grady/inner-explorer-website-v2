@@ -394,7 +394,9 @@ mark-compass.png`, 256px PNG) is the board's: an SVG from the design system woul
   - **Launch gate, Webb approval:** a canvas note on the Webb boards says "Hold on Webb Case study:
     waiting for approval from them". Set `draft: true` on 2026-10-12 (launch prep). On approval:
     `draft: false`, point `/case-study4(.html)` and `/mbsel(.html)` in `netlify.toml` at
-    `/case-studies/webb-school/`, and relink MBSEL in the "why teaching mindfulness" post.
+    `/case-studies/webb-school/`, relink MBSEL in the "why teaching mindfulness" post, restore
+    `public/downloads/webb-school-case-study.pdf` (`git show 73bab77:public/downloads/…`) and
+    point `/images/Webb-School.pdf` back at it.
   - **The stories (decided 2026-10-11):** Webb, Kaiser, Goddard, John Marshall and La Joya, and
     only those. Dwight Morrow and Mindful Michigan are dropped: no page, their legacy URLs go to the
     index (Launch › legacy 301 map). Related rows: where a board links a dropped story, another
@@ -664,6 +666,21 @@ header="dark"`; title sizes snapped per the Remaining-drift board (Before build 
       `noindex` since, checked 2026-10-09).
 - [ ] Help Center reskin onto the new design system; retires the frozen copies in `src-help/`.
 - [ ] Bring CMS editing back for marketing pages, if wanted.
+
+## Launch-day owner checklist (second audit, 2026-10-12)
+
+- [ ] DNS at GoDaddy (apex A 34.212.177.247, www CNAME → apex): lower TTL to 300 now. In
+      Netlify add www.innerexplorer.com (primary) and the apex as alias first, then switch
+      together (apex A 75.2.60.5, www CNAME innerexplorerwebsitev2.netlify.app) and provision
+      the certificate at once. The legacy site sends HSTS, so any TLS gap is a hard outage.
+- [ ] Merge the cutover PR (noindex removal) in the same window as DNS.
+- [ ] GA4 (G-EHSXT3SEYZ): it recorded nothing on either site until the `gtag` fix (2026-10-12;
+      rest-param arrays are dropped by gtag.js). Check Realtime on www after launch. The Help
+      Center counts client-side navigations through enhanced measurement's "page changes
+      based on browser history events": keep that setting on.
+- [ ] HubSpot: add www.innerexplorer.com to the tracking-code domains; if the cookie banner is
+      enabled, check it on the Help Center (ClientRouter swaps the DOM on navigation).
+      Intercom: add www to trusted domains if a list is set.
 
 ## HubSpot and other owner items
 
