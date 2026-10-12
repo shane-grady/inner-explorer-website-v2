@@ -1137,9 +1137,9 @@ const { brain } = hero;
                         <a
                           class="inline-flex items-center gap-1 self-start type-label text-brand-emphasis"
                           href={claim.href}
+                          data-study-link
                         >
                           {claim.cite}
-                          <Icon name="arrow-down" size={12} />
                         </a>
                       </span>
                     </li>
@@ -1199,7 +1199,8 @@ const { brain } = hero;
               <EvidenceCard
                 id={`study-${study.id}`}
                 aria-label={study.title}
-                class="grow"
+                tabindex="-1"
+                class="ie-spotlight grow"
                 tag={study.tag}
                 tags={'tags' in study ? study.tags : []}
                 tone={study.tone}
@@ -1889,6 +1890,35 @@ const { brain } = hero;
       show(false);
       button.addEventListener('click', () => show(button.getAttribute('aria-checked') !== 'true'));
     }
+
+    // Outcome citations: turn on Show our work, bring the study's card into view and spotlight it.
+    // Without JS the anchor jumps and :target draws the ring.
+    const spotlight = (card: HTMLElement, instant = false) => {
+      for (const c of root.querySelectorAll('[data-spotlight]'))
+        c.removeAttribute('data-spotlight');
+      const work = root.querySelector<HTMLButtonElement>('[data-work-switch="evidence"]');
+      if (work?.getAttribute('aria-checked') === 'false') work.click();
+      card.scrollIntoView({
+        behavior: still || instant ? 'auto' : 'smooth',
+        block: card.offsetHeight < window.innerHeight ? 'center' : 'start',
+        inline: 'nearest',
+      });
+      card.focus({ preventScroll: true });
+      card.setAttribute('data-spotlight', '');
+    };
+    root.addEventListener('click', (event) => {
+      const link = (event.target as Element).closest<HTMLAnchorElement>('a[data-study-link]');
+      const card = link && document.getElementById(link.hash.slice(1));
+      if (!card) return;
+      event.preventDefault();
+      history.pushState(null, '', link.hash);
+      spotlight(card);
+    });
+    const landing = window.location.hash.startsWith('#study-s')
+      ? document.getElementById(window.location.hash.slice(1))
+      : null;
+    // A deep link (/research/#study-s3): wait for layout to settle, then land on the card.
+    if (landing) window.addEventListener('load', () => spotlight(landing, true), { once: true });
 
     // Citations: collapsed under a fade (from 35%); a citation link, the hash or focus under the
     // fade opens it.

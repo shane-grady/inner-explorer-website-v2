@@ -204,6 +204,10 @@ mark-compass.png`, 256px PNG) is the board's: an SVG from the design system woul
     switch's track is white 12% (board 6%) and the pause chip opaque Forest (board 60%); the
     brain's glows and mindful label are snapped (DESIGN.md); Emerald eyebrows and the Spring "Here
     is the proof." on mobile (desktop board).
+  - Outcome citations (2026-10-12, Lisa and Juliana in Slack: the arrows all "went to the same
+    place"): the down arrows are gone; a citation turns on Show our work, scrolls the study card
+    into view and outlines it (`.ie-spotlight`), so the claim's result is visible on arrival. A
+    deep link `/research/#study-s3` lands the same way. Confirm with them.
 - [ ] **About (built from FINAL V; confirm before launch):**
   - The FINAL V boards have no voices section (so no voice avatars), no milestones, and none of
     "487M minutes", "94% calmer in 4 weeks", "14 countries" or "12+ university partners"; none
