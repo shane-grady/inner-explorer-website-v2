@@ -800,6 +800,20 @@
   status = 301
   force = true
 
+# The My Bright Moments app (Bright Horizons): its App Store and Google Play listings link these
+# legal pages, which only the legacy server had. Stores flag a dead privacy policy URL.
+[[redirects]]
+  from = "/BH_app/privacy-policy.html"
+  to = "/my-bright-moments/privacy-policy/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/BH_app/term.html"
+  to = "/my-bright-moments/terms/"
+  status = 301
+  force = true
+
 # The family app. Its privacy policy URL is likely on the app-store listings.
 [[redirects]]
   from = "/homeapp/term.html"

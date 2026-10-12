@@ -1,0 +1,50 @@
+---
+// /my-bright-moments/privacy-policy/ and /my-bright-moments/terms/ — the legal pages of the
+// My Bright Moments app (Bright Horizons), carried over verbatim from the legacy site. The
+// app-store listings link the legacy /BH_app/ URLs, which 301 here (netlify.toml). The text
+// lives in src/content/legal/my-bright-moments-*.mdx; change it only with counsel. Laid out
+// like /terms/.
+import PageLayout from '../../layouts/PageLayout.astro';
+import Section from '../../components/ui/Section.astro';
+import PageTitle from '../../components/ui/PageTitle.astro';
+import { Content as Privacy } from '../../content/legal/my-bright-moments-privacy.mdx';
+import { Content as Terms } from '../../content/legal/my-bright-moments-terms.mdx';
+
+export function getStaticPaths() {
+  return [
+    {
+      params: { doc: 'privacy-policy' },
+      props: {
+        Content: Privacy,
+        heading: 'My Bright Moments Privacy Policy',
+        title: 'My Bright Moments Privacy Policy | Inner Explorer',
+        description:
+          'How the My Bright Moments app and website collect, use, share and protect your information.',
+      },
+    },
+    {
+      params: { doc: 'terms' },
+      props: {
+        Content: Terms,
+        heading: 'My Bright Moments Terms and Conditions',
+        title: 'My Bright Moments Terms and Conditions | Inner Explorer',
+        description:
+          'The terms that govern your use of the My Bright Moments app and website, including subscriptions and cancellations.',
+      },
+    },
+  ];
+}
+
+const { Content, heading, title, description } = Astro.props;
+---
+
+<PageLayout title={title} description={description}>
+  <Section spacing="hero" as="div">
+    <article>
+      <PageTitle title={heading} />
+      <div class="ie-prose mt-8 max-w-measure-article type-article-body md:mt-12">
+        <Content />
+      </div>
+    </article>
+  </Section>
+</PageLayout>
