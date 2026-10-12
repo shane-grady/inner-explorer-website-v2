@@ -1,5 +1,5 @@
 ---
-// The site header: skip link, logo, primary navigation and Sign in (from xl), the Contact button
+// The site header: skip link, logo, primary navigation and the outlined Sign in button (from xl), the Contact button
 // at every width (the mobile CTA, in place of a sticky bottom bar), and the menu button (and
 // MobileMenu) below xl. Below sm the button's padding and the gaps tighten so the row fits at
 // 320 (WCAG reflow). `dark` is the transparent header over a Forest hero (no page uses it now: Research takes the standard header); `overlay`
@@ -50,8 +50,15 @@ const current = (href: string) => (sample ? undefined : navCurrent(Astro.url.pat
       ))
     }
   </nav>
-  <div class="flex items-center gap-2 sm:gap-3 xl:gap-6">
-    <a class="ie-nav hidden xl:inline-flex" href={signIn.href}>{signIn.label}</a>
+  <div class="flex items-center gap-2 sm:gap-3">
+    <Button
+      variant={dark ? 'ghost' : 'secondary'}
+      size="sm"
+      href={signIn.href}
+      class="hidden xl:inline-flex"
+    >
+      {signIn.label}
+    </Button>
     <Button
       variant={dark ? 'ghost' : 'primary'}
       size="sm"
