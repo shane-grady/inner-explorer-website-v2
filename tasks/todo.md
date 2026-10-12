@@ -287,6 +287,17 @@ mark-compass.png`, 256px PNG) is the board's: an SVG from the design system woul
     to 16,000 and "a 15 to 28 percent improvement in academic performance" to "a 15 percent
     improvement in average GPA": not adopted. Its sources' figures (91%, 58%, 1 in 10, the NCAA
     study of 25 players) and the pro athletes' quotes.
+  - Video cards (Newsroom, 2026-10-12, the user's call): the four YouTube videos from the
+    "Website Resources 10/26" sheet (Videos tab), as the board draws its video card (play disc,
+    length badge, "Video · topic", excerpt, "length · date"), with the CC mark (all four have
+    English captions on YouTube). Each opens on YouTube in a new tab, like Home's video. Confirm:
+    the excerpts are drafted from the YouTube descriptions; the topics are the articles'
+    categories; titles take YouTube's punctuation ("In Such a Loud World, How…", "Is"). Posters are
+    YouTube thumbnail frames cropped to 3:2 (`src/assets/images/newsroom/videos/`): the
+    medical-home logo is cropped off "Transforming Student Well-Being" (the sheet's "remove logo",
+    confirmed), La Joya uses YouTube's alternate teacher frame (the default has burned-in captions),
+    the Bakosh title card is extended with its own background, the letterbox bars are trimmed off
+    "In Such a Loud World". Dates and lengths are YouTube's.
   - Resource cards (Newsroom, 2026-10-12, the user's call): the board's two study tiles are
     replaced by the four gated downloads from the "Website Resources 10/26" sheet (Resources
     tab), titles verbatim and each excerpt the first sentence of its description (shortened at the
@@ -304,10 +315,10 @@ mark-compass.png`, 256px PNG) is the board's: an SVG from the design system woul
   - Stand-ins: the Mindful Nation UK and People logos come from the board
     (`src/assets/images/newsroom/logos/`); the resource card's PDF cover is a drawn mock. The
     MTSS hero, the athletes photo and the author photo are the real `0c8cac2` files.
-  - Not built (the board draws them as placeholders or for posts that don't exist): the video,
-    generic resource and press-release cards; "Bringing mindfulness to every classroom", "What
-    twelve thousand classrooms taught us about morning calm", "Measuring what matters" (Keep
-    reading). The Videos filter appears once a video exists. Category and tag pages (the board
+  - Not built (the board draws them as placeholders or for posts that don't exist): the generic
+    resource and press-release cards; "Bringing mindfulness to every classroom", "What twelve
+    thousand classrooms taught us about morning calm", "Measuring what matters" (Keep reading).
+    Category and tag pages (the board
     links `/blog/category/…`, `/blog/tag/…`): the breadcrumb's category and the "Filed under"
     tags are plain text.
   - Newsletter signup (Article, after Keep reading): left out until its HubSpot form exists
@@ -333,8 +344,8 @@ mark-compass.png`, 256px PNG) is the board's: an SVG from the design system woul
       then the resources, then the 2020–2022 posts). AI Accelerates' cards read "AI Accelerates. Mindfulness Navigates" (`cardTitle`,
       the boards' name for it); its full headline ran five lines.
     - **Final check against FINAL V (2026-10-12)**, Newsroom and Article at 1440 and 390: section
-      positions within 10px, except the drawn newsletter and the Videos filter (not built,
-      above). Fixed: "Keep reading" cards take `cardTitle`, like the Newsroom's; the article
+      positions within 10px, except the drawn newsletter (not built, above; the Videos filter
+      came later the same day). Fixed: "Keep reading" cards take `cardTitle`, like the Newsroom's; the article
       resource card's phone spacing (12 between its lines, the mobile board). Left on the type
       ramp: the mobile board sets the resource title at 20 (`type-card-title-md` is 18 on a
       phone).
