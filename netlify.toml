@@ -485,73 +485,73 @@
 
 [[redirects]]
   from = "/ie-program"
-  to = "/platform/"
+  to = "/program/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/ie-program.html"
-  to = "/platform/"
+  to = "/program/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/experience"
-  to = "/platform/"
+  to = "/program/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/experience.html"
-  to = "/platform/"
+  to = "/program/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/experienceBi-Lingual"
-  to = "/platform/"
+  to = "/program/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/experienceBi-Lingual.html"
-  to = "/platform/"
+  to = "/program/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/myinnercompass"
-  to = "/platform/"
+  to = "/program/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/myinnercompass.html"
-  to = "/platform/"
+  to = "/program/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/narrators"
-  to = "/platform/"
+  to = "/program/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/narrators.html"
-  to = "/platform/"
+  to = "/program/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/portalsList"
-  to = "/platform/"
+  to = "/program/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/portalsList.html"
-  to = "/platform/"
+  to = "/program/"
   status = 301
   force = true
 
@@ -692,19 +692,19 @@
 
 [[redirects]]
   from = "/choose-your-program"
-  to = "/platform/"
+  to = "/program/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/classroomapp"
-  to = "/platform/"
+  to = "/program/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/classroomapp/*"
-  to = "/platform/"
+  to = "/program/"
   status = 301
   force = true
 
@@ -855,14 +855,27 @@
 # Marketing-only compatibility redirects. Keep these in this site configuration,
 # rather than public/_redirects, so the separately built Help Center never inherits
 # routes it does not own.
+# The Platform page was renamed Program on 2026-10-12.
+[[redirects]]
+  from = "/platform"
+  to = "/program/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/platform/"
+  to = "/program/"
+  status = 301
+  force = true
+
 [[redirects]]
   from = "/educators"
-  to = "/platform/"
+  to = "/program/"
   status = 301
 
 [[redirects]]
   from = "/app"
-  to = "/platform/"
+  to = "/program/"
   status = 301
 
 [[redirects]]

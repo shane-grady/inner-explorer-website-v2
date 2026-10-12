@@ -52,7 +52,7 @@ the owners the canvas gives.
       us" defaults (the site-wide CTA item). The header and footer keep "Contact us".
 - [ ] **Home, links the board leaves as `#`:** "Experience daily practice" (card and the mobile
       sticky bar's play button), "Explore the library" and the four grade bands go to
-      `/platform/`; "See the research" to `/research/`. "See cost and funding options" goes to
+      `/program/`; "See the research" to `/research/`. "See cost and funding options" goes to
       `/why-inner-explorer/#funding` (the Why page has that id). Retarget the rest once those pages
       exist.
 - [ ] **Home, video:** the poster opens YouTube in a new tab; the board's note proposes a
@@ -63,8 +63,11 @@ the owners the canvas gives.
       mobile closing-CTA photo 240 drawn, 220 (the shared block, as About draws it); the carousel
       dots 16px apart (24px targets, WCAG 2.5.8); mobile Research follows the desktop study (item
       above); Footer A has no social row (footer item above).
-- [ ] **Platform (built from FINAL V; confirm before launch):**
-  - Stand-ins (`src/assets/images/platform/`), all as the boards draw them: the hero product
+- [ ] **Program (the Platform boards; built from FINAL V; confirm before launch):**
+  - Renamed Platform → Program 2026-10-12: nav, page title and link labels ("See the program",
+    "Explore the program"); the page is at `/program/`, `/platform/` 301s there, and the legacy
+    redirects point straight at `/program/`. "platform" stays where the copy means the software.
+  - Stand-ins (`src/assets/images/program/`), all as the boards draw them: the hero product
     screenshot, the four program photos, the daily-practice photo, the dashboard screenshot, the
     classroom photo and the closing-CTA photo (9 files; the board note asks for a better hero photo
     and student images from the internal library: Lisa, Juliana). The three product mocks built in
@@ -72,7 +75,7 @@ the owners the canvas gives.
     for platform screenshots (Shane); they are `aria-hidden`.
   - Sample practices (Shane, Lisa): names and audio set 2026-10-12 (Early Learning "Day 3:
     Introduction to Breathing", Elementary "Day 8: Shark Fin Anytime", Middle "Day 9: Observing
-    Thoughts", High "Day 13: Introduction to Observing Senses"), in `public/audio/platform/`
+    Thoughts", High "Day 13: Introduction to Observing Senses"), in `public/audio/program/`
     named by program (Early and Elementary re-encoded from 320 / 256 to 96 kbps, as Middle and
     High were supplied). The players are live. **Still owed, a launch blocker: a written
     transcript for each.** Until one is set as `transcript` in the page's `content`, that audio
@@ -285,7 +288,7 @@ mark-compass.png`, 256px PNG) is the board's: an SVG from the design system woul
     tiles **77% fewer school-wide discipline events (Kaiser Elementary)** and **85% fewer
     behavior issues in special education classrooms (La Joya ISD)** (the case-study gate's
     85% vs 80%) in place of 60% / 43% / 28% / 10%, "16,000 studies" (was 15,000), the
-    **Support Staff Series** (was Counselor Series; linked to `/platform/`, since `/series/…`
+    **Support Staff Series** (was Counselor Series; linked to `/program/`, since `/series/…`
     doesn't exist), and a Tier 3 section without the Webb School paragraph (65% fewer
     outbursts). The FAQ's 60% / 43% / 28% and "under $8"; the panel's "4,000+ schools · All 50
     states · Under $8 per student per year" (the site-wide stats items).
@@ -385,7 +388,7 @@ mark-compass.png`, 256px PNG) is the board's: an SVG from the design system woul
     - **Links rewritten:** board-internal links to the posts' new URLs; the home page, about
       and index links to `/` and `/about/`; `case-study1` to `/case-studies/kaiser-elementary/`;
       `mbsel` to `/case-studies/webb-school/` (as the 301 map sends it); `experience(.html)`
-      ("experience a few of our practices", "Begin Today") to `/platform/`; the 2018 study PDF
+      ("experience a few of our practices", "Begin Today") to `/program/`; the 2018 study PDF
       on the legacy host to its DOI. Kept as is (no page here yet; each needs a 301 row):
       `homeapp/index.html` (4 links, including 5 W's "family_onboarding" text),
       `good_news_november(.html)` and `good-news-february.html`. Strength Training's "Read the
