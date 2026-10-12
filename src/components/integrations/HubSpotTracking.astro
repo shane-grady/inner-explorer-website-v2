@@ -1,0 +1,31 @@
+---
+// HubSpot tracking code (js.hs-scripts.com/<portal>.js). Rendered once in BaseLayout <head>,
+// only for a real production build (the same gate as GA4 and Intercom).
+//
+// It ties page views to the `hutk` cookie, so a contact who submits a HubSpot form arrives
+// in the CRM with their visit history and source. The legacy site loaded it; the form works
+// without it, but attribution does not.
+//
+// Every navigation here is a full page load, so the script's automatic page view counts each
+// page once. Like GA4 it skips the *.netlify.app staging mirror (see Analytics.astro).
+//
+// Configured in HubSpot, not here: the cookie consent banner (Settings › Privacy & Consent,
+// which this script renders when enabled) and chat. Keep HubSpot chat OFF: Intercom is the
+// site's messenger.
+interface Props {
+  /** HubSpot portal ("hub") id. Public. */
+  portalId: string;
+}
+const { portalId } = Astro.props;
+---
+
+<script define:vars={{ portalId }}>
+  if (!location.hostname.endsWith('.netlify.app')) {
+    const loader = document.createElement('script');
+    loader.id = 'hs-script-loader';
+    loader.async = true;
+    loader.defer = true;
+    loader.src = `https://js-na1.hs-scripts.com/${portalId}.js`;
+    document.head.appendChild(loader);
+  }
+</script>

@@ -9,6 +9,8 @@ import SEO from '../components/seo/SEO.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import Analytics from '../components/seo/Analytics.astro';
 import Intercom from '../components/integrations/Intercom.astro';
+import HubSpotTracking from '../components/integrations/HubSpotTracking.astro';
+import { HUBSPOT_PORTAL_ID } from '../lib/site';
 import { organizationSchema } from '../lib/schema';
 
 interface Props {
@@ -79,6 +81,7 @@ const intercomAppId = import.meta.env.PUBLIC_INTERCOM_APP_ID;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     {isProductionBuild && gaMeasurementId && <Analytics measurementId={gaMeasurementId} />}
     {isProductionBuild && intercomAppId && <Intercom appId={intercomAppId} surface={surface} />}
+    {isProductionBuild && <HubSpotTracking portalId={HUBSPOT_PORTAL_ID} />}
     {/* No-flash theme init: set .dark before first paint (system pref unless overridden). */}
     <script is:inline>
       (() => {
@@ -130,8 +133,14 @@ const intercomAppId = import.meta.env.PUBLIC_INTERCOM_APP_ID;
         inEditorMode?: boolean;
       };
       // CloudCannon renders the production build inside its Visual Editor iframe.
-      // Never count editor activity or record an editor session.
-      if (!w.inEditorMode && !w.__amplitudeInitialized) {
+      // Never count editor activity or record an editor session. Like GA4, skip
+      // `pnpm dev` and every *.netlify.app host (deploy previews, branch deploys).
+      if (
+        import.meta.env.PROD &&
+        !location.hostname.endsWith('.netlify.app') &&
+        !w.inEditorMode &&
+        !w.__amplitudeInitialized
+      ) {
         w.__amplitudeInitialized = true;
         amplitude.initAll('9eb782590a25fba8c96b5de6fd50bd73', {
           analytics: { autocapture: true },

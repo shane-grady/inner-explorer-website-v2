@@ -771,6 +771,11 @@
   background: var(--surface);
   box-shadow: var(--shadow-sticky);
 }
+/* While the bar shows, focus scrolled into view stops above it instead of under it
+   (WCAG 2.4.11 Focus Not Obscured). The bar is a full-size button in space-3 padding. */
+html:has(.ie-sticky-bar:not([hidden])) {
+  scroll-padding-block-end: var(--space-20);
+}
 
 /* ---------- Fields (Contact, the Article newsletter, and HubSpot's injected form) ---------- */
 .ie-label,
@@ -1270,6 +1275,40 @@ textarea:is(.ie-field, [data-hsform] .hs-input) {
 }
 .ie-prose > :is(ul, ol) > li::marker {
   color: var(--icon-accent);
+}
+/* Legal documents (/privacy-policy/, the shared Help Center MDX): its <HelpTable> stand-in (a
+   captioned figure around a markdown table) and its <Callout> stand-in (an aside), as flat
+   Tint panels and hairline rows. */
+.ie-prose > figure figcaption {
+  @apply type-label;
+  margin-block-end: var(--space-3);
+  color: var(--foreground-muted);
+}
+.ie-prose table {
+  @apply type-small;
+  width: 100%;
+  border-collapse: collapse;
+}
+.ie-prose :is(th, td) {
+  padding: var(--space-3) var(--space-4) var(--space-3) 0;
+  border-block-end: 1px solid var(--border);
+  text-align: start;
+  vertical-align: top;
+}
+.ie-prose th {
+  font-weight: 700;
+  color: var(--foreground);
+}
+.ie-prose > aside {
+  padding: var(--card-padding);
+  border-radius: var(--radius-sm);
+  background: var(--tint);
+}
+.ie-prose > aside > * {
+  margin-block: 0;
+}
+.ie-prose > aside > * + * {
+  margin-block-start: var(--space-3);
 }
 /* Body images (the legacy posts' photos and diagrams): the full measure in radius-sm frames;
    two in one paragraph sit side by side, cropped to one height, as the boards draw them. */

@@ -50,4 +50,5 @@ export const footer = {
     },
   ] satisfies { heading: string; links: NavLink[] }[],
   privacy: { label: 'Privacy policy', href: '/privacy-policy/' },
+  terms: { label: 'Terms', href: '/terms/' },
 };
