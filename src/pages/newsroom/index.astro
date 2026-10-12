@@ -1,7 +1,7 @@
 ---
 // /newsroom/ — from the FINAL V Newsroom boards (Newsroom-Desktop, Newsroom-Mobile). The split
 // title, the promoted articles (`promoted` 1–3; else the newest) as the featured card and the
-// two beside it, then every other story under type filters: articles from the news collection
+// two beside it, then every story under type filters: articles from the news collection
 // (src/content/news/), the gated resources (HubSpot landing pages) and the press coverage
 // below. The boards' placeholder cards (a video, a generic resource, a press release) and their
 // cards for posts that don't exist are not built (tasks/todo.md); a filter shows only when its
@@ -243,14 +243,11 @@ const articleCard = (post: (typeof posts)[number]) => ({
   },
 });
 
-// "Browse all stories": every other article and the resources, newest first (a resource by its
-// year), as the board draws it without the stories above; the press coverage is its own filter
-// (the board's All shows no coverage).
-const top = new Set([featured, ...picks]);
+// "Browse all stories": every article (the featured three too, the user's call 2026-10-12;
+// the board leaves them out) and the resources, newest first (a resource by its year); the
+// press coverage is its own filter (the board's All shows no coverage).
 const stories = [
-  ...posts
-    .filter((post) => !top.has(post))
-    .map((post) => ({ type: 'article' as const, post, date: post.data.pubDate.getTime() })),
+  ...posts.map((post) => ({ type: 'article' as const, post, date: post.data.pubDate.getTime() })),
   ...content.resources.map((item) => ({
     type: 'resource' as const,
     item,

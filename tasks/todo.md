@@ -327,10 +327,10 @@ mark-compass.png`, 256px PNG) is the board's: an SVG from the design system woul
       Article JSON-LD: replace with the real dates.
     - **Promoted (2026-10-12, the user's call):** the Newsroom's top slots are set, not dated:
       `promoted: 1` MTSS (featured), `2` athletes and `3` AI Accelerates ("Also worth reading",
-      where the board draws a placeholder dated May 12). "Browse all stories" leaves those three
-      out (the board's grid doesn't repeat them) and lists the other articles and the research
-      resources newest first (a resource by its year, so the 2023 studies lead the 2020–2022
-      posts). AI Accelerates' cards read "AI Accelerates. Mindfulness Navigates" (`cardTitle`,
+      where the board draws a placeholder dated May 12). "Browse all stories" lists every article,
+      those three included (the user's call, later the same day; the board's grid leaves them
+      out), and the resources, newest first (a resource by its year, so the 2026 articles lead,
+      then the resources, then the 2020–2022 posts). AI Accelerates' cards read "AI Accelerates. Mindfulness Navigates" (`cardTitle`,
       the boards' name for it); its full headline ran five lines.
     - **Final check against FINAL V (2026-10-12)**, Newsroom and Article at 1440 and 390: section
       positions within 10px, except the drawn newsletter and the Videos filter (not built,
