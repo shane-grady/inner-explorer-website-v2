@@ -1,10 +1,11 @@
 ---
 // /newsroom/ — from the FINAL V Newsroom boards (Newsroom-Desktop, Newsroom-Mobile). The split
 // title, the promoted articles (`promoted` 1–3; else the newest) as the featured card and the
-// two beside it, then every other story under type filters: articles from the news collection (src/content/news/), the
-// research resources and the press coverage below. The boards' placeholder cards (a video,
-// a generic resource, a press release) and their cards for posts that don't exist are not
-// built (tasks/todo.md); a filter shows only when its type has stories.
+// two beside it, then every other story under type filters: articles from the news collection
+// (src/content/news/), the gated resources (HubSpot landing pages) and the press coverage
+// below. The boards' placeholder cards (a video, a generic resource, a press release) and their
+// cards for posts that don't exist are not built (tasks/todo.md); a filter shows only when its
+// type has stories.
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import PageLayout from '../../layouts/PageLayout.astro';
@@ -27,23 +28,23 @@ import fortune from '../../assets/images/about/logos/fortune.png';
 import nbc from '../../assets/images/about/logos/nbc.png';
 import mindfulNation from '../../assets/images/newsroom/logos/mindful-nation-uk.png';
 import people from '../../assets/images/newsroom/logos/people.png';
+import aiLibraryCover from '../../assets/images/newsroom/resources/ai-mindfulness-library.png';
+import aiOnePagerCover from '../../assets/images/newsroom/resources/preparing-minds-ai-world.png';
+import schoolSafetyCover from '../../assets/images/newsroom/resources/school-safety-toolkit.png';
+import dyslexiaCover from '../../assets/images/newsroom/resources/stress-dyslexia-brief.png';
 
 type StoryType = 'article' | 'resource' | 'press';
 interface Resource {
   title: string;
+  /** The format: "Toolkit", "Research brief". */
   kind: string;
   excerpt: string;
-  meta: string[];
-  /** Its publication year: where it falls in "Browse all stories" (newest first). */
+  /** Its publication year: where it falls in "Browse all stories" (newest first; a tie keeps
+   *  this order). */
   year: number;
   href: string;
-  /** The tile drawn as the card's media: a source, a figure and comparison bars. */
-  stat: {
-    source: string;
-    value: string;
-    caption: string;
-    bars: { label: string; width: string; ours?: boolean; gain?: string }[];
-  };
+  /** The asset preview from the landing page's hero, shown on brand green. */
+  cover: ImageMetadata;
 }
 interface Press {
   outlet: string;
@@ -81,42 +82,44 @@ const content = {
   } satisfies Record<StoryType, { kicker: string; filter: string }>,
   all: 'All',
   newTab: '(opens in a new tab)',
-  // Research resources as the board draws them (figures: tasks/todo.md); each links to its
-  // study on the Research page.
+  resourceAction: 'Download free',
+  // Gated downloads, each on its HubSpot landing page (the "Website Resources 10/26" sheet,
+  // Resources tab), each excerpt the first sentence of its sheet description. The cover is
+  // the asset preview from the landing page's hero.
   resources: [
     {
-      title: 'At-home use of app-based mindfulness',
-      kind: 'RCT',
-      excerpt: 'Randomized controlled trial, published in the journal Mindfulness.',
-      meta: ['Treves et al.', '2023'],
-      year: 2023,
-      href: '/research/#study-s6',
-      stat: {
-        source: 'MIT McGovern Institute',
-        value: '−28%',
-        caption: 'lower student stress',
-        bars: [
-          { label: 'Active control', width: '100%' },
-          { label: 'Inner Explorer', width: '72%', ours: true },
-        ],
-      },
+      title: 'The AI + Mindfulness Resource Library',
+      kind: 'Resource library',
+      excerpt:
+        'Four resources that make the case for mindfulness as the missing layer in your school’s AI strategy.',
+      year: 2026,
+      href: 'https://learn.innerexplorer.com/download-the-ai-and-mindfulness-resource-library',
+      cover: aiLibraryCover,
     },
     {
-      title: 'An analysis of the impact of Inner\u00a0Explorer on academic growth',
-      kind: 'Doctoral study',
-      excerpt: 'Published doctoral research; journal publication forthcoming.',
-      meta: ['Dunlap et al.', '2023'],
-      year: 2023,
-      href: '/research/#study-s5',
-      stat: {
-        source: 'UNC Charlotte',
-        value: '+22–26.6%',
-        caption: 'math and reading, special education',
-        bars: [
-          { label: 'Comparison group', width: '79.37%' },
-          { label: 'Inner Explorer', width: '96.83%', ours: true, gain: '3.17%' },
-        ],
-      },
+      title: 'Preparing Minds to Lead in an AI World',
+      kind: 'One-pager',
+      excerpt: 'A one-page framework that maps mindfulness to each level of Bloom’s Taxonomy.',
+      year: 2026,
+      href: 'https://learn.innerexplorer.com/preparing-minds-to-lead-in-an-ai-world-with-daily-mindfulness',
+      cover: aiOnePagerCover,
+    },
+    {
+      title: 'School Safety Toolkit: Mindfulness for Drill Recovery',
+      kind: 'Toolkit',
+      excerpt:
+        'Research-informed strategies to reduce the stress of lockdown drills and help students settle back into learning.',
+      year: 2026,
+      href: 'https://learn.innerexplorer.com/school-safety-toolkit',
+      cover: schoolSafetyCover,
+    },
+    {
+      title: 'The Science of Stress, Dyslexia, and Why Mindfulness Changes the Equation',
+      kind: 'Research brief',
+      excerpt: 'A 4-page research summary on how chronic stress affects students with dyslexia.',
+      year: 2026,
+      href: 'https://learn.innerexplorer.com/the-science-of-stress-dyslexia-and-why-mindfulness-changes-the-equation',
+      cover: dyslexiaCover,
     },
   ] satisfies Resource[] as Resource[],
   // Press coverage as the board draws it, its links included (tasks/todo.md); Education
@@ -378,48 +381,16 @@ const schemas = [
                     href={story.item.href}
                     kicker={[content.types.resource.kicker, story.item.kind]}
                     excerpt={story.item.excerpt}
-                    meta={story.item.meta}
-                    tallMedia
+                    action={content.resourceAction}
                   >
-                    <div
-                      slot="media"
-                      class="flex size-full flex-col justify-between gap-4 bg-cyan-200 p-6"
-                    >
-                      <p class="m-0 type-eyebrow text-foreground">{story.item.stat.source}</p>
-                      <div class="flex flex-col gap-4">
-                        <p class="m-0 flex flex-wrap items-baseline gap-x-3 gap-y-2">
-                          <span class="font-display type-stat-md font-medium whitespace-nowrap text-foreground">
-                            {story.item.stat.value}
-                          </span>
-                          <span class="max-w-45 type-label text-foreground">
-                            {story.item.stat.caption}
-                          </span>
-                        </p>
-                        <div class="flex flex-col gap-2" aria-hidden="true">
-                          {story.item.stat.bars.map((bar) => (
-                            <div class="flex">
-                              <span
-                                class:list={[
-                                  'flex h-8 w-(--w) items-center px-3 type-label font-bold whitespace-nowrap',
-                                  bar.ours
-                                    ? 'bg-cyan-600 text-on-brand'
-                                    : 'rounded-sm bg-surface text-foreground',
-                                  bar.ours && (bar.gain ? 'rounded-l-sm' : 'rounded-sm'),
-                                ]}
-                                style={`--w: ${bar.width}`}
-                              >
-                                {bar.label}
-                              </span>
-                              {bar.gain && (
-                                <span
-                                  class="h-8 w-(--w) rounded-r-sm bg-cyan-400"
-                                  style={`--w: ${bar.gain}`}
-                                />
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
+                    <div slot="media" class="flex size-full bg-brand-surface px-10 pt-8">
+                      <Image
+                        src={story.item.cover}
+                        alt=""
+                        width={400}
+                        densities={[1, 2]}
+                        class="block size-full rounded-t-sm bg-surface object-cover object-top shadow-floating"
+                      />
                     </div>
                   </MediaCard>
                 </li>
