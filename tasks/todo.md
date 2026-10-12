@@ -296,7 +296,7 @@ mark-compass.png`, 256px PNG) is the board's: an SVG from the design system woul
     YouTube thumbnail frames cropped to 3:2 (`src/assets/images/newsroom/videos/`): the
     medical-home logo is cropped off "Transforming Student Well-Being" (the sheet's "remove logo",
     confirmed), La Joya uses YouTube's alternate teacher frame (the default has burned-in captions),
-    the Bakosh title card is extended with its own background, the letterbox bars are trimmed off
+    the Bakosh poster is YouTube's alternate frame of her speaking at the panel (the user's call; cropped above its burned-in caption), the letterbox bars are trimmed off
     "In Such a Loud World". Dates and lengths are YouTube's.
   - Resource cards (Newsroom, 2026-10-12, the user's call): the board's two study tiles are
     replaced by the four gated downloads from the "Website Resources 10/26" sheet (Resources
