@@ -9,6 +9,14 @@ export async function getNews(): Promise<NewsEntry[]> {
   return posts.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 }
 
+/** The Newsroom's top three: the promoted posts in rank order, then the newest of the rest. */
+export function topStories(posts: NewsEntry[]): NewsEntry[] {
+  const promoted = posts
+    .filter((p) => p.data.promoted)
+    .sort((a, b) => (a.data.promoted ?? 0) - (b.data.promoted ?? 0));
+  return [...promoted, ...posts.filter((p) => !p.data.promoted)].slice(0, 3);
+}
+
 export const newsPath = (post: NewsEntry) => `/newsroom/${post.id}/`;
 
 const LONG = new Intl.DateTimeFormat('en-US', { dateStyle: 'long', timeZone: 'UTC' });

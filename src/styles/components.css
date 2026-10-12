@@ -1271,6 +1271,23 @@ textarea:is(.ie-field, [data-hsform] .hs-input) {
 .ie-prose > :is(ul, ol) > li::marker {
   color: var(--icon-accent);
 }
+/* Body images (the legacy posts' photos and diagrams): the full measure in radius-sm frames;
+   two in one paragraph sit side by side, cropped to one height, as the boards draw them. */
+.ie-prose img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-sm);
+}
+.ie-prose > p:has(> img + img) {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+.ie-prose > p:has(> img + img) > img {
+  height: 100%;
+  object-fit: cover;
+}
 
 /* The FAQ: <details> rows under hairlines, a 2px Jade disc with a plus that fills and turns
    to a minus when open (28 → 32). */

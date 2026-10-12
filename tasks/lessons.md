@@ -40,6 +40,11 @@ editing) are in `tasks/archive/lessons-pre-rebuild.md`; general points from them
   done, and read the mobile board's markup for each section that differs.
 - **Board assets:** the Artifact tool reads a `/_blob/<id>` image by its bare 32-hex id with
   `path`, one call per id; `paths` and the `_blob/` prefix both fail.
+- **Byte-identical images break the build's share image (legacy posts, 2026-10-12).** A board
+  photo saved under a new name was the same file as Contact's; Vite emitted the original once,
+  under the other name, so the post's `og:image` pointed at a file that never shipped
+  (`check:dist` caught it). `md5sum` new assets against `src/assets/images/` and reuse the
+  existing file.
 - **Copy casing stays as drawn.** Sentence-casing the boards' title case read as drift to the
   owner; keep headings and buttons verbatim and raise casing as a question, not a change.
 - **axe `link-in-text-block`:** the preflight removes link underlines; running-text links need

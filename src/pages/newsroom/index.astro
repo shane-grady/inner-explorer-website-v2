@@ -1,7 +1,7 @@
 ---
 // /newsroom/ — from the FINAL V Newsroom boards (Newsroom-Desktop, Newsroom-Mobile). The split
-// title, the newest article as the featured card with the next two beside it, then every
-// story under type filters: articles from the news collection (src/content/news/), the
+// title, the promoted articles (`promoted` 1–3; else the newest) as the featured card and the
+// two beside it, then every other story under type filters: articles from the news collection (src/content/news/), the
 // research resources and the press coverage below. The boards' placeholder cards (a video,
 // a generic resource, a press release) and their cards for posts that don't exist are not
 // built (tasks/todo.md); a filter shows only when its type has stories.
@@ -16,7 +16,7 @@ import MediaCard from '../../components/blocks/MediaCard.astro';
 import ClosingCta from '../../components/blocks/ClosingCta.astro';
 import { breadcrumbSchema, collectionPageSchema } from '../../lib/schema';
 import { readingTime } from '../../lib/reading-time';
-import { getNews, newsPath, newsroomCta, shortDate } from '../../lib/news';
+import { getNews, newsPath, newsroomCta, shortDate, topStories } from '../../lib/news';
 import cnn from '../../assets/images/about/logos/cnn.png';
 import edweek from '../../assets/images/about/logos/education-week.png';
 import npr from '../../assets/images/about/logos/npr.png';
@@ -34,6 +34,8 @@ interface Resource {
   kind: string;
   excerpt: string;
   meta: string[];
+  /** Its publication year: where it falls in "Browse all stories" (newest first). */
+  year: number;
   href: string;
   /** The tile drawn as the card's media: a source, a figure and comparison bars. */
   stat: {
@@ -87,6 +89,7 @@ const content = {
       kind: 'RCT',
       excerpt: 'Randomized controlled trial, published in the journal Mindfulness.',
       meta: ['Treves et al.', '2023'],
+      year: 2023,
       href: '/research/#study-s6',
       stat: {
         source: 'MIT McGovern Institute',
@@ -103,6 +106,7 @@ const content = {
       kind: 'Doctoral study',
       excerpt: 'Published doctoral research; journal publication forthcoming.',
       meta: ['Dunlap et al.', '2023'],
+      year: 2023,
       href: '/research/#study-s5',
       stat: {
         source: 'UNC Charlotte',
@@ -223,8 +227,7 @@ const content = {
 };
 
 const posts = await getNews();
-const [featured, ...rest] = posts;
-const picks = rest.slice(0, 2);
+const [featured, ...picks] = topStories(posts);
 const articleCard = (post: (typeof posts)[number]) => ({
   title: post.data.cardTitle ?? post.data.title,
   href: newsPath(post),
@@ -237,11 +240,23 @@ const articleCard = (post: (typeof posts)[number]) => ({
   },
 });
 
-// "Browse all stories": newest first; the press coverage is its own filter (the board's All
-// shows no coverage).
+// "Browse all stories": every other article and the resources, newest first (a resource by its
+// year), as the board draws it without the stories above; the press coverage is its own filter
+// (the board's All shows no coverage).
+const top = new Set([featured, ...picks]);
+const stories = [
+  ...posts
+    .filter((post) => !top.has(post))
+    .map((post) => ({ type: 'article' as const, post, date: post.data.pubDate.getTime() })),
+  ...content.resources.map((item) => ({
+    type: 'resource' as const,
+    item,
+    date: Date.UTC(item.year, 0, 1),
+  })),
+].sort((a, b) => b.date - a.date);
 const types = (['article', 'resource', 'press'] as const).filter(
   (type) =>
-    (type === 'article' && posts.length) ||
+    (type === 'article' && stories.some((story) => story.type === 'article')) ||
     (type === 'resource' && content.resources.length) ||
     (type === 'press' && content.press.length),
 );
@@ -346,65 +361,70 @@ const schemas = [
           class="m-0 grid list-none gap-12 p-0 md:grid-cols-2 md:gap-x-8 md:gap-y-14 lg:grid-cols-3"
         >
           {
-            posts.map((post) => (
-              <li class="flex" data-type="article">
-                <MediaCard {...articleCard(post)} excerpt={post.data.description} class="grow" />
-              </li>
-            ))
-          }
-          {
-            content.resources.map((item) => (
-              <li class="flex" data-type="resource">
-                <MediaCard
-                  class="grow"
-                  title={item.title}
-                  href={item.href}
-                  kicker={[content.types.resource.kicker, item.kind]}
-                  excerpt={item.excerpt}
-                  meta={item.meta}
-                  tallMedia
-                >
-                  <div
-                    slot="media"
-                    class="flex size-full flex-col justify-between gap-4 bg-cyan-200 p-6"
+            stories.map((story) =>
+              story.type === 'article' ? (
+                <li class="flex" data-type="article">
+                  <MediaCard
+                    {...articleCard(story.post)}
+                    excerpt={story.post.data.description}
+                    class="grow"
+                  />
+                </li>
+              ) : (
+                <li class="flex" data-type="resource">
+                  <MediaCard
+                    class="grow"
+                    title={story.item.title}
+                    href={story.item.href}
+                    kicker={[content.types.resource.kicker, story.item.kind]}
+                    excerpt={story.item.excerpt}
+                    meta={story.item.meta}
+                    tallMedia
                   >
-                    <p class="m-0 type-eyebrow text-foreground">{item.stat.source}</p>
-                    <div class="flex flex-col gap-4">
-                      <p class="m-0 flex flex-wrap items-baseline gap-x-3 gap-y-2">
-                        <span class="font-display type-stat-md font-medium whitespace-nowrap text-foreground">
-                          {item.stat.value}
-                        </span>
-                        <span class="max-w-45 type-label text-foreground">{item.stat.caption}</span>
-                      </p>
-                      <div class="flex flex-col gap-2" aria-hidden="true">
-                        {item.stat.bars.map((bar) => (
-                          <div class="flex">
-                            <span
-                              class:list={[
-                                'flex h-8 w-(--w) items-center px-3 type-label font-bold whitespace-nowrap',
-                                bar.ours
-                                  ? 'bg-cyan-600 text-on-brand'
-                                  : 'rounded-sm bg-surface text-foreground',
-                                bar.ours && (bar.gain ? 'rounded-l-sm' : 'rounded-sm'),
-                              ]}
-                              style={`--w: ${bar.width}`}
-                            >
-                              {bar.label}
-                            </span>
-                            {bar.gain && (
+                    <div
+                      slot="media"
+                      class="flex size-full flex-col justify-between gap-4 bg-cyan-200 p-6"
+                    >
+                      <p class="m-0 type-eyebrow text-foreground">{story.item.stat.source}</p>
+                      <div class="flex flex-col gap-4">
+                        <p class="m-0 flex flex-wrap items-baseline gap-x-3 gap-y-2">
+                          <span class="font-display type-stat-md font-medium whitespace-nowrap text-foreground">
+                            {story.item.stat.value}
+                          </span>
+                          <span class="max-w-45 type-label text-foreground">
+                            {story.item.stat.caption}
+                          </span>
+                        </p>
+                        <div class="flex flex-col gap-2" aria-hidden="true">
+                          {story.item.stat.bars.map((bar) => (
+                            <div class="flex">
                               <span
-                                class="h-8 w-(--w) rounded-r-sm bg-cyan-400"
-                                style={`--w: ${bar.gain}`}
-                              />
-                            )}
-                          </div>
-                        ))}
+                                class:list={[
+                                  'flex h-8 w-(--w) items-center px-3 type-label font-bold whitespace-nowrap',
+                                  bar.ours
+                                    ? 'bg-cyan-600 text-on-brand'
+                                    : 'rounded-sm bg-surface text-foreground',
+                                  bar.ours && (bar.gain ? 'rounded-l-sm' : 'rounded-sm'),
+                                ]}
+                                style={`--w: ${bar.width}`}
+                              >
+                                {bar.label}
+                              </span>
+                              {bar.gain && (
+                                <span
+                                  class="h-8 w-(--w) rounded-r-sm bg-cyan-400"
+                                  style={`--w: ${bar.gain}`}
+                                />
+                              )}
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </MediaCard>
-              </li>
-            ))
+                  </MediaCard>
+                </li>
+              ),
+            )
           }
           {
             content.press.map((item) => (

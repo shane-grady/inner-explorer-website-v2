@@ -37,7 +37,8 @@ export function breadcrumbSchema(
 interface ArticleInput {
   title: string;
   description: string;
-  author: string;
+  /** A named person; without one the article is attributed to Inner Explorer. */
+  author?: string;
   authorJobTitle?: string;
   pubDate: Date;
   updatedDate?: Date;
@@ -46,7 +47,7 @@ interface ArticleInput {
   image?: string[];
 }
 
-/** Article, attributed to a named person at Inner Explorer. */
+/** Article, attributed to a named person at Inner Explorer, or to the organization. */
 export function articleSchema(site: URL | string | undefined, article: ArticleInput) {
   const base = origin(site);
   return {
@@ -55,12 +56,14 @@ export function articleSchema(site: URL | string | undefined, article: ArticleIn
     headline: article.title,
     description: article.description,
     ...(article.image?.length ? { image: article.image } : {}),
-    author: {
-      '@type': 'Person',
-      name: article.author,
-      ...(article.authorJobTitle ? { jobTitle: article.authorJobTitle } : {}),
-      worksFor: { '@type': 'Organization', name: 'Inner Explorer', url: base },
-    },
+    author: article.author
+      ? {
+          '@type': 'Person',
+          name: article.author,
+          ...(article.authorJobTitle ? { jobTitle: article.authorJobTitle } : {}),
+          worksFor: { '@type': 'Organization', name: 'Inner Explorer', url: base },
+        }
+      : { '@type': 'Organization', name: 'Inner Explorer', url: base },
     datePublished: article.pubDate.toISOString(),
     ...(article.updatedDate ? { dateModified: article.updatedDate.toISOString() } : {}),
     mainEntityOfPage: `${base}${article.path}`,

@@ -179,7 +179,8 @@ class.
   choice: Research's wall and brain switches), and Research's page-only `.ie-hero-scrim` /
   `-figure`, `.ie-stop-leaf` / `-alarm` / `-alarm-fade` and `.ie-brain-pulse` (the brain diagram),
   `.ie-wall-block` and `.ie-sand` (the wall); `.ie-prose` (an article body: headings on
-  the card-title ramp, paragraphs 20 apart, lists) and `.ie-faq` / `.ie-faq-icon` (the
+  the card-title ramp, paragraphs 20 apart, lists, images in `radius-sm` frames, two in one
+  paragraph side by side) and `.ie-faq` / `.ie-faq-icon` (the
   article FAQ's rows and its plus/minus disc).
 - `[data-on-surface]` inside a `[data-on-brand]` panel restores the light ink for a white box
   (Pricing's add-on prices).

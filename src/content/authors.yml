@@ -9,3 +9,17 @@
   link:
     label: Read the research
     href: /research/
+# The legacy posts' authors ("Blog Posts Working" boards): only what each board's author box
+# draws, so some have no role, bio or photo.
+- id: anitra-rice
+  name: Anitra Rice
+  photo: ../assets/images/newsroom/anitra-rice.jpg
+- id: christy-cassisa
+  name: Christy Cassisa
+  role: Regional Director, Southwest Region
+  title: Regional Director, Southwest Region
+  bio: As a seasoned mindfulness practitioner with experience founding and leading innovative mindfulness programs, Christy Cassisa knows a thing or two about how a regular practice can support our well-being! In this two-part series, Christy shares how we can build a daily mindfulness practice, plus an approachable way to fully integrate mindfulness into your life.
+  photo: ../assets/images/newsroom/christy-cassisa.jpg
+- id: janice-houlihan
+  name: Janice Houlihan
+  bio: Janice Houlihan is a co-founder of Inner Explorer – a non profit organization helping children unlock academic potential and foster lifelong well-being.

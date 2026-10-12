@@ -29,6 +29,7 @@ import { ICONS } from '../../lib/icons';
 import { FEATURE_ICONS } from '../../lib/feature-icons';
 import tokensCss from '../../styles/tokens.css?raw';
 import photo from '../../assets/images/styleguide/neurons.jpg';
+import { Image } from 'astro:assets';
 
 const content = {
   title: 'Styleguide | Inner Explorer',
@@ -718,6 +719,13 @@ const checklist = [
           <li>Discs in icon-accent</li>
         </ul>
         <PullQuote cite="Speaker, Organization">“A pull quote between two hairlines.”</PullQuote>
+        <p>
+          <Image
+            src={photo}
+            alt="Body images: the full measure in a radius-sm frame (the legacy posts)"
+            width={640}
+          />
+        </p>
       </div>
       <section class="ie-faq" aria-label="FAQ sample">
         <details class="group border-t border-border" open>
