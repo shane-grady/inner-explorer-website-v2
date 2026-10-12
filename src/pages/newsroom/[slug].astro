@@ -513,7 +513,7 @@ const schemas = [
                   <MediaCard
                     variant="tint"
                     class="grow"
-                    title={p.data.title}
+                    title={p.data.cardTitle ?? p.data.title}
                     href={newsPath(p)}
                     kicker={[p.data.category]}
                     meta={[longDate(p.data.pubDate)]}

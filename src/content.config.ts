@@ -231,6 +231,9 @@ const news = defineCollection({
           rail: z.object({ title: z.string(), text: z.string() }).optional(),
         })
         .optional(),
+      /** The Newsroom's top slots: 1 is the featured card, 2 and 3 "Also worth reading". Unset:
+       *  the newest posts fill them. */
+      promoted: z.number().int().min(1).max(3).optional(),
       draft: z.boolean().default(false),
     }),
 });

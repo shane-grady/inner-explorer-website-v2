@@ -318,8 +318,21 @@ mark-compass.png`, 256px PNG) is the board's: an SVG from the design system woul
       2022-03-15, Why Teaching 2022-01-18, Grief 2021-11-09, 3 Ways 2021-09-14, Strength
       Training 2021-07-13, Mental Health COVID-19 2021-05-04, 5 W's 2020-04-14, Immune Function
       2020-03-24, Teacher Wellbeing 2020-01-14; AI Accelerates 2026-05-12 (after the April 2026
-      Education Week piece it cites). They order the Newsroom and go into the Article JSON-LD:
-      replace with the real dates.
+      Education Week piece it cites). They order "Browse all stories", "Keep reading" and the
+      Article JSON-LD: replace with the real dates.
+    - **Promoted (2026-10-12, the user's call):** the Newsroom's top slots are set, not dated:
+      `promoted: 1` MTSS (featured), `2` athletes and `3` AI Accelerates ("Also worth reading",
+      where the board draws a placeholder dated May 12). "Browse all stories" leaves those three
+      out (the board's grid doesn't repeat them) and lists the other articles and the research
+      resources newest first (a resource by its year, so the 2023 studies lead the 2020–2022
+      posts). AI Accelerates' cards read "AI Accelerates. Mindfulness Navigates" (`cardTitle`,
+      the boards' name for it); its full headline ran five lines.
+    - **Final check against FINAL V (2026-10-12)**, Newsroom and Article at 1440 and 390: section
+      positions within 10px, except the drawn newsletter and the Videos filter (not built,
+      above). Fixed: "Keep reading" cards take `cardTitle`, like the Newsroom's; the article
+      resource card's phone spacing (12 between its lines, the mobile board). Left on the type
+      ramp: the mobile board sets the resource title at 20 (`type-card-title-md` is 18 on a
+      phone).
     - **Categories** (the boards draw none): Wellbeing, Classroom Practice, Leadership (AI).
       Tags: none.
     - **Deks** (the boards draw none; the template shows `description` under the H1 and on
