@@ -19,7 +19,7 @@ interface Props {
   imageHeight?: number;
   /** Hide the page from search engines. */
   noindex?: boolean;
-  /** `dark`: the transparent header laid over a Forest hero, which clears it (Research). */
+  /** `dark`: the transparent header laid over a Forest hero, which clears it. No page uses it now. */
   header?: 'light' | 'dark';
 }
 const { header = 'light', ...props }: Props = Astro.props;

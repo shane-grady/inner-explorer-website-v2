@@ -10,11 +10,18 @@ export interface NavLink {
 export const primaryNav: NavLink[] = [
   { label: 'Program', href: '/program/' },
   { label: 'Why Inner Explorer', href: '/why-inner-explorer/' },
-  { label: 'Case studies', href: '/case-studies/' },
   { label: 'Research', href: '/research/' },
+  { label: 'Case studies', href: '/case-studies/' },
   { label: 'Pricing', href: '/pricing/' },
   { label: 'About', href: '/about/' },
 ];
+
+/** aria-current for a nav link: "page" on the page itself, "true" anywhere in its section
+ * (a case study marks Case studies). */
+export function navCurrent(pathname: string, href: string): 'page' | 'true' | undefined {
+  if (pathname === href) return 'page';
+  return href !== '/' && pathname.startsWith(href) ? 'true' : undefined;
+}
 
 export const signIn: NavLink = { label: 'Sign in', href: 'https://app.innerexplorer.com' };
 export const contactCta: NavLink = { label: 'Contact us', href: '/contact/' };

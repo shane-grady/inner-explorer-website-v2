@@ -2,14 +2,14 @@
 // The site header: skip link, logo, primary navigation and Sign in (from xl), the Contact button
 // at every width (the mobile CTA, in place of a sticky bottom bar), and the menu button (and
 // MobileMenu) below xl. Below sm the button's padding and the gaps tighten so the row fits at
-// 320 (WCAG reflow). `dark` is the transparent header over a Forest hero (Research); `overlay`
+// 320 (WCAG reflow). `dark` is the transparent header over a Forest hero (no page uses it now: Research takes the standard header); `overlay`
 // lays it over the top of the page's first section, so the hero's video runs under it
 // (PageLayout header="dark"). Static, as on the boards.
 import Button from '../ui/Button.astro';
 import Icon from '../ui/Icon.astro';
 import Logo from '../ui/Logo.astro';
 import MobileMenu from './MobileMenu.astro';
-import { contactCta, primaryNav, signIn } from '../../data/navigation';
+import { contactCta, navCurrent, primaryNav, signIn } from '../../data/navigation';
 
 interface Props {
   dark?: boolean;
@@ -18,7 +18,7 @@ interface Props {
   sample?: boolean;
 }
 const { dark = false, overlay = false, sample = false }: Props = Astro.props;
-const current = (href: string) => (!sample && Astro.url.pathname === href ? 'page' : undefined);
+const current = (href: string) => (sample ? undefined : navCurrent(Astro.url.pathname, href));
 ---
 
 <header
