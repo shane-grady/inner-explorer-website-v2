@@ -54,9 +54,11 @@ export async function getStaticPaths() {
 const { post } = Astro.props as { post: NewsEntry };
 const d = post.data;
 const { Content, headings } = await render(post);
-const author = await getEntry(d.author);
-if (!author) throw new Error(`Unknown author "${d.author.id}" in ${post.id}`);
-const a = author.data;
+// Legacy posts drawn without a byline have no author: the byline keeps the date and read
+// time, and the author box is left out.
+const author = d.author ? await getEntry(d.author) : undefined;
+if (d.author && !author) throw new Error(`Unknown author "${d.author.id}" in ${post.id}`);
+const a = author?.data;
 
 const path = newsPath(post);
 const canonical = new URL(path, Astro.site).toString();
@@ -103,8 +105,8 @@ const schemas = [
   articleSchema(Astro.site, {
     title: d.title,
     description: d.metaDescription ?? d.description,
-    author: a.name,
-    authorJobTitle: a.role,
+    author: a?.name,
+    authorJobTitle: a?.role,
     pubDate: d.pubDate,
     updatedDate: d.updatedDate,
     path,
@@ -165,22 +167,34 @@ const schemas = [
         </p>
 
         <div class="mt-6 flex items-center gap-3 lg:mt-8 lg:gap-4">
-          <Image
-            src={a.photo}
-            alt=""
-            width={48}
-            densities={[1, 2]}
-            class="size-11 shrink-0 rounded-full object-cover lg:size-12"
-          />
+          {
+            a?.photo && (
+              <Image
+                src={a.photo}
+                alt=""
+                width={48}
+                densities={[1, 2]}
+                class="size-11 shrink-0 rounded-full object-cover lg:size-12"
+              />
+            )
+          }
           <div class="flex flex-col gap-1 lg:flex-row lg:items-center lg:gap-4">
-            <div class="flex flex-col gap-1">
-              <p class="m-0 type-card-title-sm leading-tight text-foreground">
-                {content.byline}
-                <a class="text-inherit no-underline" href="#author">{a.name}</a>
-              </p>
-              <p class="m-0 type-label leading-tight text-foreground-muted">{a.role}</p>
-            </div>
-            <span class="mx-2 hidden h-8 w-px bg-border lg:block" aria-hidden="true"></span>
+            {
+              a && (
+                <div class="flex flex-col gap-1">
+                  <p class="m-0 type-card-title-sm leading-tight text-foreground">
+                    {content.byline}
+                    <a class="text-inherit no-underline" href="#author">
+                      {a.name}
+                    </a>
+                  </p>
+                  {a.role && (
+                    <p class="m-0 type-label leading-tight text-foreground-muted">{a.role}</p>
+                  )}
+                </div>
+              )
+            }
+            {a && <span class="mx-2 hidden h-8 w-px bg-border lg:block" aria-hidden="true" />}
             <p
               class="m-0 flex items-center gap-2 type-label leading-tight text-foreground-muted lg:gap-4"
             >
@@ -394,34 +408,47 @@ const schemas = [
             }
           </section>
 
-          <section
-            id="author"
-            class="ie-card ie-card-tint mt-6 flex flex-wrap items-center gap-x-4 gap-y-3 p-5 md:flex-nowrap md:items-start md:gap-5 md:p-6 lg:mt-8"
-            aria-labelledby="author-title"
-          >
-            <Image
-              src={a.photo}
-              alt={a.name}
-              width={72}
-              densities={[1, 2]}
-              class="size-16 shrink-0 rounded-full object-cover md:size-18"
-            />
-            <div class="contents md:flex md:min-w-0 md:flex-1 md:flex-col md:gap-2">
-              <div class="flex min-w-0 flex-1 flex-col gap-1 md:flex-none md:gap-2">
-                <p class="m-0 type-eyebrow text-foreground">{content.author}</p>
-                <div class="flex flex-col gap-1">
-                  <h2 id="author-title" class="m-0 type-card-title-md text-foreground">
-                    {a.name}
-                  </h2>
-                  <p class="m-0 type-label text-foreground-muted">{a.title}</p>
+          {
+            a && (
+              <section
+                id="author"
+                class="ie-card ie-card-tint mt-6 flex flex-wrap items-center gap-x-4 gap-y-3 p-5 md:flex-nowrap md:items-start md:gap-5 md:p-6 lg:mt-8"
+                aria-labelledby="author-title"
+              >
+                {a.photo && (
+                  <Image
+                    src={a.photo}
+                    alt={a.name}
+                    width={72}
+                    densities={[1, 2]}
+                    class="size-16 shrink-0 rounded-full object-cover md:size-18"
+                  />
+                )}
+                <div class="contents md:flex md:min-w-0 md:flex-1 md:flex-col md:gap-2">
+                  <div class="flex min-w-0 flex-1 flex-col gap-1 md:flex-none md:gap-2">
+                    <p class="m-0 type-eyebrow text-foreground">{content.author}</p>
+                    <div class="flex flex-col gap-1">
+                      <h2 id="author-title" class="m-0 type-card-title-md text-foreground">
+                        {a.name}
+                      </h2>
+                      {a.title && <p class="m-0 type-label text-foreground-muted">{a.title}</p>}
+                    </div>
+                  </div>
+                  {(a.bio || a.link) && (
+                    <div class="flex basis-full flex-col items-start gap-2 md:mt-1 md:basis-auto">
+                      {a.bio && (
+                        <p
+                          class="m-0 type-body text-foreground-body"
+                          set:html={emphasize(a.bio, '')}
+                        />
+                      )}
+                      {a.link && <ArrowLink href={a.link.href}>{a.link.label}</ArrowLink>}
+                    </div>
+                  )}
                 </div>
-              </div>
-              <div class="flex basis-full flex-col items-start gap-2 md:mt-1 md:basis-auto">
-                <p class="m-0 type-body text-foreground-body" set:html={emphasize(a.bio, '')} />
-                {a.link && <ArrowLink href={a.link.href}>{a.link.label}</ArrowLink>}
-              </div>
-            </div>
-          </section>
+              </section>
+            )
+          }
 
           {
             d.faq && (

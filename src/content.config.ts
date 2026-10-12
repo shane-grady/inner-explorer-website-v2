@@ -165,12 +165,12 @@ const authors = defineCollection({
   schema: ({ image }) =>
     z.object({
       name: z.string(),
-      /** The byline's line under the name. */
-      role: z.string(),
+      /** The byline's line under the name. The legacy posts' guest authors have none. */
+      role: z.string().optional(),
       /** The author box's line under the name (the role with the organization). */
-      title: z.string(),
-      bio: z.string(),
-      photo: image(),
+      title: z.string().optional(),
+      bio: z.string().optional(),
+      photo: image().optional(),
       link: z.object({ label: z.string(), href: z.string() }).optional(),
     }),
 });
@@ -193,7 +193,8 @@ const news = defineCollection({
       updatedDate: z.coerce.date().optional(),
       category: z.string(),
       tags: z.array(z.string()).default([]),
-      author: reference('authors'),
+      /** Absent on the legacy posts their boards draw without a byline. */
+      author: reference('authors').optional(),
       heroImage: image(),
       heroImageAlt: z.string(),
       /** Cards: `contain` for a graphic with text in it (shown whole on the tint ground). The

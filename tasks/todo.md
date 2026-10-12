@@ -311,6 +311,56 @@ mark-compass.png`, 256px PNG) is the board's: an SVG from the design system woul
     site-wide CTA item); the canvas note's CTA hierarchy names "Book a walkthrough".
   - URLs: articles at `/newsroom/<slug>/` with "Newsroom / category" breadcrumbs (the board
     draws "Blog"); `/blog/*` 301s to `/newsroom/:splat`.
+  - **Legacy posts** (12 entries from the "Blog Posts Working" boards, 2026-10-12; slugs are the
+    legacy slugs in lower case; 301 rows under Launch):
+    - **Dates are estimates** (no board, legacy page or HubSpot record dates them), in the legacy
+      blog index's order: Daily Mindfulness Habit 2022-10-04, Anxiety 2022-08-02, Test Stress
+      2022-03-15, Why Teaching 2022-01-18, Grief 2021-11-09, 3 Ways 2021-09-14, Strength
+      Training 2021-07-13, Mental Health COVID-19 2021-05-04, 5 W's 2020-04-14, Immune Function
+      2020-03-24, Teacher Wellbeing 2020-01-14; AI Accelerates 2026-05-12 (after the April 2026
+      Education Week piece it cites). They order the Newsroom and go into the Article JSON-LD:
+      replace with the real dates.
+    - **Categories** (the boards draw none): Wellbeing, Classroom Practice, Leadership (AI).
+      Tags: none.
+    - **Deks** (the boards draw none; the template shows `description` under the H1 and on
+      cards): the legacy meta description where it describes the post (Daily Habit, Test Stress,
+      Why Teaching, Mental Health COVID-19, whose meta reads poorly: "had a bad impact"),
+      otherwise the legacy blog index excerpt to its last full sentence; AI: its opening lines,
+      which repeat in the body.
+    - **Authors**, only what each board's author box draws: Anitra Rice (name, photo), Christy
+      Cassisa (role, bio, photo), Janice Houlihan (bio, no photo; the board links "Inner
+      Explorer" in it, dropped). AI: the board credits Laura Bakosh and Lisa Grady
+      ("Cofounder, Inner Explorer"); the template takes one author, so Laura with her existing
+      role and bio, and the closing note names both. The other 8 posts have no author.
+    - **As drawn, not fixed:** typos and odd copy kept verbatim ("trait minfulness", "A little
+      know fact", "Inner Explorers mindfulness platform", "time to for the classroom"); Immune
+      Function's opening paragraph appears twice (board and legacy page alike). Two missing
+      spaces were added (Why Teaching: "over 60%", "by 43%", "by 47%", "stressors. So").
+      Straight quotes and `--` render curly and as an em dash (Astro's smart punctuation,
+      site-wide).
+    - **Structure:** numbered steps with a number disc (3 Ways, Immune Function, 5 W's) are H2s,
+      since each board's "On this page" lists them; Immune Function's linked "5 Ways to Create
+      Calm from Chaos" heading is an H2 too, so its outline has 6 items where the board lists 5.
+      Quote cards are `PullQuote`s (italic between hairlines; the board draws a card with a quote
+      mark). Sources are a plain list in the body (the board sets them small under a rule). The
+      AI post's FAQ outline label reads "FAQ" (the template's), the board "Frequently Asked
+      Questions". Bar charts left out: anxiety's "A 2021 U.S. Teacher Survey" and Why Teaching's
+      "Improved grades" repeat the bullet list above each.
+    - **Links rewritten:** board-internal links to the posts' new URLs; the home page, about
+      and index links to `/` and `/about/`; `case-study1` to `/case-studies/kaiser-elementary/`;
+      `mbsel` to `/case-studies/webb-school/` (as the 301 map sends it); `experience(.html)`
+      ("experience a few of our practices", "Begin Today") to `/platform/`; the 2018 study PDF
+      on the legacy host to its DOI. Kept as is (no page here yet; each needs a 301 row):
+      `homeapp/index.html` (4 links, including 5 W's "family_onboarding" text),
+      `good_news_november(.html)` and `good-news-february.html`. Strength Training's "Read the
+      next post: Formal vs. Informal…" links to `/newsroom/` until that post exists; its
+      "Daily mindfulness practice" link points at itself, as on the legacy page.
+    - **Images:** the boards' photos; the AI post's hero is byte-identical to Contact's
+      `student-classroom-practice.jpg`, so it uses that file (a second copy made Vite emit only
+      one name and broke the share image).
+    - **Not on the live site:** MTSS and athletes were on the pre-rebuild v2 site only
+      (`/blog/<slug>/`, covered by `/blog/*`); AI Accelerates has no legacy URL found (not on the
+      blog index, HubSpot or `/blog/…`): confirm where it was published.
 - [ ] **Case Studies:** the 7 pre-rebuild YAMLs (`0c8cac2:src/content/case-studies/`) carry
       PUBLISH GATE and REVIEW comments: stand-in portraits, invented student voices,
       representative trust figures, inferred dates, La Joya's 85% vs 80%, the 43% educator-stress
@@ -498,7 +548,16 @@ mark-compass.png`, 256px PNG) is the board's: an SVG from the design system woul
       (Research's tiles moved onto it), `PageTitle splitLead="narrow"` and `barWidth="article"`,
       PageLayout's `top` slot, `Button iconStart`, `.ie-prose`, `.ie-faq`; `/newsroom/`
       breadcrumbs, `/blog/*` 301s (Before build › Newsroom and Article).
-- [ ] Newsroom: the 18 legacy posts word for word ("Blog Posts Working" page) as `news` entries.
+- [x] Newsroom: the legacy posts word for word ("Blog Posts Working" page) as `news` entries:
+      14 asked for, 12 new (MTSS and athletes were already built and stay as built). `author`
+      optional (byline and author box drop out; JSON-LD credits Inner Explorer), body images
+      through `.ie-prose img` (Before build › Newsroom and Article › Legacy posts).
+- [ ] Newsroom: the board's 7 other legacy posts, not built (asked for 14 of them, 2026-10-12):
+      Formal vs. Informal Mindfulness Practice, Mindfulness Based Social and Emotional Learning
+      (MBSEL), What is Mindfulness-Based Social Emotional Learning (MBSEL)?, How Mindfulness Works
+      to Reduce Teacher Stress and Burnout, The Inner Explorer Tune In Feature For Families,
+      Mindfulness and Diversity, and the federal COVID relief funds FAQ. Their legacy URLs need a
+      row in the 301 map either way.
 - [x] Research: the brain diagram and dose waffles (inline SVG), the wall, Show our work,
       `LogoStrip layout="marquee"`, EvidenceCard extra tags and details slot, `PageLayout
 header="dark"`; title sizes snapped per the Remaining-drift board (Before build › Research).
@@ -534,9 +593,34 @@ header="dark"`; title sizes snapped per the Remaining-drift board (Before build 
       | `/images/Mindful-Michigan-Model.pdf`               | `/case-studies/`                                  |
 
       Each PDF could instead go to its story page (the playbook's plan, which sends ranking PDF
-      traffic to the HTML story); pick one rule for all five. Also: the 18 posts at `/blog-index`
-      → their Newsroom URLs; `/compare_program` → `/pricing/`. Then crawl the legacy site for
-      anything else that ranks or is linked.
+      traffic to the HTML story); pick one rule for all five.
+
+      Blog (legacy posts as built, 2026-10-12). The legacy paths keep their capitals, and
+      `/blog/*` → `/newsroom/:splat` would carry them into a 404 (the new slugs are lower case),
+      so each needs its own rule, placed above the splat:
+
+      | Legacy URL                                                                | New URL                                                                     |
+      | ------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+      | `/blog-index`                                                             | `/newsroom/`                                                                |
+      | `/blog/Daily-Mindfulness-Habit`                                           | `/newsroom/daily-mindfulness-habit/`                                        |
+      | `/blog/anxiety-in-the-classroom`                                          | `/newsroom/anxiety-in-the-classroom/`                                       |
+      | `/blog/Mindfulness-in-The-Classroom-Helps-Students-Stay-on-Their-A-Game`  | `/newsroom/mindfulness-in-the-classroom-helps-students-stay-on-their-a-game/` |
+      | `/blog/why-teaching-mindfulness-in-the-classroom-is-good-for-mental-health` | `/newsroom/why-teaching-mindfulness-in-the-classroom-is-good-for-mental-health/` |
+      | `/blog/mindfulness-and-grief`                                             | `/newsroom/mindfulness-and-grief/`                                          |
+      | `/blog/3-Ways-to-Create-Calm-from-Chaos-with-Daily-Mindfulness`           | `/newsroom/3-ways-to-create-calm-from-chaos-with-daily-mindfulness/`        |
+      | `/blog/Daily-Mindfulness-Practice-Strength-Training-for-the-Brain`        | `/newsroom/daily-mindfulness-practice-strength-training-for-the-brain/`     |
+      | `/blog/Mental-Health-Helps-Children-During-COVID-19-Beyond`               | `/newsroom/mental-health-helps-children-during-covid-19-beyond/`            |
+      | `/blog/The-5-Ways-Of-Mindfulness`                                         | `/newsroom/the-5-ways-of-mindfulness/`                                      |
+      | `/blog/Mindfulness-Improves-Immune-Function-And-Decreases-Stress`         | `/newsroom/mindfulness-improves-immune-function-and-decreases-stress/`      |
+      | `/blog/Time-We-Outsmart-Stress-And-Take-Stand-For-Teacher-Wellbeing`      | `/newsroom/time-we-outsmart-stress-and-take-stand-for-teacher-wellbeing/`   |
+      | `/blog/inner-explorer-mtss-tiers/` (pre-rebuild v2 site only)             | `/newsroom/inner-explorer-mtss-tiers/` (the `/blog/*` splat already does it) |
+      | `/blog/mindfulness-for-student-athletes/` (pre-rebuild v2 site only)      | `/newsroom/mindfulness-for-student-athletes/` (the splat already does it)   |
+      | AI Accelerates (no legacy URL found)                                      | `/newsroom/ai-accelerates-mindfulness-navigates/`                           |
+      | the 7 posts not built (`/blog/Formal-vs-Informal-Mindfulness-Practice`, `/blog/Mindfulness-To-Reduce-Stress-And-Burnout`, `/blog/What-is-Mindfulness-Based-Social-Emotional-Learning`, `/blog/mindfulness-and-diversity`, `/goodnews`, `/Mindfulness-Based-Social-and-Emotional-Learning.html`, `/Frequently-Asked-Questions-About-Federal-COVID-Relief-Education-Funds.html`) | `/newsroom/` until built |
+      | `/homeapp/index.html`, `/good_news_november(.html)`, `/good-news-february.html` (linked from the posts) | to decide |
+
+      Also: `/compare_program` → `/pricing/`. Then crawl the legacy site for anything else that
+      ranks or is linked.
 
 - [ ] Remove the PRE-LAUNCH noindex `[[headers]]` blocks in `netlify.toml` and
       `sites/help/netlify.toml` (help.innerexplorer.com is noindexed too). Keep the
