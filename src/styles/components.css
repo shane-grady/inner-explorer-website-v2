@@ -468,6 +468,16 @@
   border: 1px solid var(--border);
   box-shadow: var(--shadow-raised);
 }
+/* A study card reached from an outcome citation (Research): an Emerald ring drawn inside the
+   edge, so the mobile carousel's scroller doesn't clip it. */
+.ie-spotlight[data-spotlight],
+.ie-spotlight:target {
+  outline: 2px solid var(--ring);
+  outline-offset: -2px;
+}
+.ie-spotlight:focus:not([data-spotlight], :target) {
+  outline: none;
+}
 .ie-card-floating {
   box-shadow: var(--shadow-floating);
 }
