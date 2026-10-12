@@ -8,7 +8,8 @@
 # PDF). Written for the template, not from the source: the card's label, the "At a glance"
 # facts and the alt text (the canvas's content model). Open items (tasks/todo.md › Case
 # Studies): the school's approval to publish (a launch gate), Hartford (hero) vs Avon (rail),
-# the chart values (read off the original chart), the photo.
+# the chart values (read off the original chart), the photo. Related: the board's third story,
+# Dwight Morrow, is not published; Goddard stands in.
 order: 6
 draft: false
 seo:
@@ -222,4 +223,4 @@ pdf:
 related:
 - kaiser-elementary
 - la-joya-isd
-- dwight-morrow
+- goddard-middle-school

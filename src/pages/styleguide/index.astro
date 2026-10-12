@@ -140,6 +140,11 @@ const sampleRuled = [
   { value: '56', sign: '%', label: 'fewer sample incidents' },
   { value: '43', sign: '%', label: 'less sample stress' },
 ];
+// Result tiles in a case study's body (John Marshall).
+const sampleTiles = [
+  { value: '15%', label: 'Increase in sample scores', source: 'From one sample year to the next' },
+  { value: '19%', label: 'Increase in sample results', source: 'From one sample year to the next' },
+];
 // A checklist item may lead with a bold phrase (Why's Reason 4).
 const leadChecklist = [
   { lead: 'Zero prep required.', text: 'Log in, press play, and deliver a practice.' },
@@ -663,6 +668,7 @@ const checklist = [
       page's H1, so it is shown on Home only.
     </p>
     <StatStrip class="mt-8" stats={sampleStats} />
+    <StatStrip class="mt-8 max-w-180" variant="tiles" stats={sampleTiles} />
     <LogoStrip
       class="mt-8 border-t border-border pt-8"
       label="Trusted in districts including"

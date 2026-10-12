@@ -1,0 +1,183 @@
+# Goddard Middle School: one file drives /case-studies/goddard-middle-school/ and its card.
+#
+# The hero (title, details, voice, results, photo and position) is verbatim from Hero D's Goddard
+# boards (CS-Hero-D, CS-Hero-D-Mobile, story "goddard"). The unnamed School Counselor's quote opens
+# the page there as an excerpt, so the body's full copy of it is dropped (as on Webb). The lead, the
+# "At a glance" facts and the body are verbatim from the boards "Goddard Middle School · Desktop /
+# Mobile" (page "Case Study Detail Working"), which carry the original innerexplorer.com text (legacy
+# /case-study3 and its PDF). The board's paired bar chart (Goddard vs. Colorado) is a table here,
+# with the chart's own title and values; its "Grade" header is the one word written for it. The
+# board's anchors for the last two headings were swapped (id "staff" on "Modifications…"); here
+# each id matches its heading. Open items (tasks/todo.md › Case Studies): the unnamed counselor,
+# every figure as drawn, "Colorado State Department of Education", the PDF.
+order: 1
+draft: false
+seo:
+  title: 'Mindfulness Case Study: 3X State Gains in ELA & Math | Inner Explorer'
+  description: Between 2016 and 2018, Goddard Middle School’s gains in English Language Arts and Math
+    were 3X Colorado’s, with daily mindfulness from Inner Explorer.
+publishedDate: '2026-06-09'
+updatedDate: '2026-10-11'
+level: Middle school
+name: Goddard Middle School
+place: Littleton, CO
+location: Littleton, Colorado
+tags:
+- academics
+title:
+  lead: How Goddard Middle School gained state recognition in academics
+  emph: through daily mindfulness practice
+details:
+- Littleton, Colorado
+- Grades 6–8
+- 7 min read
+voice:
+  quote: Teachers notice that students are calmer throughout the day when they begin with a mindfulness
+    practice.
+  name: School Counselor
+  role: Goddard Middle School
+lead: Goddard Middle School is located in Littleton, Colorado, and serves students grades 6-8. Goddard
+  has the highest percentage of special education students, students experiencing trauma, and students
+  on the free lunch program than any other school in the district.
+card:
+  stat: 3X
+  label: the average percentage increase for Colorado in ELA and Math
+results:
+- value: 3X
+  label: higher average percentage increase in English Language Arts and Math than Colorado as a whole
+- value: 5X
+  label: higher in Science
+- value: 8X
+  label: higher in 8th-grade English Language Arts
+image:
+  src: ../../assets/images/case-studies/goddard-middle-school/entrance-sign.jpg
+  alt: The entrance sign at Goddard Middle School in Littleton, Colorado
+  position: 50% 50%
+glance:
+- label: Location
+  value: Littleton, Colorado
+- label: Grades
+  value: 6–8
+- label: Practice
+  value: 5-10 minutes of daily MBSEL practice, before or after an SEL lesson
+- label: Partner
+  value: LG Electronics USA
+body:
+- type: heading
+  id: background
+  text: Background
+- type: quote
+  text: We have a unique demographic where we have students who come from very poor families, and students
+    who come from very wealthy families. Bringing all of these kids from different backgrounds together
+    can raise issues. But *diversity is one thing that makes our school great.*
+  name: Jenica Loether
+  role: School Counselor, Goddard Middle School
+  initials: JL
+- type: paragraphs
+  items:
+  - Goddard implemented the Inner Explorer program at no cost through the generosity of LG Electronics
+    USA. Both educators and counselors started using the program in classrooms and small group sessions.
+    Within two years of using Inner Explorer, Goddard saw a substantial increase in school-wide academic
+    performance. LG Electronics USA continues to support the use of Inner Explorer at Goddard Middle School
+    today.
+- type: callout
+  title: State recognition
+  text: The results were so significant that the Colorado State Department of Education contacted the
+    school principal to find out what they were doing – Goddard was outperforming most middle schools
+    in the state with the same demographic profile. The principal credited the results to practicing mindfulness
+    through Inner Explorer.
+- type: heading
+  id: academics
+  text: Rapid improvement in academics
+- type: paragraphs
+  items:
+  - Between 2016 and 2018, the average percentage increase of Goddard 6th-8th grade students who met or
+    exceeded expectations in English Language Arts and Math was 3X higher than the average percentage
+    increase for Colorado as a whole. Science was 5X higher. Most notably, the percentage of students
+    who met or exceeded expectations in 8th-grade English Language Arts was 8X higher than the state.
+- type: table
+  caption: Improvement % between 2016-2018, Goddard vs. Colorado
+  columns:
+  - Grade
+  - Goddard
+  - Colorado
+  rows:
+  - - English Language Arts, 6th grade
+    - 6.4%
+    - 4.5%
+  - - English Language Arts, 7th grade
+    - 10.1%
+    - 5.6%
+  - - English Language Arts, 8th grade
+    - 16.8%
+    - 2.2%
+  - - Math, 6th grade
+    - 3.6%
+    - −0.6%
+  - - Math, 7th grade
+    - 7.9%
+    - 2.6%
+  - - Math, 8th grade
+    - 18.0%
+    - 7.8%
+  - - Science, 8th grade
+    - 4.9%
+    - 1.0%
+  highlight: 1
+- type: paragraphs
+  items:
+  - Before Inner Explorer, staff at Goddard Middle School were already facilitating social emotional learning
+    (SEL) lessons. After Inner Explorer was introduced, the focus shifted to incorporating Mindfulness-Based
+    Social Emotional Learning (MBSEL) into every classroom to support student and educator well-being.
+- type: subheading
+  text: Why MBSEL?
+- type: paragraphs
+  items:
+  - Traditional SEL curriculum is designed to activate the prefrontal cortex (PFC), otherwise known as
+    the brain's executive center. However, *when the brain is stressed, the prefrontal cortex becomes
+    inactive.*
+  - As a result, a person is unable to access what they cognitively know, making them prone to reactivity.
+    *MBSEL programs target this disconnect by teaching strategies to self-regulate during moments of stress.*
+- type: heading
+  id: modifications
+  text: Modifications for a unique population
+- type: paragraphs
+  items:
+  - Goddard began implementing 5-10 minutes of daily MBSEL practice through Inner Explorer, either before
+    or after teaching a lesson on SEL. This allowed students to calm down and prepare for learning before
+    the lesson, or enhance what they had just learned by reflecting on it during mindfulness.
+  - Considering Goddard’s high percentage of students facing trauma and adversity, in addition to special
+    education students, the school needed an approach that catered to their population. School staff worked
+    together to brainstorm a strategy to integrate a mindfulness practice for these students in a way
+    that was sensitive to their needs.
+  - In situations where a student feels upset or has an emotional outburst, the teacher asks the student
+    to sit in an area where they feel safe and listen to a mindfulness practice until they feel ready
+    to talk about the situation. Students who feel uncomfortable closing their eyes or sitting still are
+    encouraged to color or doodle while they listen to a mindfulness practice. As a result, teachers noticed
+    that students were more calm and less reactive during the day.
+- type: heading
+  id: staff
+  text: Educating school staff and families
+- type: paragraphs
+  items:
+  - Goddard leadership ensured that school staff and families were knowledgeable about mindfulness and
+    answered any questions they had about practicing Inner Explorer. They accomplished this by holding
+    a presentation about MBSEL, discussing the research and benefits.
+- type: subheading
+  text: 'Key Findings from Goddard can help any school community integrate MBSEL:'
+- type: checklist
+  items:
+  - Elect a champion who is dedicated to making the program a success.
+  - Brainstorm how an MBSEL program can complement an existing program, such as SEL lessons. This will
+    make the transition easier for students and educators.
+  - Adapt the program to meet the needs of the students within the community.
+  - Communicate the "why" and "how" of an MBSEL program to families, ensuring they have an opportunity
+    to ask questions.
+pdf:
+  file: /downloads/goddard-middle-school-case-study.pdf
+  pages: 3
+  title: Get the Goddard Middle School case study
+related:
+- john-marshall-hs
+- kaiser-elementary
+- webb-school

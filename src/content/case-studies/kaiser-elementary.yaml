@@ -1,0 +1,236 @@
+# Henry J. Kaiser Elementary: one file drives /case-studies/kaiser-elementary/ and its card.
+#
+# The hero (title, details, voice, results, photo and position) is verbatim from Hero D's Kaiser
+# boards (CS-Hero-D, CS-Hero-D-Mobile, story "kaiser"). Trudy Humphreys's quote opens the page there
+# as an excerpt, so the body's full copy of it is dropped (as on Webb). The lead, the "At a glance"
+# facts and the body are verbatim from the boards "Kaiser Elementary · Desktop / Mobile" (page
+# "Case Study Detail Working"), which carry the original innerexplorer.com text (legacy /case-study1
+# and its PDF). The card's stat, label and photo are the index board's. Written for the template,
+# not from the source: nothing beyond the boards. Open items (tasks/todo.md › Case Studies): the hero
+# photo (it reads as generated imagery, not the school), every figure as drawn, the PDF.
+order: 3
+draft: false
+seo:
+  title: 'Mindfulness Case Study: 77% Fewer Discipline Events | Inner Explorer'
+  description: At Henry J. Kaiser Elementary, after practicing mindfulness for a year, 48% of students
+    were reading at grade level, compared to only 17% the prior year.
+publishedDate: '2026-06-09'
+updatedDate: '2026-10-11'
+level: Elementary
+name: Henry J. Kaiser Elementary
+place: Ravenswood, WV
+location: Ravenswood, West Virginia
+tags:
+- behavior
+title:
+  lead: How Henry J. Kaiser Elementary cut discipline events 77%
+  emph: with ten minutes of daily mindfulness
+details:
+- Ravenswood, West Virginia
+- PreK to 2nd Grade
+- 370 students
+- 7 min read
+voice:
+  quote: After practicing Inner Explorer with the kids for a year, I saw a transformation in my classroom.
+    … I decided not to quit.
+  name: Trudy Humphreys
+  role: 2nd Grade Teacher, Henry J Kaiser Elementary
+  initials: TH
+lead: West Virginia had the nation’s highest drug overdose mortality of 51.5 per 100,000 standard population,
+  compared with the national average of 21.7 in 2018. In the last five years, pain pills flooded the state,
+  with providers writing 69 opioid prescriptions for every 100 persons, compared to the average U.S. rate
+  of 51.4 prescriptions.
+card:
+  stat: 77%
+  label: decrease in school-wide discipline problems
+  image:
+    src: ../../assets/images/case-studies/kaiser-elementary/educators-vocabulary-board.jpg
+    alt: Two educators in matching blue shirts stand in front of a math vocabulary board
+results:
+- value: '77'
+  unit: '%'
+  label: Decrease in school wide discipline problems
+- value: '190'
+  unit: '%'
+  label: 'Increase in # of students “At or Above Grade Level” in Reading'
+- value: '375'
+  unit: '%'
+  label: 'Increase in # of students “At or Above Grade Level” in Math'
+image:
+  src: ../../assets/images/case-studies/kaiser-elementary/classroom-practice.jpg
+  alt: A classroom of young elementary students sitting upright with eyes closed during the morning mindfulness
+    practice
+  position: 50% 45%
+glance:
+- label: Location
+  value: Ravenswood, West Virginia
+- label: Grades
+  value: PreK to 2nd Grade
+- label: Students
+  value: 370 Students
+- label: Practice
+  value: 10-minute practices, every day
+- label: Partner
+  value: LG Electronics
+body:
+- type: heading
+  id: background
+  text: Background
+- type: paragraphs
+  items:
+  - The opioid addiction problem had a rippling effect on the community, disrupting families, straining
+    public institutions and increasing the number of children in the foster care system. West Virginia
+    counties with the highest rates of opioid deaths also tended to see higher rates of child abuse and
+    neglect. The Centers for Disease Control and Prevention states that adverse childhood experiences
+    (ACEs) like these, can have lasting, negative effects on children’s health, well-being and opportunity
+    well into adulthood.
+  - Henry J. Kaiser Elementary, in Ravenswood, West Virginia was profiled in the Nation Article [“These
+    Kids are Watching their Parents Die”](https://www.thenation.com/article/archive/kids-watching-parents-die/).
+    Principal Amber Hardman noted “a marked uptick in intense behavior problems” in these young students
+    – “who are defiant, throw chairs and tip over tables.”
+  - While Henry J. Kaiser had outstanding teachers and various Social Emotional Learning (SEL) programs
+    in place, the staff felt the problems were getting worse. Many children were experiencing chronic
+    stress associated with poverty, family dislocation, addiction, overdose death, and incarceration,
+    that they carry complex emotional needs and lack of concentration with them into the classroom. One
+    educator, Christy Archer said “We feel hopeless. We want to help these children read, but they can’t…
+    because of things beyond our control.”
+- type: heading
+  id: opportunity
+  text: Opportunity
+- type: paragraphs
+  items:
+  - In response to the Nation Article, Inner Explorer reached out to Ms. Hardman to see if their daily
+    mindfulness program could help. She said, "We were struggling… classrooms were taken over by behavior
+    issues. Kids were exposed to so much trauma that they were simply not ready for academics. We desperately
+    needed a solution and tools but we lacked resources. Just as I started to look into trauma sensitive
+    programs, Inner Explorer found us!" Through the generosity and partnership with LG Electronics, Inner
+    Explorer was able to grant Henry J. Kaiser Elementary School the program at no charge.
+- type: heading
+  id: framework
+  text: Framework
+- type: paragraphs
+  items:
+  - Henry J. Kaiser staff had utilized the Positive Behavioral Interventions and Supports (PBIS) framework
+    for several years prior to implementing Inner Explorer. They continued by integrating the mindfulness
+    components into the structure. Tier 1 is considered universal instruction. Most students in this group
+    are “At or Above grade level” academically and have very few behavior issues. Tier 2 includes students
+    who are “Below grade level” and/or have behavior issues that require additional supports. Tier 3 includes
+    students who are “below or significantly below grade level” and/or have significant behavioral issues
+    requiring one on one intervention.
+- type: subheading
+  text: Tiered approach to mindfulness intervention
+- type: checklist
+  items:
+  - lead: 'Tier 1:'
+    text: A universal intervention for all students and staff practicing mindfulness together daily
+  - lead: 'Tier 2:'
+    text: Mindfulness practiced in small groups with Counselor/Therapist for those needing additional
+      support
+  - lead: 'Tier 3:'
+    text: Mindfulness practiced in an individual setting with the Therapist for those needing even more
+      support
+- type: heading
+  id: solution
+  text: Solution
+- type: paragraphs
+  items:
+  - Henry J Kaiser’s principal, Amber Hardman took a student-centered approach to implementing mindfulness
+    with all students, in the five focus areas noted below. She allocated time in the school schedule
+    for the 10-minute practices and instructed her staff to use Inner Explorer every day to help students
+    get to a state of educational ‘readiness’. The school-based therapist, Stephanie Majetich said, “I
+    even used Inner Explorer in my therapy sessions with students. It creates an atmosphere that’s conducive
+    to learning. I know students are using these skills at home too, because parents have made so many
+    positive comments.”
+- type: steps
+  items:
+  - title: Embed
+    text: Principal Hardman allocated time into the daily curriculum for Inner Explorer, making the purpose
+      clear to staff that mindfulness was a priority. The entire school practiced together every morning.
+  - title: Champion
+    text: The school-based therapist and lead teacher were selected as champions, both with interest in
+      the approach, and built positive momentum throughout the school.
+  - title: Adopt
+    text: Early adopters of Inner Explorer noticed improvements in students’ emotional regulation and
+      attention. Teachers who had not bought in, witnessed these changes on the playground, and were grateful
+      for the opportunity to join in.
+  - title: Change
+    text: Once Inner Explorer’s daily mindfulness program was part of the routine, the positive effects
+      on social emotional learning (SEL) and academics were noticeable and consistent. Students were more
+      self-aware, regulated, focused and collaborative. It elevated the entire learning community.
+  - title: Model
+    text: Mindfulness provided a platform for community building and for sustained human connection as
+      students, faculty and families practiced together every day.
+- type: heading
+  id: impact
+  text: Impact
+- type: subheading
+  text: Discipline
+- type: table
+  caption: Discipline events, March 2019 vs March 2020
+  columns:
+  - Discipline Type
+  - March 2019
+  - March 2020
+  - 12 Month Difference
+  - '% Decrease'
+  rows:
+  - - Lunch Detention
+    - '65'
+    - '14'
+    - (51)
+    - 78%
+  - - Suspension
+    - '14'
+    - '4'
+    - (10)
+    - 71%
+  - - Alternative School
+    - '3'
+    - '1'
+    - (2)
+    - 67%
+  - - Total Discipline Events
+    - '82'
+    - '19'
+    - (63)
+    - 77%
+  highlight: 4
+- type: subheading
+  text: Academic
+- type: paragraphs
+  items:
+  - According to research by the Annie E. Casey Foundation, 3rd grade reading levels predict high school
+    graduation rates.
+  - At Henry J. Kaiser Elementary, after practicing mindfulness for a year, 48% of students were reading
+    at grade level, compared to only 17% the prior year.
+  - This means that 115 more students were on track to reach this important milestone.
+- type: subheading
+  text: Cost
+- type: checklist
+  items:
+  - Saved approximately $11,500/year as 31% fewer students needed Reading interventions
+  - Saved approximately $11,100/year as 30% fewer students needed Math interventions
+- type: table
+  caption: Before and after Inner Explorer
+  columns:
+  - Before Inner Explorer
+  - After Inner Explorer
+  rows:
+  - - Significant student stress and trauma
+    - Students have the tools to self regulate and de-stress
+  - - High rates of suspensions and detentions
+    - 77% reduction in discipline, improved self regulation
+  - - Only 17% of students ‘At/Above Grade Level’ – Reading
+    - 48% of students At/Above Grade Level – Reading
+  - - Only 8% of students ‘At/Above Grade Level’ – Math
+    - 38% of students At/Above Grade Level – Math
+  - - High teacher stress and burnout
+    - Increased teacher retention and wellbeing
+pdf:
+  file: /downloads/kaiser-elementary-case-study.pdf
+  pages: 3
+  title: Get the Henry J. Kaiser Elementary case study
+related:
+- la-joya-isd
+- webb-school
+- goddard-middle-school

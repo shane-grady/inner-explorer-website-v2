@@ -16,3 +16,12 @@ export function emphasize(
     .replace(/\*([^*]+)\*/g, `${open}$1</em>`)
     .replace(/\n/g, br);
 }
+
+// Running text with inline marks, as the case-study body carries it: `*words*` set bold and
+// `[words](https://…)` a link (only http(s) and site-relative targets). Everything else is
+// escaped.
+export function inlineMarks(text: string): string {
+  return escape(text)
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+|\/(?!\/)[^)\s]*)\)/g, '<a href="$2">$1</a>')
+    .replace(/\*([^*]+)\*/g, '<strong>$1</strong>');
+}
