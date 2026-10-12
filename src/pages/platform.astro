@@ -894,7 +894,10 @@ const platformLd = {
       if (focus) tabs[index]?.focus();
     };
     list.hidden = false;
-    select(0);
+    // Home's grade bands link to /platform/?program=<id>#programs to open that program's tab.
+    const linked = new URLSearchParams(location.search).get('program');
+    const start = tabs.findIndex((tab) => tab.id === `tab-${linked}`);
+    select(Math.max(0, start));
     tabs.forEach((tab, i) => {
       tab.addEventListener('click', () => select(i));
       tab.addEventListener('keydown', (event) => {
