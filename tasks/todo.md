@@ -287,10 +287,15 @@ mark-compass.png`, 256px PNG) is the board's: an SVG from the design system woul
     to 16,000 and "a 15 to 28 percent improvement in academic performance" to "a 15 percent
     improvement in average GPA": not adopted. Its sources' figures (91%, 58%, 1 in 10, the NCAA
     study of 25 players) and the pro athletes' quotes.
-  - Resource cards (Newsroom), as drawn: Treves et al. 2023 "−28% lower student stress" with
-    Inner Explorer's bar at 72% of active control; Dunlap 2023 "+22–26.6% math and reading,
-    special education" with bars at 79.37% / 96.83% + 3.17%. Each links to its study on
-    `/research/`.
+  - Resource cards (Newsroom, 2026-10-12, the user's call): the board's two study tiles are
+    replaced by the four gated downloads from the "Website Resources 10/26" sheet (Resources
+    tab), titles verbatim and each excerpt the first sentence of its description (shortened at the
+    user's request), each linking to its HubSpot landing page on learn.innerexplorer.com.
+    Each cover is the landing page's hero asset on brand green
+    (`src/assets/images/newsroom/resources/`); the AI library's is a capture of its HTML mockup.
+    The rainbow lines in the AI library and dyslexia brief covers are repainted as the site's
+    three-color accent bar (the landing pages are being changed to match). No publish dates:
+    all four are 2026, in the sheet's order. The action line reads "Download free".
   - Read times are computed from the text (MTSS 6 min, Athletes 7 min); the boards say 6 and 8
     (MTSS) and 5 (Athletes).
   - Press links: as drawn; CNN, Mindful Nation UK, Fox News, Associated Press, Mindful, Fortune
