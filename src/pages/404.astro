@@ -1,5 +1,8 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import Section from '../components/ui/Section.astro';
+import PageTitle from '../components/ui/PageTitle.astro';
+import Button from '../components/ui/Button.astro';
 import { HELP_SITE } from '../lib/site';
 
 const content = {
@@ -15,15 +18,17 @@ const content = {
 ---
 
 <PageLayout title={content.title} description={content.description} noindex>
-  <h1>{content.heading}</h1>
-  <p>{content.lead}</p>
-  <ul>
-    {
-      content.links.map((link) => (
-        <li>
-          <a href={link.href}>{link.label}</a>
-        </li>
-      ))
-    }
-  </ul>
+  <Section spacing="hero" as="div">
+    <PageTitle title={content.heading} lead={content.lead}>
+      <Fragment slot="actions">
+        {
+          content.links.map((link, i) => (
+            <Button href={link.href} variant={i === 0 ? 'primary' : 'secondary'}>
+              {link.label}
+            </Button>
+          ))
+        }
+      </Fragment>
+    </PageTitle>
+  </Section>
 </PageLayout>

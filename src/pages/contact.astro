@@ -35,10 +35,11 @@ const content = {
     privacyLabel: 'Privacy',
     privacyHref: '/privacy-policy/',
   },
-  // Contact-Success board. "We just sent a confirmation" is unconfirmed (tasks/todo.md).
+  // Contact-Success board. Its "We just sent a confirmation to your inbox" was dropped: the
+  // form sends none (tasks/todo.md). Restore it if a HubSpot follow-up email is added.
   success: {
     heading: 'Thank you for reaching out',
-    text: 'We just sent a confirmation to your inbox, and someone from our team will follow up within 1 business day to find a time to talk.',
+    text: 'Someone from our team will follow up within 1 business day to find a time to talk.',
     doneLabel: 'Done',
     steps: [
       { label: 'You told us about your school', state: 'done' },

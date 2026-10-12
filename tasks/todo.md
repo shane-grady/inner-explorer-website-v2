@@ -70,11 +70,14 @@ the owners the canvas gives.
     and student images from the internal library: Lisa, Juliana). The three product mocks built in
     markup (the "Day 14 of 180" card, Recommended actions, the Gratitude reflection card) stand in
     for platform screenshots (Shane); they are `aria-hidden`.
-  - Sample practices (Shane, Lisa): four audio files with written transcripts, one per program,
-    and their lengths (the players show 0:00 / [length]). Each player is built and stays disabled
-    until both `audio` and `transcript` are set in the page's `content` (a "Read the transcript"
-    disclosure then appears; audio never ships without its text alternative). The High School
-    practice name still reads "[High School sample practice: TBD]" (Juliana).
+  - Sample practices (Shane, Lisa): names and audio set 2026-10-12 (Early Learning "Day 3:
+    Introduction to Breathing", Elementary "Day 8: Shark Fin Anytime", Middle "Day 9: Observing
+    Thoughts", High "Day 13: Introduction to Observing Senses"), in `public/audio/platform/`
+    named by program (Early and Elementary re-encoded from 320 / 256 to 96 kbps, as Middle and
+    High were supplied). The players are live. **Still owed, a launch blocker: a written
+    transcript for each.** Until one is set as `transcript` in the page's `content`, that audio
+    has no text alternative and the page misses WCAG 1.2.1 (the procurement requirement); each
+    transcript adds a "Read the transcript" disclosure under its player.
   - Facts (Juliana): the practice feedback feature as described ("Feedback after every practice");
     180 daily practices of five to ten minutes; ten hours of asynchronous PD; "COPPA, FERPA, and
     SOPIPA", DPAs on request; "Every practice is checked for developmental fit"; the four evidence
@@ -202,6 +205,10 @@ mark-compass.png`, 256px PNG) is the board's: an SVG from the design system woul
     switch's track is white 12% (board 6%) and the pause chip opaque Forest (board 60%); the
     brain's glows and mindful label are snapped (DESIGN.md); Emerald eyebrows and the Spring "Here
     is the proof." on mobile (desktop board).
+  - Outcome citations (2026-10-12, Lisa and Juliana in Slack: the arrows all "went to the same
+    place"): the down arrows are gone; a citation turns on Show our work, scrolls the study card
+    into view and outlines it (`.ie-spotlight`), so the claim's result is visible on arrival. A
+    deep link `/research/#study-s3` lands the same way. Confirm with them.
 - [ ] **About (built from FINAL V; confirm before launch):**
   - The FINAL V boards have no voices section (so no voice avatars), no milestones, and none of
     "487M minutes", "94% calmer in 4 weeks", "14 countries" or "12+ university partners"; none
@@ -396,8 +403,11 @@ mark-compass.png`, 256px PNG) is the board's: an SVG from the design system woul
       figure. Resolve each before its value reaches a new page.
 - [ ] **Case Studies (index, detail template and five stories built; confirm before launch):**
   - **Launch gate, Webb approval:** a canvas note on the Webb boards says "Hold on Webb Case study:
-    waiting for approval from them". Built and published on staging (noindexed); get the school's
-    approval before www goes live, or set `draft: true` in `src/content/case-studies/webb-school.yaml`.
+    waiting for approval from them". Set `draft: true` on 2026-10-12 (launch prep). On approval:
+    `draft: false`, point `/case-study4(.html)` and `/mbsel(.html)` in `netlify.toml` at
+    `/case-studies/webb-school/`, relink MBSEL in the "why teaching mindfulness" post, restore
+    `public/downloads/webb-school-case-study.pdf` (`git show 73bab77:public/downloads/…`) and
+    point `/images/Webb-School.pdf` back at it.
   - **The stories (decided 2026-10-11):** Webb, Kaiser, Goddard, John Marshall and La Joya, and
     only those. Dwight Morrow and Mindful Michigan are dropped: no page, their legacy URLs go to the
     index (Launch › legacy 301 map). Related rows: where a board links a dropped story, another
@@ -536,7 +546,7 @@ mark-compass.png`, 256px PNG) is the board's: an SVG from the design system woul
     JSON-LD ports `0c8cac2`'s Article + BreadcrumbList (no `citation`: the boards cite no sources)
     and CollectionPage + ItemList.
   - Copy verbatim: "Talk to our team" (index hero, rail, detail CTA) and "Contact us" (index CTA),
-    per the site-wide CTA item; "Case Studies on Inner Explorer Program" in title case.
+    per the site-wide CTA item. Index hero copy supplied 2026-10-12: "Real Results from Real Schools".
   - Drift left after the measured side-by-side reviews (2026-10-10 and, for Hero D, 2026-10-11;
     index hero within 3px at both widths; the Hero D hero within 6px of its board at 1440; the
     body within 20px by the PDF card): headings sit 4px higher each (52 → 48 margins); numerals 48
@@ -599,8 +609,14 @@ header="dark"`; title sizes snapped per the Remaining-drift board (Before build 
 ## Launch
 
 - [ ] Point www.innerexplorer.com at the marketing Netlify site (the legacy site serves it today).
-- [ ] Legacy 301 map, on www.innerexplorer.com and the lms.innerexplorer.org copies, each path
-      with and without `.html` (context per story: "Open follow-ups" in `tasks/seo-playbook.md`).
+- [x] Legacy 301 map in `netlify.toml` (2026-10-12): the tables below, the PDFs to the same
+      file, `/homeapp/privacy-policy.html` → `/privacy-policy/`, `/homeapp/*` → the Help Center's
+      family page, `/term` → `/terms/`, the legacy About/Program/District/Research pages, and
+      `/compass/*` (the district portal and sign-up links) 302 → app.innerexplorer.com, as the
+      legacy server did. Built from the legacy sitemap and links, each path with and without
+      `.html`. **Still open:** the lms.innerexplorer.org copies are served by the legacy Apache
+      host, so their 301s are set there (context per story: "Open follow-ups" in
+      `tasks/seo-playbook.md`).
       Case studies (slugs as built, 2026-10-11):
 
       | Legacy URL                                         | New URL                                           |
@@ -662,13 +678,36 @@ header="dark"`; title sizes snapped per the Remaining-drift board (Before build 
 - [ ] Help Center reskin onto the new design system; retires the frozen copies in `src-help/`.
 - [ ] Bring CMS editing back for marketing pages, if wanted.
 
+## Launch-day owner checklist (second audit, 2026-10-12)
+
+- [ ] DNS at GoDaddy (apex A 34.212.177.247, www CNAME → apex): lower TTL to 300 now. In
+      Netlify add www.innerexplorer.com (primary) and the apex as alias first, then switch
+      together (apex A 75.2.60.5, www CNAME innerexplorerwebsitev2.netlify.app) and provision
+      the certificate at once. The legacy site sends HSTS, so any TLS gap is a hard outage.
+- [ ] Merge the cutover PR (noindex removal) in the same window as DNS.
+- [ ] GA4 (G-EHSXT3SEYZ): it recorded nothing on either site until the `gtag` fix (2026-10-12;
+      rest-param arrays are dropped by gtag.js). Check Realtime on www after launch. The Help
+      Center counts client-side navigations through enhanced measurement's "page changes
+      based on browser history events": keep that setting on.
+- [ ] HubSpot: add www.innerexplorer.com to the tracking-code domains; if the cookie banner is
+      enabled, check it on the Help Center (ClientRouter swaps the DOM on navigation).
+      Intercom: add www to trusted domains if a list is set.
+
 ## HubSpot and other owner items
 
 - [ ] CloudCannon, right after this PR merges: Site Settings › Builds → `pnpm verify:help`,
       output `dist-help`; rebuild; the editor lists only Help, no red cards, Syncs clean
       (`rebuild-plan.md` › Your manual step).
-- [ ] HubSpot contact form: the confirmation says "We just sent a confirmation to your inbox",
-      but nothing sends one. Add a follow-up email on the form, or change the copy.
+- [x] HubSpot contact form: the confirmation no longer promises an email (2026-10-12). If a
+      follow-up email is added on the form, restore "We just sent a confirmation to your inbox".
+- [x] HubSpot tracking code on both sites, production builds only, skipped on \*.netlify.app
+      (`components/integrations/HubSpotTracking.astro`, 2026-10-12; reverses the pre-rebuild call).
+- [ ] HubSpot settings: turn on the cookie consent banner if wanted (Settings › Privacy &
+      Consent; the tracking script renders it); keep HubSpot chat OFF (Intercom is the messenger).
+- [ ] Privacy policy (counsel): it says Amplitude handles educator usage data only, but Amplitude
+      Session Replay records every marketing-site visitor. Update the policy or the sample rate.
+- [ ] Intercom: add the `*.netlify.app` guard to `Intercom.astro` once www is live (its comment
+      explains why it has none pre-launch).
 - [ ] HubSpot: confirm the contact form's notification recipients; delete the 2026-08-25 test
       contact (record 244309307539) if it's still there.
 - [ ] HubSpot forms the boards need beyond Contact: newsletter signup (Research, Article), the
@@ -679,5 +718,6 @@ header="dark"`; title sizes snapped per the Remaining-drift board (Before build 
       and turn on identity verification (JWT). See `tasks/intercom-setup.md`.
 - [ ] Privacy policy (Juliana, counsel): the callout's "educator-led, whole-classroom program"
       reads against the house rule that the audio guide leads the practice. Flagged, not
-      reworded: legal copy moves verbatim. No terms of service exists; counsel supplies one if
-      wanted at launch.
+      reworded: legal copy moves verbatim. The legacy Terms and Conditions moved verbatim to
+      `/terms/` (2026-10-12, `src/content/legal/terms.mdx`); counsel to review (it names a
+      Massachusetts jurisdiction and a mobile app, and lists tech@ as contact).

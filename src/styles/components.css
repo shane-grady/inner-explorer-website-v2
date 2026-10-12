@@ -468,6 +468,16 @@
   border: 1px solid var(--border);
   box-shadow: var(--shadow-raised);
 }
+/* A study card reached from an outcome citation (Research): an Emerald ring drawn inside the
+   edge, so the mobile carousel's scroller doesn't clip it. */
+.ie-spotlight[data-spotlight],
+.ie-spotlight:target {
+  outline: 2px solid var(--ring);
+  outline-offset: -2px;
+}
+.ie-spotlight:focus:not([data-spotlight], :target) {
+  outline: none;
+}
 .ie-card-floating {
   box-shadow: var(--shadow-floating);
 }
@@ -771,6 +781,11 @@
   background: var(--surface);
   box-shadow: var(--shadow-sticky);
 }
+/* While the bar shows, focus scrolled into view stops above it instead of under it
+   (WCAG 2.4.11 Focus Not Obscured). The bar is a full-size button in space-3 padding. */
+html:has(.ie-sticky-bar:not([hidden])) {
+  scroll-padding-block-end: var(--space-20);
+}
 
 /* ---------- Fields (Contact, the Article newsletter, and HubSpot's injected form) ---------- */
 .ie-label,
@@ -879,8 +894,10 @@ textarea:is(.ie-field, [data-hsform] .hs-input) {
 [data-hsform] .hs_error_rollup .hs-error-msgs {
   margin: 0;
 }
-/* The embed's target takes no gap until HubSpot fills it (the fallback shows instead). */
-[data-hsform] > :empty {
+/* The embed's target takes no gap until HubSpot fills it (the fallback shows instead). The
+   confirmation's live region is exempt: it must stay rendered while empty, or screen readers
+   never announce what is put into it. Empty, it is zero-height in the block form root. */
+[data-hsform] > :empty:not([data-hsform-status]) {
   display: none;
 }
 /* The page's heading and privacy line around the form go once the confirmation replaces it. */
@@ -1252,6 +1269,11 @@ textarea:is(.ie-field, [data-hsform] .hs-input) {
     margin-block-start: var(--space-6);
   }
 }
+/* Legacy posts print bare URLs as link text; let them break so a phone never scrolls
+   sideways. */
+.ie-prose a {
+  overflow-wrap: anywhere;
+}
 .ie-prose strong {
   font-weight: 700;
   color: var(--foreground);
@@ -1270,6 +1292,40 @@ textarea:is(.ie-field, [data-hsform] .hs-input) {
 }
 .ie-prose > :is(ul, ol) > li::marker {
   color: var(--icon-accent);
+}
+/* Legal documents (/privacy-policy/, the shared Help Center MDX): its <HelpTable> stand-in (a
+   captioned figure around a markdown table) and its <Callout> stand-in (an aside), as flat
+   Tint panels and hairline rows. */
+.ie-prose > figure figcaption {
+  @apply type-label;
+  margin-block-end: var(--space-3);
+  color: var(--foreground-muted);
+}
+.ie-prose table {
+  @apply type-small;
+  width: 100%;
+  border-collapse: collapse;
+}
+.ie-prose :is(th, td) {
+  padding: var(--space-3) var(--space-4) var(--space-3) 0;
+  border-block-end: 1px solid var(--border);
+  text-align: start;
+  vertical-align: top;
+}
+.ie-prose th {
+  font-weight: 700;
+  color: var(--foreground);
+}
+.ie-prose > aside {
+  padding: var(--card-padding);
+  border-radius: var(--radius-sm);
+  background: var(--tint);
+}
+.ie-prose > aside > * {
+  margin-block: 0;
+}
+.ie-prose > aside > * + * {
+  margin-block-start: var(--space-3);
 }
 /* Body images (the legacy posts' photos and diagrams): the full measure in radius-sm frames;
    two in one paragraph sit side by side, cropped to one height, as the boards draw them. */

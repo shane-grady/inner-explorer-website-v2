@@ -21,8 +21,12 @@ const { measurementId } = Astro.props;
 <script define:vars={{ measurementId }}>
   if (!location.hostname.endsWith('.netlify.app')) {
     window.dataLayer = window.dataLayer || [];
-    window.gtag = function (...args) {
-      window.dataLayer.push(args);
+    // `arguments`, never a rest-param array: gtag.js runs only Arguments objects as gtag
+    // commands. A plain array is read as a data-layer method call and silently dropped, so
+    // `config` and every event would never be sent.
+    window.gtag = function () {
+      // eslint-disable-next-line prefer-rest-params
+      window.dataLayer.push(arguments);
     };
     window.gtag('js', new Date());
     window.gtag('config', measurementId);

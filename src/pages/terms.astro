@@ -1,0 +1,51 @@
+---
+// /terms/ — Inner Explorer's Terms and Conditions, carried over verbatim from the legacy site
+// (innerexplorer.com/term, which 301s here). The text lives in src/content/legal/terms.mdx;
+// change it only with counsel. Laid out like /privacy-policy/.
+import PageLayout from '../layouts/PageLayout.astro';
+import Section from '../components/ui/Section.astro';
+import PageTitle from '../components/ui/PageTitle.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import { Content } from '../content/legal/terms.mdx';
+import { breadcrumbSchema, organizationSchema } from '../lib/schema';
+import { MAIN_SITE } from '../lib/site';
+
+const content = {
+  title: 'Terms and Conditions | Inner Explorer',
+  description:
+    'The terms that govern your use of the Inner Explorer website and mobile app: content ownership, acceptable use, disclaimers, liability and governing law.',
+  heading: 'Terms and Conditions',
+};
+
+// ── SEO ─────────────────────────────────────────────────────────────────────
+
+const base = new URL(Astro.site ?? MAIN_SITE).origin;
+const path = '/terms/';
+const pageLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: content.heading,
+  description: content.description,
+  url: `${base}${path}`,
+  inLanguage: 'en-US',
+  publisher: organizationSchema(Astro.site),
+};
+const crumbLd = breadcrumbSchema(Astro.site, [
+  { name: 'Home', path: '/' },
+  { name: content.heading, path },
+]);
+---
+
+<PageLayout title={content.title} description={content.description}>
+  <JsonLd schema={pageLd} slot="head" />
+  <JsonLd schema={crumbLd} slot="head" />
+
+  <Section spacing="hero" as="div">
+    <article>
+      <PageTitle title={content.heading} />
+      <div class="ie-prose mt-8 max-w-measure-article type-article-body md:mt-12">
+        <Content />
+      </div>
+    </article>
+  </Section>
+</PageLayout>

@@ -1,0 +1,44 @@
+---
+// HubSpot tracking code (js.hs-scripts.com/<portal>.js). Rendered once in HelpBaseLayout
+// <head>, only for a real production build (the same gate as GA4 and Intercom). It ties
+// Help Center visits to known HubSpot contacts through the `hutk` cookie.
+//
+// The marketing site has its own copy (src/components/integrations/HubSpotTracking.astro);
+// this one differs on purpose, the same way components/seo/Analytics.astro does:
+//
+// 1. ClientRouter. The script counts the first page view itself; later client-side
+//    navigations are reported from Astro's `astro:page-load` (setPath + trackPageView, the
+//    pattern HubSpot documents for single-page apps), skipping the first event so the initial
+//    load is not counted twice.
+// 2. CloudCannon's Visual Editor (window.inEditorMode) is never tracked.
+//
+// Like GA4 it skips the *.netlify.app staging mirror. Configured in HubSpot, not here: the
+// cookie consent banner and chat. Keep HubSpot chat OFF: Intercom is the messenger.
+interface Props {
+  /** HubSpot portal ("hub") id. Public. */
+  portalId: string;
+}
+const { portalId } = Astro.props;
+---
+
+<script define:vars={{ portalId }}>
+  if (!window.inEditorMode && !location.hostname.endsWith('.netlify.app')) {
+    const loader = document.createElement('script');
+    loader.id = 'hs-script-loader';
+    loader.async = true;
+    loader.defer = true;
+    loader.src = `https://js-na1.hs-scripts.com/${portalId}.js`;
+    document.head.appendChild(loader);
+
+    let firstLoad = true;
+    document.addEventListener('astro:page-load', () => {
+      if (firstLoad) {
+        firstLoad = false;
+        return;
+      }
+      window._hsq = window._hsq || [];
+      window._hsq.push(['setPath', location.pathname + location.search]);
+      window._hsq.push(['trackPageView']);
+    });
+  }
+</script>

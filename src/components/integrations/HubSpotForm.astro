@@ -115,10 +115,13 @@ const targetId = `hsform-${formId}`;
       </div>
     )
   }
+  {
+    /* The live region is in the page from the start and empty; the confirmation is moved into
+       it on submit. Screen readers often skip a region that arrives already filled. */
+  }
+  <div role="status" aria-live="polite" data-hsform-status></div>
   <template data-hsform-success>
-    <div role="status" aria-live="polite">
-      <slot name="success" />
-    </div>
+    <slot name="success" />
   </template>
 </div>
 
@@ -126,26 +129,36 @@ const targetId = `hsform-${formId}`;
   (function () {
     const SRC = 'https://js.hsforms.net/forms/embed/v2.js';
 
+    // Everything is scoped to this instance's root, so two forms on one page stay separate.
+    function root() {
+      const target = document.getElementById(targetId);
+      return target && target.parentElement;
+    }
+
     function showFallback() {
-      const el = document.querySelector('[data-hsform-fallback]');
+      const el = root() && root().querySelector('[data-hsform-fallback]');
       if (el) el.removeAttribute('hidden');
     }
 
-    // The confirmation card is appended as a SIBLING and the embed is hidden, rather than
+    // The confirmation fills the live region (a SIBLING) and the embed is hidden, rather than
     // replacing the target's contents — the target is HubSpot's own React root, and tearing
     // it out from under React is asking for trouble.
     function showConfirmation(target) {
       if (target.dataset.hsformDone) return;
       target.dataset.hsformDone = 'true';
-      const tpl = document.querySelector('template[data-hsform-success]');
-      if (!tpl || !target.parentElement) return;
+      const root = target.parentElement;
+      const tpl = root && root.querySelector('template[data-hsform-success]');
+      const status = root && root.querySelector('[data-hsform-status]');
+      if (!tpl || !status) return;
       target.setAttribute('hidden', '');
-      target.parentElement.appendChild(tpl.content.cloneNode(true));
+      status.appendChild(tpl.content.cloneNode(true));
     }
 
     function create() {
       const target = document.getElementById(targetId);
       if (!target || target.childElementCount > 0) return;
+      // A blocker can answer the script request with a stub that never defines hbspt.
+      if (!(window.hbspt && window.hbspt.forms)) return showFallback();
       window.hbspt.forms.create({
         portalId: portalId,
         formId: formId,
@@ -165,14 +178,16 @@ const targetId = `hsform-${formId}`;
       if (!document.getElementById(targetId)) return;
       if (window.hbspt && window.hbspt.forms) return create();
 
-      if (!document.querySelector('script[src="' + SRC + '"]')) {
-        const s = document.createElement('script');
+      // A second form on the page finds the first one's loader still in flight: wait on it.
+      let s = document.querySelector('script[src="' + SRC + '"]');
+      if (!s) {
+        s = document.createElement('script');
         s.async = true;
         s.src = SRC;
-        s.addEventListener('load', create);
-        s.addEventListener('error', showFallback);
         document.head.appendChild(s);
       }
+      s.addEventListener('load', create);
+      s.addEventListener('error', showFallback);
     }
 
     init();

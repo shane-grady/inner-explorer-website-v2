@@ -47,6 +47,785 @@
   status = 301
   force = true
 
+# -- Legacy site (innerexplorer.com before the rebuild; an Apache site, not this repo) ----
+# Every URL from its sitemap and its internal links. Its pages answered with and without
+# `.html`, so both forms are listed. Placed above the /blog rules: the first match wins.
+
+# District portals and sign-up links (/compass/portals/<district>, /compass/<district>,
+# /compass/signupv9…). Schools bookmark these. The legacy server 302'd them to the app
+# (sign-up versions to /signup, everything else to /login), and so do these. Netlify splats
+# match whole segments only, so the sign-up paths are listed.
+[[redirects]]
+  from = "/compass/signup"
+  to = "https://app.innerexplorer.com/signup"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/compass/signupv8"
+  to = "https://app.innerexplorer.com/signup"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/compass/signupv9"
+  to = "https://app.innerexplorer.com/signup"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/compass/*"
+  to = "https://app.innerexplorer.com/login"
+  status = 302
+  force = true
+
+# Case studies. Webb (case-study4, mbsel) goes to the index until Webb approves its story;
+# Dwight Morrow (2) and Mindful Michigan (7) were dropped.
+[[redirects]]
+  from = "/case-study1"
+  to = "/case-studies/kaiser-elementary/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/case-study1.html"
+  to = "/case-studies/kaiser-elementary/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/case-study3"
+  to = "/case-studies/goddard-middle-school/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/case-study3.html"
+  to = "/case-studies/goddard-middle-school/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/case-study5"
+  to = "/case-studies/john-marshall-hs/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/case-study5.html"
+  to = "/case-studies/john-marshall-hs/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/case-study6"
+  to = "/case-studies/la-joya-isd/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/case-study6.html"
+  to = "/case-studies/la-joya-isd/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/case-study2"
+  to = "/case-studies/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/case-study2.html"
+  to = "/case-studies/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/case-study4"
+  to = "/case-studies/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/case-study4.html"
+  to = "/case-studies/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/case-study7"
+  to = "/case-studies/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/case-study7.html"
+  to = "/case-studies/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/mbsel"
+  to = "/case-studies/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/mbsel.html"
+  to = "/case-studies/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/casestudy-index"
+  to = "/case-studies/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/casestudy-index.html"
+  to = "/case-studies/"
+  status = 301
+  force = true
+
+# Case-study PDFs, to the same file on this site. Webb's goes to the index while its story
+# is on hold (restore /downloads/webb-school-case-study.pdf and this rule on approval).
+[[redirects]]
+  from = "/images/HJK-Elementary.pdf"
+  to = "/downloads/kaiser-elementary-case-study.pdf"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/images/Goddard-MS.pdf"
+  to = "/downloads/goddard-middle-school-case-study.pdf"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/images/Webb-School.pdf"
+  to = "/case-studies/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/images/John-Marshall-HS.pdf"
+  to = "/downloads/john-marshall-hs-case-study.pdf"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/images/La-Joya-ISD.pdf"
+  to = "/downloads/la-joya-isd-case-study.pdf"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/images/Mindful-Michigan-Model.pdf"
+  to = "/case-studies/"
+  status = 301
+  force = true
+
+# Legacy blog posts. Their paths keep capitals and the /blog/* splat below would carry them
+# into a 404 (the new slugs are lower case), so each gets its own rule above it.
+[[redirects]]
+  from = "/blog/Daily-Mindfulness-Habit"
+  to = "/newsroom/daily-mindfulness-habit/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/blog/Mindfulness-in-The-Classroom-Helps-Students-Stay-on-Their-A-Game"
+  to = "/newsroom/mindfulness-in-the-classroom-helps-students-stay-on-their-a-game/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/blog/3-Ways-to-Create-Calm-from-Chaos-with-Daily-Mindfulness"
+  to = "/newsroom/3-ways-to-create-calm-from-chaos-with-daily-mindfulness/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/blog/Daily-Mindfulness-Practice-Strength-Training-for-the-Brain"
+  to = "/newsroom/daily-mindfulness-practice-strength-training-for-the-brain/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/blog/Mental-Health-Helps-Children-During-COVID-19-Beyond"
+  to = "/newsroom/mental-health-helps-children-during-covid-19-beyond/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/blog/The-5-Ways-Of-Mindfulness"
+  to = "/newsroom/the-5-ways-of-mindfulness/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/blog/Mindfulness-Improves-Immune-Function-And-Decreases-Stress"
+  to = "/newsroom/mindfulness-improves-immune-function-and-decreases-stress/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/blog/Time-We-Outsmart-Stress-And-Take-Stand-For-Teacher-Wellbeing"
+  to = "/newsroom/time-we-outsmart-stress-and-take-stand-for-teacher-wellbeing/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/blog/Formal-vs-Informal-Mindfulness-Practice"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/blog/Mindfulness-To-Reduce-Stress-And-Burnout"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/blog/What-is-Mindfulness-Based-Social-Emotional-Learning"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/blog/mindfulness-and-diversity"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+# Legacy news and newsletter pages, and posts not rebuilt.
+[[redirects]]
+  from = "/blog-index"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/blog-index.html"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/News"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/News.html"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/E-News"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/E-News.html"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/goodnews"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/goodnews.html"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/good_news_november"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/good_news_november.html"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/good-news-february"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/good-news-february.html"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/missionmomentsapril2022"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/missionmomentsapril2022.html"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/COVIDReliefFunding"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/COVIDReliefFunding.html"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/Mindfulness-Based-Social-and-Emotional-Learning"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/Mindfulness-Based-Social-and-Emotional-Learning.html"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/Frequently-Asked-Questions-About-Federal-COVID-Relief-Education-Funds"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/Frequently-Asked-Questions-About-Federal-COVID-Relief-Education-Funds.html"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+# Legacy pages folded into the new information architecture.
+[[redirects]]
+  from = "/aboutus"
+  to = "/about/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/aboutus.html"
+  to = "/about/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/ie-team"
+  to = "/about/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/ie-team.html"
+  to = "/about/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/board-of-directors"
+  to = "/about/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/board-of-directors.html"
+  to = "/about/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/educator-advisory-council"
+  to = "/about/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/educator-advisory-council.html"
+  to = "/about/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/1gen-team"
+  to = "/about/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/1gen-team.html"
+  to = "/about/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/ie-program"
+  to = "/platform/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/ie-program.html"
+  to = "/platform/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/experience"
+  to = "/platform/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/experience.html"
+  to = "/platform/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/experienceBi-Lingual"
+  to = "/platform/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/experienceBi-Lingual.html"
+  to = "/platform/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/myinnercompass"
+  to = "/platform/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/myinnercompass.html"
+  to = "/platform/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/narrators"
+  to = "/platform/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/narrators.html"
+  to = "/platform/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/portalsList"
+  to = "/platform/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/portalsList.html"
+  to = "/platform/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/district/index"
+  to = "/why-inner-explorer/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/district/index.html"
+  to = "/why-inner-explorer/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/compare_program"
+  to = "/pricing/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/compare_program.html"
+  to = "/pricing/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/research.html"
+  to = "/research/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/backedbyresearch.html"
+  to = "/research/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/term"
+  to = "/terms/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/term.html"
+  to = "/terms/"
+  status = 301
+  force = true
+
+# Sign-in help (the legacy "access" pages; /access-innerexplorer is a top organic page). Schools,
+# Clever, Schoology and ClassLink listings link here.
+[[redirects]]
+  from = "/access-innerexplorer"
+  to = "https://help.innerexplorer.com/signing-in/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/access-clever"
+  to = "https://help.innerexplorer.com/signing-in/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/access-schoology"
+  to = "https://help.innerexplorer.com/signing-in/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/access.html"
+  to = "https://help.innerexplorer.com/signing-in/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/classlink.html"
+  to = "https://help.innerexplorer.com/signing-in/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/access-innerexplorer-home"
+  to = "https://help.innerexplorer.com/family-start/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/access-innerexplorer-tuneIn"
+  to = "https://help.innerexplorer.com/family-start/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/lausd_families.html"
+  to = "https://help.innerexplorer.com/family-start/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/tunein"
+  to = "https://help.innerexplorer.com/family-start/"
+  status = 301
+  force = true
+
+# More legacy pages that rank or have backlinks (Semrush, 2026-10-12).
+[[redirects]]
+  from = "/district"
+  to = "/why-inner-explorer/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/district/"
+  to = "/why-inner-explorer/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/5easysteps-district"
+  to = "/why-inner-explorer/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/story"
+  to = "/about/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/careers.html"
+  to = "/about/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/choose-your-program"
+  to = "/platform/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/classroomapp"
+  to = "/platform/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/classroomapp/*"
+  to = "/platform/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/Community"
+  to = "/pricing/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/Community/"
+  to = "/pricing/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/blog/How_Mindfulness_Works_To_Reduce_Teacher_Stress_And_Burnout.html"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/goodnewsSpanish"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/video-Gallery.html"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/videoGallery"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/teacher_appreciation.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/backtoschool"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/onboarding/embracemindfulness.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/21-Day-Quest"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/monthly-activities-calendar.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/summer-series.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/thesunflower-fund"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/sitemap.xml"
+  to = "/sitemap-index.xml"
+  status = 301
+  force = true
+
+# Legacy PDFs with backlinks. Three are re-hosted at their legacy paths in public/; the 13MB
+# GreenLight impact report is not, so it goes to Research.
+[[redirects]]
+  from = "/images/GreenLight_2022-23_ImpactReport_FINAL.pdf"
+  to = "/research/"
+  status = 301
+  force = true
+
+# The family app. Its privacy policy URL is likely on the app-store listings.
+[[redirects]]
+  from = "/homeapp/term.html"
+  to = "/terms/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/homeapp/privacy-policy.html"
+  to = "/privacy-policy/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/homeapp"
+  to = "https://help.innerexplorer.com/family-start/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/homeapp/*"
+  to = "https://help.innerexplorer.com/family-start/"
+  status = 301
+  force = true
+
+
 # Pages folded into the new information architecture.
 [[redirects]]
   from = "/districts"
@@ -108,12 +887,15 @@
     Cache-Control = "public, max-age=31536000, immutable"
 
 # Baseline security headers for all responses.
+# Framing: this site, plus Broward County Public Schools' Canvas LMS, which the legacy site
+# allowed to embed it (X-Frame-Options ALLOW-FROM). frame-ancestors replaces X-Frame-Options:
+# browsers ignore ALLOW-FROM, and SAMEORIGIN would block that embed.
 [[headers]]
   for = "/*"
   [headers.values]
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
-    X-Frame-Options = "SAMEORIGIN"
+    Content-Security-Policy = "frame-ancestors 'self' https://browardschools.instructure.com"
 
 # PRE-LAUNCH: noindex EVERY host (including the production custom domain) until the
 # site launches. DELETE this block at launch — the netlify.app-only edge function
