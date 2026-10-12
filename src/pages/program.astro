@@ -21,10 +21,10 @@ import ClosingCta from '../components/blocks/ClosingCta.astro';
 import { MAIN_SITE } from '../lib/site';
 
 import heroPlayer from '../assets/images/program/hero-practice-player.webp';
-import earlyLearning from '../assets/images/program/program-early-learning.jpg';
-import elementary from '../assets/images/program/program-elementary.jpg';
-import middleSchool from '../assets/images/program/program-middle-school.jpg';
-import highSchool from '../assets/images/program/program-high-school.jpg';
+import earlyLearning from '../assets/images/program/program-early-learning-practice.webp';
+import elementary from '../assets/images/program/program-elementary-practice.webp';
+import middleSchool from '../assets/images/program/program-middle-school-practice.webp';
+import highSchool from '../assets/images/program/program-high-school-practice.webp';
 import dailyPractice from '../assets/images/program/daily-practice-students.jpg';
 import dashboard from '../assets/images/program/dashboard-overview.webp';
 import pressPlay from '../assets/images/program/classroom-press-play.jpg';
@@ -72,8 +72,8 @@ const content = {
         text: 'Young children’s brains are building the foundations for self-regulation, so a few minutes of daily practice helps them learn to notice their feelings, calm their bodies, and get ready to learn before those habits take hold. Each practice includes the popular Inner Explorer song.',
         image: {
           src: earlyLearning,
-          alt: 'Young students sitting cross-legged on a classroom rug, eyes closed, breathing with a practice',
-          position: '50% 45%',
+          alt: 'An illustrated boy sitting cross-legged with his eyes closed in front of bookshelves, from the Day 3 practice Introduction to Breathing',
+          position: '50% 50%',
         },
         practice: {
           name: 'Day 3: Introduction to Breathing',
@@ -88,8 +88,8 @@ const content = {
         text: 'Reading by third grade shapes everything that follows. Daily mindfulness builds the focus and calm elementary students need to stay engaged, persist through challenges and grow in every subject.',
         image: {
           src: elementary,
-          alt: 'A whole class practicing at their desks with their teacher, eyes closed',
-          position: '50% 45%',
+          alt: 'An illustrated girl with long dark hair, her hand on her head, from the Day 8 practice Shark Fin Anytime',
+          position: '50% 50%',
         },
         practice: {
           name: 'Day 8: Shark Fin Anytime',
@@ -104,8 +104,8 @@ const content = {
         text: 'During years of rapid change, social pressure and big emotions, a daily pause gives middle school students steady tools to manage stress, respond instead of react, and stay connected to who they are.',
         image: {
           src: middleSchool,
-          alt: 'A class sitting with eyes closed and hands flat on their desks during a practice, their teacher moving between the rows',
-          position: '50% 45%',
+          alt: 'An iceberg in dark water off a rocky coast, from the Day 9 practice Observing Thoughts',
+          position: '50% 50%',
         },
         practice: {
           name: 'Day 9: Observing Thoughts',
@@ -120,8 +120,8 @@ const content = {
         text: 'With academic demands, future decisions and constant digital distraction all growing, daily mindfulness helps teens handle pressure, sharpen their focus and build habits of well-being they can carry into adulthood.',
         image: {
           src: highSchool,
-          alt: 'A teenager wearing headphones sits with eyes closed in a school library.',
-          position: '40% 40%',
+          alt: 'Forested mountain ridges under a cloudy sky, from the Day 13 practice Introduction to Observing Senses',
+          position: '50% 50%',
         },
         practice: {
           name: 'Day 13: Introduction to Observing Senses',
@@ -467,11 +467,11 @@ const platformLd = {
             </div>
             <div class="flex flex-col overflow-hidden rounded-sm bg-surface shadow-lifted lg:col-span-5">
               <Image
-                class="h-45 w-full object-cover md:h-50"
+                class="aspect-video w-full object-cover"
                 style={`object-position: ${program.image.position}`}
                 src={program.image.src}
                 alt={program.image.alt}
-                widths={[480, 960]}
+                widths={[480, 960, 1760]}
                 sizes="(min-width: 1024px) 440px, 100vw"
               />
               <div class="flex flex-col gap-4 p-4 lg:p-5" data-player>
