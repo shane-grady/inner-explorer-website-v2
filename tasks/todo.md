@@ -70,13 +70,14 @@ the owners the canvas gives.
     and student images from the internal library: Lisa, Juliana). The three product mocks built in
     markup (the "Day 14 of 180" card, Recommended actions, the Gratitude reflection card) stand in
     for platform screenshots (Shane); they are `aria-hidden`.
-  - Sample practices (Shane, Lisa): names set 2026-10-12 (Early Learning "Day 3: Introduction to
-    Breathing", Elementary "Day 8: Shark Fin Anytime", Middle "Day 9: Observing Thoughts", High
-    "Day 13: Introduction to Observing Senses"). Still needed: the four audio files (under
-    `public/audio/`) and a written transcript for each. A player stays disabled, with no time
-    row, until both `audio` and `transcript` are set in the page's `content` (a "Read the
-    transcript" disclosure then appears; audio never ships without its text alternative). The
-    duration comes from the file; `length` is optional.
+  - Sample practices (Shane, Lisa): names and audio set 2026-10-12 (Early Learning "Day 3:
+    Introduction to Breathing", Elementary "Day 8: Shark Fin Anytime", Middle "Day 9: Observing
+    Thoughts", High "Day 13: Introduction to Observing Senses"), in `public/audio/platform/`
+    named by program (Early and Elementary re-encoded from 320 / 256 to 96 kbps, as Middle and
+    High were supplied). The players are live. **Still owed, a launch blocker: a written
+    transcript for each.** Until one is set as `transcript` in the page's `content`, that audio
+    has no text alternative and the page misses WCAG 1.2.1 (the procurement requirement); each
+    transcript adds a "Read the transcript" disclosure under its player.
   - Facts (Juliana): the practice feedback feature as described ("Feedback after every practice");
     180 daily practices of five to ten minutes; ten hours of asynchronous PD; "COPPA, FERPA, and
     SOPIPA", DPAs on request; "Every practice is checked for developmental fit"; the four evidence
