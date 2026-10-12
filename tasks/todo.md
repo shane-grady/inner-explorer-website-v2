@@ -520,7 +520,7 @@ mark-compass.png`, 256px PNG) is the board's: an SVG from the design system woul
     JSON-LD ports `0c8cac2`'s Article + BreadcrumbList (no `citation`: the boards cite no sources)
     and CollectionPage + ItemList.
   - Copy verbatim: "Talk to our team" (index hero, rail, detail CTA) and "Contact us" (index CTA),
-    per the site-wide CTA item; "Case Studies on Inner Explorer Program" in title case.
+    per the site-wide CTA item. Index hero copy supplied 2026-10-12: "Real Results from Real Schools".
   - Drift left after the measured side-by-side reviews (2026-10-10 and, for Hero D, 2026-10-11;
     index hero within 3px at both widths; the Hero D hero within 6px of its board at 1440; the
     body within 20px by the PDF card): headings sit 4px higher each (52 → 48 margins); numerals 48
