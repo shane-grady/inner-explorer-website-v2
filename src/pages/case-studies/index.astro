@@ -1,7 +1,8 @@
 ---
 // Case Studies, from the FINAL V boards Case-Studies-Desktop and Case-Studies-Mobile. The
-// cards come from the caseStudies collection: only stories already built are listed, and a
-// filter chip shows only when a story carries its tag (tasks/todo.md › Case Studies). CTA
+// cards come from the caseStudies collection: only stories already built are listed. The
+// boards' outcome filter chips are held back until there are enough stories to filter; the
+// stories keep their tags, and the chip row and its script are in git history (3e8f96b). CTA
 // labels verbatim ("Talk to our team"), per the site-wide CTA item.
 import PageLayout from '../../layouts/PageLayout.astro';
 import JsonLd from '../../components/seo/JsonLd.astro';
@@ -10,13 +11,7 @@ import PageTitle from '../../components/ui/PageTitle.astro';
 import Button from '../../components/ui/Button.astro';
 import StoryCard from '../../components/blocks/StoryCard.astro';
 import ClosingCta from '../../components/blocks/ClosingCta.astro';
-import {
-  CASE_STUDY_TAGS,
-  caseStudyHeadline,
-  caseStudyHref,
-  getCaseStudies,
-  type CaseStudyTag,
-} from '../../lib/case-studies';
+import { caseStudyHeadline, caseStudyHref, getCaseStudies } from '../../lib/case-studies';
 import { MAIN_SITE } from '../../lib/site';
 
 const content = {
@@ -25,7 +20,7 @@ const content = {
     "Real schools, measured results: how districts and schools use Inner Explorer's daily mindfulness to cut behavioral incidents and build calmer classrooms.",
   hero: {
     eyebrow: 'Case studies',
-    title: 'Real Results from *Real Schools*',
+    title: 'Real Results from\n*Real Schools*',
     lead: 'See how schools across the country made daily mindfulness part of the school day, and the gains they measured in behavior, focus, and academics.',
     primary: { label: 'Talk to our team', href: '/contact/' },
     secondary: { label: 'See the research', href: '/research/' },
@@ -35,8 +30,6 @@ const content = {
     showing: 'Showing',
     one: 'story',
     many: 'stories',
-    filterLabel: 'Filter stories by outcome',
-    all: 'All stories',
   },
   cta: {
     title: 'Your school could be *the next story*',
@@ -49,14 +42,6 @@ const content = {
 const stories = await getCaseStudies();
 const count = (n: number) =>
   `${content.browse.showing} ${n} ${n === 1 ? content.browse.one : content.browse.many}`;
-const filters = [
-  { id: 'all', label: content.browse.all, count: stories.length },
-  ...(Object.entries(CASE_STUDY_TAGS) as [CaseStudyTag, string][]).map(([id, label]) => ({
-    id,
-    label,
-    count: stories.filter((s) => s.data.tags.includes(id)).length,
-  })),
-].filter((f) => f.count > 0);
 
 const base = new URL(Astro.site ?? MAIN_SITE).origin;
 const collectionLd = {
@@ -97,49 +82,17 @@ const collectionLd = {
     </PageTitle>
   </Section>
 
-  <Section class="pt-0" aria-labelledby="browse-title" data-story-filter>
+  <Section class="pt-0" aria-labelledby="browse-title">
     <div class="flex flex-col gap-2 md:flex-row md:items-end md:justify-between md:gap-8">
       <h2 id="browse-title" class="m-0 type-section-title text-foreground">
         {content.browse.title}
       </h2>
-      <p
-        class="m-0 type-label text-foreground-muted"
-        aria-live="polite"
-        data-count
-        data-one={content.browse.one}
-        data-many={content.browse.many}
-        data-showing={content.browse.showing}
-      >
-        {count(stories.length)}
-      </p>
+      <p class="m-0 type-label text-foreground-muted">{count(stories.length)}</p>
     </div>
-    {
-      filters.length > 1 && (
-        <div
-          class="ie-chip-row -mx-section-x mt-4 px-section-x md:mx-0 md:mt-6 md:px-0"
-          role="group"
-          aria-label={content.browse.filterLabel}
-          data-filters
-          hidden
-        >
-          {filters.map((f) => (
-            <button
-              type="button"
-              class="ie-chip"
-              aria-pressed={f.id === 'all' ? 'true' : 'false'}
-              data-filter={f.id}
-            >
-              {f.label}
-              <span class="ie-chip-count type-tag">{f.count}</span>
-            </button>
-          ))}
-        </div>
-      )
-    }
     <ul class="m-0 mt-4 grid list-none gap-6 p-0 md:mt-8 md:grid-cols-2 lg:grid-cols-3">
       {
         stories.map((s) => (
-          <li data-tags={s.data.tags.join(' ')}>
+          <li>
             <StoryCard
               href={caseStudyHref(s)}
               image={s.data.card.image ?? s.data.image}
@@ -165,30 +118,3 @@ const collectionLd = {
     />
   </Section>
 </PageLayout>
-
-<script>
-  // Outcome filters: a pressed chip shows only the stories with its tag and the count follows.
-  // The chips appear once this runs, so without JS every story shows.
-  for (const root of document.querySelectorAll<HTMLElement>('[data-story-filter]')) {
-    const group = root.querySelector<HTMLElement>('[data-filters]');
-    const out = root.querySelector<HTMLElement>('[data-count]');
-    if (!group || !out) continue;
-    const chips = [...group.querySelectorAll<HTMLButtonElement>('[data-filter]')];
-    const items = [...root.querySelectorAll<HTMLElement>('[data-tags]')];
-    group.hidden = false;
-    for (const chip of chips) {
-      chip.addEventListener('click', () => {
-        const id = chip.dataset.filter;
-        let shown = 0;
-        for (const c of chips) c.setAttribute('aria-pressed', String(c === chip));
-        for (const item of items) {
-          const match = id === 'all' || item.dataset.tags?.split(' ').includes(id ?? '');
-          item.hidden = !match;
-          if (match) shown += 1;
-        }
-        const { showing, one, many } = out.dataset;
-        out.textContent = `${showing} ${shown} ${shown === 1 ? one : many}`;
-      });
-    }
-  }
-</script>

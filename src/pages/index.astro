@@ -192,20 +192,41 @@ const content = {
     },
     grades: {
       title: 'Mindfulness that grows with students',
-      // The board links "#"; Platform's grade tabs are the target once built.
+      // Each band opens its program's tab (and sample practice) on Program.
       link: { label: 'Explore the library', href: '/program/' },
       bands: [
-        { icon: 'seed', grades: 'PreK–Grade 1', name: 'Early Learning', href: '/program/' },
-        { icon: 'sprout', grades: 'Grades 2–4', name: 'Elementary', href: '/program/' },
-        { icon: 'sapling', grades: 'Grades 5–7', name: 'Middle School', href: '/program/' },
-        { icon: 'tree', grades: 'Grades 8–12', name: 'High School', href: '/program/' },
+        {
+          icon: 'seed',
+          grades: 'PreK–Grade 1',
+          name: 'Early Learning',
+          href: '/program/?program=early#programs',
+        },
+        {
+          icon: 'sprout',
+          grades: 'Grades 2–4',
+          name: 'Elementary',
+          href: '/program/?program=elementary#programs',
+        },
+        {
+          icon: 'sapling',
+          grades: 'Grades 5–7',
+          name: 'Middle School',
+          href: '/program/?program=middle#programs',
+        },
+        {
+          icon: 'tree',
+          grades: 'Grades 8–12',
+          name: 'High School',
+          href: '/program/?program=high#programs',
+        },
       ],
     },
   },
   research: {
     eyebrow: 'The research',
     title: 'Evidence-based from the beginning.',
-    lead: 'Built on Mindfulness-Based Stress Reduction, the most studied mindfulness method in the world. Studied in real school environments, with published research demonstrating impact across the outcomes schools care about most.',
+    leadStrong: 'Built on Mindfulness-Based Stress Reduction',
+    lead: ', the most studied mindfulness method in the world. Studied in real school environments, with published research demonstrating impact across the outcomes schools care about most.',
     // The desktop board's study; the mobile board cites Lopez 2020 with a control group
     // instead (tasks/todo.md › Home).
     feature: {
@@ -615,7 +636,9 @@ const homeLd = {
             {content.research.title}
           </h2>
         </div>
-        <p class="m-0 max-w-135 type-lead text-foreground">{content.research.lead}</p>
+        <p class="m-0 max-w-135 type-lead text-foreground">
+          <strong class="font-bold">{content.research.leadStrong}</strong>{content.research.lead}
+        </p>
       </div>
 
       <div
