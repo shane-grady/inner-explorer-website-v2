@@ -172,6 +172,7 @@ const content = {
   },
   series: {
     eyebrow: 'The series library',
+    // Two lines from md up: the break falls after "series".
     title: ['Additional mindfulness series', 'beyond the daily practice'],
     lead: 'The supplemental series are built for common situational experiences throughout the school day that use the same science of practicing mindfulness for regulation and support to meet specific needs.',
     link: { label: 'See pricing', href: '/pricing/' },
@@ -619,7 +620,8 @@ const platformLd = {
       id="series-title"
       class="m-0 mt-4 max-w-220 type-section-title text-foreground max-md:text-balance"
     >
-      {content.series.title.map((line) => <span class="md:block">{line} </span>)}
+      {content.series.title[0]}<br class="max-md:hidden" />
+      {content.series.title[1]}
     </h2>
     <p class="m-0 mt-5 max-w-180 type-lead text-foreground-secondary">{content.series.lead}</p>
     <ArrowLink href={content.series.link.href} class="mt-2 md:mt-4"
@@ -895,7 +897,10 @@ const platformLd = {
       if (focus) tabs[index]?.focus();
     };
     list.hidden = false;
-    select(0);
+    // Home's grade bands link to /program/?program=<id>#programs to open that program's tab.
+    const linked = new URLSearchParams(location.search).get('program');
+    const start = tabs.findIndex((tab) => tab.id === `tab-${linked}`);
+    select(Math.max(0, start));
     tabs.forEach((tab, i) => {
       tab.addEventListener('click', () => select(i));
       tab.addEventListener('keydown', (event) => {

@@ -67,7 +67,6 @@ const content = {
     eyebrow: 'For district leaders',
     title: 'Bring this to your schools',
     primary: { label: 'Talk to our team', href: '/contact/' },
-    pdf: 'Get the PDF',
   },
   related: { title: 'More stories like this', all: 'All case studies', href: '/case-studies/' },
   cta: {
@@ -197,7 +196,13 @@ const crumbLd = breadcrumbSchema(Astro.site, [
           <Button href={content.hero.primary.href} arrow>{content.hero.primary.label}</Button>
           {
             d.pdf && (
-              <Button href="#download" variant="secondary" icon="download">
+              // Ungated, the PDF downloads straight from the hero; gated, it jumps to the form.
+              <Button
+                href={HUBSPOT.caseStudyPdfFormId ? '#download' : d.pdf.file}
+                download={HUBSPOT.caseStudyPdfFormId ? undefined : true}
+                variant="secondary"
+                icon="download"
+              >
                 {content.hero.pdf}
               </Button>
             )
@@ -431,11 +436,23 @@ const crumbLd = breadcrumbSchema(Astro.site, [
                   >
                     <Fragment slot="success">
                       <p class="m-0 type-body text-foreground-body">{content.pdf.success}</p>
-                      <Button class="mt-3" variant="secondary" href={d.pdf.file} icon="download">
+                      <Button
+                        class="mt-3"
+                        variant="secondary"
+                        href={d.pdf.file}
+                        download
+                        icon="download"
+                      >
                         {content.pdf.download}
                       </Button>
                     </Fragment>
-                    <Button slot="fallback" variant="secondary" href={d.pdf.file} icon="download">
+                    <Button
+                      slot="fallback"
+                      variant="secondary"
+                      href={d.pdf.file}
+                      download
+                      icon="download"
+                    >
                       {content.pdf.download}
                     </Button>
                   </HubSpotForm>
@@ -444,6 +461,7 @@ const crumbLd = breadcrumbSchema(Astro.site, [
                     class="mt-2 self-start"
                     variant="secondary"
                     href={d.pdf.file}
+                    download
                     icon="download"
                   >
                     {content.pdf.download}
@@ -465,13 +483,6 @@ const crumbLd = breadcrumbSchema(Astro.site, [
           <Button class="mt-2" href={content.rail.primary.href} size="sm">
             {content.rail.primary.label}
           </Button>
-          {
-            d.pdf && (
-              <Button href="#download" variant="secondary" size="sm" icon="download">
-                {content.rail.pdf}
-              </Button>
-            )
-          }
         </div>
       </aside>
     </div>

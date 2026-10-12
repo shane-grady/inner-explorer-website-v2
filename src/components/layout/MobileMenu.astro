@@ -2,13 +2,13 @@
 // The mobile navigation: a full-screen native <dialog> opened by the header's menu button.
 // showModal() traps focus, makes the page inert and closes on Escape; the script only
 // wires the button and the close controls. Not on FINAL V: built to the V2 MobileMenu spec.
-// `data-on-surface` keeps its light ink inside the dark header (Research).
+// `data-on-surface` keeps its light ink inside the dark header.
 import Button from '../ui/Button.astro';
 import IconButton from '../ui/IconButton.astro';
 import Logo from '../ui/Logo.astro';
-import { contactCta, primaryNav, signIn } from '../../data/navigation';
+import { contactCta, navCurrent, primaryNav, signIn } from '../../data/navigation';
 
-const current = (href: string) => (Astro.url.pathname === href ? 'page' : undefined);
+const current = (href: string) => navCurrent(Astro.url.pathname, href);
 ---
 
 <dialog

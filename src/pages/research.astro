@@ -713,14 +713,14 @@ const { hero, statement, explore, evidence, science, questions, ai, cta, citatio
 const { brain } = hero;
 ---
 
-<PageLayout title={content.title} description={content.description} header="dark">
+<PageLayout title={content.title} description={content.description}>
   <JsonLd slot="head" schema={researchLd} />
 
   <div data-research>
-    {/* Hero: the line-art brain over dimmed neuron footage, under the dark header. */}
+    {/* Hero: the line-art brain over dimmed neuron footage, under the site's standard header. */}
     <section
       aria-labelledby="hero-title"
-      class="relative overflow-hidden bg-brand-surface-deep px-section-x pt-(--header-height-mobile) xl:pt-(--header-height)"
+      class="relative overflow-hidden bg-brand-surface-deep px-section-x"
       data-on-brand
     >
       <Image

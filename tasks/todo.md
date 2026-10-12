@@ -77,10 +77,11 @@ the owners the canvas gives.
     Introduction to Breathing", Elementary "Day 8: Shark Fin Anytime", Middle "Day 9: Observing
     Thoughts", High "Day 13: Introduction to Observing Senses"), in `public/audio/program/`
     named by program (Early and Elementary re-encoded from 320 / 256 to 96 kbps, as Middle and
-    High were supplied). The players are live. **Still owed, a launch blocker: a written
-    transcript for each.** Until one is set as `transcript` in the page's `content`, that audio
-    has no text alternative and the page misses WCAG 1.2.1 (the procurement requirement); each
-    transcript adds a "Read the transcript" disclosure under its player.
+    High were supplied). The players are live. **Still owed: a written transcript for each**
+    (deferred past launch, owner decision 2026-10-12). Until one is set as `transcript` in the
+    page's `content`, that audio has no text alternative and the page misses WCAG 1.2.1 (the
+    procurement requirement); each transcript adds a "Read the transcript" disclosure under its
+    player.
   - Facts (Juliana): the practice feedback feature as described ("Feedback after every practice");
     180 daily practices of five to ten minutes; ten hours of asynchronous PD; "COPPA, FERPA, and
     SOPIPA", DPAs on request; "Every practice is checked for developmental fit"; the four evidence
@@ -681,20 +682,52 @@ header="dark"`; title sizes snapped per the Remaining-drift board (Before build 
 - [ ] Help Center reskin onto the new design system; retires the frozen copies in `src-help/`.
 - [ ] Bring CMS editing back for marketing pages, if wanted.
 
-## Launch-day owner checklist (second audit, 2026-10-12)
+## Launch runbook
 
-- [ ] DNS at GoDaddy (apex A 34.212.177.247, www CNAME → apex): lower TTL to 300 now. In
-      Netlify add www.innerexplorer.com (primary) and the apex as alias first, then switch
-      together (apex A 75.2.60.5, www CNAME innerexplorerwebsitev2.netlify.app) and provision
-      the certificate at once. The legacy site sends HSTS, so any TLS gap is a hard outage.
-- [ ] Merge the cutover PR (noindex removal) in the same window as DNS.
-- [ ] GA4 (G-EHSXT3SEYZ): it recorded nothing on either site until the `gtag` fix (2026-10-12;
-      rest-param arrays are dropped by gtag.js). Check Realtime on www after launch. The Help
-      Center counts client-side navigations through enhanced measurement's "page changes
-      based on browser history events": keep that setting on.
-- [ ] HubSpot: add www.innerexplorer.com to the tracking-code domains; if the cookie banner is
-      enabled, check it on the Help Center (ClientRouter swaps the DOM on navigation).
-      Intercom: add www to trusted domains if a list is set.
+Everything else is merged: the noindex is gone (#134; `*.netlify.app` stays noindexed by its edge
+function), the legacy 301 map is in `netlify.toml`, and GA4, HubSpot, Amplitude and Intercom start
+on their own once the site is served from www (they skip only `*.netlify.app`). Launch is the DNS
+switch below.
+
+**Before (owner, any time):**
+
+- [ ] GoDaddy: lower the www CNAME TTL from 3600 to 600 at least an hour ahead (the apex A is
+      already 600). Don't touch the Google TXT records (Search Console verification).
+- [ ] HubSpot: add www.innerexplorer.com to the tracking-code domains; keep chat off. Intercom:
+      add www to trusted domains if a list is set.
+- [ ] GA4 (G-EHSXT3SEYZ): keep enhanced measurement's "page changes based on browser history
+      events" on (the Help Center counts client-side navigations with it).
+
+**Launch (about 10 minutes, off-hours):**
+
+1. Netlify › innerexplorerwebsitev2 › Domain management: add `www.innerexplorer.com` as the
+   primary domain (Netlify adds the apex `innerexplorer.com` as an alias).
+2. GoDaddy, both together: apex A `34.212.177.247` → `75.2.60.5`; www CNAME `innerexplorer.com`
+   → `innerexplorerwebsitev2.netlify.app`. Touch no other record (MX, TXT, app., web., help.,
+   videos.).
+3. Netlify › Domain management › HTTPS: wait for, or click, "Provision certificate" (Netlify
+   retries every 10 minutes). The legacy site sent HSTS, so HTTPS visitors see errors until the
+   certificate is issued.
+
+**Verify:**
+
+- `curl -sI https://www.innerexplorer.com/` → `server: Netlify`, no `x-robots-tag`;
+  `curl -sI https://innerexplorer.com/` → 301 to www.
+- `curl -sI https://www.innerexplorer.com/case-study1` → 301 to `/case-studies/kaiser-elementary/`;
+  `/compass/portals/broward` → 302 to app.innerexplorer.com; `/BH_app/privacy-policy.html` → 301.
+- GA4 Realtime shows your visit; the Intercom launcher appears.
+- Search Console: submit `https://www.innerexplorer.com/sitemap-index.xml` (and the Help
+  Center's) and request indexing of the home page.
+
+**Rollback:** set the two GoDaddy records back (A `34.212.177.247`; www CNAME → `innerexplorer.com`).
+Keep the legacy server running for at least two weeks.
+
+**After:**
+
+- [ ] Ask the mobile developer to search the three apps' source for `innerexplorer.com/` links (the
+      store listings are covered; in-app links couldn't be checked).
+- [ ] The Play listing for My Bright Moments also links
+      `web1.innerexplorer.org/BH_app/privacy-policy.html` (another host); check it in a browser.
 
 ## HubSpot and other owner items
 
@@ -709,8 +742,7 @@ header="dark"`; title sizes snapped per the Remaining-drift board (Before build 
       Consent; the tracking script renders it); keep HubSpot chat OFF (Intercom is the messenger).
 - [ ] Privacy policy (counsel): it says Amplitude handles educator usage data only, but Amplitude
       Session Replay records every marketing-site visitor. Update the policy or the sample rate.
-- [ ] Intercom: add the `*.netlify.app` guard to `Intercom.astro` once www is live (its comment
-      explains why it has none pre-launch).
+- [x] Intercom: the `*.netlify.app` guard is in `Intercom.astro` (#134).
 - [ ] HubSpot: confirm the contact form's notification recipients; delete the 2026-08-25 test
       contact (record 244309307539) if it's still there.
 - [ ] HubSpot forms the boards need beyond Contact: newsletter signup (Research, Article), the

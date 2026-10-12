@@ -25,6 +25,12 @@ a:hover {
   outline: 2px solid var(--ring);
   outline-offset: 2px;
 }
+/* In-page jumps (a hero button to its form) glide rather than snap, unless motion is reduced. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
 /* The mobile menu is a modal dialog; the page behind it does not scroll. */
 html:has(dialog[open]) {
   overflow: hidden;

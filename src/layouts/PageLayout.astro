@@ -1,8 +1,10 @@
 ---
 // Standard marketing-page shell: document, site header, <main>, site footer. Pages
 // build their content from Section and the shared components (DESIGN.md). The `top` slot
-// sits above the header (the Article's reading progress bar).
+// sits above the header (the Article's reading progress bar); the announcement bar sits
+// above both, outside the column so the dark header still overlays the hero.
 import BaseLayout from './BaseLayout.astro';
+import AnnouncementBar from '../components/layout/AnnouncementBar.astro';
 import SiteHeader from '../components/layout/SiteHeader.astro';
 import SiteFooter from '../components/layout/SiteFooter.astro';
 
@@ -19,7 +21,7 @@ interface Props {
   imageHeight?: number;
   /** Hide the page from search engines. */
   noindex?: boolean;
-  /** `dark`: the transparent header laid over a Forest hero, which clears it (Research). */
+  /** `dark`: the transparent header laid over a Forest hero, which clears it. No page uses it now. */
   header?: 'light' | 'dark';
 }
 const { header = 'light', ...props }: Props = Astro.props;
@@ -28,6 +30,7 @@ const dark = header === 'dark';
 
 <BaseLayout {...props}>
   <slot name="head" slot="head" />
+  <AnnouncementBar />
   <div class:list={['flex min-h-dvh flex-col', dark && 'relative']}>
     <slot name="top" />
     <SiteHeader dark={dark} overlay={dark} />
