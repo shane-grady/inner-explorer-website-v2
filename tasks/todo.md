@@ -29,8 +29,9 @@ the owners the canvas gives.
       inputs, Footer A without the 501(c)(3) line, static header.
 - [ ] **Design (provisional, confirm):** the open mobile menu (V2's spec), the light header's
       current-page rule, the field error state. All on `/styleguide/`.
-- [ ] **Footer:** social profile URLs (LinkedIn, Instagram, Facebook, YouTube, X); the row ships
-      when they exist. The boards' sign-off line was dropped on 2026-10-10.
+- [x] **Footer:** social row "Join our Mindful Community" (LinkedIn, Instagram, Facebook, YouTube,
+      X) under the blurb, 2026-10-13, using the profiles innerexplorer.com links. Instagram is
+      `@inner_explorer_`, the active account (confirmed 2026-10-13), not `@inner_explorer`. The boards' sign-off line was dropped on 2026-10-10.
 - [ ] **Home (built from FINAL V; these came from the working page):** FINAL V's Home has no
       photo mosaic, sample-practice player, FAQ or Dwight Morrow quote, so none was built. Bring
       any back, or close this.
@@ -62,7 +63,7 @@ the owners the canvas gives.
       built; Settled 22 drawn, 24 built at desktop; grade-band names 20 on mobile, 18 built; the
       mobile closing-CTA photo 240 drawn, 220 (the shared block, as About draws it); the carousel
       dots 16px apart (24px targets, WCAG 2.5.8); mobile Research follows the desktop study (item
-      above); Footer A has no social row (footer item above).
+      above); Footer A's social row shipped (footer item above).
 - [ ] **Program (the Platform boards; built from FINAL V; confirm before launch):**
   - Renamed Platform → Program 2026-10-12: nav, page title and link labels ("See the program",
     "Explore the program"); the page is at `/program/`, `/platform/` 301s there, and the legacy

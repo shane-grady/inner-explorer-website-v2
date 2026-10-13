@@ -1,7 +1,8 @@
 ---
-// The site footer (Footer A on the boards): logo, blurb, three link columns and the legal
-// line. Two columns below md, a 2 + 1 + 1 + 1 grid from md.
+// The site footer (Footer A on the boards): logo, blurb, social row, three link columns and
+// the legal line. Two columns below md, a 2 + 1 + 1 + 1 grid from md.
 import Logo from '../ui/Logo.astro';
+import { BRAND_ICONS } from '../../lib/icons';
 import { footer } from '../../data/navigation';
 
 const year = new Date().getFullYear();
@@ -13,6 +14,29 @@ const year = new Date().getFullYear();
       <div class="col-span-2 flex flex-col items-start gap-4">
         <Logo />
         <p class="m-0 max-w-measure-short type-small text-foreground-secondary">{footer.blurb}</p>
+        <nav aria-labelledby="footer-social" class="flex flex-col gap-3">
+          <h2 id="footer-social" class="m-0 type-small font-bold text-foreground">
+            {footer.social.heading}
+          </h2>
+          <ul class="m-0 flex list-none flex-wrap gap-2 p-0">
+            {
+              footer.social.links.map((link) => (
+                <li>
+                  <a class="ie-icon-btn ie-icon-btn-sm" href={link.href} aria-label={link.label}>
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      aria-hidden="true"
+                      set:html={BRAND_ICONS[link.icon]}
+                    />
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
       </div>
       {
         footer.columns.map((column, i) => (
