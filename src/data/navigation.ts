@@ -1,6 +1,7 @@
 // Site navigation and footer copy for the new information architecture (the FINAL V boards).
 // SiteHeader, MobileMenu and SiteFooter render these.
 import { HELP_SITE } from '../lib/site';
+import type { BrandIconName } from '../lib/icons';
 
 export interface NavLink {
   label: string;
@@ -29,8 +30,8 @@ export const contactCta: NavLink = { label: 'Contact us', href: '/contact/' };
 // The bar above the header (AnnouncementBar).
 export const announcement = 'Explore our new look! Same trusted program.';
 
-// Footer A from the boards, without its sign-off line. No social row yet: every board draws the profile links as "#"
-// (tasks/todo.md tracks the URLs; the row ships with them).
+// Footer A from the boards, without its sign-off line. The social row's URLs are the profiles
+// innerexplorer.com linked as of 2026-10-13 (the boards draw them as "#").
 export const footer = {
   blurb: 'Daily audio-guided mindfulness for PreK-12 schools, founded 2011.',
   columns: [
@@ -59,6 +60,20 @@ export const footer = {
       ],
     },
   ] satisfies { heading: string; links: NavLink[] }[],
+  social: {
+    heading: 'Join our Mindful Community',
+    links: [
+      {
+        label: 'LinkedIn',
+        icon: 'linkedin',
+        href: 'https://www.linkedin.com/company/inner-explorer-inc-',
+      },
+      { label: 'Instagram', icon: 'instagram', href: 'https://www.instagram.com/inner_explorer_/' },
+      { label: 'Facebook', icon: 'facebook', href: 'https://www.facebook.com/innerexplorer' },
+      { label: 'YouTube', icon: 'youtube', href: 'https://www.youtube.com/c/InnerexplorerOrg' },
+      { label: 'X', icon: 'x', href: 'https://x.com/inner_explorer' },
+    ] satisfies (NavLink & { icon: BrandIconName })[],
+  },
   privacy: { label: 'Privacy policy', href: '/privacy-policy/' },
   terms: { label: 'Terms', href: '/terms/' },
 };
