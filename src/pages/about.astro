@@ -9,6 +9,7 @@ import JsonLd from '../components/seo/JsonLd.astro';
 import Section from '../components/ui/Section.astro';
 import PageTitle from '../components/ui/PageTitle.astro';
 import Button from '../components/ui/Button.astro';
+import ArrowLink from '../components/ui/ArrowLink.astro';
 import Card from '../components/ui/Card.astro';
 import ClosingCta from '../components/blocks/ClosingCta.astro';
 import LogoStrip from '../components/blocks/LogoStrip.astro';
@@ -207,6 +208,10 @@ const content = {
         label: 'Nonprofit · 501(c)(3)',
         name: 'Inner Explorer Institute',
         body: 'Channels philanthropic capital to fund classrooms where school communities are under-resourced, underwrites the research base, and drives policy toward mandates and reimbursement.',
+        link: {
+          label: 'Visit Inner Explorer Institute',
+          href: 'https://www.innerexplorerinstitute.org/',
+        },
       },
       {
         label: 'For-profit',
@@ -436,6 +441,11 @@ const aboutLd = {
             <p class="m-0 type-eyebrow text-foreground">{entity.label}</p>
             <h3 class="m-0 type-card-title-lg text-foreground">{entity.name}</h3>
             <p class="m-0 type-body text-foreground">{entity.body}</p>
+            {entity.link && (
+              <ArrowLink href={entity.link.href} external light class="mt-auto self-start">
+                {entity.link.label}
+              </ArrowLink>
+            )}
           </article>
         ))
       }

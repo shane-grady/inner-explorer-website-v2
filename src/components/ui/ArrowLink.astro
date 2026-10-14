@@ -2,7 +2,8 @@
 // A bold underlined link with a trailing arrow ("See the research"); `light` for green grounds.
 // The label is trimmed so the underline stops at the text, and its last word stays with the
 // arrow, as the boards set it, so the arrow never wraps onto a line alone. `icon="arrow-down"`
-// points to a section further down the page (Research's "Here is the proof.").
+// points to a section further down the page (Research's "Here is the proof."); `external` opens
+// another site in a new tab with the up-right arrow (About's Inner Explorer Institute).
 import type { HTMLAttributes } from 'astro/types';
 import Icon from './Icon.astro';
 
@@ -10,9 +11,17 @@ interface Props extends HTMLAttributes<'a'> {
   href: string;
   light?: boolean;
   icon?: 'arrow-right' | 'arrow-down';
+  external?: boolean;
   class?: string;
 }
-const { light = false, icon = 'arrow-right', class: className, ...rest }: Props = Astro.props;
+const {
+  light = false,
+  icon: iconProp = 'arrow-right',
+  external = false,
+  class: className,
+  ...rest
+}: Props = Astro.props;
+const icon = external ? 'arrow-up-right' : iconProp;
 const label = (await Astro.slots.render('default')).trim();
 const cut = label.includes('<') ? -1 : label.lastIndexOf(' ');
 const head = cut > 0 ? label.slice(0, cut + 1) : '';
@@ -22,8 +31,12 @@ const tail = cut > 0 ? label.slice(cut + 1) : label;
 <a
   class:list={[light ? 'ie-link-light' : 'ie-link', className]}
   data-down={icon === 'arrow-down' ? '' : undefined}
+  target={external ? '_blank' : undefined}
+  rel={external ? 'noopener' : undefined}
   {...rest}
   ><Fragment set:html={head} /><span class="whitespace-nowrap"
-    ><Fragment set:html={tail} /><Icon name={icon} /></span
+    ><Fragment set:html={tail} /><Icon name={icon} />{
+      external && <span class="sr-only"> (opens in a new tab)</span>
+    }</span
   ></a
 >
