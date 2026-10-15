@@ -109,6 +109,9 @@ const caseStudies = defineCollection({
       /** Position on the index (the board's order). */
       order: z.number(),
       draft: z.boolean().default(false),
+      /** Live at its URL but not yet announced: left out of the index, other stories' related
+       *  rows and the sitemap, and noindexed (a story waiting on final sign-off). */
+      unlisted: z.boolean().default(false),
       seo: z.object({ title: z.string(), description: z.string().max(160) }),
       publishedDate: z.coerce.date(),
       updatedDate: z.coerce.date().optional(),

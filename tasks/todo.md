@@ -413,8 +413,8 @@ mark-compass.png`, 256px PNG) is the board's: an SVG from the design system woul
     `/case-studies/webb-school/`, relink MBSEL in the "why teaching mindfulness" post, restore
     `public/downloads/webb-school-case-study.pdf` (`git show 73bab77:public/downloads/…`) and
     point `/images/Webb-School.pdf` back at it.
-  - **Stephens Elementary (built 2026-10-15, `draft: true`):** a new story from the doc "Case
-    Study: Stephens Elementary (Alexander City, AL) DRAFT v1". Before `draft: false`: the
+  - **Stephens Elementary (live but `unlisted: true` since 2026-10-15: its URL works, noindexed, not in the index, related rows or sitemap):** a new story from the doc "Case
+    Study: Stephens Elementary (Alexander City, AL) DRAFT v1". Before dropping `unlisted`: the
     YAML's PUBLISH GATE list (Laura signs off the school year, relative vs point gains, 50% vs 48%
     and the Cora Blue attribution; the speakers OK the light quote edits) . The video is
     YouTube `FMpTpl96UKU` (the Newsroom's "Transforming Student Well-Being Through Mindfulness"). On publish: a Newsroom story card, and decide

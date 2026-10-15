@@ -30,14 +30,15 @@ import {
 } from '../../lib/case-studies';
 
 export async function getStaticPaths() {
-  const stories = await getCaseStudies();
+  // Unlisted stories get their pages, but never appear in another story's related row.
+  const stories = await getCaseStudies({ unlisted: true });
   return stories.map((story) => ({
     params: { slug: story.id },
     props: {
       story,
-      // The similar stories that are already built, in the entry's order.
+      // The similar stories that are already built and listed, in the entry's order.
       related: story.data.related
-        .map((slug) => stories.find((s) => s.id === slug))
+        .map((slug) => stories.find((s) => s.id === slug && !s.data.unlisted))
         .filter((s): s is CaseStudy => s !== undefined),
     },
   }));
@@ -145,6 +146,7 @@ const crumbLd = breadcrumbSchema(Astro.site, [
   imageAlt={d.image.alt}
   imageWidth={1200}
   imageHeight={630}
+  noindex={d.unlisted}
 >
   <JsonLd slot="head" schema={articleLd} />
   <JsonLd slot="head" schema={crumbLd} />

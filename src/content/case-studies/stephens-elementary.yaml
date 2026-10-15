@@ -11,14 +11,17 @@
 # Pediatric Associates watermark. Three sit in the body as uncaptioned figures; Principal
 # Richardson's interview still is a headshot beside her name on each of her quotes.
 #
-# PUBLISH GATE (the doc's "Flags to Confirm"; keep `draft: true` until each is signed off):
+# PUBLISH GATE (the doc's "Flags to Confirm"; keep `unlisted: true` until each is signed off):
 # 1. School year 2025-26, and the +24% English / +33% math gains from spring 2026 testing (Laura).
 # 2. 33% and 24%: relative increases or percentage-point gains (Laura).
 # 3. 50% (seven months, the video) vs 48% (full-year records): the note under the quote says so.
 # 4. "Before tests, after PE" is credited to Cora Blue as a best guess (spoken over footage).
 # 5. Light quote edits (filler words removed): the speakers should be comfortable with them.
 order: 7
-draft: true
+draft: false
+# Live but unlisted until the PUBLISH GATE items are signed off (the user's call, 2026-10-15):
+# then drop this line to add it to the index, related rows and the sitemap.
+unlisted: true
 seo:
   title: Stephens Elementary Cut Referrals by 50% | Inner Explorer
   description: Stephens Elementary in Alabama cut office referrals 50% in seven months with 10 minutes
