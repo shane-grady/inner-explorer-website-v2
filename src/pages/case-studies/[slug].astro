@@ -16,6 +16,8 @@ import BarChart from '../../components/blocks/BarChart.astro';
 import StoryCard from '../../components/blocks/StoryCard.astro';
 import VoiceHero from '../../components/blocks/VoiceHero.astro';
 import ClosingCta from '../../components/blocks/ClosingCta.astro';
+import FaqList from '../../components/blocks/FaqList.astro';
+import VideoPoster from '../../components/ui/VideoPoster.astro';
 import HubSpotForm from '../../components/integrations/HubSpotForm.astro';
 import { emphasize, inlineMarks } from '../../lib/emphasize';
 import { breadcrumbSchema, organizationSchema } from '../../lib/schema';
@@ -54,7 +56,11 @@ const content = {
   voice: 'In their words',
   detailsLabel: 'Story details',
   results: 'Results',
-  hero: { primary: { label: 'Talk to our team', href: '/contact/' }, pdf: 'Get the PDF' },
+  hero: {
+    primary: { label: 'Talk to our team', href: '/contact/' },
+    pdf: 'Get the PDF',
+    video: 'Watch the video',
+  },
   glance: { title: 'At a glance' },
   pdf: {
     eyebrow: (pages: number) => `Case study PDF · ${pages} pages`,
@@ -62,6 +68,7 @@ const content = {
     // Not on the boards: the HubSpot form's confirmation (tasks/todo.md › Case Studies).
     success: 'Thanks. Your case study is ready.',
   },
+  video: { eyebrow: 'Case study video', caption: 'Watch the video' },
   rail: {
     label: 'Talk to our team',
     eyebrow: 'For district leaders',
@@ -77,9 +84,9 @@ const content = {
   },
 } as const;
 
-// A table column of numbers ("65", "(51)", "78%", "−0.6%") aligns right.
+// A table column of numbers ("65", "(51)", "78%", "−0.6%", "+24%") aligns right.
 const isNumeric = (rows: readonly (readonly string[])[], c: number) =>
-  c > 0 && rows.every((row) => /^[−–-]?\(?[\d.,$]+\)?%?$/.test(row[c]));
+  c > 0 && rows.every((row) => /^[+−–-]?\(?[\d.,$]+\)?%?$/.test(row[c]));
 
 // The space above a body block: wide before a heading, tight under one.
 const blockGap = (i: number) => {
@@ -90,6 +97,16 @@ const blockGap = (i: number) => {
   if (d.body[i - 1].type === 'heading') return 'mt-4 lg:mt-6';
   return 'mt-6 lg:mt-8';
 };
+
+// The closing panel: the story's own copy where it brings one.
+const cta = d.cta
+  ? {
+      ...content.cta,
+      title: d.cta.title,
+      lead: d.cta.lead,
+      primary: { ...content.cta.primary, label: d.cta.label },
+    }
+  : content.cta;
 
 const path = caseStudyHref(story);
 const base = new URL(Astro.site ?? MAIN_SITE).origin;
@@ -207,15 +224,28 @@ const crumbLd = breadcrumbSchema(Astro.site, [
               </Button>
             )
           }
+          {
+            d.video && (
+              <Button href="#video" variant="secondary" icon="play">
+                {content.hero.video}
+              </Button>
+            )
+          }
         </div>
       </div>
     </div>
   </VoiceHero>
 
   <Section class="pt-8 pb-0 lg:pt-12 lg:pb-0">
-    <p class="m-0 max-w-180 type-lead text-foreground-body lg:ml-14">{d.lead}</p>
+    {d.lead && <p class="m-0 max-w-180 type-lead text-foreground-body lg:ml-14">{d.lead}</p>}
 
-    <div class="mt-12 flex flex-col lg:mt-16 lg:flex-row lg:items-start lg:gap-12">
+    <div
+      class:list={[
+        d.lead
+          ? 'mt-12 flex flex-col lg:mt-16 lg:flex-row lg:items-start lg:gap-12'
+          : 'flex flex-col lg:flex-row lg:items-start lg:gap-12',
+      ]}
+    >
       <aside
         aria-label={content.glance.title}
         class="flex flex-col gap-4 rounded-sm bg-tint p-5 lg:sticky lg:top-24 lg:w-50 lg:shrink-0 lg:rounded-none lg:bg-transparent lg:p-0"
@@ -310,10 +340,16 @@ const crumbLd = breadcrumbSchema(Astro.site, [
                       widths={[640, 960, 1280]}
                       sizes="(min-width: 1024px) 720px, 100vw"
                     />
-                    <figcaption class="type-small text-foreground-muted">
-                      {block.caption}
-                    </figcaption>
+                    {block.caption && (
+                      <figcaption class="type-small text-foreground-muted">
+                        {block.caption}
+                      </figcaption>
+                    )}
                   </figure>
+                );
+              case 'note':
+                return (
+                  <p class:list={['m-0 type-small text-foreground-muted', gap]}>{block.text}</p>
                 );
               case 'table':
                 return (
@@ -471,6 +507,31 @@ const crumbLd = breadcrumbSchema(Astro.site, [
             </section>
           )
         }
+
+        {
+          d.video && (
+            <section
+              id="video"
+              aria-labelledby="video-title"
+              class="mt-10 flex scroll-mt-6 flex-col gap-3 lg:mt-12"
+            >
+              <p class="m-0 type-eyebrow text-foreground">{content.video.eyebrow}</p>
+              <h2 id="video-title" class="m-0 type-card-title-md text-foreground">
+                {d.video.title}
+              </h2>
+              <VideoPoster
+                class="mt-2"
+                href={d.video.href}
+                title={d.video.title}
+                poster={d.video.poster}
+                caption={[content.video.caption, ...(d.video.duration ? [d.video.duration] : [])]}
+                captions={d.video.captions}
+              />
+            </section>
+          )
+        }
+
+        {d.faq && <FaqList class="mt-12" title={d.faq.title} items={d.faq.items} />}
       </article>
 
       <aside
@@ -524,10 +585,10 @@ const crumbLd = breadcrumbSchema(Astro.site, [
   <Section class="pt-12 lg:pt-18">
     <ClosingCta
       layout="inline"
-      title={content.cta.title}
-      lead={content.cta.lead}
-      primary={content.cta.primary}
-      secondary={content.cta.secondary}
+      title={cta.title}
+      lead={cta.lead}
+      primary={cta.primary}
+      secondary={cta.secondary}
     />
   </Section>
 </PageLayout>

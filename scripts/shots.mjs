@@ -5,12 +5,13 @@
 // Only the preview server and HubSpot's form host are reachable, so nothing reports home.
 import { mkdir } from 'node:fs/promises';
 import { relative } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { preview } from 'astro';
 import { chromium } from 'playwright';
 import { AxeBuilder } from '@axe-core/playwright';
 import { walk } from './lib/build-files.mjs';
 
-const ROOT = new URL('..', import.meta.url).pathname;
+const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const OUT = `${ROOT}.screenshots`;
 const PORT = 4399;
 const ALLOW =

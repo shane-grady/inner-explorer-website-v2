@@ -40,8 +40,9 @@ const bodyBlock = (image: ImageFunction) =>
       type: z.literal('quote'),
       text: z.string(),
       name: z.string(),
-      role: z.string(),
-      initials: z.string().max(3),
+      /** Left out where the speaker is credited by role alone ("Stephens Elementary student"). */
+      role: z.string().optional(),
+      initials: z.string().max(3).optional(),
     }),
     z.object({
       type: z.literal('chart'),
@@ -80,12 +81,14 @@ const bodyBlock = (image: ImageFunction) =>
       /** The column set bold in Emerald (by index): the result the table shows. */
       highlight: z.number().int().min(1).optional(),
     }),
-    /** A photo in the body, with its caption. */
+    /** A photo in the body, with its caption if it has one. */
     z.object({
       type: z.literal('figure'),
       image: z.object({ src: image(), alt: z.string() }),
-      caption: z.string(),
+      caption: z.string().optional(),
     }),
+    /** A small print line under the block above it: a figure's scope, a table's source. */
+    z.object({ type: z.literal('note'), text: z.string() }),
     /** A Tint aside: its label ("Did You Know?") over a line of body text. */
     z.object({ type: z.literal('callout'), title: z.string(), text: z.string() }),
     /** Result tiles in the body: the numeral, its label and an optional baseline line. */
@@ -128,7 +131,7 @@ const caseStudies = defineCollection({
         initials: z.string().max(3).optional(),
       }),
       /** The lead under the hero card. */
-      lead: z.string(),
+      lead: z.string().optional(),
       /** The index card's headline result (its label is shorter than the result tile's), and
        *  its photo where the index board draws another than the hero's. */
       card: z.object({
@@ -155,6 +158,28 @@ const caseStudies = defineCollection({
           title: z.string(),
         })
         .optional(),
+      /** The story's video, where it has one: it takes the PDF's place (the hero's second
+       *  button and the card at the article's end) and plays in place from YouTube. */
+      video: z
+        .object({
+          href: z.string().url(),
+          /** The card's title ("Watch the … story"), also the player's accessible name. */
+          title: z.string(),
+          poster: image(),
+          /** The poster's caption line after "Watch the video" ("3 min"). */
+          duration: z.string().optional(),
+          captions: z.boolean().default(false),
+        })
+        .optional(),
+      /** Buyer questions after the story, as the Article boards' FAQ draws them. */
+      faq: z
+        .object({
+          title: z.string(),
+          items: z.array(z.object({ q: z.string(), a: z.string() })).min(1),
+        })
+        .optional(),
+      /** The closing panel's copy, where the story brings its own. */
+      cta: z.object({ title: z.string(), lead: z.string(), label: z.string() }).optional(),
       /** Up to three similar stories by slug; only those already built are shown. */
       related: z.array(z.string()).max(3).default([]),
     }),
