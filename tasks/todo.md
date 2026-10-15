@@ -416,8 +416,8 @@ mark-compass.png`, 256px PNG) is the board's: an SVG from the design system woul
   - **Stephens Elementary (built 2026-10-15, `draft: true`):** a new story from the doc "Case
     Study: Stephens Elementary (Alexander City, AL) DRAFT v1". Before `draft: false`: the
     YAML's PUBLISH GATE list (Laura signs off the school year, relative vs point gains, 50% vs 48%
-    and the Cora Blue attribution; the speakers OK the light quote edits) and the YouTube URL in
-    `video.href` (it's the Drive file until then). On publish: a Newsroom story card, and decide
+    and the Cora Blue attribution; the speakers OK the light quote edits) . The video is
+    YouTube `FMpTpl96UKU` (the Newsroom's "Transforming Student Well-Being Through Mindfulness"). On publish: a Newsroom story card, and decide
     its `order` on the index (7, last, for now).
   - **The stories (decided 2026-10-11):** Webb, Kaiser, Goddard, John Marshall and La Joya, and
     only those. Dwight Morrow and Mindful Michigan are dropped: no page, their legacy URLs go to the

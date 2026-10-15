@@ -17,7 +17,6 @@
 # 3. 50% (seven months, the video) vs 48% (full-year records): the note under the quote says so.
 # 4. "Before tests, after PE" is credited to Cora Blue as a best guess (spoken over footage).
 # 5. Light quote edits (filler words removed): the speakers should be comfortable with them.
-# 6. The video link below is the Drive file; swap in the YouTube URL so it plays in place.
 order: 7
 draft: true
 seo:
@@ -266,10 +265,11 @@ body:
   initials: LR
   portrait: ../../assets/images/case-studies/stephens-elementary/principal-richardson-portrait.jpg
 video:
-  # PUBLISH GATE 6: the Drive file opens in a new tab; a YouTube URL plays in place.
-  href: https://drive.google.com/file/d/1TvCE3004yEFgjlHHzfpdP9CoGv3TjCBE/view
+  href: https://www.youtube.com/watch?v=FMpTpl96UKU
   title: Hear it from the Stephens Elementary team
   poster: ../../assets/images/case-studies/stephens-elementary/student-eyes-closed.jpg
+  duration: 4 min
+  captions: true
 faq:
   title: Frequently Asked Questions
   items:
