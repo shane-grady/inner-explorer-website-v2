@@ -8,8 +8,8 @@
 # tags and the "At a glance" facts are the doc's Publishing Package and Library Tags. The hero quote
 # is Principal Richardson's 50% quote; it also stays in the Outcome section, as the doc has it.
 # Photos are frames from the school's testimonial video, cropped clear of the letterbox and the
-# Pediatric Associates watermark. Four sit in the body as uncaptioned figures (the principal's
-# still beside her closing quote).
+# Pediatric Associates watermark. Three sit in the body as uncaptioned figures; Principal
+# Richardson's interview still is a headshot beside her name on each of her quotes.
 #
 # PUBLISH GATE (the doc's "Flags to Confirm"; keep `draft: true` until each is signed off):
 # 1. School year 2025-26, and the +24% English / +33% math gains from spring 2026 testing (Laura).
@@ -48,6 +48,7 @@ voice:
   name: Lekishia Richardson
   role: Principal, N.H. Stephens Elementary School
   initials: LR
+  portrait: ../../assets/images/case-studies/stephens-elementary/principal-richardson-portrait.jpg
 card:
   stat: 50%
   label: fewer office referrals in the first seven months
@@ -134,6 +135,7 @@ body:
   name: Lekishia Richardson
   role: Principal
   initials: LR
+  portrait: ../../assets/images/case-studies/stephens-elementary/principal-richardson-portrait.jpg
 - type: subheading
   text: 5-10 minutes, built into every school day
 - type: paragraphs
@@ -186,6 +188,7 @@ body:
   name: Lekishia Richardson
   role: Principal
   initials: LR
+  portrait: ../../assets/images/case-studies/stephens-elementary/principal-richardson-portrait.jpg
 - type: note
   text: The 50% figure covers the first seven months of the school year, as reported by Principal Richardson.
     Full-year school discipline records show a 48% reduction.
@@ -254,10 +257,6 @@ body:
 - type: heading
   id: in-their-words
   text: In Their Words
-- type: figure
-  image:
-    src: ../../assets/images/case-studies/stephens-elementary/principal-richardson.jpg
-    alt: Lekishia Richardson, principal of N.H. Stephens Elementary School, speaking in a classroom
 - type: quote
   text: It has assisted with discipline, it's helped with our academics as well. And so we felt like
     it was something that we needed to implement to make sure that our students are successful throughout
@@ -265,6 +264,7 @@ body:
   name: Lekishia Richardson
   role: Principal, N.H. Stephens Elementary School
   initials: LR
+  portrait: ../../assets/images/case-studies/stephens-elementary/principal-richardson-portrait.jpg
 video:
   # PUBLISH GATE 6: the Drive file opens in a new tab; a YouTube URL plays in place.
   href: https://drive.google.com/file/d/1TvCE3004yEFgjlHHzfpdP9CoGv3TjCBE/view
