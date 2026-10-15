@@ -5,9 +5,12 @@ export { CASE_STUDY_TAGS, type CaseStudyTag } from './case-study-tags';
 
 export type CaseStudy = CollectionEntry<'caseStudies'>;
 
-/** Every published story, in the index's order. */
-export async function getCaseStudies(): Promise<CaseStudy[]> {
-  const all = await getCollection('caseStudies', ({ data }) => !data.draft);
+/** Every published story, in the index's order; `unlisted` ones only when asked (their pages). */
+export async function getCaseStudies({ unlisted = false } = {}): Promise<CaseStudy[]> {
+  const all = await getCollection(
+    'caseStudies',
+    ({ data }) => !data.draft && (unlisted || !data.unlisted),
+  );
   return all.sort((a, b) => a.data.order - b.data.order);
 }
 
