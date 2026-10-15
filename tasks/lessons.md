@@ -605,3 +605,10 @@ Explorer's"`).
   failed on `/styleguide/`, where they sat in the Forest section: `text-brand-emphasis` maps to
   a light green there, which fails on the Tint tile. Show light-ground patterns in a light
   Section.
+- **Attached images arrive in an order of their own (Stephens, 2026-10-15).** The chat showed 12
+  frames in one order; the files on disk (`1.webp` … `12.webp`) were numbered differently, and a
+  crop meant for the school sign landed on a classroom shot. Before cropping attachments, build a
+  numbered contact sheet from the files themselves and pick from that.
+- **`new URL(…).pathname` is percent-encoded (shots, 2026-10-15).** In a checkout whose path has
+  a space ("inner explorer website"), `pnpm shots` looked for `inner%20explorer%20website/dist`.
+  Turn file URLs into paths with `fileURLToPath`.

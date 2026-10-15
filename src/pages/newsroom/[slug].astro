@@ -16,6 +16,7 @@ import ArrowLink from '../../components/ui/ArrowLink.astro';
 import Checklist from '../../components/ui/Checklist.astro';
 import Icon from '../../components/ui/Icon.astro';
 import MediaCard from '../../components/blocks/MediaCard.astro';
+import FaqList from '../../components/blocks/FaqList.astro';
 import PullQuote from '../../components/content/PullQuote.astro';
 import StatTiles from '../../components/content/StatTiles.astro';
 import ResourceCard from '../../components/content/ResourceCard.astro';
@@ -449,27 +450,7 @@ const schemas = [
             )
           }
 
-          {
-            d.faq && (
-              <section id="faq" class="ie-faq mt-12 lg:mt-13" aria-labelledby="faq-title">
-                <h2 id="faq-title" class="m-0 mb-4 type-card-title-lg text-foreground lg:mb-6">
-                  {d.faq.title}
-                </h2>
-                {d.faq.items.map((item, i) => (
-                  <details class="group border-t border-border last:border-b" open={i === 0}>
-                    <summary class="flex min-h-16 items-center justify-between gap-4 py-4 type-card-title-sm lg:gap-6 lg:py-5 lg:type-intro lg:font-bold">
-                      {item.q}
-                      <span class="ie-faq-icon" aria-hidden="true">
-                        <Icon name="plus" size={16} class="group-open:hidden" />
-                        <Icon name="minus" size={16} class="hidden group-open:block" />
-                      </span>
-                    </summary>
-                    <p class="m-0 pb-5 type-body text-foreground-body lg:pr-11 lg:pb-6">{item.a}</p>
-                  </details>
-                ))}
-              </section>
-            )
-          }
+          {d.faq && <FaqList class="mt-12 lg:mt-13" title={d.faq.title} items={d.faq.items} />}
         </div>
 
         {

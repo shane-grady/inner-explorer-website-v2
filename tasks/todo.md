@@ -413,6 +413,12 @@ mark-compass.png`, 256px PNG) is the board's: an SVG from the design system woul
     `/case-studies/webb-school/`, relink MBSEL in the "why teaching mindfulness" post, restore
     `public/downloads/webb-school-case-study.pdf` (`git show 73bab77:public/downloads/…`) and
     point `/images/Webb-School.pdf` back at it.
+  - **Stephens Elementary (built 2026-10-15, `draft: true`):** a new story from the doc "Case
+    Study: Stephens Elementary (Alexander City, AL) DRAFT v1". Before `draft: false`: the
+    YAML's PUBLISH GATE list (Laura signs off the school year, relative vs point gains, 50% vs 48%
+    and the Cora Blue attribution; the speakers OK the light quote edits) . The video is
+    YouTube `FMpTpl96UKU` (the Newsroom's "Transforming Student Well-Being Through Mindfulness"). On publish: a Newsroom story card, and decide
+    its `order` on the index (7, last, for now).
   - **The stories (decided 2026-10-11):** Webb, Kaiser, Goddard, John Marshall and La Joya, and
     only those. Dwight Morrow and Mindful Michigan are dropped: no page, their legacy URLs go to the
     index (Launch › legacy 301 map). Related rows: where a board links a dropped story, another
@@ -586,6 +592,9 @@ mark-compass.png`, 256px PNG) is the board's: an SVG from the design system woul
       `0c8cac2:public/downloads/`; the body's `table`, `figure`, `callout` and `stats` blocks,
       `StatStrip variant="tiles"`, `card.image` (Before build › Case Studies). Dwight Morrow and
       Mindful Michigan dropped (2026-10-11).
+- [x] Case Studies: Stephens Elementary (draft), a new story with a video in the PDF's place;
+      the entry's optional `video`, `faq` (on `blocks/FaqList`, shared with Article) and `cta`,
+      the body's `note` block, optional `lead`, figure captions and quote roles.
 - [x] Newsroom and Article: the `news` collection (MDX, with `authors`), `/newsroom/` and the
       article template at `/newsroom/<slug>/` (Article, FAQPage and BreadcrumbList JSON-LD),
       the 2 real posts from `0c8cac2:src/content/blog/`; `blocks/MediaCard`, `blocks/StatTile`

@@ -20,8 +20,10 @@ interface Props {
   place: string;
   /** Two letters in a Spring disc beside the name, where no portrait exists. */
   initials?: string;
+  /** The speaker's headshot, in the disc's place (decorative: the name sits beside it). */
+  portrait?: ImageMetadata;
 }
-const { image, eyebrow, quote, name, place, initials }: Props = Astro.props;
+const { image, eyebrow, quote, name, place, initials, portrait }: Props = Astro.props;
 ---
 
 <section
@@ -57,7 +59,18 @@ const { image, eyebrow, quote, name, place, initials }: Props = Astro.props;
       />
       <figcaption class="flex items-center gap-3">
         {
-          initials && (
+          portrait && (
+            <Image
+              class="size-11 shrink-0 rounded-full object-cover lg:size-12"
+              src={portrait}
+              alt=""
+              widths={[48, 96]}
+              sizes="48px"
+            />
+          )
+        }
+        {
+          !portrait && initials && (
             <span
               class="flex size-11 shrink-0 items-center justify-center rounded-full bg-brand-subtle type-label font-bold text-on-brand-subtle lg:size-12 lg:type-card-title-sm"
               aria-hidden="true"

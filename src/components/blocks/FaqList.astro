@@ -1,0 +1,32 @@
+---
+// A page's FAQ: its heading over a stack of disclosures, the first one open (the Article
+// boards' FAQ; a case study's FAQ uses the same). Plain <details>, so it works without JS.
+import Icon from '../ui/Icon.astro';
+
+interface Props {
+  title: string;
+  items: readonly { q: string; a: string }[];
+  class?: string;
+}
+const { title, items, class: className }: Props = Astro.props;
+---
+
+<section id="faq" class:list={['ie-faq', className]} aria-labelledby="faq-title">
+  <h2 id="faq-title" class="m-0 mb-4 type-card-title-lg text-foreground lg:mb-6">
+    {title}
+  </h2>
+  {
+    items.map((item, i) => (
+      <details class="group border-t border-border last:border-b" open={i === 0}>
+        <summary class="flex min-h-16 items-center justify-between gap-4 py-4 type-card-title-sm lg:gap-6 lg:py-5 lg:type-intro lg:font-bold">
+          {item.q}
+          <span class="ie-faq-icon" aria-hidden="true">
+            <Icon name="plus" size={16} class="group-open:hidden" />
+            <Icon name="minus" size={16} class="hidden group-open:block" />
+          </span>
+        </summary>
+        <p class="m-0 pb-5 type-body text-foreground-body lg:pr-11 lg:pb-6">{item.a}</p>
+      </details>
+    ))
+  }
+</section>
