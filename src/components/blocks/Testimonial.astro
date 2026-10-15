@@ -3,10 +3,7 @@
 // Text, and the name and place under a rule. `card` (Raised) for a row of quotes,
 // `panel` (Tint) for a single quote beside other content, `accent` (Mist, Emerald top
 // border and mark) for Home's row. `initials` leads the name with a Spring disc (a case
-// study's quotes). `image` sets the card on a photo under an even Forest film, in the on-brand
-// inks (a case study's quote on a photo). No typed quotation marks.
-import { Image } from 'astro:assets';
-import type { ImageMetadata } from 'astro';
+// study's quotes). No typed quotation marks.
 const VARIANT = {
   card: 'ie-card-raised',
   panel: 'ie-card-tint',
@@ -19,36 +16,14 @@ interface Props {
   variant?: keyof typeof VARIANT;
   /** Two letters in a Spring disc beside the name, where no portrait exists. */
   initials?: string;
-  /** A background photo, decorative: the quote reads over a Forest film. */
-  image?: ImageMetadata;
   class?: string;
 }
-const { name, place, variant = 'card', initials, image, class: className }: Props = Astro.props;
+const { name, place, variant = 'card', initials, class: className }: Props = Astro.props;
 ---
 
 <figure
-  class:list={[
-    'ie-card m-0 flex flex-col gap-5 p-6 md:gap-6 md:p-8',
-    VARIANT[variant],
-    image && 'isolate bg-brand-surface-deep',
-    className,
-  ]}
-  data-on-brand={image ? '' : undefined}
+  class:list={['ie-card m-0 flex flex-col gap-5 p-6 md:gap-6 md:p-8', VARIANT[variant], className]}
 >
-  {
-    image && (
-      <>
-        <Image
-          class="ie-photo-tone absolute inset-0 -z-10 size-full object-cover object-top"
-          src={image}
-          alt=""
-          widths={[640, 960, 1280]}
-          sizes="(min-width: 1024px) 720px, 100vw"
-        />
-        <div class="ie-quote-scrim absolute inset-0 -z-10" aria-hidden="true" />
-      </>
-    )
-  }
   <svg
     class="ie-quote-mark text-icon-accent"
     width="32"

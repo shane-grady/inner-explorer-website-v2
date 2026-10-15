@@ -64,7 +64,7 @@ for it). Provenance is the comment beside each token in `tokens.css`.
   _-brand-bar_ (provisional: the reason photos, the foundation figure, its subject tiles and its
   Emerald base bar).
 - _Photo treatment_ (Home): _scrim-photo_ (desktop) and _scrim-photo-mobile_, _scrim-video_,
-  _on-photo-control_, _on-photo-dot_, _photo-tone_ (the boards' sepia filter); Case Studies' _scrim-voice_ and _scrim-voice-mobile_ (provisional: Forest from the left from xl and from the bottom below, under the voice-led hero's quote, `.ie-voice-scrim`); _scrim-quote_ (provisional: an even Forest film over a quote card's background photo, `Testimonial image`, `.ie-quote-scrim`; Stephens case study); Research's
+  _on-photo-control_, _on-photo-dot_, _photo-tone_ (the boards' sepia filter); Case Studies' _scrim-voice_ and _scrim-voice-mobile_ (provisional: Forest from the left from xl and from the bottom below, under the voice-led hero's quote, `.ie-voice-scrim`); Research's
   _scrim-hero_ and _scrim-hero-figure_ (provisional: the Forest vignette over the neuron footage
   and the pool behind the brain diagram, `.ie-hero-scrim` / `-figure`).
 - **Size:** **control-height** 48, **control-height-sm** 44, **header-height** 80/64,

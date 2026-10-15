@@ -303,7 +303,6 @@ const crumbLd = breadcrumbSchema(Astro.site, [
                     name={block.name}
                     place={block.role}
                     initials={block.initials}
-                    image={block.image}
                   >
                     <Fragment set:html={emphasize(block.text, 'font-bold not-italic')} />
                   </Testimonial>
