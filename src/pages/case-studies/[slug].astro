@@ -17,7 +17,7 @@ import StoryCard from '../../components/blocks/StoryCard.astro';
 import VoiceHero from '../../components/blocks/VoiceHero.astro';
 import ClosingCta from '../../components/blocks/ClosingCta.astro';
 import FaqList from '../../components/blocks/FaqList.astro';
-import VideoPoster from '../../components/ui/VideoPoster.astro';
+import VideoCard from '../../components/blocks/VideoCard.astro';
 import HubSpotForm from '../../components/integrations/HubSpotForm.astro';
 import { emphasize, inlineMarks } from '../../lib/emphasize';
 import { breadcrumbSchema, organizationSchema } from '../../lib/schema';
@@ -69,7 +69,7 @@ const content = {
     // Not on the boards: the HubSpot form's confirmation (tasks/todo.md › Case Studies).
     success: 'Thanks. Your case study is ready.',
   },
-  video: { eyebrow: 'Case study video', caption: 'Watch the video' },
+  video: { eyebrow: 'Watch the story', caption: 'Watch the video' },
   rail: {
     label: 'Talk to our team',
     eyebrow: 'For district leaders',
@@ -94,6 +94,7 @@ const blockGap = (i: number) => {
   const block = d.body[i];
   if (i === 0) return '';
   if (block.type === 'heading') return 'mt-12';
+  if (block.type === 'video') return 'mt-10 lg:mt-12';
   if (block.type === 'subheading') return 'mt-8 lg:mt-10';
   if (d.body[i - 1].type === 'heading') return 'mt-4 lg:mt-6';
   return 'mt-6 lg:mt-8';
@@ -108,6 +109,16 @@ const cta = d.cta
       primary: { ...content.cta.primary, label: d.cta.label },
     }
   : content.cta;
+
+// The video card's props, wherever the article places it.
+const videoCard = d.video && {
+  eyebrow: content.video.eyebrow,
+  title: d.video.title,
+  href: d.video.href,
+  poster: d.video.poster,
+  caption: [content.video.caption, ...(d.video.duration ? [d.video.duration] : [])],
+  captions: d.video.captions,
+};
 
 const path = caseStudyHref(story);
 const base = new URL(Astro.site ?? MAIN_SITE).origin;
@@ -321,6 +332,8 @@ const crumbLd = breadcrumbSchema(Astro.site, [
                     note={block.note}
                   />
                 );
+              case 'video':
+                return videoCard && <VideoCard class={gap} {...videoCard} />;
               case 'checklist':
                 return <Checklist class={gap} items={block.items} />;
               case 'stats':
@@ -513,25 +526,9 @@ const crumbLd = breadcrumbSchema(Astro.site, [
         }
 
         {
-          d.video && (
-            <section
-              id="video"
-              aria-labelledby="video-title"
-              class="mt-10 flex scroll-mt-6 flex-col gap-3 lg:mt-12"
-            >
-              <p class="m-0 type-eyebrow text-foreground">{content.video.eyebrow}</p>
-              <h2 id="video-title" class="m-0 type-card-title-md text-foreground">
-                {d.video.title}
-              </h2>
-              <VideoPoster
-                class="mt-2"
-                href={d.video.href}
-                title={d.video.title}
-                poster={d.video.poster}
-                caption={[content.video.caption, ...(d.video.duration ? [d.video.duration] : [])]}
-                captions={d.video.captions}
-              />
-            </section>
+          // The story's video closes the article unless the body places it.
+          videoCard && !d.body.some((block) => block.type === 'video') && (
+            <VideoCard class="mt-10 lg:mt-12" {...videoCard} />
           )
         }
 

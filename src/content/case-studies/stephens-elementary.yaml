@@ -3,7 +3,8 @@
 # A new story, not a legacy transfer. Every heading, sentence, quote and FAQ answer is verbatim
 # from the Google Doc "Case Study: Stephens Elementary (Alexander City, AL) DRAFT v1" (2026-10-15).
 # Only the quotes' italics are dropped (headers and quotes emphasize with color, never italics).
-# Where the copy sits in the template: the Quick Read is the first body block (no lead); "Results
+# Where the copy sits in the template: the video follows the Quick Read; Rachel Smith's quote
+# and the first student quote run inline in their paragraphs (the user's call, 2026-10-15); the Quick Read is the first body block (no lead); "Results
 # at a Glance" is the hero's results; the doc's closing section is the `cta`. The SEO fields, slug,
 # tags and the "At a glance" facts are the doc's Publishing Package and Library Tags. The hero quote
 # is Principal Richardson's 50% quote; it also stays in the Outcome section, as the doc has it.
@@ -101,6 +102,7 @@ body:
       a local pediatrician.
   - lead: 'Outcome:'
     text: 50% fewer office referrals in seven months, along with gains in math and English proficiency.
+- type: video
 - type: heading
   id: challenge
   text: 'The Challenge: Students Had Few Tools for Big Emotions'
@@ -146,13 +148,9 @@ body:
     expectation in every classroom. Each practice is audio guided and takes about 5-10 minutes, so
     teachers don't plan a lesson or lead the session themselves.
   - 'Fourth grade math teacher Rachel Smith describes what students do: breathing techniques, head
-    to toe body scans, and time to practice being comfortably quiet.'
-- type: quote
-  text: It's great to practice just having to sit and do things that they don't get to do every day
-    anymore, in this world of constant stimulation and constant input.
-  name: Rachel Smith
-  role: 4th Grade Math Teacher
-  initials: RS
+    to toe body scans, and time to practice being comfortably quiet. "It''s great to practice just
+    having to sit and do things that they don''t get to do every day anymore, in this world of constant
+    stimulation and constant input."'
 - type: figure
   image:
     src: ../../assets/images/case-studies/stephens-elementary/student-practice-eyes-closed.jpg
@@ -226,11 +224,9 @@ body:
 - type: paragraphs
   items:
   - Third grade math teacher Cora Blue says students are using what they learn "not only in school
-    but in their day to day lives." Students say the same thing in their own words.
-- type: quote
-  text: If I wake up on the wrong side of the bed, it helps me and it calms me down. It helps me get
-    my mind straight and get ready for the day.
-  name: Stephens Elementary student
+    but in their day to day lives." Students say the same thing in their own words. "If I wake up
+    on the wrong side of the bed, it helps me and it calms me down. It helps me get my mind straight
+    and get ready for the day."
 - type: quote
   text: At home, sometimes I get mad at stuff. I just breathe in and out and it makes me calm down.
   name: Stephens Elementary student
@@ -269,7 +265,7 @@ body:
   portrait: ../../assets/images/case-studies/stephens-elementary/principal-richardson-portrait.jpg
 video:
   href: https://www.youtube.com/watch?v=FMpTpl96UKU
-  title: Hear it from the Stephens Elementary team
+  title: Discover the impact on the Stephens Elementary staff and students
   poster: ../../assets/images/case-studies/stephens-elementary/student-eyes-closed.jpg
   duration: 4 min
   captions: true

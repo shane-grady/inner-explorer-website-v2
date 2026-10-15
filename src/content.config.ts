@@ -89,6 +89,8 @@ const bodyBlock = (image: ImageFunction) =>
       image: z.object({ src: image(), alt: z.string() }),
       caption: z.string().optional(),
     }),
+    /** Where the story's `video` sits in the body; without this block it closes the article. */
+    z.object({ type: z.literal('video') }),
     /** A small print line under the block above it: a figure's scope, a table's source. */
     z.object({ type: z.literal('note'), text: z.string() }),
     /** A Tint aside: its label ("Did You Know?") over a line of body text. */
