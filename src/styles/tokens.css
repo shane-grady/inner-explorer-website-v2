@@ -251,6 +251,12 @@
     rgba(30, 71, 60, 0.15) 100%
   ); /* new, provisional: the same from the bottom, below xl (Case Studies Hero D mobile, whose
      0.86 / 0.3 / 0 at 48 / 76 / 92% left the eyebrow under 4.5:1 once the quote rose) */
+  --scrim-quote: rgba(
+    30,
+    71,
+    60,
+    0.78
+  ); /* new, provisional (white text holds ≥5.4:1 on the Stephens stills): an even Forest film over a quote's background photo (Stephens case study) */
   --scrim-video: linear-gradient(
     180deg,
     rgba(30, 71, 60, 0) 55%,

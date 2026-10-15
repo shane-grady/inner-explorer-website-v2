@@ -43,6 +43,8 @@ const bodyBlock = (image: ImageFunction) =>
       /** Left out where the speaker is credited by role alone ("Stephens Elementary student"). */
       role: z.string().optional(),
       initials: z.string().max(3).optional(),
+      /** A background photo under a Forest film (decorative, so no alt). */
+      image: image().optional(),
     }),
     z.object({
       type: z.literal('chart'),
@@ -162,7 +164,7 @@ const caseStudies = defineCollection({
        *  button and the card at the article's end) and plays in place from YouTube. */
       video: z
         .object({
-          href: z.string().url(),
+          href: z.url(),
           /** The card's title ("Watch the … story"), also the player's accessible name. */
           title: z.string(),
           poster: image(),

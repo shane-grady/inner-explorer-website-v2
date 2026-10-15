@@ -8,7 +8,8 @@
 # tags and the "At a glance" facts are the doc's Publishing Package and Library Tags. The hero quote
 # is Principal Richardson's 50% quote; it also stays in the Outcome section, as the doc has it.
 # Photos are frames from the school's testimonial video, cropped clear of the letterbox and the
-# Pediatric Associates watermark.
+# Pediatric Associates watermark. Four quotes sit on a still under a Forest film (the user's call,
+# 2026-10-15): the principal's two, the counselor's and one student's.
 #
 # PUBLISH GATE (the doc's "Flags to Confirm"; keep `draft: true` until each is signed off):
 # 1. School year 2025-26, and the +24% English / +33% math gains from spring 2026 testing (Laura).
@@ -133,6 +134,7 @@ body:
   name: Lekishia Richardson
   role: Principal
   initials: LR
+  image: ../../assets/images/case-studies/stephens-elementary/student-practice-eyes-closed.jpg
 - type: subheading
   text: 5-10 minutes, built into every school day
 - type: paragraphs
@@ -202,11 +204,7 @@ body:
   name: Tabetha Blankenship
   role: School Counselor
   initials: TB
-- type: figure
-  image:
-    src: ../../assets/images/case-studies/stephens-elementary/student-hand-on-heart.jpg
-    alt: A Stephens Elementary student sits at his desk with one hand resting on his chest during a
-      practice
+  image: ../../assets/images/case-studies/stephens-elementary/student-hand-on-heart.jpg
 - type: subheading
   text: Skills that go home with them
 - type: paragraphs
@@ -217,6 +215,7 @@ body:
   text: If I wake up on the wrong side of the bed, it helps me and it calms me down. It helps me get
     my mind straight and get ready for the day.
   name: Stephens Elementary student
+  image: ../../assets/images/case-studies/stephens-elementary/student-writing.jpg
 - type: quote
   text: At home, sometimes I get mad at stuff. I just breathe in and out and it makes me calm down.
   name: Stephens Elementary student
@@ -252,6 +251,7 @@ body:
   name: Lekishia Richardson
   role: Principal, N.H. Stephens Elementary School
   initials: LR
+  image: ../../assets/images/case-studies/stephens-elementary/principal-richardson.jpg
 video:
   # PUBLISH GATE 6: the Drive file opens in a new tab; a YouTube URL plays in place.
   href: https://drive.google.com/file/d/1TvCE3004yEFgjlHHzfpdP9CoGv3TjCBE/view

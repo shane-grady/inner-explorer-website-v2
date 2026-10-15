@@ -766,6 +766,9 @@
   box-shadow: var(--shadow-video);
   text-decoration: none;
 }
+.ie-quote-scrim {
+  background: var(--scrim-quote);
+}
 .ie-video-scrim {
   background: var(--scrim-video);
 }
