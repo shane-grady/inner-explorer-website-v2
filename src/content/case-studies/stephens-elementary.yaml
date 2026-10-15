@@ -8,7 +8,8 @@
 # tags and the "At a glance" facts are the doc's Publishing Package and Library Tags. The hero quote
 # is Principal Richardson's 50% quote; it also stays in the Outcome section, as the doc has it.
 # Photos are frames from the school's testimonial video, cropped clear of the letterbox and the
-# Pediatric Associates watermark. Three sit in the body as uncaptioned figures.
+# Pediatric Associates watermark. Four sit in the body as uncaptioned figures (the principal's
+# still beside her closing quote).
 #
 # PUBLISH GATE (the doc's "Flags to Confirm"; keep `draft: true` until each is signed off):
 # 1. School year 2025-26, and the +24% English / +33% math gains from spring 2026 testing (Laura).
@@ -197,8 +198,8 @@ body:
     \ and turn their attention back to the work in front of them."
 - type: figure
   image:
-    src: ../../assets/images/case-studies/stephens-elementary/student-writing.jpg
-    alt: A Stephens Elementary student focuses on his work at his desk
+    src: ../../assets/images/case-studies/stephens-elementary/student-at-desk.jpg
+    alt: A Stephens Elementary student in glasses works on an assignment at his desk
 - type: subheading
   text: Students who can pause and reset
 - type: paragraphs
@@ -253,6 +254,10 @@ body:
 - type: heading
   id: in-their-words
   text: In Their Words
+- type: figure
+  image:
+    src: ../../assets/images/case-studies/stephens-elementary/principal-richardson.jpg
+    alt: Lekishia Richardson, principal of N.H. Stephens Elementary School, speaking in a classroom
 - type: quote
   text: It has assisted with discipline, it's helped with our academics as well. And so we felt like
     it was something that we needed to implement to make sure that our students are successful throughout
