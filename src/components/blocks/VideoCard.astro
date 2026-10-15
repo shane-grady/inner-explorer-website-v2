@@ -1,0 +1,35 @@
+---
+// A story's video in the article column: an eyebrow, its title and the poster that plays in
+// place (ui/VideoPoster). `id="video"` is the hero's "Watch the video" target.
+import type { ImageMetadata } from 'astro';
+import VideoPoster from '../ui/VideoPoster.astro';
+
+interface Props {
+  eyebrow: string;
+  title: string;
+  href: string;
+  poster: ImageMetadata;
+  /** The poster's caption line, e.g. ["Watch the video", "4 min"]. */
+  caption: readonly string[];
+  captions?: boolean;
+  class?: string;
+}
+const { eyebrow, title, href, poster, caption, captions, class: className }: Props = Astro.props;
+---
+
+<section
+  id="video"
+  aria-labelledby="video-title"
+  class:list={['flex scroll-mt-6 flex-col gap-3', className]}
+>
+  <p class="m-0 type-eyebrow text-foreground">{eyebrow}</p>
+  <h2 id="video-title" class="m-0 type-card-title-md text-foreground">{title}</h2>
+  <VideoPoster
+    class="mt-2"
+    href={href}
+    title={title}
+    poster={poster}
+    caption={caption}
+    captions={captions}
+  />
+</section>
