@@ -600,9 +600,12 @@ const homeLd = {
       <ul class="m-0 grid list-none gap-2 p-0 md:grid-cols-2 md:gap-4 xl:grid-cols-4">
         {
           content.program.grades.bands.map((band) => (
-            <li class="ie-card ie-card-raised flex items-center justify-between gap-4 px-5 py-4 md:px-6 md:py-5">
+            <li
+              class="ie-card ie-card-raised flex items-center justify-between gap-4 bg-brand-surface px-5 py-4 md:px-6 md:py-5"
+              data-on-brand
+            >
               <span class="flex items-center gap-4">
-                <span class="ie-icon-disc" aria-hidden="true">
+                <span class="ie-icon-disc bg-brand-surface-deep" aria-hidden="true">
                   <svg
                     width="30"
                     height="30"
