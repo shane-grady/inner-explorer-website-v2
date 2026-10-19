@@ -10,6 +10,7 @@ import ArrowLink from '../components/ui/ArrowLink.astro';
 import Icon from '../components/ui/Icon.astro';
 import FeatureIcon from '../components/ui/FeatureIcon.astro';
 import { HELP_SITE, HUBSPOT, MAIN_SITE } from '../lib/site';
+import { shareImage } from '../lib/share-image';
 // Stand-in: the photo the boards draw, pending approval (tasks/todo.md › Contact).
 import heroPhoto from '../assets/images/contact/student-classroom-practice.jpg';
 
@@ -108,9 +109,17 @@ const contactLd = {
     ],
   },
 };
+
+// The link-preview card: the hero photo.
+const share = await shareImage(content.hero.image.src);
 ---
 
-<PageLayout title={content.title} description={content.description}>
+<PageLayout
+  title={content.title}
+  description={content.description}
+  image={share}
+  imageAlt={content.hero.image.alt}
+>
   <JsonLd slot="head" schema={contactLd} />
 
   <Section spacing="hero" as="div">

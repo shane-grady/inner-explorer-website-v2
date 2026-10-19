@@ -19,6 +19,7 @@ import StatStrip from '../components/blocks/StatStrip.astro';
 import type { FeatureIconName } from '../lib/feature-icons';
 import { emphasize } from '../lib/emphasize';
 import { MAIN_SITE } from '../lib/site';
+import { shareImage } from '../lib/share-image';
 
 import mark from '../assets/brand/mark-compass.png';
 import heroPhoto from '../assets/images/why/hero-eyes-closed.jpg';
@@ -412,9 +413,17 @@ const whyLd = {
     },
   },
 };
+
+// The link-preview card: the hero photo.
+const share = await shareImage(content.hero.image.src);
 ---
 
-<PageLayout title={content.title} description={content.description}>
+<PageLayout
+  title={content.title}
+  description={content.description}
+  image={share}
+  imageAlt={content.hero.image.alt}
+>
   <JsonLd slot="head" schema={whyLd} />
 
   <Section spacing="hero" as="div">

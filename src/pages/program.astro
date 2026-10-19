@@ -19,8 +19,11 @@ import Testimonial from '../components/blocks/Testimonial.astro';
 import EvidenceCard from '../components/blocks/EvidenceCard.astro';
 import ClosingCta from '../components/blocks/ClosingCta.astro';
 import { MAIN_SITE } from '../lib/site';
+import { shareImage } from '../lib/share-image';
 
 import heroPlayer from '../assets/images/program/hero-practice-player.webp';
+// The hero player centered on Forest at 1200x630: a portrait screenshot can't be cropped to a link preview.
+import sharePlayer from '../assets/images/program/share-practice-player.jpg';
 import earlyLearning from '../assets/images/program/program-early-learning-practice.webp';
 import elementary from '../assets/images/program/program-elementary-practice.webp';
 import middleSchool from '../assets/images/program/program-middle-school-practice.webp';
@@ -390,9 +393,17 @@ const platformLd = {
     })),
   },
 };
+
+// The link-preview card: the hero player.
+const share = await shareImage(sharePlayer);
 ---
 
-<PageLayout title={content.title} description={content.description}>
+<PageLayout
+  title={content.title}
+  description={content.description}
+  image={share}
+  imageAlt={content.hero.image.alt}
+>
   <JsonLd slot="head" schema={platformLd} />
 
   <Section spacing="hero" as="div">

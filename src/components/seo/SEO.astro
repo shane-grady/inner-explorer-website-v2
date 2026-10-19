@@ -15,7 +15,8 @@ const {
   title,
   description,
   image = '/og-default.jpg',
-  imageAlt,
+  // The default card is the logo lockup; a page that passes its own image passes its own alt.
+  imageAlt = image === '/og-default.jpg' ? 'Inner Explorer logo' : undefined,
   imageWidth = 1200,
   imageHeight = 630,
   type = 'website',

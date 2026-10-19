@@ -18,6 +18,7 @@ import ClosingCta from '../components/blocks/ClosingCta.astro';
 import { emphasize } from '../lib/emphasize';
 import { STAGE_ICONS } from '../lib/stage-icons';
 import { MAIN_SITE } from '../lib/site';
+import { shareImage } from '../lib/share-image';
 // Stand-ins: the photos and product screens the boards draw, pending approval.
 import heroCalm from '../assets/images/home/hero-calm-moment.png';
 import heroSunlit from '../assets/images/home/hero-sunlit-classroom.jpg';
@@ -324,9 +325,17 @@ const homeLd = {
     audience: { '@type': 'EducationalAudience', audienceType: 'PreK-12 schools and districts' },
   },
 };
+
+// The link-preview card: the hero photo.
+const share = await shareImage(content.hero.slides[0].src);
 ---
 
-<PageLayout title={content.title} description={content.description}>
+<PageLayout
+  title={content.title}
+  description={content.description}
+  image={share}
+  imageAlt={content.hero.slides[0].alt}
+>
   <JsonLd slot="head" schema={homeLd} />
 
   <PhotoHero
