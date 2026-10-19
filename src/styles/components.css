@@ -329,18 +329,6 @@
   overflow: clip;
   mask-image: linear-gradient(to bottom, black var(--collapse-fade, 62%), transparent);
 }
-/* The recommended column's outline over a comparison table (Pricing desktop): the first
-   column is 40%, each plan column 20%; --col is the plan's index. */
-.ie-compare-highlight {
-  position: absolute;
-  inset-block: 0;
-  inset-inline-start: calc(40% + var(--col, 0) * 20%);
-  inline-size: 20%;
-  box-sizing: border-box;
-  border: 2px solid var(--brand-emphasis);
-  border-radius: var(--radius-sm);
-  pointer-events: none;
-}
 
 /* ---------- Header, navigation, menu ---------- */
 .ie-header {
@@ -502,12 +490,6 @@
     inline-size: var(--quote-mark-width);
     block-size: auto;
   }
-}
-/* The recommended plan (Pricing): Mist ground, a 2px Emerald border, Emerald rules. */
-.ie-card-recommended {
-  --border: var(--border-brand);
-  border: 2px solid var(--brand-emphasis);
-  background: var(--brand-tint);
 }
 /* A linked card: the title's link covers the card, the card lifts on hover. */
 .ie-card-link {
