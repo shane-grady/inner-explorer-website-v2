@@ -786,6 +786,117 @@
   status = 301
   force = true
 
+# Pages Google still lists (sitelinks and the legacy sitemap) that had no rule, 2026-10-19.
+# /Explorer/ was the Explorer-subscription landing page ("Explorer IE - Landing Page").
+# Netlify matches paths case-sensitively, so the lowercase form is listed too.
+[[redirects]]
+  from = "/Explorer"
+  to = "/pricing/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/Explorer/*"
+  to = "/pricing/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/explorer"
+  to = "/pricing/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/explorer/*"
+  to = "/pricing/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/case-study/Special-Education-Classrooms.html"
+  to = "/case-studies/la-joya-isd/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/case-study/*"
+  to = "/case-studies/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/mindfulnessapp"
+  to = "/program/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/good-news"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/good-news.html"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/COVID19-ReliefFunds"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/COVID19-ReliefFunds.html"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/November-Gratitude"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/November-Gratitude.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/take-action"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/take-action.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/5easysteps-district.html"
+  to = "/why-inner-explorer/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/choose-your-program.html"
+  to = "/program/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/Community/*"
+  to = "/pricing/"
+  status = 301
+  force = true
+
 [[redirects]]
   from = "/sitemap.xml"
   to = "/sitemap-index.xml"
