@@ -165,11 +165,10 @@ class.
   `.ie-chart-bar` (`BarChart`'s grid),
   `.ie-icon-disc`, `.ie-field`, `.ie-label`, `.ie-field-error`, `.ie-card-*`, `.ie-nav`,
   `.ie-menu-*`, `.ie-footer-link`, `.ie-skip-link`, `.ie-photo-tone`,
-  `.ie-card-recommended` (Mist, 2px Emerald border: Pricing's recommended plan), `.ie-check-disc`,
+  `.ie-check-disc`,
   `.ie-minus-disc` (its "not this" partner: Why's curriculum table), `.ie-bleed-start` /
   `.ie-bleed-end` (a panel running to the viewport's edge from lg: Why's reasons),
   `.ie-switch` / `.ie-switch-track`, `.ie-collapse` (`data-collapsed`: clipped under a fade),
-  `.ie-compare-highlight` (the recommended column's outline over a 40/20/20/20 table),
   `.ie-swatch` (EvidenceCard's color key), `.ie-tabs` / `.ie-tab` / `.ie-tab-sub` (Platform's
   segmented tabs: Forest track, white selected tab), `.ie-play-btn` and `.ie-progress` (Platform's
   sample player),

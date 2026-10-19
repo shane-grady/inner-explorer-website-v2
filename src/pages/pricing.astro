@@ -33,7 +33,6 @@ const content = {
     title: 'Find the ideal plan for\n*your learning community.*',
     lead: 'Every plan includes the full library of daily audio-guided practices, PreK through 12, in English and Spanish. Compare the three site licenses below and choose the one that fits your school, center, or\u00a0district.',
   },
-  recommendedLabel: 'Recommended',
   ctaLabel: 'Contact us',
   ctaHref: '/contact/',
   plans: [
@@ -43,7 +42,6 @@ const content = {
       unit: 'per center, per year',
       blurb:
         'Annual per site license for early learning, out-of-school-time, and after-school centers.',
-      highlight: false,
     },
     {
       name: 'Community',
@@ -51,7 +49,6 @@ const content = {
       unit: 'per school, per year',
       blurb:
         'Annual per site license for a single school, with admin dashboards, single sign-on, and onboarding.',
-      highlight: true,
     },
     {
       name: 'Community Pro',
@@ -60,7 +57,6 @@ const content = {
       // The desktop board's wording; the mobile board adds "roster management" (tasks/todo.md).
       blurb:
         'Annual per site license with full family access, a dedicated coordinator, and the Inner Explorer guarantee.',
-      highlight: false,
     },
   ],
   plansNote:
@@ -244,7 +240,6 @@ const content = {
 } as const;
 
 const { compare } = content;
-const recommended = content.plans.findIndex((p) => p.highlight);
 const legendItems = [
   { kind: 'yes', label: compare.legend.included },
   { kind: 'addon', label: compare.legend.addon },
@@ -290,27 +285,8 @@ const productLd = {
     <div class="mt-8 grid gap-4 md:mt-12 lg:grid-cols-3 lg:gap-6">
       {
         content.plans.map((plan) => (
-          <article
-            class:list={[
-              'ie-card flex min-w-0 flex-col gap-5 px-6 py-7 md:p-8',
-              plan.highlight ? 'ie-card-recommended' : 'ie-card-raised',
-            ]}
-          >
-            <div class="flex min-h-6.5 items-center justify-between gap-3">
-              <h2
-                class:list={[
-                  'm-0 type-eyebrow',
-                  plan.highlight ? 'text-brand-emphasis' : 'text-foreground',
-                ]}
-              >
-                {plan.name}
-              </h2>
-              {plan.highlight && (
-                <span class="rounded-full bg-brand-surface px-3 py-1 type-tag text-on-brand">
-                  {content.recommendedLabel}
-                </span>
-              )}
-            </div>
+          <article class="ie-card ie-card-raised flex min-w-0 flex-col gap-5 px-6 py-7 md:p-8">
+            <h2 class="m-0 type-eyebrow text-foreground">{plan.name}</h2>
             <p class="m-0 flex flex-col gap-1.5">
               <span class="font-sans type-stat-md font-bold text-foreground tabular-nums">
                 {plan.price}
@@ -320,13 +296,7 @@ const productLd = {
             <p class="m-0 border-t border-border pt-5 type-list text-foreground-secondary">
               {plan.blurb}
             </p>
-            <Button
-              variant={plan.highlight ? 'primary' : 'secondary'}
-              href={content.ctaHref}
-              block
-              arrow
-              class="mt-auto"
-            >
+            <Button variant="secondary" href={content.ctaHref} block arrow class="mt-auto">
               {content.ctaLabel}
               <span class="sr-only"> about the {plan.name} plan</span>
             </Button>
@@ -457,33 +427,18 @@ const productLd = {
                       content.plans.map((plan) => (
                         <th
                           scope="col"
-                          class:list={[
-                            'min-w-0 px-1 py-3 text-center font-normal lg:px-5 lg:pt-8 lg:pb-6',
-                            plan.highlight &&
-                              'rounded-t-sm border-2 border-b-0 border-brand-emphasis bg-brand-tint lg:rounded-none lg:border-0 lg:bg-transparent',
-                          ]}
+                          class="min-w-0 px-1 py-3 text-center font-normal lg:px-5 lg:pt-8 lg:pb-6"
                         >
                           <span class="flex flex-col items-center gap-0.5 lg:gap-1">
-                            {plan.highlight && (
-                              <span
-                                class="mb-1 rounded-full bg-brand-surface px-2 py-0.5 type-tag text-on-brand lg:hidden"
-                                aria-hidden="true"
-                              >
-                                {content.recommendedLabel}
-                              </span>
-                            )}
                             <span class="type-label font-bold text-foreground lg:type-card-title-md">
                               {plan.name}
-                              {plan.highlight && (
-                                <span class="sr-only"> ({content.recommendedLabel})</span>
-                              )}
                             </span>
                             <span class="type-card-title-sm text-foreground lg:mt-1 lg:type-card-title-lg">
                               {plan.price}
                             </span>
                             <span class="type-label text-foreground-muted">{plan.unit}</span>
                             <Button
-                              variant={plan.highlight ? 'primary' : 'secondary'}
+                              variant="secondary"
                               size="sm"
                               href={content.ctaHref}
                               block
@@ -593,12 +548,7 @@ const productLd = {
                     {
                       content.plans.map((plan) => (
                         <td class="px-5 py-6 align-middle">
-                          <Button
-                            variant={plan.highlight ? 'primary' : 'secondary'}
-                            size="sm"
-                            href={content.ctaHref}
-                            block
-                          >
+                          <Button variant="secondary" size="sm" href={content.ctaHref} block>
                             {content.ctaLabel}
                             <span class="sr-only"> about the {plan.name} plan</span>
                           </Button>
@@ -619,17 +569,6 @@ const productLd = {
                   </tr>
                 </tfoot>
               </table>
-            </div>
-            <div
-              class="ie-compare-highlight hidden lg:block"
-              style={`--col: ${recommended}`}
-              aria-hidden="true"
-            >
-              <span
-                class="absolute top-0 left-1/2 -translate-1/2 rounded-full bg-brand-surface px-3 py-1 type-tag whitespace-nowrap text-on-brand"
-              >
-                {content.recommendedLabel}
-              </span>
             </div>
           </div>
         </div>
