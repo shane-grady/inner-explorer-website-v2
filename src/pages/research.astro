@@ -11,7 +11,6 @@ import Section from '../components/ui/Section.astro';
 import Button from '../components/ui/Button.astro';
 import ArrowLink from '../components/ui/ArrowLink.astro';
 import Icon from '../components/ui/Icon.astro';
-import FeatureIcon from '../components/ui/FeatureIcon.astro';
 import Logo from '../components/ui/Logo.astro';
 import StatTile from '../components/blocks/StatTile.astro';
 import EvidenceCard from '../components/blocks/EvidenceCard.astro';
@@ -83,7 +82,6 @@ const content = {
     number: '01',
     eyebrow: 'The evidence',
     title: 'Six independent controlled studies.',
-    badge: 'ESSA Tier 1 · Strong evidence',
     lead: 'Four randomized controlled trials and two controlled studies, all led by academic researchers. Two of the six are doctoral dissertations.',
     outcomes: {
       title: 'The Outcomes',
@@ -1102,12 +1100,6 @@ const { brain } = hero;
           >
             {evidence.title}
           </h2>
-          <p class="m-0 mt-5">
-            <span class="ie-tag bg-brand-subtle type-tag text-on-brand-subtle">
-              <FeatureIcon name="check-circle" size={16} class="text-brand-emphasis" />
-              {evidence.badge}
-            </span>
-          </p>
         </div>
         <p class="m-0 type-intro text-foreground-body lg:basis-5/12">{evidence.lead}</p>
       </div>
