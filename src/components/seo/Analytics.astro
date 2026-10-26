@@ -30,6 +30,18 @@ const { measurementId } = Astro.props;
     };
     window.gtag('js', new Date());
     window.gtag('config', measurementId);
+    // Clicks through to the platform. `beacon` lets the event send while the page unloads.
+    document.addEventListener('click', (event) => {
+      const link =
+        event.target instanceof Element &&
+        event.target.closest('a[href^="https://app.innerexplorer.com"]');
+      if (link) {
+        window.gtag('event', 'platform_sign_in', {
+          link_url: link.href,
+          transport_type: 'beacon',
+        });
+      }
+    });
 
     const tracker = document.createElement('script');
     tracker.async = true;
