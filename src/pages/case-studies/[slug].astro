@@ -1,8 +1,11 @@
 ---
 // A case study, from the "Case Study Detail Working" boards (FINAL V draws no detail page): the
 // hero is Hero D · Voice led (CS-Hero-D and CS-Hero-D-Mobile, chosen 2026-10-11), the rest the
-// story's Desktop and Mobile boards (Webb, Kaiser, Goddard, John Marshall, La Joya). One
-// caseStudies entry drives the page; its body blocks render in order. CTA labels verbatim.
+// story's Desktop and Mobile boards (Webb, Kaiser, Goddard, John Marshall, La Joya). A story
+// without a practitioner's voice opens on its title block, result tiles and photo instead, as
+// the Mindful Michigan design draws it (the Article header's pattern), and its rail carries the
+// PDF too. One caseStudies entry drives the page; its body blocks render in order. CTA labels
+// verbatim.
 import { Image, getImage } from 'astro:assets';
 import PageLayout from '../../layouts/PageLayout.astro';
 import JsonLd from '../../components/seo/JsonLd.astro';
@@ -13,6 +16,8 @@ import Checklist from '../../components/ui/Checklist.astro';
 import StatStrip from '../../components/blocks/StatStrip.astro';
 import Testimonial from '../../components/blocks/Testimonial.astro';
 import BarChart from '../../components/blocks/BarChart.astro';
+import LineChart from '../../components/blocks/LineChart.astro';
+import SlopeChart from '../../components/blocks/SlopeChart.astro';
 import StoryCard from '../../components/blocks/StoryCard.astro';
 import VoiceHero from '../../components/blocks/VoiceHero.astro';
 import ClosingCta from '../../components/blocks/ClosingCta.astro';
@@ -57,6 +62,7 @@ const content = {
   voice: 'In their words',
   detailsLabel: 'Story details',
   results: 'Results',
+  resultsLabel: 'Results at a glance',
   hero: {
     primary: { label: 'Talk to our team', href: '/contact/' },
     pdf: 'Get the PDF',
@@ -75,6 +81,7 @@ const content = {
     eyebrow: 'For district leaders',
     title: 'Bring this to your schools',
     primary: { label: 'Talk to our team', href: '/contact/' },
+    pdf: 'Get the PDF',
   },
   related: { title: 'More stories like this', all: 'All case studies', href: '/case-studies/' },
   cta: {
@@ -99,6 +106,10 @@ const blockGap = (i: number) => {
   if (d.body[i - 1].type === 'heading') return 'mt-4 lg:mt-6';
   return 'mt-6 lg:mt-8';
 };
+
+// The PDF's link from the hero or the rail: ungated, the file itself; gated, the form.
+const pdfHref = d.pdf && (HUBSPOT.caseStudyPdfFormId ? '#download' : d.pdf.file);
+const pdfDownload = d.pdf && !HUBSPOT.caseStudyPdfFormId ? true : undefined;
 
 // The closing panel: the story's own copy where it brings one.
 const cta = d.cta
@@ -162,100 +173,148 @@ const crumbLd = breadcrumbSchema(Astro.site, [
   <JsonLd slot="head" schema={articleLd} />
   <JsonLd slot="head" schema={crumbLd} />
 
-  <VoiceHero
-    image={d.image}
-    eyebrow={content.voice}
-    quote={d.voice.quote}
-    name={d.voice.name}
-    place={d.voice.role}
-    initials={d.voice.initials}
-    portrait={d.voice.portrait}
-  >
-    <div class="flex flex-col gap-7 lg:flex-row lg:items-start lg:gap-14">
-      <div class="flex min-w-0 flex-col lg:basis-7/12">
-        <nav aria-label={content.breadcrumb.label}>
-          <ol
-            class="m-0 flex list-none flex-wrap items-center gap-2 p-0 type-breadcrumb text-foreground-muted"
-          >
-            <li>
-              <a
-                class="text-foreground-muted no-underline hover:text-link-hover"
-                href={content.breadcrumb.href}>{content.breadcrumb.root}</a
-              >
-            </li>
-            <li aria-hidden="true">/</li>
-            <li>{d.level}</li>
-          </ol>
-        </nav>
-        <div class="mt-3 inline-flex max-w-full flex-col self-start lg:mt-4">
+  {
+    d.voice ? (
+      <VoiceHero
+        image={d.image}
+        eyebrow={content.voice}
+        quote={d.voice.quote}
+        name={d.voice.name}
+        place={d.voice.role}
+        initials={d.voice.initials}
+        portrait={d.voice.portrait}
+      >
+        <div class="flex flex-col gap-7 lg:flex-row lg:items-start lg:gap-14">
+          <div class="flex min-w-0 flex-col lg:basis-7/12">
+            <nav aria-label={content.breadcrumb.label}>
+              <ol class="m-0 flex list-none flex-wrap items-center gap-2 p-0 type-breadcrumb text-foreground-muted">
+                <li>
+                  <a
+                    class="text-foreground-muted no-underline hover:text-link-hover"
+                    href={content.breadcrumb.href}
+                    set:text={content.breadcrumb.root}
+                  />
+                </li>
+                <li aria-hidden="true">/</li>
+                <li>{d.level}</li>
+              </ol>
+            </nav>
+            <div class="mt-3 inline-flex max-w-full flex-col self-start lg:mt-4">
+              <h1
+                class="m-0 type-section-title text-balance text-foreground"
+                set:html={emphasize(`${d.title.lead} *${d.title.emph}*`)}
+              />
+              <div class="ie-accent-bar mt-2" aria-hidden="true" />
+            </div>
+            <ul
+              aria-label={content.detailsLabel}
+              class="m-0 mt-4 flex list-none flex-wrap gap-x-5 gap-y-2 p-0 lg:mt-5 lg:gap-x-6"
+            >
+              {d.details.map((detail) => (
+                <li class="flex items-center gap-2 type-label font-bold text-foreground-muted">
+                  <span class="size-1.5 shrink-0 rounded-full bg-icon-accent" aria-hidden="true" />
+                  {detail}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div class="flex min-w-0 flex-col lg:basis-5/12">
+            <h2 class="m-0 type-eyebrow text-foreground">{content.results}</h2>
+            <ul class="m-0 mt-2 list-none p-0 lg:mt-3">
+              {d.results.map((r) => (
+                <li class="flex flex-col gap-1 border-t border-border py-3.5 lg:flex-row lg:items-center lg:gap-4">
+                  <span class="font-sans type-stat-sm font-bold whitespace-nowrap text-brand-emphasis lg:min-w-24 lg:shrink-0">
+                    {/* One expression, so no space falls between the numeral and its unit. */}
+                    {[r.value, r.unit && <span class="text-numeral-sign">{r.unit}</span>]}
+                  </span>
+                  <span class="type-card-title-sm text-foreground">{r.label}</span>
+                </li>
+              ))}
+            </ul>
+            <div class="mt-4 flex flex-col gap-3 md:flex-row md:flex-wrap lg:mt-5">
+              <Button href={content.hero.primary.href} arrow>
+                {content.hero.primary.label}
+              </Button>
+              {d.pdf && (
+                // Ungated, the PDF downloads straight from the hero; gated, it jumps to the form.
+                <Button href={pdfHref} download={pdfDownload} variant="secondary" icon="download">
+                  {content.hero.pdf}
+                </Button>
+              )}
+              {d.video && (
+                <Button href="#video" variant="secondary" icon="play">
+                  {content.hero.video}
+                </Button>
+              )}
+            </div>
+          </div>
+        </div>
+      </VoiceHero>
+    ) : (
+      <Section class="pt-8 pb-0 lg:pt-14 lg:pb-0">
+        <header class="lg:ml-62">
+          <nav aria-label={content.breadcrumb.label}>
+            <ol class="m-0 flex list-none flex-wrap items-center gap-2 p-0 type-breadcrumb text-foreground-muted">
+              <li>
+                <a
+                  class="text-foreground-muted no-underline hover:text-link-hover"
+                  href={content.breadcrumb.href}
+                  set:text={content.breadcrumb.root}
+                />
+              </li>
+              <li aria-hidden="true">/</li>
+              <li>{d.level}</li>
+            </ol>
+          </nav>
           <h1
-            class="m-0 type-section-title text-balance text-foreground"
+            class="m-0 mt-4 type-section-title text-balance text-foreground lg:max-w-225"
             set:html={emphasize(`${d.title.lead} *${d.title.emph}*`)}
           />
-          <div class="ie-accent-bar mt-2" aria-hidden="true"></div>
-        </div>
-        <ul
-          aria-label={content.detailsLabel}
-          class="m-0 mt-4 flex list-none flex-wrap gap-x-5 gap-y-2 p-0 lg:mt-5 lg:gap-x-6"
-        >
-          {
-            d.details.map((detail) => (
-              <li class="flex items-center gap-2 type-label font-bold text-foreground-muted">
-                <span class="size-1.5 shrink-0 rounded-full bg-icon-accent" aria-hidden="true" />
-                {detail}
-              </li>
-            ))
-          }
-        </ul>
-      </div>
-      <div class="flex min-w-0 flex-col lg:basis-5/12">
-        <h2 class="m-0 type-eyebrow text-foreground">{content.results}</h2>
-        <ul class="m-0 mt-2 list-none p-0 lg:mt-3">
-          {
-            d.results.map((r) => (
-              <li class="flex flex-col gap-1 border-t border-border py-3.5 lg:flex-row lg:items-center lg:gap-4">
-                <span class="font-sans type-stat-sm font-bold whitespace-nowrap text-brand-emphasis lg:min-w-24 lg:shrink-0">
-                  {/* One expression, so no space falls between the numeral and its unit. */}
-                  {[r.value, r.unit && <span class="text-numeral-sign">{r.unit}</span>]}
-                </span>
-                <span class="type-card-title-sm text-foreground">{r.label}</span>
-              </li>
-            ))
-          }
-        </ul>
-        <div class="mt-4 flex flex-col gap-3 md:flex-row md:flex-wrap lg:mt-5">
-          <Button href={content.hero.primary.href} arrow>{content.hero.primary.label}</Button>
-          {
-            d.pdf && (
-              // Ungated, the PDF downloads straight from the hero; gated, it jumps to the form.
-              <Button
-                href={HUBSPOT.caseStudyPdfFormId ? '#download' : d.pdf.file}
-                download={HUBSPOT.caseStudyPdfFormId ? undefined : true}
-                variant="secondary"
-                icon="download"
-              >
-                {content.hero.pdf}
-              </Button>
-            )
-          }
-          {
-            d.video && (
-              <Button href="#video" variant="secondary" icon="play">
-                {content.hero.video}
-              </Button>
-            )
-          }
-        </div>
-      </div>
-    </div>
-  </VoiceHero>
+          <div class="ie-accent-bar mt-2 lg:max-w-measure-article" aria-hidden="true" />
+          {d.lead && (
+            <p class="m-0 mt-5 max-w-measure-article type-lead text-foreground-secondary lg:mt-6">
+              {d.lead}
+            </p>
+          )}
+          <p class="m-0 mt-5 type-label text-foreground-muted lg:mt-6">{d.details.join(' · ')}</p>
+        </header>
+        <section aria-label={content.resultsLabel} class="mt-6 lg:mt-10 lg:ml-62">
+          <StatStrip
+            variant="hero"
+            stats={d.results.map((r) => ({
+              value: r.value,
+              sign: r.unit,
+              label: r.label,
+              source: r.source,
+            }))}
+          />
+        </section>
+        <figure class="m-0 mt-6 overflow-hidden rounded-sm bg-tint lg:mt-10 lg:ml-62">
+          <Image
+            src={d.image.src}
+            alt={d.image.alt}
+            widths={[640, 960, 1440, 1904]}
+            sizes="(min-width: 1024px) 952px, 100vw"
+            loading="eager"
+            fetchpriority="high"
+            class="block aspect-og w-full object-cover"
+            style={d.image.position ? `object-position: ${d.image.position}` : undefined}
+          />
+        </figure>
+      </Section>
+    )
+  }
 
-  <Section class="pt-8 pb-0 lg:pt-12 lg:pb-0">
-    {d.lead && <p class="m-0 max-w-180 type-lead text-foreground-body lg:ml-14">{d.lead}</p>}
+  <Section class={d.voice ? 'pt-8 pb-0 lg:pt-12 lg:pb-0' : 'pt-6 pb-0 lg:pt-14 lg:pb-0'}>
+    {
+      d.voice && d.lead && (
+        <p class="m-0 max-w-180 type-lead text-foreground-body lg:ml-14">{d.lead}</p>
+      )
+    }
 
     <div
       class:list={[
-        d.lead
+        d.voice && d.lead
           ? 'mt-12 flex flex-col lg:mt-16 lg:flex-row lg:items-start lg:gap-12'
           : 'flex flex-col lg:flex-row lg:items-start lg:gap-12',
       ]}
@@ -434,8 +493,68 @@ const crumbLd = breadcrumbSchema(Astro.site, [
                     </div>
                   </figure>
                 );
-              case 'steps':
+              case 'lineChart':
                 return (
+                  <LineChart
+                    class={gap}
+                    title={block.title}
+                    note={block.note}
+                    years={block.years}
+                    ticks={block.ticks}
+                    unit={block.unit}
+                    gapLabel={block.gapLabel}
+                    panels={block.panels}
+                  />
+                );
+              case 'slopeChart':
+                return (
+                  <SlopeChart
+                    class={gap}
+                    title={block.title}
+                    note={block.note}
+                    description={block.description}
+                    columns={block.columns}
+                    max={block.max}
+                    lines={block.lines}
+                    highlight={block.highlight}
+                  />
+                );
+              case 'steps':
+                return block.title ? (
+                  <figure
+                    class:list={[
+                      'ie-card ie-card-raised m-0 flex flex-col gap-5 p-6 md:gap-6 md:p-8',
+                      gap,
+                    ]}
+                  >
+                    <figcaption class="type-card-title-md text-balance text-foreground">
+                      {block.title}
+                    </figcaption>
+                    <ol class="m-0 grid list-none gap-5 p-0 md:grid-cols-2 md:gap-6">
+                      {block.items.map((step, n) => (
+                        <li class="flex min-w-0 items-start gap-3">
+                          <span
+                            class:list={[
+                              'flex size-6 shrink-0 items-center justify-center rounded-full type-tag',
+                              n === 0
+                                ? 'bg-brand-subtle text-on-brand-subtle'
+                                : 'bg-tint text-foreground',
+                            ]}
+                            aria-hidden="true"
+                          >
+                            {n + 1}
+                          </span>
+                          <span class="flex flex-col gap-1">
+                            <span class="type-card-title-sm text-foreground">{step.title}</span>
+                            <span class="type-label leading-normal text-foreground-body">
+                              {step.text}
+                            </span>
+                          </span>
+                        </li>
+                      ))}
+                    </ol>
+                  </figure>
+                ) : (
                   <ol class:list={['m-0 flex list-none flex-col gap-4 p-0 lg:gap-5', gap]}>
                     {block.items.map((step, n) => (
                       <li class="flex items-start gap-3 lg:gap-4">
@@ -545,6 +664,19 @@ const crumbLd = breadcrumbSchema(Astro.site, [
           <Button class="mt-2" href={content.rail.primary.href} size="sm">
             {content.rail.primary.label}
           </Button>
+          {
+            !d.voice && d.pdf && (
+              <Button
+                href={pdfHref}
+                download={pdfDownload}
+                variant="secondary"
+                icon="download"
+                size="sm"
+              >
+                {content.rail.pdf}
+              </Button>
+            )
+          }
         </div>
       </aside>
     </div>

@@ -231,6 +231,10 @@ and listed in `design/inventory.md`.
   where the boards draw the retired Deep Forest, and the bottom one holds darker for longer
   than drawn, so the eyebrow stays at 4.5:1 over the photo at every width. The inline HubSpot
   layout is provisional too: no PDF form exists yet.
+- Case Studies (Mindful Michigan design, 2026-10-23) only: `--line-plot-height` (180 → 220) and
+  `--slope-plot-height` (248 → 308), the value ranges of the line and slope charts. The result
+  numerals take `type-stat-sm` (44 at 1440, drawn 48: snapped); the hero's result tiles have no
+  ground because the design's export left the tile background empty.
 - Research only: `--scrim-hero` / `-figure`, `--collapse-height-sm` and `--collapse-fade-sm` (the
   citations clipped at 260 with the fade from 35%; `.ie-collapse` reads `--collapse-fade`),
   `--sand-dots` / `-size`,

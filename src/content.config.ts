@@ -69,9 +69,66 @@ const bodyBlock = (image: ImageFunction) =>
         .array(z.union([z.string(), z.object({ lead: z.string(), text: z.string() })]))
         .min(1),
     }),
+    /** Numbered steps; with a `title`, a Raised card of two columns from md up, the first disc
+     *  in Spring (Mindful Michigan's six parts). */
     z.object({
       type: z.literal('steps'),
+      title: z.string().optional(),
       items: z.array(z.object({ title: z.string(), text: z.string() })).min(1),
+    }),
+    /** A line chart in a Raised card: one panel per measure, a series per place over the
+     *  years, the highlighted series' grade above each point. `null` is a year without data
+     *  (every series), drawn as a "No data" band. `description` is the panel's accessible name. */
+    z.object({
+      type: z.literal('lineChart'),
+      title: z.string(),
+      note: z.string().optional(),
+      years: z.array(z.string()).min(2),
+      /** The value axis, top to bottom ("80%" … "20%"): its first and last are the range. */
+      ticks: z.array(z.number()).min(2),
+      unit: z.string().default(''),
+      gapLabel: z.string().optional(),
+      panels: z
+        .array(
+          z.object({
+            title: z.string(),
+            description: z.string(),
+            /** Names the list of end values that stands in for the end labels below md. */
+            legend: z.string(),
+            series: z
+              .array(
+                z.object({
+                  name: z.string(),
+                  /** The end label's value ("~64%"). */
+                  end: z.string(),
+                  values: z.array(z.number().nullable()),
+                  highlight: z.boolean().default(false),
+                  grades: z.array(z.string().nullable()).optional(),
+                  /** The years whose grade sits under its point, clear of the other lines. */
+                  gradesBelow: z.array(z.string()).optional(),
+                }),
+              )
+              .min(1),
+          }),
+        )
+        .min(1),
+    }),
+    /** A slope chart in a Raised card: a line per place from the first column's value to the
+     *  second's, the highlighted one labeled at both ends. `description` is its accessible name. */
+    z.object({
+      type: z.literal('slopeChart'),
+      title: z.string(),
+      note: z.string().optional(),
+      description: z.string(),
+      columns: z.tuple([z.string(), z.string()]),
+      /** The top of the value scale (the bottom is 0). */
+      max: z.number(),
+      lines: z.array(z.tuple([z.number(), z.number()])).min(1),
+      highlight: z.object({
+        name: z.string(),
+        values: z.tuple([z.number(), z.number()]),
+        labels: z.tuple([z.string(), z.string()]),
+      }),
     }),
     /** A data table: the caption, the header row, then the body rows; the first cell of a row
      *  heads it, and a row that starts with "Total" is set bold. Columns of numbers align right. */
@@ -130,16 +187,19 @@ const caseStudies = defineCollection({
       title: z.object({ lead: z.string(), emph: z.string() }),
       /** The hero card's details beside the green dots (place, level, read time…), verbatim. */
       details: z.array(z.string()).min(1),
-      /** The practitioner's words that open the page (Hero D); `*words*` are set bold. */
-      voice: z.object({
-        quote: z.string(),
-        name: z.string(),
-        role: z.string(),
-        initials: z.string().max(3).optional(),
-        /** The speaker's headshot, in place of the initials. */
-        portrait: image().optional(),
-      }),
-      /** The lead under the hero card. */
+      /** The practitioner's words that open the page (Hero D); `*words*` are set bold. A story
+       *  without one opens on its title, lead, result tiles and photo (Mindful Michigan). */
+      voice: z
+        .object({
+          quote: z.string(),
+          name: z.string(),
+          role: z.string(),
+          initials: z.string().max(3).optional(),
+          /** The speaker's headshot, in place of the initials. */
+          portrait: image().optional(),
+        })
+        .optional(),
+      /** The lead under the hero card (in the title block where the story has no voice). */
       lead: z.string().optional(),
       /** The index card's headline result (its label is shorter than the result tile's), and
        *  its photo where the index board draws another than the hero's. */
@@ -148,9 +208,17 @@ const caseStudies = defineCollection({
         label: z.string(),
         image: z.object({ src: image(), alt: z.string() }).optional(),
       }),
-      /** The hero card's results: the numeral, its unit (set in Vibrant) and the label. */
+      /** The hero card's results: the numeral, its unit (set in Vibrant) and the label; without
+       *  a voice, the hero's result tiles, each with its baseline (`source`). */
       results: z
-        .array(z.object({ value: z.string(), unit: z.string().optional(), label: z.string() }))
+        .array(
+          z.object({
+            value: z.string(),
+            unit: z.string().optional(),
+            label: z.string(),
+            source: z.string().optional(),
+          }),
+        )
         .min(1)
         .max(4),
       /** The hero photo; `position` keeps the subject in frame as the band crops. */

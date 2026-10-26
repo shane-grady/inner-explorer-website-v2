@@ -45,6 +45,9 @@ editing) are in `tasks/archive/lessons-pre-rebuild.md`; general points from them
   under the other name, so the post's `og:image` pointed at a file that never shipped
   (`check:dist` caught it). `md5sum` new assets against `src/assets/images/` and reuse the
   existing file.
+- **No italics, even when an approved design draws them (Mindful Michigan, 2026-10-26).** The
+  export set appendix subtitles in italic and I kept them "as designed"; the owner removed them.
+  Her no-italics rule outranks a design file: set such text plain and say so, don't ask.
 - **Copy casing stays as drawn.** Sentence-casing the boards' title case read as drift to the
   owner; keep headings and buttons verbatim and raise casing as a question, not a change.
 - **axe `link-in-text-block`:** the preflight removes link underlines; running-text links need

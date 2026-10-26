@@ -17,11 +17,12 @@ export function emphasize(
     .replace(/\n/g, br);
 }
 
-// Running text with inline marks, as the case-study body carries it: `*words*` set bold and
-// `[words](https://…)` a link (only http(s) and site-relative targets). Everything else is
-// escaped.
+// Running text with inline marks, as the case-study body carries it: `*words*` set bold,
+// `[words](https://…)` a link (only http(s) and site-relative targets) and "\n" a line break
+// (a poem's lines, a list of names under its label). Everything else is escaped.
 export function inlineMarks(text: string): string {
   return escape(text)
     .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+|\/(?!\/)[^)\s]*)\)/g, '<a href="$2">$1</a>')
-    .replace(/\*([^*]+)\*/g, '<strong>$1</strong>');
+    .replace(/\*([^*]+)\*/g, '<strong>$1</strong>')
+    .replace(/\n/g, '<br>');
 }

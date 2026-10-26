@@ -3,7 +3,10 @@
 // them from lg up, two columns below. `ruled` (Why's results): three columns at every width,
 // each under a hairline, the larger numeral and a source line. `tiles` (a case study's body
 // results): Tint tiles, two columns from md up, the Emerald numeral over a bold label and its
-// baseline. On a green Section the ink, hairlines and signs follow the ground.
+// baseline. `hero` (a case study without a voice, Mindful Michigan): the same tiles under its
+// title without the Tint ground, as that design draws them, three across from lg, two below
+// with an odd last tile spanning. On a green Section the ink, hairlines and signs follow the
+// ground.
 interface Stat {
   value: string;
   /** A trailing sign ("+", "%") set in numeral-sign. */
@@ -30,6 +33,13 @@ const VARIANT = {
   tiles: {
     list: 'gap-2 md:grid-cols-2',
     item: 'gap-2 rounded-sm bg-tint p-5 md:p-6',
+    value: 'type-stat-sm text-brand-emphasis',
+    label: 'type-list leading-snug font-bold text-foreground-secondary',
+    source: 'mt-2 block type-label text-foreground-muted',
+  },
+  hero: {
+    list: 'grid-cols-2 gap-2 lg:grid-cols-3',
+    item: 'gap-2 p-4 odd:last:col-span-2 md:p-6 lg:odd:last:col-span-1',
     value: 'type-stat-sm text-brand-emphasis',
     label: 'type-list leading-snug font-bold text-foreground-secondary',
     source: 'mt-2 block type-label text-foreground-muted',
