@@ -1,0 +1,311 @@
+# Mindful Michigan: one file drives /case-studies/mindful-michigan/ and its card.
+#
+# Every word on the page is verbatim from the approved Claude Design export (desktop.html,
+# mobile.html and copy-reference.md, 2026-10-23); the body was extracted from desktop.html by
+# script, not retyped. Its italic subtitles are set plain (the owner's call: no italics). The
+# story has no practitioner's voice, so it opens on the title-block hero. Chart values are the
+# design's own: the grade charts from their accessible names, the playback comparison read off
+# its plot. The card's stat, label and level ("Statewide") are the
+# owner's. Not in the design, so written for this entry: `seo` (from the page's own copy).
+order: 8
+draft: false
+seo:
+  title: Mindful Michigan Project Highlights | Inner Explorer
+  description: The Mindful Michigan Model builds on a decade of Inner Explorer's evidence-based program,
+    reaching about 58,000 students and 2300 educators in Michigan.
+publishedDate: '2026-10-23'
+level: Statewide
+name: Mindful Michigan
+place: Michigan
+location: Michigan
+tags:
+- academics
+title:
+  lead: Mindful Michigan
+  emph: Project Highlights
+details:
+- Statewide
+- Michigan
+- P–12 schools, centers and districts
+lead: The Mindful Michigan Model builds on a decade of Inner Explorer's innovative evidence-based program.
+  This 'Inside-Out' approach centers on the wisdom that our inner and outer worlds are connected and can
+  be integrated into a larger systemic framework.
+card:
+  stat: 19.7%
+  label: higher academic achievement than peer schools
+results:
+- value: 19.7%
+  label: higher academic achievement for schools using Inner Explorer, compared to peer schools
+  source: 2022-23 school year compared to 2021-22
+- value: ~58,000
+  label: students and their families and 2300 educators
+  source: 202 and 146 schools/centers in the grant’s first two years
+- value: 800%
+  label: rise in Inner Explorer usage in Southfield Public Schools this past year
+  source: The first district in the nation to require daily practice
+image:
+  src: ../../assets/images/case-studies/mindful-michigan/hero-student-practice.jpg
+  alt: A student in glasses sits with her eyes closed during a mindfulness practice as classmates practice
+    behind her
+glance:
+- label: Program
+  value: Mindful Michigan Model
+- label: Schools and centers
+  value: 202 in year one, 146 in year two
+- label: Students
+  value: Approximately 58,000
+- label: Educators
+  value: '2300'
+- label: Model district
+  value: Southfield Public Schools
+body:
+- type: paragraphs
+  items:
+  - "As you know, stress blocks thinking, learning, and relating. This multi-directional model attenuates stress as the first and necessary step that improves mental health, academic achievement, school safety, and family engagement. The theory is that we must address biology before behavior, meaning reducing the effects of stress before expecting the responsive expression."
+- type: steps
+  title: "The six parts of the Mindful Michigan Model"
+  items:
+  - title: "Foundational daily mindful practice"
+    text: "Provides 180 days of sequenced, 10-min audio guided practice. Easy to use with transition responsive practices that together promote wellbeing, academic achievement and school safety."
+  - title: "Intergenerational approach"
+    text: "Links home and school for family engagement and transparency."
+  - title: "Intentional equity and inclusion"
+    text: "Includes youth in juvenile justice, early learning centers, OST centers, foster care, and children’s hospitals. Also available in English and Spanish."
+  - title: "Collaboration and collective impact"
+    text: "Creates a collaborative leadership space supported by public and private partnerships for education leaders to work together."
+  - title: "Data-driven research"
+    text: "Provides evidence-based and meaningful impact focus for real-time data and wise decision making."
+  - title: "Inspired innovation"
+    text: "Elevates innovative ideas in mental health including: Riverfront Reflections, Extreme Makeover Mindful Edition, and Experiential Roundtables."
+- type: paragraphs
+  items:
+  - "The Mindful Michigan Model is the first-of-its-kind state-wide model for a mindful theory of system change and it is only possible with our funders and partners! Fetzer Institute, The Skillman Foundation, Hemera Foundation, MC4ME, Millennium Forum."
+- type: heading
+  id: reach
+  text: "Total schools, students, and educators impacted"
+- type: paragraphs
+  items:
+  - "In the grant's first two years, we reached 202 and 146 schools/centers, respectively, impacting approximately 58,000 students and their families and 2300 educators. We have illuminated our commitment to equity by deepening our partnerships with School Districts, Charter Networks, Foster Care Group Homes, \"Out-of-School Time\" (OST) Providers, Park Districts, Juvenile Detention Centers, and Families."
+  - "We are inspired that Southfield has become a model Mindful District, the first in the nation to require daily mindful practice with Inner Explorer for their students and staff including the administration, bus drivers, janitors, and office staff. They have also embedded training from MC4ME, Millennium Forum, and Breathe for Change, reaching nearly 200 educators as a way for them to deepen their understanding of and commitment to mindfulness. As a result of this work, Michigan schools have been transformed as our partnerships have grown."
+- type: heading
+  id: academic
+  text: "Academic impact"
+- type: paragraphs
+  items:
+  - "As noted, it was challenging for the researcher to get school-level data by student and classroom. As a result, an analysis was done using state-wide academic and attendance data that is public record, comparing schools in Michigan using Inner Explorer consistently, with \"peer schools\", those with the same demographic profile, not using Inner Explorer."
+  - "The results, comparing the 2022-23 school year to 2021-22, showed that schools using Inner Explorer achieved 19.7% higher academic achievement and a 1.64% improvement in attendance compared to peer schools. While these schools were underperforming the peer schools before they adopted Inner Explorer, they are now making significant gains compared to schools that did not adopt Inner Explorer."
+- type: table
+  caption: "Proficiency and attendance, Inner Explorer schools vs. peer schools"
+  columns: [Category, Proficiency, Attendance]
+  rows:
+  - ["Top Inner Explorer Schools: 2022-2023 School Year", "24.13", "53.75"]
+  - ["Top Inner Explorer Schools: 2021-2022 School Year", "20.15", "45.51"]
+  - ["% Change", "19.71%", "18.11%"]
+  - ["Non-Inner Explorer Schools: 2022-2023 School Year", "29.97", "63.18"]
+  - ["Non-Inner Explorer Schools: 2021-2022 School Year", "29.96", "54.24"]
+  - ["% Change", "0.01%", "16.47%"]
+- type: paragraphs
+  items:
+  - "For example, NHA is a 100-school charter network with 50 schools in Michigan. Their first school to use Inner Explorer was Fortis Academy in Ypsi. They were high users in the 2021-22 school year and the 2022-23 school year. They achieved over 30% improvement in proficiency in these two years. This shows that cumulative gains can continue each year the program is used."
+  - "Fortis embraced mindfulness school-wide with various deepening initiatives throughout the year including innovative challenges like Mindful March Madness. They have embraced it school-wide, experienced improved academic results, and zero behavior issues! Many other NHA schools have followed Fortis' success with Inner Explorer and embedded it in their budget this year."
+- type: heading
+  id: community
+  text: "Community deepening and collaboration"
+- type: paragraphs
+  items:
+  - "Our strategy has been to build a community of practice, inspire and sustain daily habits, and encourage deeper engagement through partners including Millennium Forum and MC4ME. With innovative roundtables and events, we have brought together our Mindful Michigan community, including new collaborators because this movement is more significant than any one organization. These efforts are already delivering a collective impact."
+  - "Southfield Public Schools, with the visionary leadership of Paula Lightsey, is showing what this community deepening and collaboration look like at the district level. Paula has inspired the whole district to embed daily mindful practice and to support all staff including bus drivers, janitors, secretaries, and district administrators. This is a model district for the state and country. The usage of Inner Explorer has steadily increased over her tenure and this past year has risen by 800% as students, staff, and families joined the daily mindful practice. A multi-year evaluation on impact across measures is in process."
+  - "We are inspired this year to see our youth leading the movement - from an Inner Explorer youth opening the Coalition of Schools Educating Mindfully (COSEM) Conference to our entirely new elementary series featuring youth-led practices, to our student winners from across Michigan of our IN-SPIRE story event sharing how mindfulness is transforming their lives at school, at home, and beyond."
+  - "We held three state-wide roundtable convenings to unite Michigan's education leaders in sacred community. This deepened our “why” for this work, connected Mindful Moments to Movements, and our InSpire Story Quest event brought together Mindful Michigan education leaders, students, partners, and policymakers nationwide. These virtual gatherings and convenings have fostered Mindful Michigan as a growing community of youth, families, educators, and education leaders all practicing together. This is what Mindful Michigan is all about!"
+- type: figure
+  image:
+    src: ../../assets/images/case-studies/mindful-michigan/smiling-student.jpg
+    alt: A smiling student rests her head on her arms with her eyes closed during a mindfulness practice
+  caption: A student smiles during her daily mindfulness practice with Inner Explorer.
+- type: heading
+  id: policy
+  text: "Policy and advocacy"
+- type: paragraphs
+  items:
+  - "The CDC recently issued six recommendations for school administrators to address the youth mental health crisis which is a significant factor linked to academic failure. Daily mindfulness practice was #2 (ahead of SEL) and mindfulness training for teachers was #6! The US Surgeon General also promotes mindfulness to improve well-being and decrease loneliness. The [US Department of Education](https://eric.ed.gov/?id=ED606075) and the [American Academy of Pediatrics](https://publications.aap.org/aapnews/news/11995/Mindfulness-a-Natural-Fit-for-Pediatric-Practice?autologincheck=redirected) also recommend mindfulness. Educators from across the country and certainly in Michigan would benefit from tuning in to this excellent guidance."
+  - "The [recent NPR story highlighted Inner Explorer](https://www.npr.org/sections/health-shots/2024/01/26/1227056527/to-help-these-school-kids-deal-with-trauma-mindfulness-lessons-over-the-loudspea) as a proven path to bring daily mindfulness practice to schools in an easy-to-implement and highly effective way. While Patricia Sullivan Elementary School, profiled in the NPR story with their results noted below, has excellent leadership and staff, their results are unmistakable compared to their district, state, and nation. More than 80% of the children at Sullivan are unhoused and still, as a Title 1 school went from an 'F' to an 'A' using Inner Explorer daily. While education results have been primarily flat for nearly 50 years, and sadly most US children are below grade level, this chart offers hope that we can change the trajectory within five years! We simply need the commitment Southfield, NHA, and many others are following - every student, every day."
+- type: lineChart
+  title: Patricia Sullivan Elementary School
+  note: Letters show Sullivan’s grade each year.
+  years: ['2017', '2018', '2019', '2020', '2021', '2022']
+  ticks: [80, 60, 40, 20]
+  unit: '%'
+  gapLabel: No data
+  panels:
+  - title: Math Grade Comparisons
+    description: "Approximate values read from the original chart: Line chart of math results, 2017 to 2022. Sullivan: 26% in 2017 (F), 34% in 2018 (D), 49% in 2019 (C), 60% in 2021 (B), 64% in 2022 (A). Hillsborough district: 55%, 56%, 56%, 49%, 51%. Florida: 49%, 49%, 49%, 49%, 48%. National: 48%, 48%, 48%, 48%, 47%. No 2020 data."
+    legend: Math values in 2022
+    series:
+    - name: Sullivan
+      end: '~64%'
+      values: [26, 34, 49, null, 60, 64]
+      highlight: true
+      grades: ["F", "D", "C", null, "B", "A"]
+      gradesBelow: ["2019"]
+    - name: Hillsborough
+      end: '~51%'
+      values: [55, 56, 56, null, 49, 51]
+    - name: Florida
+      end: '~48%'
+      values: [49, 49, 49, null, 49, 48]
+    - name: National
+      end: '~47%'
+      values: [48, 48, 48, null, 48, 47]
+  - title: ELA Grade Comparisons
+    description: "Approximate values read from the original chart: Line chart of English language arts results, 2017 to 2022. Sullivan: 37% in 2017 (D), 45% in 2018 (C), 53% in 2019 (C+), 58% in 2021 (B), 69% in 2022 (A). Hillsborough district: 53%, 54%, 55%, 51%, 53%. Florida: 46%, 46%, 45%, 45%, 45%. National: 44%, 44%, 44%, 44%, 43%. No 2020 data."
+    legend: ELA values in 2022
+    series:
+    - name: Sullivan
+      end: '~69%'
+      values: [37, 45, 53, null, 58, 69]
+      highlight: true
+      grades: ["D", "C", "C+", null, "B", "A"]
+      gradesBelow: ["2017", "2018"]
+    - name: Hillsborough
+      end: '~53%'
+      values: [53, 54, 55, null, 51, 53]
+    - name: Florida
+      end: '~45%'
+      values: [46, 46, 45, null, 45, 45]
+    - name: National
+      end: '~43%'
+      values: [44, 44, 44, null, 44, 43]
+- type: paragraphs
+  items:
+  - "Inner Explorer was [recently profiled](https://www.secondwavemedia.com/features/headstartmindfulness03072024.aspx) as a best practice for Head Start centers across Michigan, which could bring these practices to children even earlier in their lifespan."
+- type: heading
+  id: donors
+  text: "Donor & foundation support"
+- type: paragraphs
+  items:
+  - "While there was interest in our work, we did not raise the expected funds from Michigan-based foundations, even though the benefits were well documented. We did raise funds from national donors and national foundations, as well as from the growing number of schools and centers that pay for the program directly."
+  - "Interestingly, in similar projects underway in Georgia and North Carolina, led by the GreenLight Fund, we have multiple additional foundations already signed on for these multi-year projects, including the Hearst Foundations, Annie E. Casey Foundation, Arthur M. Blank Foundation, and many others. GreenLight Fund has made these introductions and actively promotes the work, opening the door to like-minded foundations to engage with us. They also helped us connect with the University of Pennsylvania's Center for High Impact Philanthropy (CHIP), which included Inner Explorer in their most recent [High Impact Giving Toolkit](https://www.impact.upenn.edu/2024-high-impact-giving-toolkit/). We would be grateful for Fetzer Institute's help connecting with foundations interested in Michigan youth mental health, particularly now that we have demonstrated school-wide improvements."
+- type: heading
+  id: forecast
+  text: "Future forecast"
+- type: paragraphs
+  items:
+  - "We plan to share the multi-year impact of this work at a state-wide convening in late 2024 or early 2025. We will coordinate with the Fetzer Institute team on planning the convening, including advocacy for adopting daily mindfulness practice as a core part of the curriculum in all P-12 schools. This 'inside-out' learning approach is necessary for inner peace and self-love, which is the foundation for peace and love in communities."
+  - "Mindful Michigan continues to be rigorously evaluated across multiple locations and multiple years. Using school-level data that is available publicly, we have shown that using Inner Explorer increases academic performance by 19.7% overall, is improving attendance and improving emotional well-being. Other key learnings from our journey together have given us the wisdom to go deeper, creating authentic and intentional relationships with students, families, and staff across Michigan and building community momentum and acceptance around daily mindfulness practice across the state."
+  - "We plan to work with the Fetzer Institute to bring this daring yet simple vision of 'A Mindful Michigan' to life."
+- type: heading
+  id: appendices
+  text: "Appendices"
+- type: subheading
+  text: "Deepening | State-wide roundtables"
+- type: paragraphs
+  items:
+  - "*Insights into our why*\nDeepening our Collective Journey as Education Leaders"
+  - "Our first quarterly Experiential Roundtable which had 8 education leaders across Michigan in attendance exploring their mindful \"why\" together. The Roundtables are a strategy to deepen engagement and a collective sense of community for contemplative education leaders across the State of Michigan."
+  - "*Connecting moments to movements*\nBuilding Community for Mindful Michigan Education Leaders"
+  - "A partnership with the Fetzer Institute, Student Advocacy Center, and Southfield Public Schools co-sponsored our second experiential roundtable. The focus of this roundtable was on \"Connecting Moments to Movements\" and brought together over 40 education leaders across Michigan including representation from school-communities across the state, foundations, MPTA, OST's ACCESS and Wayne Metro, policy and business leaders, and more."
+  - "*IN-SPIRE: Story Quest*\nAn Inspirational Community Building Event"
+  - "The \"IN-SPIRE\" Story Quest Competition and Roundtable was an innovative deepening strategy to inspire an appreciative, creative, and reflective process to further the commitment to mindful daily practice. We had over 40 applicants from across the state of Michigan (both Students and Educators)."
+  - "The third roundtable of the year was attended by 35+ education leaders across the state and featured the winners of the story quest as an inspirational event to build engagement state-wide across Michigan. All of our 3 student winners shared their inspiring stories about Inner Explorer and our winning educator shared her powerful poem about the impact of Inner Explorer on her students and herself/her family."
+- type: subheading
+  text: "Deepening | District, state and school-wide challenges"
+- type: paragraphs
+  items:
+  - "From state-wide challenges, to district level, and to school level, we found creative ways to increase engagement and create a mindful school-community culture. In our Southfield District-wide Winter Challenge, Adler Elementary got their entire staff practicing mindfulness daily and sustained a 300% increase in engagement to win the challenge! Fortis Academy got their entire school practicing mindfulness daily off the momentum of their March Mindful Madness Competition!"
+- type: subheading
+  text: "Growing Mindful Michigan"
+- type: paragraphs
+  items:
+  - "*Conference*\nBringing Presence and Connection"
+  - "I presented at the Student Mental Health Summit in Lansing and for their virtual conference with Southfield. I also presented at the Michigan Afterschool Association with ACCESS and the MIPTA conference."
+  - "*Data and evaluation*\nPursuing Evidence-Based Research"
+  - "I held data review meetings with our biggest Michigan stakeholders including Southfield, Wayne Metro, ACCESS and NHA."
+  - "We also did a Spring pre and post evaluation of Southfield, ACCESS, and Wayne Metro that we are working with MSU to finalize impact data."
+  - "*New sites*\nCreating Growth"
+  - "*Juvenile Justice and Foster Care*\nDickerson Juvenile Justice Center\nChildren's Village Juvenile Justice Center\nWe Care Foster Care"
+  - "*Expanding in OST's*\n6 New Wayne Metro Sites\n6 New ACCESS Sites"
+  - "*New Schools and Districts*\nWayne Westland Community School District (10)\nFreeland Community School District (2)\nSouth Pointe Scholars\nEndeavor Charter Academy\nTaylor Exemplary Academy\nPioneer Middle School\nGreat Lakes Learning Academy\nAngell Elementary\nL'Anse Creuse High School\nDwight Rich School of the Arts\nNorth Muskegon High School\nWest Middle School, Grand Blanc\nMonroe YMCA\nKent Intermediate School District\nCornerstone Charter\nUM Children's Hospital"
+  - "*New partner potential*\nCreating Collaboration\nCoalition of Schools Educating Mindfully, Michigan Virtual, Student Advocacy Center of Michigan, Michigan PTA, Launch Michigan."
+- type: heading
+  id: southfield
+  text: "Southfield case study: a model for the nation"
+- type: paragraphs
+  items:
+  - "800% growth! Off the charts!"
+- type: slopeChart
+  title: Top 20 Districts Playback Comparison
+  note: Playbacks, last school year vs. current school year
+  description: "Slope chart of playbacks in the last and current school years for 20 districts. Southfield Public Schools rose from about 2,600 to about 14,800 playbacks, the largest increase among the 20 districts."
+  columns: [Last school year, Current school year]
+  # Thousands of playbacks, as the design plots them (its scale runs 0 to 24.64k).
+  max: 24.64
+  lines:
+  - [17.6, 23.2]
+  - [13.7, 11.9]
+  - [13.1, 15.1]
+  - [12.6, 0.0]
+  - [11.6, 14.8]
+  - [11.5, 12.1]
+  - [10.8, 13.4]
+  - [8.7, 7.9]
+  - [5.7, 6.8]
+  - [3.7, 3.1]
+  - [2.6, 1.5]
+  - [2.6, 2.9]
+  - [2.6, 1.4]
+  - [2.6, 0.7]
+  - [2.1, 0.1]
+  - [2.0, 1.9]
+  - [1.9, 0.2]
+  - [1.8, 1.8]
+  - [1.7, 1.4]
+  highlight:
+    name: Southfield
+    values: [2.6, 14.8]
+    labels: [2.6k, 14.8k]
+- type: paragraphs
+  items:
+  - "Our capacity to reach all Michigan's children and families requires us to be strategic. Our initial strategy for year 1 was to follow tipping point science to grow throughout the state and we successfully had over 200 schools and sites get started. However, not all of them fully engage with the Inner Explorer platform, even when offered for free through grant funding. Southfield is showing what it looks like for all students, staff, and families to practice mindfulness embedded into the school day and a component for teacher support and impact."
+  - "Southfield Public Schools are uniquely positioned to be our model district for the Mindful Michigan Model and increase engagement across the state district by district."
+- type: steps
+  items:
+  - title: "People and commitment"
+    text: "The leadership is there and the district just invested in a 3-year subscription to Inner Explorer. The district has had its leaders trained by MC4ME, trained ten leaders in 'Breathe for Change', and has 16 new leaders in our Millennium Forum groups that started in January."
+  - title: "Equity"
+    text: "Southfield is a medium-sized diverse district. They have 14 schools with over 5,000 students, 98% minority enrollment. They initially ranked in the bottom 50%, with 20% math proficiency, and 36% reading proficiency.* *Source National Center for Education Statistics (NCES) MI Dept of Education"
+  - title: "Vision and innovation"
+    text: "Southfield is innovative in thinking about learning from the inside out and has the right people, commitment, and drive to pilot our inside-out model for the state and beyond."
+- type: heading
+  id: anecdotes
+  text: "Anecdotes from students and staff on Mindful Michigan"
+- type: paragraphs
+  items:
+  - "\"I am grateful for all the people in the world\"\nKindergartener at Detroit Leadership Academy"
+  - "\"When I know that I need mindfulness is when I have mixed feelings, feeling mad, sad, angry, uncomfortable, you can use mindfulness for all of these situations. If I were you and had a problem, the best place to go is to Inner Explorer\".\nGabrielle Gross, Southfield Adler Student\n1st Place In-Spire Story Champion"
+  - "\"After doing these mindful practices for about a month and a half straight (still counting), It has helped me to feel physically strong and emotionally replenished.\"\nElaine Sandouno, Fortis Student\n2nd Place In-Spire Story Champion"
+  - "\"Whenever I feel tired or in a bad mood, I make sure to practice taking deep breaths to calm myself down and let myself have enough time to make decisions. Inner Explorer has given me chances to avoid conflicts and has helped me in a positive way.\"\nIsraa Abella, Fortis Student\n3rd Place In-Spire Story Champion"
+  - "\"While reading my students' Inner Explorer essays, I was blown away by some of their insights. Inner Explorer has not only helped me to have more compassion for myself, but to be more compassionate to those around me: my students, coworkers, friends, and family.\"\nMarc Zendejas, Educator"
+  - "\"The best tool in my toolbox is mindfulness. Inner Explorer helps our school find a calmness in the present moment and connects us to each other.\"\nPamela Mckenzie, Behavior Interventionist"
+- type: figure
+  image:
+    src: ../../assets/images/case-studies/mindful-michigan/students-at-desks.jpg
+    alt: Students sit in a row at their desks with hands folded and eyes closed during a mindfulness practice
+  caption: Students pause together for a daily mindfulness practice with Inner Explorer.
+- type: heading
+  id: poem
+  text: "Poem about Mindful Michigan"
+- type: paragraphs
+  items:
+  - "*Mindful Mission*\nBy: Karen Burns\nKindergarten Teacher, Detroit Leadership Academy"
+  - "Screaming, crying, No! That's mine. It's shown us how to watch our thoughts\nLack of focus, won't stand in line. Push out distractions, Don't get caught\nPost Covid years really different from the rest? Thinking about toys when it's time for math\nIs this the year that I resign? Can I play with them in the bath?\nFive year olds putting me to the test. Toys on a cloud and let them float\nMindfulness could fix this mess! Focus on what my teacher wrote!"
+  - "Straight, Still, Silent, Shut Our mindful practice is awesome.\nMindful posture is introduced. Others want to see?\nPlease let these skills be of good use. They had no idea how spectacular we would be.\nJake, Ms. Moses, Laura, Will It has been impactful.\nSomeone help these kids be still. The teacher is proud and her heart is full,\nThe students know the difference, which\nDo the shark fin, but then what? they clearly articulate.\nTake deep breaths, push them out Overall, we think Mindfulness is great!\nTake deep breaths, push them out\nTeacher what's this all about? Go show my family at home\nBody Scan, Relaxation Train, To help them when their minds may roam.\nWhat do you mean, train our brains? When tensions are high,\nThis will help you get by.\nWeeks go by, we settle in Look at what I learned in school.\nThen the real work begins Mindfulness helps me keep cool.\nActs of Kindness, Start with the heart\nThen kids start to do their part."
+  - "They take deep breaths on their own.\nSelf-regulation being shown?\nThe teacher's mind is really blown.\nForgive others, and even myself?\nthose tools upon the shelf."
+  - "Self-aware, and social too?\nWhat does mindfulness really do?\nIt helps us focus on what's within\nOr when there's conflict with a friend."
+pdf:
+  file: /downloads/mindful-michigan-case-study.pdf
+  pages: 11
+  title: Get the Mindful Michigan Project Highlights report
+related:
+- goddard-middle-school
+- john-marshall-hs
+- kaiser-elementary

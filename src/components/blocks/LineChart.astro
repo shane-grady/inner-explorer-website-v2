@@ -1,0 +1,271 @@
+---
+// A line chart in a Raised card (Mindful Michigan's grade comparisons): the title and note,
+// then one panel per measure. Each panel plots a series per place across the years on a
+// value axis, the highlighted series in Jade with its grade above each point, the others in
+// Storm. A year without data is a band in the page ground. From md the end values label the
+// lines on the right (leaders keep them apart); below md a list of them follows the plot.
+// Each plot is one image to assistive tech, named by the panel's description. Lines and
+// points sit in percentages of the plot, so the plot stretches with the card.
+interface Series {
+  readonly name: string;
+  readonly end: string;
+  readonly values: readonly (number | null)[];
+  readonly highlight?: boolean;
+  readonly grades?: readonly (string | null)[];
+  /** The years whose grade sits under its point, clear of the other lines. */
+  readonly gradesBelow?: readonly string[];
+}
+interface Panel {
+  readonly title: string;
+  readonly description: string;
+  readonly legend: string;
+  readonly series: readonly Series[];
+}
+interface Props {
+  title: string;
+  note?: string;
+  years: readonly string[];
+  /** The value axis, top to bottom: its first and last are the range. */
+  ticks: readonly number[];
+  unit?: string;
+  gapLabel?: string;
+  panels: readonly Panel[];
+  class?: string;
+}
+const {
+  title,
+  note,
+  years,
+  ticks,
+  unit = '',
+  gapLabel,
+  panels,
+  class: className,
+}: Props = Astro.props;
+
+const [top, bottom] = [ticks[0], ticks.at(-1)!];
+const pct = (n: number) => `${n.toFixed(2)}%`;
+// The first and last years sit just inside the plot's edges.
+const x = (i: number) => ((i + 0.15) / (years.length - 0.7)) * 100;
+const y = (v: number) => ((top - v) / (top - bottom)) * 100;
+const slot = 100 / (years.length - 0.7);
+// A year is a gap when no series has a value for it.
+const gaps = years
+  .map((_, i) => i)
+  .filter((i) => panels.every((p) => p.series.every((s) => s.values[i] == null)));
+
+// Each series' points, then the segments between consecutive points (across a gap year).
+const points = (s: Series) =>
+  s.values.flatMap((v, i) =>
+    v == null
+      ? []
+      : [
+          {
+            i,
+            x: x(i),
+            y: y(v),
+            grade: s.grades?.[i],
+            below: s.gradesBelow?.includes(years[i]) ?? false,
+          },
+        ],
+  );
+const segments = (s: Series) => {
+  const p = points(s);
+  return p.slice(1).map((b, n) => ({ a: p[n], b }));
+};
+// End labels in plot order, pushed apart so no two overlap.
+const MIN_GAP = 9;
+const endLabels = (panel: Panel) => {
+  const ends = panel.series
+    .map((s) => ({ s, at: points(s).at(-1)!.y }))
+    .sort((a, b) => a.at - b.at);
+  let floor = -Infinity;
+  return ends.map((e) => {
+    const label = Math.max(e.at, floor + MIN_GAP);
+    floor = label;
+    return { ...e, label };
+  });
+};
+const tickLabel = (t: number) => `${t}${unit}`;
+---
+
+<figure
+  class:list={['ie-card ie-card-raised m-0 flex flex-col gap-5 p-6 md:gap-6 md:p-8', className]}
+>
+  <figcaption class="flex flex-col gap-1">
+    <span class="type-card-title-md text-balance text-foreground">{title}</span>
+    {note && <span class="type-label leading-normal text-foreground-muted">{note}</span>}
+  </figcaption>
+  <div class="flex flex-col gap-8">
+    {
+      panels.map((panel) => {
+        const labels = endLabels(panel);
+        return (
+          <div class="flex flex-col gap-3">
+            <p class="m-0 type-card-title-sm text-foreground">{panel.title}</p>
+            <div role="img" aria-label={panel.description} class="pt-2 pr-1 pl-10 md:pr-36">
+              <div class="relative h-line-plot">
+                {gaps.map((i) => (
+                  <div class="ie-plot-band" style={`--x: ${pct(x(i))}; --w: ${pct(slot)}`}>
+                    {gapLabel && (
+                      <span class="block pt-3 text-center type-tag font-medium whitespace-nowrap text-foreground-muted md:type-label">
+                        {gapLabel}
+                      </span>
+                    )}
+                  </div>
+                ))}
+                <svg
+                  class="absolute inset-0 size-full overflow-visible"
+                  fill="none"
+                  stroke-linecap="round"
+                  aria-hidden="true"
+                >
+                  {ticks.map((t, n) => (
+                    <line
+                      x1="0"
+                      x2="100%"
+                      y1={pct(y(t))}
+                      y2={pct(y(t))}
+                      class={n === ticks.length - 1 ? 'stroke-border' : 'stroke-tint'}
+                      stroke-width="1"
+                    />
+                  ))}
+                  {panel.series
+                    .filter((s) => !s.highlight)
+                    .flatMap((s) =>
+                      segments(s).map(({ a, b }) => (
+                        <line
+                          x1={pct(a.x)}
+                          y1={pct(a.y)}
+                          x2={pct(b.x)}
+                          y2={pct(b.y)}
+                          class="stroke-foreground-muted"
+                          stroke-width="1.5"
+                        />
+                      )),
+                    )}
+                  {panel.series
+                    .filter((s) => s.highlight)
+                    .flatMap((s) => [
+                      ...segments(s).map(({ a, b }) => (
+                        <line
+                          x1={pct(a.x)}
+                          y1={pct(a.y)}
+                          x2={pct(b.x)}
+                          y2={pct(b.y)}
+                          class="stroke-brand"
+                          stroke-width="3"
+                        />
+                      )),
+                      ...points(s).map((p) => (
+                        <circle
+                          cx={pct(p.x)}
+                          cy={pct(p.y)}
+                          r="5"
+                          class="fill-brand stroke-surface"
+                          stroke-width="2"
+                        />
+                      )),
+                    ])}
+                </svg>
+                <svg class="ie-plot-leaders hidden md:block" aria-hidden="true">
+                  {labels.map((l) => (
+                    <line
+                      x1="0"
+                      x2="100%"
+                      y1={pct(l.at)}
+                      y2={pct(l.label)}
+                      class="stroke-border-control"
+                      stroke-width="1"
+                    />
+                  ))}
+                </svg>
+                {panel.series
+                  .filter((s) => s.highlight)
+                  .flatMap((s) =>
+                    points(s)
+                      .filter((p) => p.grade)
+                      .map((p) => (
+                        <span
+                          class="ie-plot-mark flex h-5 min-w-5 items-center justify-center rounded-full bg-brand-subtle px-1.5 type-tag text-on-brand-subtle"
+                          data-anchor={p.below ? 'below' : 'above'}
+                          style={`--x: ${pct(p.x)}; --y: ${pct(p.y)}`}
+                        >
+                          {p.grade}
+                        </span>
+                      )),
+                  )}
+                {ticks.map((t) => (
+                  <span
+                    class="ie-plot-mark type-tag font-medium text-foreground-muted md:type-label"
+                    data-anchor="before"
+                    style={`--x: 0%; --y: ${pct(y(t))}`}
+                  >
+                    {tickLabel(t)}
+                  </span>
+                ))}
+                {labels.map(({ s, label }) => (
+                  <span
+                    class:list={[
+                      'ie-plot-mark hidden type-label whitespace-nowrap md:block',
+                      s.highlight ? 'font-bold text-brand-emphasis' : 'text-foreground-muted',
+                    ]}
+                    data-anchor="after"
+                    style={`--x: calc(100% + var(--space-1)); --y: ${pct(label)}`}
+                  >
+                    {s.highlight
+                      ? `${s.name} ${s.end}`
+                      : // An array keeps the space between the name and its value.
+                        [`${s.name} `, <b class="font-bold text-foreground">{s.end}</b>]}
+                  </span>
+                ))}
+              </div>
+              <div class="relative mt-2 h-5 md:h-6">
+                {years.map((year, i) => (
+                  <span
+                    class="ie-plot-mark type-tag font-medium text-foreground-muted md:type-label"
+                    data-anchor="top"
+                    style={`--x: ${pct(x(i))}`}
+                  >
+                    {year}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <ul
+              aria-label={panel.legend}
+              class="m-0 flex list-none flex-wrap gap-x-4 gap-y-2 p-0 type-label text-foreground-muted md:hidden"
+            >
+              {panel.series.map((s) => (
+                <li
+                  class:list={[
+                    'flex items-center gap-2',
+                    s.highlight && 'font-bold text-brand-emphasis',
+                  ]}
+                >
+                  <svg class="h-2 w-5 shrink-0" aria-hidden="true">
+                    <line
+                      x1="1"
+                      x2="19"
+                      y1="4"
+                      y2="4"
+                      class={s.highlight ? 'stroke-brand' : 'stroke-foreground-muted'}
+                      stroke-width={s.highlight ? 3 : 1.5}
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                  <span>
+                    {s.highlight
+                      ? `${s.name} ${s.end}`
+                      : // An array keeps the space between the name and its value.
+                        [`${s.name} `, <b class="font-bold text-foreground">{s.end}</b>]}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        );
+      })
+    }
+  </div>
+</figure>

@@ -80,7 +80,7 @@
   force = true
 
 # Case studies. Webb (case-study4, mbsel) goes to the index until Webb approves its story;
-# Dwight Morrow (2) and Mindful Michigan (7) were dropped.
+# Dwight Morrow (2) was dropped. Mindful Michigan (7) was dropped, then published (2026-10-23).
 [[redirects]]
   from = "/case-study1"
   to = "/case-studies/kaiser-elementary/"
@@ -155,13 +155,13 @@
 
 [[redirects]]
   from = "/case-study7"
-  to = "/case-studies/"
+  to = "/case-studies/mindful-michigan/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/case-study7.html"
-  to = "/case-studies/"
+  to = "/case-studies/mindful-michigan/"
   status = 301
   force = true
 
@@ -223,7 +223,7 @@
 
 [[redirects]]
   from = "/images/Mindful-Michigan-Model.pdf"
-  to = "/case-studies/"
+  to = "/downloads/mindful-michigan-case-study.pdf"
   status = 301
   force = true
 

@@ -111,6 +111,8 @@
   --spacing-hero-photo: var(--hero-photo-height);
   --spacing-hero-voice: var(--hero-voice-height);
   --spacing-chart: var(--chart-height);
+  --spacing-line-plot: var(--line-plot-height);
+  --spacing-slope-plot: var(--slope-plot-height);
   --container-page: var(--container);
   --container-measure: var(--measure);
   --container-measure-wide: var(--measure-wide);

@@ -592,6 +592,12 @@ mark-compass.png`, 256px PNG) is the board's: an SVG from the design system woul
       `0c8cac2:public/downloads/`; the body's `table`, `figure`, `callout` and `stats` blocks,
       `StatStrip variant="tiles"`, `card.image` (Before build › Case Studies). Dwight Morrow and
       Mindful Michigan dropped (2026-10-11).
+- [x] Case Studies: Mindful Michigan (2026-10-23), back after the 2026-10-11 drop, built from an
+      approved Claude Design export (copy verbatim, extracted by script). New in the template: the
+      title-block hero for a story without a `voice`, `StatStrip hero`, `steps` with a `title`
+      (the parts card), `blocks/LineChart` and `blocks/SlopeChart`, line breaks in paragraphs.
+      Signed off 2026-10-26: the design's italic subtitles set plain (no italics), the unfilled
+      hero tiles, the `seo` copy, and the stand-ins kept in other stories' "More stories".
 - [x] Case Studies: Stephens Elementary (draft), a new story with a video in the PDF's place;
       the entry's optional `video`, `faq` (on `blocks/FaqList`, shared with Article) and `cta`,
       the body's `note` block, optional `lead`, figure captions and quote roles.
@@ -648,8 +654,8 @@ header="dark"`; title sizes snapped per the Remaining-drift board (Before build 
       | `/images/John-Marshall-HS.pdf`                     | `/downloads/john-marshall-hs-case-study.pdf`      |
       | `/case-study6`                                     | `/case-studies/la-joya-isd/`                      |
       | `/images/La-Joya-ISD.pdf`                          | `/downloads/la-joya-isd-case-study.pdf`           |
-      | `/case-study7` (Mindful Michigan, dropped)         | `/case-studies/`                                  |
-      | `/images/Mindful-Michigan-Model.pdf`               | `/case-studies/`                                  |
+      | `/case-study7` (Mindful Michigan)                  | `/case-studies/mindful-michigan/`                 |
+      | `/images/Mindful-Michigan-Model.pdf`               | `/downloads/mindful-michigan-case-study.pdf`      |
 
       Each PDF could instead go to its story page (the playbook's plan, which sends ranking PDF
       traffic to the HTML story); pick one rule for all five.
