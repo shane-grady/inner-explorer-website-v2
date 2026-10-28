@@ -31,15 +31,19 @@ const { measurementId } = Astro.props;
     window.gtag('js', new Date());
     window.gtag('config', measurementId);
     // Clicks through to the platform. `beacon` lets the event send while the page unloads.
+    // Delegated from document so it covers every link, including ones rendered later. A
+    // tracking error must never stop the navigation, so it is swallowed.
     document.addEventListener('click', (event) => {
-      const link =
-        event.target instanceof Element &&
-        event.target.closest('a[href^="https://app.innerexplorer.com"]');
-      if (link) {
-        window.gtag('event', 'platform_sign_in', {
-          link_url: link.href,
-          transport_type: 'beacon',
-        });
+      try {
+        const link = event.target instanceof Element && event.target.closest('a');
+        if (link && link.href.startsWith('https://app.innerexplorer.com')) {
+          window.gtag('event', 'platform_sign_in', {
+            link_url: link.href,
+            transport_type: 'beacon',
+          });
+        }
+      } catch {
+        // Ignore: analytics must not affect the click.
       }
     });
 
