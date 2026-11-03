@@ -35,11 +35,13 @@ RewriteEngine On
 # The app's paths keep their current behavior (the /compass/* redirects to app.innerexplorer.com).
 # Add any other path the app or an API still serves here, one RewriteCond per prefix.
 RewriteCond %{REQUEST_URI} !^/compass(/|$)
-RewriteRule ^ https://www.innerexplorer.com%{REQUEST_URI} [R=301,L,NE]
+RewriteRule ^ https://www.innerexplorer.com%{REQUEST_URI} [R=301,L]
 ```
 
-`NE` keeps query strings and encoded characters as they were. Paths www doesn't know end on www's
-404 page, which is fine. The links that matter are all in its map.
+Apache carries the query string over on its own. Leave out the `NE` flag: `%{REQUEST_URI}` is
+the decoded path, and without `NE` Apache re-encodes it, so an encoded `%3F` can't turn into a
+query string. Paths www doesn't know end on www's 404 page, which is fine. The links that matter
+are all in its map.
 
 ## 2. cto.innerexplorer.com: home page to www, keep the app out of search
 
