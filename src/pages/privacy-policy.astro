@@ -29,6 +29,15 @@ const content = {
   title: 'Privacy Policy | Inner Explorer',
   description:
     'Inner Explorer collects no student information. See what we collect from educator accounts, how we store, secure and retain it, and your privacy rights.',
+  // The My Bright Moments app (Bright Horizons) has its own policies; its app-store listings
+  // link them, and linking them here keeps them reachable on the site (2026-11-03).
+  appPolicies: {
+    label: 'My Bright Moments app policies',
+    lead: 'Using the My Bright Moments app? Read its',
+    privacy: { label: 'Privacy Policy', href: '/my-bright-moments/privacy-policy/' },
+    and: 'and',
+    terms: { label: 'Terms and Conditions', href: '/my-bright-moments/terms/' },
+  },
 };
 
 const doc = await getEntry('help', 'privacy-policy');
@@ -83,6 +92,17 @@ const crumbLd = breadcrumbSchema(Astro.site, [
       <div class="ie-prose mt-8 max-w-measure-article type-article-body md:mt-12">
         <Content components={components} />
       </div>
+      <aside
+        aria-label={content.appPolicies.label}
+        class="ie-prose mt-12 max-w-measure-article border-t border-border pt-8 type-article-body"
+      >
+        <p>
+          {content.appPolicies.lead}{' '}
+          <a href={content.appPolicies.privacy.href}>{content.appPolicies.privacy.label}</a>{' '}
+          {content.appPolicies.and}{' '}
+          <a href={content.appPolicies.terms.href}>{content.appPolicies.terms.label}</a>.
+        </p>
+      </aside>
     </article>
   </Section>
 </PageLayout>

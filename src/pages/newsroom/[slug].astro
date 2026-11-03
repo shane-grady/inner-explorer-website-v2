@@ -23,7 +23,16 @@ import ResourceCard from '../../components/content/ResourceCard.astro';
 import { articleSchema, breadcrumbSchema, faqPageSchema } from '../../lib/schema';
 import { emphasize } from '../../lib/emphasize';
 import { readingTime } from '../../lib/reading-time';
-import { getNews, isoDate, longDate, newsPath, newsroomCta, type NewsEntry } from '../../lib/news';
+import {
+  getNews,
+  isoDate,
+  longDate,
+  newsPath,
+  newsroomCta,
+  newsTitle,
+  relatedNews,
+  type NewsEntry,
+} from '../../lib/news';
 
 const content = {
   breadcrumb: { label: 'Newsroom', href: '/newsroom/' },
@@ -100,7 +109,7 @@ const share = [
 // The call to action: the post's own, or the Newsroom's panel.
 const cta = d.cta ?? { ...newsroomCta, stats: [], secondary: undefined, rail: undefined };
 
-const related = (await getNews()).filter((p) => p.id !== post.id).slice(0, 3);
+const related = relatedNews(await getNews(), post);
 
 const shareImage = new URL(d.heroImage.src, Astro.site).toString();
 const schemas = [
@@ -126,7 +135,7 @@ const schemas = [
 ---
 
 <PageLayout
-  title={d.metaTitle ?? `${d.title} — Inner Explorer`}
+  title={newsTitle(post)}
   description={d.metaDescription ?? d.description}
   type="article"
   image={shareImage}

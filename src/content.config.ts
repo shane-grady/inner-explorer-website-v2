@@ -171,7 +171,8 @@ const caseStudies = defineCollection({
       /** Live at its URL but not yet announced: left out of the index, other stories' related
        *  rows and the sitemap, and noindexed (a story waiting on final sign-off). */
       unlisted: z.boolean().default(false),
-      seo: z.object({ title: z.string(), description: z.string().max(160) }),
+      /** <title>: at most 60 characters (what Google shows), " | Inner Explorer" only if it fits. */
+      seo: z.object({ title: z.string().max(60), description: z.string().max(160) }),
       publishedDate: z.coerce.date(),
       updatedDate: z.coerce.date().optional(),
       /** The level badge on the card and the breadcrumb ("Therapeutic school"). */
@@ -289,7 +290,8 @@ const news = defineCollection({
       cardTitle: z.string().optional(),
       /** The dek under the H1, and the excerpt on cards. */
       description: z.string(),
-      metaTitle: z.string().optional(),
+      /** <title> when `title` runs over 60 characters (what Google shows); see newsTitle(). */
+      metaTitle: z.string().max(60).optional(),
       metaDescription: z.string().optional(),
       pubDate: z.coerce.date(),
       updatedDate: z.coerce.date().optional(),
