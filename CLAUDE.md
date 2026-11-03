@@ -53,7 +53,7 @@ legacy blog post.
 pnpm dev              # marketing dev server (localhost:4321)
 pnpm dev:help         # Help Center dev server (localhost:4322)
 pnpm check            # typecheck + lint + drift + mirrors + format:check
-pnpm verify           # marketing gate: check, build, check:dist dist --classes
+pnpm verify           # marketing gate: check, build, check:dist dist --classes --perf
 pnpm verify:help      # Help Center gate (what CloudCannon and its Netlify site run)
 pnpm check:dist <dir> # every link/asset in a build resolves (--classes: every class has CSS, every ie-* class is used)
 pnpm shots            # after pnpm build: screenshots at 1440 and 390 in .screenshots/, axe clean
@@ -82,6 +82,11 @@ reads) before considering work done. CI runs both, the checker tests, and
   only sets `--custom` properties (`pnpm lint:drift`).
 - **Analytics stay production-only.** GA4, Amplitude and Intercom render only in
   production builds (`BaseLayout`); GA4 also skips `*.netlify.app`.
+- **Third-party scripts never load at parse time.** Vendors wait on `LoadGate` (first
+  interaction, or 3s after `load`) and heavy code is a dynamic `import()`; they once cost
+  3-4s of main-thread time on a phone. `check:dist --perf` enforces it with a startup-JS
+  budget. Deploy previews ship no analytics, so measure performance on a local
+  `pnpm build` (a production build) or on www.
 
 ## Page-PR playbook
 

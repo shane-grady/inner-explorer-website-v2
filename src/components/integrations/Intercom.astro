@@ -43,8 +43,9 @@ const { appId, surface } = Astro.props;
       document.head.appendChild(s);
     }
 
-    // First paint shouldn't compete with the widget.
-    if (document.readyState === 'complete') injectWidget();
-    else window.addEventListener('load', injectWidget, { once: true });
+    // The widget is one 1s+ main-thread task on a phone, so it waits for the visitor's first
+    // scroll, tap or keypress (LoadGate). A launcher click is that interaction: its
+    // `Intercom('show')` waits in the queue above until the widget boots.
+    (window.__ieGate?.interaction ?? Promise.resolve()).then(injectWidget);
   }
 </script>

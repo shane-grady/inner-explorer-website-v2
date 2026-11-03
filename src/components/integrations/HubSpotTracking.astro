@@ -20,12 +20,16 @@ const { portalId } = Astro.props;
 ---
 
 <script define:vars={{ portalId }}>
+  // Waits on LoadGate (first interaction or 3s after load). Filling in a form is an
+  // interaction, so the hutk cookie is set long before anyone submits.
   if (!location.hostname.endsWith('.netlify.app')) {
-    const loader = document.createElement('script');
-    loader.id = 'hs-script-loader';
-    loader.async = true;
-    loader.defer = true;
-    loader.src = `https://js-na1.hs-scripts.com/${portalId}.js`;
-    document.head.appendChild(loader);
+    (window.__ieGate?.engaged ?? Promise.resolve()).then(() => {
+      const loader = document.createElement('script');
+      loader.id = 'hs-script-loader';
+      loader.async = true;
+      loader.defer = true;
+      loader.src = `https://js-na1.hs-scripts.com/${portalId}.js`;
+      document.head.appendChild(loader);
+    });
   }
 </script>

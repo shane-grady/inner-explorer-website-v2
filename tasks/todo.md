@@ -745,6 +745,28 @@ Keep the legacy server running for at least two weeks.
 - [ ] The Play listing for My Bright Moments also links
       `web1.innerexplorer.org/BH_app/privacy-policy.html` (another host); check it in a browser.
 
+## Core Web Vitals (2026-11)
+
+Semrush (3 Nov) rated all 10 audited pages Poor: TBT 0.75–3.7s, LCP 4–10s, CLS good. Cause:
+GA4, HubSpot, Intercom and Amplitude Unified (Guides & Surveys, Experiment, 100% replay)
+started at parse time; with them blocked, TBT was ~0. Lessons: `tasks/lessons.md`.
+
+- [x] `LoadGate`: vendors wait for the first interaction (Intercom) or interaction / 3s after
+      load (GA4, HubSpot, Amplitude). Startup JS budget enforced by `check:dist --perf`.
+- [x] Amplitude: analytics-browser + replay plugin (same versions unified shipped), dynamic
+      imports, replay 25% in a Web Worker. Event types unchanged.
+- [x] GA4 `platform_sign_in` survives a Sign in click before gtag loads (waits ≤800ms).
+- [x] CSS inlined; About hero `widths`/`sizes` (79KB → 34KB on phones).
+- [ ] Owner: rerun the Semrush audit after deploy; field data (CrUX) follows in ~28 days.
+- [ ] Help Center: same treatment (`src-help/`, sealed build; not in the Semrush report).
+- [ ] Home LCP: six font files above the fold (two Caslon Condensed at 51–57KB). Subsetting
+      them is the next LCP lever if Home still reads borderline.
+
+**Review.** Local production build, Lighthouse 12 mobile (simulated), gzip server: TBT
+1.7–2.5s → 0ms, score 66–70 → 96–100 on the pages measured. Trade-offs: analytics and replay
+miss visits that leave within ~3s without interacting, and the one interaction that wakes the
+gate isn't autocaptured; Intercom's launcher appears after the first scroll/tap.
+
 ## HubSpot and other owner items
 
 - [ ] CloudCannon, right after this PR merges: Site Settings › Builds → `pnpm verify:help`,
@@ -757,7 +779,8 @@ Keep the legacy server running for at least two weeks.
 - [ ] HubSpot settings: turn on the cookie consent banner if wanted (Settings › Privacy &
       Consent; the tracking script renders it); keep HubSpot chat OFF (Intercom is the messenger).
 - [ ] Privacy policy (counsel): it says Amplitude handles educator usage data only, but Amplitude
-      Session Replay records every marketing-site visitor. Update the policy or the sample rate.
+      Session Replay records marketing-site visitors (25% of sessions since 2026-11, was every
+      visitor). Update the policy or the sample rate.
 - [x] Intercom: the `*.netlify.app` guard is in `Intercom.astro` (#134).
 - [ ] HubSpot: confirm the contact form's notification recipients; delete the 2026-08-25 test
       contact (record 244309307539) if it's still there.

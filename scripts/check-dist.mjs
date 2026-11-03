@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Post-build check of a built site: every link and asset it references must exist.
 //
-//   node scripts/check-dist.mjs <build-dir>... [--classes]
+//   node scripts/check-dist.mjs <build-dir>... [--classes] [--perf]
 //
 // Checked: href, src, srcset, poster, CSS url(), og:image / twitter:image, and JSON-LD
 // logo / image values. A root-relative `/x` resolves to `x`, `x/index.html` or `x.html`
@@ -14,16 +14,24 @@
 // exist in our theme, and typos, with no deny-list to maintain. And the reverse for the
 // site's own ie-* classes: every one with CSS must be used by a page, so no dead
 // component CSS ships (the HubSpot form's .hs-* classes arrive at runtime and are exempt).
+//
+// --perf (marketing build): no page loads a third-party script from its HTML (vendors wait
+// on src/components/integrations/LoadGate.astro), and the JS a page runs at startup (its
+// module scripts plus what they import statically; dynamic import() chunks excluded) stays
+// under PERF_BUDGET_KB gzipped. Third-party SDKs once cost 3-4s of main-thread time on a
+// phone; this keeps one from creeping back into the startup path (tasks/lessons.md).
 import { existsSync, statSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { basename, dirname, join, relative, resolve } from 'node:path';
+import { gzipSync } from 'node:zlib';
 import { cssClassSet, walk } from './lib/build-files.mjs';
 
 const args = process.argv.slice(2);
 const dirs = args.filter((a) => !a.startsWith('--'));
 const checkClasses = args.includes('--classes');
+const checkPerf = args.includes('--perf');
 if (dirs.length === 0) {
-  console.error('Usage: node scripts/check-dist.mjs <build-dir>... [--classes]');
+  console.error('Usage: node scripts/check-dist.mjs <build-dir>... [--classes] [--perf]');
   process.exit(2);
 }
 
@@ -110,6 +118,41 @@ function target(url, fromFile, root) {
 // A served FILE, not just a directory: a link to a folder without index.html 404s.
 const isFile = (p) => existsSync(p) && statSync(p).isFile();
 
+// --perf: gzipped KB of JS a page may run at startup. Today's pages run ~2-5.
+const PERF_BUDGET_KB = 15;
+
+/** Gzipped size of a module and everything it imports statically (each counted once). */
+async function startupKb(file, seen) {
+  if (seen.has(file) || !isFile(file)) return 0;
+  seen.add(file);
+  const code = await readFile(file, 'utf8');
+  let kb = gzipSync(code).length / 1024;
+  const imports = code.matchAll(/(?:\bfrom|\bimport)\s*["'](\.{1,2}\/[^"']+\.js)["']/g);
+  for (const m of imports) kb += await startupKb(resolve(dirname(file), m[1]), seen);
+  return kb;
+}
+
+async function perfProblems(html, file, root) {
+  const problems = [];
+  const seen = new Set();
+  let kb = 0;
+  for (const m of html.matchAll(/<script\b[^>]*\ssrc="([^"]*)"/g)) {
+    const src = decode(m[1]);
+    if (/^(?:https?:)?\/\//.test(src)) {
+      problems.push(`third-party script in HTML: ${src}. Load it through LoadGate.`);
+    } else if (/\stype="module"/.test(m[0])) {
+      kb += await startupKb(join(root, src.split(/[?#]/)[0]), seen);
+    }
+  }
+  for (const m of html.matchAll(/<link\b[^>]*rel="modulepreload"[^>]*\shref="([^"]*)"/g))
+    kb += await startupKb(join(root, decode(m[1]).split(/[?#]/)[0]), seen);
+  if (kb > PERF_BUDGET_KB)
+    problems.push(
+      `${kb.toFixed(1)} KB gzip of startup JS (budget ${PERF_BUDGET_KB}). Import heavy code with import() behind LoadGate.`,
+    );
+  return problems.map((p) => `  perf: ${relative(root, file)}: ${p}`);
+}
+
 function exists(dir, path) {
   const p = join(dir, path);
   if (path.endsWith('/')) return isFile(join(p, 'index.html'));
@@ -142,6 +185,12 @@ for (const root of dirs) {
       if (t && !exists(...t)) {
         const key = `${t[0]}${t[1]}`;
         if (!missing.has(key)) missing.set(key, relative(root, file));
+      }
+    }
+    if (checkPerf && file.endsWith('.html')) {
+      for (const problem of await perfProblems(text, file, root)) {
+        console.error(problem);
+        failures++;
       }
     }
     if (checkClasses) {

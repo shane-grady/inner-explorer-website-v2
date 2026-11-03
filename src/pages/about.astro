@@ -367,7 +367,8 @@ const share = await shareImage(content.hero.image.src);
           src={content.hero.image.src}
           alt={content.hero.image.alt}
           width={1120}
-          densities={[1, 2]}
+          widths={[640, 960, 1120, 1600, 2240]}
+          sizes="(min-width: 1280px) 1120px, 100vw"
           loading="eager"
           fetchpriority="high"
         />

@@ -4,17 +4,33 @@
 // and branch deploys are never recorded. Bundled module scripts run in the browser
 // only, once per page load; the window guard makes the init-once invariant explicit.
 // Like GA4 it skips the *.netlify.app staging mirror, which serves this same build.
+//
+// Performance (2026-11): the SDKs are dynamic imports behind LoadGate (first interaction
+// or 3s after load), so none of their code is in the page's startup JS. This is the plain
+// analytics SDK plus the replay plugin, not `@amplitude/unified`: unified's initAll also
+// loads Experiment and the 1.6MB Guides & Surveys bundle, which the website project
+// doesn't use, and alone cost ~1.75s of main-thread time on a throttled phone.
+// Session Replay records 25% of sessions and compresses in a Web Worker.
 ---
 
 <script>
-  import * as amplitude from '@amplitude/unified';
+  const w = window as Window & {
+    __amplitudeInitialized?: boolean;
+    __ieGate?: { engaged: Promise<void> };
+  };
 
-  const w = window as Window & { __amplitudeInitialized?: boolean };
+  async function start() {
+    await (w.__ieGate?.engaged ?? Promise.resolve());
+    const [amplitude, { sessionReplayPlugin }] = await Promise.all([
+      import('@amplitude/analytics-browser'),
+      import('@amplitude/plugin-session-replay-browser'),
+    ]);
+    amplitude.add(sessionReplayPlugin({ sampleRate: 0.25, useWebWorker: true }));
+    amplitude.init('9eb782590a25fba8c96b5de6fd50bd73', { autocapture: true });
+  }
+
   if (!location.hostname.endsWith('.netlify.app') && !w.__amplitudeInitialized) {
     w.__amplitudeInitialized = true;
-    amplitude.initAll('9eb782590a25fba8c96b5de6fd50bd73', {
-      analytics: { autocapture: true },
-      sessionReplay: { sampleRate: 1 },
-    });
+    void start();
   }
 </script>
