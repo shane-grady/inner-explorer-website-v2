@@ -7,6 +7,7 @@ import JsonLd from '../components/seo/JsonLd.astro';
 import Analytics from '../components/seo/Analytics.astro';
 import Intercom from '../components/integrations/Intercom.astro';
 import Amplitude from '../components/integrations/Amplitude.astro';
+import LoadGate from '../components/integrations/LoadGate.astro';
 import HubSpotTracking from '../components/integrations/HubSpotTracking.astro';
 import { organizationSchema } from '../lib/schema';
 import { HUBSPOT } from '../lib/site';
@@ -62,6 +63,8 @@ const intercomAppId = import.meta.env.PUBLIC_INTERCOM_APP_ID;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {/* Every vendor below waits on LoadGate instead of loading at parse time. */}
+    {isProductionBuild && <LoadGate />}
     {isProductionBuild && gaMeasurementId && <Analytics measurementId={gaMeasurementId} />}
     {isProductionBuild && intercomAppId && <Intercom appId={intercomAppId} surface="Website" />}
     {isProductionBuild && <HubSpotTracking portalId={HUBSPOT.portalId} />}

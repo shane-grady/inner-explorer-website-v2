@@ -615,3 +615,20 @@ Explorer's"`).
 - **`new URL(…).pathname` is percent-encoded (shots, 2026-10-15).** In a checkout whose path has
   a space ("inner explorer website"), `pnpm shots` looked for `inner%20explorer%20website/dist`.
   Turn file URLs into paths with `fileURLToPath`.
+
+## 2026-11-03 — Core Web Vitals: the vendors, not the site
+
+- **Measure with the vendors blocked before touching first-party code.** Semrush rated all 10
+  pages Poor (TBT 0.75–3.7s, LCP 4–10s). A throttled Playwright run of the live site (4× CPU,
+  slow 4G, 412px) with GA4, HubSpot, Intercom and Amplitude blocked dropped TBT from ~4s to
+  ~0–55ms; the site's own JS was ~2KB. Amplitude Unified alone cost ~1.75s: `initAll` always
+  adds Experiment and the 1.6MB Guides & Surveys bundle, and replay sampled 100%.
+- **Lighthouse's simulated LCP charges early third-party downloads to LCP.** `/program/` and
+  `/program/?program=elementary` serve identical HTML and scored 9.5s vs 2.2s. Get the vendors
+  off the startup path before chasing fonts or images.
+- **Loading on `load` doesn't take a script out of TBT.** Lighthouse counts long tasks until
+  the page goes quiet; Intercom's 1.2s widget task still landed in the window.
+- **Deploy previews hide it:** analytics render only in production builds. Measure on a local
+  `pnpm build` (a production build; pass the public GA/Intercom IDs as env vars) or on www,
+  and abort every collect/beacon request so tests never reach production analytics.
+- **Rule:** vendors wait on `LoadGate`; `check:dist --perf` holds startup JS to a budget.

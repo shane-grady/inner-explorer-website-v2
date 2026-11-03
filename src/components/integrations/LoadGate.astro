@@ -1,0 +1,38 @@
+---
+// When third-party scripts may load. Rendered first in BaseLayout <head>, on the same
+// production-only gate as the vendors, which wait on it instead of loading at parse time.
+//
+// WHY: GA4, HubSpot, Amplitude and Intercom used to start as the page parsed, and together
+// cost 3–4s of main-thread time on a throttled phone (TBT) and slowed LCP; the site's own
+// code costs ~0. Waiting keeps them off the critical path. See tasks/lessons.md (2026-11).
+//
+//   window.__ieGate.interaction  resolves on the visitor's first scroll, tap or keypress.
+//   window.__ieGate.engaged      resolves on that interaction, or 3s after `load`.
+//
+// Both resolve a tick after the triggering event, so the interaction itself paints first.
+---
+
+<script is:inline>
+  (() => {
+    let interact;
+    const interaction = new Promise((resolve) => (interact = resolve));
+    const events = ['pointerdown', 'keydown', 'touchstart', 'scroll', 'wheel'];
+    const onInteract = () => {
+      events.forEach((type) => removeEventListener(type, onInteract, true));
+      setTimeout(interact);
+    };
+    events.forEach((type) => addEventListener(type, onInteract, { capture: true, passive: true }));
+
+    const loaded = new Promise((resolve) =>
+      document.readyState === 'complete'
+        ? resolve()
+        : addEventListener('load', () => resolve(), { once: true }),
+    );
+    const engaged = Promise.race([
+      interaction,
+      loaded.then(() => new Promise((resolve) => setTimeout(resolve, 3000))),
+    ]);
+
+    window.__ieGate = { interaction, engaged };
+  })();
+</script>

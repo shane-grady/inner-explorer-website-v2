@@ -22,6 +22,11 @@ export default defineConfig({
 
   prefetch: { prefetchAll: true, defaultStrategy: 'hover' },
 
+  // The site's one stylesheet (~18KB gzipped) goes inline: no render-blocking request before
+  // first paint (Lighthouse mobile LCP -0.15 to -0.4s, 2026-11). Hover prefetch already fetches
+  // the next page's HTML ahead of the click, so losing the shared CSS cache costs little.
+  build: { inlineStylesheets: 'always' },
+
   // Netlify serves true 301s for these (netlify.toml, each with `force` so it wins over
   // the static redirect page Astro emits); this keeps dev + preview in sync.
   redirects: {

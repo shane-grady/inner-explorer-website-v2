@@ -30,26 +30,62 @@ const { measurementId } = Astro.props;
     };
     window.gtag('js', new Date());
     window.gtag('config', measurementId);
+
+    // gtag.js itself waits on LoadGate (first interaction or 3s after load); the queued
+    // `config` above sends the page view once it arrives.
+    let state = 'idle'; // idle → loading → ready, or failed (e.g. an ad blocker)
+    let pendingNavigation; // a held Sign in click, released if gtag.js fails
+    const loadTracker = () => {
+      if (state !== 'idle') return;
+      state = 'loading';
+      const tracker = document.createElement('script');
+      tracker.async = true;
+      tracker.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
+      tracker.onload = () => (state = 'ready');
+      tracker.onerror = () => {
+        state = 'failed';
+        pendingNavigation?.();
+      };
+      document.head.appendChild(tracker);
+    };
+    (window.__ieGate?.engaged ?? Promise.resolve()).then(loadTracker);
+
     // Clicks through to the platform. `beacon` lets the event send while the page unloads.
     // Delegated from document so it covers every link, including ones rendered later. A
     // tracking error must never stop the navigation, so it is swallowed.
+    //
+    // Returning teachers often click Sign in first, before gtag.js has loaded, and a queued
+    // event dies with the page. While gtag.js is still on its way, a plain same-tab click
+    // waits for the hit (at most 800ms) before navigating; new-tab and modified clicks keep
+    // the page, so they don't, and a blocked gtag.js never delays anyone.
     document.addEventListener('click', (event) => {
       try {
         const link = event.target instanceof Element && event.target.closest('a');
-        if (link && link.href.startsWith('https://app.innerexplorer.com')) {
-          window.gtag('event', 'platform_sign_in', {
-            link_url: link.href,
-            transport_type: 'beacon',
-          });
+        if (!link || !link.href.startsWith('https://app.innerexplorer.com')) return;
+        const params = { link_url: link.href, transport_type: 'beacon' };
+        const sameTab =
+          event.button === 0 &&
+          !event.defaultPrevented &&
+          !(event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) &&
+          (!link.target || link.target === '_self');
+        if ((state === 'idle' || state === 'loading') && sameTab) {
+          event.preventDefault();
+          let gone = false;
+          const go = () => {
+            if (gone) return;
+            gone = true;
+            location.assign(link.href);
+          };
+          pendingNavigation = go;
+          setTimeout(go, 800);
+          loadTracker();
+          window.gtag('event', 'platform_sign_in', { ...params, event_callback: go });
+        } else {
+          window.gtag('event', 'platform_sign_in', params);
         }
       } catch {
         // Ignore: analytics must not affect the click.
       }
     });
-
-    const tracker = document.createElement('script');
-    tracker.async = true;
-    tracker.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
-    document.head.appendChild(tracker);
   }
 </script>
