@@ -91,7 +91,8 @@ The index card uses those exact values.
 
 Also set:
 
-- `seo.title`: at most 60 characters plus " | Inner Explorer".
+- `seo.title`: at most 60 characters in all (the schema enforces it); end it " | Inner Explorer"
+  only when that still fits, and otherwise leave the brand off.
 - `seo.description`: at most 155 characters. Prefer one of the board's own sentences that
   carries the headline result.
 - `publishedDate` and `updatedDate`.

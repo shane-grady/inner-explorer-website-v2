@@ -7,13 +7,13 @@
 # body (with its three captioned photos) are verbatim from the boards "John Marshall High School ·
 # Desktop / Mobile" (page "Case Study Detail Working"), which carry the original innerexplorer.com
 # text (legacy /case-study5 and its PDF). The card's stat, label and photo are the index board's.
-# Related: the board links Dwight Morrow and Mindful Michigan, which are not published; Kaiser and
-# La Joya stand in. Open items (tasks/todo.md › Case Studies): the hero photo (it reads as generated
-# imagery, not the school), every figure as drawn, the PDF.
+# Related: the board links Dwight Morrow (not published; Kaiser stands in) and Mindful Michigan
+# (published 2026-10-23, back in the row 2026-11-03). Open items (tasks/todo.md › Case Studies):
+# the hero photo (it reads as generated imagery, not the school), every figure as drawn, the PDF.
 order: 2
 draft: false
 seo:
-  title: 'Mindfulness Case Study: Students Lead Teen Mental Health | Inner Explorer'
+  title: 'Mindfulness Case Study: Students Lead Teen Mental Health'
   description: John Marshall High School students turned daily mindfulness with Inner Explorer into a
     student-led Wellness Advisory; 91% want to keep practicing.
 publishedDate: '2026-06-09'
@@ -214,4 +214,4 @@ pdf:
 related:
 - goddard-middle-school
 - kaiser-elementary
-- la-joya-isd
+- mindful-michigan

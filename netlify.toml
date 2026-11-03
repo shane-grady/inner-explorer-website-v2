@@ -47,6 +47,13 @@
   status = 301
   force = true
 
+# The legacy privacy page (4 referring domains); without this rule it took three hops.
+[[redirects]]
+  from = "/privacy.html"
+  to = "/privacy-policy/"
+  status = 301
+  force = true
+
 # -- Legacy site (innerexplorer.com before the rebuild; an Apache site, not this repo) ----
 # Every URL from its sitemap and its internal links. Its pages answered with and without
 # `.html`, so both forms are listed. Placed above the /blog rules: the first match wins.
@@ -73,14 +80,35 @@
   status = 302
   force = true
 
+# The legacy family pages and FAQ were help content, not sign-in: schools link them for parents
+# (family_onboarding has 34 referring domains, Semrush 2026-11-03), so they go to the Help Center.
+[[redirects]]
+  from = "/compass/family_onboarding"
+  to = "https://help.innerexplorer.com/family-start/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/compass/family_resources"
+  to = "https://help.innerexplorer.com/family-start/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/compass/faq"
+  to = "https://help.innerexplorer.com/faq/"
+  status = 301
+  force = true
+
 [[redirects]]
   from = "/compass/*"
   to = "https://app.innerexplorer.com/login"
   status = 302
   force = true
 
-# Case studies. Webb (case-study4, mbsel) goes to the index until Webb approves its story;
-# Dwight Morrow (2) was dropped. Mindful Michigan (7) was dropped, then published (2026-10-23).
+# Case studies. Webb (case-study4) goes to the index until Webb approves its story; its MBSEL
+# page (mbsel) ranks for "student mindfulness programs social-emotional learning", so it goes to
+# /program/ until then (2026-11-03). Dwight Morrow (2) was dropped. Mindful Michigan (7) was dropped, then published (2026-10-23).
 [[redirects]]
   from = "/case-study1"
   to = "/case-studies/kaiser-elementary/"
@@ -167,13 +195,13 @@
 
 [[redirects]]
   from = "/mbsel"
-  to = "/case-studies/"
+  to = "/program/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/mbsel.html"
-  to = "/case-studies/"
+  to = "/program/"
   status = 301
   force = true
 
@@ -950,6 +978,464 @@
   status = 301
   force = true
 
+# The blog's lower-case legacy slugs: the /blog/* splat would drop the trailing slash and add a
+# second hop (the first has 43 referring domains), so these go straight to the new URL.
+[[redirects]]
+  from = "/blog/why-teaching-mindfulness-in-the-classroom-is-good-for-mental-health"
+  to = "/newsroom/why-teaching-mindfulness-in-the-classroom-is-good-for-mental-health/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/blog/anxiety-in-the-classroom"
+  to = "/newsroom/anxiety-in-the-classroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/blog/mindfulness-and-grief"
+  to = "/newsroom/mindfulness-and-grief/"
+  status = 301
+  force = true
+
+# Linked legacy pages that still 404'd: the .html or extensionless twin of a rule above, or a
+# page the first map missed (Semrush indexed pages, 2026-11-03). Mission and partner pages.
+[[redirects]]
+  from = "/donate.html"
+  to = "/about/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/blacklivesmatter"
+  to = "/about/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/blacklivesmatter.html"
+  to = "/about/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/10year_stories/*"
+  to = "/about/"
+  status = 301
+  force = true
+
+# Family app and sign-in pages, to the Help Center like their twins above.
+[[redirects]]
+  from = "/at-home"
+  to = "https://help.innerexplorer.com/family-start/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/at-home.html"
+  to = "https://help.innerexplorer.com/family-start/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/innerexplorerhome-web"
+  to = "https://help.innerexplorer.com/family-start/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/innerexplorerhome-web/*"
+  to = "https://help.innerexplorer.com/family-start/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/access-innerexplorer-home.html"
+  to = "https://help.innerexplorer.com/family-start/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/access-innerexplorer-tuneIn.html"
+  to = "https://help.innerexplorer.com/family-start/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/access-innerexplorer.html"
+  to = "https://help.innerexplorer.com/signing-in/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/access-clever.html"
+  to = "https://help.innerexplorer.com/signing-in/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/access-schoology.html"
+  to = "https://help.innerexplorer.com/signing-in/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/access-innerexplorer-web"
+  to = "https://help.innerexplorer.com/signing-in/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/access-innerexplorer-web.html"
+  to = "https://help.innerexplorer.com/signing-in/"
+  status = 301
+  force = true
+
+# Program pages. The grade-band pages open the matching tab of /program/, as Home's grade bands do
+# (its canonical stays /program/).
+[[redirects]]
+  from = "/ie_program"
+  to = "/program/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/ie_program.html"
+  to = "/program/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/early_childhood"
+  to = "/program/?program=early#programs"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/early_childhood.html"
+  to = "/program/?program=early#programs"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/elementary"
+  to = "/program/?program=elementary#programs"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/elementary.html"
+  to = "/program/?program=elementary#programs"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/middle_school"
+  to = "/program/?program=middle#programs"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/middle_school.html"
+  to = "/program/?program=middle#programs"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/high_school"
+  to = "/program/?program=high#programs"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/high_school.html"
+  to = "/program/?program=high#programs"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/how-we-work/program-results"
+  to = "/research/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/how-we-work/*"
+  to = "/program/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/images/new_pdf/TeachersGuide_Exploring_Potential.pdf"
+  to = "/program/"
+  status = 301
+  force = true
+
+# Newsletters, "Good News" and "Mission Moments" issues, and a school story with no page.
+[[redirects]]
+  from = "/good_news"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/good_news.html"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/good_news_january_2022"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/good_news_january_2022.html"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/Good_News_Sept_2021"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/Good_News_Sept_2021.html"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/good-news-project-hoeppner"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/good-news-project-hoeppner.html"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/COVID19_ReliefFunds"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/COVID19_ReliefFunds.html"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/Cranberryelementary"
+  to = "/case-studies/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/Cranberryelementary.html"
+  to = "/case-studies/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/missionmomentsNovember2020"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/missionmomentsNovember2020.html"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/missionmomentsDecember2020"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/missionmomentsDecember2020.html"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/missionmomentsjanuary2021"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/missionmomentsjanuary2021.html"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/missionmomentsfebruary2021"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/missionmomentsfebruary2021.html"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/missionmomentsmarch2021"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/missionmomentsmarch2021.html"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/missionmomentsapril2021"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/missionmomentsapril2021.html"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/missionmomentsmay2021"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/missionmomentsmay2021.html"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/missionmomentsseptember2021"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/missionmomentsseptember2021.html"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/missionmomentsNovember2021"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/missionmomentsNovember2021.html"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/missionmomentsDecember2021"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/missionmomentsDecember2021.html"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/newsletter.html"
+  to = "/newsroom/"
+  status = 301
+  force = true
+
+# Seasonal and campaign pages with no successor, home like the rest of their kind.
+[[redirects]]
+  from = "/holiday-practice"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/holiday-practice.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/December_Holiday_Practice"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/December_Holiday_Practice.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/BrightHorizons"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/BrightHorizons.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/21-Day-Quest-home"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/21-Day-Quest-home.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/21-Day-Quest.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/teacher_appreciation"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/bh-header.html"
+  to = "/"
+  status = 301
+  force = true
 
 # Pages folded into the new information architecture.
 [[redirects]]

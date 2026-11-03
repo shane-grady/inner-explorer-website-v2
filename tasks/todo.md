@@ -682,7 +682,7 @@ header="dark"`; title sizes snapped per the Remaining-drift board (Before build 
       | `/blog/mindfulness-for-student-athletes/` (pre-rebuild v2 site only)      | `/newsroom/mindfulness-for-student-athletes/` (the splat already does it)   |
       | AI Accelerates (no legacy URL found)                                      | `/newsroom/ai-accelerates-mindfulness-navigates/`                           |
       | the 7 posts not built (`/blog/Formal-vs-Informal-Mindfulness-Practice`, `/blog/Mindfulness-To-Reduce-Stress-And-Burnout`, `/blog/What-is-Mindfulness-Based-Social-Emotional-Learning`, `/blog/mindfulness-and-diversity`, `/goodnews`, `/Mindfulness-Based-Social-and-Emotional-Learning.html`, `/Frequently-Asked-Questions-About-Federal-COVID-Relief-Education-Funds.html`) | `/newsroom/` until built |
-      | `/homeapp/index.html`, `/good_news_november(.html)`, `/good-news-february.html` (linked from the posts) | to decide |
+      | `/homeapp/index.html`, `/good_news_november(.html)`, `/good-news-february.html` (linked from the posts) | the posts link the DOE report and `/pricing/` instead (2026-11-03) |
 
       Also: `/compare_program` → `/pricing/`. Then crawl the legacy site for anything else that
       ranks or is linked.
@@ -744,6 +744,44 @@ Keep the legacy server running for at least two weeks.
       store listings are covered; in-app links couldn't be checked).
 - [ ] The Play listing for My Bright Moments also links
       `web1.innerexplorer.org/BH_app/privacy-policy.html` (another host); check it in a browser.
+
+## SEO baseline (Semrush, 2026-11-03)
+
+Low-hanging fixes from the first Semrush pass (Site Audit of www, Backlink Analytics › Indexed
+Pages, Organic Research). Done in one PR:
+
+- [x] 301s for 75 more legacy URLs that other sites link to and that 404'd: mostly the `.html` or
+      extensionless twin of an existing rule (`/donate.html`, `/teacher_appreciation`), plus
+      Mission Moments and Good News issues, grade-band pages (to their `/program/` tab), the
+      `/blog/` lower-case slugs (one hop instead of two) and `/privacy.html`.
+- [x] `/compass/family_onboarding` and `/compass/family_resources` → the Help Center's family page,
+      `/compass/faq` → its FAQ (they were help content; the rest of `/compass/*` stays on app
+      login). `/mbsel(.html)` → `/program/` (it ranks #2 for "student mindfulness programs
+      social-emotional learning"); Webb's story takes it on approval.
+- [x] Titles at most 60 characters: the newsroom adds " — Inner Explorer" only when it fits
+      (`newsTitle()`), eight posts got a `metaTitle`, and case-study `seo.title` drops
+      " | Inner Explorer" where it didn't fit. The schema rejects longer ones.
+- [x] "Keep reading" follows one ring of posts ordered by category, then date, so every post is
+      linked from three others (it showed the three newest everywhere).
+- [x] John Marshall's related row has Mindful Michigan back (the board links it).
+- [x] Privacy policy page links the My Bright Moments policies (app-store compliance, and they
+      were orphaned in the sitemap).
+- [x] Descriptive link text: citation titles instead of raw URLs (grief, teacher wellbeing),
+      "click here" sentences and Terms' "here" moved onto existing words.
+- [x] `/llms.txt`, built from the pages list and the collections.
+- [ ] **Check the DOE report link** in the anxiety and "why teaching mindfulness" posts in a
+      browser: ed.gov answers 403 to scripts, so
+      `www.ed.gov/sites/ed/files/documents/students/supporting-child-student-social-emotional-behavioral-mental-health.pdf`
+      couldn't be confirmed from here.
+- [ ] **Old site on web. and cto.innerexplorer.com** (owner of the legacy Apache server):
+      `docs/legacy-subdomains-handoff.md` has the rules and the checks.
+- [ ] Semrush: archive the stale `innerexplorer.com` Site Audit project (last crawl June, old
+      site), add a Site Audit project for help.innerexplorer.com, and grow Position Tracking past
+      its one keyword (brand plus 20–50 non-brand terms, desktop and mobile, 3–5 competitors).
+- [ ] Re-run Semrush Indexed Pages (filter 4xx) after the deploy; it lists only the top 100
+      linked URLs per call (about 4,200 API units).
+- [ ] `/program/`'s title is 66 characters ("Program — daily mindfulness for every classroom |
+      Inner Explorer"); not flagged by Semrush, but over 60.
 
 ## HubSpot and other owner items
 
