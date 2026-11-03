@@ -19,6 +19,39 @@ export function topStories(posts: NewsEntry[]): NewsEntry[] {
 
 export const newsPath = (post: NewsEntry) => `/newsroom/${post.id}/`;
 
+/**
+ * An article's "Keep reading" row: the next posts in one ring of every post, ordered by
+ * category, then newest first. Neighbors share a topic, and every post is linked from exactly
+ * `count` others, so older posts are not reachable from the Newsroom index alone.
+ */
+export function relatedNews(posts: NewsEntry[], post: NewsEntry, count = 3): NewsEntry[] {
+  const ring = [...posts].sort(
+    (a, b) =>
+      a.data.category.localeCompare(b.data.category) ||
+      b.data.pubDate.getTime() - a.data.pubDate.getTime(),
+  );
+  const at = ring.findIndex((p) => p.id === post.id);
+  return Array.from(
+    { length: Math.min(count, ring.length - 1) },
+    (_, i) => ring[(at + 1 + i) % ring.length],
+  );
+}
+
+/** Google shows about 60 characters of a <title>. */
+export const TITLE_MAX = 60;
+const BRAND = ' — Inner Explorer';
+
+/** A post's <title>: its `metaTitle` or headline, with the brand only when it still fits. */
+export function newsTitle(post: NewsEntry): string {
+  const title = post.data.metaTitle ?? post.data.title;
+  if (title.length > TITLE_MAX) {
+    throw new Error(
+      `${post.id}: <title> "${title}" is over ${TITLE_MAX} characters; set a metaTitle`,
+    );
+  }
+  return title.length + BRAND.length <= TITLE_MAX ? title + BRAND : title;
+}
+
 const LONG = new Intl.DateTimeFormat('en-US', { dateStyle: 'long', timeZone: 'UTC' });
 const SHORT = new Intl.DateTimeFormat('en-US', { dateStyle: 'medium', timeZone: 'UTC' });
 export const longDate = (date: Date) => LONG.format(date);
