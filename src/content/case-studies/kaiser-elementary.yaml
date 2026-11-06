@@ -43,9 +43,6 @@ lead: West Virginia had the nation’s highest drug overdose mortality of 51.5 p
 card:
   stat: 77%
   label: decrease in school-wide discipline problems
-  image:
-    src: ../../assets/images/case-studies/kaiser-elementary/educators-vocabulary-board.jpg
-    alt: Two educators in matching blue shirts stand in front of a math vocabulary board
 results:
 - value: '77'
   unit: '%'
@@ -57,10 +54,9 @@ results:
   unit: '%'
   label: 'Increase in # of students “At or Above Grade Level” in Math'
 image:
-  src: ../../assets/images/case-studies/kaiser-elementary/classroom-practice.jpg
-  alt: A classroom of young elementary students sitting upright with eyes closed during the morning mindfulness
-    practice
-  position: 50% 45%
+  src: ../../assets/images/case-studies/kaiser-elementary/educators-vocabulary-board.jpg
+  alt: Two educators in matching blue shirts stand in front of a math vocabulary board
+  position: 50% 30%
 glance:
 - label: Location
   value: Ravenswood, West Virginia
@@ -92,19 +88,27 @@ body:
     in place, the staff felt the problems were getting worse. Many children were experiencing chronic
     stress associated with poverty, family dislocation, addiction, overdose death, and incarceration,
     that they carry complex emotional needs and lack of concentration with them into the classroom. One
-    educator, Christy Archer said “We feel hopeless. We want to help these children read, but they can’t…
-    because of things beyond our control.”
+    educator, Christy Archer said *“We feel hopeless. We want to help these children read, but they can’t…
+    because of things beyond our control.”*
 - type: heading
   id: opportunity
   text: Opportunity
 - type: paragraphs
   items:
   - In response to the Nation Article, Inner Explorer reached out to Ms. Hardman to see if their daily
-    mindfulness program could help. She said, "We were struggling… classrooms were taken over by behavior
-    issues. Kids were exposed to so much trauma that they were simply not ready for academics. We desperately
-    needed a solution and tools but we lacked resources. Just as I started to look into trauma sensitive
-    programs, Inner Explorer found us!" Through the generosity and partnership with LG Electronics, Inner
-    Explorer was able to grant Henry J. Kaiser Elementary School the program at no charge.
+    mindfulness program could help.
+- type: quote
+  text: We were struggling… classrooms were taken over by behavior issues. Kids were exposed to so much
+    trauma that they were simply not ready for academics. *We desperately needed a solution and tools but
+    we lacked resources.* Just as I started to look into trauma sensitive programs, Inner Explorer found
+    us!
+  name: Amber Hardman
+  role: Principal, Henry J. Kaiser Elementary
+  initials: AH
+- type: paragraphs
+  items:
+  - Through the generosity and partnership with LG Electronics, Inner Explorer was able to grant Henry
+    J. Kaiser Elementary School the program at no charge.
 - type: heading
   id: framework
   text: Framework
@@ -137,10 +141,14 @@ body:
   - Henry J Kaiser’s principal, Amber Hardman took a student-centered approach to implementing mindfulness
     with all students, in the five focus areas noted below. She allocated time in the school schedule
     for the 10-minute practices and instructed her staff to use Inner Explorer every day to help students
-    get to a state of educational ‘readiness’. The school-based therapist, Stephanie Majetich said, “I
-    even used Inner Explorer in my therapy sessions with students. It creates an atmosphere that’s conducive
-    to learning. I know students are using these skills at home too, because parents have made so many
-    positive comments.”
+    get to a state of educational ‘readiness’.
+- type: quote
+  text: I even used Inner Explorer in my therapy sessions with students. *It creates an atmosphere that’s
+    conducive to learning.* I know students are using these skills at home too, because parents have
+    made so many positive comments.
+  name: Stephanie Majetich
+  role: School-based therapist, Henry J. Kaiser Elementary
+  initials: SM
 - type: steps
   items:
   - title: Embed

@@ -278,14 +278,34 @@ body:
 - type: heading
   id: anecdotes
   text: "Anecdotes from students and staff on Mindful Michigan"
-- type: paragraphs
-  items:
-  - "\"I am grateful for all the people in the world\"\nKindergartener at Detroit Leadership Academy"
-  - "\"When I know that I need mindfulness is when I have mixed feelings, feeling mad, sad, angry, uncomfortable, you can use mindfulness for all of these situations. If I were you and had a problem, the best place to go is to Inner Explorer\".\nGabrielle Gross, Southfield Adler Student\n1st Place In-Spire Story Champion"
-  - "\"After doing these mindful practices for about a month and a half straight (still counting), It has helped me to feel physically strong and emotionally replenished.\"\nElaine Sandouno, Fortis Student\n2nd Place In-Spire Story Champion"
-  - "\"Whenever I feel tired or in a bad mood, I make sure to practice taking deep breaths to calm myself down and let myself have enough time to make decisions. Inner Explorer has given me chances to avoid conflicts and has helped me in a positive way.\"\nIsraa Abella, Fortis Student\n3rd Place In-Spire Story Champion"
-  - "\"While reading my students' Inner Explorer essays, I was blown away by some of their insights. Inner Explorer has not only helped me to have more compassion for myself, but to be more compassionate to those around me: my students, coworkers, friends, and family.\"\nMarc Zendejas, Educator"
-  - "\"The best tool in my toolbox is mindfulness. Inner Explorer helps our school find a calmness in the present moment and connects us to each other.\"\nPamela Mckenzie, Behavior Interventionist"
+- type: quote
+  text: "I am grateful for all the people in the world"
+  name: "Kindergartener at Detroit Leadership Academy"
+- type: quote
+  text: "When I know that I need mindfulness is when I have mixed feelings, feeling mad, sad, angry, uncomfortable, you can use mindfulness for all of these situations. If I were you and had a problem, the best place to go is to Inner Explorer."
+  name: "Gabrielle Gross"
+  role: "Southfield Adler Student, 1st Place In-Spire Story Champion"
+  initials: GG
+- type: quote
+  text: "After doing these mindful practices for about a month and a half straight (still counting), It has helped me to feel physically strong and emotionally replenished."
+  name: "Elaine Sandouno"
+  role: "Fortis Student, 2nd Place In-Spire Story Champion"
+  initials: ES
+- type: quote
+  text: "Whenever I feel tired or in a bad mood, I make sure to practice taking deep breaths to calm myself down and let myself have enough time to make decisions. Inner Explorer has given me chances to avoid conflicts and has helped me in a positive way."
+  name: "Israa Abella"
+  role: "Fortis Student, 3rd Place In-Spire Story Champion"
+  initials: IA
+- type: quote
+  text: "While reading my students' Inner Explorer essays, I was blown away by some of their insights. Inner Explorer has not only helped me to have more compassion for myself, but to be more compassionate to those around me: my students, coworkers, friends, and family."
+  name: "Marc Zendejas"
+  role: "Educator"
+  initials: MZ
+- type: quote
+  text: "The best tool in my toolbox is mindfulness. Inner Explorer helps our school find a calmness in the present moment and connects us to each other."
+  name: "Pamela Mckenzie"
+  role: "Behavior Interventionist"
+  initials: PM
 - type: figure
   image:
     src: ../../assets/images/case-studies/mindful-michigan/students-at-desks.jpg

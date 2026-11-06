@@ -55,9 +55,6 @@ voice:
 card:
   stat: 50%
   label: fewer office referrals in the first seven months
-  image:
-    src: ../../assets/images/case-studies/stephens-elementary/school-sign.jpg
-    alt: The Nathaniel H. Stephens Elementary School sign under a shade tree in Alexander City, Alabama
 results:
 - value: '50'
   unit: '%'
@@ -71,10 +68,9 @@ results:
 - value: '10'
   label: minutes a day
 image:
-  src: ../../assets/images/case-studies/stephens-elementary/classroom-practice.jpg
-  alt: Students at N.H. Stephens Elementary seated at their desks, facing a classroom screen during
-    an Inner Explorer practice
-  position: 50% 60%
+  src: ../../assets/images/case-studies/stephens-elementary/school-sign.jpg
+  alt: The Nathaniel H. Stephens Elementary School sign under a shade tree in Alexander City, Alabama
+  position: 50% 40%
 glance:
 - label: Location
   value: Alexander City, Alabama
@@ -148,9 +144,9 @@ body:
     expectation in every classroom. Each practice is audio guided and takes about 5-10 minutes, so
     teachers don't plan a lesson or lead the session themselves.
   - 'Fourth grade math teacher Rachel Smith describes what students do: breathing techniques, head
-    to toe body scans, and time to practice being comfortably quiet. "It''s great to practice just
+    to toe body scans, and time to practice being comfortably quiet. *"It''s great to practice just
     having to sit and do things that they don''t get to do every day anymore, in this world of constant
-    stimulation and constant input."'
+    stimulation and constant input."*'
 - type: figure
   image:
     src: ../../assets/images/case-studies/stephens-elementary/student-practice-eyes-closed.jpg
@@ -224,9 +220,9 @@ body:
 - type: paragraphs
   items:
   - Third grade math teacher Cora Blue says students are using what they learn "not only in school
-    but in their day to day lives." Students say the same thing in their own words. "If I wake up
+    but in their day to day lives." Students say the same thing in their own words. *"If I wake up
     on the wrong side of the bed, it helps me and it calms me down. It helps me get my mind straight
-    and get ready for the day."
+    and get ready for the day."*
 - type: quote
   text: At home, sometimes I get mad at stuff. I just breathe in and out and it makes me calm down.
   name: Stephens Elementary student

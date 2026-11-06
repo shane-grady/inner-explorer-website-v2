@@ -44,9 +44,6 @@ lead: 70% of teens report depression and anxiety are major problems in their lif
 card:
   stat: 91%
   label: of students said they want to continue practicing daily mindfulness
-  image:
-    src: ../../assets/images/case-studies/john-marshall-hs/students-outside.jpg
-    alt: Three high school students sit outside with their eyes closed during a mindfulness practice
 results:
 - value: '91'
   unit: '%'
@@ -59,9 +56,9 @@ results:
   unit: '%'
   label: increase in the number of students who exceeded expectations in Math
 image:
-  src: ../../assets/images/case-studies/john-marshall-hs/wellness-advisory-circle.jpg
-  alt: A circle of high school students in a Wellness Advisory meeting, sitting upright with eyes closed
-  position: 50% 45%
+  src: ../../assets/images/case-studies/john-marshall-hs/students-outside.jpg
+  alt: Three high school students sit outside with their eyes closed during a mindfulness practice
+  position: 50% 35%
 glance:
 - label: Location
   value: Los Angeles, California

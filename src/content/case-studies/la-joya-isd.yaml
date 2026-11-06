@@ -42,9 +42,6 @@ lead: In schools and centers across the country, mental health concerns are on t
 card:
   stat: 85%
   label: reduction in behavior issues in special education classrooms
-  image:
-    src: ../../assets/images/case-studies/la-joya-isd/teacher-with-tablet.jpg
-    alt: A teacher holding a tablet stands among students in red shirts seated at their desks
 results:
 - value: '85'
   unit: '%'
@@ -54,10 +51,9 @@ results:
   unit: '%'
   label: less stress reported by teachers who practice mindfulness
 image:
-  src: ../../assets/images/case-studies/la-joya-isd/classroom-practice.jpg
-  alt: A special education classroom of students sitting upright with eyes closed during a daily audio-guided
-    mindfulness practice
-  position: 50% 40%
+  src: ../../assets/images/case-studies/la-joya-isd/teacher-with-tablet.jpg
+  alt: A teacher holding a tablet stands among students in red shirts seated at their desks
+  position: 50% 50%
 glance:
 - label: District
   value: La Joya Independent School District
@@ -148,9 +144,9 @@ body:
 - type: paragraphs
   items:
   - While Judith is adamant about instilling a daily mindfulness routine at a set time each day, she also
-    honors requests from her students to do additional sessions when academic work becomes too much. “If
+    honors requests from her students to do additional sessions when academic work becomes too much. *“If
     we are in the middle of a math lesson and they become overwhelmed and can’t focus, I will offer to
-    do a session right then and there – or the students will ask me to play an Inner Explorer practice,”
+    do a session right then and there – or the students will ask me to play an Inner Explorer practice,”*
     she says.
   - This saves time and resources in the long run; mindfulness helps students calm down and focus, reducing
     the amount of time spent settling in or managing behavior issues. In Judith's classroom, daily mindfulness
