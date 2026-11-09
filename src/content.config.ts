@@ -45,6 +45,8 @@ const bodyBlock = (image: ImageFunction) =>
       initials: z.string().max(3).optional(),
       /** The speaker's headshot, in place of the initials. */
       portrait: image().optional(),
+      /** `closing`: the Emerald, centered quote that closes the story. */
+      variant: z.literal('closing').optional(),
     }),
     z.object({
       type: z.literal('chart'),

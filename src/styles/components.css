@@ -485,6 +485,11 @@
   background: var(--brand-tint);
   box-shadow: var(--shadow-brand-card);
 }
+/* The closing testimonial (a case study's last word): Emerald ground; [data-on-brand] turns
+   the ink, mark and rule white. */
+.ie-card-closing {
+  background: var(--brand-surface);
+}
 .ie-card-accent .ie-quote-mark {
   @variant md {
     inline-size: var(--quote-mark-width);
