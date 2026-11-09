@@ -77,13 +77,13 @@ The index card uses those exact values.
 | Breadcrumb level, card badge | `level` |
 | Hero D `h1a` / `h1b` | `title.lead` / `title.emph` |
 | Hero D `meta` (the green-dot details, read time included) | `details[]`, verbatim |
-| Hero D `quote`, `who`, `role`, `ini` | `voice` `{ quote, name, role, initials }` |
+| Hero D `quote`, `who`, `role`, `ini` | `voice` `{ quote, name, role }` (drop `ini`: no initials disc) |
 | Hero D `stats` (`n`, `u`, `label`) | `results[]` `{ value, unit, label }` (1–4; omit an empty `unit`) |
 | Hero D `img`, `alt`, `pos` | `image.src` (relative path to `src/assets/images/case-studies/<slug>/`), `image.alt`, `image.position` |
 | Lead paragraph (the same on both boards) | `lead` |
 | The school's city and state | `location` (JSON-LD only) |
 | "At a glance" rows | `glance[]` `{ label, value }` |
-| Article body, top to bottom (drop a `quote` that repeats the hero's voice) | `body[]`: `heading` (h2, with the board's `id`) · `subheading` (h3) · `paragraphs` (a run of `<p>`; `<b>` → `*…*`, `<a>` → `[…](url)`) · `quote` `{ text, name, role, initials }` · `chart` · `checklist` (a leading `<b>` → `{ lead, text }`) · `steps` `{ title, text }` · `table` `{ caption, columns, rows, highlight? }` · `figure` `{ image, caption }` · `callout` `{ title, text }` (a Tint aside) · `stats` `{ value, label, source }` (Tint result tiles) |
+| Article body, top to bottom (drop a `quote` that repeats the hero's voice) | `body[]`: `heading` (h2, with the board's `id`) · `subheading` (h3) · `paragraphs` (a run of `<p>`; `<b>` → `*…*`, `<a>` → `[…](url)`) · `quote` `{ text, name, role }` · `chart` · `checklist` (a leading `<b>` → `{ lead, text }`) · `steps` `{ title, text }` · `table` `{ caption, columns, rows, highlight? }` · `figure` `{ image, caption }` · `callout` `{ title, text }` (a Tint aside) · `stats` `{ value, label, source }` (Tint result tiles) |
 | Chart | `chart`: `title` (its figcaption), `summary` (the board's `aria-label` up to the first period), `phases[]` (`before` / `after` / `during`, each with `bars[]` `{ label, value }`), `note` (the line under the rule) |
 | "Case study PDF · N pages" card | `pdf` `{ file: /downloads/<slug>-case-study.pdf, pages, title }` |
 | "More stories like this" | `related[]`: the three slugs the board links |

@@ -42,8 +42,7 @@ const bodyBlock = (image: ImageFunction) =>
       name: z.string(),
       /** Left out where the speaker is credited by role alone ("Stephens Elementary student"). */
       role: z.string().optional(),
-      initials: z.string().max(3).optional(),
-      /** The speaker's headshot, in place of the initials. */
+      /** The speaker's headshot, beside the name. */
       portrait: image().optional(),
       /** `closing`: the Emerald, centered quote that closes the story. */
       variant: z.literal('closing').optional(),
@@ -197,8 +196,7 @@ const caseStudies = defineCollection({
           quote: z.string(),
           name: z.string(),
           role: z.string(),
-          initials: z.string().max(3).optional(),
-          /** The speaker's headshot, in place of the initials. */
+          /** The speaker's headshot, beside the name. */
           portrait: image().optional(),
         })
         .optional(),
