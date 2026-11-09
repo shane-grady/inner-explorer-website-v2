@@ -23,7 +23,7 @@
 # 3. 50% (seven months, the video) vs 48% (full-year records): the note under the quote says so.
 # 4. "Before tests, after PE" is credited to Cora Blue as a best guess (spoken over footage).
 # 5. Light quote edits (filler words removed): the speakers should be comfortable with them.
-order: 7
+order: 0 # first in the library (the user's call, 2026-11-09)
 draft: false
 # Listed on the index, related rows and the sitemap since 2026-11-09 (the user's call).
 seo:
