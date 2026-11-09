@@ -37,7 +37,6 @@ voice:
     and seclusion.
   name: Jill DeVane
   role: School Administrator, The Webb School in the Valley
-  initials: JD
 lead: The Webb School in the Valley, along with The Webb School at Cheshire, and The Grace S. Webb School
   in Hartford are part of the Institute of Living in Hartford, Connecticut. The focus of these schools
   is to help students with mental health challenges realize their potential and become self-regulated
@@ -74,13 +73,13 @@ body:
     system that could translate beyond the classroom. Rather than trying to change behavior through external
     factors, such as a point and level system, staff aimed to transition towards transforming behavior
     from the inside out through social-emotional learning and the development of coping strategies.
-  - This new approach included integrating daily mindfulness practice in the classroom. While some of
-    the school counselors were already using mindfulness in isolated instances, School Administrator Jill
-    DeVane knew that implementing a consistent practice for all students was the key to maximizing the
-    benefits mindfulness has to offer. Inner Explorer programs offered the perfect solution – daily 5-10
-    minute audio-guided mindfulness practices that required no prep work from educators. Through the generosity
-    of the Aetna Foundation and LG Electronics, The Webb School in the Valley had the opportunity to pilot
-    Inner Explorer programs at no cost.
+  - This new approach included integrating daily mindfulness practice in the classroom. Some school
+    counselors were already using mindfulness in isolated instances, but School Administrator Jill DeVane
+    knew that a consistent practice for all students was the key to maximizing its benefits.
+  - "Inner Explorer programs offered the perfect solution: daily 5-10 minute audio-guided mindfulness
+    practices that require no prep work from educators. Through the generosity of the Aetna Foundation and
+    LG Electronics, The Webb School in the Valley had the opportunity to pilot Inner Explorer programs at
+    no cost."
 - type: heading
   id: impact
   text: Impact
@@ -139,7 +138,6 @@ body:
     citizens.*
   name: Judge Frank Szymanski
   role: Third Circuit Court, Juvenile Division
-  initials: JF
 - type: paragraphs
   items:
   - A single in-school suspension is predictive of a significant risk for academic failure (greater than
@@ -172,24 +170,21 @@ body:
       the opportunity to practice mindfulness together – setting the stage for a productive day of learning
       and improved academic outcomes.
   - title: Adaptation
-    text: With a little creative thinking, The Webb School in the Valley adapted Inner Explorer for students
-      who initially found it difficult to sit still with their thoughts. Educators were encouraged to
-      work with students to find a strategy that allowed them to participate in the Inner Explorer practices.
-      For example, a student may draw or color while they listen to the daily mindfulness practice.
+    text: With a little creative thinking, The Webb School in the Valley adapted Inner Explorer for
+          students who initially found it difficult to sit still with their thoughts. Educators worked
+          with each student to find a way to take part, such as drawing or coloring while they listen to
+          the daily mindfulness practice.
   - title: Support
     text: When a student is resistant to participate in mindfulness practice, educators work with them
       to understand the underlying reason. They also work to establish the “why” for students to help
       them make sense of the exercises they learn in class.
   - title: Application
-    text: The Webb School Programs remind students to utilize the mindfulness techniques they are learning
-      throughout the day, whether that be during the school day or otherwise. This encourages success
-      both in and out of the classroom. One example teachers use to instill this ‘best practice’ is by
-      writing the mindfulness technique that they are practicing with Inner Explorer on the board each
-      day, such as belly breathing or a body scan exercise; then, if a student is having a difficult moment
-      during the day, the teacher can refer back to the mindfulness technique written on the board as
-      a way to help the student cope. For older students who may have access to technology such as smartphones
-      and headphones, teachers encourage students to listen to a mindfulness practice through their devices
-      during moments where they feel anxious, stressed, or overwhelmed.
+    text: Students are reminded to use the mindfulness techniques they learn throughout the day, in school
+          and out, which encourages success both in and out of the classroom. Teachers write each day’s
+          Inner Explorer technique on the board, such as belly breathing or a body scan, and refer back to
+          it when a student is having a difficult moment. Older students with smartphones and headphones
+          are encouraged to listen to a practice on their devices when they feel anxious, stressed, or
+          overwhelmed.
 - type: paragraphs
   items:
   - By setting up a strong foundation for daily mindfulness practice with Inner Explorer, The Webb School

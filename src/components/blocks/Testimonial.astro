@@ -3,9 +3,8 @@
 // Text, and the name and place under a rule. `card` (Raised) for a row of quotes,
 // `panel` (Tint) for a single quote beside other content, `accent` (Mist, Emerald top
 // border and mark) for Home's row, `closing` (Emerald ground, white ink, centered) for the
-// one quote that closes a case study. `initials` leads the name with a Spring disc (a case
-// study's quotes); a `portrait` takes the disc's place where one exists. No typed quotation
-// marks.
+// one quote that closes a case study. A `portrait` leads the name where a headshot exists.
+// No typed quotation marks.
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 const VARIANT = {
@@ -19,13 +18,11 @@ interface Props {
   name: string;
   place?: string;
   variant?: keyof typeof VARIANT;
-  /** Two letters in a Spring disc beside the name, where no portrait exists. */
-  initials?: string;
-  /** The speaker's headshot, in the disc's place (decorative: the name sits beside it). */
+  /** The speaker's headshot beside the name (decorative: the name sits beside it). */
   portrait?: ImageMetadata;
   class?: string;
 }
-const { name, place, variant = 'card', initials, portrait, class: className }: Props = Astro.props;
+const { name, place, variant = 'card', portrait, class: className }: Props = Astro.props;
 const closing = variant === 'closing';
 ---
 
@@ -61,16 +58,6 @@ const closing = variant === 'closing';
           widths={[48, 96]}
           sizes="48px"
         />
-      )
-    }
-    {
-      !portrait && initials && (
-        <span
-          class="flex size-10 shrink-0 items-center justify-center rounded-full bg-brand-subtle type-label font-bold text-on-brand-subtle md:size-12 md:type-card-title-sm"
-          aria-hidden="true"
-        >
-          {initials}
-        </span>
       )
     }
     <span class="flex min-w-0 grow flex-col gap-1">

@@ -181,7 +181,6 @@ const crumbLd = breadcrumbSchema(Astro.site, [
         quote={d.voice.quote}
         name={d.voice.name}
         place={d.voice.role}
-        initials={d.voice.initials}
         portrait={d.voice.portrait}
       >
         <div class="flex flex-col gap-7 lg:flex-row lg:items-start lg:gap-14">
@@ -376,7 +375,6 @@ const crumbLd = breadcrumbSchema(Astro.site, [
                     name={block.name}
                     place={block.role}
                     variant={block.variant}
-                    initials={block.initials}
                     portrait={block.portrait}
                   >
                     <Fragment set:html={emphasize(block.text, 'font-bold not-italic')} />

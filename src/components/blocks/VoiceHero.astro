@@ -18,12 +18,10 @@ interface Props {
   name: string;
   /** Their role and school, under the name. */
   place: string;
-  /** Two letters in a Spring disc beside the name, where no portrait exists. */
-  initials?: string;
-  /** The speaker's headshot, in the disc's place (decorative: the name sits beside it). */
+  /** The speaker's headshot beside the name (decorative: the name sits beside it). */
   portrait?: ImageMetadata;
 }
-const { image, eyebrow, quote, name, place, initials, portrait }: Props = Astro.props;
+const { image, eyebrow, quote, name, place, portrait }: Props = Astro.props;
 ---
 
 <section
@@ -67,16 +65,6 @@ const { image, eyebrow, quote, name, place, initials, portrait }: Props = Astro.
               widths={[48, 96]}
               sizes="48px"
             />
-          )
-        }
-        {
-          !portrait && initials && (
-            <span
-              class="flex size-11 shrink-0 items-center justify-center rounded-full bg-brand-subtle type-label font-bold text-on-brand-subtle lg:size-12 lg:type-card-title-sm"
-              aria-hidden="true"
-            >
-              {initials}
-            </span>
           )
         }
         <span class="flex min-w-0 flex-col gap-0.5">

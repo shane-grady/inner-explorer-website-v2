@@ -72,14 +72,13 @@ body:
     can raise issues. But *diversity is one thing that makes our school great.*
   name: Jenica Loether
   role: School Counselor, Goddard Middle School
-  initials: JL
 - type: paragraphs
   items:
-  - Goddard implemented the Inner Explorer program at no cost through the generosity of LG Electronics
-    USA. Both educators and counselors started using the program in classrooms and small group sessions.
-    Within two years of using Inner Explorer, Goddard saw a substantial increase in school-wide academic
-    performance. LG Electronics USA continues to support the use of Inner Explorer at Goddard Middle School
-    today.
+  - Goddard implemented Inner Explorer at no cost through the generosity of LG Electronics USA, which
+    continues to support the program at Goddard today. Educators and counselors started using it in
+    classrooms and small group sessions.
+  - Within two years of using Inner Explorer, Goddard saw a substantial increase in school-wide academic
+    performance.
 - type: callout
   title: State recognition
   text: The results were so significant that the Colorado State Department of Education contacted the
@@ -93,8 +92,9 @@ body:
   items:
   - Between 2016 and 2018, the average percentage increase of Goddard 6th-8th grade students who met or
     exceeded expectations in English Language Arts and Math was 3X higher than the average percentage
-    increase for Colorado as a whole. Science was 5X higher. Most notably, the percentage of students
-    who met or exceeded expectations in 8th-grade English Language Arts was 8X higher than the state.
+    increase for Colorado as a whole. Science was 5X higher.
+  - Most notably, the percentage of students who met or exceeded expectations in 8th-grade English
+    Language Arts was 8X higher than the state.
 - type: table
   caption: Improvement % between 2016-2018, Goddard vs. Colorado
   columns:
@@ -150,11 +150,11 @@ body:
     education students, the school needed an approach that catered to their population. School staff worked
     together to brainstorm a strategy to integrate a mindfulness practice for these students in a way
     that was sensitive to their needs.
-  - In situations where a student feels upset or has an emotional outburst, the teacher asks the student
-    to sit in an area where they feel safe and listen to a mindfulness practice until they feel ready
-    to talk about the situation. Students who feel uncomfortable closing their eyes or sitting still are
-    encouraged to color or doodle while they listen to a mindfulness practice. As a result, teachers noticed
-    that students were more calm and less reactive during the day.
+  - When a student feels upset or has an emotional outburst, the teacher asks them to sit in an area where
+    they feel safe and listen to a mindfulness practice until they are ready to talk about the situation.
+  - Students who are uncomfortable closing their eyes or sitting still are encouraged to color or doodle
+    while they listen. As a result, teachers noticed that students were calmer and less reactive during
+    the day.
 - type: heading
   id: staff
   text: Educating school staff and families

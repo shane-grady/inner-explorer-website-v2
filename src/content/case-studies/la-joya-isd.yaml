@@ -35,7 +35,6 @@ voice:
   quote: If students are not mentally and emotionally there, they are not going to learn.
   name: Angelika Loraine Garza
   role: School Counselor, La Joya ISD
-  initials: AL
 lead: In schools and centers across the country, mental health concerns are on the rise. At the same time,
   students and educators are facing an immense amount of pressure to perform well academically and close
   the learning gap that we are facing due to the pandemic.
@@ -110,7 +109,6 @@ body:
     matters* because it impacts everything else that they do.
   name: Judith Lopez Guerra
   role: Special Education Teacher, La Joya ISD
-  initials: JL
 - type: heading
   id: best-practices
   text: Best practices for using Inner Explorer in a special education classroom
@@ -143,11 +141,11 @@ body:
   text: Save Time and Resources With Mindfulness
 - type: paragraphs
   items:
-  - While Judith is adamant about instilling a daily mindfulness routine at a set time each day, she also
-    honors requests from her students to do additional sessions when academic work becomes too much. *“If
-    we are in the middle of a math lesson and they become overwhelmed and can’t focus, I will offer to
-    do a session right then and there – or the students will ask me to play an Inner Explorer practice,”*
-    she says.
+  - Judith is adamant about a daily mindfulness routine at a set time each day, but she also honors her
+    students’ requests for additional sessions when academic work becomes too much.
+  - "*“If we are in the middle of a math lesson and they become overwhelmed and can’t focus, I will offer
+    to do a session right then and there – or the students will ask me to play an Inner Explorer
+    practice,”* she says."
   - This saves time and resources in the long run; mindfulness helps students calm down and focus, reducing
     the amount of time spent settling in or managing behavior issues. In Judith's classroom, daily mindfulness
     significantly reduced the need for additional help.
@@ -175,7 +173,6 @@ body:
     they learn through MBSEL are tools they can take with them for their entire lives.*
   name: Judith Lopez Guerra
   role: Special Education Teacher, La Joya ISD
-  initials: JL
 pdf:
   file: /downloads/la-joya-isd-case-study.pdf
   pages: 2

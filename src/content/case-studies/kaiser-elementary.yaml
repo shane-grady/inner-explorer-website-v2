@@ -35,7 +35,6 @@ voice:
     … I decided not to quit.
   name: Trudy Humphreys
   role: 2nd Grade Teacher, Henry J Kaiser Elementary
-  initials: TH
 lead: West Virginia had the nation’s highest drug overdose mortality of 51.5 per 100,000 standard population,
   compared with the national average of 21.7 in 2018. In the last five years, pain pills flooded the state,
   with providers writing 69 opioid prescriptions for every 100 persons, compared to the average U.S. rate
@@ -74,22 +73,22 @@ body:
   text: Background
 - type: paragraphs
   items:
-  - The opioid addiction problem had a rippling effect on the community, disrupting families, straining
-    public institutions and increasing the number of children in the foster care system. West Virginia
-    counties with the highest rates of opioid deaths also tended to see higher rates of child abuse and
-    neglect. The Centers for Disease Control and Prevention states that adverse childhood experiences
-    (ACEs) like these, can have lasting, negative effects on children’s health, well-being and opportunity
-    well into adulthood.
+  - The opioid addiction problem rippled through the community, disrupting families, straining public
+    institutions and increasing the number of children in foster care. West Virginia counties with the
+    highest rates of opioid deaths also tended to see higher rates of child abuse and neglect.
+  - The Centers for Disease Control and Prevention states that adverse childhood experiences (ACEs) like
+    these can have lasting, negative effects on children’s health, well-being and opportunity well into
+    adulthood.
   - Henry J. Kaiser Elementary, in Ravenswood, West Virginia was profiled in the Nation Article [“These
     Kids are Watching their Parents Die”](https://www.thenation.com/article/archive/kids-watching-parents-die/).
     Principal Amber Hardman noted “a marked uptick in intense behavior problems” in these young students
     – “who are defiant, throw chairs and tip over tables.”
-  - While Henry J. Kaiser had outstanding teachers and various Social Emotional Learning (SEL) programs
-    in place, the staff felt the problems were getting worse. Many children were experiencing chronic
-    stress associated with poverty, family dislocation, addiction, overdose death, and incarceration,
-    that they carry complex emotional needs and lack of concentration with them into the classroom. One
-    educator, Christy Archer said *“We feel hopeless. We want to help these children read, but they can’t…
-    because of things beyond our control.”*
+  - Henry J. Kaiser had outstanding teachers and various Social Emotional Learning (SEL) programs in
+    place, yet the staff felt the problems were getting worse. Many children were experiencing chronic
+    stress from poverty, family dislocation, addiction, overdose death, and incarceration, and they
+    carried complex emotional needs and a lack of concentration into the classroom.
+  - One educator, Christy Archer, said *“We feel hopeless. We want to help these children read, but they
+    can’t… because of things beyond our control.”*
 - type: heading
   id: opportunity
   text: Opportunity
@@ -104,7 +103,6 @@ body:
     us!
   name: Amber Hardman
   role: Principal, Henry J. Kaiser Elementary
-  initials: AH
 - type: paragraphs
   items:
   - Through the generosity and partnership with LG Electronics, Inner Explorer was able to grant Henry
@@ -114,13 +112,14 @@ body:
   text: Framework
 - type: paragraphs
   items:
-  - Henry J. Kaiser staff had utilized the Positive Behavioral Interventions and Supports (PBIS) framework
-    for several years prior to implementing Inner Explorer. They continued by integrating the mindfulness
-    components into the structure. Tier 1 is considered universal instruction. Most students in this group
-    are “At or Above grade level” academically and have very few behavior issues. Tier 2 includes students
-    who are “Below grade level” and/or have behavior issues that require additional supports. Tier 3 includes
-    students who are “below or significantly below grade level” and/or have significant behavioral issues
-    requiring one on one intervention.
+  - Henry J. Kaiser staff had used the Positive Behavioral Interventions and Supports (PBIS) framework for
+    several years before implementing Inner Explorer, and they integrated the mindfulness components into
+    that structure.
+  - "Tier 1 is universal instruction: most students in this group are “At or Above grade level”
+    academically and have very few behavior issues. Tier 2 includes students who are “Below grade level”
+    and/or have behavior issues that require additional supports. Tier 3 includes students who are “below
+    or significantly below grade level” and/or have significant behavioral issues requiring one on one
+    intervention."
 - type: subheading
   text: Tiered approach to mindfulness intervention
 - type: checklist
@@ -148,7 +147,6 @@ body:
     made so many positive comments.
   name: Stephanie Majetich
   role: School-based therapist, Henry J. Kaiser Elementary
-  initials: SM
 - type: steps
   items:
   - title: Embed
