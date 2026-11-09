@@ -3,7 +3,9 @@
 # Every word on the page is verbatim from the approved Claude Design export (desktop.html,
 # mobile.html and copy-reference.md, 2026-10-23); the body was extracted from desktop.html by
 # script, not retyped. Its italic subtitles are set plain (the owner's call: no italics). The
-# story has no practitioner's voice, so it opens on the title-block hero. Chart values are the
+# story opens on the shared Voice hero like the other case studies (the owner's call, 2026-11-06):
+# its voice is Pamela Mckenzie's anecdote, moved up from the anecdotes. The read time is the
+# body's word count at 230 words a minute. The result tiles' baselines are in the body. Chart values are the
 # design's own: the grade charts from their accessible names, the playback comparison read off
 # its plot. The card's stat, label and level ("Statewide") are the
 # owner's. Not in the design, so written for this entry: `seo` (from the page's own copy).
@@ -27,6 +29,13 @@ details:
 - Statewide
 - Michigan
 - P–12 schools, centers and districts
+- 12 min read
+voice:
+  quote: The best tool in my toolbox is mindfulness. Inner Explorer helps our school find a calmness
+    in the present moment and connects us to each other.
+  name: Pamela Mckenzie
+  role: Behavior Interventionist
+  initials: PM
 lead: The Mindful Michigan Model builds on a decade of Inner Explorer's innovative evidence-based program.
   This 'Inside-Out' approach centers on the wisdom that our inner and outer worlds are connected and can
   be integrated into a larger systemic framework.
@@ -34,15 +43,14 @@ card:
   stat: 19.7%
   label: higher academic achievement than peer schools
 results:
-- value: 19.7%
+- value: '19.7'
+  unit: '%'
   label: higher academic achievement for schools using Inner Explorer, compared to peer schools
-  source: 2022-23 school year compared to 2021-22
 - value: ~58,000
   label: students and their families and 2300 educators
-  source: 202 and 146 schools/centers in the grant’s first two years
-- value: 800%
+- value: '800'
+  unit: '%'
   label: rise in Inner Explorer usage in Southfield Public Schools this past year
-  source: The first district in the nation to require daily practice
 image:
   src: ../../assets/images/case-studies/mindful-michigan/hero-student-practice.jpg
   alt: A student in glasses sits with her eyes closed during a mindfulness practice as classmates practice
@@ -301,11 +309,6 @@ body:
   name: "Marc Zendejas"
   role: "Educator"
   initials: MZ
-- type: quote
-  text: "The best tool in my toolbox is mindfulness. Inner Explorer helps our school find a calmness in the present moment and connects us to each other."
-  name: "Pamela Mckenzie"
-  role: "Behavior Interventionist"
-  initials: PM
 - type: figure
   image:
     src: ../../assets/images/case-studies/mindful-michigan/students-at-desks.jpg
