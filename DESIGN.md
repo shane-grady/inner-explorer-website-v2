@@ -128,7 +128,7 @@ class.
   `layout="inline"` for copy left and buttons right from lg: Pricing, Case Studies, Research, with
   `align="center"` and `balance` for Research's title-only panel; on
   Emerald its `*words*` stay white, as the boards draw them),
-  `blocks/Testimonial` (card · panel · accent: Mist ground, 6px Emerald top border, Emerald mark; `initials` in a Spring disc beside the name: Case Studies),
+  `blocks/Testimonial` (card · panel · accent: Mist ground, 6px Emerald top border, Emerald mark; closing: Emerald ground, white ink, centered, a case study's last quote; `initials` in a Spring disc beside the name: Case Studies),
   `blocks/VoiceHero` (Hero D: a practitioner's quote over a full-bleed photo under `.ie-voice-scrim`,
   then a Floating card rising out of it, 64 → 112px from xl, that holds the page's H1, details,
   results and actions in its slot: Case Studies),

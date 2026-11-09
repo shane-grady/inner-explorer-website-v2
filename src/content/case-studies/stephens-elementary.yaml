@@ -1,19 +1,23 @@
 # N.H. Stephens Elementary: one file drives /case-studies/stephens-elementary/ and its card.
 #
 # A new story, not a legacy transfer. Every heading, sentence, quote and FAQ answer is verbatim
-# from the Google Doc "Case Study: Stephens Elementary (Alexander City, AL) DRAFT v1" (2026-10-15).
+# from the Google Doc "Case Study: Stephens Elementary (Alexander City, AL) DRAFT v1" (2026-10-15, revised 2026-11-09).
 # Only the quotes' italics are dropped (headers and quotes emphasize with color, never italics).
+# The user's 2026-11-09 calls: no grades or enrollment in the hero details, no headshot or
+# initials disc on any quote (names and roles only), the 86% to 92% state reading result in place
+# of "10 minutes a day", and no Alabama statewide comparison (not figures the school gave us).
+# The principal's closing quote stands alone in the `closing` style, without the doc's "In Their
+# Words" heading (the hero already carries that eyebrow).
 # Where the copy sits in the template: the video follows the Quick Read; Rachel Smith's quote
 # and the first student quote run inline in their paragraphs (the user's call, 2026-10-15); the Quick Read is the first body block (no lead); "Results
 # at a Glance" is the hero's results; the doc's closing section is the `cta`. The SEO fields, slug,
 # tags and the "At a glance" facts are the doc's Publishing Package and Library Tags. The hero quote
 # is Principal Richardson's 50% quote; it also stays in the Outcome section, as the doc has it.
 # Photos are frames from the school's testimonial video, cropped clear of the letterbox and the
-# Pediatric Associates watermark. Three sit in the body as uncaptioned figures; Principal
-# Richardson's interview still is a headshot beside her name on each of her quotes.
+# Pediatric Associates watermark. Three sit in the body as uncaptioned figures.
 #
 # PUBLISH GATE (the doc's "Flags to Confirm"; keep `unlisted: true` until each is signed off):
-# 1. School year 2025-26, and the +24% English / +33% math gains from spring 2026 testing (Laura).
+# 1. School year 2025-26, and the +24% reading / +33% math gains from spring 2026 testing (Laura).
 # 2. 33% and 24%: relative increases or percentage-point gains (Laura).
 # 3. 50% (seven months, the video) vs 48% (full-year records): the note under the quote says so.
 # 4. "Before tests, after PE" is credited to Cora Blue as a best guess (spoken over footage).
@@ -41,8 +45,6 @@ title:
 details:
 - Alexander City, Alabama
 - Public elementary school
-- Grades 3 to 4
-- About 440 students
 - Title I
 - 6 min read
 voice:
@@ -50,8 +52,6 @@ voice:
     the only thing we've changed as far as discipline goals is implementing Inner Explorer.
   name: Lekishia Richardson
   role: Principal, N.H. Stephens Elementary School
-  initials: LR
-  portrait: ../../assets/images/case-studies/stephens-elementary/principal-richardson-portrait.jpg
 card:
   stat: 50%
   label: fewer office referrals in the first seven months
@@ -64,9 +64,10 @@ results:
   label: gain in math proficiency
 - value: '24'
   unit: '%'
-  label: gain in English proficiency
-- value: '10'
-  label: minutes a day
+  label: gain in reading proficiency
+- value: '92'
+  unit: '%'
+  label: on the 3rd grade state reading test, up from 86%
 image:
   src: ../../assets/images/case-studies/stephens-elementary/school-sign.jpg
   alt: The Nathaniel H. Stephens Elementary School sign under a shade tree in Alexander City, Alabama
@@ -91,13 +92,14 @@ body:
 - type: checklist
   items:
   - lead: 'Challenge:'
-    text: Third and fourth graders at a Title I school in rural Alabama had a full day of academics
-      and few tools for handling stress and big emotions.
+    text: Third and fourth graders at a Title I elementary school in rural Alabama had a full day of
+      academics and few tools for handling stress and big emotions.
   - lead: 'Solution:'
-    text: 5-10 minutes of audio-guided mindfulness in every classroom, every day, introduced through
-      a local pediatrician.
+    text: 5-10 minutes of daily audio-guided mindfulness in every classroom, introduced through a local
+      pediatrician.
   - lead: 'Outcome:'
-    text: 50% fewer office referrals in seven months, along with gains in math and English proficiency.
+    text: 50% fewer office referrals in seven months, gains in math and English proficiency, more regulated
+      students ready to learn.
 - type: video
 - type: heading
   id: challenge
@@ -113,7 +115,6 @@ body:
     academic things, but I'm not giving them anything that's helping them regulate emotionally.
   name: Brandy George
   role: 4th Grade Reading Teacher
-  initials: BG
 - type: paragraphs
   items:
   - A rough morning at home, a big test, or the energy of coming in from PE could throw a student
@@ -121,28 +122,38 @@ body:
     they could reach for on their own, before a hard moment turned into a trip to the office.
 - type: heading
   id: solution
-  text: 'The Solution: A Local Pediatrician Made the Connection'
+  text: 'The Solution: A Local Pediatrician Brought Daily Mindfulness to Stephens Elementary'
 - type: paragraphs
   items:
-  - The idea started outside the school. Dr. Eric Tyler, a pediatrician at Pediatric Associates of
-    Alexander City, approached Principal Richardson about Inner Explorer. Together they looked at
-    what Stephens students needed for their mental health and decided a daily mindfulness practice
-    was the right fit.
+  - The idea started outside the school. Dr. Eric Tyler has been a general pediatrician in Alexander
+    City for 45 years. In a letter about the program, he writes about how social media and gaming
+    pull at children’s attention, and how caregivers are often too short on time to give kids the
+    support they need.
+  - He learned about Inner Explorer in 2024 and brought it to Stephens Elementary himself. He and Principal
+    Lekishia Richardson looked at what students needed for their mental health, and daily practice
+    began in every classroom in August 2025.
 - type: quote
   text: We collaborated to see what was the need for the students when it comes to their mental health.
     And so what we decided to do was implement the program to make sure that our students have the
     coping strategies that they need.
   name: Lekishia Richardson
   role: Principal
-  initials: LR
-  portrait: ../../assets/images/case-studies/stephens-elementary/principal-richardson-portrait.jpg
+- type: quote
+  text: One year in, it has changed the culture of a school from Chaos to Calmness, allowing for a culture
+    that promotes learning, starting with the mastery of one’s own thoughts and feelings for students
+    and teachers alike.
+  name: Eric Tyler, M.D.
+  role: Pediatric Associates of Alexander City
+- type: paragraphs
+  items:
+  - He now wants every child in Alabama to have the same access, and he calls it “my mission throughout
+    the remainder of my career.”
 - type: subheading
   text: 5-10 minutes, built into every school day
 - type: paragraphs
   items:
-  - Stephens began Inner Explorer in the 2025-26 school year, and leadership made daily practice an
-    expectation in every classroom. Each practice is audio guided and takes about 5-10 minutes, so
-    teachers don't plan a lesson or lead the session themselves.
+  - Leadership made daily practice an expectation in every classroom. Each practice is audio guided
+    and takes about 5-10 minutes, so teachers don't plan a lesson or lead the session themselves.
   - 'Fourth grade math teacher Rachel Smith describes what students do: breathing techniques, head
     to toe body scans, and time to practice being comfortably quiet. *"It''s great to practice just
     having to sit and do things that they don''t get to do every day anymore, in this world of constant
@@ -155,19 +166,18 @@ body:
   text: Used when students need it most
 - type: paragraphs
   items:
-  - Teachers also use a practice at the points in the day when emotions tend to run high, like before
-    a test, right after PE, or any time the normal routine gets disrupted.
+  - In addition to the daily practices, teachers use *transitional practices* at the points in the
+    day when emotions tend to run high, like before a test, right after PE, or any time the normal
+    routine gets disrupted.
 - type: quote
-  text: Using that before tests, after PE, and just having a moment to breathe and settle into the
-    room and settle back into learning.
+  text: We are using mindfulness before tests, after PE, and just having a moment to breathe and settle
+    into the room and settle back into learning.
   name: Cora Blue
   role: 3rd Grade Math Teacher
-  initials: CB
 - type: quote
   text: It was extremely easy to implement this into our schedule because it only takes 10 minutes.
   name: Brandy George
   role: 4th Grade Reading Teacher
-  initials: BG
 - type: heading
   id: outcome
   text: 'The Outcome: Half as Many Office Referrals'
@@ -183,8 +193,6 @@ body:
     the only thing we've changed as far as discipline goals is implementing Inner Explorer.
   name: Lekishia Richardson
   role: Principal
-  initials: LR
-  portrait: ../../assets/images/case-studies/stephens-elementary/principal-richardson-portrait.jpg
 - type: note
   text: The 50% figure covers the first seven months of the school year, as reported by Principal Richardson.
     Full-year school discipline records show a 48% reduction.
@@ -195,6 +203,17 @@ body:
   - "Stephens students also posted gains on Alabama's state assessment: a 33% gain in math proficiency\
     \ and a 24% gain in English proficiency. Teachers say the daily practice helps students settle\
     \ and turn their attention back to the work in front of them."
+- type: subheading
+  text: State Assessment Increases
+- type: paragraphs
+  items:
+  - 3rd grade reading scores for state assessment jumped from 86% to 92%.
+- type: stats
+  items:
+  - value: 86%
+    label: Before
+  - value: 92%
+    label: After
 - type: figure
   image:
     src: ../../assets/images/case-studies/stephens-elementary/student-at-desk.jpg
@@ -209,7 +228,6 @@ body:
     pause and work it out within themselves. Their self-awareness has really increased.
   name: Tabetha Blankenship
   role: School Counselor
-  initials: TB
 - type: figure
   image:
     src: ../../assets/images/case-studies/stephens-elementary/student-hand-on-heart.jpg
@@ -226,39 +244,13 @@ body:
 - type: quote
   text: At home, sometimes I get mad at stuff. I just breathe in and out and it makes me calm down.
   name: Stephens Elementary student
-- type: heading
-  id: alabama
-  text: How Stephens Compares to Alabama
-- type: paragraphs
-  items:
-  - Over the same period, proficiency across Alabama rose 1.6% in English and 2.7% in math.
-- type: table
-  caption: Stephens Elementary vs. Alabama statewide
-  columns:
-  - ''
-  - Stephens Elementary
-  - Alabama statewide
-  rows:
-  - - English proficiency
-    - +24%
-    - +1.6%
-  - - Math proficiency
-    - +33%
-    - +2.7%
-  highlight: 1
-- type: note
-  text: 'Source: Alabama state assessment data. Statewide discipline data is not yet available for comparison.'
-- type: heading
-  id: in-their-words
-  text: In Their Words
 - type: quote
+  variant: closing
   text: It has assisted with discipline, it's helped with our academics as well. And so we felt like
     it was something that we needed to implement to make sure that our students are successful throughout
     the day.
   name: Lekishia Richardson
   role: Principal, N.H. Stephens Elementary School
-  initials: LR
-  portrait: ../../assets/images/case-studies/stephens-elementary/principal-richardson-portrait.jpg
 video:
   href: https://www.youtube.com/watch?v=FMpTpl96UKU
   title: Discover the impact on the Stephens Elementary staff and students
@@ -269,25 +261,20 @@ faq:
   title: Frequently Asked Questions
   items:
   - q: How did Stephens Elementary reduce office referrals?
-    a: Stephens added Inner Explorer's daily mindfulness practice to every classroom in the 2025-26
-      school year. Each practice takes about ten minutes. In the first seven months, office referrals
-      fell 50% compared to the prior year, and the school made no other changes to its discipline approach.
+    a: Stephens added daily mindfulness to every classroom in 2025-26. Office referrals fell 50% in
+      the first seven months, with no other change to its discipline approach.
   - q: How much time does Inner Explorer take each day?
-    a: Practices run 5 to 10 minutes. At Stephens, teachers use about ten minutes a day. Every practice
-      is audio guided, so there is no lesson to prepare or lead.
+    a: 5 to 10 minutes. Every practice is audio guided, so there is nothing for teachers to prepare.
   - q: Can a daily mindfulness practice improve test scores?
-    a: At Stephens, proficiency on Alabama's state assessment rose 33% in math and 24% in English in
-      the year students practiced daily, compared to statewide gains of 2.7% and 1.6%. Results from
-      a single school are correlational. Inner Explorer's peer-reviewed research, including a 2016
-      controlled study, found 15% higher GPA among students who practiced daily.
+    a: At Stephens, state assessment proficiency rose 33% in math and 24% in reading in the year students
+      practiced daily. A single school's results are correlational, but a 2016 controlled study found
+      15% higher GPA among students who practiced daily.
   - q: How did Stephens Elementary start using Inner Explorer?
-    a: Dr. Eric Tyler, a pediatrician at Pediatric Associates of Alexander City, connected the school
-      to Inner Explorer. He and Principal Lekishia Richardson worked together to identify what students
-      needed and chose a daily mindfulness practice.
+    a: Local pediatrician Dr. Eric Tyler brought it to the school and worked with Principal Lekishia
+      Richardson to launch daily practice in August 2025.
   - q: Does Inner Explorer work in Title I schools?
-    a: Yes. Stephens is a Title I school, and 78% of Inner Explorer's partner districts are majority
-      Title I. Practices are audio guided and need no prep, so the program fits into a school day without
-      adding work for teachers.
+    a: Yes. Stephens is Title I, and 78% of Inner Explorer's partner districts are majority Title I.
+      With no prep required, it fits the school day without adding work for teachers.
 cta:
   title: See What Daily Practice Could Look Like at Your School
   lead: Stephens started with one conversation between a principal and a local pediatrician. Tell us

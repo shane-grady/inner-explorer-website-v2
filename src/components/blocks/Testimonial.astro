@@ -2,7 +2,8 @@
 // One quote style for every educator quote: the green mark, the quote in Libre Caslon
 // Text, and the name and place under a rule. `card` (Raised) for a row of quotes,
 // `panel` (Tint) for a single quote beside other content, `accent` (Mist, Emerald top
-// border and mark) for Home's row. `initials` leads the name with a Spring disc (a case
+// border and mark) for Home's row, `closing` (Emerald ground, white ink, centered) for the
+// one quote that closes a case study. `initials` leads the name with a Spring disc (a case
 // study's quotes); a `portrait` takes the disc's place where one exists. No typed quotation
 // marks.
 import { Image } from 'astro:assets';
@@ -11,6 +12,7 @@ const VARIANT = {
   card: 'ie-card-raised',
   panel: 'ie-card-tint',
   accent: 'ie-card-accent',
+  closing: 'ie-card-closing items-center text-center',
 } as const satisfies Record<string, string>;
 
 interface Props {
@@ -24,10 +26,12 @@ interface Props {
   class?: string;
 }
 const { name, place, variant = 'card', initials, portrait, class: className }: Props = Astro.props;
+const closing = variant === 'closing';
 ---
 
 <figure
   class:list={['ie-card m-0 flex flex-col gap-5 p-6 md:gap-6 md:p-8', VARIANT[variant], className]}
+  data-on-brand={closing || undefined}
 >
   <svg
     class="ie-quote-mark text-icon-accent"
@@ -42,7 +46,12 @@ const { name, place, variant = 'card', initials, portrait, class: className }: P
     ></path>
   </svg>
   <blockquote class="m-0 grow type-quote text-foreground"><slot /></blockquote>
-  <figcaption class="flex items-center gap-3 border-t border-border pt-5">
+  <figcaption
+    class:list={[
+      'flex items-center gap-3 border-t border-border pt-5',
+      closing && 'justify-center self-stretch',
+    ]}
+  >
     {
       portrait && (
         <Image
