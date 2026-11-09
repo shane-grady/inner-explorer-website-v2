@@ -7,7 +7,8 @@
 # initials disc on any quote (names and roles only), the 86% to 92% state reading result in place
 # of "10 minutes a day", and no Alabama statewide comparison (not figures the school gave us).
 # The principal's closing quote stands alone in the `closing` style, without the doc's "In Their
-# Words" heading (the hero already carries that eyebrow).
+# Words" heading (the hero already carries that eyebrow). The second student quote gave way to a
+# two-line wrap-up written for the page (not in the doc), the user's call 2026-11-09.
 # Where the copy sits in the template: the video follows the Quick Read; Rachel Smith's quote
 # and the first student quote run inline in their paragraphs (the user's call, 2026-10-15); the Quick Read is the first body block (no lead); "Results
 # at a Glance" is the hero's results; the doc's closing section is the `cta`. The SEO fields, slug,
@@ -16,7 +17,7 @@
 # Photos are frames from the school's testimonial video, cropped clear of the letterbox and the
 # Pediatric Associates watermark. Three sit in the body as uncaptioned figures.
 #
-# PUBLISH GATE (the doc's "Flags to Confirm"; keep `unlisted: true` until each is signed off):
+# The doc's "Flags to Confirm" (open when the user chose to list the page, 2026-11-09):
 # 1. School year 2025-26, and the +24% reading / +33% math gains from spring 2026 testing (Laura).
 # 2. 33% and 24%: relative increases or percentage-point gains (Laura).
 # 3. 50% (seven months, the video) vs 48% (full-year records): the note under the quote says so.
@@ -24,9 +25,7 @@
 # 5. Light quote edits (filler words removed): the speakers should be comfortable with them.
 order: 7
 draft: false
-# Live but unlisted until the PUBLISH GATE items are signed off (the user's call, 2026-10-15):
-# then drop this line to add it to the index, related rows and the sitemap.
-unlisted: true
+# Listed on the index, related rows and the sitemap since 2026-11-09 (the user's call).
 seo:
   title: Stephens Elementary Cut Referrals by 50% | Inner Explorer
   description: Stephens Elementary in Alabama cut office referrals 50% in seven months with 10 minutes
@@ -241,9 +240,11 @@ body:
     but in their day to day lives." Students say the same thing in their own words. *"If I wake up
     on the wrong side of the bed, it helps me and it calms me down. It helps me get my mind straight
     and get ready for the day."*
-- type: quote
-  text: At home, sometimes I get mad at stuff. I just breathe in and out and it makes me calm down.
-  name: Stephens Elementary student
+- type: paragraphs
+  items:
+  - One conversation between a local pediatrician and a principal gave Stephens students a few minutes
+    of calm every day. Within one school year, students had tools to reset on their own, and office
+    referrals had dropped by about half.
 - type: quote
   variant: closing
   text: It has assisted with discipline, it's helped with our academics as well. And so we felt like
