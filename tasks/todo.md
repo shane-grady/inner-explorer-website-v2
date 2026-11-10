@@ -780,8 +780,8 @@ Pages, Organic Research). Done in one PR:
       its one keyword (brand plus 20–50 non-brand terms, desktop and mobile, 3–5 competitors).
 - [ ] Re-run Semrush Indexed Pages (filter 4xx) after the deploy; it lists only the top 100
       linked URLs per call (about 4,200 API units).
-- [ ] `/program/`'s title is 66 characters ("Program — daily mindfulness for every classroom |
-      Inner Explorer"); not flagged by Semrush, but over 60.
+- [x] `/program/`'s title is 66 characters ("Program — daily mindfulness for every classroom |
+      Inner Explorer"); not flagged by Semrush, but over 60. Now 54 (core page metadata update).
 
 ## Core Web Vitals (2026-11)
 

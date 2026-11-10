@@ -39,7 +39,7 @@ export function relatedNews(posts: NewsEntry[], post: NewsEntry, count = 3): New
 
 /** Google shows about 60 characters of a <title>. */
 export const TITLE_MAX = 60;
-const BRAND = ' — Inner Explorer';
+const BRAND = ' | Inner Explorer';
 
 /** A post's <title>: its `metaTitle` or headline, with the brand only when it still fits. */
 export function newsTitle(post: NewsEntry): string {
