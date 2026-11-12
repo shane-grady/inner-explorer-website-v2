@@ -29,6 +29,7 @@ import stepTogether from '../assets/images/home/step-practice-together.webp';
 import stepReflect from '../assets/images/home/step-reflect.webp';
 import programPhoto from '../assets/images/home/program-student-sunlit.jpg';
 import ctaPhoto from '../assets/images/home/cta-two-boys.jpg';
+import { ctaAttrs } from '../lib/cta';
 
 const content = {
   title: 'Inner Explorer | Daily Mindfulness for Schools, PreK-12',
@@ -345,10 +346,20 @@ const share = await shareImage(content.hero.slides[0].src);
     slides={content.hero.slides}
     lead={content.hero.lead}
   >
-    <Button slot="actions" href={content.hero.primary.href} arrow>
+    <Button
+      slot="actions"
+      href={content.hero.primary.href}
+      {...ctaAttrs(content.hero.primary.href, 'hero')}
+      arrow
+    >
       {content.hero.primary.label}
     </Button>
-    <Button slot="actions" variant="secondary" href={content.hero.secondary.href}>
+    <Button
+      slot="actions"
+      variant="secondary"
+      href={content.hero.secondary.href}
+      {...ctaAttrs(content.hero.secondary.href, 'hero')}
+    >
       {content.hero.secondary.label}
     </Button>
   </PhotoHero>
@@ -402,6 +413,7 @@ const share = await shareImage(content.hero.slides[0].src);
         <Button
           variant="secondary"
           href={content.whyNow.problem.action.href}
+          {...ctaAttrs(content.whyNow.problem.action.href, 'mid-page')}
           class="mt-2 lg:mt-auto lg:self-start"
         >
           {content.whyNow.problem.action.label}
@@ -416,6 +428,7 @@ const share = await shareImage(content.hero.slides[0].src);
         <Button
           variant="light"
           href={content.whyNow.solution.action.href}
+          {...ctaAttrs(content.whyNow.solution.action.href, 'mid-page')}
           arrow
           class="mt-2 lg:mt-auto lg:self-start"
         >
@@ -526,6 +539,7 @@ const share = await shareImage(content.hero.slides[0].src);
         <Button
           variant="secondary"
           href={content.program.practice.action.href}
+          {...ctaAttrs(content.program.practice.action.href, 'mid-page')}
           class="md:self-start"
         >
           {content.program.practice.action.label}
@@ -593,7 +607,12 @@ const share = await shareImage(content.hero.slides[0].src);
           size="sm"
           class="md:grid-flow-col md:grid-rows-3"
         />
-        <Button href={content.program.foundation.action.href} arrow class="md:self-start">
+        <Button
+          href={content.program.foundation.action.href}
+          {...ctaAttrs(content.program.foundation.action.href, 'mid-page')}
+          arrow
+          class="md:self-start"
+        >
           {content.program.foundation.action.label}
         </Button>
       </div>
@@ -745,7 +764,12 @@ const share = await shareImage(content.hero.slides[0].src);
       </div>
       <div class="flex flex-col gap-6">
         <p class="m-0 max-w-135 type-lead text-foreground-secondary">{content.voices.lead}</p>
-        <Button href={content.voices.action.href} arrow class="lg:self-start">
+        <Button
+          href={content.voices.action.href}
+          {...ctaAttrs(content.voices.action.href, 'mid-page')}
+          arrow
+          class="lg:self-start"
+        >
           {content.voices.action.label}
         </Button>
       </div>
@@ -775,7 +799,12 @@ const share = await shareImage(content.hero.slides[0].src);
           {content.funding.text}
         </p>
       </div>
-      <Button variant="secondary" href={content.funding.action.href} class="lg:shrink-0">
+      <Button
+        variant="secondary"
+        href={content.funding.action.href}
+        {...ctaAttrs(content.funding.action.href, 'mid-page')}
+        class="lg:shrink-0"
+      >
         {content.funding.action.label}
       </Button>
     </div>

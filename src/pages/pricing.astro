@@ -13,6 +13,7 @@ import Icon from '../components/ui/Icon.astro';
 import Checklist from '../components/ui/Checklist.astro';
 import ClosingCta from '../components/blocks/ClosingCta.astro';
 import { emphasize } from '../lib/emphasize';
+import { ctaAttrs, pricingCtaLocation } from '../lib/cta';
 
 /** A comparison cell: included, not included, not applicable, a priced add-on, or text. */
 type Cell = 'yes' | 'no' | 'na' | { price: string; note?: string } | string;
@@ -295,7 +296,14 @@ const productLd = {
             <p class="m-0 border-t border-border pt-5 type-list text-foreground-secondary">
               {plan.blurb}
             </p>
-            <Button variant="secondary" href={content.ctaHref} block arrow class="mt-auto">
+            <Button
+              variant="secondary"
+              href={content.ctaHref}
+              {...ctaAttrs(content.ctaHref, pricingCtaLocation(plan.name))}
+              block
+              arrow
+              class="mt-auto"
+            >
               {content.ctaLabel}
               <span class="sr-only"> about the {plan.name} plan</span>
             </Button>
@@ -440,6 +448,7 @@ const productLd = {
                               variant="secondary"
                               size="sm"
                               href={content.ctaHref}
+                              {...ctaAttrs(content.ctaHref, pricingCtaLocation(plan.name))}
                               block
                               class="mt-3.5 hidden lg:inline-flex"
                             >
@@ -547,7 +556,13 @@ const productLd = {
                     {
                       content.plans.map((plan) => (
                         <td class="px-5 py-6 align-middle">
-                          <Button variant="secondary" size="sm" href={content.ctaHref} block>
+                          <Button
+                            variant="secondary"
+                            size="sm"
+                            href={content.ctaHref}
+                            {...ctaAttrs(content.ctaHref, pricingCtaLocation(plan.name))}
+                            block
+                          >
                             {content.ctaLabel}
                             <span class="sr-only"> about the {plan.name} plan</span>
                           </Button>
@@ -561,7 +576,12 @@ const productLd = {
                       <span class="type-small text-foreground-secondary">
                         {compare.footer.text}
                       </span>
-                      <Button href={content.ctaHref} arrow class="mt-1">
+                      <Button
+                        href={content.ctaHref}
+                        {...ctaAttrs(content.ctaHref, 'pricing-compare')}
+                        arrow
+                        class="mt-1"
+                      >
                         {content.ctaLabel}
                       </Button>
                     </td>
@@ -645,7 +665,13 @@ const productLd = {
             <p class="m-0 type-intro font-bold text-foreground">{content.addons.prompt}</p>
             <p class="m-0 type-label text-foreground-muted">{content.addons.disclaimer}</p>
           </div>
-          <Button variant="light" href={content.ctaHref} arrow class="mt-1 shrink-0 lg:mt-0">
+          <Button
+            variant="light"
+            href={content.ctaHref}
+            {...ctaAttrs(content.ctaHref, 'pricing-add-ons')}
+            arrow
+            class="mt-1 shrink-0 lg:mt-0"
+          >
             {content.ctaLabel}
             <span class="sr-only"> about the {content.addons.title}</span>
           </Button>

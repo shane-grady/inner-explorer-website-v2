@@ -12,13 +12,16 @@
 // which serves this exact same production build (see
 // netlify/edge-functions/noindex-netlify-host.ts) and shouldn't count as real
 // traffic any more than it should be indexed.
+import { HUBSPOT } from '../../lib/site';
+
 interface Props {
   measurementId: string;
 }
 const { measurementId } = Astro.props;
+const { contactFormId } = HUBSPOT;
 ---
 
-<script define:vars={{ measurementId }}>
+<script define:vars={{ measurementId, contactFormId }}>
   if (!location.hostname.endsWith('.netlify.app')) {
     window.dataLayer = window.dataLayer || [];
     // `arguments`, never a rest-param array: gtag.js runs only Arguments objects as gtag
@@ -34,7 +37,7 @@ const { measurementId } = Astro.props;
     // gtag.js itself waits on LoadGate (first interaction or 3s after load); the queued
     // `config` above sends the page view once it arrives.
     let state = 'idle'; // idle → loading → ready, or failed (e.g. an ad blocker)
-    let pendingNavigation; // a held Sign in click, released if gtag.js fails
+    let pendingNavigation; // a held link click, released if gtag.js fails
     const loadTracker = () => {
       if (state !== 'idle') return;
       state = 'loading';
@@ -50,41 +53,88 @@ const { measurementId } = Astro.props;
     };
     (window.__ieGate?.engaged ?? Promise.resolve()).then(loadTracker);
 
-    // Clicks through to the platform. `beacon` lets the event send while the page unloads.
-    // Delegated from document so it covers every link, including ones rendered later. A
-    // tracking error must never stop the navigation, so it is swallowed.
+    // Link events. `beacon` lets an event send while the page unloads. Delegated from
+    // document so it covers every link, including ones rendered later. A tracking error must
+    // never stop the navigation, so it is swallowed.
     //
-    // Returning teachers often click Sign in first, before gtag.js has loaded, and a queued
-    // event dies with the page. While gtag.js is still on its way, a plain same-tab click
-    // waits for the hit (at most 800ms) before navigating; new-tab and modified clicks keep
-    // the page, so they don't, and a blocked gtag.js never delays anyone.
+    // Visitors often click before gtag.js has loaded (returning teachers go straight to Sign
+    // in), and a queued event dies with the page. While gtag.js is still on its way, a plain
+    // same-tab click waits for the hit (at most 800ms) before navigating; new-tab and
+    // modified clicks keep the page, so they don't, and a blocked gtag.js never delays anyone.
+    const sendForLink = (event, link, name, params) => {
+      const sameTab =
+        event.button === 0 &&
+        !event.defaultPrevented &&
+        !(event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) &&
+        (!link.target || link.target === '_self');
+      const hit = { ...params, transport_type: 'beacon' };
+      if ((state === 'idle' || state === 'loading') && sameTab) {
+        event.preventDefault();
+        let gone = false;
+        const go = () => {
+          if (gone) return;
+          gone = true;
+          location.assign(link.href);
+        };
+        pendingNavigation = go;
+        setTimeout(go, 800);
+        loadTracker();
+        window.gtag('event', name, { ...hit, event_callback: go });
+      } else {
+        window.gtag('event', name, hit);
+      }
+    };
+
+    // The label a sighted visitor reads: screen-reader-only context (Pricing's "about the
+    // Community plan") is left out.
+    const visibleText = (el) => {
+      const copy = el.cloneNode(true);
+      copy.querySelectorAll('.sr-only').forEach((node) => node.remove());
+      return (copy.textContent || '').replace(/\s+/g, ' ').trim();
+    };
+
     document.addEventListener('click', (event) => {
       try {
-        const link = event.target instanceof Element && event.target.closest('a');
-        if (!link || !link.href.startsWith('https://app.innerexplorer.com')) return;
-        const params = { link_url: link.href, transport_type: 'beacon' };
-        const sameTab =
-          event.button === 0 &&
-          !event.defaultPrevented &&
-          !(event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) &&
-          (!link.target || link.target === '_self');
-        if ((state === 'idle' || state === 'loading') && sameTab) {
-          event.preventDefault();
-          let gone = false;
-          const go = () => {
-            if (gone) return;
-            gone = true;
-            location.assign(link.href);
+        if (!(event.target instanceof Element)) return;
+
+        // Calls to action: every link to /contact/ carries data-cta-location (src/lib/cta.ts).
+        const cta = event.target.closest('[data-cta-location]');
+        if (cta) {
+          const link = cta instanceof HTMLAnchorElement && cta.href ? cta : null;
+          const params = {
+            cta_location: cta.getAttribute('data-cta-location'),
+            cta_text: visibleText(cta),
+            link_url: link ? link.href : undefined,
           };
-          pendingNavigation = go;
-          setTimeout(go, 800);
-          loadTracker();
-          window.gtag('event', 'platform_sign_in', { ...params, event_callback: go });
-        } else {
-          window.gtag('event', 'platform_sign_in', params);
+          if (link) sendForLink(event, link, 'cta_click', params);
+          else window.gtag('event', 'cta_click', params);
+          return;
         }
+
+        // Clicks through to the platform.
+        const link = event.target.closest('a');
+        if (!link || !link.href.startsWith('https://app.innerexplorer.com')) return;
+        sendForLink(event, link, 'platform_sign_in', { link_url: link.href });
       } catch {
         // Ignore: analytics must not affect the click.
+      }
+    });
+
+    // A lead: the /contact HubSpot form posts `onFormSubmitted` (a window message) once it
+    // has been accepted. Other HubSpot forms (a case study's PDF request) are not leads here.
+    window.addEventListener('message', (event) => {
+      try {
+        const data = event.data;
+        if (
+          data &&
+          data.type === 'hsFormCallback' &&
+          data.eventName === 'onFormSubmitted' &&
+          data.id === contactFormId
+        ) {
+          window.gtag('event', 'generate_lead', { form_location: 'contact_page' });
+        }
+      } catch {
+        // Ignore: analytics must not affect the form.
       }
     });
   }

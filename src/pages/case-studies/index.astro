@@ -13,6 +13,7 @@ import StoryCard from '../../components/blocks/StoryCard.astro';
 import ClosingCta from '../../components/blocks/ClosingCta.astro';
 import { caseStudyHeadline, caseStudyHref, getCaseStudies } from '../../lib/case-studies';
 import { MAIN_SITE } from '../../lib/site';
+import { ctaAttrs } from '../../lib/cta';
 
 const content = {
   title: 'School Mindfulness Case Studies | Inner Explorer',
@@ -74,8 +75,16 @@ const collectionLd = {
       lead={content.hero.lead}
     >
       <Fragment slot="actions">
-        <Button href={content.hero.primary.href} arrow>{content.hero.primary.label}</Button>
-        <Button href={content.hero.secondary.href} variant="secondary">
+        <Button
+          href={content.hero.primary.href}
+          {...ctaAttrs(content.hero.primary.href, 'hero')}
+          arrow>{content.hero.primary.label}</Button
+        >
+        <Button
+          href={content.hero.secondary.href}
+          {...ctaAttrs(content.hero.secondary.href, 'hero')}
+          variant="secondary"
+        >
           {content.hero.secondary.label}
         </Button>
       </Fragment>
