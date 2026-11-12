@@ -22,6 +22,7 @@ import StatTiles from '../../components/content/StatTiles.astro';
 import ResourceCard from '../../components/content/ResourceCard.astro';
 import { articleSchema, breadcrumbSchema, faqPageSchema } from '../../lib/schema';
 import { emphasize } from '../../lib/emphasize';
+import { ctaAttrs } from '../../lib/cta';
 import { readingTime } from '../../lib/reading-time';
 import {
   getNews,
@@ -393,12 +394,23 @@ const schemas = [
             />
             <p class="m-0 mt-3 type-lead font-normal text-foreground lg:mt-4">{cta.lead}</p>
             <div class="mt-6 flex flex-col gap-1 lg:mt-8 lg:flex-row lg:items-center lg:gap-6">
-              <Button variant="light" href={cta.primary.href} arrow class="ie-btn-block lg:w-auto">
+              <Button
+                variant="light"
+                href={cta.primary.href}
+                {...ctaAttrs(cta.primary.href, 'bottom-cta')}
+                arrow
+                class="ie-btn-block lg:w-auto"
+              >
                 {cta.primary.label}
               </Button>
               {
                 cta.secondary && (
-                  <ArrowLink light href={cta.secondary.href} class="self-center lg:self-auto">
+                  <ArrowLink
+                    light
+                    href={cta.secondary.href}
+                    {...ctaAttrs(cta.secondary.href, 'bottom-cta')}
+                    class="self-center lg:self-auto"
+                  >
                     {cta.secondary.label}
                   </ArrowLink>
                 )
@@ -472,7 +484,12 @@ const schemas = [
                 <p class="m-0 type-eyebrow text-foreground">{cta.eyebrow}</p>
                 <p class="m-0 type-card-title-md text-foreground">{cta.rail.title}</p>
                 <p class="m-0 type-label text-foreground-body">{cta.rail.text}</p>
-                <Button href={cta.primary.href} size="sm" class="mt-2">
+                <Button
+                  href={cta.primary.href}
+                  {...ctaAttrs(cta.primary.href, 'sidebar')}
+                  size="sm"
+                  class="mt-2"
+                >
                   {cta.primary.label}
                 </Button>
               </div>

@@ -7,6 +7,7 @@ import sitemap from '@astrojs/sitemap';
 import mdx from '@astrojs/mdx';
 import tailwindcss from '@tailwindcss/vite';
 import { HELP_SITE, MAIN_SITE } from './src/lib/site';
+import { rehypeCtaLocation } from './src/lib/cta';
 
 // Case studies marked `unlisted: true` (src/content.config.ts): live, but kept out of the sitemap.
 const CASE_STUDIES = './src/content/case-studies';
@@ -47,6 +48,9 @@ export default defineConfig({
         !page.includes('/styleguide/') && !UNLISTED.some((path) => page.endsWith(path)),
     }),
   ],
+
+  // Markdown and MDX links to /contact/ carry `data-cta-location` for GA4's cta_click.
+  markdown: { rehypePlugins: [rehypeCtaLocation] },
 
   vite: { plugins: [tailwindcss()] },
 });

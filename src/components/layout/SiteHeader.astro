@@ -10,6 +10,7 @@ import Icon from '../ui/Icon.astro';
 import Logo from '../ui/Logo.astro';
 import MobileMenu from './MobileMenu.astro';
 import { contactCta, navCurrent, primaryNav, signIn } from '../../data/navigation';
+import { ctaAttrs } from '../../lib/cta';
 
 interface Props {
   dark?: boolean;
@@ -63,6 +64,7 @@ const current = (href: string) => (sample ? undefined : navCurrent(Astro.url.pat
       variant={dark ? 'ghost' : 'primary'}
       size="sm"
       href={contactCta.href}
+      {...ctaAttrs(contactCta.href, 'nav')}
       aria-current={current(contactCta.href)}
       class="px-3 sm:px-6"
     >

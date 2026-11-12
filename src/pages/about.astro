@@ -51,6 +51,7 @@ import fox from '../assets/images/about/logos/fox-news.png';
 import nbc from '../assets/images/about/logos/nbc.png';
 import fortune from '../assets/images/about/logos/fortune.png';
 import mindful from '../assets/images/about/logos/mindful.png';
+import { ctaAttrs } from '../lib/cta';
 
 const content = {
   title: 'Our Story and Mission | Inner Explorer',
@@ -354,8 +355,16 @@ const share = await shareImage(content.hero.image.src);
     <div class="grid gap-8 xl:grid-cols-2 xl:items-center xl:gap-20">
       <PageTitle eyebrow={content.hero.eyebrow} title={content.hero.title} lead={content.hero.lead}>
         <Fragment slot="actions">
-          <Button href={content.hero.primary.href} arrow>{content.hero.primary.label}</Button>
-          <Button variant="secondary" href={content.hero.secondary.href}>
+          <Button
+            href={content.hero.primary.href}
+            {...ctaAttrs(content.hero.primary.href, 'hero')}
+            arrow>{content.hero.primary.label}</Button
+          >
+          <Button
+            variant="secondary"
+            href={content.hero.secondary.href}
+            {...ctaAttrs(content.hero.secondary.href, 'hero')}
+          >
             {content.hero.secondary.label}
           </Button>
         </Fragment>
@@ -495,7 +504,11 @@ const share = await shareImage(content.hero.image.src);
           {content.research.lead}
         </p>
         <div class="mt-7 flex flex-col md:mt-8 md:flex-row">
-          <Button variant="secondary" href={content.research.cta.href}>
+          <Button
+            variant="secondary"
+            href={content.research.cta.href}
+            {...ctaAttrs(content.research.cta.href, 'mid-page')}
+          >
             {content.research.cta.label}
           </Button>
         </div>

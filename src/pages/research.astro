@@ -19,6 +19,7 @@ import ClosingCta from '../components/blocks/ClosingCta.astro';
 import { MAIN_SITE } from '../lib/site';
 
 import neurons from '../assets/images/research/neurons.jpg';
+import { ctaAttrs } from '../lib/cta';
 
 const content = {
   title: 'Research on Mindfulness in Schools | Inner Explorer',
@@ -760,8 +761,14 @@ const { brain } = hero;
             {hero.lead}
           </p>
           <div class="mt-7 flex flex-col gap-3 md:flex-row lg:mt-10">
-            <Button href={hero.primary.href} arrow>{hero.primary.label}</Button>
-            <Button variant="ghost" href={hero.secondary.href}>{hero.secondary.label}</Button>
+            <Button href={hero.primary.href} {...ctaAttrs(hero.primary.href, 'hero')} arrow
+              >{hero.primary.label}</Button
+            >
+            <Button
+              variant="ghost"
+              href={hero.secondary.href}
+              {...ctaAttrs(hero.secondary.href, 'hero')}>{hero.secondary.label}</Button
+            >
           </div>
         </div>
 
