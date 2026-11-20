@@ -54,7 +54,14 @@ export function newsTitle(post: NewsEntry): string {
 
 const LONG = new Intl.DateTimeFormat('en-US', { dateStyle: 'long', timeZone: 'UTC' });
 const SHORT = new Intl.DateTimeFormat('en-US', { dateStyle: 'medium', timeZone: 'UTC' });
+const MONTH = new Intl.DateTimeFormat('en-US', {
+  month: 'long',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
 export const longDate = (date: Date) => LONG.format(date);
+/** "January 2022": a refreshed article's byline ("Published … · Updated …"). */
+export const monthDate = (date: Date) => MONTH.format(date);
 export const shortDate = (date: Date) => SHORT.format(date);
 export const isoDate = (date: Date) => date.toISOString().slice(0, 10);
 
