@@ -27,6 +27,7 @@ import {
   getNews,
   isoDate,
   longDate,
+  monthDate,
   newsPath,
   newsroomCta,
   newsTitle,
@@ -37,6 +38,9 @@ import {
 const content = {
   breadcrumb: { label: 'Newsroom', href: '/newsroom/' },
   byline: 'By',
+  // An article with an `updatedDate` reads "Published January 2022 · Updated November 2026".
+  published: 'Published',
+  updated: 'Updated',
   outline: 'On this page',
   sections: (n: number) => `${n} sections`,
   faqLabel: 'FAQ',
@@ -207,11 +211,27 @@ const schemas = [
             }
             {a && <span class="mx-2 hidden h-8 w-px bg-border lg:block" aria-hidden="true" />}
             <p
-              class="m-0 flex items-center gap-2 type-label leading-tight text-foreground-muted lg:gap-4"
+              class="m-0 flex flex-wrap items-center gap-x-2 gap-y-1 type-label leading-tight text-foreground-muted lg:gap-x-4"
             >
-              <time datetime={isoDate(d.pubDate)}>{longDate(d.pubDate)}</time>
+              {
+                d.updatedDate ? (
+                  <>
+                    <span class="whitespace-nowrap">
+                      {content.published}{' '}
+                      <time datetime={isoDate(d.pubDate)}>{monthDate(d.pubDate)}</time>
+                    </span>
+                    <span aria-hidden="true">·</span>
+                    <span class="whitespace-nowrap">
+                      {content.updated}{' '}
+                      <time datetime={isoDate(d.updatedDate)}>{monthDate(d.updatedDate)}</time>
+                    </span>
+                  </>
+                ) : (
+                  <time datetime={isoDate(d.pubDate)}>{longDate(d.pubDate)}</time>
+                )
+              }
               <span aria-hidden="true">·</span>
-              <span class="flex items-center gap-1 lg:gap-2">
+              <span class="flex items-center gap-1 whitespace-nowrap lg:gap-2">
                 <Icon name="clock" size={16} />{reading}
               </span>
             </p>
