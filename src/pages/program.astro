@@ -32,6 +32,7 @@ import dailyPractice from '../assets/images/program/daily-practice-students.jpg'
 import dashboard from '../assets/images/program/dashboard-overview.webp';
 import pressPlay from '../assets/images/program/classroom-press-play.jpg';
 import ctaPhoto from '../assets/images/program/cta-high-school-student.jpg';
+import { ctaAttrs } from '../lib/cta';
 
 /** A sample practice. Its player works once `audio` (a file under public/, e.g.
  *  '/audio/program/early.mp3') is set; until then the play button is disabled and the time row
@@ -410,8 +411,16 @@ const share = await shareImage(sharePlayer);
     <div class="flex flex-col gap-10 xl:flex-row xl:items-center xl:gap-16">
       <PageTitle title={content.hero.title} lead={content.hero.lead} class="xl:flex-1">
         <Fragment slot="actions">
-          <Button href={content.hero.primary.href} arrow>{content.hero.primary.label}</Button>
-          <Button variant="secondary" href={content.hero.secondary.href}>
+          <Button
+            href={content.hero.primary.href}
+            {...ctaAttrs(content.hero.primary.href, 'hero')}
+            arrow>{content.hero.primary.label}</Button
+          >
+          <Button
+            variant="secondary"
+            href={content.hero.secondary.href}
+            {...ctaAttrs(content.hero.secondary.href, 'hero')}
+          >
             {content.hero.secondary.label}
           </Button>
         </Fragment>

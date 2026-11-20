@@ -33,6 +33,7 @@ import {
   getCaseStudies,
   type CaseStudy,
 } from '../../lib/case-studies';
+import { ctaAttrs } from '../../lib/cta';
 
 export async function getStaticPaths() {
   // Unlisted stories get their pages, but never appear in another story's related row.
@@ -231,7 +232,11 @@ const crumbLd = breadcrumbSchema(Astro.site, [
               ))}
             </ul>
             <div class="mt-4 flex flex-col gap-3 md:flex-row md:flex-wrap lg:mt-5">
-              <Button href={content.hero.primary.href} arrow>
+              <Button
+                href={content.hero.primary.href}
+                {...ctaAttrs(content.hero.primary.href, 'hero')}
+                arrow
+              >
                 {content.hero.primary.label}
               </Button>
               {d.pdf && (
@@ -660,7 +665,12 @@ const crumbLd = breadcrumbSchema(Astro.site, [
         <div class="ie-card ie-card-raised flex flex-col gap-2 p-5">
           <p class="m-0 type-eyebrow text-foreground">{content.rail.eyebrow}</p>
           <p class="m-0 type-card-title-md text-foreground">{content.rail.title}</p>
-          <Button class="mt-2" href={content.rail.primary.href} size="sm">
+          <Button
+            class="mt-2"
+            href={content.rail.primary.href}
+            {...ctaAttrs(content.rail.primary.href, 'sidebar')}
+            size="sm"
+          >
             {content.rail.primary.label}
           </Button>
           {

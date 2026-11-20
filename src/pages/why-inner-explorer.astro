@@ -32,6 +32,7 @@ import reasonFunding from '../assets/images/why/reason-funding.jpg';
 import reasonEducators from '../assets/images/why/reason-educators.jpg';
 import curriculumPhoto from '../assets/images/why/curriculum-shared-table.jpg';
 import ctaPhoto from '../assets/images/why/cta-class-at-board.jpg';
+import { ctaAttrs } from '../lib/cta';
 
 const content = {
   title: 'Benefits of Daily Mindfulness for Students | Inner Explorer',
@@ -430,8 +431,16 @@ const share = await shareImage(content.hero.image.src);
     <div class="flex flex-col gap-9 lg:grid lg:grid-cols-2 lg:items-center lg:gap-18">
       <PageTitle eyebrow={content.hero.eyebrow} title={content.hero.title} lead={content.hero.lead}>
         <Fragment slot="actions">
-          <Button href={content.hero.primary.href} arrow>{content.hero.primary.label}</Button>
-          <Button variant="secondary" href={content.hero.secondary.href}>
+          <Button
+            href={content.hero.primary.href}
+            {...ctaAttrs(content.hero.primary.href, 'hero')}
+            arrow>{content.hero.primary.label}</Button
+          >
+          <Button
+            variant="secondary"
+            href={content.hero.secondary.href}
+            {...ctaAttrs(content.hero.secondary.href, 'hero')}
+          >
             {content.hero.secondary.label}
           </Button>
         </Fragment>
@@ -619,7 +628,13 @@ const share = await shareImage(content.hero.image.src);
       <div class="flex flex-col gap-8">
         <StatStrip variant="ruled" stats={content.results.stats} />
         <div>
-          <Button variant="light" href={content.results.action.href} arrow class="max-md:w-full">
+          <Button
+            variant="light"
+            href={content.results.action.href}
+            {...ctaAttrs(content.results.action.href, 'mid-page')}
+            arrow
+            class="max-md:w-full"
+          >
             {content.results.action.label}
           </Button>
         </div>
@@ -937,7 +952,12 @@ const share = await shareImage(content.hero.image.src);
         <p class="m-0 type-card-title-md text-foreground">{content.funding.panel.title}</p>
         <p class="m-0 max-w-155 type-body text-foreground-body">{content.funding.panel.text}</p>
       </div>
-      <Button href={content.funding.panel.action.href} arrow class="max-lg:w-full lg:shrink-0">
+      <Button
+        href={content.funding.panel.action.href}
+        {...ctaAttrs(content.funding.panel.action.href, 'mid-page')}
+        arrow
+        class="max-lg:w-full lg:shrink-0"
+      >
         {content.funding.panel.action.label}
       </Button>
     </div>
@@ -999,6 +1019,7 @@ const share = await shareImage(content.hero.image.src);
       <Button
         variant="light"
         href={content.questions.action.href}
+        {...ctaAttrs(content.questions.action.href, 'mid-page')}
         arrow
         class="max-lg:w-full lg:shrink-0"
       >
@@ -1035,10 +1056,19 @@ const share = await shareImage(content.hero.image.src);
         </h2>
         <p class="m-0 max-w-measure type-lead text-foreground-secondary">{content.cta.lead}</p>
         <div class="mt-3 flex flex-col gap-3 self-stretch md:flex-row md:self-auto">
-          <Button variant="light" href={content.cta.primary.href} arrow>
+          <Button
+            variant="light"
+            href={content.cta.primary.href}
+            {...ctaAttrs(content.cta.primary.href, 'bottom-cta')}
+            arrow
+          >
             {content.cta.primary.label}
           </Button>
-          <Button variant="ghost" href={content.cta.secondary.href}>
+          <Button
+            variant="ghost"
+            href={content.cta.secondary.href}
+            {...ctaAttrs(content.cta.secondary.href, 'bottom-cta')}
+          >
             {content.cta.secondary.label}
           </Button>
         </div>
