@@ -13,22 +13,24 @@
 # and the first student quote run inline in their paragraphs (the user's call, 2026-10-15); the Quick Read is the first body block (no lead); "Results
 # at a Glance" is the hero's results; the doc's closing section is the `cta`. The SEO fields, slug,
 # tags and the "At a glance" facts are the doc's Publishing Package and Library Tags. The hero quote
-# is Principal Richardson's 50% quote; it also stays in the Outcome section, as the doc has it.
+# is Principal Richardson's discipline-and-academics quote, also the closing quote (the user's call,
+# 2026-11-23, so the hero shows no 50% beside the 48% stats). Her 50% quote stays in the Outcome section.
 # Photos are frames from the school's testimonial video, cropped clear of the letterbox and the
 # Pediatric Associates watermark. Three sit in the body as uncaptioned figures.
 #
 # The doc's "Flags to Confirm" (open when the user chose to list the page, 2026-11-09):
 # 1. School year 2025-26, and the +24% reading / +33% math gains from spring 2026 testing (Laura).
 # 2. 33% and 24%: relative increases or percentage-point gains (Laura).
-# 3. 50% (seven months, the video) vs 48% (full-year records): the note under the quote says so.
+# 3. 50% (seven months, the video) vs 48% (full-year records): the page's stats use 48% (the user's
+#    call, 2026-11-23); the principal's quotes keep her 50%, and the note under the quote explains it.
 # 4. "Before tests, after PE" is credited to Cora Blue as a best guess (spoken over footage).
 # 5. Light quote edits (filler words removed): the speakers should be comfortable with them.
 order: 7
 draft: false
 # Listed on the index, related rows and the sitemap since 2026-11-09 (the user's call).
 seo:
-  title: Stephens Elementary Cut Office Discipline Referrals 50%
-  description: Stephens Elementary in Alabama cut office referrals 50% in seven months with 10 minutes
+  title: Stephens Elementary Cut Office Discipline Referrals 48%
+  description: Stephens Elementary in Alabama cut office referrals 48% in one school year with 10 minutes
     of daily mindfulness, plus gains in math and English proficiency.
 publishedDate: '2026-10-15'
 level: Elementary
@@ -39,7 +41,7 @@ tags:
 - behavior
 - academics
 title:
-  lead: How N.H. Stephens Elementary Cut Office Referrals 50% in Seven Months
+  lead: How N.H. Stephens Elementary Cut Office Referrals 48% in One School Year
   emph: with Daily Mindfulness
 details:
 - Alexander City, Alabama
@@ -47,17 +49,18 @@ details:
 - Title I
 - 6 min read
 voice:
-  quote: The past seven months, we had 50% less office referrals compared to last school year, and
-    the only thing we've changed as far as discipline goals is implementing Inner Explorer.
+  quote: It has assisted with discipline, it's helped with our academics as well. And so we felt like
+    it was something that we needed to implement to make sure that our students are successful throughout
+    the day.
   name: Lekishia Richardson
   role: Principal, N.H. Stephens Elementary School
 card:
-  stat: 50%
-  label: fewer office referrals in the first seven months
+  stat: 48%
+  label: fewer office referrals in one school year
 results:
-- value: '50'
+- value: '48'
   unit: '%'
-  label: fewer office referrals in the first seven months
+  label: fewer office referrals in one school year
 - value: '33'
   unit: '%'
   label: gain in math proficiency
@@ -97,7 +100,7 @@ body:
     text: 5-10 minutes of daily audio-guided mindfulness in every classroom, introduced through a local
       pediatrician.
   - lead: 'Outcome:'
-    text: 50% fewer office referrals in seven months, gains in math and English proficiency, more regulated
+    text: 48% fewer office referrals in one school year, gains in math and English proficiency, more regulated
       students ready to learn.
 - type: video
 - type: heading
@@ -184,7 +187,7 @@ body:
   text: Fewer students sent to the office
 - type: paragraphs
   items:
-  - In the first seven months of the 2025-26 school year, Stephens had 50% fewer office referrals
+  - Over the 2025-26 school year, Stephens had 48% fewer office referrals
     than the year before. Principal Richardson and her team looked at the data from every angle before
     drawing a conclusion.
 - type: quote
@@ -262,8 +265,8 @@ faq:
   title: Frequently Asked Questions
   items:
   - q: How did Stephens Elementary reduce office referrals?
-    a: Stephens added daily mindfulness to every classroom in 2025-26. Office referrals fell 50% in
-      the first seven months, with no other change to its discipline approach.
+    a: Stephens added daily mindfulness to every classroom in 2025-26. Office referrals fell 48% over
+      the school year, with no other change to its discipline approach.
   - q: How much time does Inner Explorer take each day?
     a: 5 to 10 minutes. Every practice is audio guided, so there is nothing for teachers to prepare.
   - q: Can a daily mindfulness practice improve test scores?
