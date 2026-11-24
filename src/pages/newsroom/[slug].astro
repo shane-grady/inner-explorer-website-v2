@@ -347,8 +347,11 @@ const schemas = [
                 aria-labelledby="takeaways-title"
               >
                 <h2 id="takeaways-title" class="m-0 type-eyebrow text-foreground">
-                  {content.takeaways}
+                  {d.takeawaysTitle ?? content.takeaways}
                 </h2>
+                {d.takeawaysLead && (
+                  <p class="m-0 type-body text-foreground-body">{d.takeawaysLead}</p>
+                )}
                 <Checklist items={d.takeaways} />
               </section>
             )
