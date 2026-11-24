@@ -7,6 +7,7 @@ import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import Button from '../ui/Button.astro';
 import { emphasize } from '../../lib/emphasize';
+import { ctaAttrs } from '../../lib/cta';
 
 interface Props {
   tone?: 'emerald' | 'white';
@@ -26,6 +27,8 @@ interface Props {
   /** Balance the title's lines, as Research's panel sets it. */
   balance?: boolean;
   id?: string;
+  /** GA4 `cta_click` location for a button that goes to /contact/ (src/lib/cta.ts). */
+  ctaLocation?: string;
 }
 const {
   tone = 'emerald',
@@ -40,6 +43,7 @@ const {
   align = 'end',
   balance = false,
   id = 'closing-cta',
+  ctaLocation = 'bottom-cta',
 }: Props = Astro.props;
 const emerald = tone === 'emerald';
 const inline = layout === 'inline' && !image;
@@ -92,12 +96,19 @@ const inline = layout === 'inline' && !image;
         inline && 'lg:mt-0 lg:shrink-0',
       ]}
     >
-      <Button variant={emerald ? 'light' : 'primary'} href={primary.href} arrow
-        >{primary.label}</Button
+      <Button
+        variant={emerald ? 'light' : 'primary'}
+        href={primary.href}
+        {...ctaAttrs(primary.href, ctaLocation)}
+        arrow>{primary.label}</Button
       >
       {
         secondary && (
-          <Button variant={emerald ? 'ghost' : 'secondary'} href={secondary.href}>
+          <Button
+            variant={emerald ? 'ghost' : 'secondary'}
+            href={secondary.href}
+            {...ctaAttrs(secondary.href, ctaLocation)}
+          >
             {secondary.label}
           </Button>
         )
